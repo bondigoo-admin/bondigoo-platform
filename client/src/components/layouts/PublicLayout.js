@@ -1,14 +1,17 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
 import MainFooter from '../MainFooter';
+import SubFooter from './SubFooter';
 
 const PublicLayout = () => {
-  return (
-    <>
-      <Outlet /> {/* This will render the specific page component like Home or HowItWorks */}
-      <MainFooter />
-    </>
-  );
+    const isLaunched = process.env.REACT_APP_LAUNCHED === 'true';
+
+    return (
+        <>
+            <Outlet />
+            {isLaunched ? <MainFooter /> : <SubFooter />}
+        </>
+    );
 };
 
 export default PublicLayout;

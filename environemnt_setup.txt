@@ -37,11 +37,13 @@ Variable Name	Local (.env.development)	Development (Vercel/Render)	Staging (Verc
 DATABASE_URL	mongodb://localhost/coaching-platform-dev	mongodb+srv://.../coaching-platform-dev	mongodb+srv://.../coaching-platform-staging	mongodb+srv://.../coaching-platform-prod
 STRIPE_PUBLISHABLE_KEY	pk_test_...	pk_test_...	pk_test_...	pk_live_...
 STRIPE_SECRET_KEY	sk_test_...	sk_test_...	sk_test_...	sk_live_...
+REDIS_URL | redis://localhost:6379 | rediss://... (Render's External URL) | rediss://... (Render's External URL) | rediss://... (Render's External URL) |
 CLOUDINARY_URL	cloudinary://... (dev account)	cloudinary://... (dev account)	cloudinary://... (staging account)	cloudinary://... (prod account)
 REACT_APP_API_URL (Vercel)	http://localhost:5001	https://your-api-dev.onrender.com	https://your-api-staging.onrender.com	https://api.yourdomain.com
 REACT_APP_LAUNCHED (Vercel)	true	true	true	false (until you are ready)
 •	Vercel: In your Project Settings -> Environment Variables, you can add variables for different environments (Preview for develop, Production for main/staging).
 •	Render: You create separate "Services" for each environment. Each service has its own Environment Variables section.
+Critical Note on Redis Connectivity: Due to the networking configuration of the hosting provider (Render), the application must use the External Key Value URL (which starts with rediss://) for the REDIS_URL environment variable. The application code (server/redisClient.js) is specifically configured to handle the required TLS connection for this URL. Using the "Internal" URL will result in DNS resolution failures and connection errors on non-private network tiers.
 3. Infrastructure Setup on Vercel & Render
 You will create parallel infrastructure for each online environment.
 On Render.com (Backend):

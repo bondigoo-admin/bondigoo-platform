@@ -28,7 +28,7 @@ const DialogOverlay = React.forwardRef<
   <DialogPrimitive.Overlay
     ref={ref}
     className={cn(
-      "fixed inset-0 z-50 bg-black/10 transition-all duration-100 data-[state=closed]:animate-out data-[state=closed]:fade-out data-[state=open]:fade-in",
+      "fixed inset-0 z-50 bg-black/5 transition-all duration-100 data-[state=closed]:animate-out data-[state=closed]:fade-out data-[state=open]:fade-in",
       className
     )}
     {...props}
@@ -224,7 +224,7 @@ const DialogContent = React.forwardRef<
         ref={combinedRef}
         data-fullscreen={isFullscreen}
         className={cn(
-          "group/dialog fixed z-50 grid w-full h-full gap-4 rounded-none bg-[var(--background-light)] p-6 shadow-lg animate-in data-[state=open]:fade-in-90 data-[state=open]:slide-in-from-bottom-10 sm:h-auto sm:max-w-lg sm:rounded-lg sm:zoom-in-90 data-[state=open]:sm:slide-in-from-bottom-0",
+          "group/dialog fixed z-50 grid w-full h-full gap-4 rounded-none border bg-background p-6 shadow-lg animate-in data-[state=open]:fade-in-90 data-[state=open]:slide-in-from-bottom-10 sm:h-auto sm:max-w-lg sm:rounded-lg sm:zoom-in-90 data-[state=open]:sm:slide-in-from-bottom-0",
           (isPositionManagedByJS || isSizeManagedByJS) && "animate-none",
           "data-[fullscreen=true]:sm:fixed data-[fullscreen=true]:sm:!top-[var(--app-header-height,72px)] data-[fullscreen=true]:sm:!left-0 data-[fullscreen=true]:sm:!w-screen data-[fullscreen=true]:sm:!h-[calc(100vh_-_var(--app-header-height,72px))] data-[fullscreen=true]:sm:!max-w-full data-[fullscreen=true]:sm:!rounded-none data-[fullscreen=true]:sm:!border-none data-[fullscreen=true]:sm:!translate-x-0 data-[fullscreen=true]:sm:!translate-y-0",
           className
