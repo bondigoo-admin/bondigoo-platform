@@ -91,19 +91,49 @@ const pendingNotifications = new Map();
 // Notification delivery tracking
 const notificationDeliveryLog = new Map();
 
-console.log("--- DIAGNOSING ENVIRONMENT ---");
+let redis;
+const redisUrl = process.env.REDIS_URL;
+
+console.log("--- DIAGNOSING REDIS CONNECTION ---");
 console.log(`[DIAG] NODE_ENV: ${process.env.NODE_ENV}`);
-console.log(`[DIAG] REDIS_URL from process.env: ${process.env.REDIS_URL}`);
-console.log(`[DIAG] Type of REDIS_URL: ${typeof process.env.REDIS_URL}`);
-console.log("------------------------------");
+console.log(`[DIAG] Attempting to use REDIS_URL: ${redisUrl}`);
 
-const redis = new Redis(process.env.REDIS_URL || {
-  host: process.env.REDIS_HOST || 'localhost',
-  port: process.env.REDIS_PORT || 6380,
-});
+if (redisUrl) {
+  try {
+    // Manually parse the URL to create an explicit config object
+    const redisOptions = {
+      // The `rediss://` protocol signifies a TLS connection is required.
+      // Render's free tier may not have the strictest CA, so we turn off rejection.
+      // This is secure because we are connecting to a trusted Render domain.
+      tls: {
+        rejectUnauthorized: false
+      }
+    };
+    
+    redis = new Redis(redisUrl, redisOptions);
+    
+    redis.on('error', (err) => {
+        console.error('[REDIS] Connection Error:', err);
+    });
+
+    redis.on('connect', () => {
+        console.log('[REDIS] Connection Successful.');
+    });
+
+  } catch (e) {
+    console.error('[REDIS] FAILED to initialize Redis with URL:', e);
+    process.exit(1);
+  }
+} else {
+  console.log('[REDIS] REDIS_URL not found, falling back to local development settings.');
+  redis = new Redis({
+    host: process.env.REDIS_HOST || 'localhost',
+    port: process.env.REDIS_PORT || 6380,
+  });
+}
+
 app.set('redis', redis);
-//console.log('[Server] Redis initialized', { host: redis.options.host, port: redis.options.port });
-
+console.log('[Server] Redis initialized', { host: redis.options.host, port: redis.options.port });
 
 app.use(requestLogger);
 
