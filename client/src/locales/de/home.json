@@ -6,8 +6,8 @@
       "line3": "Grenzenlose Möglichkeiten."
     },
     "subheading": {
-      "main": "Live-Sessions, geplante Termine und On-Demand-Programme.",
-      "support": ""
+      "main": "Live-Sessions, geplante Termine und On-Demand-Programme",
+      "support": " - und vieles mehr im Januar 2026!"
     },
     "buttons": {
       "beginJourney": "Registrieren",
@@ -200,7 +200,7 @@
       },
       "client": {
         "title": "Suchst du nach Coaches?",
-        "desc": "Erfahre als Erster, wenn unsere handverlesene Auswahl an Top-Coaches live geht."
+        "desc": "Erfahre als Erster, wenn unsere Platform live geht."
       }
     }
   },

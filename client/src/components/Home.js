@@ -12,7 +12,13 @@ import {
 } from 'lucide-react';
 import { Button } from "./ui/button.tsx";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle, CardDescription } from "./ui/card.tsx";
-import { Dialog, DialogContent } from './ui/dialog.tsx';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from './ui/dialog.tsx';
 import { useAuth } from '../contexts/AuthContext';
 import { useMounted } from '../hooks/useMounted';
 import CoachCard from './CoachCard';
@@ -42,12 +48,41 @@ const PreLaunchFeatureCard = ({ icon, title, description }) => (
 );
 PreLaunchFeatureCard.propTypes = { icon: PropTypes.element.isRequired, title: PropTypes.string.isRequired, description: PropTypes.string.isRequired };
 
-const LaunchSignupModal = ({ isOpen, onOpenChange }) => {
+const CoachApplicationModal = ({ isOpen, onOpenChange, onSuccess }) => {
+    const { t } = useTranslation('signup');
+
+    return (
+        <Dialog open={isOpen} onOpenChange={onOpenChange}>
+            <DialogContent className="sm:max-w-3xl">
+                <DialogHeader>
+                    <DialogTitle className="text-3xl font-bold text-center">{t('coach.application.pageTitle')}</DialogTitle>
+                    <DialogDescription className="max-w-2xl mx-auto text-center pt-2">
+                        {t('coach.application.pageSubtitle')}
+                    </DialogDescription>
+                </DialogHeader>
+                <div className="pt-4 max-h-[70vh] overflow-y-auto pr-2">
+                    <LeadCaptureForm userType="coach" onSuccess={onSuccess} />
+                </div>
+            </DialogContent>
+        </Dialog>
+    );
+};
+CoachApplicationModal.propTypes = {
+    isOpen: PropTypes.bool.isRequired,
+    onOpenChange: PropTypes.func.isRequired,
+    onSuccess: PropTypes.func,
+};
+
+const LaunchSignupModal = ({ isOpen, onOpenChange, onApplyCoachClick }) => {
     const { t } = useTranslation(['home', 'signup']);
 
     return (
         <Dialog open={isOpen} onOpenChange={onOpenChange}>
             <DialogContent className="sm:max-w-4xl grid-cols-1 md:grid-cols-2 gap-8 p-0">
+                <DialogHeader className="sr-only">
+                    <DialogTitle>{t('prelaunch.hero.mainCta', 'Join Our Launch')}</DialogTitle>
+                    <DialogDescription>{t('prelaunch.cta.client.desc')}</DialogDescription>
+                </DialogHeader>
                 <div className="p-8 flex flex-col">
                     <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-xl bg-primary/10">
                         <Users className="h-8 w-8 text-primary" />
@@ -69,25 +104,36 @@ const LaunchSignupModal = ({ isOpen, onOpenChange }) => {
                         <li className="flex items-start gap-2"><Sparkles className="h-4 w-4 mt-0.5 flex-shrink-0 text-primary" /><span>{t('signup:coach.application.benefit2', 'Direct input on new features')}</span></li>
                         <li className="flex items-start gap-2"><Sparkles className="h-4 w-4 mt-0.5 flex-shrink-0 text-primary" /><span>{t('signup:coach.application.benefit3', 'Featured placement at launch')}</span></li>
                     </ul>
-                    <Button asChild size="lg" className="w-full mt-auto">
-                        <Link to="/apply-coach">{t('finalCta.form.ctaCoach', 'Apply for Early Access')}</Link>
+                    <Button onClick={onApplyCoachClick} size="lg" className="w-full mt-auto">
+                        {t('finalCta.form.ctaCoach', 'Apply for Early Access')}
                     </Button>
                 </div>
             </DialogContent>
         </Dialog>
     );
 };
-LaunchSignupModal.propTypes = { isOpen: PropTypes.bool.isRequired, onOpenChange: PropTypes.func.isRequired };
+LaunchSignupModal.propTypes = { 
+    isOpen: PropTypes.bool.isRequired, 
+    onOpenChange: PropTypes.func.isRequired,
+    onApplyCoachClick: PropTypes.func.isRequired 
+};
 
 const PreLaunchHome = () => {
     const { t } = useTranslation('home');
     const mounted = useMounted();
-    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isSignupModalOpen, setIsSignupModalOpen] = useState(false);
+    const [isCoachModalOpen, setIsCoachModalOpen] = useState(false);
+
+    const handleApplyCoachClick = () => {
+        setIsSignupModalOpen(false);
+        setIsCoachModalOpen(true);
+    };
 
     return (
         <div className="flex flex-col bg-transparent">
-            <LaunchSignupModal isOpen={isModalOpen} onOpenChange={setIsModalOpen} />
-            <section className="relative text-center text-primary-foreground dark:text-foreground overflow-hidden bg-gradient-animated bg-size-400 animate-gradient-shift">
+            <LaunchSignupModal isOpen={isSignupModalOpen} onOpenChange={setIsSignupModalOpen} onApplyCoachClick={handleApplyCoachClick} />
+            <CoachApplicationModal isOpen={isCoachModalOpen} onOpenChange={setIsCoachModalOpen} onSuccess={() => setIsCoachModalOpen(false)} />
+            <section id="prelaunch-hero" className="relative text-center text-primary-foreground dark:text-foreground overflow-hidden bg-gradient-animated bg-size-400 animate-gradient-shift">
                 <div className="relative isolate container mx-auto px-4 py-32 sm:py-40 lg:py-72">
                     <motion.div className="mx-auto max-w-4xl" initial="hidden" animate={mounted ? "visible" : "hidden"} variants={staggerChildren}>
                         <motion.div className="mb-8 flex flex-col gap-1" variants={fadeInUp}>
@@ -97,9 +143,10 @@ const PreLaunchHome = () => {
                         </motion.div>
                         <motion.div variants={fadeInUp} className="mx-auto mt-6 max-w-3xl">
                             <p className="text-xl leading-8 sm:text-2xl">{t('hero.subheading.main')}</p>
+                            <p className="text-xl leading-8 sm:text-2xl">{t('hero.subheading.support')}</p>
                         </motion.div>
                         <motion.div className="mt-10 flex items-center justify-center" variants={fadeInUp}>
-                            <Button size="lg" variant="hero" onClick={() => setIsModalOpen(true)}>
+                            <Button size="lg" variant="hero" onClick={() => setIsSignupModalOpen(true)}>
                                 {t('prelaunch.hero.mainCta', 'Join Our Launch')}
                             </Button>
                         </motion.div>
@@ -111,7 +158,7 @@ const PreLaunchHome = () => {
                 <ShapeDivider variants={fadeInUp} />
             </div>
 
-            <div className="bg-background -translate-y-px">
+             <div id="home-content-start" className="bg-background -translate-y-px">
                 <motion.section className="py-20 sm:py-28" initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.2 }} variants={staggerChildren}>
                     <div className="container mx-auto px-4">
                         <motion.h2 variants={fadeInUp} className="text-center text-3xl font-bold tracking-tight text-foreground sm:text-4xl mb-12 md:mb-16">{t('features.title')}</motion.h2>
