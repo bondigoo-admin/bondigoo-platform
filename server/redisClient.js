@@ -4,9 +4,7 @@ const Redis = require('ioredis');
 let redis;
 const redisUrl = process.env.REDIS_URL;
 
-console.log("--- [RedisClient] Initializing Central Redis Connection ---");
-console.log(`[RedisClient] NODE_ENV: ${process.env.NODE_ENV}`);
-console.log(`[RedisClient] Received REDIS_URL: ${redisUrl}`);
+console.log("[RedisClient] Initializing central Redis connection...");
 
 if (redisUrl) {
   try {

@@ -1,9 +1,9 @@
 ==> Cloning from https://github.com/bondigoo-admin/bondigoo-platform
-==> Checking out commit 45c190f6cb83a312c75bf976d4a4adf3d13aae30 in branch main
+==> Checking out commit bce78a2de013a5f1ceba260d823502b57ddc6ed4 in branch main
 ==> Using Node.js version 22.16.0 (default)
 ==> Docs on specifying a Node.js version: https://render.com/docs/node-version
 ==> Running build command 'cd server && npm install'...
-added 799 packages, and audited 800 packages in 1m
+added 799 packages, and audited 800 packages in 52s
 104 packages are looking for funding
   run `npm fund` for details
 1 moderate severity vulnerability
@@ -11,14 +11,12 @@ To address all issues (including breaking changes), run:
   npm audit fix --force
 Run `npm audit` for details.
 ==> Uploading build...
-==> Uploaded in 20.6s. Compression took 6.8s
+==> Uploaded in 15.0s. Compression took 6.4s
 ==> Build successful 🎉
 ==> Deploying...
 ==> Running 'cd server && npm start'
 > coaching-platform-server@1.0.0 start
 > cross-env NODE_ENV=production node server.js
-==> No open ports detected, continuing to scan...
-==> Docs on specifying a port: https://render.com/docs/web-services#port-binding
 [UserModel] User schema updated with additional settings fields
 [PriceConfiguration] Model updated with discount schema and findApplicableDiscounts method
 --- [RedisClient] Initializing Central Redis Connection ---
@@ -74,7 +72,9 @@ Coach routes initialized: [
   '/me/tax-info',
   '/me/tax-info'
 ]
-info: [StripeService] Initialized with Stripe API version: {"0":"2","1":"0","10":".","11":"a","12":"c","13":"a","14":"c","15":"i","16":"a","2":"2","3":"4","4":"-","5":"1","6":"1","7":"-","8":"2","9":"0","timestamp":"2025-11-05T11:12:35.455Z"}
+==> No open ports detected, continuing to scan...
+info: [StripeService] Initialized with Stripe API version: {"0":"2","1":"0","10":".","11":"a","12":"c","13":"a","14":"c","15":"i","16":"a","2":"2","3":"4","4":"-","5":"1","6":"1","7":"-","8":"2","9":"0","timestamp":"2025-11-05T12:58:44.381Z"}
+==> Docs on specifying a port: https://render.com/docs/web-services#port-binding
 [PaymentService] Initializing payment service
 Connection routes defined: [
   '/request',
@@ -93,40 +93,40 @@ Exporting from sessionController: {
 [Server] Redis initialized { host: 'frankfurt-keyvalue.render.com', port: 6379 }
 [DEBUG] ==> Loading invoiceController.js...
 [DEBUG] <== Preparing to export from invoiceController.js. Object keys: [ 'fetchAllUserInvoices', 'generateInvoiceDownloadUrl' ]
-(node:88) [MONGOOSE] Warning: Duplicate schema index on {"payoutStatus":1} found. This is often due to declaring an index using both "index: true" and "schema.index()". Please remove the duplicate index definition.
+(node:87) [MONGOOSE] Warning: Duplicate schema index on {"payoutStatus":1} found. This is often due to declaring an index using both "index: true" and "schema.index()". Please remove the duplicate index definition.
 (Use `node --trace-warnings ...` to show where the warning was created)
-(node:88) [MONGOOSE] Warning: Duplicate schema index on {"expiresAt":1} found. This is often due to declaring an index using both "index: true" and "schema.index()". Please remove the duplicate index definition.
-(node:88) [MONGOOSE] Warning: mongoose: the method name "validate" is used by mongoose internally, overwriting it may cause bugs. If you're sure you know what you're doing, you can suppress this error by using `schema.method('validate', fn, { suppressWarning: true })`.
+(node:87) [MONGOOSE] Warning: Duplicate schema index on {"expiresAt":1} found. This is often due to declaring an index using both "index: true" and "schema.index()". Please remove the duplicate index definition.
+(node:87) [MONGOOSE] Warning: mongoose: the method name "validate" is used by mongoose internally, overwriting it may cause bugs. If you're sure you know what you're doing, you can suppress this error by using `schema.method('validate', fn, { suppressWarning: true })`.
 Attempting to connect to MongoDB...
 Environment: development
-(node:88) [MONGODB DRIVER] Warning: useNewUrlParser is a deprecated option: useNewUrlParser has no effect since Node.js Driver version 4.0.0 and will be removed in the next major version
-(node:88) [MONGODB DRIVER] Warning: useUnifiedTopology is a deprecated option: useUnifiedTopology has no effect since Node.js Driver version 4.0.0 and will be removed in the next major version
-[ioredis] Unhandled error event: Error: connect ECONNREFUSED 127.0.0.1:6380
-    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16)
-[ioredis] Unhandled error event: Error: connect ECONNREFUSED 127.0.0.1:6380
-    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16)
-[ioredis] Unhandled error event: Error: connect ECONNREFUSED 127.0.0.1:6380
-    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16)
-[ioredis] Unhandled error event: Error: connect ECONNREFUSED 127.0.0.1:6380
-    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16)
+(node:87) [MONGODB DRIVER] Warning: useNewUrlParser is a deprecated option: useNewUrlParser has no effect since Node.js Driver version 4.0.0 and will be removed in the next major version
+(node:87) [MONGODB DRIVER] Warning: useUnifiedTopology is a deprecated option: useUnifiedTopology has no effect since Node.js Driver version 4.0.0 and will be removed in the next major version
 [RedisClient] Central connection successful.
-[ioredis] Unhandled error event: Error: connect ECONNREFUSED 127.0.0.1:6380
-    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16)
-[ioredis] Unhandled error event: Error: connect ECONNREFUSED 127.0.0.1:6380
-    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16)
-[ioredis] Unhandled error event: Error: connect ECONNREFUSED 127.0.0.1:6380
-    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16)
-[ioredis] Unhandled error event: Error: connect ECONNREFUSED 127.0.0.1:6380
-    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16)
-[ioredis] Unhandled error event: Error: connect ECONNREFUSED 127.0.0.1:6380
-    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16)
-[ioredis] Unhandled error event: Error: connect ECONNREFUSED 127.0.0.1:6380
-    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16)
-[ioredis] Unhandled error event: Error: connect ECONNREFUSED 127.0.0.1:6380
-    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16)
-[ioredis] Unhandled error event: Error: connect ECONNREFUSED 127.0.0.1:6380
-    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16)
-MongoDB Connected: coaching-platform-dev-shard-00-01.nnaff.mongodb.net
+ReplyError: Too many requests. Please try again later.
+    at parseError (/opt/render/project/src/server/node_modules/redis-parser/lib/parser.js:179:12)
+    at parseType (/opt/render/project/src/server/node_modules/redis-parser/lib/parser.js:302:14) {
+  command: {
+    name: 'auth',
+    args: [ 'red-d447qlqli9vc73dtk9q0', '2ij474BY4lziuAjc4jtizfzCjfwQZeqF' ]
+  }
+}
+ReplyError: Too many requests. Please try again later.
+    at parseError (/opt/render/project/src/server/node_modules/redis-parser/lib/parser.js:179:12)
+    at parseType (/opt/render/project/src/server/node_modules/redis-parser/lib/parser.js:302:14) {
+  command: {
+    name: 'auth',
+    args: [ 'red-d447qlqli9vc73dtk9q0', '2ij474BY4lziuAjc4jtizfzCjfwQZeqF' ]
+  }
+}
+ReplyError: Too many requests. Please try again later.
+    at parseError (/opt/render/project/src/server/node_modules/redis-parser/lib/parser.js:179:12)
+    at parseType (/opt/render/project/src/server/node_modules/redis-parser/lib/parser.js:302:14) {
+  command: {
+    name: 'auth',
+    args: [ 'red-d447qlqli9vc73dtk9q0', '2ij474BY4lziuAjc4jtizfzCjfwQZeqF' ]
+  }
+}
+MongoDB Connected: coaching-platform-dev-shard-00-00.nnaff.mongodb.net
 Database Name: coaching-platform-dev
 Available collections: [
   'notifications',         'connections',          'clients',
@@ -160,215 +160,37 @@ Mongoose connection state: 1
 [Server] BullMQ Workers have been initialized.
 Server running in production mode on port 10000
 Server started { port: 10000, environment: 'production' }
-[ioredis] Unhandled error event: Error: connect ECONNREFUSED 127.0.0.1:6380
-    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16)
-[ioredis] Unhandled error event: Error: connect ECONNREFUSED 127.0.0.1:6380
-    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16)
-[ioredis] Unhandled error event: Error: connect ECONNREFUSED 127.0.0.1:6380
-    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16)
-[ioredis] Unhandled error event: Error: connect ECONNREFUSED 127.0.0.1:6380
-    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16)
-[ioredis] Unhandled error event: Error: connect ECONNREFUSED 127.0.0.1:6380
-    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16)
-[ioredis] Unhandled error event: Error: connect ECONNREFUSED 127.0.0.1:6380
-    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16)
-[ioredis] Unhandled error event: Error: connect ECONNREFUSED 127.0.0.1:6380
-    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16)
-[ioredis] Unhandled error event: Error: connect ECONNREFUSED 127.0.0.1:6380
-    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16)
-[ioredis] Unhandled error event: Error: connect ECONNREFUSED 127.0.0.1:6380
-    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16)
-[ioredis] Unhandled error event: Error: connect ECONNREFUSED 127.0.0.1:6380
-    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16)
-[ioredis] Unhandled error event: Error: connect ECONNREFUSED 127.0.0.1:6380
-    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16)
-[ioredis] Unhandled error event: Error: connect ECONNREFUSED 127.0.0.1:6380
-    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16)
-[ioredis] Unhandled error event: Error: connect ECONNREFUSED 127.0.0.1:6380
-    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16)
-[ioredis] Unhandled error event: Error: connect ECONNREFUSED 127.0.0.1:6380
-    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16)
-[ioredis] Unhandled error event: Error: connect ECONNREFUSED 127.0.0.1:6380
-    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16)
-[ioredis] Unhandled error event: Error: connect ECONNREFUSED 127.0.0.1:6380
-    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16)
-[ioredis] Unhandled error event: Error: connect ECONNREFUSED 127.0.0.1:6380
-    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16)
-[ioredis] Unhandled error event: Error: connect ECONNREFUSED 127.0.0.1:6380
-    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16)
-[ioredis] Unhandled error event: Error: connect ECONNREFUSED 127.0.0.1:6380
-    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16)
-[ioredis] Unhandled error event: Error: connect ECONNREFUSED 127.0.0.1:6380
-    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16)
-[ioredis] Unhandled error event: Error: connect ECONNREFUSED 127.0.0.1:6380
-    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16)
-[ioredis] Unhandled error event: Error: connect ECONNREFUSED 127.0.0.1:6380
-    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16)
-[ioredis] Unhandled error event: Error: connect ECONNREFUSED 127.0.0.1:6380
-    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16)
-[ioredis] Unhandled error event: Error: connect ECONNREFUSED 127.0.0.1:6380
-    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16)
-[ioredis] Unhandled error event: Error: connect ECONNREFUSED 127.0.0.1:6380
-    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16)
-[ioredis] Unhandled error event: Error: connect ECONNREFUSED 127.0.0.1:6380
-    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16)
-[ioredis] Unhandled error event: Error: connect ECONNREFUSED 127.0.0.1:6380
-    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16)
-[ioredis] Unhandled error event: Error: connect ECONNREFUSED 127.0.0.1:6380
-    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16)
-[ioredis] Unhandled error event: Error: connect ECONNREFUSED 127.0.0.1:6380
-    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16)
-[ioredis] Unhandled error event: Error: connect ECONNREFUSED 127.0.0.1:6380
-    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16)
-[ioredis] Unhandled error event: Error: connect ECONNREFUSED 127.0.0.1:6380
-    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16)
-IMPORTANT! Eviction policy is allkeys-lru. It should be "noeviction"
-IMPORTANT! Eviction policy is allkeys-lru. It should be "noeviction"
-IMPORTANT! Eviction policy is allkeys-lru. It should be "noeviction"
-IMPORTANT! Eviction policy is allkeys-lru. It should be "noeviction"
-IMPORTANT! Eviction policy is allkeys-lru. It should be "noeviction"
-IMPORTANT! Eviction policy is allkeys-lru. It should be "noeviction"
-IMPORTANT! Eviction policy is allkeys-lru. It should be "noeviction"
-IMPORTANT! Eviction policy is allkeys-lru. It should be "noeviction"
-IMPORTANT! Eviction policy is allkeys-lru. It should be "noeviction"
-IMPORTANT! Eviction policy is allkeys-lru. It should be "noeviction"
-IMPORTANT! Eviction policy is allkeys-lru. It should be "noeviction"
-IMPORTANT! Eviction policy is allkeys-lru. It should be "noeviction"
-[ioredis] Unhandled error event: Error: connect ECONNREFUSED 127.0.0.1:6380
-    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16)
-IMPORTANT! Eviction policy is allkeys-lru. It should be "noeviction"
-IMPORTANT! Eviction policy is allkeys-lru. It should be "noeviction"
-IMPORTANT! Eviction policy is allkeys-lru. It should be "noeviction"
-IMPORTANT! Eviction policy is allkeys-lru. It should be "noeviction"
-IMPORTANT! Eviction policy is allkeys-lru. It should be "noeviction"
-IMPORTANT! Eviction policy is allkeys-lru. It should be "noeviction"
-[ioredis] Unhandled error event: Error: connect ECONNREFUSED 127.0.0.1:6380
-    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16)
-[ioredis] Unhandled error event: Error: connect ECONNREFUSED 127.0.0.1:6380
-    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16)
-[ioredis] Unhandled error event: Error: connect ECONNREFUSED 127.0.0.1:6380
-    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16)
-[ioredis] Unhandled error event: Error: connect ECONNREFUSED 127.0.0.1:6380
-    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16)
-[ioredis] Unhandled error event: Error: connect ECONNREFUSED 127.0.0.1:6380
-    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16)
-[ioredis] Unhandled error event: Error: connect ECONNREFUSED 127.0.0.1:6380
-    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16)
-[ioredis] Unhandled error event: Error: connect ECONNREFUSED 127.0.0.1:6380
-    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16)
-[ioredis] Unhandled error event: Error: connect ECONNREFUSED 127.0.0.1:6380
-    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16)
-[ioredis] Unhandled error event: Error: connect ECONNREFUSED 127.0.0.1:6380
-    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16)
-[ioredis] Unhandled error event: Error: connect ECONNREFUSED 127.0.0.1:6380
-    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16)
-[ioredis] Unhandled error event: Error: connect ECONNREFUSED 127.0.0.1:6380
-    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16)
-[ioredis] Unhandled error event: Error: connect ECONNREFUSED 127.0.0.1:6380
-    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16)
-[ioredis] Unhandled error event: Error: connect ECONNREFUSED 127.0.0.1:6380
-    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16)
-[ioredis] Unhandled error event: Error: connect ECONNREFUSED 127.0.0.1:6380
-    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16)
-[ioredis] Unhandled error event: Error: connect ECONNREFUSED 127.0.0.1:6380
-    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16)
-[ioredis] Unhandled error event: Error: connect ECONNREFUSED 127.0.0.1:6380
-    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16)
-[ioredis] Unhandled error event: Error: connect ECONNREFUSED 127.0.0.1:6380
-    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16)
-[ioredis] Unhandled error event: Error: connect ECONNREFUSED 127.0.0.1:6380
-    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16)
-[ioredis] Unhandled error event: Error: connect ECONNREFUSED 127.0.0.1:6380
-    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16)
-[ioredis] Unhandled error event: Error: connect ECONNREFUSED 127.0.0.1:6380
-    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16)
-[ioredis] Unhandled error event: Error: connect ECONNREFUSED 127.0.0.1:6380
-    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16)
-[ioredis] Unhandled error event: Error: connect ECONNREFUSED 127.0.0.1:6380
-    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16)
-[ioredis] Unhandled error event: Error: connect ECONNREFUSED 127.0.0.1:6380
-    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16)
-[ioredis] Unhandled error event: Error: connect ECONNREFUSED 127.0.0.1:6380
-    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16)
 ==> Your service is live 🎉
-[ioredis] Unhandled error event: Error: connect ECONNREFUSED 127.0.0.1:6380
-    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16)
-[ioredis] Unhandled error event: Error: connect ECONNREFUSED 127.0.0.1:6380
-    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16)
-[ioredis] Unhandled error event: Error: connect ECONNREFUSED 127.0.0.1:6380
-    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16)
-[ioredis] Unhandled error event: Error: connect ECONNREFUSED 127.0.0.1:6380
-    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16)
+==> 
+==> ///////////////////////////////////////////////////////////
 ==> 
 ==> ///////////////////////////////////////////////////////////
 ==> 
 ==> Available at your primary URL https://bondigoo-api-main.onrender.com
 ==> 
-[ioredis] Unhandled error event: Error: connect ECONNREFUSED 127.0.0.1:6380
-    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16)
-[ioredis] Unhandled error event: Error: connect ECONNREFUSED 127.0.0.1:6380
-    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16)
-[ioredis] Unhandled error event: Error: connect ECONNREFUSED 127.0.0.1:6380
-    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16)
-[ioredis] Unhandled error event: Error: connect ECONNREFUSED 127.0.0.1:6380
-    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16)
 ==> ///////////////////////////////////////////////////////////
-[ioredis] Unhandled error event: Error: connect ECONNREFUSED 127.0.0.1:6380
-    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16)
-[ioredis] Unhandled error event: Error: connect ECONNREFUSED 127.0.0.1:6380
-    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16)
-[ioredis] Unhandled error event: Error: connect ECONNREFUSED 127.0.0.1:6380
-    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16)
-[ioredis] Unhandled error event: Error: connect ECONNREFUSED 127.0.0.1:6380
-    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16)
-[ioredis] Unhandled error event: Error: connect ECONNREFUSED 127.0.0.1:6380
-    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16)
-[ioredis] Unhandled error event: Error: connect ECONNREFUSED 127.0.0.1:6380
-    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16)
-[ioredis] Unhandled error event: Error: connect ECONNREFUSED 127.0.0.1:6380
-    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16)
-[ioredis] Unhandled error event: Error: connect ECONNREFUSED 127.0.0.1:6380
-    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16)
-[ioredis] Unhandled error event: Error: connect ECONNREFUSED 127.0.0.1:6380
-    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16)
-[ioredis] Unhandled error event: Error: connect ECONNREFUSED 127.0.0.1:6380
-    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16)
-[ioredis] Unhandled error event: Error: connect ECONNREFUSED 127.0.0.1:6380
-    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16)
-[ioredis] Unhandled error event: Error: connect ECONNREFUSED 127.0.0.1:6380
-    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16)
-[ioredis] Unhandled error event: Error: connect ECONNREFUSED 127.0.0.1:6380
-    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16)
-[ioredis] Unhandled error event: Error: connect ECONNREFUSED 127.0.0.1:6380
-    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16)
-[ioredis] Unhandled error event: Error: connect ECONNREFUSED 127.0.0.1:6380
-    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16)
-[ioredis] Unhandled error event: Error: connect ECONNREFUSED 127.0.0.1:6380
-    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16)
-[Cron] Triggering processPendingPayouts job.
-[PayoutProcessor] Starting job. Max attempts: 5.
-[PayoutProcessor] No payments currently due for payout.
-[ioredis] Unhandled error event: Error: connect ECONNREFUSED 127.0.0.1:6380
-    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16)
-[ioredis] Unhandled error event: Error: connect ECONNREFUSED 127.0.0.1:6380
-    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16)
-[ioredis] Unhandled error event: Error: connect ECONNREFUSED 127.0.0.1:6380
-    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16)
-[ioredis] Unhandled error event: Error: connect ECONNREFUSED 127.0.0.1:6380
-    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16)
-[ioredis] Unhandled error event: Error: connect ECONNREFUSED 127.0.0.1:6380
-    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16)
-[ioredis] Unhandled error event: Error: connect ECONNREFUSED 127.0.0.1:6380
-    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16)
-[ioredis] Unhandled error event: Error: connect ECONNREFUSED 127.0.0.1:6380
-    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16)
-[ioredis] Unhandled error event: Error: connect ECONNREFUSED 127.0.0.1:6380
-    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16)
-[ioredis] Unhandled error event: Error: connect ECONNREFUSED 127.0.0.1:6380
-    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16)
-[ioredis] Unhandled error event: Error: connect ECONNREFUSED 127.0.0.1:6380
-    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16)
-[ioredis] Unhandled error event: Error: connect ECONNREFUSED 127.0.0.1:6380
-    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16)
-[ioredis] Unhandled error event: Error: connect ECONNREFUSED 127.0.0.1:6380
-    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16)
+IMPORTANT! Eviction policy is allkeys-lru. It should be "noeviction"
+IMPORTANT! Eviction policy is allkeys-lru. It should be "noeviction"
+IMPORTANT! Eviction policy is allkeys-lru. It should be "noeviction"
+IMPORTANT! Eviction policy is allkeys-lru. It should be "noeviction"
+IMPORTANT! Eviction policy is allkeys-lru. It should be "noeviction"
+IMPORTANT! Eviction policy is allkeys-lru. It should be "noeviction"
+IMPORTANT! Eviction policy is allkeys-lru. It should be "noeviction"
+IMPORTANT! Eviction policy is allkeys-lru. It should be "noeviction"
+IMPORTANT! Eviction policy is allkeys-lru. It should be "noeviction"
+IMPORTANT! Eviction policy is allkeys-lru. It should be "noeviction"
+IMPORTANT! Eviction policy is allkeys-lru. It should be "noeviction"
+IMPORTANT! Eviction policy is allkeys-lru. It should be "noeviction"
+IMPORTANT! Eviction policy is allkeys-lru. It should be "noeviction"
+ReplyError: Too many requests. Please try again later.
+    at parseError (/opt/render/project/src/server/node_modules/redis-parser/lib/parser.js:179:12)
+    at parseType (/opt/render/project/src/server/node_modules/redis-parser/lib/parser.js:302:14) {
+  command: {
+    name: 'auth',
+    args: [ 'red-d447qlqli9vc73dtk9q0', '2ij474BY4lziuAjc4jtizfzCjfwQZeqF' ]
+  }
+}
+IMPORTANT! Eviction policy is allkeys-lru. It should be "noeviction"
+IMPORTANT! Eviction policy is allkeys-lru. It should be "noeviction"
+IMPORTANT! Eviction policy is allkeys-lru. It should be "noeviction"
+IMPORTANT! Eviction policy is allkeys-lru. It should be "noeviction"
