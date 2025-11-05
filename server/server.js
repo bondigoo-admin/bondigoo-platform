@@ -185,7 +185,7 @@ app.use(morgan('dev', {
 }));
 
 app.use((req, res, next) => {
-  if (req.path.startsWith('/api/recordings/') || req.path.startsWith('/api/sessions/') || req.path.startsWith('/api/upload')) {
+  if (req.path.startsWith('/api/recordings/') || req.path.startsWith('/api/sessions/') || req.path.startsWith('/api/upload') || req.path.startsWith('/api/leads')) {
     next();
   } else {
     fileUpload({
@@ -195,7 +195,6 @@ app.use((req, res, next) => {
     })(req, res, next);
   }
 });
-
 
 app.use('/api/prices', priceRoutes);
 app.use('/api/sessions', (req, res, next) => {

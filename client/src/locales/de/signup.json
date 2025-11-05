@@ -137,8 +137,13 @@
       "benefit3": "Biete sofortige On-Demand Live-Sitzungen an",
       "cta": "Als Coach starten"
     }
-    },
-     "coach": {
+  },
+  "client": {
+    "application": {
+      "successToast": "Vielen Dank! Wir halten dich über den Launch auf dem Laufenden."
+    }
+  },
+  "coach": {
     "application": {
       "backToHome": "Zurück zur Startseite",
       "pageTitle": "Bewirb dich für die Gründer-Community",
@@ -149,14 +154,18 @@
       "firstName": "Vorname",
       "lastName": "Nachname",
       "email": "E-Mail-Adresse",
+      "phone": "Telefonnummer (Optional)",
+      "country": "Land",
+      "postalCode": "Postleitzahl",
       "websiteUrl": "Webseite (Optional)",
-      "linkedInUrl": "LinkedIn Profil (Optional)",
-      "primarySpecialties": "Was sind deine Hauptfachgebiete als Coach?",
-      "clientDescription": "Beschreibe deinen idealen Kunden.",
-      "biggestAdminPainPoint": "Was ist deine grösste administrative Herausforderung in deinem Coaching-Business?",
+      "linkedInUrl": "Social Media (Optional)",
+      "primarySpecialties": "Was sind deine Fachgebiete als Coach?",
+      "motivationToJoin": "Warum möchtest du der Gründer-Community beitreten?",
+      "platformExpectations": "Was wünschst du dir von einer Coaching-Plattform, um den höchsten Mehrwert zu erhalten?",
       "documents": "Unterstützende Dokumente (Optional)",
       "uploadFile": "Eine Datei hochladen",
       "dragAndDrop": "oder per Drag & Drop ziehen",
+      "dragActive": "Dateien hier ablegen...",
       "fileTypes": "PDF, DOCX, PNG, JPG bis zu 5MB. Max 3 Dateien.",
       "maxFilesError": "Sie können maximal 3 Dateien hochladen.",
       "successToast": "Vielen Dank für deine Bewerbung! Wir werden uns in Kürze bei dir melden.",

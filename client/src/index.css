@@ -5,15 +5,15 @@
 @layer base {
   :root {
     --background: 0 0% 100%;
-    --foreground: 215 10% 20%;
+    --foreground: 215 10% 30%;
  
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 215 10% 30%;
  
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
  
-    --primary: 222.2 47.4% 11.2%;
+    --primary: 215 10% 30%;
     --primary-foreground: 210 40% 98%;
  
     --secondary: 210 40% 96.1%;
@@ -40,7 +40,7 @@
     --gradient-primary-to: 268 60% 70% / 0.6;
  
     /* Accent: The vibrant, attention-grabbing gradient, for hero sections and CTAs. */
-    --gradient-accent-from: 226 86% 72%;
+    --gradient-accent-from: 226 86% 72%;  
     --gradient-accent-to: 268 60% 70%;
 
     /* Subtle: A stronger, brand-aligned gradient for general backgrounds. Uses platform colors. */
