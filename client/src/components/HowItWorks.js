@@ -94,6 +94,7 @@ BenefitCard.propTypes = {
 const HowItWorks = () => {
   const [userType, setUserType] = useState('client');
   const { t } = useTranslation('home');
+  const isLaunched = process.env.REACT_APP_LAUNCHED === 'true';
 
   logger.info('[HowItWorks] Rendering page with active userType:', userType);
 
@@ -287,35 +288,37 @@ const HowItWorks = () => {
         </motion.section>
       </main>
 
-      <section className="bg-secondary">
-          <div className="container mx-auto px-4 py-16 sm:py-24 text-center">
-               <motion.div
-                  key={userType}
-                  initial="hidden"
-                  whileInView="visible"
-                  viewport={{ once: true, amount: 0.5 }}
-                  variants={staggerChildren}
-              >
-                  <motion.h2 variants={fadeInUp} className="text-3xl font-bold tracking-tight sm:text-4xl text-foreground">
-                      {userType === 'client'
-                          ? t('howItWorks.cta.client.title', 'Ready to Find Your Coach?')
-                          : t('howItWorks.cta.coach.title', 'Ready to Share Your Knowledge?')
-                      }
-                  </motion.h2>
-                  <motion.div variants={fadeInUp} className="mt-8">
-                      <Button asChild size="lg" className="w-full sm:w-auto group">
-                          <Link to={userType === 'client' ? '/coaches' : '/coach-signup'}>
-                              {userType === 'client'
-                                  ? t('howItWorks.cta.client.button', 'Explore Coaches')
-                                  : t('howItWorks.cta.coach.button', 'Start as a Coach')
-                              }
-                              <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
-                          </Link>
-                      </Button>
-                  </motion.div>
-              </motion.div>
-          </div>
-      </section>
+      {isLaunched && (
+        <section className="bg-secondary">
+            <div className="container mx-auto px-4 py-16 sm:py-24 text-center">
+                 <motion.div
+                    key={userType}
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true, amount: 0.5 }}
+                    variants={staggerChildren}
+                >
+                    <motion.h2 variants={fadeInUp} className="text-3xl font-bold tracking-tight sm:text-4xl text-foreground">
+                        {userType === 'client'
+                            ? t('howItWorks.cta.client.title', 'Ready to Find Your Coach?')
+                            : t('howItWorks.cta.coach.title', 'Ready to Share Your Knowledge?')
+                        }
+                    </motion.h2>
+                    <motion.div variants={fadeInUp} className="mt-8">
+                        <Button asChild size="lg" className="w-full sm:w-auto group">
+                            <Link to={userType === 'client' ? '/coaches' : '/coach-signup'}>
+                                {userType === 'client'
+                                    ? t('howItWorks.cta.client.button', 'Explore Coaches')
+                                    : t('howItWorks.cta.coach.button', 'Start as a Coach')
+                                }
+                                <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
+                            </Link>
+                        </Button>
+                    </motion.div>
+                </motion.div>
+            </div>
+        </section>
+      )}
     </div>
   );
 };

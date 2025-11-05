@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect, useMemo, useRef } from 'react';
-import { NavLink, Link, useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, Link, NavLink, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { AuthContext } from '../contexts/AuthContext';
@@ -9,7 +9,7 @@ import {
   LayoutDashboard, Users, LogOut, Sun, Moon,
   Menu, GraduationCap, Briefcase, TrendingUp,
   BookOpen, GitFork, LogIn, University, Circle, Check, CreditCard, Search, Link2, CalendarCheck2, Library,
-  Clock, UserPlus, HelpCircle 
+  Clock, UserPlus, HelpCircle,  Sparkles
 } from 'lucide-react';
 import { logoutUser } from '../services/userAPI';
 import { updateUserStatus } from '../services/statusAPI';
@@ -39,6 +39,14 @@ import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar.tsx';
 import { useRecentSearches } from '../hooks/useRecentSearches';
 import Highlight from './ui/Highlight';
 import MenuAnnouncementBadge from './MenuAnnouncementBadge';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from './ui/dialog.tsx';
+import LeadCaptureForm from './shared/LeadCaptureForm';
 
 const getInitials = (name) => {
     if (!name) return '';
@@ -52,6 +60,76 @@ const getProfilePath = (item) => {
         return item.role === 'coach' ? `/coach/${item._id}` : `/profile/${item._id}`;
     }
     return item.path;
+};
+
+const CoachApplicationModal = ({ isOpen, onOpenChange, onSuccess }) => {
+    const { t } = useTranslation('signup');
+
+    return (
+        <Dialog open={isOpen} onOpenChange={onOpenChange}>
+            <DialogContent className="sm:max-w-3xl">
+                <DialogHeader>
+                    <DialogTitle className="text-3xl font-bold text-center">{t('coach.application.pageTitle')}</DialogTitle>
+                    <DialogDescription className="max-w-2xl mx-auto text-center pt-2">
+                        {t('coach.application.pageSubtitle')}
+                    </DialogDescription>
+                </DialogHeader>
+                <div className="pt-4 max-h-[70vh] overflow-y-auto pr-2">
+                    <LeadCaptureForm userType="coach" onSuccess={onSuccess} />
+                </div>
+            </DialogContent>
+        </Dialog>
+    );
+};
+CoachApplicationModal.propTypes = {
+    isOpen: PropTypes.bool.isRequired,
+    onOpenChange: PropTypes.func.isRequired,
+    onSuccess: PropTypes.func,
+};
+
+const LaunchSignupModal = ({ isOpen, onOpenChange, onApplyCoachClick }) => {
+    const { t } = useTranslation(['home', 'signup']);
+    
+    return (
+        <Dialog open={isOpen} onOpenChange={onOpenChange}>
+            <DialogContent className="sm:max-w-4xl grid-cols-1 md:grid-cols-2 gap-8 p-0">
+                <DialogHeader className="sr-only">
+                    <DialogTitle>{t('prelaunch.hero.mainCta', 'Join Our Launch')}</DialogTitle>
+                    <DialogDescription>{t('prelaunch.cta.client.desc')}</DialogDescription>
+                </DialogHeader>
+                <div className="p-8 flex flex-col">
+                    <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-xl bg-primary/10">
+                        <Users className="h-8 w-8 text-primary" />
+                    </div>
+                    <h3 className="text-2xl font-bold mb-2">{t('prelaunch.cta.client.title')}</h3>
+                    <p className="text-muted-foreground mb-6">{t('prelaunch.cta.client.desc')}</p>
+                    <div className="mt-auto">
+                      <LeadCaptureForm userType="client" />
+                    </div>
+                </div>
+                <div className="p-8 bg-muted/50 flex flex-col rounded-r-lg">
+                    <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-xl bg-primary/10">
+                        <Briefcase className="h-8 w-8 text-primary" />
+                    </div>
+                    <h3 className="text-2xl font-bold mb-2">{t('prelaunch.cta.coach.title')}</h3>
+                    <p className="text-muted-foreground mb-6">{t('prelaunch.cta.coach.desc')}</p>
+                    <ul className="space-y-2 text-sm text-muted-foreground mb-6">
+                        <li className="flex items-start gap-2"><Sparkles className="h-4 w-4 mt-0.5 flex-shrink-0 text-primary" /><span>{t('signup:coach.application.benefit1', 'No platform fees for the first year')}</span></li>
+                        <li className="flex items-start gap-2"><Sparkles className="h-4 w-4 mt-0.5 flex-shrink-0 text-primary" /><span>{t('signup:coach.application.benefit2', 'Direct input on new features')}</span></li>
+                        <li className="flex items-start gap-2"><Sparkles className="h-4 w-4 mt-0.5 flex-shrink-0 text-primary" /><span>{t('signup:coach.application.benefit3', 'Featured placement at launch')}</span></li>
+                    </ul>
+                    <Button onClick={onApplyCoachClick} size="lg" className="w-full mt-auto">
+                        {t('finalCta.form.ctaCoach', 'Apply for Early Access')}
+                    </Button>
+                </div>
+            </DialogContent>
+        </Dialog>
+    );
+};
+LaunchSignupModal.propTypes = { 
+    isOpen: PropTypes.bool.isRequired, 
+    onOpenChange: PropTypes.func.isRequired,
+    onApplyCoachClick: PropTypes.func.isRequired
 };
 
 const HeaderSearch = () => {
@@ -289,7 +367,7 @@ IconLink.propTypes = {
 };
 
 const Header = () => {
-  const { t } = useTranslation(['common', 'header', 'availability']);
+  const { t } = useTranslation(['common', 'header', 'availability', 'home']);
   const location = useLocation();
   const { user, isAuthenticated, userRole, userId, logout, updateUser } = useContext(AuthContext);
   const { socket, isConnected: socketConnected } = useNotificationSocket();
@@ -301,7 +379,49 @@ const Header = () => {
   const [currentStatus, setCurrentStatus] = useState(user?.status || 'offline');
   const navigate = useNavigate();
 
+  const isLaunched = process.env.REACT_APP_LAUNCHED === 'true';
+  const [isSignupModalOpen, setIsSignupModalOpen] = useState(false);
+  const [isCoachModalOpen, setIsCoachModalOpen] = useState(false);
+  const [isOverLightBg, setIsOverLightBg] = useState(false);
+  
+  const handleApplyCoachClick = () => {
+    setIsSignupModalOpen(false);
+    setIsCoachModalOpen(true);
+  };
+
   const calendarPath = userRole === 'coach' ? `/manage-sessions/${userId}` : '/my-calendar';
+
+   useEffect(() => {
+        const isPrelaunchHomePage = location.pathname === '/' && !isLaunched;
+        if (!isPrelaunchHomePage) {
+            setIsOverLightBg(false);
+            return;
+        }
+
+        const heroElement = document.getElementById('prelaunch-hero');
+        if (!heroElement) return;
+
+        const headerHeight = 65;
+
+        const handleScroll = () => {
+            const triggerPoint = heroElement.offsetHeight - headerHeight;
+            if (window.scrollY > triggerPoint) {
+                setIsOverLightBg(true);
+            } else {
+                setIsOverLightBg(false);
+            }
+        };
+
+        window.addEventListener('scroll', handleScroll, { passive: true });
+        window.addEventListener('resize', handleScroll);
+        
+        handleScroll();
+
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+            window.removeEventListener('resize', handleScroll);
+        };
+    }, [location.pathname, isLaunched]);
 
   useEffect(() => {
     if (user?.status) {
@@ -541,13 +661,13 @@ case 'coach':
   };
 
 
- const ThemeToggle = () => (
+const ThemeToggle = ({ className }) => (
     <DropdownMenu>
       <TooltipProvider>
         <Tooltip>
           <TooltipTrigger asChild>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="icon" className="h-9 w-9 rounded-full">
+              <Button variant="ghost" size="icon" className={cn("h-9 w-9 rounded-full", className)}>
                 <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
                 <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
                 <span className="sr-only">{t('header:toggleTheme', 'Toggle Theme')}</span>
@@ -575,6 +695,79 @@ case 'coach':
       </DropdownMenuContent>
     </DropdownMenu>
   );
+
+if (!isLaunched) {
+    const navLinkClass = ({ isActive }) => cn(
+        "flex items-center gap-4 rounded-lg p-3 text-base font-medium text-slate-700 transition-colors hover:bg-slate-100 hover:text-slate-900 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-slate-50",
+        isActive && "font-semibold text-[#3498db] bg-[#3498db]/10 dark:text-[#60a5fa] dark:bg-[#60a5fa]/10"
+    );
+
+    return (
+        <>
+            <LaunchSignupModal isOpen={isSignupModalOpen} onOpenChange={setIsSignupModalOpen} onApplyCoachClick={handleApplyCoachClick} />
+            <CoachApplicationModal isOpen={isCoachModalOpen} onOpenChange={setIsCoachModalOpen} onSuccess={() => setIsCoachModalOpen(false)} />
+            <header className="fixed top-0 z-50 h-[65px] w-full px-4 transition-all duration-300 md:px-6">
+                <div className="mx-auto flex h-full items-center justify-between">
+                    <Link to="/" className={cn(
+                        "text-2xl font-bold transition-colors focus:outline-none",
+                        isOverLightBg
+                            ? "text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
+                            : "text-white/90 hover:text-white"
+                    )}>
+                        <span>bondigoo</span>
+                    </Link>
+                    <div className="flex items-center">
+                        <Sheet open={isMobileMenuOpen} onOpenChange={setMobileMenuOpen}>
+                            <SheetTrigger asChild>
+                                <Button variant="ghost" size="icon" className={cn(
+                                    "h-9 w-9 rounded-full transition-colors",
+                                    isOverLightBg
+                                        ? "text-slate-500 hover:bg-accent hover:text-accent-foreground"
+                                        : "text-white/90 hover:bg-white/10 hover:text-white"
+                                )}>
+                                    <Menu size={24} />
+                                </Button>
+                            </SheetTrigger>
+                            <SheetContent side="right" className="p-0 sm:max-w-xs">
+                                <div className="flex h-full flex-col">
+                                    <div className="flex-grow overflow-y-auto px-4 pt-8 pb-4">
+                                        <nav className="flex flex-col gap-1">
+                                            <NavLink
+                                                to="/how-it-works"
+                                                className={navLinkClass}
+                                                onClick={() => setMobileMenuOpen(false)}
+                                            >
+                                                <HelpCircle className="h-5 w-5" />
+                                                {t('header:howItWorks', 'How It Works')}
+                                            </NavLink>
+                                            <button
+                                                onClick={() => {
+                                                    setMobileMenuOpen(false);
+                                                    setIsSignupModalOpen(true);
+                                                }}
+                                                className="flex w-full items-center gap-4 rounded-lg p-3 text-left text-base font-medium text-slate-700 transition-colors hover:bg-slate-100 hover:text-slate-900 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-slate-50"
+                                            >
+                                                <UserPlus className="h-5 w-5" />
+                                                <span>{t('home:prelaunch.hero.mainCta', 'Join Our Launch')}</span>
+                                            </button>
+                                        </nav>
+                                    </div>
+                                    <div className="mt-auto border-t p-4">
+                                        <div className="flex items-center justify-center rounded-lg bg-muted p-1">
+                                            <Button onClick={() => setTheme('light')} variant="ghost" size="sm" className={cn("flex-1 justify-center gap-2", theme === 'light' && 'bg-background text-foreground shadow-sm')}><Sun className="h-4 w-4" />{t('header:light', 'Light')}</Button>
+                                            <Button onClick={() => setTheme('dark')} variant="ghost" size="sm" className={cn("flex-1 justify-center gap-2", theme === 'dark' && 'bg-background text-foreground shadow-sm')}><Moon className="h-4 w-4" />{t('header:dark', 'Dark')}</Button>
+                                            <Button onClick={() => setTheme('system')} variant="ghost" size="sm" className={cn("flex-1 justify-center gap-2", theme === 'system' && 'bg-background text-foreground shadow-sm')}><Settings className="h-4 w-4" />{t('header:system', 'System')}</Button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </SheetContent>
+                        </Sheet>
+                    </div>
+                </div>
+            </header>
+        </>
+    );
+}
 
 return (
     <header className="relative z-50 h-[65px] w-full border-b bg-gradient-subtle px-4 transition-colors md:px-6">

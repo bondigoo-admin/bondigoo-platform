@@ -96,23 +96,32 @@ Optimistic UI for Instantaneous User Experience: The platform employs an Optimis
 The platform utilizes a modern, Git-based, multi-environment deployment strategy to ensure stability, security, and a seamless development workflow. The strategy is built on the principle of isolating the live production environment from all development and testing activities.
 
 6.1. Environment Tiers
-The project operates across three distinct environments:
-Local: The developer's machine. Used for all new feature development and initial bug fixing. Connects to the `coaching-platform-dev` database.
-Staging: A private, fully-functional, online replica of the production environment, accessible at `test.bondigoo.com`. This environment is used for end-to-end testing, user acceptance testing (UAT) with the "Founder's Circle" coaches, and final validation before a feature goes live. It connects to the same `coaching-platform-dev` database as the Local environment to provide a rich set of test data.
-Production: The live, public-facing environment accessible at `bondigoo.com`. This environment serves real users and connects to a completely separate, secure `bondigoo-prod` database.
+The project operates across four distinct environments:
+- Local: The developer's machine. Used for all new feature development and initial bug fixing. Connects to the local developer database.
+- Development (Integration): A private, online environment for integrating and testing merged feature branches.
+- Staging (UAT): A private, online replica of the production environment. This environment is used for end-to-end testing, user acceptance testing (UAT), and final validation before a feature goes live.
+- Production: The live, public-facing environment serving real users.
 
-6.2. Git Branching Model
-The deployment workflow is managed by a simple and strict Git branching model:
-`develop` Branch: This branch serves as the source of truth for the Staging environment. All new feature branches are merged into `develop` for testing. A push to this branch automatically triggers a new deployment to the Staging environment.
-`main` Branch: This branch serves as the source of truth for the Production environment. Only stable, tested, and approved code from the `develop` branch is ever merged into `main`. A push to this branch automatically triggers a new deployment to the Production environment.
+6.2. Git Branching Model & Deployments
+The deployment workflow is managed by a strict Git branching model that maps directly to the environments:
+- `feature/*` Branches: Used for local development. Never deployed directly.
+- `develop` Branch: The integration branch. All feature branches are merged here via Pull Requests. A push to `develop` automatically triggers a deployment to the **Development** environment.
+- `staging` Branch: The pre-production branch. When `develop` is stable and ready for release testing, it is merged into `staging` via a Pull Request. A push to `staging` automatically triggers a deployment to the **Staging** environment.
+- `main` Branch: The source of truth for production. Only stable, tested code from the `staging` branch is ever merged here via a Pull Request. A push to `main` automatically triggers a deployment to the **Production** environment.
 
 6.3. Hosting Infrastructure
 The infrastructure is decoupled to optimize for performance, cost, and developer experience:
-Frontend (Client Application): Deployed on **Vercel**. Vercel is used for its seamless Git integration, automatic deployments, global CDN, and first-class support for React applications. Two separate Vercel projects are maintained: one connected to the `develop` branch for Staging, and one connected to the `main` branch for Production.
-Backend (Server API & Job Queues): Deployed on **Render.com**. Render is used for its flexibility in hosting Node.js web services and managed background services. Two separate Web Services are maintained for the Staging and Production APIs.
-Cache & Job Queue Broker: A managed **Redis** instance is deployed on Render.com for each environment (Staging and Production) to power the BullMQ job queues and caching services.
+- Frontend (Client Application): Deployed on **Vercel**. Separate Vercel projects are maintained for each online environment, connected to their respective Git branches (`develop`, `staging`, `main`). Vercel's "Preview Deployments" are used for testing individual feature branches before they are merged.
+- Backend (Server API & Job Queues): Deployed on **Render.com**. Separate Web Services and Background Worker services are maintained for the Development, Staging, and Production APIs, each connected to its respective Git branch.
+- Cache & Job Queue Broker: A managed **Redis** instance is deployed on Render.com for each environment (Development, Staging, and Production) to power the BullMQ job queues and caching services.
 
-6.4. The "Launch Gate" Mechanism
+6.4. Data & Secrets Isolation
+Each environment is completely isolated:
+- Configuration: Secrets (API keys, database URLs) are NEVER stored in Git. They are configured as environment variables directly in the Vercel and Render project settings for each respective environment.
+- Databases: Each environment connects to a completely separate MongoDB database instance (e.g., `coaching-dev`, `coaching-staging`, `coaching-prod`) to ensure data integrity and prevent cross-contamination.
+- Stripe: The Production environment uses live Stripe keys. All other environments use Stripe Test Mode keys.
+
+6.5. The "Launch Gate" Mechanism
 The frontend application contains a "launch gate" controlled by a `REACT_APP_LAUNCHED` environment variable.
-When `REACT_APP_LAUNCHED` is `false` (as it is in the Production environment pre-launch), the application's router only renders the public-facing landing page (`Home.js`), legal pages, and the lead capture form. All other routes redirect to the homepage.
-When `REACT_APP_LAUNCHED` is `true` (as it is in the Staging environment), the application router renders the full, complete platform with all features. This allows for a "soft launch" of the landing page while the full application remains private for testing.
+- When `REACT_APP_LAUNCHED` is `false` (as it is in the Production environment pre-launch), the application's router only renders public-facing landing pages and lead capture forms.
+- When `REACT_APP_LAUNCHED` is `true` (as it is in Development and Staging), the router renders the full platform, allowing for comprehensive testing while the public site remains in a "soft launch" state.

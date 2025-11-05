@@ -11,71 +11,72 @@ import io from 'socket.io-client';
 import axios from 'axios'; 
 import './utils/setupToastThrottling';
 import i18n from './i18n';
-import Home from './components/Home';
 import Header from './components/Header';
-import HowItWorks from './components/HowItWorks'; 
-import CoachList from './components/CoachList';
-import UserDashboard from './components/UserDashboard';
-import CoachDashboard from './components/CoachDashboard';
-import AdminDashboard from './components/AdminDashboard';
-import DisputeDetailView from './components/admin/financials/DisputeDetailView';
-import ProtectedRoute from './components/ProtectedRoute';
-import UserProfile from './components/UserProfile';
-import CoachProfile from './components/CoachProfile';
-import MessagingCenter from './components/messaging/MessagingCenter';
-import AnalyticsDashboard from './components/AnalyticsDashboard';
-import NotificationCenter from './components/NotificationCenter';
-import NotificationPreferences from './components/NotificationPreferences';
-import ResourceCenter from './components/ResourceCenter';
-import AddResource from './components/AddResource';
-import ReferralSystem from './components/ReferralSystem';
-import Login from './components/Login';
-import ProgressTracker from './components/ProgressTracker';
-import VideoConference from './components/VideoConference';
-import Forum from './components/Forum';
-import TopicDetail from './components/TopicDetail';
-import ClientSignup from './components/ClientSignup';
-import CoachSignup from './components/CoachSignup';
-import SignupSelection from './components/SignupSelection';
-import CoachOnboardingStudio from './components/onboarding/coach/CoachOnboardingStudio';
-import EmailVerificationPage from './components/EmailVerificationPage';
-import ForgotPasswordPage from './components/ForgotPasswordPage';
-import ResetPasswordPage from './components/ResetPasswordPage';
-import ManageSessions from './components/ManageSessions';
-import ClientOnboardingPage from './components/onboarding/client/ClientOnboardingPage';
-import UpcomingSessions from './components/UpcomingSessions';
-import BookingCalendar from './components/BookingCalendar';
-import ConnectionsPage from './components/ConnectionsPage';
-import SettingsPage from './components/SettingsPage';
-import BillingPage from './components/BillingPage';
 import { PaymentProvider, stripePromise } from './contexts/PaymentContext';
 import { useQuery } from 'react-query';
 import { getSessionDetails } from './services/sessionAPI';
 import { logger } from './utils/logger';
-import VideoConferenceWrapper from './components/VideoConferenceWrapper';
-import PlaybackViewer from './components/PlaybackViewer';
 import { useQueryClient } from 'react-query';
 import { useGlobalSocketListener } from './hooks/useGlobalSocketListener';
 import { Elements } from '@stripe/react-stripe-js';
-import ProgramsPage from './components/programs/ProgramsPage';
-import ProgramLandingPage from './components/programs/ProgramLandingPage';
-import ProgramPlayer from './components/player/ProgramPlayer';
 import { LiveSessionProvider, useLiveSession } from './contexts/LiveSessionContext';    
 import LiveSessionRequestModal from './components/LiveSessionRequestModal';
-import LiveSessionInterface from './components/LiveSessionInterface';
-import ProgramStudentsPage from './components/programs/ProgramStudentsPage';
-import ProgramQAPage from './components/programs/ProgramQAPage';
-import ProgramSubmissionsPage from './components/programs/ProgramSubmissionsPage';
 import { useSearchStore } from './hooks/useSearchStore';
-import CoachProgramsPage from './components/CoachProgramsPage';
 import GlobalAnnouncementBanner from './components/GlobalAnnouncementBanner';
 import AppealModal from './components/shared/AppealModal';
-import CommunityGuidelinesPage from './components/CommunityGuidelinesPage';
-import TermsOfServicePage from './components/TermsOfServicePage';
-import PrivacyPolicyPage from './components/PrivacyPolicyPage';
 import SubFooter from './components/layouts/SubFooter'; 
 import PublicLayout from './components/layouts/PublicLayout';
-import CoachApplicationPage from './components/CoachApplicationPage';
+
+const Home = React.lazy(() => import('./components/Home'));
+const HowItWorks = React.lazy(() => import('./components/HowItWorks'));
+const CoachList = React.lazy(() => import('./components/CoachList'));
+const UserDashboard = React.lazy(() => import('./components/UserDashboard'));
+const CoachDashboard = React.lazy(() => import('./components/CoachDashboard'));
+const AdminDashboard = React.lazy(() => import('./components/AdminDashboard'));
+const DisputeDetailView = React.lazy(() => import('./components/admin/financials/DisputeDetailView'));
+const UserProfile = React.lazy(() => import('./components/UserProfile'));
+const CoachProfile = React.lazy(() => import('./components/CoachProfile'));
+const MessagingCenter = React.lazy(() => import('./components/messaging/MessagingCenter'));
+const AnalyticsDashboard = React.lazy(() => import('./components/AnalyticsDashboard'));
+const NotificationCenter = React.lazy(() => import('./components/NotificationCenter'));
+const NotificationPreferences = React.lazy(() => import('./components/NotificationPreferences'));
+const ResourceCenter = React.lazy(() => import('./components/ResourceCenter'));
+const AddResource = React.lazy(() => import('./components/AddResource'));
+const ReferralSystem = React.lazy(() => import('./components/ReferralSystem'));
+const Login = React.lazy(() => import('./components/Login'));
+const ProgressTracker = React.lazy(() => import('./components/ProgressTracker'));
+const VideoConference = React.lazy(() => import('./components/VideoConference'));
+const Forum = React.lazy(() => import('./components/Forum'));
+const TopicDetail = React.lazy(() => import('./components/TopicDetail'));
+const ClientSignup = React.lazy(() => import('./components/ClientSignup'));
+const CoachSignup = React.lazy(() => import('./components/CoachSignup'));
+const SignupSelection = React.lazy(() => import('./components/SignupSelection'));
+const CoachOnboardingStudio = React.lazy(() => import('./components/onboarding/coach/CoachOnboardingStudio'));
+const EmailVerificationPage = React.lazy(() => import('./components/EmailVerificationPage'));
+const ForgotPasswordPage = React.lazy(() => import('./components/ForgotPasswordPage'));
+const ResetPasswordPage = React.lazy(() => import('./components/ResetPasswordPage'));
+const ManageSessions = React.lazy(() => import('./components/ManageSessions'));
+const ClientOnboardingPage = React.lazy(() => import('./components/onboarding/client/ClientOnboardingPage'));
+const UpcomingSessions = React.lazy(() => import('./components/UpcomingSessions'));
+const BookingCalendar = React.lazy(() => import('./components/BookingCalendar'));
+const ConnectionsPage = React.lazy(() => import('./components/ConnectionsPage'));
+const SettingsPage = React.lazy(() => import('./components/SettingsPage'));
+const BillingPage = React.lazy(() => import('./components/BillingPage'));
+const VideoConferenceWrapper = React.lazy(() => import('./components/VideoConferenceWrapper'));
+const PlaybackViewer = React.lazy(() => import('./components/PlaybackViewer'));
+const ProgramsPage = React.lazy(() => import('./components/programs/ProgramsPage'));
+const ProgramLandingPage = React.lazy(() => import('./components/programs/ProgramLandingPage'));
+const ProgramPlayer = React.lazy(() => import('./components/player/ProgramPlayer'));
+const LiveSessionInterface = React.lazy(() => import('./components/LiveSessionInterface'));
+const ProgramStudentsPage = React.lazy(() => import('./components/programs/ProgramStudentsPage'));
+const ProgramQAPage = React.lazy(() => import('./components/programs/ProgramQAPage'));
+const ProgramSubmissionsPage = React.lazy(() => import('./components/programs/ProgramSubmissionsPage'));
+const CoachProgramsPage = React.lazy(() => import('./components/CoachProgramsPage'));
+const CommunityGuidelinesPage = React.lazy(() => import('./components/CommunityGuidelinesPage'));
+const TermsOfServicePage = React.lazy(() => import('./components/TermsOfServicePage'));
+const PrivacyPolicyPage = React.lazy(() => import('./components/PrivacyPolicyPage'));
+const CoachApplicationPage = React.lazy(() => import('./components/CoachApplicationPage'));
+const ProtectedRoute = React.lazy(() => import('./components/ProtectedRoute'));
 
 const DashboardRouter = () => {
   const { userRole } = useContext(AuthContext);
@@ -247,103 +248,106 @@ const AppContent = () => {
           onDecline={(sessionId, message) => declineLiveSession(sessionId, message)}
           onClose={clearIncomingRequests}
         />
-        <Routes>
-          {isLaunched ? (
-            <>
-              <Route element={<PublicLayout />}>
-                <Route path="/" element={<Home />} />
-                 <Route path="/apply-coach" element={<CoachApplicationPage />} />
-                <Route path="/how-it-works" element={<HowItWorks />} /> 
-                <Route path="/community-guidelines" element={<CommunityGuidelinesPage />} />
-                <Route path="/terms-of-service" element={<TermsOfServicePage />} />
-                <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
-                <Route path="/coaches" element={<CoachList />} />
-                <Route path="/programs" element={<ProgramsPage />} />
-              </Route>
-              <Route path="/signup" element={<SignupSelection />} />
-              <Route path="/coach/:id" element={<CoachProfile />} />
-              <Route path="/programs/:programId" element={<ProgramLandingPage />} />
-              <Route path="/client-signup" element={<ClientSignup />} />
-              <Route path="/coach-signup" element={<CoachSignup />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-              <Route path="/reset-password/:token" element={<ResetPasswordPage />} />
-              <Route path="/verify-email-change/:token" element={<EmailVerificationPage />} />
-              <Route element={<ProtectedRoute />}>
-                <Route path="/onboarding/client" element={<ClientOnboardingPage />} />
-                <Route path="/admin/*" element={<AdminDashboard />} />
-                <Route path="/admin/financials/disputes/:ticketId" element={<DisputeDetailView />} />
-                <Route path="/dashboard" element={<DashboardRouter />} />
-                <Route path="/profile" element={<OwnProfileRouter />} />
-                <Route path="/profile/:id" element={<UserProfile />} />
-                <Route path="/notifications" element={<NotificationCenter />} />
-                <Route path="/settings/notification-preferences" element={<NotificationPreferences />} />
-                <Route path="/settings" element={<SettingsPage />} />
-                <Route path="/billing" element={<BillingPage />} />
-                <Route path="/resources" element={<ResourceCenter />} />
-                <Route path="/add-resource" element={<AddResource />} />
-                <Route path="/video-test" element={<VideoConference isTestMode={true} />} />
-                <Route
-                  path="/video-conference/:roomId"
-                  element={<VideoConferenceWrapper />}
-                />
-                <Route
-                  path="/session/:roomId/:token"
-                  element={<VideoConferenceWrapper />}
-                />
-                <Route path="/live-session/:linkId/:token" element={<LiveSessionInterface />} />
-                <Route path="/messages" element={<MessagingCenter />} />
-                <Route path="/messages/:conversationId" element={<MessagingCenter />} /> 
-                <Route path="/analytics" element={<AnalyticsDashboard />} />
-                <Route path="/progress/:userId" element={<ProgressTracker />} />
-                <Route path="/referral" element={<ReferralSystem />} />
-                <Route path="/manage-sessions/:userId" element={<ManageSessions />} />
-                <Route path="/upcoming-sessions" element={<UpcomingSessions />} />
-                <Route path="/connections" element={<ConnectionsPage />} />
-                <Route path="/my-calendar" element={<CalendarView />} />
-                <Route 
-                  path="/settings/connect/complete" 
-                  element={<Navigate to="/settings" replace state={{ connectSuccess: true }} />} 
-                />
-                <Route 
-                  path="/settings/connect/refresh" 
-                  element={<Navigate to="/settings" replace state={{ connectRefresh: true }} />} 
-                />
-                <Route path="/coach-dashboard" element={<CoachDashboard />} />
-                <Route path="/coach/programs" element={<CoachProgramsPage />} />
-                <Route 
-                  path="/coach-profile/:id" 
-                  element={
-                    <CoachProfile 
-                      onRender={(props) => console.log('[App] Rendering CoachProfile with props:', props)}
-                    />
-                  } 
-                />
-                <Route path="/coach-profile/:id/setup" element={<CoachOnboardingStudio />} />
-                <Route path="/coach-availability/:userId" element={<ManageSessions />} />
-                <Route path="/playback/:bookingId/:recordingId" element={<PlaybackViewer />} />
-                <Route path="/programs/:programId/submissions" element={<ProgramSubmissionsPage />} />
-                <Route path="/learn/program/:programId" element={<ProgramPlayer />} />
-                <Route path="/programs/:programId/students" element={<ProgramStudentsPage />} />
-                <Route path="/programs/:programId/qa" element={<ProgramQAPage />} />
-              </Route>
-              <Route path="/forum" element={<Forum />} />
-              <Route path="/forum/topic/:topicId" element={<TopicDetail />} />
-              <Route path="*" element={<Navigate to="/" replace />} />
-            </>
-          ) : (
-            <>
-              <Route element={<PublicLayout />}>
-                <Route path="/" element={<Home />} />
-                <Route path="/how-it-works" element={<HowItWorks />} /> 
-                <Route path="/community-guidelines" element={<CommunityGuidelinesPage />} />
-                <Route path="/terms-of-service" element={<TermsOfServicePage />} />
-                <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+        <Suspense fallback={<div className="flex h-full w-full items-center justify-center"><Loader2 className="w-8 h-8 animate-spin" /></div>}>
+          <Routes>
+            {isLaunched ? (
+              <>
+                <Route element={<PublicLayout />}>
+                  <Route path="/" element={<Home />} />
+                   <Route path="/apply-coach" element={<CoachApplicationPage />} />
+                  <Route path="/how-it-works" element={<HowItWorks />} /> 
+                  <Route path="/community-guidelines" element={<CommunityGuidelinesPage />} />
+                  <Route path="/terms-of-service" element={<TermsOfServicePage />} />
+                  <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+                  <Route path="/coaches" element={<CoachList />} />
+                  <Route path="/programs" element={<ProgramsPage />} />
+                </Route>
+                <Route path="/signup" element={<SignupSelection />} />
+                <Route path="/coach/:id" element={<CoachProfile />} />
+                <Route path="/programs/:programId" element={<ProgramLandingPage />} />
+                <Route path="/client-signup" element={<ClientSignup />} />
+                <Route path="/coach-signup" element={<CoachSignup />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+                <Route path="/reset-password/:token" element={<ResetPasswordPage />} />
+                <Route path="/verify-email-change/:token" element={<EmailVerificationPage />} />
+                <Route element={<ProtectedRoute />}>
+                  <Route path="/onboarding/client" element={<ClientOnboardingPage />} />
+                  <Route path="/admin/*" element={<AdminDashboard />} />
+                  <Route path="/admin/financials/disputes/:ticketId" element={<DisputeDetailView />} />
+                  <Route path="/dashboard" element={<DashboardRouter />} />
+                  <Route path="/profile" element={<OwnProfileRouter />} />
+                  <Route path="/profile/:id" element={<UserProfile />} />
+                  <Route path="/notifications" element={<NotificationCenter />} />
+                  <Route path="/settings/notification-preferences" element={<NotificationPreferences />} />
+                  <Route path="/settings" element={<SettingsPage />} />
+                  <Route path="/billing" element={<BillingPage />} />
+                  <Route path="/resources" element={<ResourceCenter />} />
+                  <Route path="/add-resource" element={<AddResource />} />
+                  <Route path="/video-test" element={<VideoConference isTestMode={true} />} />
+                  <Route
+                    path="/video-conference/:roomId"
+                    element={<VideoConferenceWrapper />}
+                  />
+                  <Route
+                    path="/session/:roomId/:token"
+                    element={<VideoConferenceWrapper />}
+                  />
+                  <Route path="/live-session/:linkId/:token" element={<LiveSessionInterface />} />
+                  <Route path="/messages" element={<MessagingCenter />} />
+                  <Route path="/messages/:conversationId" element={<MessagingCenter />} /> 
+                  <Route path="/analytics" element={<AnalyticsDashboard />} />
+                  <Route path="/progress/:userId" element={<ProgressTracker />} />
+                  <Route path="/referral" element={<ReferralSystem />} />
+                  <Route path="/manage-sessions/:userId" element={<ManageSessions />} />
+                  <Route path="/upcoming-sessions" element={<UpcomingSessions />} />
+                  <Route path="/connections" element={<ConnectionsPage />} />
+                  <Route path="/my-calendar" element={<CalendarView />} />
+                  <Route 
+                    path="/settings/connect/complete" 
+                    element={<Navigate to="/settings" replace state={{ connectSuccess: true }} />} 
+                  />
+                  <Route 
+                    path="/settings/connect/refresh" 
+                    element={<Navigate to="/settings" replace state={{ connectRefresh: true }} />} 
+                  />
+                  <Route path="/coach-dashboard" element={<CoachDashboard />} />
+                  <Route path="/coach/programs" element={<CoachProgramsPage />} />
+                  <Route 
+                    path="/coach-profile/:id" 
+                    element={
+                      <CoachProfile 
+                        onRender={(props) => console.log('[App] Rendering CoachProfile with props:', props)}
+                      />
+                    } 
+                  />
+                  <Route path="/coach-profile/:id/setup" element={<CoachOnboardingStudio />} />
+                  <Route path="/coach-availability/:userId" element={<ManageSessions />} />
+                  <Route path="/playback/:bookingId/:recordingId" element={<PlaybackViewer />} />
+                  <Route path="/programs/:programId/submissions" element={<ProgramSubmissionsPage />} />
+                  <Route path="/learn/program/:programId" element={<ProgramPlayer />} />
+                  <Route path="/programs/:programId/students" element={<ProgramStudentsPage />} />
+                  <Route path="/programs/:programId/qa" element={<ProgramQAPage />} />
+                </Route>
+                <Route path="/forum" element={<Forum />} />
+                <Route path="/forum/topic/:topicId" element={<TopicDetail />} />
                 <Route path="*" element={<Navigate to="/" replace />} />
-              </Route>
-            </>
-          )}
-        </Routes>
+              </>
+            ) : (
+              <>
+                <Route element={<PublicLayout />}>
+                  <Route path="/" element={<Home />} />
+                  <Route path="/how-it-works" element={<HowItWorks />} /> 
+                  <Route path="/community-guidelines" element={<CommunityGuidelinesPage />} />
+                  <Route path="/terms-of-service" element={<TermsOfServicePage />} />
+                  <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+                   <Route path="/apply-coach" element={<CoachApplicationPage />} />
+                  <Route path="*" element={<Navigate to="/" replace />} />
+                </Route>
+              </>
+            )}
+          </Routes>
+        </Suspense>
      {isAppealModalOpen && (
             <AppealModal
             isOpen={searchParams.get('modal') === 'appeal' && !!searchParams.get('auditId')}
@@ -352,7 +356,6 @@ const AppContent = () => {
         />
         )}
       </main>
-      <SubFooter />
       <Toaster
         position="top-center"
         containerStyle={{
