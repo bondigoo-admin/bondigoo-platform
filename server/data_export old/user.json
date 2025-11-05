@@ -1,0 +1,340 @@
+[
+  {
+    "_id": "66d5e634cfd1a379ceceb590",
+    "firstName": "Test",
+    "lastName": "User",
+    "email": "user@example.com",
+    "password": "$2a$10$3YRymZqWUc4F2EEmRh0/kO5IuZmnksTpOk2RtXkRJz17uPEQeUJuW",
+    "coachingNeeds": [],
+    "customGoals": [],
+    "preferredLanguage": "en",
+    "createdAt": "2024-09-02T16:22:12.748Z",
+    "__v": 0
+  },
+  {
+    "_id": "66d5e634cfd1a379ceceb593",
+    "firstName": "John",
+    "lastName": "Doe",
+    "email": "john@example.com",
+    "password": "$2a$10$Jc9L4yOQkxCd/GjGXn9rPOsn707YN8h2CDXvUd2ob1ngHTwJMr1mG",
+    "coachingNeeds": [],
+    "customGoals": [],
+    "preferredLanguage": "en",
+    "createdAt": "2024-09-02T16:22:12.913Z",
+    "__v": 0
+  },
+  {
+    "_id": "66d5e634cfd1a379ceceb594",
+    "firstName": "Jane",
+    "lastName": "Smith",
+    "email": "jane@example.com",
+    "password": "$2a$10$BK/EVB98yqDL2yPaQk11oeckOrxvoOuY8bdTUhX2ZGOiuwBPuyZLG",
+    "coachingNeeds": [],
+    "customGoals": [],
+    "preferredLanguage": "en",
+    "createdAt": "2024-09-02T16:22:12.913Z",
+    "__v": 0
+  },
+  {
+    "_id": "66d74e8eedfd2ec899ce5f8d",
+    "firstName": "Fredd",
+    "lastName": "Again",
+    "email": "again56555@gmail.com",
+    "password": "$2a$10$5q6SxjvS9j5GKGy7rHH3Ieb7iT83z20Hx/Ge/IIB4aX4T0xqD2WiO",
+    "role": "coach",
+    "preferredLanguage": "en",
+    "createdAt": "2024-09-03T17:59:42.801Z",
+    "__v": 0
+  },
+  {
+    "_id": "66d74eb1edfd2ec899ce5f92",
+    "firstName": "Fredd",
+    "lastName": "Again",
+    "email": "again56555a@gmail.com",
+    "password": "$2a$10$naktTNy.fmLRdDCsIh/36u2IO6wAq1jI6GrrdA4YXxuyA3f6WWKk6",
+    "role": "coach",
+    "preferredLanguage": "en",
+    "createdAt": "2024-09-03T18:00:17.345Z",
+    "__v": 0
+  },
+  {
+    "_id": "66d89fb5a6f6061cc3e43f45",
+    "firstName": "Coach",
+    "lastName": "Example",
+    "email": "coach@example.com",
+    "password": "$2a$10$Wc2RoykPfWN7v2yH/AtDQ.O2SiOxpve9XkF9FUrxFyKrUTWjjS/Yq",
+    "role": "coach",
+    "preferredLanguage": "en",
+    "availabilityStatus": "offline",
+    "createdAt": "2024-09-04T17:58:13.642Z",
+    "__v": 0
+  },
+  {
+    "_id": "66d8a1bba6f6061cc3e43f4a",
+    "firstName": "Test",
+    "lastName": "Coach",
+    "email": "Test.coach@example.com",
+    "password": "$2a$10$xguXiKCFHu9tQZIpYYI0rOi81Pakqps4oUZoEkcMONeR4qZFqqyaG",
+    "role": "coach",
+    "preferredLanguage": "en",
+    "availabilityStatus": "offline",
+    "createdAt": "2024-09-04T18:06:51.292Z",
+    "__v": 0
+  },
+  {
+    "_id": "66d94750a432169f8ac94672",
+    "firstName": "Vanessa",
+    "lastName": "Coach",
+    "email": "vanessa.coach@example.com",
+    "password": "$2a$10$/WFoxnkgNrgxD7xK8iogqu7s2ZXu5AMVPGLSc0/NKWZHPClYjlSqu",
+    "role": "client",
+    "preferredLanguage": "English",
+    "availabilityStatus": "offline",
+    "createdAt": "2024-09-05T05:53:20.200Z",
+    "__v": 0
+  },
+  {
+    "_id": "66d9cdcb0a7492a86482bd68",
+    "firstName": "Dominic",
+    "lastName": "Frei Coach ",
+    "email": "test.coach2@example.com",
+    "password": "$2a$10$jqGOzWaK7I7lrX4YK2Mu9.XV2eRnTqELRaQnPqjf99Hydnw6oe.LO",
+    "role": "coach",
+    "preferredLanguage": "de",
+    "availabilityStatus": "offline",
+    "createdAt": "2024-09-05T15:27:07.420Z",
+    "__v": 0
+  },
+  {
+    "_id": "66e07e467c7bade50d715479",
+    "firstName": "Admin",
+    "lastName": "User",
+    "email": "admin@example.com",
+    "password": "admin@example.com",
+    "role": "admin",
+    "preferredLanguage": "en",
+    "availabilityStatus": "offline",
+    "createdAt": "2024-09-10T17:13:42.760Z",
+    "__v": 0
+  },
+  {
+    "_id": "66e14f8eb9d2f39108e91abb",
+    "firstName": "Admin",
+    "lastName": "User",
+    "email": "admin",
+    "password": "$2a$10$HycyiZwMGebHvsCfcyKZ2.48aVaAX8EFwP/kZ/Gj6sfjWCLHs41/O",
+    "role": "admin",
+    "preferredLanguage": "en",
+    "availabilityStatus": "offline",
+    "createdAt": "2024-09-11T08:06:38.334Z",
+    "__v": 0
+  },
+  {
+    "_id": "66e14ffc23926b28138a89f8",
+    "firstName": "Admin",
+    "lastName": "User",
+    "email": "admin2@example.com",
+    "password": "$2a$10$vQ.MNbdT0SX7cURKgYPNZeXB2e9VKpI02kPCNvK9uSUuNxY0d/14.",
+    "role": "admin",
+    "preferredLanguage": "en",
+    "availabilityStatus": "offline",
+    "createdAt": "2024-09-11T08:08:28.037Z",
+    "__v": 0,
+    "status": "offline"
+  },
+  {
+    "_id": "66f41665a1a173b8f62053e5",
+    "firstName": "Test",
+    "lastName": "User 1",
+    "email": "test.user1@example.com",
+    "password": "$2a$10$RQeNTLAzIscCBFN3rRC01uwLbq4VLMivjGZaQkede6DJf1p90NGza",
+    "role": "client",
+    "preferredLanguage": "German",
+    "isActive": true,
+    "profileVisibility": "public",
+    "createdAt": "2024-09-25T13:55:49.259Z",
+    "__v": 0
+  },
+  {
+    "_id": "66f418d10a19ec0e4bbd377e",
+    "firstName": "Test",
+    "lastName": "User 2",
+    "email": "test.user2@example.com",
+    "password": "$2a$10$SdG04Ep6a557HJvic.CEIOKdRlTa68D5iCFUJ3nVdKfBf0fSh9MEu",
+    "role": "client",
+    "preferredLanguage": "German",
+    "isActive": true,
+    "profileVisibility": "public",
+    "createdAt": "2024-09-25T14:06:09.833Z",
+    "__v": 0,
+    "status": "offline",
+    "profilePicture": {
+      "publicId": "profile_picture_hqwk0d",
+      "url": "https://res.cloudinary.com/dzpjkn8eo/image/upload/v1728328664/profile_picture_hqwk0d.jpg"
+    },
+    "settings": {
+      "notificationPreferences": {
+        "pushNotifications": false,
+        "email": true,
+        "sms": false,
+        "inApp": true
+      },
+      "privacySettings": {
+        "showLocation": true,
+        "showOccupation": true,
+        "showEmail": false,
+        "showPhone": false
+      },
+      "dateFormat": "DD/MM/YYYY",
+      "timeFormat": "24h",
+      "currency": "USD",
+      "language": "en",
+      "timeZone": "UTC"
+    }
+  },
+  {
+    "_id": "66fbe443af6e5fe3198d22eb",
+    "firstName": "Walter",
+    "lastName": "White",
+    "email": "test.coach30@example.com",
+    "password": "$2a$10$4M.Mgid9UjWBHTFxRcNkaeqa5QKws/dSD7ZdHA0TBu3CMTdvmY8Uu",
+    "role": "coach",
+    "preferredLanguage": "de",
+    "isActive": true,
+    "profileVisibility": "public",
+    "createdAt": "2024-10-01T12:00:03.554Z",
+    "__v": 0,
+    "status": "offline"
+  },
+  {
+    "_id": "66fbea16bb1aa6e7e257e726",
+    "firstName": "Michael",
+    "lastName": "Scott",
+    "email": "test.coach31@example.com",
+    "password": "$2a$10$lvrDP.1412QfuyHhmuT2GO6ZxYXtNFFIrvSh1CwAwiO5ZC/Eto6kO",
+    "role": "coach",
+    "preferredLanguage": "de",
+    "isActive": true,
+    "profileVisibility": "public",
+    "createdAt": "2024-10-01T12:24:54.206Z",
+    "__v": 0
+  },
+  {
+    "_id": "66fceae8aa08bb09188eeb7d",
+    "firstName": "Suzuki",
+    "lastName": "Squidward",
+    "email": "test.coach40@example.com",
+    "password": "$2a$10$ydlJpYAcjMo0hvHYn9YPEeUIkY5Gk98ceMOBnfvMtLbzlLZZRteNC",
+    "role": "coach",
+    "preferredLanguage": "de",
+    "isActive": true,
+    "profileVisibility": "public",
+    "createdAt": "2024-10-02T06:40:40.188Z",
+    "__v": 0
+  },
+  {
+    "_id": "66fcec87aa08bb09188eebf3",
+    "firstName": "Hermine",
+    "lastName": "McAllister",
+    "email": "test.coach50@example.com",
+    "password": "$2a$10$lkqFpCeG.OX0KHxEh9F0dexoAi3gqVd.nfcs2e8tjQc0XCK/oUE6.",
+    "role": "coach",
+    "preferredLanguage": "de",
+    "isActive": true,
+    "profileVisibility": "public",
+    "createdAt": "2024-10-02T06:47:35.280Z",
+    "__v": 0
+  },
+  {
+    "_id": "66fced13aa08bb09188eec6a",
+    "firstName": "Lilian",
+    "lastName": "Miller",
+    "email": "test.coach45@example.com",
+    "password": "$2a$10$jcBRko47aoXmV7aH1QIBBeXrk0cNKSQYFbO6O4TJ2t9TPmlfDBbS2",
+    "role": "coach",
+    "preferredLanguage": "en",
+    "isActive": true,
+    "profileVisibility": "public",
+    "createdAt": "2024-10-02T06:49:55.539Z",
+    "__v": 0
+  },
+  {
+    "_id": "67013835e4814358f065bd12",
+    "firstName": "Test ",
+    "lastName": "User",
+    "email": "Test.user3@example.com",
+    "password": "$2a$10$S/QJ5Z1Y5xwf1PJKarqmcOtk3T0a48nWKRxAsVarf1yG8wgM735hu",
+    "role": "client",
+    "preferredLanguage": "German",
+    "isActive": true,
+    "profileVisibility": "public",
+    "createdAt": "2024-10-05T12:59:33.768Z",
+    "__v": 0
+  },
+  {
+    "_id": "6704338e1edbda2b46c20d45",
+    "firstName": "Michael",
+    "lastName": "Scofield",
+    "email": "test.coach55@example.com",
+    "password": "$2a$10$oRi.eNPxmAAnvELTb1IyCeGf89zHvX1QFfpyz7aOl6AuEqyLxasAm",
+    "role": "coach",
+    "preferredLanguage": "en",
+    "isActive": true,
+    "profileVisibility": "public",
+    "bio": "",
+    "interests": [],
+    "achievements": [],
+    "settings": {
+      "notificationPreferences": {
+        "email": true,
+        "sms": false,
+        "inApp": true
+      },
+      "privacySettings": {
+        "showEmail": false,
+        "showPhone": false
+      },
+      "language": "en",
+      "timeZone": "UTC"
+    },
+    "status": "offline",
+    "createdAt": "2024-10-07T19:16:30.524Z",
+    "__v": 0
+  },
+  {
+    "_id": "fe3df750-8a2d-11ef-8746-b5bf58d1d4b1",
+    "firstName": "Walter",
+    "lastName": "White",
+    "email": "test.coach100@example.com",
+    "password": "$2a$10$4kkwbT9WYo2wbWKd5PBzEeGCIX8z5ug9/rvO4p6pL2Agkdl2GcweK",
+    "role": "coach",
+    "preferredLanguage": "de",
+    "isActive": true,
+    "profileVisibility": "public",
+    "bio": "",
+    "interests": [],
+    "achievements": [],
+    "settings": {
+      "notificationPreferences": {
+        "email": true,
+        "sms": false,
+        "inApp": true,
+        "pushNotifications": false
+      },
+      "privacySettings": {
+        "showEmail": false,
+        "showPhone": false,
+        "showLocation": true,
+        "showOccupation": true
+      },
+      "language": "en",
+      "timeZone": "UTC",
+      "dateFormat": "DD/MM/YYYY",
+      "timeFormat": "24h",
+      "currency": "USD"
+    },
+    "status": "offline",
+    "createdAt": "2024-10-14T13:12:41.449Z",
+    "__v": 0
+  }
+]

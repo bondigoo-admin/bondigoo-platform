@@ -1,0 +1,61 @@
+{
+  "logo": "bondigoo",
+  "dashboard": "Dashboard",
+  "search": "Suche",
+  "upcomingSessions": "Nächste Sitzungen",
+  "notifications": "Benachrichtigungen",
+  "messages": "Nachrichten",
+  "profile": "Profil",
+  "analytics": "Analytics",
+  "resources": "Ressourcen",
+  "forum": "Forum",
+  "progressTracker": "Progress Tracker",
+  "settings": "Einstellungen",
+  "adminDashboard": "Admin Dashboard",
+  "logout": "Logout",
+  "manageSessions": "Sitzungen Verwalten",
+  "findCoaches": "Coach finden",
+  "login": "Anmelden",
+  "toggleMenu": "Menü umschalten",
+  "help": "Hilfe",
+  "more": "Mehr",
+  "referralSystem": "Referral System",
+  "connections": "Verbindungen",
+  "calendar": "Kalender",
+  "light": "Hell",
+  "dark": "Dunkel",
+  "system": "System",
+  "user": "Benutzer",
+  "theme": "Thema",
+  "billing": "Rechnungen & Zahlungen",
+  "earnings": "Einnahmen",
+  "menu": {
+    "title": "Menü",
+    "description": "Eine Liste von Links zur Navigation auf der Seite."
+  },
+ "typeLabels": {
+    "navigation": "Navigation"
+  },
+ "placeholder": "Suchen...",
+  "loading": "Lädt...",
+  "noResults": "Keine Ergebnisse für '{{query}}' gefunden.",
+  "prompt": "Beginne zu tippen, um zu suchen.",
+  "groupHeadings": {
+    "recent": "Letzte Suchen",
+    "connections": "Deine Verbindungen",
+    "bookings": "Deine Buchungen",
+    "coaches": "Coaches",
+    "users": "Benutzer",
+    "programs": "Programme",
+    "navigation": "Navigation"
+  },
+  "details": {
+    "yourConnection": "Deine Verbindung",
+    "bookingOnDate": "Buchung am {{date}}",
+    "byCoach": "Von {{name}}",
+    "userRoleLabel": "Benutzer"
+  },
+  "toggleTheme": "Ansicht wechseln",
+  "register": "Registrieren",
+  "howItWorks": "So funktioniert's"
+}

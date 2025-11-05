@@ -1,0 +1,72 @@
+# dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# testing
+coverage
+
+# vercel
+.vercel
+
+# production
+/build
+/dist
+.next
+
+# misc
+.DS_Store
+*.pem
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# local env files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env.*
+*.env
+!.env.example
+
+# logs
+*.log
+logs
+
+# editor folders
+.idea
+.vscode
+
+# windows thumbnail cache
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+
+# windows folder config
+[Dd]esktop.ini
+
+# windows recycle bin
+$RECYCLE.BIN/
+
+# windows installer files
+*.cab
+*.msi
+*.msix
+*.msm
+*.msp
+
+# windows shortcuts
+*.lnk
+
+### PERSONAL & PROJECT-SPECIFIC ###
+# Documents, notes, and temporary files that should NEVER be on GitHub
+*.docx
+~$*.docx
+0_*.txt
+Folder_structure.txt
+test_compare_folder_structure.txt

@@ -1,0 +1,7 @@
+{
+  "leaveReviewForCoach": "Évaluez votre coach {{coachName}}",
+  "leaveReviewForClient": "Évaluez votre client",
+  "comment": "Commentaire",
+  "coachComment": "Commentaire du coach",
+  "submit": "Soumettre l'évaluation"
+}

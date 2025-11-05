@@ -1,0 +1,226 @@
+{
+  "lastUpdated": "Zuletzt aktualisiert: {{date}}",
+  "title": "Datenschutzrichtlinie",
+  "preamble": {
+    "title": "Unser Engagement für Ihren Datenschutz",
+    "p1": "Diese Datenschutzrichtlinie beschreibt, wie die Nomadik GmbH, Bergstrasse 10, 8712 Stäfa, Schweiz („Nomadik“, „Plattform“, „wir“, „uns“), als verantwortliche Stelle („Data Controller“) Ihre personenbezogenen Daten erfasst, verwendet, weitergibt und schützt, wenn Sie unsere Plattform nutzen.",
+    "p2": "Diese Richtlinie ist ein integraler Bestandteil unserer <1>Allgemeinen Geschäftsbedingungen (AGB)</1>. Durch die Nutzung unserer Dienste stimmen Sie den in dieser Richtlinie beschriebenen Datenverarbeitungspraktiken zu."
+  },
+  "chapter1": {
+    "title": "1. Welche Informationen wir erfassen",
+    "intro": "Um unsere Dienste bereitzustellen und zu verbessern, erfassen wir verschiedene Arten von Informationen. Wir sind bestrebt, nur die Daten zu erheben, die für den jeweiligen Zweck unbedingt erforderlich sind.",
+    "direct": {
+      "title": "1.1. Informationen, die Sie uns direkt zur Verfügung stellen",
+      "p1": "Dies sind Daten, die Sie aktiv eingeben, wenn Sie mit unserer Plattform interagieren.",
+      "list": {
+        "account": "<0>Kontoregistrierung:</0> Name, E-Mail-Adresse, Passwort (sicher gehasht), Rolle (Kunde/Coach) und bevorzugte Sprache.",
+        "profile": "<0>Profilinformationen:</0> Alle von Ihnen freiwillig hinzugefügten Daten wie Biografie, Berufsbezeichnung, Standort, Interessen, Profilbild, Vorstellungsvideo sowie (für Coaches) Fachgebiete, Qualifikationen, Ausbildung und Berufserfahrung.",
+        "financial": "<0>Finanz- & Rechnungsinformationen:</0> Rechnungsadresse, Firmenname, Umsatzsteuer-Identifikationsnummer (USt-IdNr.) und andere steuerrelevante Informationen. Wir speichern <1>niemals</1> Ihre vollständigen Kreditkartendaten. Diese werden sicher von unserem Zahlungsabwickler Stripe verarbeitet, von dem wir eine Referenz (Token) erhalten.",
+        "communications": "<0>Kommunikation:</0> Inhalte von Nachrichten, die Sie über unser Nachrichtensystem senden, von Ihnen erstellte Support-Tickets und von Ihnen verfasste Rezensionen, einschliesslich privatem Feedback.",
+        "verification": "<0>Verifizierungsdaten (für Coaches):</0> Informationen und Dokumente, die Sie zur Überprüfung von Qualifikationen oder zur Anerkennung durch Versicherungen einreichen."
+      }
+    },
+    "automatic": {
+      "title": "1.2. Informationen, die wir automatisch erfassen",
+      "p1": "Wenn Sie unsere Plattform nutzen, erfassen unsere Server automatisch bestimmte technische Informationen.",
+      "list": {
+        "usage": "<0>Nutzungsdaten:</0> Informationen darüber, wie Sie mit der Plattform interagieren, z. B. besuchte Seiten, genutzte Funktionen, Suchanfragen, Klicks und die auf Seiten verbrachte Zeit.",
+        "log": "<0>Log- & Gerätedaten:</0> IP-Adresse, Browsertyp, Betriebssystem, Geräte-IDs, Zugriffszeiten und Absturzdaten. Wir erfassen Ihre IP-Adresse zum Zeitpunkt der Zustimmung zu unseren AGB als rechtlichen Nachweis.",
+        "cookies": "<0>Cookies & Ähnliche Technologien:</0> Wir verwenden Cookies, um die Funktionalität der Plattform zu gewährleisten, Einstellungen zu speichern und die Nutzung zu analysieren. Details finden Sie in unserer (zukünftigen) Cookie-Richtlinie.",
+        "transaction": "<0>Transaktionsmetadaten:</0> Bei Finanztransaktionen erfassen wir Metadaten wie IP-Adresse und User-Agent zur Betrugsprävention und Einhaltung von Vorschriften."
+      }
+    },
+    "activity": {
+      "title": "1.3. Informationen, die aus Ihren Aktivitäten auf der Plattform entstehen",
+      "p1": "Dies sind Daten, die durch Ihre spezifische Nutzung unserer Coaching-Dienste generiert werden.",
+      "list": {
+        "booking": "<0>Buchungs- & Termindaten:</0> Start- und Endzeiten, Zeitzone, Status, gebuchter Sitzungstyp, Dauer und teilnehmende Nutzer einer Sitzung.",
+        "session": "<0>Interaktionsmetadaten:</0> Wir erfassen Metadaten über Interaktionen innerhalb einer Sitzung, wie z. B. die Nutzung der „Hand heben“-Funktion oder das Senden von Feedback, jedoch nicht den Inhalt Ihrer Gespräche.",
+        "live": "<0>Live-Sitzungsdaten:</0> Für Live-Sitzungen auf Minutenbasis erfassen wir den genauen Start- und Endzeitpunkt, die abgerechnete Dauer und technische „Heartbeats“, um die Verbindung zu überwachen und eine korrekte Abrechnung sicherzustellen.",
+        "progress": "<0>Lernfortschrittsdaten:</0> Bei der Teilnahme an Programmen speichern wir Ihren Fortschritt, einschliesslich abgeschlossener Lektionen, erzielter Ergebnisse in Quizzen und eingereichter Aufgaben (Texte und Dateien).",
+        "recordings": "<0>Sitzungsaufzeichnungen (Recordings):</0> Wir speichern <1>niemals</1> den Inhalt (Audio/Video) Ihrer Sitzungen, es sei denn, ein Teilnehmer initiiert <2>aktiv</2> eine Aufzeichnung und <3>alle</3> Teilnehmer geben ihre <4>ausdrückliche Zustimmung</4>. In diesem Fall speichern wir die Videodatei, deren Metadaten (Dauer, Grösse) und den Nachweis der erteilten Zustimmung."
+      }
+    }
+  },
+  "chapter2": {
+    "title": "2. Wie wir Ihre Informationen verwenden",
+    "intro": "Die Verarbeitung Ihrer Daten erfolgt ausschliesslich auf Grundlage der gesetzlichen Bestimmungen und für die nachfolgend dargelegten, legitimen Zwecke.",
+    "provide": {
+      "title": "2.1. Zur Bereitstellung und zum Betrieb der Plattform",
+      "p1": "Der Grossteil unserer Datenverarbeitung dient der Erfüllung unseres Vertrags mit Ihnen, nämlich der Bereitstellung unserer Coaching-Plattform.",
+      "list": {
+        "accounts": "<0>Kontoverwaltung:</0> Wir verwenden Ihre Registrierungs- und Profildaten, um Ihr Konto zu erstellen, zu sichern und zu verwalten.",
+        "facilitate": "<0>Vermittlung & Durchführung von Coaching:</0> Wir nutzen Ihre Profil-, Buchungs- und Verfügbarkeitsdaten, um Verbindungen zwischen Kunden und Coaches zu ermöglichen, Sitzungen zu planen und durchzuführen.",
+        "payments": "<0>Zahlungsabwicklung:</0> Ihre Finanz- und Buchungsdaten werden zur Abwicklung von Zahlungen an Coaches und zur Rechnungsstellung an Kunden verwendet. Dies schliesst die Berechnung von Preisen, Rabatten und die Erstellung von Abrechnungen mit ein.",
+        "access": "<0>Zugang zu gekauften Inhalten:</0> Wir verwenden Ihre Anmelde- und Lernfortschrittsdaten, um Ihnen den dauerhaften Zugriff auf von Ihnen erworbene Programme zu gewährleisten.",
+        "support": "<0>Kundensupport:</0> Wenn Sie uns kontaktieren, verwenden wir Ihre Kontoinformationen und Kommunikationshistorie, um Ihr Anliegen zu bearbeiten und technische Probleme zu lösen. Dies kann im Rahmen des Supports einen administrativen Zugriff auf Ihr Konto erfordern, wie in den AGB festgelegt."
+      }
+    },
+    "improve": {
+      "title": "2.2. Zur Verbesserung und Sicherung unserer Dienste",
+      "p1": "Wir haben ein berechtigtes Interesse daran, unsere Plattform kontinuierlich zu verbessern und vor Missbrauch zu schützen.",
+      "list": {
+        "analytics": "<0>Analyse & Produktentwicklung:</0> Wir analysieren aggregierte und anonymisierte Nutzungsdaten, um Trends zu erkennen, die Benutzerfreundlichkeit zu verbessern und neue Funktionen zu entwickeln.",
+        "security": "<0>Sicherheit & Betrugsprävention:</0> Wir verwenden Log- und Gerätedaten sowie Transaktionsmetadaten, um verdächtige Aktivitäten zu erkennen, unsere Sicherheitsmassnahmen zu überprüfen und Betrug zu verhindern.",
+        "integrity": "<0>Integrität der Community:</0> Wir können Rezensionen, Meldungen und Kommunikationsinhalte überprüfen, um Verstösse gegen unsere Community-Richtlinien zu untersuchen und die Sicherheit und Professionalität auf der Plattform zu wahren."
+      }
+    },
+    "communicate": {
+      "title": "2.3. Zur Kommunikation mit Ihnen",
+      "p1": "Wir nutzen Ihre Kontaktdaten, um mit Ihnen in Kontakt zu treten.",
+      "list": {
+        "transactional": "<0>Transaktionale Benachrichtigungen:</0> Wir senden Ihnen notwendige E-Mails und In-App-Benachrichtigungen bezüglich Ihrer Aktivitäten, wie z.B. Buchungsbestätigungen, Terminerinnerungen oder Zahlungsbelege.",
+        "administrative": "<0>Administrative Mitteilungen:</0> Wir informieren Sie über wichtige Änderungen an unseren Diensten, unseren AGB oder dieser Datenschutzrichtlinie.",
+        "marketing": "<0>Marketing & Newsletter:</0> Wir senden Ihnen nur dann Marketing-E-Mails, wenn Sie dem ausdrücklich zugestimmt haben. Sie können Ihre Zustimmung jederzeit über den Abmeldelink in jeder E-Mail oder in Ihren Kontoeinstellungen widerrufen."
+      }
+    },
+    "legal": {
+      "title": "2.4. Zur Erfüllung rechtlicher und regulatorischer Verpflichtungen",
+      "p1": "In bestimmten Fällen sind wir gesetzlich zur Verarbeitung Ihrer Daten verpflichtet.",
+      "list": {
+        "invoicing": "<0>Rechnungsstellung & Steuerrecht:</0> Wir verwenden Ihre Rechnungs- und Transaktionsdaten, um gesetzeskonforme Rechnungen und Steuerdokumente zu erstellen und unseren buchhalterischen Pflichten nachzukommen.",
+        "enforce": "<0>Durchsetzung unserer Vereinbarungen:</0> Wir können Ihre Daten nutzen, um unsere AGB und Community-Richtlinien durchzusetzen, einschliesslich der Untersuchung und Beilegung von Streitigkeiten zwischen Nutzern.",
+        "requests": "<0>Behördliche Anfragen:</0> Wir können Daten an Strafverfolgungsbehörden oder Gerichte weitergeben, wenn wir gesetzlich dazu verpflichtet sind oder um die Rechte und die Sicherheit der Plattform oder Dritter zu schützen."
+      }
+    }
+  },
+   "chapter3": {
+    "title": "3. Wie wir Ihre Informationen weitergeben",
+    "intro": "Wir verkaufen Ihre personenbezogenen Daten unter keinen Umständen. Eine Weitergabe Ihrer Daten an Dritte erfolgt ausschliesslich zu den in dieser Richtlinie beschriebenen Zwecken und auf Grundlage einer gültigen Rechtsgrundlage.",
+    "users": {
+      "title": "3.1. Zwischen Nutzern auf der Plattform",
+      "p1": "Die Kernfunktion unserer Plattform besteht darin, Menschen zu verbinden. Daher werden bestimmte Informationen notwendigerweise mit anderen Nutzern geteilt:",
+      "list": {
+        "profile": "<0>Öffentliche Profile:</0> Informationen, die Sie in Ihrem öffentlichen Profil angeben (z. B. Name, Profilbild, Biografie, Fachgebiete), sind für andere Nutzer sichtbar, um eine informierte Auswahl zu ermöglichen.",
+        "booking": "<0>Während des Buchungsprozesses:</0> Wenn ein Kunde eine Sitzung mit einem Coach anfragt oder bucht, teilen wir die für die Durchführung der Sitzung notwendigen Informationen (z. B. Namen der Teilnehmer) zwischen den beteiligten Parteien.",
+        "communication": "<0>In der Kommunikation:</0> Wenn Sie Nachrichten über die Plattform senden, sind diese für den Empfänger sichtbar."
+      }
+    },
+    "providers": {
+      "title": "3.2. Mit unseren Dienstleistern (Auftragsverarbeitern)",
+      "p1": "Wir arbeiten mit sorgfältig ausgewählten Drittanbietern zusammen, die in unserem Auftrag Daten verarbeiten, um unsere Dienste zu ermöglichen. Wir haben mit diesen Anbietern Verträge zur Auftragsverarbeitung (AVVs) abgeschlossen, die sicherstellen, dass sie Ihre Daten nur nach unseren Weisungen und unter Einhaltung strenger Sicherheitsstandards verarbeiten.",
+      "list": {
+        "payments": "<0>Zahlungsabwicklung:</0> Wir geben Ihre Rechnungs- und Transaktionsdaten an <1>Stripe, Inc.</1> weiter, um Zahlungen sicher abzuwickeln, Auszahlungen zu verwalten, Betrug zu verhindern und Rechnungen zu erstellen.",
+        "hosting": "<0>Cloud-Hosting & -Speicher:</0> Unsere Plattform und Ihre Daten, einschliesslich hochgeladener Dateien und optionaler Sitzungsaufzeichnungen, werden auf der Infrastruktur von führenden Cloud-Anbietern wie <1>Amazon Web Services (AWS)</1> oder <3>Google Cloud Platform (GCP)</3> gehostet.",
+        "files": "<0>Datei- & Medienspeicherung:</0> Für die Speicherung, Verarbeitung und Auslieferung von Profilbildern, Videos und Programmmaterialien nutzen wir die Dienste von <1>Cloudinary, Ltd</1>.",
+        "communication": "<0>Kommunikationsdienste:</0> Wir nutzen spezialisierte Anbieter wie <1>Postmark</1> (für transaktionale E-Mails) oder <3>Twilio</3> (für SMS-Benachrichtigungen), um mit Ihnen zu kommunizieren.",
+        "analytics": "<0>Analyse-Tools:</0> Wir können aggregierte und anonymisierte Nutzungsdaten mit Analysediensten wie <1>Google Analytics</1> oder <3>Plausible Analytics</3> teilen, um die Nutzung unserer Plattform zu verstehen.",
+        "queues": "<0>Hintergrundverarbeitung:</0> Wir verwenden Dienste wie <1>Redis</1> zur Verwaltung von Hintergrundaufgaben (z. B. Benachrichtigungen, Abrechnungszyklen), die die Verarbeitung von Aufgaben-bezogenen Daten erfordern."
+      }
+    },
+    "legal": {
+      "title": "3.3. Aus rechtlichen Gründen und zum Schutz",
+      "p1": "Wir können Informationen über Sie weitergeben, wenn wir in gutem Glauben davon ausgehen, dass dies vernünftigerweise notwendig ist, um:",
+      "list": {
+        "compliance": "einer gesetzlichen Verpflichtung, einem Gerichtsverfahren oder einer vollstreckbaren behördlichen Anordnung nachzukommen.",
+        "enforce": "unsere Allgemeinen Geschäftsbedingungen und andere Vereinbarungen durchzusetzen, einschliesslich der Untersuchung potenzieller Verstösse.",
+        "security": "Sicherheitsbedrohungen, Betrug oder technische Probleme zu erkennen, zu verhindern oder anderweitig zu bekämpfen.",
+        "protect": "die Rechte, das Eigentum oder die Sicherheit der Nomadik GmbH, unserer Nutzer oder der Öffentlichkeit vor drohendem Schaden zu schützen."
+      }
+    },
+    "transfer": {
+      "title": "3.4. Im Falle eines Geschäftsübergangs",
+      "p1": "Im Falle einer Fusion, einer Übernahme, einer Reorganisation, eines Konkurses oder eines Verkaufs unseres gesamten oder eines Teils unseres Vermögens können Ihre Daten als Teil dieser Transaktion an ein Nachfolgeunternehmen übertragen werden. Wir werden Sie über einen solchen Vorgang informieren und Ihnen die Möglichkeit geben, der Übertragung Ihrer Daten zu widersprechen."
+    }
+  },
+   "chapter4": {
+    "title": "4. Ihre Datenschutzrechte & Wahlmöglichkeiten",
+    "intro": "Wir anerkennen und respektieren Ihre Rechte in Bezug auf Ihre personenbezogenen Daten. Ihnen stehen, abhängig von den geltenden Gesetzen, folgende Rechte zu:",
+    "access": {
+      "title": "4.1. Recht auf Auskunft",
+      "p1": "Sie haben das Recht, eine Bestätigung darüber zu verlangen, ob wir personenbezogene Daten über Sie verarbeiten, und eine Kopie dieser Daten zu erhalten."
+    },
+    "rectification": {
+      "title": "4.2. Recht auf Berichtigung",
+      "p1": "Sollten die über Sie gespeicherten Daten unrichtig oder unvollständig sein, haben Sie das Recht, deren Berichtigung zu verlangen. Die meisten Ihrer Profildaten können Sie direkt in Ihren Kontoeinstellungen bearbeiten."
+    },
+    "erasure": {
+      "title": "4.3. Recht auf Löschung („Recht auf Vergessenwerden“)",
+      "p1": "Sie haben das Recht, die Löschung Ihrer personenbezogenen Daten zu verlangen. Sie können diesen Prozess über Ihre Kontoeinstellungen einleiten. Bitte beachten Sie, dass wir diesem Ersuchen nicht in allen Fällen nachkommen können.",
+      "p2": "<0>Wichtige Einschränkung:</0> Wir sind gesetzlich verpflichtet, bestimmte Daten auch nach der Löschung Ihres Kontos für einen vorgeschriebenen Zeitraum aufzubewahren. Dies betrifft insbesondere Transaktionsdaten, Rechnungen und steuerrelevante Unterlagen (in der Regel für 10 Jahre gemäss Schweizer Obligationenrecht). Diese Daten werden nach der Kontolöschung gesperrt und nur noch für die Erfüllung dieser gesetzlichen Pflichten verwendet."
+    },
+    "portability": {
+      "title": "4.4. Recht auf Datenübertragbarkeit",
+      "p1": "Sie haben das Recht, die personenbezogenen Daten, die Sie uns bereitgestellt haben, in einem strukturierten, gängigen und maschinenlesbaren Format zu erhalten und diese Daten einem anderen Verantwortlichen zu übermitteln."
+    },
+    "objection": {
+      "title": "4.5. Recht auf Widerspruch",
+      "p1": "Sie haben das Recht, der Verarbeitung Ihrer personenbezogenen Daten zu widersprechen, die auf unserem berechtigten Interesse beruht. Insbesondere können Sie der Verwendung Ihrer Daten für Marketingzwecke jederzeit widersprechen, indem Sie den Abmeldelink in unseren E-Mails nutzen oder Ihre Benachrichtigungseinstellungen anpassen."
+    },
+    "restriction": {
+      "title": "4.6. Recht auf Einschränkung der Verarbeitung",
+      "p1": "Unter bestimmten Voraussetzungen können Sie die Einschränkung der Verarbeitung Ihrer Daten verlangen, z. B. während wir die Richtigkeit Ihrer Daten überprüfen."
+    },
+    "exercise": {
+      "title": "4.7. Ausübung Ihrer Rechte",
+      "p1": "Um eines Ihrer Rechte auszuüben, kontaktieren Sie uns bitte unter der in Kapitel 7 angegebenen E-Mail-Adresse. Zur Verhinderung von Missbrauch können wir einen Identitätsnachweis verlangen, bevor wir Ihre Anfrage bearbeiten."
+    },
+    "complaint": {
+      "title": "4.8. Recht auf Beschwerde",
+      "p1": "Wenn Sie der Meinung sind, dass die Verarbeitung Ihrer personenbezogenen Daten gegen das Datenschutzrecht verstösst, haben Sie das Recht, eine Beschwerde bei der zuständigen Aufsichtsbehörde einzureichen. In der Schweiz ist dies der Eidgenössische Öffentlichkeits- und Datenschutzbeauftragte (EDÖB)."
+    }
+  },
+  "chapter5": {
+    "title": "5. Datensicherheit & Internationale Übermittlung",
+    "intro": "Der Schutz Ihrer Daten hat für uns höchste Priorität. Wir ergreifen umfassende technische und organisatorische Massnahmen, um Ihre Daten vor unbefugtem Zugriff, Verlust, Zerstörung oder Veränderung zu schützen.",
+    "security": {
+      "title": "5.1. Unsere Sicherheitsmassnahmen",
+      "p1": "Obwohl keine Online-Übertragung oder elektronische Speicherung zu 100 % sicher ist, setzen wir branchenübliche Praktiken ein, um die Sicherheit Ihrer Daten zu gewährleisten. Zu unseren Massnahmen gehören unter anderem:",
+      "list": {
+        "encryption": "<0>Verschlüsselung:</0> Wir verschlüsseln sensible Daten sowohl während der Übertragung (mittels TLS/SSL) als auch im Ruhezustand (at-rest encryption). Besonders sensible Kommunikationsinhalte werden zusätzlich auf Anwendungsebene verschlüsselt.",
+        "access": "<0>Zugriffskontrollen:</0> Der Zugriff auf personenbezogene Daten ist auf Mitarbeiter und Auftragnehmer beschränkt, die diese Informationen zur Erfüllung ihrer Aufgaben unbedingt benötigen und strengen Vertraulichkeitsverpflichtungen unterliegen.",
+        "audits": "<0>Regelmässige Überprüfungen:</0> Wir überprüfen unsere Datenerfassungs-, Speicherungs- und Verarbeitungspraktiken sowie unsere physischen Sicherheitsmassnahmen regelmässig, um uns vor unbefugtem Zugriff auf unsere Systeme zu schützen.",
+        "payments": "<0>Sichere Zahlungsabwicklung:</0> Alle Zahlungsabwicklungen erfolgen über unseren PCI-DSS-zertifizierten Partner Stripe. Wir speichern keine vollständigen Kreditkartennummern auf unseren Servern."
+      }
+    },
+    "transfers": {
+      "title": "5.2. Internationale Datenübermittlung",
+      "p1": "Unsere Plattform wird auf einer globalen Infrastruktur betrieben. Das bedeutet, dass Ihre personenbezogenen Daten in Länder ausserhalb der Schweiz und der Europäischen Union (EU) / des Europäischen Wirtschaftsraums (EWR) übermittelt und dort verarbeitet werden können, in denen unsere Dienstleister (siehe Kapitel 3.2) ansässig sind.",
+      "p2": "Solche Übermittlungen erfolgen nur, wenn ein angemessenes Datenschutzniveau gewährleistet ist. Wir stützen uns dabei auf:",
+      "list": {
+        "adequacy": "<0>Angemessenheitsbeschlüsse:</0> Übermittlungen in Länder, für die die Europäische Kommission oder der Schweizer Bundesrat ein angemessenes Datenschutzniveau anerkannt hat.",
+        "scc": "<0>Standardvertragsklauseln (SCCs):</0> Für Übermittlungen in andere Länder (wie z.B. die USA) schliessen wir die von der Europäischen Kommission genehmigten und für die Schweiz angepassten Standardvertragsklauseln mit unseren Dienstleistern ab. Diese Klauseln verpflichten den Datenempfänger vertraglich zur Einhaltung europäischer und schweizerischer Datenschutzstandards."
+      },
+      "p3": "Durch die Nutzung unserer Dienste stimmen Sie diesen notwendigen internationalen Datenübermittlungen zu."
+    }
+  },
+  "chapter6": {
+    "title": "6. Datenspeicherung und Aufbewahrungsfristen",
+    "intro": "Wir speichern Ihre personenbezogenen Daten nur so lange, wie es für die Erfüllung der Zwecke, für die sie erhoben wurden, erforderlich ist, zur Erfüllung unserer vertraglichen und gesetzlichen Verpflichtungen oder solange wir ein berechtigtes Interesse an der Speicherung haben.",
+    "account": {
+      "title": "6.1. Daten während der Kontolaufzeit",
+      "p1": "Solange Sie ein aktives Konto bei uns unterhalten, bewahren wir die Daten auf, die für die Bereitstellung der Dienste und die Verwaltung Ihres Kontos notwendig sind (z. B. Ihre Profilinformationen, Buchungshistorie, Lernfortschritte)."
+    },
+    "retention": {
+      "title": "6.2. Daten nach Kontolöschung",
+      "p1": "Nachdem Sie die Löschung Ihres Kontos beantragt haben, werden wir Ihre Daten wie folgt behandeln:",
+      "list": {
+        "immediate": "<0>Sofortige Anonymisierung/Löschung:</0> Daten, die nicht aufbewahrungspflichtig sind, wie z.B. Ihr Profilbild, Ihre Biografie, IP-Logs und die meisten Nutzungsdaten, werden umgehend gelöscht oder irreversibel anonymisiert.",
+        "legal": "<0>Gesetzliche Aufbewahrungsfristen:</0> Daten, die für unsere Geschäfts- und Steuerunterlagen relevant sind (insbesondere Rechnungen, Transaktionsbelege und zugehörige Kommunikationsprotokolle), müssen wir gemäss dem schweizerischen Obligationenrecht für eine Dauer von <1>zehn (10) Jahren</1> aufbewahren. Diese Daten werden nach der Kontolöschung für den normalen Betrieb gesperrt und sind nur noch für Prüfungs- und Compliance-Zwecke zugänglich.",
+        "content": "<0>Erworbene Inhalte:</0> Gemäss unseren AGB behalten Kunden, die Ihre Programme erworben haben, auch nach der Löschung Ihres Coach-Kontos den Zugriff auf diese Inhalte. Die Inhalte selbst bleiben daher auf der Plattform gespeichert."
+      }
+    },
+    "backups": {
+      "title": "6.3. Daten in Sicherungskopien (Backups)",
+      "p1": "Gelöschte Daten können für einen begrenzten Zeitraum in unseren Backup-Archiven verbleiben, bis diese überschrieben werden. Diese Backups sind für den operativen Betrieb gesperrt und werden nicht für die Wiederherstellung von Einzeldaten verwendet."
+    }
+  },
+  "chapter7": {
+    "title": "7. Änderungen an dieser Richtlinie & Kontakt",
+    "intro": "",
+    "updates": {
+      "title": "7.1. Änderungen an dieser Datenschutzrichtlinie",
+      "p1": "Wir behalten uns das Recht vor, diese Datenschutzrichtlinie jederzeit zu ändern, um sie an neue rechtliche Anforderungen oder Änderungen unserer Dienste anzupassen. Die jeweils aktuelle Version wird auf unserer Plattform veröffentlicht. Bei wesentlichen Änderungen werden wir Sie rechtzeitig über die von Ihnen hinterlegte E-Mail-Adresse oder durch einen deutlichen Hinweis auf der Plattform informieren."
+    },
+    "contact": {
+      "title": "7.2. Kontaktinformationen",
+      "p1": "Wenn Sie Fragen zum Datenschutz haben, Ihre Rechte ausüben möchten oder Bedenken bezüglich Ihrer Daten haben, wenden Sie sich bitte an unseren Datenschutzverantwortlichen:",
+      "list": {
+        "company": "Nomadik GmbH",
+        "department": "z. Hd. Datenschutzverantwortlicher",
+        "address": "Bergstrasse 10, 8712 Stäfa, Schweiz",
+        "email": "E-Mail: <1>info@nomadikthread.com</1>"
+      }
+    }
+  }
+}

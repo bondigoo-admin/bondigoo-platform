@@ -1,0 +1,45 @@
+{
+  "title": "Datenschutzrichtlinie",
+  "lastUpdated": "Zuletzt aktualisiert: {{date}}",
+  "preamble": {
+    "title": "Unser Engagement für Ihren Datenschutz",
+    "p1": "Diese Datenschutzrichtlinie beschreibt, wie die Nomadik GmbH, Bergstrasse 10, 8712 Stäfa, Schweiz („Nomadik“, „Plattform“, „wir“, „uns“), als verantwortliche Stelle („Data Controller“) Ihre personenbezogenen Daten erfasst, verwendet, weitergibt und schützt, wenn Sie unsere Plattform nutzen.",
+    "p2": "Diese Richtlinie ist ein integraler Bestandteil unserer <1>Allgemeinen Geschäftsbedingungen (AGB)</1>. Durch die Nutzung unserer Dienste stimmen Sie den in dieser Richtlinie beschriebenen Datenverarbeitungspraktiken zu."
+  },
+  "chapter1": {
+    "title": "1. Welche Informationen wir erfassen",
+    "intro": "Um unsere Dienste bereitzustellen und zu verbessern, erfassen wir verschiedene Arten von Informationen. Wir sind bestrebt, nur die Daten zu erheben, die für den jeweiligen Zweck unbedingt erforderlich sind.",
+    "direct": {
+      "title": "1.1. Informationen, die Sie uns direkt zur Verfügung stellen",
+      "p1": "Dies sind Daten, die Sie aktiv eingeben, wenn Sie mit unserer Plattform interagieren.",
+      "list": {
+        "account": "**Kontoregistrierung:** Name, E-Mail-Adresse, Passwort (sicher gehasht), Rolle (Kunde/Coach) und bevorzugte Sprache.",
+        "profile": "**Profilinformationen:** Alle von Ihnen freiwillig hinzugefügten Daten wie Biografie, Berufsbezeichnung, Standort, Interessen, Profilbild, Vorstellungsvideo sowie (für Coaches) Fachgebiete, Qualifikationen, Ausbildung und Berufserfahrung.",
+        "financial": "**Finanz- & Rechnungsinformationen:** Rechnungsadresse, Firmenname, Umsatzsteuer-Identifikationsnummer (USt-IdNr.) und andere steuerrelevante Informationen. Wir speichern **niemals** Ihre vollständigen Kreditkartendaten. Diese werden sicher von unserem Zahlungsabwickler Stripe verarbeitet, von dem wir eine Referenz (Token) erhalten.",
+        "communications": "**Kommunikation:** Inhalte von Nachrichten, die Sie über unser Nachrichtensystem senden, von Ihnen erstellte Support-Tickets und von Ihnen verfasste Rezensionen, einschliesslich privatem Feedback.",
+        "verification": "**Verifizierungsdaten (für Coaches):** Informationen und Dokumente, die Sie zur Überprüfung von Qualifikationen oder zur Anerkennung durch Versicherungen einreichen."
+      }
+    },
+    "automatic": {
+      "title": "1.2. Informationen, die wir automatisch erfassen",
+      "p1": "Wenn Sie unsere Plattform nutzen, erfassen unsere Server automatisch bestimmte technische Informationen.",
+      "list": {
+        "usage": "**Nutzungsdaten:** Informationen darüber, wie Sie mit der Plattform interagieren, z. B. besuchte Seiten, genutzte Funktionen, Suchanfragen, Klicks und die auf Seiten verbrachte Zeit.",
+        "log": "**Log- & Gerätedaten:** IP-Adresse, Browsertyp, Betriebssystem, Geräte-IDs, Zugriffszeiten und Absturzdaten. Wir erfassen Ihre IP-Adresse zum Zeitpunkt der Zustimmung zu unseren AGB als rechtlichen Nachweis.",
+        "cookies": "**Cookies & Ähnliche Technologien:** Wir verwenden Cookies, um die Funktionalität der Plattform zu gewährleisten, Einstellungen zu speichern und die Nutzung zu analysieren. Details finden Sie in unserer (zukünftigen) Cookie-Richtlinie.",
+        "transaction": "**Transaktionsmetadaten:** Bei Finanztransaktionen erfassen wir Metadaten wie IP-Adresse und User-Agent zur Betrugsprävention und Einhaltung von Vorschriften."
+      }
+    },
+    "activity": {
+      "title": "1.3. Informationen, die aus Ihren Aktivitäten auf der Plattform entstehen",
+      "p1": "Dies sind Daten, die durch Ihre spezifische Nutzung unserer Coaching-Dienste generiert werden.",
+      "list": {
+        "booking": "**Buchungs- & Termindaten:** Start- und Endzeiten, Zeitzone, Status, gebuchter Sitzungstyp, Dauer und teilnehmende Nutzer einer Sitzung.",
+        "session": "**Interaktionsmetadaten:** Wir erfassen Metadaten über Interaktionen innerhalb einer Sitzung, wie z. B. die Nutzung der „Hand heben“-Funktion oder das Senden von Feedback, jedoch nicht den Inhalt Ihrer Gespräche.",
+        "live": "**Live-Sitzungsdaten:** Für Live-Sitzungen auf Minutenbasis erfassen wir den genauen Start- und Endzeitpunkt, die abgerechnete Dauer und technische „Heartbeats“, um die Verbindung zu überwachen und eine korrekte Abrechnung sicherzustellen.",
+        "progress": "**Lernfortschrittsdaten:** Bei der Teilnahme an Programmen speichern wir Ihren Fortschritt, einschliesslich abgeschlossener Lektionen, erzielter Ergebnisse in Quizzen und eingereichter Aufgaben (Texte und Dateien).",
+        "recordings": "**Sitzungsaufzeichnungen (Recordings):** Wir speichern **niemals** den Inhalt (Audio/Video) Ihrer Sitzungen, es sei denn, ein Teilnehmer initiiert **aktiv** eine Aufzeichnung und **alle** Teilnehmer geben ihre **ausdrückliche Zustimmung**. In diesem Fall speichern wir die Videodatei, deren Metadaten (Dauer, Grösse) und den Nachweis der erteilten Zustimmung."
+      }
+    }
+  }
+}

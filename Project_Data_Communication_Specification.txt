@@ -1,0 +1,565 @@
+Technical Documentation: Data Flow and System Architecture
+1. Overview
+This document provides a detailed technical specification of the data flow and system architecture for our coaching platform. It covers the entire stack, from database interactions to frontend state management, with a focus on accurate representation of the current system and best practices for future development.
+
+2. System Architecture
+2.1 Tech Stack
+Frontend: React (Create React App)
+Backend: Express.js
+Database: MongoDB with Mongoose ODM
+Authentication: JSON Web Tokens (JWT)
+Real-time Communication: Socket.IO
+State Management: React Context API, React Query
+API Requests: Axios
+Internationalization: i18next
+File Storage: Cloudinary
+2.2 High-Level Architecture
+[Client (React)] <-> [API Layer (Express)] <-> [Database (MongoDB)]
+         ^                    ^
+         |                    |
+         v                    v
+[Socket.IO Client]  <->  [Socket.IO Server]
+3. Database Connection
+The dbConnect.js file manages the MongoDB connection using Mongoose:
+
+const mongoose = require('mongoose');
+require('dotenv').config();
+
+const connectDB = async (env = 'development') => {
+  const connectionString = process.env.MONGODB_URI;
+
+  try {
+    await mongoose.connect(connectionString, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+    console.log(`MongoDB Connected: ${mongoose.connection.host}`);
+    console.log(`Database Name: ${mongoose.connection.name}`);
+    
+    const collections = await mongoose.connection.db.listCollections().toArray();
+    console.log('Available collections:', collections.map(c => c.name));
+    
+    console.log('Mongoose connection state:', mongoose.connection.readyState);
+  } catch (error) {
+    console.error('Error connecting to MongoDB:', error);
+    process.exit(1);
+  }
+};
+
+module.exports = connectDB;
+4. API Layer
+4.1 Server Configuration (server.js)
+The server.js file sets up the Express server, configures middleware, and mounts routes:
+
+const express = require('express');
+const cors = require('cors');
+const cookieParser = require('cookie-parser');
+const connectDB = require('./dbConnect');
+const userRoutes = require('./routes/userRoutes');
+const coachRoutes = require('./routes/coachRoutes');
+const bookingRoutes = require('./routes/bookingRoutes');
+
+const app = express();
+
+app.use(cors());
+app.use(express.json());
+app.use(cookieParser());
+
+// Routes with '/api' prefix
+app.use('/api/users', userRoutes);
+app.use('/api/coaches', coachRoutes);
+app.use('/api/bookings', bookingRoutes);
+
+connectDB();
+
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+4.2 Route Structure
+Routes are organized by entity and follow RESTful principles. The /api prefix is added in server.js, so individual route files don't include it.
+
+Example (bookingRoutes.js):
+
+const express = require('express');
+const router = express.Router();
+const bookingController = require('../controllers/bookingController');
+const { auth } = require('../middleware/auth');
+
+// These routes will be prefixed with '/api/bookings'
+router.post('/', auth, bookingController.createBooking);
+router.get('/:userId', auth, bookingController.getBookings);
+router.put('/:bookingId', auth, bookingController.updateBooking);
+router.delete('/:bookingId', auth, bookingController.deleteBooking);
+
+module.exports = router;
+
+Important Note: The /api prefix is managed in two places:
+1. In server.js for route mounting
+2. In the axios baseURL configuration
+
+When creating API endpoints:
+- Route files should NOT include '/api' prefix
+- API service calls should NOT include '/api' prefix
+- Example correct usage:
+  - Route definition: router.get('/prices/config/:userId', ...)
+  - API call: api.get('/prices/config/${userId}')
+4.3 Controller Structure
+Controllers handle the business logic for each route. They interact with the database through Mongoose models.
+
+Example (bookingController.js):
+
+const Booking = require('../models/Booking');
+const Coach = require('../models/Coach');
+
+exports.createBooking = async (req, res) => {
+  try {
+    const { userId, coachId, start, end } = req.body;
+    const coach = await Coach.findOne({ user: coachId });
+    if (!coach) {
+      return res.status(404).json({ message: 'Coach not found' });
+    }
+    
+    const newBooking = new Booking({
+      user: userId,
+      coach: coach._id,
+      start,
+      end
+    });
+    
+    await newBooking.save();
+    res.status(201).json(newBooking);
+  } catch (error) {
+    res.status(500).json({ message: 'Server error', error: error.message });
+  }
+};
+
+// Other CRUD operations...
+5. Data Models
+5.1 Mongoose Schema Definitions
+Example (Booking.js):
+
+const mongoose = require('mongoose');
+
+const BookingSchema = new mongoose.Schema({
+  user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  coach: { type: mongoose.Schema.Types.ObjectId, ref: 'Coach', required: true },
+  start: { type: Date, required: true },
+  end: { type: Date, required: true },
+  status: { type: String, enum: ['pending', 'confirmed', 'cancelled'], default: 'pending' },
+   availableForInstantBooking: { type: Boolean, default: true }, // Replaces allowFirmBooking
+  isPublic: { type: Boolean, default: true },
+  showInWebinarBrowser: { type: Boolean, default: true },
+  titlePicture: { 
+    url: String,
+    publicId: String 
+  },
+  courseMaterials: [{ 
+    name: String,
+    url: String,
+    publicId: String,
+    fileType: String,
+    size: Number,
+    uploadedAt: { type: Date, default: Date.now }
+  }],
+  webinarLanguage: String,
+}, { timestamps: true });
+
+module.exports = mongoose.model('Booking', BookingSchema);
+6. Frontend Data Flow
+6.1 API Service Layer
+The API service layer (e.g., bookingAPI.js) handles communication between the frontend and backend:
+
+import api from './api';
+
+export const createBooking = async (bookingDetails) => {
+  try {
+    const response = await api.post('/api/bookings', bookingDetails);
+    return response.data;
+  } catch (error) {
+    console.error('Error creating booking:', error);
+    throw error;
+  }
+};
+
+// Other API calls...
+6.2 React Query for Data Fetching
+Use React Query for efficient data fetching and caching:
+
+import { useQuery, useMutation, useQueryClient } from 'react-query';
+import * as bookingAPI from '../services/bookingAPI';
+
+export const useBookings = (userId) => {
+  return useQuery(['bookings', userId], () => bookingAPI.getBookings(userId));
+};
+
+export const useCreateBooking = () => {
+  const queryClient = useQueryClient();
+  return useMutation(bookingAPI.createBooking, {
+    onSuccess: () => {
+      queryClient.invalidateQueries('bookings');
+    },
+  });
+};
+6.3 Context for Global State
+Use React Context for managing global state (e.g., AuthContext.js):
+
+import React, { createContext, useState, useEffect, useCallback } from 'react';
+import api from '../services/api';
+
+export const AuthContext = createContext();
+
+export const AuthProvider = ({ children }) => {
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const checkAuthStatus = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        if (!token) {
+          setLoading(false);
+          return;
+        }
+    
+        const response = await api.get('/api/users/me');
+        setUser(response.data);
+      } catch (error) {
+        console.error('Failed to get user data:', error);
+        setUser(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+  
+    checkAuthStatus();
+  }, []);
+
+  // Other authentication methods...
+
+  return (
+    <AuthContext.Provider value={{ user, setUser, loading /* other values */ }}>
+      {children}
+    </AuthContext.Provider>
+  );
+};
+
+6.4 Price Configuration Flow
+
+Price Configuration Request Flow:
+1. Frontend PricingSection component mounts
+2. usePricingData hook executes
+3. getPriceConfiguration API call is made
+4. Backend route handles auth and coach validation
+5. PriceConfiguration model is queried
+6. Default configuration is created if none exists
+
+Key Components:
+- Frontend: PricingSection.js
+- Hook: usePricingData.js
+- API Service: priceAPI.js
+- Backend Route: priceRoutes.js
+- Controller: priceController.js
+- Model: PriceConfiguration.js
+
+Common Issues & Solutions:
+1. Loading State Issues
+   - Ensure React Query is properly configured
+   - Check enabled condition in useQuery
+   - Verify userId availability
+   
+2. Authorization Issues
+   - Token must be in localStorage
+   - Token must be included in API headers
+   - User must be coach or admin role
+
+3. Data Creation
+   - New coaches need default price configuration
+   - Default values should match DEFAULT_PRICE_VALUES
+   - Coach document must exist before price configuration
+
+6.5 Delete Operations Pattern
+
+When implementing delete operations, follow these guidelines:
+
+1. API Endpoints:
+   - Use dedicated DELETE endpoints instead of PATCH with null values
+   - Follow pattern: `router.delete('/resource/:userId/:resourceId', [auth, isCoach])`
+
+2. Controller Pattern:
+   - Use MongoDB transactions for delete operations
+   - Filter existing items instead of setting fields to null
+   - Update metadata (like version numbers) after deletions
+   Example:
+   ```javascript
+   exports.removeResource = async (req, res) => {
+     const session = await mongoose.startSession();
+     session.startTransaction();
+     try {
+       const { userId, resourceId } = req.params;
+       const config = await Configuration.findOne({ user: userId }).session(session);
+       config.resources = config.resources.filter(r => r._id.toString() !== resourceId);
+       config.metadata.version += 1;
+       config.metadata.lastCalculation = new Date();
+       await config.save({ session });
+       await session.commitTransaction();
+       res.json(config);
+     } catch (error) {
+       await session.abortTransaction();
+       throw error;
+     } finally {
+       session.endSession();
+     }
+   };
+
+   Frontend Mutation Pattern:
+javascriptCopyconst deleteMutation = useMutation(
+  (resourceId) => deleteResource(userId, resourceId),
+  {
+    onMutate: async (resourceId) => {
+      await queryClient.cancelQueries(['config', userId]);
+      const previousConfig = queryClient.getQueryData(['config', userId]);
+      
+      // Optimistic update
+      queryClient.setQueryData(['config', userId], old => ({
+        ...old,
+        resources: old.resources.filter(r => r._id !== resourceId)
+      }));
+
+      return { previousConfig };
+    },
+    onError: (error, _, context) => {
+      queryClient.setQueryData(['config', userId], context.previousConfig);
+    }
+  }
+);
+
+State Cleanup:
+
+Clear related states after successful deletions
+Use useEffect cleanup for unmounting
+Handle loading states for deletions separately from updates
+
+
+
+Copy
+2. Add a Validation section:
+```markdown
+4.4 Route Validation Patterns
+
+When implementing route validation:
+
+1. Conditional Validation:
+   ```javascript
+   router.patch('/resource/:id', [
+     auth,
+     check('data').custom((value, { req }) => {
+       if (req.body.action === 'delete') {
+         return true;
+       }
+       if (!value || !value.amount) {
+         throw new Error('Data is required for non-delete actions');
+       }
+       return true;
+     }),
+     validateRequest
+   ]);
+
+Common Validation Middleware:
+javascriptCopyconst validateRequest = (req, res, next) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+  next();
+};
+
+Frontend Validation States:
+
+Track validation errors per item
+Clear validation states after successful operations
+Handle edit mode and validation states together
+
+7. User Identification
+All users (including coaches) are primarily identified by their User model _id, referred to as userId.
+The Coach model has a one-to-one relationship with the User model, using the user field to reference the User _id.
+When querying for coach data, always use { user: userId } instead of { _id: coachId }.
+Example (coachController.js):
+
+exports.getCoachProfile = async (req, res) => {
+  try {
+    const coach = await Coach.findOne({ user: req.params.userId })
+      .populate('user', '-password');
+    if (!coach) {
+      return res.status(404).json({ message: 'Coach not found' });
+    }
+    res.json(coach);
+  } catch (error) {
+    res.status(500).json({ message: 'Server error', error: error.message });
+  }
+};
+8. Real-time Communication
+8.1 Socket.IO Configuration
+Server-side configuration (socketConfig.js):
+
+const socketIo = require('socket.io');
+
+const configureSocket = (server) => {
+  const io = socketIo(server, {
+    cors: {
+      origin: process.env.ALLOWED_ORIGINS?.split(',') || ["http://localhost:3000", "http://localhost:5000"],
+      methods: ["GET", "POST", "PUT", "DELETE"],
+      credentials: true
+    },
+    path: '/socket.io',
+    transports: ['websocket', 'polling']
+  });
+
+  io.on('connection', (socket) => {
+    console.log('New client connected');
+    
+    // Event listeners...
+  });
+
+  return io;
+};
+
+module.exports = { configureSocket };
+Client-side usage:
+
+import io from 'socket.io-client';
+
+const socket = io(process.env.REACT_APP_API_URL, {
+  withCredentials: true,
+});
+
+export default socket;
+9. Error Handling and Logging
+Implement consistent error handling and logging across the application:
+
+const logger = require('../utils/logger');
+
+// In API calls
+try {
+  // API operation
+} catch (error) {
+  logger.error('Operation failed', { error: error.message, stack: error.stack });
+  throw error;
+}
+
+// In components
+const { data, error, isLoading } = useQuery(...);
+
+if (isLoading) return <LoadingSpinner />;
+if (error) return <ErrorMessage message={error.message} />;
+10. Authentication and Authorization
+10.1 JWT Authentication
+Implement JWT-based authentication:
+
+const jwt = require('jsonwebtoken');
+
+// Generate token
+const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1d' });
+
+// Verify token middleware
+const auth = (req, res, next) => {
+  const token = req.header('Authorization')?.replace('Bearer ', '');
+  if (!token) return res.status(401).json({ message: 'No token, authorization denied' });
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    req.user = decoded;
+    next();
+  } catch (error) {
+    res.status(401).json({ message: 'Token is not valid' });
+  }
+};
+10.2 Role-based Authorization
+Implement role-based access control (checkRole.js):
+
+const checkRole = (...roles) => {
+  return (req, res, next) => {
+    if (!req.user) {
+      return res.status(401).json({ message: 'Unauthorized' });
+    }
+    if (!roles.includes(req.user.role)) {
+      return res.status(403).json({ message: 'Access denied' });
+    }
+    next();
+  };
+};
+
+module.exports = checkRole;
+Usage in routes:
+
+router.get('/admin-only', auth, checkRole('admin'), adminController.adminAction);
+Conclusion
+This technical documentation provides a comprehensive and accurate overview of the data flow and system architecture for our coaching platform. It correctly represents the API route structure, user identification method, and other key aspects of the system. By following these guidelines and best practices, we ensure a scalable, maintainable, and robust application.
+
+Addition for Pricing Data:
+
+Data Flow Mapping
+Backend: PricingService.js
+Defines platformFeePercentage = 15 in the PricingService class constructor.
+The calculateSessionPrice method computes the platformFee in calculateFinalPrice:
+javascript
+
+Copy
+const platformFee = {
+  amount: Math.round(finalPrice.amount * (this.platformFeePercentage / 100)),
+  currency: finalPrice.currency
+};
+Returns a response object including:
+javascript
+
+Copy
+platformFee: {
+  amount: platformFee.amount,
+  percentage: this.platformFeePercentage // 15
+}
+This is called by priceController.js in the calculateSessionPrice endpoint (POST /api/prices/calculate).
+Backend: priceController.js
+Handles the /api/prices/calculate route (defined in priceRoutes.js).
+Calls PricingService.calculateSessionPrice with parameters like coachId, sessionTypeId, startTime, endTime, etc.
+Sends the response (including platformFee) to the frontend:
+javascript
+
+Copy
+res.json(priceCalculation);
+Backend: priceRoutes.js
+Defines the route:
+javascript
+
+Copy
+router.post('/calculate', [...], priceController.calculateSessionPrice);
+Ensures validation and authentication before calling priceController.calculateSessionPrice.
+Frontend: AddEditSessionModal.js
+Currently uses a hardcoded coachPlatformFeePercent from coachSettings:
+javascript
+
+Copy
+const coachPlatformFeePercent = coachSettings?.platformFeePercentage || 0; // Defaults to 10
+const actualPlatformFeeAmount = priceBeforeVat * (coachPlatformFeePercent / 100);
+Needs to call the calculateSessionPrice API to get the correct platformFee.percentage (15%) and platformFee.amount.
+Displays the pricing breakdown using PriceBreakdown with priceDataForBreakdown.
+Frontend: priceAPI.js
+Contains the calculateSessionPrice function that makes the API call:
+javascript
+
+Copy
+export const calculateSessionPrice = async ({
+  userId,
+  sessionTypeId,
+  start,
+  end,
+  timezone = 'Europe/Zurich',
+  participantCount = 1
+}) => {
+  const response = await api.post('/api/prices/calculate', {
+    userId,
+    sessionTypeId,
+    start,
+    end,
+    timezone,
+    participantCount
+  });
+  return response.data;
+};

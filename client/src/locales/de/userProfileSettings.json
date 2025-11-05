@@ -1,0 +1,19 @@
+{
+  "notificationSettings": "Benachrichtigungseinstellungen",
+  "emailNotifications": "E-Mail-Benachrichtigungen",
+  "smsNotifications": "SMS-Benachrichtigungen",
+  "languageAndTimeZone": "Sprache und Zeitzone",
+  "language": "Sprache",
+  "timeZone": "Zeitzone",
+  "privacySettings": "Datenschutzeinstellungen",
+  "showProfile": "Profil anderen zeigen",
+  "settingsUpdated": "Einstellungen erfolgreich aktualisiert",
+  "errorUpdateSettings": "Fehler beim Aktualisieren der Einstellungen",
+  "save": "Änderungen speichern",
+  "english": "Englisch",
+  "spanish": "Spanisch",
+  "french": "Französisch",
+  "utc": "UTC",
+  "easternTime": "Ostküstenzeit",
+  "pacificTime": "Pazifikzeit"
+}

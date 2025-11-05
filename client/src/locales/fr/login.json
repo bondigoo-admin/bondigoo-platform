@@ -1,0 +1,16 @@
+{
+  "welcomeBack": "Bienvenue",
+  "enterDetails": "Veuillez saisir vos identifiants pour vous connecter.",
+  "email": "Email",
+  "emailPlaceholder": "Entrez votre email",
+  "password": "Mot de passe",
+  "passwordPlaceholder": "Entrez votre mot de passe",
+  "logIn": "Se connecter",
+  "loggingIn": "Connexion en cours...",
+  "forgotPassword": "Mot de passe oublié ?",
+  "noAccount": "Vous n'avez pas de compte ?",
+  "signUp": "S'inscrire",
+  "loginSuccessful": "Connexion réussie ! Redirection...",
+  "loginError": "Une erreur s'est produite lors de la connexion",
+  "invalidResponse": "Réponse invalide du serveur"
+}

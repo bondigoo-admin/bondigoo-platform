@@ -1,0 +1,63 @@
+{
+  "title": "Our Community Guidelines",
+  "header": "A Space for Authentic Connections and Personal Growth",
+  "introduction": {
+    "p1": "Welcome to our community of dedicated coaches and individuals committed to growth. Our mission is to create a platform where personal growth and development can thrive through safe, respectful, and meaningful human connections.",
+    "p2": "These guidelines are the foundation of that mission. They are a shared agreement to uphold the integrity and authenticity of our community. By using this platform, you agree to uphold this spirit."
+  },
+  "principles": {
+    "title": "Our Guiding Principles",
+    "authenticity": {
+      "title": "Create Genuine Connections",
+      "text": "Our platform thrives on genuine, human connections. We encourage you to be authentic and create a space where others feel safe and understood."
+    },
+    "respect": {
+      "title": "Communicate with Respect",
+      "text": "We are a diverse community. Disagreements may happen, but disrespect and harassment will not be tolerated. Always engage in constructive and empathetic communication."
+    },
+    "trust": {
+      "title": "Maintain Authenticity and Trust",
+      "text": "Your identity and your experiences are the foundation of trust on this platform. Be honest in what you share and respectful in your feedback."
+    },
+    "safety": {
+      "title": "Ensure Safety and Privacy",
+      "text": "Protect your own privacy and respect the privacy of others. Do not share personal contact information or conduct sessions outside of the platform's secure environment."
+    }
+  },
+  "rules": {
+    "title": "Specific Platform Rules",
+    "intro": "To ensure clarity, the following activities are prohibited. Violating these rules will lead to moderation actions as outlined in the \"Consequences\" section.",
+    "profile": {
+      "title": "Profile & Identity Integrity",
+      "impersonation": "Impersonation or Fake Profiles: You may not impersonate another person or entity. Coaches must provide accurate information regarding their qualifications.",
+      "content": "Inappropriate Profile Content: Your profile picture, name, and bio must be respectful and free of offensive or hateful content."
+    },
+    "communication": {
+      "title": "Content & Communication Standards",
+      "harassment": "Harassment or Bullying: Abusive language, personal attacks, threats, or any form of intimidation directed at another user is strictly forbidden.",
+      "hateSpeech": "Hate Speech: Content that promotes discrimination or disparages individuals based on race, ethnicity, religion, gender, or other characteristics is not allowed.",
+      "spam": "Spam or Scams: Unsolicited promotional content, repetitive messages, phishing attempts, or any form of financial scam is prohibited.",
+      "inappropriate": "Inappropriate Content: Do not share content that is sexually explicit, graphically violent, or otherwise not in keeping with a supportive and safe coaching environment."
+    }
+  },
+  "consequences": {
+    "title": "Our Moderation Process & Consequences",
+    "intro": "We use a combination of automated systems and human review to enforce these guidelines. When content is reported, our Trust & Safety team reviews it against these policies.",
+    "threeStrikes": {
+      "title": "The \"Three Strikes\" System",
+      "intro": "For most violations, we follow an escalating system to provide an opportunity for education and correction.",
+      "strike1": "Strike 1: Formal Warning. You will receive an official notification detailing the violation. This is logged on your account.",
+      "strike2": "Strike 2: Final Warning. A second violation will result in a more sternly worded warning, stating that a further violation will lead to suspension.",
+      "strike3": "Strike 3: Account Suspension. A third violation will result in a temporary, read-only suspension of your account."
+    },
+    "severeViolations": {
+      "title": "Severe Violations",
+      "text": "Please note that severe offenses (e.g., threats of violence, illegal activity) may result in immediate and permanent account suspension, bypassing the strike system."
+    }
+  },
+  "appeals": {
+    "title": "The Appeal Process",
+    "intro": "If you believe a moderation action taken on your account was in error, you have the right to appeal. All notifications regarding moderation actions contain a link to initiate an appeal, which will open a support ticket for our team to review."
+  },
+  "conclusion": "Thank you for being a constructive member of our community and helping us build a platform for genuine human growth."
+}

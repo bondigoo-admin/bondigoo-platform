@@ -1,0 +1,200 @@
+INITIAL PROMPT:
+we are working on the resource panel resource operations. the upload and delete works fine. however, the changes only take effect in the UI if the resource panel is closed and opened again. I need you to write a detailed and technical specification document for me with the necessary updates to reflect the changes immediately without closing the resource panel. we also tried implementing a small number count on the resource icon in the control bar which does not work at the moment. I think the main icon renders from within the video conference component, so we might need to implement the number indicator there to display it correctly. read all the attachments and only give me code updates if everything is clear and you can provide high quality working code updates. if not, ask me for more input first.
+
+The problem The ResourcePanel isn't updating in real-time because the socket event listeners might not be attached to the correct or consistently connected socket instance, especially since multiple components seem to be establishing their own connections via useSocket. The resource count badge isn't working likely because the logic is trying to modify a child component indirectly, and it might also be suffering from the same socket connection issue.
+
+Here's the initial plan to fix this (feel free to challenge and improve if necessary):
+
+Introduce a Socket Context: Create a context to provide a single, shared Socket.IO instance for the /video namespace to all necessary components within the video conference UI (VideoConference, ControlBar, ResourcePanel, etc.).
+
+Refactor Resource Count Logic: Move the resourceCount state management and the socket listeners for resource updates from ControlBar up into VideoConference.
+
+Render Badge Directly: Modify VideoConference to render the resource button directly with the badge, using the resourceCount state.
+
+Update Components: Modify ResourcePanel and ControlBar to consume the shared socket instance from the context. useVideoConference might also need adjustment if it creates its own socket.
+
+Ensure Server-Side Events: Double-check socketConfig.js to ensure it correctly bridges the internal emitter events to the shared /video socket namespace. (This already seems correct based on the provided code).
+
+I need you to challenge this this approach according to best practice solutions and try not to overcomplicate things. then give me a detailed implementation plan / technical specification that we can use to implement the solution and fix the problems. write out exactly what to do in which files, code sections, using what logic and where. write out a step by step plan so we can check things off. think in end to end processes and user stories. do not give me the user stories, only the finished concept. do not give me any code updates yet, only what I asked from you.
+
+FINAL PLAN:
+
+You're right to challenge the initial plan slightly. While a Socket Context is the core solution, rendering the resource button within ControlBar and passing the resourceCount down is cleaner than VideoConference rendering it directly. The main issue is the proliferation of useSocket instances creating separate connections. We need one reliable connection shared among components that need real-time updates or signaling within the video session scope.
+
+Core Problem Recap:
+
+Real-time Updates: ResourcePanel and the resource count badge don't update instantly upon resource changes because components are likely using isolated socket connections.
+
+Badge Rendering: The badge count logic in ControlBar relies on its own potentially unreliable socket connection and indirect child manipulation.
+
+Refined Solution: Centralized Socket Connection via Context
+
+We will use a SocketContext to provide a single, stable connection to the /video namespace for VideoConference, ControlBar, ResourcePanel, and the useVideoConference hook.
+
+Technical Specification:
+
+Phase 1: Implement the Socket Context
+
+File: src/contexts/SocketContext.js (Create or modify if it exists)
+
+Action: Define SocketContext and SocketProvider.
+
+Logic:
+
+The SocketProvider component will accept userId, sessionId, token, and namespace as props.
+
+Inside the provider, use useMemo to create one socket.io-client instance connecting to SOCKET_URL + namespace.
+
+Pass auth: { token } and query: { sessionId, token, userId } options during socket creation.
+
+Set autoConnect: false.
+
+Use a useEffect hook to manage the socket lifecycle:
+
+Define onConnect, onDisconnect, onConnectError handlers.
+
+These handlers update internal state variables (isConnected, connectionError) within the provider.
+
+In the effect, attach these listeners to the socket instance.
+
+Call socket.connect() manually within the effect.
+
+The effect's cleanup function should detach listeners and call socket.disconnect().
+
+The provider's value should expose { socket, isConnected, connectionError }.
+
+Export: Export SocketProvider and a custom hook like useVideoSocket (e.g., const useVideoSocket = () => useContext(SocketContext);).
+
+Phase 2: Integrate SocketProvider
+
+File: src/components/VideoConferenceWrapper.js
+
+Action: Wrap the VideoConference component with <SocketProvider>.
+
+Logic:
+
+Pass the necessary props (userId, roomId (as sessionId), tokenFromUrl (or tokenFromStorage if preferred for socket auth), and the namespace '/video') to <SocketProvider>.
+
+Remove the io.connect call currently in VideoConferenceWrapper's useEffect. Its purpose is now handled by the provider.
+
+Phase 3: Refactor State & Listeners to VideoConference
+
+File: src/components/VideoConference.js
+
+Action 1: Manage resourceCount state.
+
+Logic: Add const [resourceCount, setResourceCount] = useState(0);.
+
+Action 2: Use the shared socket from the context.
+
+Logic: Add const { socket, isConnected: socketConnected, connectionError } = useVideoSocket(); at the top of the component. Remove the internal socketRef used for status monitoring if it's redundant.
+
+Action 3: Fetch initial resource count.
+
+Logic: Add a useEffect hook that triggers on sessionId and token. Inside, call the /api/sessions/${sessionId}/resources endpoint (similar to the logic currently in ControlBar) and setResourceCount with the result. Handle loading/error states appropriately.
+
+Action 4: Listen for real-time resource updates.
+
+Logic: Add a useEffect hook that depends on socket, socketConnected, sessionId.
+
+Check if socket && socketConnected.
+
+Define handleResourceUploaded (setResourceCount(prev => prev + 1);) and handleResourceDeleted (setResourceCount(prev => Math.max(0, prev - 1));).
+
+Attach listeners: socket.on('resource-uploaded', handleResourceUploaded); and socket.on('resource-deleted', handleResourceDeleted);.
+
+The cleanup function should detach these listeners: socket.off(...).
+
+Action 5: Pass resourceCount down to ControlBar.
+
+Logic: Find the <ControlBar ... /> component instance and add the prop: resourceCount={resourceCount}.
+
+Phase 4: Update ControlBar
+
+File: src/components/ControlBar.js
+
+Action 1: Remove internal socket logic for resources.
+
+Logic: Delete the useSocket hook call (const { socket, ... } = useSocket(...)). Remove the useEffect hooks responsible for fetching the initial count and listening to resource-uploaded/resource-deleted. Remove the internal resourceCount state variable.
+
+Action 2: Accept resourceCount prop.
+
+Logic: Add resourceCount to the component's props destructuring: ({ ..., resourceCount }).
+
+Action 3: Update badge rendering logic.
+
+Logic: Modify the enhancedChildren logic. The part checking if (isResourceButton) is correct. Inside that block, use the resourceCount prop to conditionally render the badge ({resourceCount > 0 && (...)}).
+
+Phase 5: Update ResourcePanel
+
+File: src/components/ResourcePanel.js
+
+Action 1: Use the shared socket.
+
+Logic: Remove the useSocket hook call. Add const { socket, isConnected: socketConnected, connectionError } = useVideoSocket(); at the top.
+
+Action 2: Adapt socket event listeners.
+
+Logic: Modify the useEffect hook that sets up socket listeners. It should now depend on socket and socketConnected from the context. Use the socket instance from the context for .on() and .off(). Ensure error handling checks connectionError from the context.
+
+Phase 6: Refactor useVideoConference Hook
+
+File: src/hooks/useVideoConference.js
+
+Action 1: Remove internal socket management.
+
+Logic: Delete the socketRef and the useEffect hook that initializes the io connection within this hook.
+
+Action 2: Get socket from context.
+
+Logic: Since hooks can't directly use context added by a component using the hook, we need to pass the socket into the hook. Modify the hook signature: const useVideoConference = (sessionId, token, config = {}, socket) => { ... }.
+
+Action 3: Update socket usage.
+
+Logic: Replace all occurrences of socketRef.current with the passed-in socket parameter. This includes event emissions (signal, join-session, raise-hand, etc.) and event listeners (connect, signal, participant-joined, etc.). The logic that sets up listeners should now check if the passed-in socket exists and is connected.
+
+File: src/components/VideoConference.js
+
+Action: Pass the shared socket to the hook.
+
+Logic: Update the call to useVideoConference:
+
+const { socket, isConnected: socketConnected } = useVideoSocket(); // Get socket from context
+
+const {
+  participants,
+  // ... other returned values
+} = useVideoConference(sessionId, token, {
+  // ... current config
+}, socket); // Pass the socket instance here
+Use code with caution.
+JavaScript
+Ensure effects within VideoConference that depend on the hook's results also potentially depend on socketConnected if they require the socket to be ready.
+
+Phase 7: Verification
+
+Test Resource Upload:
+
+Open the ResourcePanel.
+
+Upload a file.
+
+Expected: The file list in ResourcePanel updates immediately. The badge count on the ControlBar resource icon increments immediately.
+
+Test Resource Deletion:
+
+Open the ResourcePanel.
+
+Delete a file.
+
+Expected: The file disappears from the ResourcePanel list immediately. The badge count on the ControlBar resource icon decrements immediately.
+
+Test Initial Load:
+
+Join a session where resources already exist.
+
+Expected: The ResourcePanel (when opened) shows the correct files. The ControlBar badge shows the correct initial count.
+
+Test Connection Stability: Monitor logs for multiple socket connection attempts or errors. There should ideally be only one connection established per user to the /video namespace within the context provider.
+
+Test Other Socket Features: Ensure signaling (video/audio), chat, polls, etc., still function correctly using the shared socket instance.

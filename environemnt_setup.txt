@@ -1,0 +1,101 @@
+
+First, let's clarify the terminology, which is key. The industry-standard names for your requested environments are:
+1.	dev (your local machine) -> Local
+2.	test (online with dev data) -> Development or Integration
+3.	mass test (online with prod data, sandboxed) -> Staging or UAT (User Acceptance Testing)
+4.	prod (live) -> Production
+The core principle is isolation. Code, configuration, and data for one environment should not be able to affect another. Git is the source of truth for your code, not your data or secrets.
+Here is a breakdown of the best-practice modern setup.
+1. The Git Branching Strategy: Code Isolation
+Your Project_Context.txt mentions a develop and main branch, which is a great start. To support your four environments, a slightly more robust branching model is ideal. This is how it maps to your environments:
+Branch Name	Environment	Purpose
+feature/* (e.g., feature/new-dashboard-widget)	Local	A developer works on a new feature or bug fix here. This branch never gets deployed directly.
+develop	Development	The integration branch. All feature branches are merged here first. A push to this branch auto-deploys to your "test" server.
+staging	Staging	A pre-production branch. When develop is stable, you merge it here to create a "release candidate" for mass testing.
+main	Production	The source of truth for what's live. Only stable, tested code from staging is merged here. A push auto-deploys to production.
+The Workflow:
+feature/my-feature -> develop -> staging -> main
+This flow ensures that code is progressively tested and validated before it ever reaches your real users.
+2. Configuration & Secrets Management: The .env Files
+Your server directory contains .env.development, .env.production, etc. This is the correct approach. The critical rule is:
+NEVER commit .env files or any other files with secrets (API keys, database URLs) to Git.
+Add them to your top-level .gitignore file immediately:
+codeGitignore
+# Local environment files
+.env.local
+.env.development
+.env.test
+.env.production
+
+# Don't commit server logs or temp files
+server/logs/
+server/temp_pdfs/
+How do Vercel and Render get the secrets then?
+You will configure them directly in the project settings UI on each platform. This is the secure, modern way to handle secrets.
+Here’s how you'd set it up:
+Variable Name	Local (.env.development)	Development (Vercel/Render)	Staging (Vercel/Render)	Production (Vercel/Render)
+DATABASE_URL	mongodb://localhost/coaching-platform-dev	mongodb+srv://.../coaching-platform-dev	mongodb+srv://.../coaching-platform-staging	mongodb+srv://.../coaching-platform-prod
+STRIPE_PUBLISHABLE_KEY	pk_test_...	pk_test_...	pk_test_...	pk_live_...
+STRIPE_SECRET_KEY	sk_test_...	sk_test_...	sk_test_...	sk_live_...
+CLOUDINARY_URL	cloudinary://... (dev account)	cloudinary://... (dev account)	cloudinary://... (staging account)	cloudinary://... (prod account)
+REACT_APP_API_URL (Vercel)	http://localhost:5001	https://your-api-dev.onrender.com	https://your-api-staging.onrender.com	https://api.yourdomain.com
+REACT_APP_LAUNCHED (Vercel)	true	true	true	false (until you are ready)
+•	Vercel: In your Project Settings -> Environment Variables, you can add variables for different environments (Preview for develop, Production for main/staging).
+•	Render: You create separate "Services" for each environment. Each service has its own Environment Variables section.
+3. Infrastructure Setup on Vercel & Render
+You will create parallel infrastructure for each online environment.
+On Render.com (Backend):
+•	API - Development: A Web Service connected to your develop branch. Uses the dev/staging database.
+•	API - Staging: A Web Service connected to your staging branch. Uses the staging database.
+•	API - Production: A Web Service connected to your main branch. Uses the production database.
+•	You will also need separate Redis instances and Background Worker services on Render for each environment to handle your BullMQ jobs.
+On Vercel (Frontend):
+•	Project - Staging: A Vercel project connected to your Git repo. Set the "Production Branch" to staging. Any push to staging deploys here.
+•	Project - Production: A separate Vercel project. Set the "Production Branch" to main. Any push to main deploys here.
+•	Vercel's "Preview Deployments" feature will automatically build any new Pull Request, which works perfectly for your develop environment testing. When a PR is made to develop, you get a unique URL to test it.
+4. Data Management Strategy: The Most Critical Part
+This is where you prevent catastrophic mistakes. Each environment needs its own, completely isolated database.
+•	Local Data:
+o	This should be a small, predictable dataset that you can easily reset.
+o	Best Practice: Use your server/scripts/seed...js files. Create a master script (seedDatabase.js) that runs all the seeders to populate your local MongoDB with a consistent set of users, coaches, and skills. This makes development predictable.
+o	package.json script: "seed": "node server/scripts/seedDatabase.js"
+•	Development Data:
+o	Your Development environment (deployed from the develop branch) should connect to the same database as your local environment (coaching-platform-dev).
+o	This follows your requirement: "online but with the data from dev". It allows developers to see their merged code working with the same familiar seed data.
+•	Staging Data:
+o	This environment needs realistic, large-scale data to find bugs that only appear with volume.
+o	Best Practice: Periodically, you will run a script that copies your Production database, sanitizes it, and loads it into your Staging database (coaching-platform-staging).
+o	Sanitization is NOT optional. This means writing a script to:
+	Anonymize user data (e.g., replace names with fake ones, hash emails and passwords).
+	Scrub any personal information from messages or profiles.
+	You must protect your users' privacy, even from your own team.
+o	This satisfies your requirement: "online with prod data but no real stripe". The Staging environment will use Stripe Test Mode keys, so no real money is ever moved.
+•	Production Data:
+o	This is sacred. No one should ever connect to the production database directly for development or testing purposes. Access should be tightly controlled.
+Summary: A Complete Feature Workflow
+Let's walk through an example of adding a new "Notes" feature:
+1.	Local Dev:
+o	git checkout develop
+o	git pull
+o	git checkout -b feature/coach-notes
+o	You code the new feature, connecting to your local MongoDB. You run npm run seed if you need to reset your data.
+o	You use your .env.development file with Stripe test keys.
+2.	Code Review & Integration:
+o	git push origin feature/coach-notes
+o	You open a Pull Request (PR) on GitHub from feature/coach-notes into develop.
+o	Your team reviews the code. Vercel automatically creates a "Preview Deployment" with a unique URL for this PR. You can click it and test the feature in isolation.
+o	Once approved, you merge the PR into develop.
+3.	Development Deployment:
+o	The merge to develop automatically triggers a deployment on Render and a new "Preview" on Vercel.
+o	Your team can now test the integrated feature on your dev.yourdomain.com site, which uses the shared coaching-platform-dev database.
+4.	Staging for Mass Test:
+o	When you are ready to prepare a release, you open a PR from develop into staging.
+o	Once merged, this automatically deploys to your Staging environment (staging.yourdomain.com).
+o	This environment connects to the coaching-platform-staging database (the sanitized copy of production data) and uses Stripe Test Mode.
+o	Here, you, your QA team, or your "Founder's Circle" coaches can do full UAT and "mass testing" without risk.
+5.	Go Live:
+o	After Staging is fully tested and approved, you open a final PR from staging into main.
+o	Merging this PR triggers the production deployment on Render and Vercel.
+o	Your feature is now live for real users, using the production database and live Stripe keys.
+This setup provides maximum safety, allows for parallel development, and ensures you can test your application thoroughly at every stage before it impacts your customers.
+

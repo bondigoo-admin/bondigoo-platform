@@ -1,0 +1,104 @@
+{
+  "paymentDetails": "Détails du paiement",
+  "sessionCost": "Coût de la séance",
+  "vat": "TVA",
+  "total": "Total",
+  "savedMethods": "Modes de paiement enregistrés",
+  "retry": "Réessayer",
+  "paymentConfirmationFailed": "Confirmation du paiement échouée",
+  "paymentSuccessful": "Paiement réussi",
+  "paymentFailed": "Paiement échoué",
+  "status": {
+    "processing": "En cours de traitement",
+    "completed": "Terminé",
+    "pending": "En attente",
+    "failed": "Échoué",
+    "active": "Actif",
+    "incomplete": "Incomplet",
+    "inactive": "Inactif"
+  },
+  "stripeConnect": "Stripe Connect",
+  "noConnectAccount": "Aucun compte connecté",
+  "connectWithStripe": "Se connecter avec Stripe",
+  "loading": {
+    "initializing": "Initialisation...",
+    "redirecting": "Redirection...",
+    "processing": "Traitement...",
+    "completing": "Finalisation..."
+  },
+  "errorFetchingAccountStatus": "Erreur lors de la récupération du statut du compte",
+  "accountIncomplete": "Compte incomplet",
+  "requirements": {
+    "business_profile": {
+      "mcc": "Code de catégorie marchande",
+      "url": "Site web professionnel"
+    },
+    "business_type": "Type d'entreprise",
+    "external_account": "Compte externe",
+    "representative": {
+      "address": {
+        "city": "Ville",
+        "line1": "Adresse ligne 1",
+        "postal_code": "Code postal"
+      },
+      "dob": {
+        "day": "Jour",
+        "month": "Mois",
+        "year": "Année"
+      },
+      "email": "Adresse e-mail",
+      "first_name": "Prénom",
+      "last_name": "Nom",
+      "phone": "Numéro de téléphone"
+    },
+    "tos_acceptance": {
+      "date": "Date d'acceptation des conditions",
+      "ip": "Adresse IP d'acceptation"
+    }
+  },
+  "statusActive": "Actif",
+  "statusIncomplete": "Incomplet",
+  "statusInactive": "Non actif",
+  "startStripeSetup": "Démarrer la configuration Stripe",
+  "completeStripeSetup": "Compléter la configuration",
+  "editStripeAccount": "Modifier le compte Stripe",
+  "accountActive": "Votre compte Stripe est actif et prêt à recevoir des paiements",
+  "setupIncompleteInfo": "Veuillez compléter la configuration de votre compte Stripe pour recevoir des paiements",
+  "accountErrors": "Problèmes de compte",
+  "errorCreatingConnectAccount": "Erreur lors de la création du compte Stripe",
+  "connectAccountExists": "Un compte Stripe existe déjà",
+  "notAuthorized": "Non autorisé",
+  "noSavedMethods": "Aucune méthode de paiement enregistrée",
+  "cardDetails": "Détails de la carte",
+  "saveCardForFuture": "Enregistrer la carte pour les paiements futurs",
+  "addCard": "Ajouter une carte",
+  "securePaymentInfo": "Informations de paiement sécurisées",
+  "processing": "En traitement",
+  "setAsDefault": "Définir par défaut",
+  "setDefault": "Définir par défaut",
+  "deleteMethod": "Supprimer le moyen de paiement",
+  "expiresOn": "Expire le",
+  "loadingStripe Error Component Stack": "Chargement de Stripe",
+  "paymentFailedContact": "Veuillez contacter le support si le problème persiste",
+  "processingMessage": "Votre paiement est en cours de traitement. Cela peut prendre quelques secondes.",
+  "initializing": "Initialisation",
+  "loadingMethods": "Chargement des moyens de paiement",
+  "methodAriaLabel": "Moyen de paiement",
+  "chooseTiming": "Choisir le moment du paiement",
+  "payNow": "Payer maintenant",
+  "payNowDescription": "Payez immédiatement pour confirmer votre réservation",
+  "payLater": "Payer plus tard",
+  "payLaterDescription": "Payez jusqu'à 48 heures avant le début de la session",
+  "sessionTooSoon": "La session commence dans moins de 48 heures",
+  "selectTiming": "Sélectionner le moment du paiement",
+  "connectRequired": "Connexion requise pour un paiement ultérieur",
+  "statusInitial": "Initialisé",
+  "success": "Paiement effectué avec succès",
+  "error": {
+    "title": "Erreur de paiement",
+    "general": "Une erreur est survenue lors du paiement",
+    "retriesRemaining": "Tentatives restantes : {{count}}",
+    "recoveryInstructions": "Veuillez réessayer ou utiliser un autre mode de paiement",
+    "initialization": "Initialisation"
+  }
+}

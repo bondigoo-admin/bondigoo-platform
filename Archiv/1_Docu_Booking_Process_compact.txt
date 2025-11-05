@@ -1,0 +1,504 @@
+TECHNICAL DOCUMENTATION: BOOKING PROCESS ARCHITECTURE
+EXECUTIVE SUMMARY
+This document provides a technical overview of the booking process within the coaching platform. The system facilitates session booking between coaches and clients with features including availability management, booking creation, payment processing, and real-time notifications.
+The booking system architecture comprises several interconnected components:
+
+React frontend components for calendar visualization and booking management
+RESTful API services for CRUD operations
+MongoDB data models with Mongoose ODM
+Stripe payment integration
+Socket.IO for real-time updates
+JWT-based authentication
+
+SYSTEM ARCHITECTURE OVERVIEW
+Technology Stack
+
+Frontend: React (Create React App)
+Backend: Express.js
+Database: MongoDB with Mongoose ODM
+State Management: React Context API, React Query
+Real-time Communication: Socket.IO
+Authentication: JWT stored in localStorage
+Payment Processing: Stripe
+Styling: CSS with potential migration to Tailwind
+
+Core Components
+
+BookingCalendar: Renders bookings and availability slots in calendar view
+UserBookingModal: Handles booking creation and modification
+bookingAPI.js: Frontend service for API interactions
+bookingController.js: Backend controller for booking logic
+Booking.js: Mongoose model for booking data
+SessionType.js: Mongoose model for session types
+PaymentOrchestrator: Manages payment flow
+Socket.IO Services: Handles real-time updates
+
+BOOKING PROCESS FLOW
+1. Availability Management
+
+Coach creates availability slots
+
+Sets recurring patterns if needed
+Defines bookable time slots
+Configures instant booking settings
+
+
+Availability slots are stored as Booking documents
+
+isAvailability flag set to true
+Contains coach ID, time range, and session type
+Includes settings for instant booking eligibility
+
+
+When clients book sessions, availability slots are split
+
+Original slot is deleted
+New slots are created before and after the booked time
+This preserves remaining available time
+
+
+
+2. Booking Creation
+
+Calendar Visualization
+
+User views coach's calendar with availability slots
+Calendar displays different colors for availability, pending, and confirmed bookings
+Visibility depends on privacy settings (public, connected, private)
+
+
+Slot Selection
+
+User selects an available slot
+System verifies if time slot is in the future
+Checks if user has permission to book based on connection status
+
+
+Booking Modal
+
+User selects session duration and specific start time
+System generates time slots based on availability
+Duration options are configurable by coach
+
+
+Price Calculation
+
+System calculates price based on coach settings, session type, and duration
+Incorporates VAT, platform fees, and any applicable discounts
+Price structure is standardized across frontend and backend
+
+
+Validation & Confirmation
+
+Form validates all required fields and time slot availability
+System determines if booking should be firm (immediate) or request (requires approval)
+User confirms booking details
+
+
+Backend Processing
+
+Backend validates booking request and checks for conflicts
+Identifies appropriate availability slot and splits it
+Creates booking record with comprehensive price data
+Creates payment intent if immediate payment is required
+
+
+Payment Processing
+
+For firm bookings, payment flow is initiated
+Stripe payment intent is created
+Client receives payment intent secret for frontend processing
+Payment status is tracked and linked to booking
+
+
+Notification Dispatching
+
+Notifications sent to both coach and client
+Delivered via in-app notifications and email
+Socket.IO pushes real-time updates
+
+
+UI Updates
+
+Calendar refreshes to show new booking
+Success messages displayed to user
+Availability slots updated in UI
+
+
+
+3. Booking Management
+
+Coach Actions
+
+Accept booking requests: Updates status to confirmed
+Decline requests: Restores availability slot and notifies client
+Suggest alternative times: Offers different time options to client
+
+
+Client Actions
+
+View upcoming and past bookings
+Cancel bookings when cancellation window allows
+Complete payment process
+Reschedule sessions
+
+
+Status Transitions
+
+requested → confirmed | declined | time_suggested
+confirmed → completed | cancelled_by_coach | cancelled_by_client
+time_suggested → confirmed | declined
+
+
+Real-time Updates
+
+Socket.IO events notify users of booking changes
+UI components subscribe to events for immediate updates
+Calendar view refreshes automatically when changes occur
+
+
+
+DETAILED COMPONENT ANALYSIS
+Frontend Components
+BookingCalendar.js
+Primary component for displaying and interacting with the booking calendar.
+Key Functions:
+
+fetchSessions: Retrieves booking and availability data from API
+handleSelectEvent: Processes user clicks on existing bookings or availability
+handleSelectSlot: Handles user clicks on empty calendar slots
+canViewCalendar: Determines visibility based on privacy settings and connection status
+filterVisibleEvents: Filters events shown based on visibility rules
+
+State Management:
+
+Manages sessions data (availability and regular bookings)
+Tracks selected session types for filtering
+Handles booking creation state
+Controls modal display logic
+
+Calendar Visibility Logic:
+
+Public: Visible to all users
+Connected: Visible only to users with accepted connections
+Private: Visible only to coach themselves
+Always visible to the owner of the calendar
+
+UserBookingModal.js
+Modal component for booking creation and management.
+Key Functions:
+
+handleDateSelection: Manages date selection process
+handleTimeSelection: Processes time slot selection
+handleDurationSelection: Manages session duration selection
+validateBooking: Performs comprehensive validation before submission
+handleConfirm: Initiates booking creation process
+handlePaymentFlow: Manages payment flow integration
+
+State Management:
+
+Tracks booking data including time, duration, and price
+Manages available time slots generation
+Controls payment visibility and flow states
+Handles error states and validation
+
+Time Slot Generation:
+
+Retrieves available slots for selected date
+Generates time options in 15-minute increments
+Validates against coach availability
+Ensures time slots are in the future
+
+Payment Components
+PaymentFlow.js:
+
+Manages Stripe integration for payment processing
+Handles payment state transitions
+Provides error handling for payment failures
+
+PaymentPopup.js:
+
+Renders payment interface using Stripe Elements
+Manages payment method selection
+Provides feedback during payment processing
+
+Backend Controllers
+bookingController.js
+Main controller handling booking operations on the backend.
+Key Functions:
+
+createBooking: Handles booking creation process including availability splitting
+getCoachBookings: Retrieves bookings for a specific coach
+acceptBooking: Processes booking acceptance by coach
+declineBooking: Handles booking decline and availability restoration
+suggestAlternativeTime: Manages alternative time suggestions
+splitAvailabilitySlot: Splits availability when booking is created
+
+Availability Management:
+
+Identifies available slots matching booking criteria
+Splits original availability into segments around new booking
+Creates new availability records for remaining time slots
+
+Notification Handling:
+
+Determines notification recipients and types based on booking status
+Creates notification records for in-app delivery
+Sends email notifications as needed
+Emits socket events for real-time updates
+
+Data Models
+Booking.js (Mongoose Model)
+Database schema for bookings with methods for price calculation and status management.
+Schema Highlights:
+
+Core fields: coach, user, sessionType, start, end, timezone
+Status enums for tracking booking state
+Comprehensive price schema with nested structure
+Payment tracking with Stripe integration
+Availability flags and settings
+
+Key Methods:
+
+calculatePrices: Computes VAT, platform fees, and final amounts
+getPaymentStatus: Returns current payment status information
+canBeCancelled: Determines if booking is eligible for cancellation
+calculateRefundAmount: Computes refund amount based on cancellation timing
+
+Price Structure:
+
+Nested schema with base and final amounts
+Currency information at each level
+VAT calculation and tracking
+Platform fee computation
+Discount application
+
+SessionType.js (Mongoose Model)
+Defines session types available for booking.
+Schema Highlights:
+
+Basic info: name, description, format
+Duration configuration with min/max/default values
+Booking rules including firm booking settings
+Capacity management for group sessions
+Notification configuration
+
+Supporting Schemas:
+
+Duration schema for time configuration
+Booking rules schema for policy settings
+Capacity schema for attendee management
+
+Frontend API Services
+bookingAPI.js
+Service for interacting with booking-related endpoints.
+Key Functions:
+
+getCoachSessions: Fetches coach's sessions and availability slots
+createBooking: Creates a new booking with comprehensive validation
+acceptBooking: Processes booking acceptance
+declineBooking: Handles booking declination
+suggestAlternativeTime: Submits alternative time suggestions
+calculateBookingPrice: Calculates booking price with all components
+
+Price Handling:
+
+Normalizes price structure between frontend and backend
+Handles nested price objects consistently
+Ensures currency information is preserved
+
+STATE MANAGEMENT
+Frontend State Management
+
+Local Component State:
+
+UI element states (selected slots, modal open/close)
+Form field values (time, duration)
+Validation errors and loading states
+
+
+React Query:
+
+Data fetching and caching for sessions and bookings
+Auto-refetching and background updates
+Query invalidation on mutations
+
+
+Context API:
+
+AuthContext for user authentication state
+Payment context for payment flow state
+Connection context for user relationships
+
+
+Custom Hooks:
+
+useConnectionCheck: Verifies connection status between users
+useConnectionManagement: Manages connection creation and updates
+usePriceCalculation: Handles price calculation logic
+usePaymentFlow: Manages payment flow state transitions
+
+
+
+Backend State Management
+
+Database State:
+
+MongoDB as primary source of truth
+Mongoose models with validation rules
+Referential integrity between collections
+
+
+Transaction Management:
+
+MongoDB transactions for atomic operations
+Rollback capability for error conditions
+Consistent state maintenance
+
+
+Socket State:
+
+Real-time client state synchronization
+Connection tracking and monitoring
+Event emission for state changes
+
+
+
+API REFERENCE
+Booking Endpoints
+MethodEndpointDescriptionAuthenticationParametersGET/api/bookings/:userId/bookingsGet coach bookingsRequiredstart, endPOST/api/bookingsCreate bookingRequiredBooking detailsGET/api/bookings/:bookingIdGet booking detailsRequired-PUT/api/bookings/:bookingId/statusUpdate booking statusRequiredstatusPOST/api/bookings/:bookingId/acceptAccept bookingRequiredOptional messagePOST/api/bookings/:bookingId/declineDecline bookingRequiredOptional messagePOST/api/bookings/:bookingId/suggestSuggest alternative timesRequiredtimes, optional messageGET/api/bookings/user/:userId/sessionsGet user sessionsRequiredOptional start, endPOST/api/bookings/availabilityCreate availability slotsRequired, CoachAvailability detailsPUT/api/bookings/availability/:availabilityIdUpdate availabilityRequired, CoachAvailability detailsDELETE/api/bookings/availability/:availabilityIdDelete availabilityRequired, Coach-
+AUTHENTICATION MECHANISMS
+The application uses JWT for authentication:
+
+Token Generation:
+
+Created at login/registration
+Stored in localStorage for subsequent requests
+
+
+Authentication Middleware:
+
+Extracts and verifies JWT from Authorization header
+Attaches user data to request object
+Returns 401 for invalid or missing tokens
+
+
+Role-Based Authorization:
+
+Middleware checks for coach role on protected routes
+Returns 403 for insufficient permissions
+
+
+Resource-Based Authorization:
+
+Controllers verify if user owns or has access to requested resources
+Ensures coaches can only manage their own bookings/availability
+
+
+
+SOCKET.IO INTEGRATION
+Real-time features use Socket.IO:
+
+Connection Management:
+
+User authentication via socket connection
+Room joining for targeted notifications
+Connection tracking and monitoring
+
+
+Event Types:
+
+booking_update: Booking status changes
+notification: New notifications
+availability_update: Availability changes
+payment_update: Payment status updates
+
+
+Frontend Integration:
+
+Components subscribe to relevant events
+UI updates automatically with socket data
+Provides immediate feedback on status changes
+
+
+
+PAYMENT INTEGRATION
+The application integrates with Stripe for payment processing:
+
+Payment Flow:
+
+Payment initiated during booking creation for firm bookings
+PaymentOrchestrator service manages the overall flow
+Stripe Elements provides payment UI
+
+
+Payment States:
+
+initial: Payment flow not started
+payment_pending: Awaiting payment method input
+processing: Payment being processed by Stripe
+succeeded: Payment completed successfully
+failed: Payment failed or was rejected
+
+
+Backend Integration:
+
+Creates Stripe payment intents
+Tracks payment status in database
+Handles payment confirmations and failures
+
+
+Frontend Integration:
+
+Collects payment details securely
+Confirms payment using Stripe API
+Provides payment status feedback
+
+
+
+CONNECTION MANAGEMENT AND PRIVACY
+The system implements connection management between coaches and clients:
+
+Connection States:
+
+pending: Connection request sent but not accepted
+accepted: Connection established between users
+declined: Connection request declined
+
+
+Privacy Levels:
+
+public: Content visible to all users
+connected: Content visible only to connected users
+private: Content visible only to the owner
+
+
+Calendar Visibility:
+
+Controlled by coach's privacy settings
+Checks connection status for connected-level visibility
+Enforced on both frontend and backend
+
+
+
+ERROR HANDLING PATTERNS
+
+Frontend Error Handling:
+
+Try/catch blocks for async operations
+Toast notifications for user feedback
+Error state management in components
+
+
+Backend Error Handling:
+
+Structured error responses with appropriate status codes
+Transaction rollback for database operations
+Comprehensive error logging with context
+
+
+Logging Strategy:
+
+Component and function-level logging
+Operation success and failure tracking
+Performance monitoring for critical operations

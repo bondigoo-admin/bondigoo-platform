@@ -1,0 +1,648 @@
+Comprehensive Booking Calendar Concept
+
+1. Core Components and Workflows
+1.1 Booking Status Management
+
+- REQUESTED: Pending coach approval
+- FIRM_BOOKED: Automatically confirmed based on coach settings
+- CONFIRMED: Approved by coach
+- DECLINED: Rejected by coach
+- CANCELLED: Cancelled by either party
+1.2 Coach Settings Integration
+
+- allowFirmBooking: Boolean
+- firmBookingThreshold: Hours before session (e.g., 24 hours)
+- bufferTimeBetweenSessions: Minutes
+- maxSessionsPerDay
+- maxSessionsPerWeek
+- calendarVisibility: public/connected/private
+- requireApprovalNonConnected: Boolean
+1.3 Booking Workflows
+
+A. Firm Booking Flow
+
+1. Client selects available slot
+2. System checks:
+
+1. Coach allows firm booking
+2. Time threshold meets requirements
+3. Client is connected (if required)
+4. Session limits not exceeded
+
+3. If all checks pass:
+
+1. Create confirmed booking
+2. Remove availability slot
+3. Send immediate confirmations
+4. Update calendar views
+5. Trigger notifications
+
+B. Request Booking Flow
+
+1. Client requests slot
+2. System creates pending booking
+3. Coach receives notification
+4. Coach can:
+
+1. Approve (converts to confirmed booking)
+2. Decline (with reason)
+3. Suggest alternative times
+4. Request more information
+
+1.4 Notification System
+
+- Immediate Notifications:
+
+- Booking confirmation (both parties)
+- Request received (coach)
+- Request status updates
+- Upcoming session reminders
+- Buffer time conflicts
+- Session limit warnings
+
+- Channels:
+
+- In-app notifications
+- Email notifications
+- Optional SMS notifications
+- Real-time socket updates for calendar changes
+
+2. Technical Architecture
+2.1 Data Model Extensions
+
+- Booking interface:
+
+- bookingType: 'FIRM_BOOKED' | 'REQUESTED'
+- status: BookingStatus
+- approvalRequired: boolean
+- confirmationTimestamp: Date
+- declineReason: string
+- suggestedAlternatives: TimeSlot[]
+- clientNotes: string
+- coachNotes: string
+- notifications: NotificationLog[]
+
+- AvailabilitySlot interface:
+
+- allowsFirmBooking: boolean
+- restrictions: BookingRestriction[]
+
+2.2 State Management
+
+- Use React Query for real-time data synchronization
+- Implement optimistic updates for better UX
+- Maintain booking request queue
+- Track booking status changes
+2.3 Real-time Updates
+
+- Socket.IO for immediate calendar updates
+- Event system for booking status changes
+- Real-time availability updates
+3. Additional Considerations and Questions
+3.1 Questions for Clarification
+
+- Should different session types have different booking rules?
+- How should recurring bookings be handled?
+- What is the cancellation policy and how does it affect firm bookings?
+- Should there be a waiting list system for popular time slots?
+- How should conflicts between simultaneous booking attempts be handled?
+3.2 Additional Features to Consider
+
+A. Waitlist Management
+
+- Allow clients to join waitlist for preferred times
+- Automatic notification when slot becomes available
+- Priority booking for waitlisted clients
+B. Smart Scheduling
+
+- AI-powered suggested times based on patterns
+- Automatic buffer time management
+- Time zone handling and DST adjustments
+C. Booking Rules Engine
+
+- Configurable rules per session type
+- Client relationship-based rules
+- Special handling for VIP clients
+D. Analytics and Reporting
+
+- Booking patterns analysis
+- Cancellation rate tracking
+- Popular time slot identification
+- Revenue forecasting
+E. Integration Points
+
+- Calendar sync (Google, Outlook)
+- Payment processing integration
+- Video conferencing setup
+- CRM system updates
+4. Implementation Phases
+4.1 Phase 1: Core Booking
+
+- Basic firm booking vs. request functionality
+- Essential notifications
+- Calendar updates
+- Basic validation
+4.2 Phase 2: Enhanced Features
+
+- Advanced notification system
+- Comprehensive validation rules
+- Conflict resolution
+- Alternative slot suggestions
+4.3 Phase 3: Optimization
+
+- Analytics integration
+- Smart scheduling
+- Waitlist management
+- Advanced reporting
+5. Best Practices
+5.1 Data Integrity
+
+- Implement transaction-based booking updates
+- Maintain audit logs for all changes
+- Regular data consistency checks
+5.2 Performance
+
+- Implement caching for availability data
+- Optimize real-time updates
+- Batch process notifications
+5.3 User Experience
+
+- Clear status indicators
+- Intuitive booking flow
+- Immediate feedback
+- Progressive loading of calendar data
+5.4 Security
+
+- Rate limiting for booking requests
+- Validation of all booking parameters
+- Security checks for calendar access
+- Privacy controls for booking details
+6. Recurring Booking System
+6.1 Pattern Management
+
+- RecurringPattern interface:
+
+- id: string
+- type: RecurringPatternType (WEEKLY, BIWEEKLY, MONTHLY, CUSTOM)
+- startDate: Date
+- endDate: Date
+- frequency: {
+interval: number
+daysOfWeek: number[]
+dayOfMonth: number
+specificDates: Date[]
+}
+- exceptions: {
+skippedDates: Date[]
+rescheduledSessions: {
+originalDate: Date
+newDate: Date
+}[]
+}
+- pricing: {
+basePrice: number
+packageDiscount: number
+depositAmount: number
+installmentOption: boolean
+}
+
+- RecurringBooking interface:
+
+- id: string
+- pattern: RecurringPattern
+- sessions: BookingSession[]
+- status: RecurringBookingStatus
+- paymentPlan: PaymentPlan
+- modifications: BookingModification[]
+- completedSessions: number
+- totalSessions: number
+- currentBookingIndex: number
+
+7. Waitlist Management
+7.1 Core Structures
+
+- WaitlistEntry interface:
+
+- id: string
+- userId: string
+- sessionType: SessionType
+- preferences: {
+specificSlot: Date
+timeRanges: TimeRange[]
+daysOfWeek: number[]
+recurringPreference: RecurringPreference
+}
+- priority: {
+baseScore: number
+connectionStatus: boolean
+bookingHistory: number
+cancellationRate: number
+waitlistHistory: number
+joinedAt: Date
+}
+- status: WaitlistStatus
+- offers: WaitlistOffer[]
+- notifications: WaitlistNotification[]
+- expiresAt: Date
+
+- WaitlistOffer interface:
+
+- id: string
+- slot: BookingSlot
+- offeredAt: Date
+- expiresAt: Date
+- status: 'pending' | 'accepted' | 'declined' | 'expired'
+- alternativeSlots: BookingSlot[]
+
+7.2 Priority Calculation
+
+- PriorityFactors interface:
+
+- connectionStatus: number (weight: 0.3)
+- bookingHistory: number (weight: 0.2)
+- cancellationRate: number (weight: -0.2)
+- waitingTime: number (weight: 0.15)
+- accountAge: number (weight: 0.1)
+- previousOffers: number (weight: 0.05)
+
+- PriorityScore interface:
+
+- total: number
+- factors: {
+[K in keyof PriorityFactors]: number
+}
+
+8. Notification System
+8.1 Notification Types
+
+- Enum NotificationType:
+
+- BOOKING_CREATED
+- BOOKING_CONFIRMED
+- BOOKING_CANCELLED
+- BOOKING_MODIFIED
+- WAITLIST_POSITION_UPDATED
+- WAITLIST_OFFER
+- RECURRING_PATTERN_MODIFIED
+- PAYMENT_REMINDER
+- SESSION_REMINDER
+- CANCELLATION_WINDOW_APPROACHING
+
+- NotificationTemplate interface:
+
+- type: NotificationType
+- channels: NotificationChannel[]
+- priority: NotificationPriority
+- templates: {
+email: {
+subject: string
+body: string
+}
+push: {
+title: string
+body: string
+}
+sms: string
+}
+- variables: string[]
+
+9. Background Workflows
+9.1 Booking Processing
+
+- BookingWorkflow interface:
+
+- steps: {
+availabilityCheck: boolean
+capacityValidation: boolean
+paymentProcessing: boolean
+confirmationSent: boolean
+calendarUpdated: boolean
+notificationsTriggered: boolean
+}
+- status: 'pending' | 'completed' | 'failed'
+- errors: WorkflowError[]
+- completedAt: Date
+
+- WaitlistWorkflow interface:
+
+- trigger: 'cancellation' | 'new_availability' | 'capacity_increase'
+- steps: {
+eligibleEntriesIdentified: boolean
+priorityCalculated: boolean
+offersCreated: boolean
+notificationsSent: boolean
+}
+- offers: WaitlistOffer[]
+- status: 'processing' | 'completed' | 'failed'
+
+10. Integration Points
+10.1 Calendar Integration
+
+- CalendarSync interface:
+
+- provider: 'google' | 'outlook' | 'ical'
+- settings: {
+twoWaySync: boolean
+privateDetails: boolean
+colorCoding: boolean
+notifications: boolean
+}
+- lastSync: Date
+- syncToken: string
+
+- ExternalCalendarEvent interface:
+
+- externalId: string
+- provider: string
+- details: {
+start: Date
+end: Date
+title: string
+description: string
+attendees: string[]
+}
+- lastUpdated: Date
+
+End-to-End Booking Process Documentation
+One-on-One Sessions
+1. Initial Booking Request
+typescriptCopyinterface OneOnOneBooking {
+  sessionType: '1on1';
+  bookingType: 'firm' | 'request';
+  status: BookingStatus;
+  client: {
+    userId: string;
+    connectionStatus: 'connected' | 'not_connected';
+  };
+  schedule: {
+    date: Date;
+    startTime: Time;
+    endTime: Time;
+    timezone: string;
+  };
+  price: {
+    baseAmount: number;
+    currency: string;
+    discount?: {
+      type: 'connection' | 'package' | 'promotion';
+      amount: number;
+    };
+  };
+}
+Process Flow:
+
+Client selects available time slot
+System Validations:
+
+Coach's firm booking settings
+Connection status check
+Time threshold verification
+Session limits check
+Buffer time validation
+Payment requirements
+Determination Process:
+typescriptCopyconst canFirmBook = 
+  coach.settings.allowFirmBooking &&
+  (client.isConnected || !coach.settings.requireApprovalNonConnected) &&
+  booking.startTime > (now + coach.settings.firmBookingThreshold);
+
+Booking Creation:
+
+For Firm Bookings:
+
+Create confirmed booking
+Process payment
+Remove availability slot
+Send confirmations
+Update calendars
+For Requests:
+
+Create pending booking
+Mark slot as tentative
+Send request to coach
+Start approval timer
+
+2. Notification Chain
+typescriptCopyinterface BookingNotification {
+  immediate: {
+    client: {
+      type: 'confirmation' | 'request_received';
+      channels: ['email', 'in_app', 'push'];
+    };
+    coach: {
+      type: 'new_booking' | 'approval_required';
+      channels: ['email', 'in_app', 'push'];
+    };
+  };
+  scheduled: {
+    preSession: {
+      timing: [24, 1]; // hours before
+      recipients: ['client', 'coach'];
+    };
+    postSession: {
+      timing: 1; // hour after
+      type: 'feedback_request';
+    };
+  };
+}
+Group Sessions
+1. Initial Booking
+typescriptCopyinterface GroupBooking {
+  sessionType: 'group';
+  status: BookingStatus.FIRM_BOOKED;
+  capacity: {
+    total: number;
+    booked: number;
+    available: number;
+    waitlist: number;
+  };
+  pricing: {
+    regular: number;
+    earlyBird?: {
+      price: number;
+      deadline: Date;
+      available: boolean;
+    };
+  };
+}
+Process Flow:
+
+Capacity Check:
+typescriptCopyconst bookingAvailable = 
+  currentBookings < session.capacity.total ||
+  (waitlist.enabled && 
+   waitlistCount < session.waitlist.maxSize);
+
+Price Determination:
+
+Check early bird eligibility
+Apply group discounts
+Process connection discounts
+Immediate Confirmation:
+
+No coach approval needed
+Automatic confirmation
+Payment processing
+Spot allocation
+Waitlist Handling:
+
+Activate if capacity reached
+Priority scoring
+Automated queue management
+
+2. Group-Specific Features
+typescriptCopyinterface GroupSessionFeatures {
+  materials: {
+    preSession: Document[];
+    postSession?: Document[];
+  };
+  interaction: {
+    groupChat: boolean;
+    participantList: boolean;
+    sharedResources: boolean;
+  };
+  notifications: {
+    groupUpdates: boolean;
+    materialAvailable: boolean;
+    sessionReminders: boolean;
+  };
+}
+Workshops
+1. Booking Process
+typescriptCopyinterface WorkshopBooking {
+  sessionType: 'workshop';
+  format: 'online' | 'in_person' | 'hybrid';
+  registration: {
+    phase: 'early_bird' | 'regular' | 'late';
+    deposit: {
+      required: boolean;
+      amount?: number;
+    };
+    capacity: {
+      total: number;
+      current: number;
+      minimum: number;
+    };
+  };
+}
+Process Flow:
+
+Initial Registration:
+
+Capacity verification
+Deposit handling
+Payment processing
+Material distribution
+Confirmation Stages:
+
+Immediate booking confirmation
+Minimum participants check
+Final confirmation deadline
+Pre-workshop communications
+Special Handling:
+typescriptCopyinterface WorkshopHandling {
+  preWorkshop: {
+    materialDistribution: Date;
+    confirmationDeadline: Date;
+    reminderSchedule: Date[];
+  };
+  postWorkshop: {
+    feedbackCollection: boolean;
+    certificateDistribution?: boolean;
+    recordingAccess?: {
+      duration: number;
+      format: string;
+    };
+  };
+}
+Common Backend Processes
+1. Availability Management
+typescriptCopyinterface AvailabilitySlot {
+  id: string;
+  startTime: Date;
+  endTime: Date;
+  sessionTypes: string[];
+  status: 'available' | 'tentative' | 'booked';
+  bookingId?: string;
+  lastUpdated: Date;
+}
+Process:
+
+Real-time availability updates
+Conflict prevention
+Buffer time management
+Timezone handling
+Calendar synchronization
+
+2. Payment Processing
+typescriptCopyinterface PaymentWorkflow {
+  type: 'immediate' | 'deposit' | 'installment';
+  status: 'pending' | 'completed' | 'failed';
+  amount: number;
+  method: 'card' | 'transfer' | 'wallet';
+  confirmation: {
+    id: string;
+    timestamp: Date;
+    receipt: string;
+  };
+}
+3. Notification System
+typescriptCopyinterface NotificationMatrix {
+  booking: {
+    created: NotificationConfig;
+    confirmed: NotificationConfig;
+    reminder: NotificationConfig;
+    cancelled: NotificationConfig;
+  };
+  payment: {
+    received: NotificationConfig;
+    pending: NotificationConfig;
+    failed: NotificationConfig;
+  };
+  system: {
+    errorAlert: NotificationConfig;
+    statusUpdate: NotificationConfig;
+  };
+}
+
+interface NotificationConfig {
+  channels: string[];
+  priority: number;
+  template: string;
+  delay?: number;
+}
+4. Error Handling
+typescriptCopyinterface ErrorManagement {
+  type: 'booking' | 'payment' | 'availability' | 'notification';
+  severity: 'low' | 'medium' | 'high' | 'critical';
+  response: {
+    userMessage: string;
+    systemAction: string;
+    retryPolicy?: RetryPolicy;
+    fallbackProcess?: string;
+  };
+  recovery: {
+    automatic: boolean;
+    steps: string[];
+    requiresSupport: boolean;
+  };
+}
+5. Analytics Tracking
+typescriptCopyinterface BookingAnalytics {
+  metrics: {
+    conversionRate: number;
+    cancellationRate: number;
+    utilizationRate: number;
+    waitlistConversion: number;
+  };
+  patterns: {
+    popularTimes: TimeSlot[];
+    peakDemand: Period[];
+    repeatBookings: number;
+  };
+  revenue: {
+    perSessionType: Record<SessionType, number>;
+    trends: TimeSeries;
+    projections: Forecast;
+  };
+}

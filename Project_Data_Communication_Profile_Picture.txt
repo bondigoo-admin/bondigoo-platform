@@ -1,0 +1,688 @@
+Technical Documentation: Data Flow and System Architecture
+1. Overview
+This document provides a detailed technical specification of the data flow and system architecture for our coaching platform. It covers the entire stack, from database interactions to frontend state management, with a focus on accurate representation of the current system and best practices for future development.
+
+2. System Architecture
+2.1 Tech Stack
+Frontend: React (Create React App)
+Backend: Express.js
+Database: MongoDB with Mongoose ODM
+Authentication: JSON Web Tokens (JWT)
+Real-time Communication: Socket.IO
+State Management: React Context API, React Query
+API Requests: Axios
+Internationalization: i18next
+File Storage: Cloudinary
+2.2 High-Level Architecture
+[Client (React)] <-> [API Layer (Express)] <-> [Database (MongoDB)]
+         ^                    ^
+         |                    |
+         v                    v
+[Socket.IO Client]  <->  [Socket.IO Server]
+3. Database Connection
+The dbConnect.js file manages the MongoDB connection using Mongoose:
+
+const mongoose = require('mongoose');
+require('dotenv').config();
+
+const connectDB = async (env = 'development') => {
+  const connectionString = process.env.MONGODB_URI;
+
+  try {
+    await mongoose.connect(connectionString, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+    console.log(`MongoDB Connected: ${mongoose.connection.host}`);
+    console.log(`Database Name: ${mongoose.connection.name}`);
+    
+    const collections = await mongoose.connection.db.listCollections().toArray();
+    console.log('Available collections:', collections.map(c => c.name));
+    
+    console.log('Mongoose connection state:', mongoose.connection.readyState);
+  } catch (error) {
+    console.error('Error connecting to MongoDB:', error);
+    process.exit(1);
+  }
+};
+
+module.exports = connectDB;
+4. API Layer
+4.1 Server Configuration (server.js)
+The server.js file sets up the Express server, configures middleware, and mounts routes:
+
+const express = require('express');
+const cors = require('cors');
+const cookieParser = require('cookie-parser');
+const connectDB = require('./dbConnect');
+const userRoutes = require('./routes/userRoutes');
+const coachRoutes = require('./routes/coachRoutes');
+const bookingRoutes = require('./routes/bookingRoutes');
+
+const app = express();
+
+app.use(cors());
+app.use(express.json());
+app.use(cookieParser());
+
+// Routes with '/api' prefix
+app.use('/api/users', userRoutes);
+app.use('/api/coaches', coachRoutes);
+app.use('/api/bookings', bookingRoutes);
+
+connectDB();
+
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+4.2 Route Structure
+Routes are organized by entity and follow RESTful principles. The /api prefix is added in server.js, so individual route files don't include it.
+
+Example (bookingRoutes.js):
+
+const express = require('express');
+const router = express.Router();
+const bookingController = require('../controllers/bookingController');
+const { auth } = require('../middleware/auth');
+
+// These routes will be prefixed with '/api/bookings'
+router.post('/', auth, bookingController.createBooking);
+router.get('/:userId', auth, bookingController.getBookings);
+router.put('/:bookingId', auth, bookingController.updateBooking);
+router.delete('/:bookingId', auth, bookingController.deleteBooking);
+
+module.exports = router;
+
+Important Note: The /api prefix is managed in two places:
+1. In server.js for route mounting
+2. In the axios baseURL configuration
+
+When creating API endpoints:
+- Route files should NOT include '/api' prefix
+- API service calls should NOT include '/api' prefix
+- Example correct usage:
+  - Route definition: router.get('/prices/config/:userId', ...)
+  - API call: api.get('/prices/config/${userId}')
+4.3 Controller Structure
+Controllers handle the business logic for each route. They interact with the database through Mongoose models.
+
+Example (bookingController.js):
+
+const Booking = require('../models/Booking');
+const Coach = require('../models/Coach');
+
+exports.createBooking = async (req, res) => {
+  try {
+    const { userId, coachId, start, end } = req.body;
+    const coach = await Coach.findOne({ user: coachId });
+    if (!coach) {
+      return res.status(404).json({ message: 'Coach not found' });
+    }
+    
+    const newBooking = new Booking({
+      user: userId,
+      coach: coach._id,
+      start,
+      end
+    });
+    
+    await newBooking.save();
+    res.status(201).json(newBooking);
+  } catch (error) {
+    res.status(500).json({ message: 'Server error', error: error.message });
+  }
+};
+
+// Other CRUD operations...
+5. Data Models
+5.1 Mongoose Schema Definitions
+Example (Booking.js):
+
+const mongoose = require('mongoose');
+
+const BookingSchema = new mongoose.Schema({
+  user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  coach: { type: mongoose.Schema.Types.ObjectId, ref: 'Coach', required: true },
+  start: { type: Date, required: true },
+  end: { type: Date, required: true },
+  status: { type: String, enum: ['pending', 'confirmed', 'cancelled'], default: 'pending' },
+}, { timestamps: true });
+
+module.exports = mongoose.model('Booking', BookingSchema);
+6. Frontend Data Flow
+6.1 API Service Layer
+The API service layer (e.g., bookingAPI.js) handles communication between the frontend and backend:
+
+import api from './api';
+
+export const createBooking = async (bookingDetails) => {
+  try {
+    const response = await api.post('/api/bookings', bookingDetails);
+    return response.data;
+  } catch (error) {
+    console.error('Error creating booking:', error);
+    throw error;
+  }
+};
+
+// Other API calls...
+6.2 React Query for Data Fetching
+Use React Query for efficient data fetching and caching:
+
+import { useQuery, useMutation, useQueryClient } from 'react-query';
+import * as bookingAPI from '../services/bookingAPI';
+
+export const useBookings = (userId) => {
+  return useQuery(['bookings', userId], () => bookingAPI.getBookings(userId));
+};
+
+export const useCreateBooking = () => {
+  const queryClient = useQueryClient();
+  return useMutation(bookingAPI.createBooking, {
+    onSuccess: () => {
+      queryClient.invalidateQueries('bookings');
+    },
+  });
+};
+6.3 Context for Global State
+Use React Context for managing global state (e.g., AuthContext.js):
+
+import React, { createContext, useState, useEffect, useCallback } from 'react';
+import api from '../services/api';
+
+export const AuthContext = createContext();
+
+export const AuthProvider = ({ children }) => {
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const checkAuthStatus = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        if (!token) {
+          setLoading(false);
+          return;
+        }
+    
+        const response = await api.get('/api/users/me');
+        setUser(response.data);
+      } catch (error) {
+        console.error('Failed to get user data:', error);
+        setUser(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+  
+    checkAuthStatus();
+  }, []);
+
+  // Other authentication methods...
+
+  return (
+    <AuthContext.Provider value={{ user, setUser, loading /* other values */ }}>
+      {children}
+    </AuthContext.Provider>
+  );
+};
+
+6.4 Price Configuration Flow
+
+Price Configuration Request Flow:
+1. Frontend PricingSection component mounts
+2. usePricingData hook executes
+3. getPriceConfiguration API call is made
+4. Backend route handles auth and coach validation
+5. PriceConfiguration model is queried
+6. Default configuration is created if none exists
+
+Key Components:
+- Frontend: PricingSection.js
+- Hook: usePricingData.js
+- API Service: priceAPI.js
+- Backend Route: priceRoutes.js
+- Controller: priceController.js
+- Model: PriceConfiguration.js
+
+Common Issues & Solutions:
+1. Loading State Issues
+   - Ensure React Query is properly configured
+   - Check enabled condition in useQuery
+   - Verify userId availability
+   
+2. Authorization Issues
+   - Token must be in localStorage
+   - Token must be included in API headers
+   - User must be coach or admin role
+
+3. Data Creation
+   - New coaches need default price configuration
+   - Default values should match DEFAULT_PRICE_VALUES
+   - Coach document must exist before price configuration
+
+6.5 Delete Operations Pattern
+
+When implementing delete operations, follow these guidelines:
+
+1. API Endpoints:
+   - Use dedicated DELETE endpoints instead of PATCH with null values
+   - Follow pattern: `router.delete('/resource/:userId/:resourceId', [auth, isCoach])`
+
+2. Controller Pattern:
+   - Use MongoDB transactions for delete operations
+   - Filter existing items instead of setting fields to null
+   - Update metadata (like version numbers) after deletions
+   Example:
+   ```javascript
+   exports.removeResource = async (req, res) => {
+     const session = await mongoose.startSession();
+     session.startTransaction();
+     try {
+       const { userId, resourceId } = req.params;
+       const config = await Configuration.findOne({ user: userId }).session(session);
+       config.resources = config.resources.filter(r => r._id.toString() !== resourceId);
+       config.metadata.version += 1;
+       config.metadata.lastCalculation = new Date();
+       await config.save({ session });
+       await session.commitTransaction();
+       res.json(config);
+     } catch (error) {
+       await session.abortTransaction();
+       throw error;
+     } finally {
+       session.endSession();
+     }
+   };
+
+   Frontend Mutation Pattern:
+javascriptCopyconst deleteMutation = useMutation(
+  (resourceId) => deleteResource(userId, resourceId),
+  {
+    onMutate: async (resourceId) => {
+      await queryClient.cancelQueries(['config', userId]);
+      const previousConfig = queryClient.getQueryData(['config', userId]);
+      
+      // Optimistic update
+      queryClient.setQueryData(['config', userId], old => ({
+        ...old,
+        resources: old.resources.filter(r => r._id !== resourceId)
+      }));
+
+      return { previousConfig };
+    },
+    onError: (error, _, context) => {
+      queryClient.setQueryData(['config', userId], context.previousConfig);
+    }
+  }
+);
+
+State Cleanup:
+
+Clear related states after successful deletions
+Use useEffect cleanup for unmounting
+Handle loading states for deletions separately from updates
+
+
+
+Copy
+2. Add a Validation section:
+```markdown
+4.4 Route Validation Patterns
+
+When implementing route validation:
+
+1. Conditional Validation:
+   ```javascript
+   router.patch('/resource/:id', [
+     auth,
+     check('data').custom((value, { req }) => {
+       if (req.body.action === 'delete') {
+         return true;
+       }
+       if (!value || !value.amount) {
+         throw new Error('Data is required for non-delete actions');
+       }
+       return true;
+     }),
+     validateRequest
+   ]);
+
+Common Validation Middleware:
+javascriptCopyconst validateRequest = (req, res, next) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+  next();
+};
+
+Frontend Validation States:
+
+Track validation errors per item
+Clear validation states after successful operations
+Handle edit mode and validation states together
+
+7. User Identification
+All users (including coaches) are primarily identified by their User model _id, referred to as userId.
+The Coach model has a one-to-one relationship with the User model, using the user field to reference the User _id.
+When querying for coach data, always use { user: userId } instead of { _id: coachId }.
+Example (coachController.js):
+
+exports.getCoachProfile = async (req, res) => {
+  try {
+    const coach = await Coach.findOne({ user: req.params.userId })
+      .populate('user', '-password');
+    if (!coach) {
+      return res.status(404).json({ message: 'Coach not found' });
+    }
+    res.json(coach);
+  } catch (error) {
+    res.status(500).json({ message: 'Server error', error: error.message });
+  }
+};
+8. Real-time Communication
+8.1 Socket.IO Configuration
+Server-side configuration (socketConfig.js):
+
+const socketIo = require('socket.io');
+
+const configureSocket = (server) => {
+  const io = socketIo(server, {
+    cors: {
+      origin: process.env.ALLOWED_ORIGINS?.split(',') || ["http://localhost:3000", "http://localhost:5000"],
+      methods: ["GET", "POST", "PUT", "DELETE"],
+      credentials: true
+    },
+    path: '/socket.io',
+    transports: ['websocket', 'polling']
+  });
+
+  io.on('connection', (socket) => {
+    console.log('New client connected');
+    
+    // Event listeners...
+  });
+
+  return io;
+};
+
+module.exports = { configureSocket };
+Client-side usage:
+
+import io from 'socket.io-client';
+
+const socket = io(process.env.REACT_APP_API_URL, {
+  withCredentials: true,
+});
+
+export default socket;
+9. Error Handling and Logging
+Implement consistent error handling and logging across the application:
+
+const logger = require('../utils/logger');
+
+// In API calls
+try {
+  // API operation
+} catch (error) {
+  logger.error('Operation failed', { error: error.message, stack: error.stack });
+  throw error;
+}
+
+// In components
+const { data, error, isLoading } = useQuery(...);
+
+if (isLoading) return <LoadingSpinner />;
+if (error) return <ErrorMessage message={error.message} />;
+
+10. Authentication and Authorization
+10.1 JWT Authentication
+Implement JWT-based authentication:
+
+const jwt = require('jsonwebtoken');
+
+// Generate token
+const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1d' });
+
+// Verify token middleware
+const auth = (req, res, next) => {
+  const token = req.header('Authorization')?.replace('Bearer ', '');
+  if (!token) return res.status(401).json({ message: 'No token, authorization denied' });
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    req.user = decoded;
+    next();
+  } catch (error) {
+    res.status(401).json({ message: 'Token is not valid' });
+  }
+};
+10.2 Role-based Authorization
+Implement role-based access control (checkRole.js):
+
+const checkRole = (...roles) => {
+  return (req, res, next) => {
+    if (!req.user) {
+      return res.status(401).json({ message: 'Unauthorized' });
+    }
+    if (!roles.includes(req.user.role)) {
+      return res.status(403).json({ message: 'Access denied' });
+    }
+    next();
+  };
+};
+
+module.exports = checkRole;
+Usage in routes:
+
+router.get('/admin-only', auth, checkRole('admin'), adminController.adminAction);
+
+11. Profile Picture Fetching and Display
+11.1 Data Model Considerations
+- **User Model (`User.js`):** Contains a `profilePicture` field:
+  ```javascript
+  profilePicture: {
+    url: String,
+    publicId: String
+  }
+Use code with caution.
+This stores the general profile picture for any user.
+Coach Model (Coach.js): Contains a profilePicture field:
+profilePicture: {
+  url: String,
+  publicId: String
+}
+Use code with caution.
+JavaScript
+This stores a specific profile picture for a user in their capacity as a coach. It can be different from their general User.profilePicture.
+Coach Model Link to User: The Coach model also has a user field that references the User model:
+user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true }
+Use code with caution.
+JavaScript
+11.2 Backend API Population Strategy (Mongoose)
+When fetching data that includes user or coach information where profile pictures are needed, the backend controllers must correctly populate these fields.
+Fetching a User's Profile Picture:
+When a User document is fetched (e.g., for a client in a booking, or a participant in a conversation), directly populate its profilePicture field.
+// Example: Populating a client user in a booking
+const booking = await Booking.findById(bookingId)
+  .populate({
+    path: 'user', // 'user' field in Booking model
+    select: 'firstName lastName email profilePicture' // Include profilePicture
+  });
+// Access: booking.user.profilePicture.url
+Use code with caution.
+JavaScript
+Fetching a Coach's Profile Pictures:
+A "coach" entity involves two potential profile pictures:
+Their coach-specific picture (from Coach.profilePicture).
+Their general user picture (from the User model linked via Coach.user.profilePicture).
+When a Booking's coach field (which refs 'User') is populated, it gives the User document of the coach. To get the coach-specific picture, a subsequent query or a more complex initial population is needed if the Booking model directly referenced Coach instead of User for the coach field.
+Scenario 1: Booking.coach refs User (Current Setup based on bookingController.js)
+This is the current setup as per the latest bookingController.js correction.
+// In bookingController.js, getBooking function:
+const booking = await Booking.findById(bookingId)
+  .populate({
+    path: 'coach', // This is the User document of the coach
+    select: 'firstName lastName email profilePicture role' 
+  })
+  .populate({ /* ... other populates ... */ });
+
+// Then, to get the Coach-specific picture:
+let coachSpecificProfilePicture = null;
+if (booking.coach && booking.coach.role === 'coach') {
+  const coachProfile = await Coach.findOne({ user: booking.coach._id })
+    .select('profilePicture')
+    .lean();
+  coachSpecificProfilePicture = coachProfile?.profilePicture;
+}
+// `booking.coach.profilePicture` will be the general User picture for the coach.
+// `coachSpecificProfilePicture` will be the Coach model's picture.
+Use code with caution.
+JavaScript
+Scenario 2: Booking.coach refs Coach (Alternative, if schema changes)
+If the Booking model's coach field referenced the Coach model directly:
+// In Booking.js:
+// coach: { type: mongoose.Schema.Types.ObjectId, ref: 'Coach', required: true },
+
+// Then in bookingController.js:
+const booking = await Booking.findById(bookingId)
+  .populate({
+    path: 'coach', // This is the Coach document
+    select: 'profilePicture user', // Get coach-specific picture and the user ref
+    populate: {
+      path: 'user', // Populate the User document linked to the Coach
+      select: 'profilePicture firstName lastName' // Get general user picture
+    }
+  });
+// Access:
+// Coach-specific: booking.coach.profilePicture.url
+// General User pic for coach: booking.coach.user.profilePicture.url
+Use code with caution.
+JavaScript
+Current system uses Scenario 1 for getBookingDetails.
+Messaging Components (Example messageController.js for getConversations):
+When fetching conversations, each participant needs their picture.
+// Simplified example from messageService.js or controller
+const conversations = await Conversation.find({ participants: userId })
+  .populate({
+    path: 'participants', // This is an array of User refs
+    select: 'firstName lastName email profilePicture role'
+  })
+  // ... other populates ...
+
+// Then, for each participant, if they are a coach, fetch their Coach.profilePicture
+for (const conv of conversations) {
+  for (const participant of conv.participants) {
+    if (participant.role === 'coach') {
+      const coachProfile = await Coach.findOne({ user: participant._id })
+        .select('profilePicture')
+        .lean();
+      participant.coachProfilePicture = coachProfile?.profilePicture; 
+    }
+  }
+}
+// Access for a participant `p`:
+// General User pic: p.profilePicture.url
+// Coach-specific pic (if p is coach): p.coachProfilePicture.url
+Use code with caution.
+JavaScript
+This two-step fetch (User, then Coach if applicable) is a common pattern if you need both general user data and role-specific data from different collections.
+11.3 Frontend Display Logic (BookingDetailsModal.js example)
+The frontend component should prioritize which picture to display based on the context and available data.
+// In BookingDetailsModal.js -> renderParticipants function
+
+// For each participant `p` in `bookingParticipants`:
+// `p.data` is the populated object (either a Coach object from booking.coach or User object from booking.user)
+
+let profilePictureUrl = '';
+let sourceOfPicture = 'none'; // For logging
+
+if (p.isBookingCoach) {
+    // p.data is the User document for the coach, obtained from booking.coach
+    // coachProfileData is the separately fetched Coach document for this user
+    
+    // Prioritize the coach-specific picture from the Coach model
+    if (coachProfileData?.profilePicture?.url) {
+        profilePictureUrl = coachProfileData.profilePicture.url;
+        sourceOfPicture = 'Coach.profilePicture.url (fetched separately)';
+    } 
+    // Fallback to the general profile picture from the User model (for the coach)
+    else if (p.data.profilePicture?.url) {
+        profilePictureUrl = p.data.profilePicture.url;
+        sourceOfPicture = 'User.profilePicture.url (for coach user)';
+    }
+    logger.debug(`[BookingDetailsModal] Coach (${p.data._id}) picture selection:`, {
+        coachProfileData_profilePicture_url: coachProfileData?.profilePicture?.url,
+        p_data_profilePicture_url: p.data.profilePicture?.url, // p.data is User doc for coach
+        chosenUrl: profilePictureUrl,
+        sourceOfPicture
+    });
+} else {
+    // p.data is the User document for the client
+    if (p.data.profilePicture?.url) {
+        profilePictureUrl = p.data.profilePicture.url;
+        sourceOfPicture = 'User.profilePicture.url (for client)';
+    }
+     logger.debug(`[BookingDetailsModal] Client (${p.data._id}) picture selection:`, {
+        p_data_profilePicture_url: p.data.profilePicture?.url,
+        chosenUrl: profilePictureUrl,
+        sourceOfPicture
+    });
+}
+
+// Use profilePictureUrl in <AvatarImage src={profilePictureUrl} />
+Use code with caution.
+JavaScript
+This logic in BookingDetailsModal.js (as per the last correction for getBooking) combined with the corrected backend population in bookingController.js (also from the last correction) will correctly display profile pictures by:
+Fetching the User document for the coach via Booking.coach.
+Separately fetching the Coach document for that coach to get Coach.profilePicture.
+Fetching the User document for the client via Booking.user.
+Prioritizing Coach.profilePicture.url for the coach's avatar, falling back to User.profilePicture.url (of the coach's user document) if the former isn't available.
+Using User.profilePicture.url for the client's avatar.
+11.4 Debugging Profile Picture Issues:
+Backend Check:
+Verify Mongoose schema refs (ref: 'User', ref: 'Coach') are correct in Booking.js, Coach.js.
+In the relevant controller (e.g., bookingController.js for getBookingDetails), ensure .populate() statements are correctly structured to fetch profilePicture fields from both User and Coach (if applicable) models.
+Use console.log or logger.debug in the controller after population to inspect the structure of the data being sent to the frontend. Specifically check booking.coach.profilePicture, booking.coach.user.profilePicture (if attempting nested), and booking.user.profilePicture.
+Frontend Check:
+In the component receiving the data (e.g., BookingDetailsModal.js), console.log or logger.debug the entire bookingData prop upon arrival.
+Drill down into bookingData.coach and bookingData.user to inspect the profilePicture (and coachProfilePicture if you've mapped it) objects and their url properties.
+Ensure the src prop of <AvatarImage /> is receiving a valid URL string.
+Check the browser's network tab to see if image requests are being made and if they are successful (200 OK) or failing (404 Not Found, 403 Forbidden, etc.).
+Check browser console for any Cross-Origin Resource Sharing (CORS) errors if images are hosted on a different domain.
+
+11.5 The Canonical Coach Data Pattern (A Best Practice)
+
+**[1] Recurring Challenge & Source of Friction:**
+Across the platform, a recurring and significant development bottleneck has been the inconsistent fetching and display of coach profile pictures. The core issue stems from the dual-data model for a coach:
+1.  A `User` document containing general information (`firstName`, `lastName`, `profilePicture`).
+2.  A `Coach` document containing coach-specific information (`specialties`, `bio`, and the crucial `coachProfilePicture`).
+
+Different API endpoints have returned slightly different data structures for the "coach" object, forcing the frontend to handle multiple fallbacks and conditional logic, leading to bugs and wasted time. The `ProgramCard` component worked correctly because its backend controller provided the right data structure, while dashboard components failed because their controller did not.
+
+**[2] The Golden Rule: A Standardized Coach Data Transfer Object (DTO):**
+To eliminate this ambiguity permanently, all backend controllers that return coach information **MUST** construct and send a standardized "Coach DTO". This object is the single source of truth for what a "coach" looks like to the frontend.
+
+The canonical Coach DTO structure is:
+
+```javascript
+{
+  // --- Fields from the User Model ---
+  _id: "66d9cdcb0a7492a86482bd68", // The User ID
+  firstName: "Dominic",
+  lastName: "Frei Coach",
+  role: "coach",
+  status: "online",
+  profilePicture: { // The GENERAL user profile picture
+    url: "https://.../user_generic_pic.jpg",
+    publicId: "..."
+  },
+
+  // --- Fields from the Coach Model ---
+  coachProfilePicture: { // The COACH-SPECIFIC profile picture
+    url: "https://.../coach_professional_pic.jpg",
+    publicId: "..."
+  },
+  
+  // ... other enriched data like specialties, etc.
+}

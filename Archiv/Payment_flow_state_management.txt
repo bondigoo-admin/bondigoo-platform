@@ -1,0 +1,1110 @@
+Key Issues Refined:
+
+State Management Fragmentation
+
+
+PaymentOrchestrator, PaymentStatusService, and PaymentFlowService have overlapping responsibilities
+Unclear state ownership and synchronization
+Missing central state coordination
+
+
+Socket Management Problems
+
+
+Multiple competing socket connections
+Poor socket lifecycle management and cleanup
+Connection pool not effectively utilized
+
+
+Component/Flow Lifecycle Issues
+
+
+Premature unmounting of PaymentFlow
+Flow state not properly preserved during transitions
+Missing clear handoff between booking and payment states
+
+
+Payment Status Tracking
+
+
+Status updates not reliably propagated
+Missing robust error recovery
+Polling and socket updates not properly coordinated
+
+Implementation Plan:
+Phase 1: State Management Refactor (Week 1)
+
+Consolidate State Management:
+
+// Update PaymentOrchestrator to work with existing PaymentStatusService
+class PaymentOrchestratorService {
+  async initializePayment(config) {
+    // Initialize using existing status service
+    const statusState = await PaymentStatusService.initializePaymentFlow(
+      config.bookingId,
+      {
+        amount: config.amount,
+        currency: config.currency
+      },
+      config.metadata
+    );
+
+    await PaymentSocketService.ensureConnection();
+    return statusState;
+  }
+
+  // Remove all state management methods, use PaymentStatusService directly
+  async updateFlow(flowId, status) {
+    return PaymentStatusService.updateFlowState(flowId, status);
+  }
+
+  subscribeToFlow(flowId, callback) {
+    return PaymentStatusService.subscribeToState(flowId, callback);
+  }
+}
+
+Create clear service boundaries:
+
+javascriptCopy// PaymentOrchestrator becomes thin orchestration layer
+class PaymentOrchestrator {
+  constructor() {
+    this.stateManager = new PaymentStateManager();
+    this.statusService = new PaymentStatusService();
+    this.socketManager = new PaymentSocketManager();
+  }
+
+  async initializePayment(config) {
+    const flowId = await this.stateManager.createFlow(config);
+    await this.socketManager.initializeSocket(flowId);
+    await this.statusService.startTracking(flowId);
+    return flowId;
+  }
+}
+Phase 2: Socket Architecture (Week 1)
+
+Implement robust socket management:
+
+javascriptCopyclass PaymentSocketManager {
+  constructor() {
+    this.poolManager = new SocketPoolManager();
+    this.activeConnections = new Map();
+    this.connectionStates = new Map();
+  }
+
+  async getConnection(flowId) {
+    if (this.activeConnections.has(flowId)) {
+      return this.activeConnections.get(flowId);
+    }
+
+    const connection = await this.poolManager.acquireConnection(flowId);
+    this.activeConnections.set(flowId, connection);
+    return connection;
+  }
+}
+
+Socket state synchronization:
+
+javascriptCopy// Add socket state tracking
+class SocketStateTracker {
+  constructor(socketManager) {
+    this.socketManager = socketManager;
+    this.states = new Map();
+  }
+
+  trackState(flowId, state) {
+    this.states.set(flowId, {
+      state,
+      timestamp: new Date().toISOString(),
+      retryCount: 0
+    });
+  }
+}
+Phase 3: Component Lifecycle (Week 2)
+
+Enhance PaymentFlow component:
+
+javascriptCopyfunction PaymentFlow({ bookingId, amount, currency }) {
+  const [mountState, setMountState] = useState('mounting');
+  const flowIdRef = useRef(null);
+
+  useEffect(() => {
+    if (!bookingId) return;
+    
+    const initialize = async () => {
+      try {
+        setMountState('initializing');
+        const flow = await PaymentOrchestrator.initializePayment({
+          bookingId, amount, currency
+        });
+        
+        flowIdRef.current = flow.id;
+        setMountState('ready');
+      } catch (error) {
+        setMountState('error');
+      }
+    };
+
+    initialize();
+
+    return () => {
+      if (flowIdRef.current) {
+        PaymentOrchestrator.preserveFlow(flowIdRef.current);
+      }
+    };
+  }, [bookingId]);
+
+  // Rest of component...
+}
+
+Add flow preservation:
+
+javascriptCopy// Add to PaymentOrchestrator
+async preserveFlow(flowId, reason = 'component_unmount') {
+  const flow = await this.stateManager.getFlow(flowId);
+  if (!flow) return;
+
+  await this.stateManager.preserveState(flowId, {
+    reason,
+    preservedAt: new Date().toISOString(),
+    recoveryWindow: 5 * 60 * 1000 // 5 minutes
+  });
+}
+Phase 4: Status Management (Week 2)
+
+Enhance status tracking:
+
+javascriptCopyclass EnhancedStatusService {
+  constructor() {
+    this.statusTrackers = new Map();
+    this.pollingManager = new PollingManager();
+  }
+
+  async startTracking(flowId, options = {}) {
+    const tracker = new StatusTracker(flowId);
+    await tracker.initialize(options);
+    
+    this.statusTrackers.set(flowId, tracker);
+    await this.pollingManager.startPolling(flowId);
+    
+    return tracker;
+  }
+}
+
+Implement robust error recovery:
+
+javascriptCopyclass StatusTracker {
+  constructor(flowId) {
+    this.flowId = flowId;
+    this.retryStrategy = new ExponentialRetry();
+    this.errorHandler = new ErrorRecoveryHandler();
+  }
+
+  async handleError(error) {
+    const recovery = await this.errorHandler.handleError(error);
+    if (recovery.shouldRetry) {
+      await this.retryStrategy.execute(() => this.refresh());
+    }
+  }
+}
+
+class PaymentStatusService {
+  async _attemptStateRecovery(bookingId) {
+    const preservedState = this.paymentStates.get(bookingId);
+    if (!preservedState?.preservedAt) return;
+
+    try {
+      const currentStatus = await paymentAPI.getPaymentStatus(bookingId);
+      if (currentStatus) {
+        // Merge preserved state with current status
+        const recoveredState = {
+          ...preservedState,
+          status: currentStatus.state,
+          recovered: true,
+          lastUpdated: new Date().toISOString()
+        };
+        
+        this._updatePaymentState(bookingId, recoveredState);
+        return recoveredState;
+      }
+    } catch (error) {
+      logger.error('[PaymentStatusService] Recovery failed:', {
+        bookingId,
+        error: error.message,
+        timestamp: new Date().toISOString()
+      });
+    }
+  }
+}
+
+CURRENT ARCHITECTURE OVERVIEW:
+
+Current Architecture Overview
+The system has multiple layers of state management:
+
+Frontend Level:
+
+
+PaymentContext (React Context)
+PaymentOrchestrator (Service layer)
+PaymentStatusService (State management)
+PaymentFlowService (Flow coordination)
+PaymentSocketService (Real-time updates)
+
+
+Backend Level:
+
+
+paymentController (Main payment logic)
+paymentService (Payment processing)
+stripeService (Stripe integration)
+UnifiedNotificationService (Notifications)
+
+State Management Points
+
+Payment Flow States:
+
+Copy- INITIAL
+- CREATING_BOOKING
+- PAYMENT_PENDING
+- PAYMENT_PROCESSING
+- COMPLETED
+- FAILED
+
+Modal States:
+
+Copy- BOOKING
+- PAYMENT_PENDING
+- PAYMENT_ACTIVE
+- PAYMENT_COMPLETE
+- PAYMENT_FAILED
+
+Payment Steps:
+
+Copy- SESSION
+- METHOD
+- REVIEW
+- PROCESSING
+- CONFIRMATION
+Key State Transitions (from logs):
+plaintextCopyBOOKING -> PAYMENT_PENDING
+  - Flow initialization
+  - Socket connection establishment
+  - Price validation
+
+PAYMENT_PENDING -> PAYMENT_ACTIVE
+  - Payment method selection
+  - Intent creation
+  - Client secret generation
+
+PAYMENT_ACTIVE -> PAYMENT_PROCESSING
+  - Payment confirmation
+  - Socket status monitoring
+  - Backend validation
+
+PAYMENT_PROCESSING -> COMPLETED/FAILED
+  - Stripe confirmation
+  - Database updates
+  - Notification dispatch
+Current Issues Identified from Logs:
+
+Flow Synchronization:
+
+Copy[UserBookingModal] Flow synchronization failed: {"error":"Cannot read properties of undefined (reading 'set')"}
+
+State Cleanup:
+
+Copy[PaymentSocket] Existing connection invalid: {"error":"Ping timeout"...}
+
+Flow Management:
+
+Copy[PaymentOrchestrator] Flow not found: {"requestedId":"67a4ae5e2653b594adfbf0e5"...}
+
+1. STATE TRANSITION DIAGRAM
+mermaidCopystateDiagram-v2
+    [*] --> INITIAL: Initialize Payment
+    
+    state PaymentFlow {
+        INITIAL --> PRE_BOOKING: Start Booking
+        PRE_BOOKING --> PAYMENT_PENDING: Booking Created
+        PAYMENT_PENDING --> PAYMENT_ACTIVE: Payment Method Selected
+        PAYMENT_ACTIVE --> PAYMENT_PROCESSING: Payment Submitted
+        PAYMENT_PROCESSING --> COMPLETED: Success
+        PAYMENT_PROCESSING --> FAILED: Error
+        
+        state PreservationState <<fork>>
+        PAYMENT_PENDING --> PreservationState: Component Unmount
+        PreservationState --> PAYMENT_PENDING: Component Remount
+        
+        state ErrorRecovery <<choice>>
+        FAILED --> ErrorRecovery: Check Recovery
+        ErrorRecovery --> PAYMENT_PENDING: Recoverable
+        ErrorRecovery --> [*]: Non-recoverable
+    }
+    
+    state SocketConnection {
+        DISCONNECTED --> CONNECTING
+        CONNECTING --> CONNECTED
+        CONNECTED --> MONITORING
+        MONITORING --> DISCONNECTED: Connection Lost
+        
+        state Retry <<fork>>
+        DISCONNECTED --> Retry: Check Retries
+        Retry --> CONNECTING: Within Limits
+        Retry --> ERROR: Max Retries
+    }
+    
+    state PaymentStatus {
+        INITIALIZED --> REQUIRES_PAYMENT
+        REQUIRES_PAYMENT --> PROCESSING
+        PROCESSING --> REQUIRES_ACTION: 3D Secure
+        REQUIRES_ACTION --> PROCESSING: Authentication
+        PROCESSING --> SUCCEEDED
+        PROCESSING --> FAILED: Error
+    }
+2. STATE TRACKING POINTS
+
+Frontend State Management
+
+typescriptCopyinterface PaymentState {
+  flowId: string;
+  bookingId: string;
+  status: PaymentStatus;
+  modalState: ModalState;
+  step: PaymentStep;
+  timestamps: {
+    initialized: string;
+    lastUpdated: string;
+    lastSync: string;
+  };
+  metadata: {
+    preserveOnUnmount: boolean;
+    recoveryAttempts: number;
+    socketConnected: boolean;
+  };
+}
+
+Backend State Management
+
+typescriptCopyinterface PaymentRecord {
+  bookingId: string;
+  status: PaymentStatus;
+  stripe: {
+    paymentIntentId: string;
+    clientSecret: string;
+    chargeId?: string;
+  };
+  amount: {
+    base: number;
+    final: number;
+    currency: string;
+  };
+  timestamps: {
+    created: string;
+    updated: string;
+    completed?: string;
+  };
+  recovery: {
+    attempts: number;
+    lastAttempt: string;
+    error?: string;
+  };
+}
+3. SYNCHRONIZATION POINTS
+
+Critical Sync Points:
+
+typescriptCopyconst SYNC_POINTS = {
+  BOOKING_CREATION: {
+    trigger: 'booking_confirmed',
+    services: ['PaymentOrchestrator', 'PaymentStatusService']
+  },
+  PAYMENT_METHOD_SELECTION: {
+    trigger: 'method_selected',
+    services: ['PaymentStatusService', 'PaymentSocketService']
+  },
+  PAYMENT_SUBMISSION: {
+    trigger: 'payment_submitted',
+    services: ['PaymentOrchestrator', 'PaymentStatusService', 'Backend']
+  },
+  STATE_RECOVERY: {
+    trigger: 'component_remount',
+    services: ['PaymentStatusService', 'PaymentSocketService']
+  }
+};
+
+Data Flow Checkpoints:
+
+typescriptCopyinterface SyncCheckpoint {
+  type: 'state' | 'socket' | 'payment';
+  timestamp: string;
+  data: {
+    flowId: string;
+    status: string;
+    version: number;
+  };
+  validation: {
+    stateValid: boolean;
+    socketConnected: boolean;
+    dataConsistent: boolean;
+  };
+}
+4. ERROR RECOVERY PATHS
+
+Error Categories and Recovery:
+
+typescriptCopyconst ERROR_RECOVERY = {
+  SOCKET_DISCONNECT: {
+    maxRetries: 3,
+    backoffStrategy: 'exponential',
+    recovery: 'reconnect_socket'
+  },
+  STATE_MISMATCH: {
+    maxRetries: 2,
+    backoffStrategy: 'linear',
+    recovery: 'sync_state'
+  },
+  PAYMENT_FAILURE: {
+    maxRetries: 1,
+    backoffStrategy: 'none',
+    recovery: 'revert_to_method_selection'
+  },
+  COMPONENT_UNMOUNT: {
+    preservation: true,
+    ttl: 300000, // 5 minutes
+    recovery: 'restore_preserved_state'
+  }
+};
+
+Recovery Flow:
+
+typescriptCopyinterface RecoveryFlow {
+  error: PaymentError;
+  context: {
+    flowId: string;
+    lastKnownState: PaymentState;
+    recoveryAttempt: number;
+  };
+  strategy: {
+    type: RecoveryType;
+    timeout: number;
+    fallback?: RecoveryType;
+  };
+  result: {
+    successful: boolean;
+    newState?: PaymentState;
+    error?: string;
+  };
+}
+5. MONITORING POINTS
+
+Key Metrics:
+
+typescriptCopyconst MONITORING_POINTS = {
+  STATE_TRANSITIONS: {
+    metric: 'time_between_states',
+    threshold: 5000 // ms
+  },
+  SOCKET_HEALTH: {
+    metric: 'connection_stability',
+    threshold: 95 // percentage
+  },
+  ERROR_RATES: {
+    metric: 'errors_per_minute',
+    threshold: 5
+  },
+  RECOVERY_SUCCESS: {
+    metric: 'recovery_success_rate',
+    threshold: 90 // percentage
+  }
+};
+
+DETAILS PHASE 1
+
+Target End State
+
+Service Responsibilities:
+
+CopyPaymentOrchestrator
+├── Flow Management & Coordination
+├── State Transitions
+└── Service Communication
+
+PaymentStatusService
+├── Payment Status Source of Truth
+├── Status Tracking
+└── State History
+
+PaymentSocketService
+├── Real-time Updates
+└── Connection Management
+
+Information Flow:
+
+CopyUserBookingModal → PaymentOrchestrator
+                     ↓
+    PaymentStatusService ←→ PaymentSocketService
+                     ↓ 
+                  UI Updates
+Phase 1 Implementation Plan
+
+Clean Up (Day 1):
+
+
+Remove state management from PaymentOrchestrator
+Remove redundant tracking in PaymentFlowService
+Remove duplicate status tracking in PaymentFlow component
+
+
+PaymentOrchestrator Updates (Day 2):
+
+javascriptCopyclass PaymentOrchestratorService {
+  async initializePayment(config) {
+    // Initialize status tracking first
+    const statusState = await PaymentStatusService.initializePaymentFlow(
+      config.bookingId,
+      {
+        amount: config.amount,
+        currency: config.currency
+      },
+      config.metadata
+    );
+
+    // Ensure socket connection
+    await PaymentSocketService.ensureConnection();
+
+    return {
+      flowId: statusState.id,
+      status: statusState.status,
+      ...statusState
+    };
+  }
+
+async updateFlowState(flowId, status) {
+  const current = this.paymentStates.get(flowId);
+  if (current.version !== status.version) {
+    throw new VersionConflictError('State version mismatch');
+  }
+  this.paymentStates.set(flowId, {
+    ...status,
+    version: current.version + 1
+  });
+}
+
+  subscribeToFlow(flowId, callback) {
+    return PaymentStatusService.subscribeToState(flowId, callback);
+  }
+}
+
+Update Component Integration (Day 3):
+
+javascriptCopy// UserBookingModal.js
+const handleConfirm = async () => {
+  const flow = await PaymentOrchestrator.initializePayment({
+    bookingId,
+    amount,
+    currency,
+    metadata: {
+      confirmationId,
+      preserveOnUnmount: true
+    }
+  });
+
+  // Create booking
+  const booking = await onConfirm({
+    ...bookingDetails,
+    payment: {
+      flowId: flow.id,
+      status: flow.status
+    }
+  });
+};
+
+Remove Redundant Code (Day 4):
+
+
+PaymentOrchestrator:
+
+Remove internal state maps
+Remove status tracking
+Remove flow state management
+Keep only coordination logic
+
+
+PaymentFlowService:
+
+Remove status tracking
+Remove state management
+Keep only flow-specific logic
+
+
+
+
+Testing & Validation (Day 5):
+
+
+Test full payment flow
+Validate status tracking
+Test component unmounting/remounting
+Verify error handling
+Test socket integration
+
+DETAILS PHASE 2:
+
+Phase 2: Socket Architecture & Connection Management
+Target End State
+CopyPaymentSocketService
+├── Single Connection per Payment Flow
+├── Managed through SocketPoolManager
+└── Reliable Status Updates
+
+Information Flow:
+UserBookingModal → PaymentOrchestrator → PaymentSocketService
+Payment Status Updates ← Socket Events ← Backend
+                     ↓
+      PaymentStatusService → UI Updates
+Implementation Plan
+
+Clean Up Existing Socket Implementation (Day 1):
+
+
+Remove socket initialization from PaymentOrchestrator
+Remove socket handling from PaymentFlow component
+Remove redundant socket setup in UserBookingModal
+
+
+Enhance PaymentSocketService (Day 2):
+
+javascriptCopyclass PaymentSocketManager {
+  async ensureConnection() {
+    if (this.isConnecting) {
+      return this.connectionPromise;
+    }
+
+    this.isConnecting = true;
+    try {
+      await this._initializeConnection();
+      this._setupEventHandlers();
+      this._setupHeartbeat();
+      return true;
+    } catch (error) {
+      logger.error('[PaymentSocket] Connection failed:', {
+        error: error.message,
+        timestamp: new Date().toISOString()
+      });
+      throw error;
+    } finally {
+      this.isConnecting = false;
+    }
+  }
+
+  subscribeToPayment(paymentId, callbacks) {
+    return this._ensureUniqueOperation(`subscribe:${paymentId}`, async () => {
+      const connected = await this.ensureConnection();
+      if (!connected) throw new Error('Socket connection failed');
+
+      const roomJoined = await this._attemptRoomJoin(paymentId);
+      
+      Object.entries(callbacks).forEach(([event, callback]) => {
+        this._registerEventCallback(paymentId, event, callback);
+      });
+
+      return () => this.unsubscribeFromPayment(paymentId);
+    });
+  }
+}
+
+Update Socket Event Handling (Day 3):
+
+javascriptCopy// Enhance existing socket event handlers
+_setupEventHandlers() {
+  this.socket.on('payment_status_update', (data) => {
+    const { paymentId, status } = data;
+    PaymentStatusService.updateState(paymentId, status);
+  });
+
+  this.socket.on('payment_error', (error) => {
+    logger.error('[PaymentSocket] Payment error:', {
+      error: error.message,
+      timestamp: new Date().toISOString()
+    });
+    PaymentStatusService.handleError(error.paymentId, error);
+  });
+}
+
+Integrate SocketPoolManager (Day 4):
+
+javascriptCopy// Enhance existing SocketPoolManager
+class SocketPoolManager {
+  async acquireConnection(paymentId) {
+    const connection = await this._getOrCreateConnection(paymentId);
+    await this._joinPaymentRoom(connection, paymentId);
+    return connection;
+  }
+
+  async releaseConnection(paymentId) {
+    const connection = this.activeConnections.get(paymentId);
+    if (connection) {
+      await this._leavePaymentRoom(connection, paymentId);
+      this._handleConnectionRelease(connection);
+    }
+  }
+}
+
+Backend Socket Updates (Day 5):
+
+javascriptCopy// Update server-side socket configuration
+const handlePaymentEvents = (socket) => {
+  socket.on('join_payment', async (data) => {
+    const { roomId } = data;
+    await socket.join(roomId);
+    
+    // Emit current payment status immediately after join
+    const status = await PaymentService.getStatus(roomId);
+    socket.emit('payment_status_update', status);
+  });
+};
+Code to Remove:
+
+From PaymentOrchestrator:
+
+javascriptCopy// Remove socket initialization
+private async _setupSocket() {...}
+private _handleSocketEvents() {...}
+
+From PaymentFlow:
+
+javascriptCopy// Remove direct socket handling
+useEffect(() => {
+  const socket = initSocket();
+  socket.on('payment_update', handleUpdate);
+}, []);
+
+From UserBookingModal:
+
+javascriptCopy// Remove socket subscription logic
+usePaymentSocket(bookingId);
+
+
+
+
+
+
+
+DETAILS PHASE 3:
+
+Phase 3: Component Lifecycle & Flow Preservation
+Target End State
+CopyUserBookingModal → PaymentFlow Component
+                     ↓
+PaymentOrchestrator ←→ PaymentStatusService
+                     ↓
+        Status Updates → UI Components
+
+Flow States:
+PRE_BOOKING → PAYMENT_PENDING → PAYMENT_ACTIVE → COMPLETED
+       ↑_______________preservation_______________↓
+Implementation Plan
+
+Clean Up Component Lifecycle (Day 1):
+Remove from PaymentFlow:
+
+javascriptCopy// Remove state management
+const [mountState, setMountState] = useState('mounting');
+const [paymentState, setPaymentState] = useState(null);
+const [localState, setLocalState] = useState({});
+Remove from UserBookingModal:
+javascriptCopy// Remove flow management
+const [flowState, setFlowState] = useState(PAYMENT_FLOW_STATES.INITIAL);
+const [orchestratorState, setOrchestratorState] = useState(null);
+
+Update PaymentFlow Component (Day 2):
+
+javascriptCopyfunction PaymentFlow({ bookingId, amount, currency }) {
+  const paymentStatus = usePaymentStatus(bookingId);
+  
+  useEffect(() => {
+    if (!bookingId) return;
+    
+    const unsubscribe = PaymentStatusService.subscribeToState(
+      bookingId,
+      (state) => {
+        logger.info('[PaymentFlow] Status update:', {
+          bookingId,
+          status: state.status,
+          timestamp: new Date().toISOString()
+        });
+      }
+    );
+
+    return () => {
+      unsubscribe();
+      if (paymentStatus?.preserveOnUnmount) {
+        PaymentStatusService.preserveState(bookingId);
+      }
+    };
+  }, [bookingId]);
+
+  // Rest of component rendering logic
+}
+
+Enhance UserBookingModal Integration (Day 3):
+
+javascriptCopyfunction UserBookingModal({ bookingData, onConfirm }) {
+  const paymentStatus = usePaymentStatus(bookingData?._id);
+
+  const handleConfirmBooking = async () => {
+    try {
+      // Initialize payment status first
+      await PaymentStatusService.initializePaymentFlow(
+        bookingData._id,
+        priceDetails,
+        { preserveOnUnmount: true }
+      );
+
+      // Create booking
+      const booking = await onConfirm({
+        ...bookingDetails,
+        payment: {
+          status: 'pending'
+        }
+      });
+
+      // Update payment status after booking creation
+      await PaymentStatusService.updateFlowState(booking._id, {
+        status: 'payment_pending',
+        metadata: { bookingId: booking._id }
+      });
+
+    } catch (error) {
+      handlePaymentError(error);
+    }
+  };
+
+  // Render based on payment status
+  return (
+    <Modal>
+      {paymentStatus?.status === 'payment_pending' && (
+        <PaymentFlow
+          bookingId={bookingData._id}
+          amount={priceDetails.amount}
+          currency={priceDetails.currency}
+        />
+      )}
+    </Modal>
+  );
+}
+
+Status Preservation Enhancement (Day 4):
+
+// Enhanced preservation in PaymentStatusService
+class PaymentStatusService {
+  preserveState(bookingId) {
+    const state = this.paymentStates.get(bookingId);
+    if (!state?.preserveOnUnmount) return;
+
+    const snapshot = {
+      ...state,
+      preservedAt: new Date().toISOString(),
+      transitions: [...(state.updates || [])],
+      checkpoint: this.priceCache.get(bookingId),
+      metadata: {
+        lastStatus: state.status,
+        lastUpdate: state.lastUpdated,
+        priceState: this.priceCache.get(bookingId)
+      }
+    };
+
+    this.paymentStates.set(bookingId, snapshot);
+
+    // Add recovery handler
+    this._setupRecoveryTimeout(bookingId);
+  }
+
+  _setupRecoveryTimeout(bookingId) {
+    const RECOVERY_TIMEOUT = 5 * 60 * 1000; // 5 minutes
+    setTimeout(async () => {
+      await this._attemptStateRecovery(bookingId);
+    }, RECOVERY_TIMEOUT);
+  }
+}
+
+Testing & Error Handling (Day 5):
+
+
+
+
+DETAILS PHASE 4:
+
+Phase 4: Status Management & Error Recovery
+Target End State
+CopyPaymentStatusService (Single Source of Truth)
+├── Status Management
+├── Error Recovery
+└── Polling + Socket Updates Combined
+
+Information Flow:
+Payment Status Change → PaymentStatusService
+         ↓                      ↓
+    Socket Event        Status Poll Result
+         ↓                      ↓
+    Status Update → Subscribers → UI
+Implementation Plan
+
+Consolidate Status Tracking (Day 1)
+
+javascriptCopy// Enhance PaymentStatusService
+class PaymentStatusService {
+  async _executePollCycle(bookingId) {
+    const state = this.paymentStates.get(bookingId);
+    if (!state) return;
+
+    try {
+      const status = await paymentAPI.getPaymentStatus(bookingId);
+      
+      const cachedPrice = this.priceCache.get(bookingId);
+      if (cachedPrice) {
+        status.amount = cachedPrice.amount;
+        status.currency = cachedPrice.currency;
+      }
+
+      this._updatePaymentState(bookingId, status);
+      this._notifySubscribers(bookingId, status);
+
+      if (this._isTerminalState(status.state)) {
+        this.stopPolling(bookingId);
+      }
+    } catch (error) {
+      await this._handlePollingError(bookingId, error);
+    }
+  }
+
+  async _handlePollingError(bookingId, error) {
+    const state = this.paymentStates.get(bookingId);
+    state.retryCount = (state.retryCount || 0) + 1;
+    state.lastError = error.message;
+
+    if (state.retryCount >= this.pollingConfig.maxAttempts) {
+      this.stopPolling(bookingId);
+      return;
+    }
+
+    // Implement exponential backoff
+    const interval = Math.min(
+      this.pollingConfig.baseInterval * Math.pow(2, state.retryCount),
+      this.pollingConfig.maxInterval
+    );
+
+    await this._scheduleNextPoll(bookingId, interval);
+  }
+}
+
+Remove Redundant Status Tracking (Day 2)
+From PaymentOrchestrator:
+
+javascriptCopy// Remove
+_updatePaymentStatus() {...}
+_handleStatusChange() {...}
+pollStatus() {...}
+From PaymentFlow:
+javascriptCopy// Remove
+const [status, setStatus] = useState(null);
+useEffect(() => { // Remove status polling
+  const pollInterval = setInterval...
+}, []);
+
+Enhance Error Recovery (Day 3)
+
+javascriptCopy// Add to PaymentStatusService
+class PaymentStatusService {
+  async _handleStatusError(bookingId, error) {
+    const state = this.paymentStates.get(bookingId);
+    if (!state) return;
+
+    logger.error('[PaymentStatusService] Status error:', {
+      bookingId,
+      error: error.message,
+      currentState: state.status,
+      retryCount: state.retryCount || 0,
+      timestamp: new Date().toISOString()
+    });
+
+    // Update state with error
+    const updatedState = {
+      ...state,
+      lastError: {
+        message: error.message,
+        timestamp: new Date().toISOString(),
+        recoverable: error.recoverable !== false
+      },
+      retryCount: (state.retryCount || 0) + 1
+    };
+
+    this.paymentStates.set(bookingId, updatedState);
+    this._notifySubscribers(bookingId, updatedState);
+
+    // Handle recovery if possible
+    if (updatedState.lastError.recoverable) {
+      await this._initiateErrorRecovery(bookingId);
+    }
+  }
+
+  async _initiateErrorRecovery(bookingId) {
+    const state = this.paymentStates.get(bookingId);
+    if (!state || state.retryCount >= this.pollingConfig.maxAttempts) {
+      return;
+    }
+
+    // Exponential backoff for recovery attempts
+    const delay = Math.min(
+      this.pollingConfig.baseInterval * Math.pow(2, state.retryCount),
+      this.pollingConfig.maxInterval
+    );
+
+    setTimeout(async () => {
+      await this._executePollCycle(bookingId);
+    }, delay);
+  }
+}
+
+Status Synchronization (Day 4)
+
+javascriptCopy// Add to PaymentStatusService
+class PaymentStatusService {
+  _updatePaymentState(bookingId, status) {
+    const currentState = this.paymentStates.get(bookingId);
+    if (!currentState) return;
+
+    const priceDetails = this.priceCache.get(bookingId);
+    const updatedState = {
+      ...currentState,
+      status: status.state,
+      lastUpdated: new Date().toISOString(),
+      amount: priceDetails?.final || currentState.amount,
+      currency: priceDetails?.currency || currentState.currency,
+      updates: [...currentState.updates, {
+        status: status.state,
+        timestamp: new Date().toISOString()
+      }]
+    };
+
+    this.paymentStates.set(bookingId, updatedState);
+    this._notifySubscribers(bookingId, updatedState);
+  }
+
+  subscribeToState(bookingId, callback) {
+    if (!this.subscribers.has(bookingId)) {
+      this.subscribers.set(bookingId, new Set());
+    }
+    
+    const subscribers = this.subscribers.get(bookingId);
+    subscribers.add(callback);
+
+    // Send initial state
+    const state = this.getPaymentState(bookingId);
+    if (state) {
+      callback(state);
+    }
+
+    return () => this._removeSubscriber(bookingId, callback);
+  }
+}

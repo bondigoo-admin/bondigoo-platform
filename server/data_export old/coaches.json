@@ -1,0 +1,312 @@
+[
+  {
+    "_id": "66d9cdcb0a7492a86482bd6a",
+    "user": "66d9cdcb0a7492a86482bd68",
+    "specialties": [],
+    "languages": [],
+    "methodologies": [],
+    "bio": "test.coach2@example.comtest.coach2@example.comtest.coach2@example.com",
+    "settings": {
+      "allowFirmBooking": true,
+      "firmBookingThreshold": 24,
+      "cancellationPolicy": 24,
+      "bufferTime": 15,
+      "timeZone": "UTC",
+      "sessionTypes": [],
+      "bufferTimeBetweenSessions": 15,
+      "maxAdvanceBookingDays": 30,
+      "minNoticeForBooking": 24
+    },
+    "reviews": [],
+    "sessions": [],
+    "education": [],
+    "createdAt": "2024-09-05T15:27:07.541Z",
+    "updatedAt": "2024-10-05T05:42:45.486Z",
+    "__v": 219,
+    "packages": [],
+    "rates": [
+      {
+        "sessionType": "oneOnOne",
+        "amount": 150,
+        "currency": "USD",
+        "_id": "66db15869d2b4c8c160014dd"
+      },
+      {
+        "sessionType": "group",
+        "amount": 60,
+        "currency": "USD",
+        "_id": "66db15b89d2b4c8c160014f4"
+      }
+    ],
+    "liveStatus": "offline",
+    "status": "pending",
+    "achievements": [],
+    "coachingStyles": [],
+    "educationLevels": [],
+    "rating": 0,
+    "skills": [],
+    "profilePicture": {
+      "publicId": "profile_picture_cuvee5",
+      "url": "https://res.cloudinary.com/dzpjkn8eo/image/upload/v1726506932/profile_picture_cuvee5.jpg"
+    },
+    "videoIntroduction": {
+      "publicId": "Test_Video_Jack_km1jzl",
+      "url": "https://res.cloudinary.com/dzpjkn8eo/video/upload/v1726485218/Test_Video_Jack_km1jzl.mp4",
+      "duration": 103.282358
+    },
+    "headline": "Best coach in the world for your needs and wishes",
+    "availability": {
+      "availability": [
+        {
+          "start": "2024-09-22T11:02:12.192Z",
+          "end": "2024-09-22T12:02:12.192Z",
+          "recurringPattern": "none",
+          "_id": "66effb2ab88c4604d37e65a2"
+        },
+        {
+          "start": "2024-09-24T11:30:00.000Z",
+          "end": "2024-09-24T12:02:12.000Z",
+          "recurringPattern": "none",
+          "_id": "66effb2ab88c4604d37e65a3"
+        }
+      ]
+    }
+  },
+  {
+    "_id": "66fbe443af6e5fe3198d22ed",
+    "user": "66fbe443af6e5fe3198d22eb",
+    "specialties": [],
+    "languages": [],
+    "educationLevels": [],
+    "achievements": [],
+    "coachingStyles": [],
+    "skills": [],
+    "bio": "Starke Expertise im Bereich Chemie und Sekunderschule",
+    "rating": 0,
+    "reviews": [],
+    "status": "pending",
+    "settings": {
+      "allowFirmBooking": true,
+      "firmBookingThreshold": 24,
+      "cancellationPolicy": 24,
+      "bufferTime": 15,
+      "bufferTimeBetweenSessions": 15,
+      "maxAdvanceBookingDays": 30,
+      "minNoticeForBooking": 24,
+      "timeZone": "UTC",
+      "sessionTypes": []
+    },
+    "liveStatus": "offline",
+    "education": [],
+    "packages": [],
+    "createdAt": "2024-10-01T12:00:03.710Z",
+    "updatedAt": "2024-10-01T12:23:26.132Z",
+    "__v": 0,
+    "profilePicture": {
+      "publicId": "profile_picture_y0wapg",
+      "url": "https://res.cloudinary.com/dzpjkn8eo/image/upload/v1727785405/profile_picture_y0wapg.jpg"
+    }
+  },
+  {
+    "_id": "66fbea16bb1aa6e7e257e728",
+    "user": "66fbea16bb1aa6e7e257e726",
+    "specialties": [
+      "66e2bff9616218a1d7678fc8"
+    ],
+    "languages": [
+      {
+        "language": "66e4153848cdfa73ee74db5e",
+        "strength": "fluent",
+        "_id": "66ffa8c944d0fc8e6b4f199c"
+      }
+    ],
+    "educationLevels": [],
+    "achievements": [],
+    "coachingStyles": [],
+    "skills": [],
+    "bio": "Office Management and Life Coach with strong motivational skills",
+    "rating": 0,
+    "reviews": [],
+    "status": "pending",
+    "settings": {
+      "allowFirmBooking": true,
+      "firmBookingThreshold": 24,
+      "cancellationPolicy": 24,
+      "bufferTime": 15,
+      "bufferTimeBetweenSessions": 15,
+      "maxAdvanceBookingDays": 30,
+      "minNoticeForBooking": 24,
+      "timeZone": "UTC",
+      "sessionTypes": []
+    },
+    "liveStatus": "offline",
+    "education": [],
+    "packages": [],
+    "createdAt": "2024-10-01T12:24:54.315Z",
+    "updatedAt": "2024-10-04T08:35:21.715Z",
+    "__v": 4,
+    "profilePicture": {
+      "publicId": "profile_picture_ezq00j",
+      "url": "https://res.cloudinary.com/dzpjkn8eo/image/upload/v1727857268/profile_picture_ezq00j.jpg"
+    },
+    "headline": "Strong leadership and management skills. Worlds best boss."
+  },
+  {
+    "_id": "66fceae8aa08bb09188eeb7f",
+    "user": "66fceae8aa08bb09188eeb7d",
+    "specialties": [],
+    "educationLevels": [],
+    "achievements": [],
+    "coachingStyles": [],
+    "skills": [],
+    "bio": "",
+    "rating": 0,
+    "reviews": [],
+    "status": "pending",
+    "settings": {
+      "allowFirmBooking": true,
+      "firmBookingThreshold": 24,
+      "cancellationPolicy": 24,
+      "bufferTime": 15,
+      "bufferTimeBetweenSessions": 15,
+      "maxAdvanceBookingDays": 30,
+      "minNoticeForBooking": 24,
+      "timeZone": "UTC",
+      "sessionTypes": []
+    },
+    "liveStatus": "offline",
+    "languages": [],
+    "education": [],
+    "packages": [],
+    "createdAt": "2024-10-02T06:40:40.310Z",
+    "updatedAt": "2024-10-02T06:43:05.434Z",
+    "__v": 0,
+    "profilePicture": {
+      "publicId": "profile_picture_wg37nx",
+      "url": "https://res.cloudinary.com/dzpjkn8eo/image/upload/v1727851249/profile_picture_wg37nx.jpg"
+    },
+    "headline": "Motivational coach for everything life throws at you."
+  },
+  {
+    "_id": "66fcec87aa08bb09188eebf5",
+    "user": "66fcec87aa08bb09188eebf3",
+    "specialties": [
+      "66e2bff9616218a1d7678f90"
+    ],
+    "educationLevels": [],
+    "achievements": [],
+    "coachingStyles": [
+      "66e4158648cdfa73ee74db87"
+    ],
+    "skills": [],
+    "bio": "",
+    "rating": 0,
+    "reviews": [],
+    "status": "pending",
+    "settings": {
+      "allowFirmBooking": true,
+      "firmBookingThreshold": 24,
+      "cancellationPolicy": 24,
+      "bufferTime": 15,
+      "bufferTimeBetweenSessions": 15,
+      "maxAdvanceBookingDays": 30,
+      "minNoticeForBooking": 24,
+      "timeZone": "UTC",
+      "sessionTypes": []
+    },
+    "liveStatus": "offline",
+    "languages": [
+      {
+        "language": "66e4153848cdfa73ee74db5e",
+        "strength": "native",
+        "_id": "66fcecbfaa08bb09188eec53"
+      },
+      {
+        "language": "66e4154f48cdfa73ee74db68",
+        "strength": "fluent",
+        "_id": "66fcecbfaa08bb09188eec54"
+      }
+    ],
+    "education": [],
+    "packages": [],
+    "createdAt": "2024-10-02T06:47:35.432Z",
+    "updatedAt": "2024-10-02T06:48:37.591Z",
+    "__v": 9,
+    "profilePicture": {
+      "publicId": "profile_picture_iexxm1",
+      "url": "https://res.cloudinary.com/dzpjkn8eo/image/upload/v1727851666/profile_picture_iexxm1.jpg"
+    },
+    "headline": "Spiritual guidance and palm reading are my passion"
+  },
+  {
+    "_id": "66fced13aa08bb09188eec6c",
+    "user": "66fced13aa08bb09188eec6a",
+    "specialties": [],
+    "educationLevels": [],
+    "achievements": [],
+    "coachingStyles": [],
+    "skills": [],
+    "bio": "",
+    "rating": 0,
+    "reviews": [],
+    "status": "pending",
+    "settings": {
+      "allowFirmBooking": true,
+      "firmBookingThreshold": 24,
+      "cancellationPolicy": 24,
+      "bufferTime": 15,
+      "bufferTimeBetweenSessions": 15,
+      "maxAdvanceBookingDays": 30,
+      "minNoticeForBooking": 24,
+      "timeZone": "UTC",
+      "sessionTypes": []
+    },
+    "liveStatus": "offline",
+    "languages": [],
+    "education": [],
+    "packages": [],
+    "createdAt": "2024-10-02T06:49:55.656Z",
+    "updatedAt": "2024-10-02T06:50:45.528Z",
+    "__v": 0,
+    "profilePicture": {
+      "publicId": "profile_picture_lgfwf5",
+      "url": "https://res.cloudinary.com/dzpjkn8eo/image/upload/v1727851806/profile_picture_lgfwf5.jpg"
+    },
+    "headline": "My passion is helping HR representatives to coach their team to success"
+  },
+  {
+    "_id": "6704338e1edbda2b46c20d47",
+    "user": "6704338e1edbda2b46c20d45",
+    "specialties": [],
+    "educationLevels": [],
+    "achievements": [],
+    "coachingStyles": [],
+    "skills": [],
+    "bio": "",
+    "rating": 0,
+    "reviews": [],
+    "status": "pending",
+    "settings": {
+      "allowFirmBooking": true,
+      "firmBookingThreshold": 24,
+      "cancellationPolicy": 24,
+      "bufferTime": 15,
+      "bufferTimeBetweenSessions": 15,
+      "maxAdvanceBookingDays": 30,
+      "minNoticeForBooking": 24,
+      "timeZone": "UTC",
+      "sessionTypes": []
+    },
+    "liveStatus": "offline",
+    "languages": [],
+    "education": [],
+    "packages": [],
+    "createdAt": "2024-10-07T19:16:30.654Z",
+    "updatedAt": "2024-10-07T19:25:16.776Z",
+    "__v": 0,
+    "profilePicture": {
+      "publicId": "profile_picture_wndmlx",
+      "url": "https://res.cloudinary.com/dzpjkn8eo/image/upload/v1728329116/profile_picture_wndmlx.jpg"
+    }
+  }
+]

@@ -1,0 +1,221 @@
+[AdminFinancialService] Starting refund process. {
+  paymentId: '68d3c124bda6fd5f1e83e03b',
+  amount: 82.5,
+  policyType: 'standard',
+  initiatorId: '66e14ffc23926b28138a89f8',
+  hasSession: false
+}
+[AdminFinancialService] ==> processRefund START {
+  paymentId: '68d3c124bda6fd5f1e83e03b',
+  amount: 82.5,
+  policyType: 'standard',
+  initiatorId: '66e14ffc23926b28138a89f8',
+  hasSession: false
+}
+[PaymentService:processRefund] Processing refund: {
+  paymentIntentId: 'pi_3SApUUHKNqVBSHKU0fmjWbpN',
+  amountDecimal: 82.5,
+  currency: 'CHF',
+  reason: 'Platform Refund: test 12:01'
+}
+[PaymentService:processRefund] Refund processed successfully: {
+  refundId: 're_3SApUUHKNqVBSHKU07E2Jii5',
+  paymentIntentId: 'pi_3SApUUHKNqVBSHKU0fmjWbpN',
+  status: 'succeeded',
+  amountRefundedCents: 8250,
+  currency: 'chf'
+}
+[AdminFinancialService] Calculated Debit for Coach 66d9cdcb0a7492a86482bd68: 63.94 CHF {
+  paymentId: '68d3c124bda6fd5f1e83e03b',
+  amount: 82.5,
+  policyType: 'standard',
+  initiatorId: '66e14ffc23926b28138a89f8',
+  hasSession: false
+}
+[AdminFinancialService] DATA INTEGRITY UPDATE: Payment 68d3c124bda6fd5f1e83e03b refunded field updated from 0 to 82.5. {
+  paymentId: '68d3c124bda6fd5f1e83e03b',
+  amount: 82.5,
+  policyType: 'standard',
+  initiatorId: '66e14ffc23926b28138a89f8',
+  hasSession: false
+}
+[AdminFinancialService] Handling PRE-PAYOUT case. Payout status: 'pending'. {
+  paymentId: '68d3c124bda6fd5f1e83e03b',
+  amount: 82.5,
+  policyType: 'standard',
+  initiatorId: '66e14ffc23926b28138a89f8',
+  hasSession: false
+}
+[AdminFinancialService] Payment 68d3c124bda6fd5f1e83e03b fully refunded pre-payout. Status set to not_applicable. {
+  paymentId: '68d3c124bda6fd5f1e83e03b',
+  amount: 82.5,
+  policyType: 'standard',
+  initiatorId: '66e14ffc23926b28138a89f8',
+  hasSession: false
+}
+debug: [UnifiedNotificationService] Populated booking data: {"hasCoach":true,"hasSessionType":true,"hasUser":true,"id":"68d3c123bda6fd5f1e83e033","status":"confirmed","timestamp":"2025-09-24T10:01:50.702Z"}
+[NotificationModel] Pre-validate hook: {
+  type: 'refund_processed_coach',
+  category: 'payment',
+  metadata: {
+    bookingId: new ObjectId('68d3c123bda6fd5f1e83e033'),
+    liveSessionId: null,
+    sessionId: undefined,
+    reviewId: undefined,
+    programId: undefined,
+    lessonId: undefined,
+    additionalData: {
+      bookingId: new ObjectId('68d3c123bda6fd5f1e83e033'),
+      paymentId: new ObjectId('68d3c124bda6fd5f1e83e03b'),
+      refundAmount: 82.5,
+      currency: 'CHF',
+      coachDebitAmount: 63.94,
+      isPostPayout: false,
+      startTime: 2025-09-25T10:00:00.000Z,
+      endTime: 2025-09-25T10:30:00.000Z,
+      bookingType: 'firm',
+      status: 'confirmed',
+      requiresAction: undefined,
+      validActions: undefined
+    }
+  }
+}
+[NotificationModel] Processing new notification: new ObjectId('68d3c18ebda6fd5f1e83ea47')
+[SocketNotificationService] Emitting booking notification: {
+  notificationId: new ObjectId('68d3c18ebda6fd5f1e83ea47'),
+  type: 'refund_processed_coach',
+  recipients: 1,
+  bookingId: new ObjectId('68d3c123bda6fd5f1e83e033')
+}
+[UnifiedNotificationService] Sending email notification: {
+  type: 'refund_processed_coach',
+  recipientType: undefined,
+  hasRecipient: false
+}
+[UnifiedNotificationService] Email notification details: {
+  recipientEmail: 'test.user2@example.com',
+  senderName: 'Dominic Frei Coach',
+  type: 'refund_processed_coach',
+  start: 2025-09-25T10:00:00.000Z,
+  end: 2025-09-25T10:30:00.000Z
+}
+[NotificationModel] Pre-validate hook: {
+  type: 'refund_processed_client',
+  category: 'payment',
+  metadata: {
+    bookingId: new ObjectId('68d3c123bda6fd5f1e83e033'),
+    liveSessionId: null,
+    sessionId: undefined,
+    reviewId: undefined,
+    programId: undefined,
+    lessonId: undefined,
+    additionalData: {
+      bookingId: new ObjectId('68d3c123bda6fd5f1e83e033'),
+      paymentId: new ObjectId('68d3c124bda6fd5f1e83e03b'),
+      refundAmount: 82.5,
+      currency: 'CHF',
+      startTime: 2025-09-25T10:00:00.000Z,
+      endTime: 2025-09-25T10:30:00.000Z,
+      bookingType: 'firm',
+      status: 'confirmed',
+      requiresAction: undefined,
+      validActions: undefined
+    }
+  }
+}
+[NotificationModel] Processing new notification: new ObjectId('68d3c18ebda6fd5f1e83ea4a')
+[SocketNotificationService] Emitting booking notification: {
+  notificationId: new ObjectId('68d3c18ebda6fd5f1e83ea4a'),
+  type: 'refund_processed_client',
+  recipients: 1,
+  bookingId: new ObjectId('68d3c123bda6fd5f1e83e033')
+}
+[UnifiedNotificationService] Sending email notification: {
+  type: 'refund_processed_client',
+  recipientType: undefined,
+  hasRecipient: false
+}
+[UnifiedNotificationService] Email notification details: {
+  recipientEmail: 'test.user2@example.com',
+  senderName: 'Dominic Frei Coach',
+  type: 'refund_processed_client',
+  start: 2025-09-25T10:00:00.000Z,
+  end: 2025-09-25T10:30:00.000Z
+}
+[AdminFinancialService] Refund process completed successfully. {
+  paymentId: '68d3c124bda6fd5f1e83e03b',
+  amount: 82.5,
+  policyType: 'standard',
+  initiatorId: '66e14ffc23926b28138a89f8',
+  hasSession: false
+}
+[AdminFinancialService] ==> processRefund END | Payment status: refunded {
+  paymentId: '68d3c124bda6fd5f1e83e03b',
+  amount: 82.5,
+  policyType: 'standard',
+  initiatorId: '66e14ffc23926b28138a89f8',
+  hasSession: false
+}
+POST /api/admin/refunds/execute/68d3c124bda6fd5f1e83e03b 200 2350.844 ms - 5951
+debug: [auth] Decoded token: {"user":{"id":"66e14ffc23926b28138a89f8","role":"admin","version":0},"iat":1758708086,"exp":1758794486} {"timestamp":"2025-09-24T10:01:50.808Z"}
+info: [auth] User authenticated: 66e14ffc23926b28138a89f8 {"timestamp":"2025-09-24T10:01:50.834Z"}
+GET /api/admin/payments?page=1&limit=10&search= 200 116.278 ms - 6751
+
+stripe credit note: "Credit note
+
+cn_1SApWCHKNqVBSHKU88warUfa
+44BD2B44-0061-CN-01 for CHF 82.50
+Date
+Sep 24, 12:01 PM
+Customer
+test.user2@example.com
+Invoice
+44BD2B44-0061
+Timeline
+
+Add note
+Credit note was sent to test.user2@example.com
+Sep 24, 2025, 12:01 PM
+Credit note was issued due to unsatisfactory product and payment was refunded
+Sep 24, 2025, 12:01 PM
+Summary
+
+Credit note PDF
+Edit memo
+Memo
+test 12:01
+Description
+Qty
+Unit price
+Amount
+Credit – Product unsatisfactory
+-CHF 82.50
+Subtotal	-CHF 82.50
+Total excluding tax	-CHF 82.50
+Adjustment total	CHF 82.50
+Refund issued - 
+•••• 4242
+CHF 82.50
+Total credit	CHF 82.50
+Details
+ID
+cn_1SApWCHKNqVBSHKU88warUfa
+Created
+Sep 24, 12:01 PM
+Customer
+test.user2@example.com
+Invoice
+44BD2B44-0061
+Metadata
+Use metadata to store custom additional information. View docs
+
+Edit metadata
+No metadata
+Logs
+200 OK
+POST /v1/credit_notes
+9/24/25, 12:01:48 PM
+Events
+A credit note for CHF 82.50 to test.user2@example.com was issued
+9/24/25, 12:01:48 PM
+"

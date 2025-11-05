@@ -1,0 +1,144 @@
+flowchart TB
+    subgraph UserBookingModal
+        UM1[Booking Creation]
+        UM2[Price Calculation]
+        UM3[Initialize Payment Flow]
+    end
+
+    subgraph PaymentContext
+        PC1[State Management]
+        PC2[Payment Intent Creation]
+        PC3[Flow Tracking]
+    end
+
+    subgraph PaymentOrchestrator
+        PO1[Flow Management]
+        PO2[State Transitions]
+        PO3[Data Validation]
+    end
+
+    subgraph PaymentFlow
+        PF1[Method Selection]
+        PF2[Payment Processing]
+        PF3[Status Updates]
+    end
+
+    subgraph Backend
+        BE1[Payment Service]
+        BE2[Stripe Integration]
+        BE3[Database Updates]
+    end
+
+    %% Data Flow with validations
+    UM1 -->|"Booking Data\n{bookingId, price, metadata}"| PC1
+    UM2 -->|"Price Structure\n{amount, currency, fees}"| PC2
+    UM3 -->|"Flow Initialization\n{flowId, bookingId}"| PO1
+
+    PC1 -->|"Payment Context\n{state, validations}"| PF1
+    PC2 -->|"Payment Intent\n{intentId, clientSecret}"| PO2
+    PC3 -->|"Flow Status\n{flowId, status}"| PF3
+
+    PO1 -->|"Flow Data\n{flowId, metadata}"| PF2
+    PO2 -->|"State Updates\n{transitions, events}"| PC3
+    PO3 -->|"Validation Results\n{isValid, errors}"| PC1
+
+    PF1 -->|"Selected Method\n{methodId, type}"| PF2
+    PF2 -->|"Processing Request\n{all payment data}"| BE1
+    PF3 -->|"Status Updates\n{status, errors}"| PC3
+
+    BE1 -->|"Stripe Request\n{payment data}"| BE2
+    BE2 -->|"Payment Result\n{success, error}"| BE3
+    BE3 -->|"Final Status\n{completion}"| PF3
+
+    %% Validation Points
+    classDef validationPoint fill:#f9f,stroke:#333,stroke-width:2px
+    class PO3,PC1 validationPoint
+
+    %% Required Data Points at each step
+    UM1 ---|"Required:\n- bookingId\n- amount\n- currency"| UM2
+    UM2 ---|"Required:\n- priceStructure\n- fees"| UM3
+    UM3 ---|"Required:\n- flowId\n- metadata"| PO1
+
+    PC1 ---|"Required:\n- state\n- context"| PC2
+    PC2 ---|"Required:\n- paymentIntent\n- clientSecret"| PC3
+
+    PO1 ---|"Required:\n- flowData\n- validations"| PO2
+    PO2 ---|"Required:\n- transitions\n- status"| PO3
+
+    PF1 ---|"Required:\n- methodData\n- validation"| PF2
+    PF2 ---|"Required:\n- allPaymentData"| PF3
+
+
+
+  Booking Creation (UserBookingModal)
+
+Initial Data:
+typescriptCopy{
+  bookingId: string;
+  amount: number;
+  currency: string;
+  sessionDetails: {
+    startTime: Date;
+    duration: number;
+    type: string;
+  };
+  metadata: {
+    confirmationId: string;
+    priceStructure: PriceStructure;
+  };
+}
+
+
+
+Payment Context Initialization
+
+Required State:
+typescriptCopy{
+  activePayments: Map<string, PaymentState>;
+  paymentIntents: Map<string, PaymentIntent>;
+  flows: Map<string, FlowState>;
+  validations: Map<string, ValidationResult>;
+}
+
+
+
+PaymentOrchestrator Flow
+
+Flow Data:
+typescriptCopy{
+  flowId: string;
+  bookingId: string;
+  paymentIntentId: string;
+  status: FlowStatus;
+  metadata: {
+    amount: number;
+    currency: string;
+    priceStructure: string;
+    confirmationId: string;
+  };
+  validations: ValidationResult[];
+  transitions: StateTransition[];
+}
+
+
+
+Payment Processing
+
+Required Payment Data:
+typescriptCopy{
+  paymentMethodId: string;
+  paymentIntentId: string;
+  amount: number;
+  currency: string;
+  metadata: {
+    bookingId: string;
+    flowId: string;
+    sessionType: string;
+    confirmationId: string;
+  };
+  validations: {
+    dataComplete: boolean;
+    flowValid: boolean;
+    stateValid: boolean;
+  };
+}  

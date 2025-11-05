@@ -1,0 +1,124 @@
+{
+  "hero": {
+    "mainTitle": {
+          "line1": "Tes Objectifs.",
+          "line2": "Nos Coachs.",
+          "line3": "Des Possibilités Infinies."
+        },
+    "subheading": "Révèle ton potentiel avec un accompagnement d'excellence",
+    "buttons": {
+      "beginJourney": "C'est parti !",
+      "becomeCoach": "Deviens coach",
+      "exploreCoaches": "Découvre nos coachs"
+    }
+  },
+  "journey": {
+    "title": "Ton Prochain Level t'Attend",
+    "client": {
+      "title": "Pour toi, futur client",
+      "items": {
+        "connect": "Connecte-toi avec des experts",
+        "goals": "Fixe et atteins tes objectifs",
+        "sessions": "Sessions sur mesure",
+        "progress": "Suis ta progression"
+      },
+      "cta": "Je me lance"
+    },
+    "coach": {
+      "title": "Pour toi, futur coach",
+      "items": {
+        "reach": "Rayonne à l'international",
+        "scheduling": "Gère ton planning librement",
+        "grow": "Développe ton business",
+        "showcase": "Montre ton expertise"
+      },
+      "cta": "Je deviens coach"
+    }
+  },
+  "features": {
+    "title": "Des Outils au Top pour ta Réussite",
+    "cards": {
+      "videoSessions": {
+        "title": "Sessions Vidéo",
+        "description": "Coaching en visio ultra fluide et sécurisée"
+      },
+      "resourceLibrary": {
+        "title": "Bibliothèque de Ressources",
+        "description": "Accède à du contenu exclusif pour progresser"
+      },
+      "communication": {
+        "title": "Chat Direct",
+        "description": "Reste connecté(e) facilement avec ton coach"
+      },
+      "progressTracking": {
+        "title": "Suivi Progress",
+        "description": "Visualise tes avancées avec des outils intelligents"
+      },
+      "scheduling": {
+        "title": "Planning Smart",
+        "description": "Gère tes rendez-vous en toute simplicité"
+      },
+      "security": {
+        "title": "Plateforme Sécurisée",
+        "description": "Tes données et sessions sont ultra protégées"
+      },
+      "payments": {
+        "title": "Paiements Sécurisés",
+        "description": "Transactions simples et 100% sécurisées"
+      },
+      "community": {
+        "title": "Communauté Active",
+        "description": "Échange avec des passionnés et des experts"
+      }
+    }
+  },
+  "howItWorks": {
+    "title": "Ta Route vers le Succès",
+    "steps": {
+      "step1": {
+        "title": "Inscription",
+        "description": "Crée ton profil et personnalise-le"
+      },
+      "step2": {
+        "title": "Objectifs",
+        "description": "Définis tes objectifs et préférences"
+      },
+      "step3": {
+        "title": "Match",
+        "description": "Trouve le coach parfait pour toi"
+      },
+      "step4": {
+        "title": "Action",
+        "description": "Démarre ton aventure coaching"
+      }
+    }
+  },
+  "testimonials": {
+    "title": "Ils ont Réussi, à Ton Tour !",
+    "cards": {
+      "card1": {
+        "quote": "Grâce à CoachConnect, j'ai transformé ma carrière. Mon coach m'a guidé(e) jusqu'au job de mes rêves !",
+        "author": "Sarah L., Directrice Marketing",
+        "role": "Cliente"
+      },
+      "card2": {
+        "quote": "En tant que coach, CoachConnect m'a permis d'avoir des clients partout dans le monde. L'impact est juste incroyable !",
+        "author": "James R., Business Coach",
+        "role": "Coach"
+      },
+      "card3": {
+        "quote": "Le suivi des progrès m'a trop motivé(e). J'ai atteint mes objectifs fitness plus vite que prévu !",
+        "author": "Emily T., Passionnée de Fitness",
+        "role": "Cliente"
+      }
+    }
+  },
+  "finalCta": {
+    "title": "Prêt(e) à Écrire Ton Histoire ?",
+    "subtitle": "Rejoins des milliers de personnes qui ont déjà fait le premier pas.",
+    "buttons": {
+      "client": "Je commence comme client",
+      "coach": "Je deviens coach"
+    }
+  }
+}

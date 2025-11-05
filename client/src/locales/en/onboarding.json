@@ -1,0 +1,164 @@
+{
+  "common": {
+    "step": "Step {{current}} of {{total}}",
+    "skip": "Skip",
+    "back": "Back",
+    "next": "Next",
+    "finish": "Finish",
+    "finishing": "Finishing..."
+  },
+  "step1": {
+    "title": "What's your main goal?",
+    "description": "Tell us what brings you here today so we can personalize your experience."
+  },
+  "step2": {
+    "title": "What are you interested in?",
+    "description": "Choose topics you want to learn more about. This helps us recommend the right coaches and programs."
+  },
+  "step3": {
+    "title": "How do you prefer to interact?",
+    "description": "Your preference helps us find coaches with the right style for you."
+  },
+  "step4": {
+    "title": "What's your experience level?",
+    "description": "This ensures we show you content that's neither too basic nor too advanced."
+  },
+  "step5": {
+    "title": "Final touches",
+    "description": "These optional settings help us refine your results even further."
+  },
+  "submit": {
+    "success": "Your details have been saved successfully!",
+    "error": "Error submitting your data. Please try again."
+  },
+  "welcome": {
+    "title": "Welcome!",
+    "subtitle": "Hey {{name}}, let's set up your account to find the best coaches for you.",
+    "guest": "Guest"
+  },
+  "goal": {
+    "title": "What's your main goal?",
+    "one_on_one": {
+      "title": "Find 1-on-1 coaching",
+      "description": "Connect directly with coaches for personal sessions."
+    },
+    "programs": {
+      "title": "Explore digital programs",
+      "description": "Find self-study courses and programs that fit your schedule."
+    },
+    "live_sessions": {
+      "title": "Join live sessions",
+      "description": "Get immediate help and interact in real-time via video."
+    },
+    "webinars": {
+      "title": "Attend webinars",
+      "description": "Learn from experts in live presentations and group events."
+    },
+    "exploring": {
+      "title": "I'm just browsing",
+      "description": "I'm not sure yet and want to explore the possibilities."
+    }
+  },
+  "interests": {
+    "title": "What are you interested in?",
+    "description": "Choose topics you want to learn more about. This helps us recommend the right coaches and programs.",
+    "placeholder": "Search for interests..."
+  },
+  "style": {
+    "title": "How do you prefer to interact?",
+    "live": {
+      "title": "Live & Interactive",
+      "description": "I prefer real-time video sessions and direct communication."
+    },
+    "scheduled": {
+      "title": "Scheduled & Structured",
+      "description": "I like regular check-ins and asynchronous communication like messaging."
+    },
+    "self_paced": {
+      "title": "Self-Paced & Flexible",
+      "description": "I learn best by working through materials on my own."
+    }
+  },
+  "experience": {
+    "title": "What's your experience level?",
+    "beginner": {
+      "title": "Beginner",
+      "description": "I'm just starting out and looking for foundational guidance."
+    },
+    "intermediate": {
+      "title": "Intermediate",
+      "description": "I have some experience and want to deepen my skills."
+    },
+    "advanced": {
+      "title": "Expert",
+      "description": "I'm highly experienced and looking for specialized expertise."
+    }
+  },
+  "final": {
+    "title": "Final touches",
+    "budget": {
+      "label": "Hourly Budget",
+      "description": "What is your approximate budget for a 1-on-1 coaching hour?",
+      "minValue": "${{value}}",
+      "maxValue": "${{value}}",
+      "maxValuePlus": "${{value}}+"
+    },
+    "notifications": {
+      "label": "Notifications",
+      "description": "Get notified to stay up to date.",
+      "newCoaches": "New coaches in my areas of interest",
+      "newPrograms": "New programs that match my goals"
+    }
+  },
+  "profileStrength": "Profile Complete",
+  "step1c": {
+    "title": "The Basics",
+    "description": "Upload a profile picture and create a catchy headline that sums up your expertise.",
+    "headlineLabel": "Your profile headline",
+    "headlinePlaceholder": "e.g., Career Coach for Tech Leaders"
+  },
+  "step2c": {
+    "title": "Your Expertise",
+    "description": "Showcase your specialties, skills, and the languages you offer coaching in.",
+    "specialtiesLabel": "Specialties",
+    "specialtiesPlaceholder": "Add your specialties...",
+    "skillsLabel": "Skills",
+    "skillsPlaceholder": "Add relevant skills...",
+    "languagesLabel": "Languages",
+    "languagesPlaceholder": "Add the languages you speak..."
+  },
+  "step3c": {
+    "title": "Your Credentials",
+    "description": "Share your background, education, and coaching styles to build trust with potential clients.",
+    "bioLabel": "About Me",
+    "educationLabel": "Education",
+    "educationPlaceholder": "Add your education...",
+    "coachingStylesLabel": "Coaching Styles",
+    "coachingStylesPlaceholder": "Describe your coaching styles..."
+  },
+  "step4c": {
+    "title": "Services & Pricing",
+    "description": "Define your pricing for scheduled sessions and spontaneous live sessions.",
+    "baseRateLabel": "Your hourly rate",
+    "baseRateDescription": "This is your standard price for a 60-minute 1-on-1 session. You can add more session types, special rates, and discounts later.",
+    "liveSessionLabel": "Offer live sessions",
+    "liveSessionDescription": "Allow clients to start a video session with you whenever you're online. Billing is per minute."
+  },
+  "step5c": {
+    "title": "Business Setup",
+    "description": "Configure your tax information and any insurance recognitions.",
+    "taxTitle": "Taxes & Invoicing",
+    "taxDescription": "Please provide your business tax information. This is required for invoicing and payouts.",
+    "insuranceTitle": "Insurance Recognition",
+    "insuranceDescription": "If your services are recognized by health insurance providers, add your qualifications here."
+  },
+  "step6c": {
+    "title": "Publish Profile",
+    "description": "Preview your profile, then go live to be discovered by your first clients.",
+    "previewTitle": "How clients will see your profile",
+    "finalStepTitle": "You're almost there!",
+    "finalStepDescription": "Ready to publish your profile? You can always come back and make changes.",
+    "publishButton": "Publish Profile",
+    "publishSuccessToast": "Your profile was published successfully!"
+  }
+}

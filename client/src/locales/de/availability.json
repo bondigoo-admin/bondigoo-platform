@@ -1,0 +1,15 @@
+{
+    "online": "Online",
+    "busy": "Beschäftigt",
+    "away": "Abwesend",
+    "offline": "Offline",
+    "abwesend": "abwesend",
+    "set_status": "Status festlegen",
+    "on_break": "Abwesend",
+    "status": "Status",
+    "availability:online": "Online",
+    "availability:busy": "Beschäftigt",
+    "availability:away": "Abwesend",
+    "availability:offline": "Offline",
+    "availability:abwesend": "Abwesend"
+}

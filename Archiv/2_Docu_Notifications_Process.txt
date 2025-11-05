@@ -1,0 +1,1344 @@
+TECHNICAL DOCUMENTATION: NOTIFICATION SYSTEM ARCHITECTURE
+EXECUTIVE SUMMARY
+This document provides a comprehensive technical overview of the notification system within our coaching platform. The system enables real-time notifications, preferences management, and multi-channel delivery for events such as booking requests, confirmations, cancellations, and session reminders.
+The notification system architecture comprises these interconnected components:
+
+React frontend components for notification display and interaction
+React hooks for notification state management
+RESTful API services for notification CRUD operations
+MongoDB data models with Mongoose ODM
+Socket.IO for real-time notifications
+Multi-channel delivery system (in-app, email, push)
+User-configurable notification preferences
+
+The document details each component's functionality, data flow, and state management to serve as a comprehensive reference for developers.
+SYSTEM ARCHITECTURE OVERVIEW
+Technology Stack
+
+Frontend: React (Create React App)
+Backend: Express.js
+Database: MongoDB with Mongoose ODM
+State Management: React Context API, React Query
+Real-time Communication: Socket.IO
+Authentication: JWT stored in localStorage
+Styling: CSS with potential migration to Tailwind CSS
+
+Core Components
+
+NotificationCenter: Main component for displaying notifications
+NotificationItem: Renders individual notifications
+NotificationPreferences: Interface for managing notification settings
+useNotifications: Custom hook for notification state management
+notificationAPI.js: Frontend service for API interactions
+notificationController.js: Backend controller for notification logic
+Notification.js: Mongoose model for notification data
+UnifiedNotificationService: Backend service for notification delivery
+Socket.IO Services: Handles real-time notification updates
+
+NOTIFICATION PROCESS FLOW
+1. Notification Creation
+Triggering Events
+
+Booking status changes (requested, confirmed, declined, cancelled)
+Session reminders (upcoming sessions)
+Payment events (received, failed)
+Connection requests
+
+javascriptCopy// When a booking status changes
+const handleBookingStatusChange = async (booking, oldStatus, newStatus) => {
+  await UnifiedNotificationService.handleBookingStatusChange(booking, oldStatus, newStatus);
+};
+Notification Generation
+
+BookingNotificationMapper determines notification configs:
+javascriptCopyconst notificationConfig = BookingStatusToNotification[newStatus];
+
+Notification Type Determination:
+javascriptCopy// Maps booking status to notification type
+const BookingStatusToNotification = {
+  requested: {
+    type: NotificationTypes.BOOKING_REQUEST,
+    notifications: [
+      {
+        recipient: 'coach',
+        priority: NotificationPriorities.HIGH,
+        category: NotificationCategories.BOOKING,
+        channels: [NotificationChannels.IN_APP, NotificationChannels.EMAIL],
+        requiresAction: true,
+        actions: ['approve', 'decline', 'suggest']
+      }
+    ]
+  },
+  // Other status mappings...
+};
+
+Content Generation:
+javascriptCopyconst content = {
+  title: this.getNotificationTitle(config.type, otherPartyName),
+  message: this.getNotificationMessage(config.type, {
+    name: otherPartyName,
+    date: new Date(bookingData.start).toLocaleDateString(),
+    time: new Date(bookingData.start).toLocaleTimeString(),
+    sessionType: bookingData.sessionType?.name || 'Session',
+    bookingType: bookingData.bookingType
+  }),
+  // Additional data...
+};
+
+
+Backend Processing
+
+UnifiedNotificationService processes notification creation:
+javascriptCopyconst notification = new Notification({
+  recipient: config.recipient,
+  type: config.type,
+  category: config.category,
+  priority: config.priority,
+  content: await this.generateNotificationContent(config, populatedBooking),
+  metadata: {
+    bookingId: populatedBooking._id,
+    sessionType: populatedBooking.sessionType._id,
+    additionalData: {
+      // Additional data for the notification
+    }
+  },
+  channels: config.channels,
+  status: 'active'
+});
+
+await notification.save();
+
+User Preference Checking:
+javascriptCopyconst settings = await NotificationSettings.getActive();
+const userPreferences = await NotificationSettings.findOne({ userId: recipientId });
+// Apply preferences to determine delivery channels
+
+
+2. Notification Delivery
+Multi-Channel Delivery
+
+In-App Delivery via Socket.IO:
+javascriptCopyasync handleSocketDelivery(notification, booking) {
+  const socketService = getSocketService();
+  if (socketService) {
+    await socketService.emitBookingNotification(
+      notification,
+      [notification.recipient],
+      booking
+    );
+    
+    // Update delivery status
+    notification.delivery.statuses.push({
+      channel: 'in_app',
+      status: 'delivered',
+      timestamp: new Date()
+    });
+    await notification.save();
+  }
+}
+
+Email Delivery:
+javascriptCopyasync handleEmailDelivery(notification, booking, recipientType) {
+  try {
+    // Get recipient email
+    const recipient = await (recipientType === 'coach' 
+      ? User.findById(booking.coach) 
+      : User.findById(booking.user));
+
+    await emailService.sendBookingEmail(
+      notification.type,
+      recipient.email,
+      {
+        notification,
+        booking,
+        recipient
+      }
+    );
+
+    // Update delivery status
+    notification.delivery.statuses.push({
+      channel: 'email',
+      status: 'sent',
+      timestamp: new Date()
+    });
+    await notification.save();
+  } catch (error) {
+    logger.error('[UnifiedNotificationService] Email delivery failed');
+    // Don't throw - email failure shouldn't break the whole notification
+  }
+}
+
+Push Notification Delivery:
+javascriptCopy// Implementation depends on push service
+
+
+Delivery Rules
+
+Throttling:
+javascriptCopyexports.shouldThrottleNotification = async (userId, type) => {
+  try {
+    const settings = await NotificationSettings.getActive();
+    if (!settings.throttling.enabled) return false;
+
+    const { maxPerMinute, maxPerHour } = settings.throttling;
+    const rule = settings.deliveryRules.get(type);
+    
+    if (rule?.throttleExempt) return false;
+
+    // Check rate limits
+    const minuteCount = await Notification.countDocuments({
+      recipient: userId,
+      createdAt: { $gte: new Date(Date.now() - 60000) }
+    });
+
+    const hourCount = await Notification.countDocuments({
+      recipient: userId,
+      createdAt: { $gte: new Date(Date.now() - 3600000) }
+    });
+
+    return minuteCount >= maxPerMinute || hourCount >= maxPerHour;
+  } catch (error) {
+    logger.error('[NotificationUtils] Error checking throttle:', error);
+    return false; // Fail open to ensure delivery in case of errors
+  }
+};
+
+Quiet Hours:
+javascriptCopyif (userPreferences?.timing?.quietHoursEnabled) {
+  const { quietHoursStart, quietHoursEnd } = userPreferences.timing;
+  const now = new Date();
+  const currentHour = now.getHours();
+  const startHour = parseInt(quietHoursStart.split(':')[0]);
+  const endHour = parseInt(quietHoursEnd.split(':')[0]);
+  
+  if (currentHour >= startHour || currentHour < endHour) {
+    const rule = settings.deliveryRules.get(notification.type);
+    if (!rule?.priority === 'high') return false;
+  }
+}
+
+
+3. Notification Retrieval
+Frontend Fetching
+
+API Service Call:
+javascriptCopyexport const getNotifications = async (params = {}) => {
+  try {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      return { success: false, notifications: [] };
+    }
+
+    const queryParams = new URLSearchParams({
+      ...params,
+      status: params.status || 'active',
+      category: params.category || '',    
+      limit: params.limit || 50,         
+      offset: params.offset || 0
+    });
+    const response = await fetch(`/api/notifications?${queryParams}`, {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'If-Modified-Since': new Date(params.lastFetchTime).toUTCString()
+      },
+      credentials: 'include'
+    });
+
+    // Handle response...
+  } catch (error) {
+    console.error('[NotificationAPI] Error fetching notifications:', error);
+    throw error;
+  }
+};
+
+React Query Integration:
+javascriptCopyconst { 
+  data: notificationsData, 
+  isLoading, 
+  error,
+  refetch 
+} = useQuery(
+  ['notifications', { excludeTrash: true }],
+  async () => {
+    if (!user) {
+      return [];
+    }
+    logger.debug('[useNotifications] Fetching notifications');
+    try {
+      const response = await getNotifications({ excludeTrash: true });
+      // Process response...
+      return response?.notifications?.filter(n => n.status !== 'trash') || [];
+    } catch (error) {
+      logger.error('[useNotifications] Error fetching notifications:', error);
+      throw error;
+    }
+  },
+  {
+    staleTime: 30000,
+    refetchInterval: 60000,
+    onError: (error) => {
+      logger.error('[useNotifications] Error in notifications query:', error);
+      toast.error(t('notifications:fetchError'));
+    }
+  }
+);
+
+
+Booking Data Enhancement
+
+Parallel Booking Queries:
+javascriptCopyexport const useParallelBookingData = (notifications) => {
+  const bookingIds = useMemo(() => {
+    if (!notifications) return [];
+    return [...new Set(
+      notifications
+        .filter(n => n.metadata?.bookingId)
+        .map(n => typeof n.metadata.bookingId === 'object' 
+          ? n.metadata.bookingId._id 
+          : n.metadata.bookingId)
+        .filter(Boolean)
+    )];
+  }, [notifications]);
+
+  const bookingQueries = useQueries(
+    bookingIds.map(id => ({
+      queryKey: ['booking', id],
+      queryFn: () => getBooking(id),
+      staleTime: 5 * 60 * 1000,
+      cacheTime: 30 * 60 * 1000,
+      retry: (failureCount, error) => {
+        if (error?.response?.status === 404) return false;
+        return failureCount < 2;
+      }
+    }))
+  );
+
+  const bookingsMap = useMemo(() => {
+    return bookingQueries.reduce((acc, query, index) => {
+      if (query.data) {
+        acc[bookingIds[index]] = query.data;
+      }
+      return acc;
+    }, {});
+  }, [bookingQueries, bookingIds]);
+
+  // Return values and status
+  return { bookingsMap, isLoading: bookingQueries.some(query => query.isLoading), error: bookingQueries.find(query => query.error)?.error };
+};
+
+
+Notification Processing
+
+Data Transformation:
+javascriptCopyconst processNotification = useCallback((notification) => {
+  if (!notification?.metadata?.bookingId) {
+    return notification;
+  }
+
+  const bookingId = typeof notification.metadata.bookingId === 'object' 
+    ? notification.metadata.bookingId._id 
+    : notification.metadata.bookingId;
+
+  const bookingInfo = bookingsMap[bookingId];
+
+  if (bookingInfo) {
+    const startTime = moment(bookingInfo.start);
+    const endTime = moment(bookingInfo.end);
+    const sessionTypeName = bookingInfo.sessionType?.name || 'Session';
+    const otherPartyName = notification.type?.includes('coach') ? 
+      `${bookingInfo.user?.firstName || ''} ${bookingInfo.user?.lastName || ''}`.trim() : 
+      `${bookingInfo.coach?.firstName || ''} ${bookingInfo.coach?.lastName || ''}`.trim();
+    
+    return {
+      ...notification,
+      displayContent: {
+        title: `${sessionTypeName} with ${otherPartyName || 'Unknown'}`,
+        message: `${startTime.format('HH:mm')} - ${endTime.format('HH:mm')} • ${startTime.format('MMM D, YYYY')}`,
+        icon: getNotificationIcon(notification.type),
+      }
+    };
+  }
+
+  // Fallback if booking data couldn't be fetched
+  return {
+    ...notification,
+    displayContent: {
+      title: notification?.content?.title || t('notifications:bookingUpdateTitle'),
+      message: notification?.content?.message || t('notifications:bookingUpdateMessage'),
+      icon: getNotificationIcon(notification?.type),
+    },
+  };
+}, [bookingsMap, t]);
+
+
+Grouping and Filtering
+
+Group by Date/Type/Priority:
+javascriptCopyconst groupedNotifications = useMemo(() => {
+  if (groupingType === 'date') {
+    const groups = createEmptyGroups();
+    const now = moment();
+
+    notificationsData.forEach(notification => {
+      try {
+        const notifDate = moment(notification.createdAt);
+        const key = notifDate.isSame(now, 'day') ? 'today' 
+          : notifDate.isSame(now.clone().subtract(1, 'day'), 'day') ? 'yesterday'
+          : notifDate.isSame(now, 'week') ? 'thisWeek'
+          : 'earlier';
+        
+        groups[key].push(notification);
+      } catch (error) {
+        logger.error('[useNotifications] Error processing notification date');
+        groups.earlier.push(notification);
+      }
+    });
+
+    // Sort each group
+    Object.keys(groups).forEach(key => {
+      groups[key] = sortNotifications(groups[key]);
+    });
+
+    return groups;
+  }
+
+  // Handle type grouping
+  if (groupingType === 'type') {
+    return notificationsData.reduce((groups, notification) => {
+      const category = notification.category || 'other';
+      if (!groups[category]) {
+        groups[category] = [];
+      }
+      groups[category].push(notification);
+      return groups;
+    }, {});
+  }
+
+  // Handle priority grouping
+  if (groupingType === 'priority') {
+    return notificationsData.reduce((groups, notification) => {
+      const priority = notification.priority || 'low';
+      if (!groups[priority]) {
+        groups[priority] = [];
+      }
+      groups[priority].push(notification);
+      groups[priority] = sortNotifications(groups[priority]);
+      return groups;
+    }, {});
+  }
+
+  return { all: sortNotifications(notificationsData) };
+}, [notificationsData, groupingType, sortNotifications]);
+
+Filter Functions:
+javascriptCopyconst getFilteredNotifications = useCallback((notifications) => {
+  return notifications.filter(notification => {
+    if (activeFilters.filterType === 'unread') return !notification.isRead;
+    if (activeFilters.filterType === 'read') return notification.isRead;
+    return true;
+  });
+}, [activeFilters]);
+
+
+4. Notification Display
+Component Hierarchy
+
+NotificationCenter: Main container
+
+Filtering Controls
+NotificationGroup: Groups notifications by date/type/priority
+
+NotificationItem: Individual notification
+
+NotificationItemContent: Content and actions
+
+ActionButtons: Interaction buttons
+
+
+
+
+
+
+
+
+
+Notification Rendering
+
+NotificationItem:
+jsxCopyreturn (
+  <div className={`notification-item ${notification.isRead ? 'read' : 'unread'} 
+             ${selectedNotifications.has(notification._id) ? 'selected' : ''}`}>
+    <input
+      type="checkbox"
+      className="notification-checkbox"
+      checked={selectedNotifications.has(notification._id)}
+      onChange={() => toggleSelection(notification._id)}
+      onClick={(e) => e.stopPropagation()}
+    />
+    <NotificationItemContent 
+      notification={notification}
+      bookingData={bookingData} 
+      isLoadingBooking={isLoading}
+      onAction={handleAction}
+    />
+  </div>
+);
+
+NotificationItemContent:
+jsxCopyconst renderContent = () => {
+  if (isLoadingBooking) {
+    return <div className="loading-spinner"><Loader2 className="h-6 w-6 animate-spin" /></div>;
+  }
+
+  if (bookingError) {
+    return <div className="error-message">{t('notifications:bookingLoadError')}</div>;
+  }
+
+  const hasActions = !isActioned && notification.type === 'booking_request' && bookingData?.status === 'requested';
+
+  return (
+    <div className="notification-item-content">
+      <div className="notification-icon clickable-content" onClick={handleItemClick}>
+        {getNotificationIcon(notification.type)}
+      </div>
+      
+      {renderMainContent()}
+      
+      {hasActions ? (
+        <div className="notification-actions">
+          <ActionButton
+            onClick={() => handleActionWithState('accept')}
+            disabled={!!actionInProgress}
+            className={`primary ${actionInProgress === 'accept' ? 'loading' : ''}`}
+            icon={actionInProgress === 'accept' ? 
+              <Loader2 className="h-4 w-4 animate-spin" /> : 
+              <Check className="h-4 w-4" />
+            }
+            label={t('notifications:actions.accept')}
+          />
+          {/* Other action buttons */}
+        </div>
+      ) : (
+        renderStatus()
+      )}
+    </div>
+  );
+};
+
+
+Real-time Updates
+
+Socket Event Handling:
+javascriptCopyuseEffect(() => {
+  const handleBookingUpdate = (event) => {
+    const { bookingId, status } = event.detail;
+    if (bookingId === normalizedBookingId) {
+      setIsActioned(true);
+      queryClient.setQueryData('notifications', old => 
+        old.map(n => n._id === notification._id ? { ...n, status: 'actioned', actionResult: status } : n)
+      );
+      queryClient.setQueryData(['booking', normalizedBookingId], old => ({
+        ...old,
+        status: status
+      }));
+    }
+  };
+
+  window.addEventListener('booking_update', handleBookingUpdate);
+  return () => window.removeEventListener('booking_update', handleBookingUpdate);
+}, [normalizedBookingId, notification._id, queryClient]);
+
+
+5. Notification Actions
+Action Handling
+
+Action Types:
+
+Mark as read
+Accept booking request
+Decline booking request
+Suggest alternative time
+Delete notification
+Archive notification
+
+
+Frontend Action Handler:
+javascriptCopyconst handleAction = async (action, message = '') => {
+  if (actionInProgress) return;
+
+  try {
+    let result;
+    switch (action) {
+      case 'accept': {
+        // Optimistically update the local state
+        queryClient.setQueryData(['booking', normalizedBookingId], old => ({
+          ...old,
+          status: 'confirmed'
+        }));
+
+        // Safely update notifications
+        queryClient.setQueryData('notifications', old => {
+          if (!old) return [];
+          return old.map(n => n._id === notification._id ? { ...n, status: 'actioned', actionResult: 'confirmed' } : n);
+        });
+
+        result = await acceptBooking({ 
+          bookingId: normalizedBookingId, 
+          message 
+        });
+        
+        // Invalidate related queries
+        queryClient.invalidateQueries('notifications');
+        queryClient.invalidateQueries('coachSessions');
+        break;
+      }
+
+      case 'decline': {
+        // Similar implementation for decline
+        break;
+      }
+
+      case 'suggest': {
+        setShowBookingModal(true);
+        setActionInProgress(null);
+        return;
+      }
+
+      default:
+        throw new Error(`Invalid action: ${action}`);
+    }
+
+    await markAsRead(notification._id);
+    setIsActioned(true);
+
+    showToast({
+      type: 'success',
+      message: t(`notifications:${action}Success`)
+    });
+
+    onAction?.(action, result);
+  } catch (error) {
+    logger.error('[NotificationItemContent] Action failed:', {
+      action,
+      error: error.message || error.toString(),
+      stack: error.stack
+    });
+    
+    // Revert optimistic updates on error
+    if (action === 'accept') {
+      queryClient.setQueryData(['booking', normalizedBookingId], old => ({
+        ...old,
+        status: 'requested'
+      }));
+      queryClient.setQueryData('notifications', old => {
+        if (!old) return [];
+        return old.map(n => n._id === notification._id ? { ...n, status: 'pending', actionResult: null } : n);
+      });
+    }
+    
+    throw error;
+  }
+};
+
+Backend Action Processing:
+javascriptCopyexports.handleNotificationAction = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { action } = req.body;
+    
+    const notification = await Notification.findById(id);
+    if (!notification) {
+      return res.status(404).json({ message: 'Notification not found' });
+    }
+    
+    if (notification.recipient.toString() !== req.user._id.toString()) {
+      return res.status(403).json({ message: 'Not authorized' });
+    }
+    
+    let result;
+    switch (action) {
+      case 'approve':
+      case 'accept':
+        if (notification.metadata?.bookingId) {
+          const bookingId = notification.metadata.bookingId;
+          result = await bookingService.acceptBooking(bookingId);
+          notification.status = 'actioned';
+          notification.actionResult = 'approved';
+        }
+        break;
+        
+      case 'decline':
+        if (notification.metadata?.bookingId) {
+          const bookingId = notification.metadata.bookingId;
+          result = await bookingService.declineBooking(bookingId);
+          notification.status = 'actioned';
+          notification.actionResult = 'declined';
+        }
+        break;
+        
+      // Other actions...
+        
+      default:
+        return res.status(400).json({ message: 'Invalid action' });
+    }
+    
+    await notification.save();
+    
+    res.json({ success: true, notification, result });
+  } catch (error) {
+    console.error('Error handling notification action:', error);
+    res.status(500).json({ message: 'Error handling notification action' });
+  }
+};
+
+
+Batch Actions
+
+Batch Mark as Read:
+javascriptCopyexport const batchMarkAsRead = async (notificationIds) => {
+  try {
+    console.log('[NotificationAPI] Batch marking notifications as read:', notificationIds);
+    const response = await api.put('/api/notifications/batch/read', { notificationIds });
+    
+    logger.info('[NotificationAPI] Batch mark as read successful:', {
+      count: notificationIds.length,
+      response: response.data
+    });
+    
+    return response.data;
+  } catch (error) {
+    logger.error('[NotificationAPI] Error in batch mark as read:', error);
+    throw error;
+  }
+};
+
+Batch Move to Trash:
+javascriptCopyexport const batchMoveToTrash = async (notificationIds) => {
+  try {
+    console.log('[NotificationAPI] Moving notifications to trash:', notificationIds);
+    const response = await api.put('/api/notifications/batch/trash', { notificationIds });
+    
+    logger.info('[NotificationAPI] Batch move to trash successful:', {
+      count: notificationIds.length,
+      response: response.data
+    });
+    
+    return response.data;
+  } catch (error) {
+    logger.error('[NotificationAPI] Error in batch move to trash:', error);
+    throw error;
+  }
+};
+
+
+6. Notification Preferences
+Preference UI
+
+Channel Preferences:
+jsxCopy<section className="space-y-4">
+  <h3 className="text-lg font-semibold">{t('notifications:channels')}</h3>
+  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+    <label className="preference-option">
+      <input 
+        type="checkbox" 
+        checked={preferences.channels.email} 
+        onChange={() => handleChannelChange('email')}
+      />
+      <Mail size={20} />
+      {t('notifications:emailNotifications')}
+    </label>
+
+    <label className="preference-option">
+      <input 
+        type="checkbox" 
+        checked={preferences.channels.push} 
+        onChange={() => handleChannelChange('push')}
+      />
+      <Smartphone size={20} />
+      {t('notifications:pushNotifications')}
+    </label>
+
+    <label className="preference-option">
+      <input 
+        type="checkbox" 
+        checked={preferences.channels.inApp} 
+        onChange={() => handleChannelChange('inApp')}
+      />
+      <Globe size={20} />
+      {t('notifications:inAppNotifications')}
+    </label>
+  </div>
+</section>
+
+Notification Type Preferences:
+jsxCopy<section className="space-y-4">
+  <h3 className="text-lg font-semibold">{t('notifications:notificationTypes')}</h3>
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+    {Object.entries(NotificationTypes).map(([key, value]) => (
+      <label key={key} className="preference-option">
+        <input 
+          type="checkbox" 
+          checked={preferences.types[value]} 
+          onChange={() => handleTypeChange(value)}
+        />
+        {getNotificationTypeIcon(value)}
+        {t(`notifications:types.${value}`)}
+      </label>
+    ))}
+  </div>
+</section>
+
+Timing Preferences:
+jsxCopy<section className="space-y-4">
+  <h3 className="text-lg font-semibold">{t('notifications:timing')}</h3>
+  
+  <div className="space-y-4">
+    <div>
+      <label className="block text-sm font-medium text-gray-700">
+        {t('notifications:sessionReminders')}
+      </label>
+      <select
+        value={preferences.timing.sessionReminders}
+        onChange={(e) => handleTimingChange('sessionReminders', parseInt(e.target.value))}
+        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
+      >
+        <option value={15}>15 {t('common:minutes')}</option>
+        <option value={30}>30 {t('common:minutes')}</option>
+        <option value={60}>1 {t('common:hour')}</option>
+      </select>
+    </div>
+
+    <div className="flex items-center gap-4">
+      <label className="preference-option">
+        <input 
+          type="checkbox" 
+          checked={preferences.timing.dailyDigest} 
+          onChange={(e) => handleTimingChange('dailyDigest', e.target.checked)}
+        />
+        {t('notifications:dailyDigest')}
+      </label>
+
+      {preferences.timing.dailyDigest && (
+        <input
+          type="time"
+          value={preferences.timing.digestTime}
+          onChange={(e) => handleTimingChange('digestTime', e.target.value)}
+          className="rounded-md border-gray-300 shadow-sm"
+        />
+      )}
+    </div>
+
+    <div className="space-y-2">
+      <label className="preference-option">
+        <input 
+          type="checkbox" 
+          checked={preferences.timing.quietHoursEnabled} 
+          onChange={(e) => handleTimingChange('quietHoursEnabled', e.target.checked)}
+        />
+        {t('notifications:quietHours')}
+      </label>
+
+      {preferences.timing.quietHoursEnabled && (
+        <div className="flex items-center gap-4 ml-8">
+          <input
+            type="time"
+            value={preferences.timing.quietHoursStart}
+            onChange={(e) => handleTimingChange('quietHoursStart', e.target.value)}
+            className="rounded-md border-gray-300 shadow-sm"
+          />
+          <span>to</span>
+          <input
+            type="time"
+            value={preferences.timing.quietHoursEnd}
+            onChange={(e) => handleTimingChange('quietHoursEnd', e.target.value)}
+            className="rounded-md border-gray-300 shadow-sm"
+          />
+        </div>
+      )}
+    </div>
+  </div>
+</section>
+
+
+Preference Management
+
+Loading Preferences:
+javascriptCopyconst fetchPreferences = async () => {
+  try {
+    setLoading(true);
+    const userPreferences = await getNotificationPreferences();
+    if (userPreferences) {
+      setPreferences(prev => ({
+        ...prev,
+        ...userPreferences
+      }));
+    }
+  } catch (error) {
+    console.error('Error fetching notification preferences:', error);
+    toast.error(t('notifications:errorFetchingPreferences'));
+  } finally {
+    setLoading(false);
+  }
+};
+
+Saving Preferences:
+javascriptCopyconst savePreferences = async () => {
+  try {
+    setSaving(true);
+    await updateNotificationPreferences(preferences);
+    toast.success(t('notifications:preferencesSaved'));
+  } catch (error) {
+    console.error('Error saving notification preferences:', error);
+    toast.error(t('notifications:errorSavingPreferences'));
+  } finally {
+    setSaving(false);
+  }
+};
+
+Preference Application:
+javascriptCopyexports.shouldSendNotification = async (notification, userPreferences) => {
+  try {
+    const settings = await NotificationSettings.getActive();
+    
+    // Check quiet hours
+    if (userPreferences?.timing?.quietHoursEnabled) {
+      const { quietHoursStart, quietHoursEnd } = userPreferences.timing;
+      const now = new Date();
+      const currentHour = now.getHours();
+      const startHour = parseInt(quietHoursStart.split(':')[0]);
+      const endHour = parseInt(quietHoursEnd.split(':')[0]);
+      
+      if (currentHour >= startHour || currentHour < endHour) {
+        const rule = settings.deliveryRules.get(notification.type);
+        if (!rule?.priority === 'high') return false;
+      }
+    }
+
+    return true;
+  } catch (error) {
+    logger.error('[NotificationUtils] Error checking notification rules:', error);
+    return true; // Fail open to ensure delivery in case of errors
+  }
+};
+
+
+DETAILED COMPONENT ANALYSIS
+Frontend Components
+NotificationCenter.js
+Primary component for displaying and interacting with notifications.
+Key Functions:
+javascriptCopyfetchNotifications()              // Retrieves notifications from API
+handleFilterChange()              // Processes filter selection
+handleGroupingChange()            // Processes grouping selection
+handleSelectAll()                 // Selects/deselects all notifications
+handleMarkAllRead()               // Marks all notifications as read
+handleContextMenu()               // Shows context menu for notification
+processNotification()             // Enhances notification with booking data
+State Management:
+javascriptCopyconst [filter, setFilter] = useState('all');
+const [showFilters, setShowFilters] = useState(false);
+const [contextMenu, setContextMenu] = useState(null);
+const [activeFilter, setActiveFilter] = useState('all');
+const [activeFilters, setActiveFilters] = useState({
+  groupBy: 'date',
+  filterType: 'all'
+});
+NotificationItem.js
+Component for individual notification items.
+Key Functions:
+javascriptCopyhandleAction()                    // Processes notification actions
+handleItemClick()                 // Handles click on notification
+toggleSelection()                 // Toggles selection state
+State Management:
+javascriptCopyconst [isActioned, setIsActioned] = useState(notification.status === 'actioned');
+const [actionInProgress, setActionInProgress] = useState(null);
+NotificationItemContent.js
+Component for rendering notification content.
+Key Functions:
+javascriptCopyrenderActions()                   // Renders action buttons based on notification type
+renderTitle()                     // Generates notification title
+renderPrimaryInfo()               // Displays primary notification information
+handleActionWithState()           // Processes actions with loading state
+State Management:
+javascriptCopyconst [showBookingModal, setShowBookingModal] = useState(false);
+const [showMessageInput, setShowMessageInput] = useState(false);
+const [actionInProgress, setActionInProgress] = useState(null);
+const [isActioned, setIsActioned] = useState(notification.status === 'actioned');
+NotificationPreferences.js
+Component for managing notification preferences.
+Key Functions:
+javascriptCopyhandleChannelChange()             // Updates channel preferences
+handleTypeChange()                // Updates notification type preferences
+handleTimingChange()              // Updates timing preferences
+savePreferences()                 // Saves preferences to backend
+State Management:
+javascriptCopyconst [loading, setLoading] = useState(true);
+const [saving, setSaving] = useState(false);
+const [preferences, setPreferences] = useState({
+  channels: {
+    email: true,
+    push: true,
+    inApp: true
+  },
+  types: { /* notification types */ },
+  timing: { /* timing preferences */ },
+  toastNotifications: { /* toast settings */ }
+});
+Backend Controllers and Services
+notificationController.js
+Backend controller handling notification API endpoints.
+Key Functions:
+javascriptCopycreateNotification()              // Creates a new notification
+getNotifications()                // Retrieves notifications for a user
+markAsRead()                      // Marks a notification as read
+batchMarkAsRead()                 // Marks multiple notifications as read
+updateNotificationStatus()        // Updates notification status (active/archived/trash)
+batchMoveToTrash()                // Moves multiple notifications to trash
+Error Handling:
+javascriptCopytry {
+  // Notification operations
+} catch (error) {
+  logger.error('[NotificationController] Error:', {
+    error: error.message,
+    stack: error.stack,
+    timestamp: new Date().toISOString()
+  });
+  
+  if (error.name === 'ValidationError') {
+    return res.status(400).json({
+      success: false,
+      message: 'Validation error',
+      errors: Object.keys(error.errors).reduce((acc, key) => {
+        acc[key] = error.errors[key].message;
+        return acc;
+      }, {})
+    });
+  }
+  
+  return res.status(500).json({
+    success: false,
+    message: 'Failed to create notification',
+    error: error.message
+  });
+}
+unifiedNotificationService.js
+Service for sending notifications through multiple channels.
+Key Functions:
+javascriptCopysendNotification()                // Sends a notification through configured channels
+createInAppNotification()         // Creates an in-app notification
+sendEmailNotification()           // Sends an email notification
+handleBookingStatusChange()       // Processes notification for booking status changes
+generateNotificationContent()     // Generates content for notifications
+Notification Content Generation:
+javascriptCopygetNotificationTitle(type, name) {
+  const titles = {
+    [NotificationTypes.BOOKING_REQUEST]: `New Booking Request from ${name}`,
+    [NotificationTypes.BOOKING_CONFIRMED]: `Booking Confirmed with ${name}`,
+    [NotificationTypes.BOOKING_DECLINED]: `Booking Declined by ${name}`,
+    [NotificationTypes.BOOKING_CANCELLED]: `Booking Cancelled with ${name}`,
+    [NotificationTypes.BOOKING_RESCHEDULED]: `Booking Rescheduled with ${name}`
+  };
+
+  return titles[type] || 'Booking Update';
+}
+
+getNotificationMessage(type, data) {
+  const messages = {
+    [NotificationTypes.BOOKING_REQUEST]: 
+      `${data.name} has requested a ${data.sessionType} session on ${data.date} at ${data.time}...`,
+    [NotificationTypes.BOOKING_CONFIRMED]:
+      `Your ${data.sessionType} session with ${data.name} on ${data.date} at ${data.time} has been confirmed.`,
+    // Other message templates...
+  };
+
+  return messages[type] || 'Your booking has been updated';
+}
+Custom Hooks
+useNotifications.js
+Custom hook for notification state management.
+Key Functions:
+javascriptCopyfetchNotifications()              // Retrieves notifications
+markAsRead()                      // Marks a notification as read
+handleAction()                    // Processes notification actions
+handleBatchAction()               // Processes batch actions
+toggleSelection()                 // Toggles notification selection
+sortNotifications()               // Sorts notifications
+State Management:
+javascriptCopyconst [notifications, setNotifications] = useState([]);
+const [unreadCount, setUnreadCount] = useState(0);
+const [loading, setLoading] = useState(true);
+const [selectedNotifications, setSelectedNotifications] = useState(new Set());
+const [groupingType, setGroupingType] = useState('date');
+const [sortBy, setSortBy] = useState('date');
+const [sortDirection, setSortDirection] = useState('desc');
+const [pinnedNotifications, setPinnedNotifications] = useState(new Set());
+Real-time Updates:
+javascriptCopyuseEffect(() => {
+  const handleBookingUpdate = (event) => {
+    const { bookingId, status } = event.detail;
+    
+    console.log('[useNotifications] Handling booking update:', {
+      bookingId,
+      status
+    });
+
+    setNotifications(prev => prev.map(notification => {
+      if (notification.metadata?.bookingId === bookingId) {
+        return {
+          ...notification,
+          metadata: {
+            ...notification.metadata,
+            bookingStatus: status
+          }
+        };
+      }
+      return notification;
+    }));
+  };
+
+  window.addEventListener('booking_update', handleBookingUpdate);
+  
+  return () => {
+    window.removeEventListener('booking_update', handleBookingUpdate);
+  };
+}, []);
+API REFERENCE
+Notification Endpoints
+MethodEndpointDescriptionAuthenticationParametersGET/api/notificationsGet user notificationsRequiredstatus, category, limit, offset, startDate, endDatePOST/api/notificationsCreate notificationRequiredtype, recipient, content, metadata, priority, channelsGET/api/notifications/:idGet notification detailsRequired-PUT/api/notifications/:id/readMark notification as readRequired-PUT/api/notifications/batch/readMark multiple notifications as readRequirednotificationIdsPUT/api/notifications/:id/statusUpdate notification statusRequiredstatusPUT/api/notifications/batch/trashMove multiple notifications to trashRequirednotificationIdsPUT/api/notifications/batch/restoreRestore multiple notificationsRequirednotificationIdsDELETE/api/notifications/trash/emptyEmpty trashRequired-GET/api/notifications/preferencesGet notification preferencesRequired-PUT/api/notifications/preferencesUpdate notification preferencesRequiredpreferencesPOST/api/notifications/:id/actionHandle notification actionRequiredaction
+Request/Response Examples
+Getting Notifications:
+javascriptCopy// Request
+GET /api/notifications?status=active&limit=20&offset=0
+
+// Response
+{
+  "success": true,
+  "notifications": [
+    {
+      "_id": "619c567a9f3b4c001e8c5a12",
+      "recipient": "619c567a9f3b4c001e8c5a10",
+      "type": "booking_request",
+      "content": {
+        "title": "New Booking Request from John Doe",
+        "message": "John Doe has requested a Coaching Session on Jan 15, 2023 at 10:00 AM."
+      },
+      "status": "active",
+      "isRead": false,
+      "metadata": {
+        "bookingId": {
+          "_id": "619c567a9f3b4c001e8c5a14",
+          "start": "2023-01-15T10:00:00Z",
+          "end": "2023-01-15T11:00:00Z",
+          "status": "requested",
+          "sessionType": {
+            "name": "Coaching Session",
+            "duration": 60
+          },
+          "coachName": "Jane Smith",
+          "clientName": "John Doe"
+        }
+      },
+      "createdAt": "2023-01-10T12:30:00Z"
+    },
+    // Additional notifications...
+  ],
+  "pagination": {
+    "total": 45,
+    "offset": 0,
+    "limit": 20,
+    "hasMore": true
+  }
+}
+Creating a Notification:
+javascriptCopy// Request
+{
+  "recipient": "619c567a9f3b4c001e8c5a10",
+  "type": "booking_confirmed",
+  "content": {
+    "title": "Booking Confirmed",
+    "message": "Your booking with Jane Smith has been confirmed."
+  },
+  "metadata": {
+    "bookingId": "619c567a9f3b4c001e8c5a14"
+  },
+  "priority": "medium",
+  "channels": ["in_app", "email"]
+}
+
+// Response
+{
+  "success": true,
+  "notification": {
+    "_id": "619c567a9f3b4c001e8c5a16",
+    "recipient": "619c567a9f3b4c001e8c5a10",
+    "type": "booking_confirmed",
+    "content": {
+      "title": "Booking Confirmed",
+      "message": "Your booking with Jane Smith has been confirmed."
+    },
+    "status": "active",
+    "isRead": false,
+    "metadata": {
+      "bookingId": "619c567a9f3b4c001e8c5a14"
+    },
+    "createdAt": "2023-01-10T14:30:00Z"
+  }
+}
+STATE MANAGEMENT DETAILS
+Frontend State Management
+Local Component State:
+
+Used for UI elements (filter toggles, selection)
+Loading and error states
+Modal visibility
+
+React Query:
+
+Used for data fetching and caching
+Automatic refetching and background updates
+
+javascriptCopyconst { 
+  data: notificationsData, 
+  isLoading, 
+  error,
+  refetch 
+} = useQuery(
+  ['notifications', { excludeTrash: true }],
+  async () => {
+    // Fetch function...
+  },
+  {
+    staleTime: 30000,
+    refetchInterval: 60000,
+    onError: (error) => {
+      logger.error('[useNotifications] Error in notifications query:', error);
+      toast.error(t('notifications:fetchError'));
+    }
+  }
+);
+Custom Hooks:
+
+useNotifications: Manages notification state
+useParallelBookingData: Fetches related booking data
+useNotificationActions: Handles notification actions
+
+Backend State Management
+Database State:
+
+Primary source of truth via MongoDB
+Mongoose models with validation
+
+Socket Management:
+
+Real-time client state via Socket.IO
+Connection monitoring and event emission
+
+javascriptCopyasync emitSocketNotification(notification, io) {
+  try {
+    // Populate notification data
+    const populatedNotification = await Notification.findById(notification._id)
+      .populate(/* ... */);
+
+    // Format for socket emission
+    const socketData = {
+      // Format data...
+    };
+
+    // Emit to specific recipient's room
+    io.to(notification.recipient.toString()).emit('notification', socketData);
+  } catch (error) {
+    console.error('[UnifiedNotificationService] Error emitting socket notification:', error);
+    throw error;
+  }
+}
+AUTHENTICATION MECHANISMS
+The notification system uses JWT for authentication, stored in localStorage:
+Authentication Middleware:
+javascriptCopyconst auth = (req, res, next) => {
+  const token = req.header('Authorization')?.replace('Bearer ', '');
+  if (!token) return res.status(401).json({ message: 'No token, authorization denied' });
+  
+  try {
+    const decoded = jwt.verify(token, config.jwtSecret);
+    req.user = decoded.user;
+    next();
+  } catch (err) {
+    res.status(401).json({ message: 'Token is not valid' });
+  }
+};
+API Requests with Authentication:
+javascriptCopyexport const getNotifications = async (params = {}) => {
+  try {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      return { success: false, notifications: [] };
+    }
+
+    const response = await fetch(`/api/notifications?${queryParams}`, {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'If-Modified-Since': new Date(params.lastFetchTime).toUTCString()
+      },
+      credentials: 'include'
+    });
+
+    // Process response...
+  } catch (error) {
+    console.error('[NotificationAPI] Error fetching notifications:', error);
+    throw error;
+  }
+};
+Resource-Based Authorization:
+javascriptCopyif (notification.recipient.toString() !== req.user._id.toString()) {
+  return res.status(403).json({ message: 'Not authorized' });
+}
+ERROR HANDLING PATTERNS
+The notification system implements several error handling patterns:
+Frontend Error Handling:
+javascriptCopytry {
+  const notificationData = await getNotifications(params);
+  // Process notifications
+} catch (error) {
+  logger.error('[NotificationCenter] Error fetching notifications:', error);
+  toast.error(t('notifications:fetchError'));
+  setError(error);
+} finally {
+  setLoading(false);
+}
+Optimistic Updates with Rollback:
+javascriptCopy// Optimistically update state
+queryClient.setQueryData(['booking', bookingId], oldData => ({
+  ...oldData,
+  status: 'confirmed'
+}));
+
+try {
+  // API call to update
+  await acceptBooking(bookingId);
+} catch (error) {
+  // Revert optimistic update on error
+  queryClient.setQueryData(['booking', bookingId], oldData => ({
+    ...oldData,
+    status: 'requested'
+  }));
+  
+  toast.error(t('notifications:actionFailed'));
+}
+Backend Error Logging:
+javascriptCopylogger.error('[NotificationController] Error creating notification:', {
+  error: error.message,
+  stack: error.stack,
+  type,
+  recipient,
+  timestamp: new Date().toISOString()
+});
+Socket Error Handling:
+javascriptCopy// Implementation details for socket error handling
+socket.on('error', (error) => {
+  logger.error('[SocketService] Socket error:', error);
+  
+  // Attempt to reconnect
+  setTimeout(() => {
+    socket.connect();
+  }, 5000);
+});

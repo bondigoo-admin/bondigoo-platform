@@ -1,0 +1,170 @@
+{
+  "title": "Coach-Anmeldung",
+  "coachRegistration": "Coach-Registrierung",
+  "steps": {
+    "basicInfo": "Grundlegende Informationen",
+    "coachingProfile": "Coaching-Profil",
+    "additionalInfo": "Zusätzliche Informationen"
+  },
+  "labels": {
+    "firstName": "Vorname",
+    "lastName": "Nachname",
+    "email": "E-Mail-Adresse",
+    "password": "Passwort",
+    "confirmPassword": "Passwort bestätigen",
+    "preferredLanguage": "Bevorzugte Sprache",
+    "register": "Als Coach registrieren",
+    "spokenLanguages": "Gesprochene Sprachen",
+    "coachingAreas": "Coaching-Bereiche",
+    "biography": "Über dich",
+    "experience": "Erfahrung",
+    "certifications": "Zertifizierungen",
+    "hourlyRate": "Stundensatz",
+    "availability": "Verfügbarkeit"
+  },
+  "placeholders": {
+    "firstName": "Gib deinen Vornamen ein",
+    "lastName": "Gib deinen Nachnamen ein",
+    "email": "Gib deine E-Mail-Adresse ein",
+    "password": "Gib ein starkes Passwort ein",
+    "confirmPassword": "Bestätige dein Passwort",
+    "biography": "Erzähl uns und deinen potenziellen Kunden etwas über dich (mindestens 50 Zeichen)",
+    "experience": "Beschreib kurz deine Coaching-Erfahrung",
+    "certifications": "Liste relevante Zertifizierungen auf"
+  },
+  "errors": {
+    "firstNameRequired": "Vorname ist erforderlich",
+    "lastNameRequired": "Nachname ist erforderlich",
+    "errorMessage": "Dein Coach-Konto wurde nicht erstellt!",
+    "emailRequired": "E-Mail ist erforderlich",
+    "emailInvalid": "Bitte gib eine gültige E-Mail-Adresse ein",
+    "passwordRequired": "Passwort ist erforderlich",
+    "passwordLength": "Das Passwort muss mindestens 8 Zeichen lang sein",
+    "passwordMismatch": "Die Passwörter stimmen nicht überein",
+    "biographyLength": "Die Biografie muss mindestens 50 Zeichen lang sein"
+  },
+  "passwordStrength": {
+    "veryWeak": "Sehr schwach",
+    "weak": "Schwach",
+    "fair": "Mittel",
+    "strong": "Stark",
+    "veryStrong": "Sehr stark"
+  },
+  "coachingAreas": {
+    "title": "Wähle deine Coaching-Bereiche",
+    "personalDevelopment": "Persönliche Entwicklung",
+    "careerCoaching": "Karrierecoaching",
+    "businessCoaching": "Business Coaching",
+    "executiveCoaching": "Executive Coaching",
+    "lifeCoaching": "Lebenscoaching",
+    "relationshipCoaching": "Beziehungscoaching",
+    "healthWellnessCoaching": "Gesundheits- & Wellness-Coaching",
+    "performanceCoaching": "Leistungscoaching",
+    "financialCoaching": "Finanzcoaching",
+    "spiritualCoaching": "Spirituelles Coaching",
+    "other": "Andere"
+  },
+  "languages": {
+    "english": "Englisch",
+    "german": "Deutsch",
+    "french": "Französisch",
+    "spanish": "Spanisch",
+    "italian": "Italienisch",
+    "portuguese": "Portugiesisch",
+    "russian": "Russisch",
+    "chinese": "Chinesisch",
+    "japanese": "Japanisch",
+    "arabic": "Arabisch",
+    "other": "Andere"
+  },
+  "availability": {
+    "weekdays": "Wochentage",
+    "evenings": "Abende",
+    "weekends": "Wochenenden"
+  },
+  "profileCompletion": {
+    "title": "Profil-Vervollständigung",
+    "basicInfo": "Grundlegende Informationen",
+    "coachingAreas": "Coaching-Bereiche",
+    "languages": "Sprachen",
+    "biography": "Biografie",
+    "certifications": "Zertifizierungen",
+    "availability": "Verfügbarkeit",
+    "profilePicture": "Profilbild"
+  },
+  "optionalSections": {
+    "title": "Optionale Profilverbesserungen",
+    "uploadPicture": "Profilbild hochladen",
+    "addCertifications": "Zertifizierungen hinzufügen",
+    "createPackages": "Coaching-Pakete erstellen",
+    "offerPackages": "Coaching-Pakete anbieten",
+    "setupAvailability": "Verfügbarkeit einrichten",
+    "availability": "Verfügbarkeit"
+  },
+  "cta": {
+    "createAccount": "Erstelle dein Coach-Konto",
+    "completeSignup": "Registrierung abschliessen",
+    "saveAndContinue": "Speichern & später fortfahren"
+  },
+  "success": {
+    "accountCreated": "Dein Coach-Konto wurde erfolgreich erstellt!",
+    "successMessage": "Dein Coach-Konto wurde erfolgreich erstellt!",
+    "whatNext": "Was kommt als Nächstes?",
+    "completeProfile": "Vervollständige dein Profil, um mehr Kunden zu gewinnen",
+    "exploreFeatures": "Erkunde die Funktionen der Plattform",
+    "bookFirstSession": "Buche deine erste Coaching-Sitzung"
+  },
+  "messages": {
+    "packageSetupLater": "Du kannst deine Coaching-Pakete später in deinem Dashboard einrichten.",
+    "availabilitySetupLater": "Du kannst deine Verfügbarkeit später in deinem Dashboard einrichten."
+  },
+  "selection": {
+    "title": "Tritt unserer Gemeinschaft bei",
+    "subtitle": "Wähle deinen Weg und beginne noch heute deine Reise mit uns.",
+    "client": {
+      "title": "Ich möchte einen Coach finden",
+      "description": "Für Personen, die ihr Potenzial entfalten möchten.",
+      "benefit1": "Verbinde dich sofort mit Live-Sitzungen",
+      "benefit2": "Verfolge Fortschritte auf deinem persönlichen Dashboard",
+      "benefit3": "Lerne auf Abruf mit strukturierten Programmen",
+      "cta": "Als Kunde starten"
+    },
+    "coach": {
+      "title": "Ich möchte Coach werden",
+      "description": "Für Fachleute, die ihr Coaching-Geschäft ausbauen möchten.",
+      "benefit1": "Erreiche ein globales Publikum von Kunden",
+      "benefit2": "Verkaufe skalierbare digitale Programme",
+      "benefit3": "Biete sofortige On-Demand Live-Sitzungen an",
+      "cta": "Als Coach starten"
+    }
+    },
+     "coach": {
+    "application": {
+      "backToHome": "Zurück zur Startseite",
+      "pageTitle": "Bewirb dich für die Gründer-Community",
+      "pageSubtitle": "Gestalte die Zukunft des Coachings mit und erhalte exklusive lebenslange Vorteile, darunter keine Plattformgebühren im ersten Jahr, priorisierten Support und eine hervorgehobene Platzierung zum Launch.",
+      "benefit1": "Keine Plattformgebühren im ersten Jahr",
+      "benefit2": "Direkter Einfluss auf neue Funktionen",
+      "benefit3": "Hervorgehobene Platzierung zum Launch",
+      "firstName": "Vorname",
+      "lastName": "Nachname",
+      "email": "E-Mail-Adresse",
+      "websiteUrl": "Webseite (Optional)",
+      "linkedInUrl": "LinkedIn Profil (Optional)",
+      "primarySpecialties": "Was sind deine Hauptfachgebiete als Coach?",
+      "clientDescription": "Beschreibe deinen idealen Kunden.",
+      "biggestAdminPainPoint": "Was ist deine grösste administrative Herausforderung in deinem Coaching-Business?",
+      "documents": "Unterstützende Dokumente (Optional)",
+      "uploadFile": "Eine Datei hochladen",
+      "dragAndDrop": "oder per Drag & Drop ziehen",
+      "fileTypes": "PDF, DOCX, PNG, JPG bis zu 5MB. Max 3 Dateien.",
+      "maxFilesError": "Sie können maximal 3 Dateien hochladen.",
+      "successToast": "Vielen Dank für deine Bewerbung! Wir werden uns in Kürze bei dir melden.",
+      "errorToast": "Bewerbung fehlgeschlagen. Bitte versuche es erneut."
+    },
+    "loginPrompt": {
+      "text": "Hast du bereits ein Konto?",
+      "link": "Anmelden"
+    }
+  }
+}

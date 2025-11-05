@@ -1,0 +1,241 @@
+{
+  "version": "2024-05-21",
+  "lastUpdated": "Zuletzt aktualisiert: {{date}}",
+  "title": "Allgemeine Geschäftsbedingungen (AGB)",
+  "glance": {
+    "title": "Das Wichtigste auf einen Blick",
+    "p1": "Diese AGB sind ein rechtsverbindlicher Vertrag zwischen Ihnen und der Nomadik GmbH. Durch die Nutzung unserer Plattform stimmen Sie diesen Bedingungen zu.",
+    "p2": "Wir sind eine Technologieplattform, die Kunden und Coaches verbindet. Wir sind nicht für die Qualität des Coachings selbst verantwortlich.",
+    "p3": "Für Abrechnungszwecke kaufen Sie Dienstleistungen von der Nomadik GmbH. Coaches stimmen einem Self-Billing-Verfahren zu, bei dem wir Rechnungen in ihrem Namen erstellen.",
+    "p4": "Bei Streitigkeiten zwischen Nutzern agiert die Plattform als alleiniger und endgültiger Schlichter.",
+    "p5": "Wir behalten uns das Recht vor, Inhalte zu moderieren und Konten zu sperren, die gegen unsere Richtlinien verstossen."
+  },
+  "preamble": {
+    "title": "Präambel: Über diese Bedingungen",
+    "p1": "Diese Allgemeinen Geschäftsbedingungen („AGB“) stellen eine rechtsverbindliche Vereinbarung zwischen Ihnen („Nutzer“, „Sie“) und der Nomadik GmbH, einem in der Schweiz registrierten Unternehmen mit Sitz in [Ihre Geschäftsadresse,  Bergstrasse 10, 8712 Stäfa, Schweiz] („Nomadik“, „Plattform“, „wir“, „uns“), dar.",
+    "p2": "Durch die Registrierung eines Kontos oder die Nutzung unserer Dienste in jeglicher Form bestätigen Sie, dass Sie diese AGB, unsere <0>Datenschutzrichtlinie</0> und unsere <1>Community-Richtlinien</1> gelesen, verstanden haben und ihnen zustimmen. Zusammen bilden diese Dokumente die „Vereinbarung“."
+  },
+  "definitions": {
+    "title": "Definitionen",
+    "platform": {
+      "term": "Plattform",
+      "def": "Bezeichnet die von der Nomadik GmbH bereitgestellte Technologie, einschliesslich unserer Websites, Anwendungen und zugehörigen Dienste, die als Marktplatz für Coaching-Dienstleistungen fungieren."
+    },
+    "user": {
+      "term": "Nutzer",
+      "def": "Bezeichnet jede Person oder Organisation, die auf die Plattform zugreift oder diese nutzt, unabhängig davon, ob als Kunde oder Coach."
+    },
+    "coach": {
+      "term": "Coach",
+      "def": "Bezeichnet einen Nutzer, der seine professionellen Dienstleistungen auf der Plattform anbietet. Dieser Begriff umfasst unter anderem, aber nicht ausschliesslich, Coaches, Trainer, Autoren, Berater und Therapeuten."
+    },
+    "client": {
+      "term": "Kunde",
+      "def": "Bezeichnet einen Nutzer, der die Dienstleistungen eines Coaches über die Plattform in Anspruch nimmt."
+    },
+    "services": {
+      "term": "Dienste",
+      "def": "Bezeichnet die Gesamtheit der von der Plattform bereitgestellten Funktionalitäten, einschliesslich der Vermittlung von Coaches, Buchungstools, Zahlungabwicklung, Kommunikationstools und des Zugangs zu digitalen Programmen."
+    }
+  },
+  "chapter1": {
+    "title": "1. Art und Umfang unserer Dienste",
+    "venue": {
+      "title": "1.1. Die Plattform als Vermittler",
+      "p1": "Nomadik ist eine Technologieplattform, die als Marktplatz dient, um Kunden und Coaches zu verbinden. Wir sind weder eine Coaching-Agentur noch ein Anbieter von Coaching-Dienstleistungen. Unsere Rolle beschränkt sich auf die Bereitstellung der technologischen Infrastruktur. Wir sind keine Partei der direkten Vereinbarung oder der Coaching-Beziehung zwischen einem Kunden und einem Coach."
+    },
+    "deemedSupplier": {
+      "title": "1.2. Unsere Rolle bei Transaktionen",
+      "p1": "Für die Zwecke der Abrechnung, Rechnungsstellung und Steuererhebung wird die Plattform als „Deemed Supplier“ (fiktiver Leistungserbringer) betrachtet. Das bedeutet, der Kunde schliesst den Kaufvertrag über die Coaching-Dienstleistung mit der Nomadik GmbH ab. Der Coach wiederum erbringt seine Dienstleistung als unabhängiger Auftragnehmer an die Nomadik GmbH. Diese Struktur dient der Vereinfachung der Abrechnung und der Einhaltung steuerlicher Vorschriften."
+    },
+    "noGuarantee": {
+      "title": "1.3. Kein Endorsement und keine Garantien",
+      "p1": "Die Plattform prüft die Qualifikationen der Coaches, gibt jedoch keine Garantie, Zusicherung oder Billigung hinsichtlich der Fähigkeiten, Qualifikationen, Qualität, Sicherheit oder Rechtmässigkeit der von den Coaches angebotenen Dienstleistungen. Die Auswahl eines Coaches und die Inanspruchnahme seiner Dienste erfolgen auf eigenes Risiko des Kunden. Wir sind nicht verantwortlich für die Handlungen, Unterlassungen oder Inhalte von Nutzern auf der Plattform."
+    },
+    "modifications": {
+      "title": "1.4. Änderungen am Dienst",
+      "p1": "Wir behalten uns das Recht vor, jederzeit und ohne Vorankündigung Aspekte unserer Dienste zu ändern, auszusetzen oder einzustellen. Wesentliche Änderungen an diesen AGB werden den Nutzern mit einer Frist von mindestens 30 Tagen mitgeteilt."
+    }
+  },
+  "chapter2": {
+    "title": "2. Nutzerkonten & Teilnahmeberechtigung",
+    "eligibility": {
+      "title": "2.1. Teilnahmeberechtigung",
+      "p1": "Sie sichern zu und gewährleisten, dass Sie mindestens 18 Jahre alt sind und die volle Rechts- und Geschäftsfähigkeit besitzen, um diese Vereinbarung einzugehen. Die Plattform ist nicht für die Nutzung durch Minderjährige bestimmt."
+    },
+    "accountInfo": {
+      "title": "2.2. Kontoinformationen & Integrität",
+      "p1": "Sie verpflichten sich, bei der Registrierung und Nutzung der Plattform genaue, aktuelle und vollständige Informationen anzugeben. Sie sind allein dafür verantwortlich, diese Informationen (insbesondere Ihre Rechnungs- und Steuerdaten) auf dem neuesten Stand zu halten. Die Plattform ist nicht haftbar für Probleme, die aus ungenauen oder veralteten Nutzerdaten resultieren."
+    },
+    "security": {
+      "title": "2.3. Kontosicherheit",
+      "p1": "Sie sind für die Geheimhaltung Ihres Passworts und für alle Aktivitäten, die über Ihr Konto stattfinden, vollumfänglich verantwortlich. Sie stimmen zu, uns unverzüglich über jede unbefugte Nutzung Ihres Kontos zu informieren."
+    },
+    "platformAccess": {
+      "title": "2.4. Zugriffsrechte der Plattform",
+      "p1": "Sie gewähren uns hiermit das Recht, auf Ihr Konto und dessen Inhalte zuzugreifen. Dieser Zugriff erfolgt ausschliesslich zu administrativen Zwecken, zur Bereitstellung von technischem Support, zur Gewährleistung der Sicherheit und Integrität der Plattform und zur Untersuchung möglicher Verstösse gegen diese Vereinbarung."
+    }
+  },
+  "chapter3": {
+    "title": "3. Besondere Bestimmungen für Kunden",
+    "coachDisclaimer": {
+      "title": "3.1. Beziehung zu Coaches & Haftungsausschluss",
+      "p1": "Sie erkennen an und stimmen zu, dass Sie Coaches auf Ihr eigenes und alleiniges Risiko engagieren. Die Plattform fungiert als Vermittler, gibt jedoch keine Zusicherungen oder Garantien bezüglich der Qualität, Effektivität, Sicherheit oder Rechtmässigkeit der von den Coaches angebotenen Dienstleistungen. Alle Ansprüche im Zusammenhang mit einer Coaching-Dienstleistung sind direkt an den jeweiligen Coach zu richten."
+    },
+    "payment": {
+      "title": "3.2. Preise & Zahlungsverpflichtungen",
+      "p1": "Sie verpflichten sich, alle anfallenden Gebühren für die von Ihnen über die Plattform erworbenen Dienste zu bezahlen. Sie erkennen an, dass der endgültige, verbindliche Preis von unseren Servern zum Zeitpunkt der Zahlungsinitiierung autoritativ berechnet wird. Sie stimmen ausdrücklich den Abrechnungsmodellen der Plattform zu, einschliesslich der Vorauszahlung für geplante Sitzungen und Programme sowie der Nachberechnung basierend auf der tatsächlichen Dauer für Live-Sitzungen und genehmigte Überzeit."
+    },
+    "refunds": {
+      "title": "3.3. Stornierungen & Rückerstattungen",
+      "p1": "Stornierungen unterliegen der Stornierungsrichtlinie des jeweiligen Coaches, die während des Buchungsvorgangs angezeigt wird. Alle Anträge auf Rückerstattung werden gemäss diesem Verfahren behandelt. Im Falle einer Streitigkeit erklären Sie sich damit einverstanden, dass die Entscheidung der Plattform, wie in Kapitel 5 dargelegt, endgültig und bindend ist. Die Plattform ist in keinem Fall verpflichtet, eine Rückerstattung zu gewähren; jegliche Rückerstattungen erfolgen nach unserem alleinigen Ermessen."
+    },
+    "conduct": {
+      "title": "3.4. Verhalten des Kunden",
+      "p1": "Ihre Interaktionen mit allen anderen Nutzern müssen jederzeit unseren Community-Richtlinien entsprechen. Jeglicher Missbrauch der Plattform oder respektloses Verhalten gegenüber Coaches oder anderen Kunden kann zur sofortigen Sperrung Ihres Kontos führen."
+    }
+  },
+  "chapter4": {
+    "title": "4. Besondere Bestimmungen für Coaches",
+    "preamble": "Dieses Kapitel stellt die rechtsverbindliche Vereinbarung zwischen Ihnen als Coach und der Nomadik GmbH dar.",
+    "contractorStatus": {
+      "title": "4.1. Unabhängiger Auftragnehmer",
+      "p1": "Sie erkennen an und stimmen zu, dass Ihre Beziehung zur Plattform die eines unabhängigen Auftragnehmers ist. Nichts in dieser Vereinbarung begründet ein Anstellungs-, Partnerschafts-, Joint-Venture- oder Agenturverhältnis zwischen Ihnen und der Nomadik GmbH. Sie sind allein verantwortlich für Ihre eigenen Steuern, Versicherungen und alle anderen rechtlichen Verpflichtungen, die sich aus Ihrer Tätigkeit als Coach ergeben."
+    },
+    "selfBilling": {
+      "title": "4.2. Mandat zur Selbstfakturierung (Self-Billing)",
+      "p1": "Als wesentliche und unabdingbare Voraussetzung für die Nutzung der Plattform als Coach gehen Sie hiermit eine <0>Vereinbarung zur Selbstfakturierung</0> mit der Nomadik GmbH, Bergstrasse 10, 8712 Stäfa, Schweiz, USt-IdNr. CHE-215.396.009, ein.",
+      "p2": "Sie <0>bevollmächtigen und ernennen</0> die Nomadik GmbH hiermit zu Ihrem Vertreter, um in Ihrem Namen gesetzeskonforme Rechnungen für die von Ihnen an die Plattform erbrachten Coaching-Dienstleistungen zu erstellen und auszustellen.",
+      "p3": "Sie verpflichten sich, die von uns in Ihrem Namen erstellten Rechnungen als gültig anzuerkennen und für dieselben Transaktionen keine eigenen Rechnungen an die Nomadik GmbH auszustellen.",
+      "p4": "Sie sind gesetzlich verpflichtet, die Nomadik GmbH <0>unverzüglich schriftlich zu benachrichtigen</0>, falls Sie Ihre Umsatzsteuerregistrierung ändern (z. B. aufgeben oder eine neue Nummer erhalten), Ihr Unternehmen verkaufen oder den Status Ihres Unternehmens anderweitig ändern, was die Gültigkeit dieser Vereinbarung beeinträchtigen könnte."
+    },
+    "ipLicense": {
+      "title": "4.3. Geistiges Eigentum und Inhaltslizenz",
+      "p1": "<0>Eigentum:</0> Sie behalten das volle Eigentum an Ihrem bereits bestehenden geistigen Eigentum, einschliesslich, aber nicht beschränkt auf Ihre Coaching-Methoden, Kursmaterialien, Texte, Videos und alle anderen Inhalte, die Sie auf die Plattform hochladen („Ihre Inhalte“).",
+      "p2": "<0>Lizenzgewährung an die Plattform:</0> Durch das Hochladen Ihrer Inhalte gewähren Sie der Nomadik GmbH eine nicht-exklusive, weltweite, gebührenfreie, unterlizenzierbare und übertragbare Lizenz zur Nutzung, Speicherung, Vervielfältigung, Änderung (für Formatierungszwecke), Anzeige, Verteilung und zum Verkauf Ihrer Inhalte im Zusammenhang mit dem Betrieb, der Vermarktung und der Bereitstellung der Plattform-Dienste.",
+      "p3": "<0>Erweiterte Lizenz für verkaufte Inhalte:</0> Für alle Inhalte, die an einen Kunden verkauft werden (z. B. ein erworbenes Programm), wird die oben genannte Lizenz in Bezug auf diesen Kunden <1>unbefristet und unwiderruflich</1>. Dies stellt sicher, dass Kunden auch nach Beendigung Ihres Kontos weiterhin auf die von ihnen erworbenen Inhalte zugreifen können."
+    },
+    "feesAndPayouts": {
+      "title": "4.4. Gebühren, Auszahlungen & Verpflichtungen",
+      "p1": "Die aktuelle Gebührenstruktur der Plattform (die „Plattformgebühr“) ist in Ihrem Coach-Dashboard ersichtlich. Wir behalten uns das Recht vor, die Gebühren jederzeit zu ändern. Wesentliche Änderungen werden Ihnen im Voraus mitgeteilt.",
+      "p2": "Auszahlungen Ihrer Einnahmen (abzüglich der anfallenden Plattformgebühren und Transaktionskosten Dritter) erfolgen gemäss dem auf der Plattform beschriebenen Auszahlungsplan. Sie sind allein dafür verantwortlich, ein gültiges, verbundenes Stripe-Konto zu unterhalten und alle für die Auszahlung erforderlichen steuerlichen und rechtlichen Informationen bereitzustellen. Die Plattform haftet nicht für fehlgeschlagene Auszahlungen aufgrund von ungenauen oder unvollständigen Informationen, die von Ihnen bereitgestellt wurden.",
+      "p3": "Sie ermächtigen die Plattform, alle ausstehenden Beträge, einschliesslich, aber nicht beschränkt auf Rückerstattungen an Kunden, die gemäss Kapitel 5 genehmigt wurden, von Ihren zukünftigen Einnahmen abzuziehen."
+    },
+    "conduct": {
+      "title": "4.5. Professionelles Verhalten & Verantwortung",
+      "p1": "Als Coach tragen Sie eine erhöhte Verantwortung, die höchsten Standards der Professionalität und Ethik einzuhalten. Sie sind verpflichtet, sich jederzeit an unsere Community-Richtlinien zu halten und Dienstleistungen von hoher Qualität zu erbringen. Wiederholte negative Rückmeldungen oder Verstösse gegen die Richtlinien können zu einer Überprüfung Ihres Kontos und möglichen Sanktionen, einschliesslich der dauerhaften Sperrung, führen."
+    }
+  },
+  "chapter5": {
+    "title": "5. Streitbeilegung & Autorität der Plattform",
+    "preamble": "Dieses Kapitel definiert den Prozess zur Beilegung von Streitigkeiten zwischen Nutzern und legt die endgültige Entscheidungsbefugnis der Plattform fest.",
+    "userToUser": {
+      "title": "5.1. Direkte Kommunikation zwischen Nutzern",
+      "p1": "Im Falle einer Meinungsverschiedenheit zwischen einem Kunden und einem Coach sind beide Parteien angehalten, zunächst in gutem Glauben direkt miteinander zu kommunizieren, um eine einvernehmliche Lösung zu finden. Die Plattform stellt hierfür Kommunikationswerkzeuge zur Verfügung."
+    },
+    "escalation": {
+      "title": "5.2. Eskalation an die Plattform",
+      "p1": "Sollte eine direkte Lösung nicht möglich sein, kann jede Partei die Angelegenheit über die dafür vorgesehenen Kanäle auf der Plattform eskalieren (z. B. durch Einreichen eines Rückerstattungsantrags oder Melden eines Problems). Mit der Eskalation eines Disputs stimmen beide Parteien unwiderruflich dem in diesem Kapitel beschriebenen Prozess zu."
+    },
+    "finalArbiter": {
+      "title": "5.3. Die Plattform als alleiniger und endgültiger Schlichter",
+      "p1": "Sobald ein Disput an die Nomadik GmbH eskaliert wird, agiert die Plattform als <0>alleiniger, unparteiischer und endgültiger Schlichter</0>. Beide Parteien (Kunde und Coach) stimmen ausdrücklich zu, dass die Entscheidung der Plattform <1>endgültig, bindend und nicht anfechtbar</1> ist.",
+      "p2": "Die Plattform wird den Disput nach eigenem Ermessen untersuchen und dabei die verfügbaren Informationen, einschliesslich der Kommunikationshistorie, der Sitzungsdaten und der Einhaltung der Community-Richtlinien, berücksichtigen.",
+      "p3": "Die Entscheidung der Plattform kann unter anderem Folgendes umfassen: die Gewährung oder Ablehnung einer vollständigen oder teilweisen Rückerstattung an den Kunden, die Belastung zukünftiger Einnahmen des Coaches zur Deckung einer Rückerstattung, die Ausstellung einer Gutschrift oder das Ergreifen von Moderationsmassnahmen gegen eines oder beide Konten. Durch die Nutzung der Dienste verzichten Sie auf jegliches Recht, die interne Streitbeilegungsentscheidung der Plattform ausserhalb des in Kapitel 9 definierten formellen Rechtsweges anzufechten."
+    },
+    "noLiability": {
+      "title": "5.4. Haftungsausschluss für Streitigkeiten",
+      "p1": "Sie entbinden die Nomadik GmbH (und ihre verbundenen Unternehmen, leitenden Angestellten, Mitarbeiter und Vertreter) von allen Ansprüchen, Forderungen und Schäden jeglicher Art, die aus Streitigkeiten zwischen Ihnen und anderen Nutzern der Plattform entstehen oder in irgendeiner Weise damit zusammenhängen."
+    }
+  },
+  "chapter6": {
+    "title": "6. Inhalte, Moderation & Community",
+    "preamble": "Die Aufrechterhaltung einer sicheren und professionellen Umgebung ist für den Erfolg der Plattform von entscheidender Bedeutung. Dieses Kapitel beschreibt Ihre Verantwortlichkeiten und die Rechte der Plattform in Bezug auf Inhalte und Verhalten.",
+    "communityGuidelines": {
+      "title": "6.1. Verbindliche Community-Richtlinien",
+      "p1": "Unsere <0>Community-Richtlinien</0> sind ein integraler Bestandteil dieser Vereinbarung. Sie sind verpflichtet, diese Richtlinien jederzeit einzuhalten. Eine Verletzung der Community-Richtlinien stellt eine wesentliche Verletzung dieser AGB dar und kann zu den unten beschriebenen Massnahmen führen."
+    },
+    "userContent": {
+      "title": "6.2. Verantwortung für Nutzerinhalte",
+      "p1": "Sie sind allein verantwortlich für alle Inhalte, die Sie auf der Plattform erstellen, hochladen oder teilen, einschliesslich Profilinformationen, Nachrichten, Rezensionen und Kursmaterialien. Sie gewährleisten, dass Sie über alle erforderlichen Rechte zur Veröffentlichung Ihrer Inhalte verfügen und dass diese nicht die Rechte Dritter verletzen oder gegen geltendes Recht verstossen."
+    },
+    "moderationRights": {
+      "title": "6.3. Absolute Moderationsrechte der Plattform",
+      "p1": "Sie erkennen an, dass die Nomadik GmbH das <0>absolute und uneingeschränkte Recht</0> hat (jedoch nicht die Verpflichtung), die Plattform auf Inhalte zu überwachen, die gegen unsere Richtlinien verstossen. Nach unserem alleinigen Ermessen behalten wir uns das Recht vor:",
+      "list": {
+        "item1": "Inhalte ohne Vorankündigung und ohne Haftung zu überprüfen, zu filtern, zu bearbeiten, auszublenden oder zu entfernen.",
+        "item2": "Jede Aktivität oder jedes Konto zu untersuchen, das wir als verdächtig oder als Verstoss gegen diese Vereinbarung erachten.",
+        "item3": "Massnahmen zu ergreifen, die wir für angemessen halten, einschliesslich der Ausstellung von Verwarnungen, der vorübergehenden Sperrung oder der dauerhaften Kündigung Ihres Kontos, wie in den Community-Richtlinien dargelegt."
+      },
+      "p2": "Sie stimmen zu, dass die Entscheidungen des Moderationsteams der Plattform endgültig sind. Die Ausübung dieser Rechte erfolgt nach unserem alleinigen Ermessen und begründet keine fortlaufende Verpflichtung zur Überwachung der Plattform."
+    },
+    "reporting": {
+      "title": "6.4. Meldung von Verstössen",
+      "p1": "Wir ermutigen alle Nutzer, Inhalte oder Verhaltensweisen, die gegen unsere Richtlinien verstossen, über die auf der Plattform bereitgestellten Meldefunktionen zu melden. Eine Meldung garantiert keine bestimmte Massnahme, aber jede Meldung wird von unserem Team geprüft."
+    }
+  },
+  "chapter7": {
+    "title": "7. Gewährleistungsausschluss & Haftungsbeschränkung",
+    "preamble": "Dieses Kapitel begrenzt die gesetzlichen Verpflichtungen und die finanzielle Haftung der Nomadik GmbH Ihnen gegenüber. Bitte lesen Sie es sorgfältig durch.",
+    "asIs": {
+      "title": "7.1. Bereitstellung der Dienste „wie besehen“",
+      "p1": "Die Dienste der Plattform werden „wie besehen“ („as-is“) und „wie verfügbar“ („as-available“) zur Verfügung gestellt. Im grösstmöglichen gesetzlich zulässigen Umfang schliesst die Nomadik GmbH jegliche Gewährleistungen, Zusicherungen und Garantien aus, seien sie ausdrücklich, stillschweigend oder gesetzlich, einschliesslich, aber nicht beschränkt auf die Gewährleistung der Marktgängigkeit, der Eignung für einen bestimmten Zweck und der Nichtverletzung von Rechten Dritter."
+    },
+    "noGuarantee": {
+      "title": "7.2. Keine Garantie für Servicequalität oder Ergebnisse",
+      "p1": "Wir garantieren nicht, dass die Dienste ununterbrochen, sicher oder fehlerfrei sein werden. Wir übernehmen keine Garantie für die Qualität, Genauigkeit, Rechtmässigkeit oder die Ergebnisse der von Coaches erbrachten Dienstleistungen. Jegliches Vertrauen in die von einem Coach bereitgestellten Informationen oder Ratschläge geschieht auf Ihr alleiniges Risiko."
+    },
+    "userConduct": {
+      "title": "7.3. Haftungsausschluss für das Verhalten von Nutzern",
+      "p1": "Die Nomadik GmbH ist nicht verantwortlich für das Verhalten, ob online oder offline, von Nutzern der Plattform. Sie sind allein verantwortlich für Ihre Interaktionen mit anderen Nutzern. Wir führen keine umfassenden Hintergrundüberprüfungen aller Nutzer durch, behalten uns jedoch das Recht vor, dies zu tun."
+    },
+    "limitation": {
+      "title": "7.4. Haftungsbeschränkung",
+      "p1": "Im grösstmöglichen nach schweizerischem Recht zulässigen Umfang haften die Nomadik GmbH, ihre verbundenen Unternehmen, leitenden Angestellten, Mitarbeiter und Vertreter in keinem Fall für indirekte, zufällige, besondere, exemplarische, Straf- oder Folgeschäden, einschliesslich entgangener Gewinne, Datenverluste oder Schäden an der Reputation, die sich aus Ihrer Nutzung der Dienste ergeben, selbst wenn wir auf die Möglichkeit solcher Schäden hingewiesen wurden.",
+      "p2": "Sollte die Nomadik GmbH trotz der vorstehenden Bestimmungen haftbar gemacht werden, ist unsere gesamte kumulative Haftung Ihnen gegenüber für alle Ansprüche, die sich aus oder im Zusammenhang mit dieser Vereinbarung ergeben, auf den höheren der beiden folgenden Beträge begrenzt: (a) 100.00 CHF (einhundert Schweizer Franken) oder (b) die Summe der Plattformgebühren, die Sie in den drei (3) Monaten unmittelbar vor dem Ereignis, das zu dem Anspruch geführt hat, an uns gezahlt haben."
+    },
+    "indemnity": {
+      "title": "7.5. Freistellung",
+      "p1": "Sie erklären sich damit einverstanden, die Nomadik GmbH und ihre verbundenen Unternehmen, leitenden Angestellten, Mitarbeiter und Vertreter von allen Ansprüchen, Haftungen, Schäden, Verlusten und Ausgaben, einschliesslich angemessener Anwaltskosten, freizustellen, zu verteidigen und schadlos zu halten, die sich aus (i) Ihrer Nutzung der Plattform, (ii) Ihrem Verstoss gegen diese AGB oder (iii) Ihrer Verletzung von Rechten Dritter ergeben."
+    }
+  },
+  "chapter8": {
+    "title": "8. Laufzeit & Kündigung",
+    "preamble": "Dieses Kapitel regelt, wie und wann Ihre Vereinbarung mit der Nomadik GmbH beginnt und endet.",
+    "term": {
+      "title": "8.1. Laufzeit",
+      "p1": "Diese Vereinbarung tritt in Kraft, sobald Sie ein Konto erstellen oder die Dienste nutzen, und bleibt in vollem Umfang in Kraft, solange Sie ein Konto bei uns unterhalten oder die Dienste anderweitig nutzen."
+    },
+    "terminationByUser": {
+      "title": "8.2. Kündigung durch den Nutzer",
+      "p1": "Sie können diese Vereinbarung jederzeit kündigen, indem Sie Ihr Konto über die dafür vorgesehenen Funktionen in Ihren Kontoeinstellungen löschen. Die Kündigung wird sofort wirksam, vorbehaltlich der Abwicklung ausstehender Transaktionen."
+    },
+    "terminationByPlatform": {
+      "title": "8.3. Kündigung oder Sperrung durch die Plattform",
+      "p1": "Wir behalten uns das Recht vor, Ihren Zugang zu den Diensten nach unserem alleinigen Ermessen, jederzeit und aus beliebigem Grund oder ohne Grund, mit oder ohne Vorankündigung zu sperren oder zu kündigen. Gründe für eine Kündigung können unter anderem ein wesentlicher Verstoss gegen diese AGB, ein längerer Zeitraum der Inaktivität oder eine Gefährdung der Sicherheit oder Integrität der Plattform sein."
+    },
+    "effect": {
+      "title": "8.4. Wirkung der Kündigung",
+      "p1": "Nach der Kündigung erlischt Ihr Recht zur Nutzung der Dienste. Die Nomadik GmbH ist nicht haftbar für den Verlust von Daten oder Inhalten, der aus der Kündigung Ihres Kontos resultiert. Bestimmte Bestimmungen dieser AGB, die ihrer Natur nach die Kündigung überdauern sollen, bleiben bestehen, einschliesslich, aber nicht beschränkt auf die Abschnitte über geistiges Eigentum (insbesondere die erweiterte Lizenz für verkaufte Inhalte), Haftungsbeschränkungen, Freistellung, Streitbeilegung und geltendes Recht."
+    }
+  },
+  "chapter9": {
+    "title": "9. Geltendes Recht & Gerichtsstand",
+    "governingLaw": {
+      "title": "9.1. Geltendes Recht",
+      "p1": "Diese Vereinbarung und alle Streitigkeiten, die sich aus ihr ergeben, unterliegen ausschliesslich dem materiellen <0>Recht der Schweiz</0>, unter Ausschluss des Kollisionsrechts und des Übereinkommens der Vereinten Nationen über Verträge über den internationalen Warenkauf (CISG)."
+    },
+    "jurisdiction": {
+      "title": "9.2. Ausschliesslicher Gerichtsstand",
+      "p1": "Für alle Streitigkeiten, Meinungsverschiedenheiten oder Ansprüche, die sich aus oder im Zusammenhang mit dieser Vereinbarung ergeben, einschliesslich deren Gültigkeit, Ungültigkeit, Verletzung oder Auflösung, sind ausschliesslich die <0>ordentlichen Gerichte der Stadt Zürich (Kanton Zürich), Schweiz</0>, zuständig. Die Parteien unterwerfen sich hiermit unwiderruflich dieser ausschliesslichen Zuständigkeit."
+    }
+  },
+  "conclusion": {
+    "title": "Kontakt & Impressum",
+    "p1": "Wenn Sie Fragen zu diesen Allgemeinen Geschäftsbedingungen haben, kontaktieren Sie uns bitte unter info@nomadikthread.com.",
+    "companyName": "Nomadik GmbH",
+    "address": "Bergstrasse 10, 8712 Stäfa, Schweiz",
+    "registration": "Handelsregisternummer: CHE-215.396.009",
+    "vatNumber": "USt-IdNr.: MWST CHE-215.396.009"
+  }
+}

@@ -1,0 +1,120 @@
+{
+  "title": "Inscription du Coach",
+  "steps": {
+    "basicInfo": "Informations de base",
+    "coachingProfile": "Profil de coaching",
+    "additionalInfo": "Informations supplémentaires"
+  },
+  "labels": {
+    "firstName": "Prénom",
+    "lastName": "Nom de famille",
+    "email": "Adresse e-mail",
+    "password": "Mot de passe",
+    "confirmPassword": "Confirmer le mot de passe",
+    "preferredLanguage": "Langue préférée",
+    "spokenLanguages": "Langues parlées",
+    "coachingAreas": "Domaines de coaching",
+    "register": "Registrez Coach",
+    "biography": "À propos de vous",
+    "experience": "Expérience",
+    "certifications": "Certifications",
+    "hourlyRate": "Taux horaire",
+    "availability": "Disponibilité"
+  },
+  "placeholders": {
+    "firstName": "Entrez votre prénom",
+    "lastName": "Entrez votre nom de famille",
+    "email": "Entrez votre adresse e-mail",
+    "password": "Entrez un mot de passe fort",
+    "confirmPassword": "Confirmez votre mot de passe",
+    "biography": "Parlez-nous de vous et de vos clients potentiels (50 caractères minimum)",
+    "experience": "Décrivez brièvement votre expérience en coaching",
+    "certifications": "Listez les certifications pertinentes"
+  },
+  "errors": {
+    "firstNameRequired": "Le prénom est requis",
+    "lastNameRequired": "Le nom de famille est requis",
+    "emailRequired": "L'e-mail est requis",
+    "emailInvalid": "Veuillez entrer une adresse e-mail valide",
+    "errorMessage": "Votre compte coach n'a pas été créé”!",
+    "passwordRequired": "Le mot de passe est requis",
+    "passwordLength": "Le mot de passe doit comporter au moins 8 caractères",
+    "passwordMismatch": "Les mots de passe ne correspondent pas",
+    "biographyLength": "La biographie doit comporter au moins 50 caractères"
+  },
+  "passwordStrength": {
+    "veryWeak": "Très faible",
+    "weak": "Faible",
+    "fair": "Moyen",
+    "strong": "Fort",
+    "veryStrong": "Très fort"
+  },
+  "coachingAreas": {
+    "title": "Sélectionnez vos domaines de coaching",
+    "personalDevelopment": "Développement personnel",
+    "careerCoaching": "Coaching de carrière",
+    "businessCoaching": "Coaching d'affaires",
+    "executiveCoaching": "Coaching exécutif",
+    "lifeCoaching": "Coaching de vie",
+    "relationshipCoaching": "Coaching relationnel",
+    "healthWellnessCoaching": "Coaching santé & bien-être",
+    "performanceCoaching": "Coaching de performance",
+    "financialCoaching": "Coaching financier",
+    "spiritualCoaching": "Coaching spirituel",
+    "other": "Autre"
+  },
+  "languages": {
+    "english": "Anglais",
+    "german": "Allemand",
+    "french": "Français",
+    "spanish": "Espagnol",
+    "italian": "Italien",
+    "portuguese": "Portugais",
+    "russian": "Russe",
+    "chinese": "Chinois",
+    "japanese": "Japonais",
+    "arabic": "Arabe",
+    "other": "Autre"
+  },
+  "availability": {
+    "weekdays": "Jours de semaine",
+    "evenings": "Soirées",
+    "weekends": "Week-ends"
+  },
+  "profileCompletion": {
+    "title": "Complétion du profil",
+    "basicInfo": "Informations de base",
+    "coachingAreas": "Domaines de coaching",
+    "languages": "Langues",
+    "biography": "Biographie",
+    "certifications": "Certifications",
+    "availability": "Disponibilité",
+    "profilePicture": "Photo de profil"
+  },
+  "optionalSections": {
+    "title": "Améliorations facultatives du profil",
+    "uploadPicture": "Télécharger la photo de profil",
+    "addCertifications": "Ajouter des certifications",
+    "createPackages": "Créer des forfaits de coaching",
+    "offerPackages": "Offer Coaching Packages",
+    "setupAvailability": "Configurer la disponibilité",
+    "availability": "Availability"
+  },
+  "cta": {
+    "createAccount": "Créez votre compte Coach",
+    "completeSignup": "Terminer l'inscription",
+    "saveAndContinue": "Enregistrer et continuer plus tard"
+  },
+  "success": {
+    "accountCreated": "Votre compte coach a été créé avec succès!",
+    "successMessage": "Votre compte de coach a été créé avec succès!",
+    "whatNext": "Que faire ensuite?",
+    "completeProfile": "Complétez votre profil pour attirer plus de clients",
+    "exploreFeatures": "Explorer les fonctionnalités de la plateforme",
+    "bookFirstSession": "Réservez votre première session de coaching"
+  },
+  "messages": {
+    "packageSetupLater": "You can set up your coaching packages later in your dashboard.",
+    "availabilitySetupLater": "You can set your availability later in your dashboard."
+  }
+}

@@ -1,0 +1,2587 @@
+TECHNICAL DOCUMENTATION: PAYMENT PROCESS ARCHITECTURE
+EXECUTIVE SUMMARY
+This document provides a comprehensive technical overview of the payment processing system within the coaching platform. The platform facilitates secure payments between clients and coaches with features including payment intent creation, payment method management, payment confirmation, and refund processing.
+The payment system architecture comprises several interconnected components:
+
+React frontend components for payment UI and state management
+RESTful API services for payment operations
+Stripe integration for payment processing
+Socket.IO for real-time payment status updates
+State management services for payment flow orchestration
+Error handling and recovery mechanisms
+
+The document details each component's functionality, data flow, state management, and error handling approaches.
+SYSTEM ARCHITECTURE OVERVIEW
+Technology Stack
+
+Frontend: React (Create React App)
+Backend: Express.js
+Database: MongoDB with Mongoose ODM
+State Management: React Context API, React Query
+Real-time Communication: Socket.IO
+Authentication: JWT stored in localStorage
+Payment Processing: Stripe
+Styling: CSS with potential migration to Tailwind
+
+Core Components
+
+Frontend:
+
+PaymentContext: React context for payment state management
+usePaymentStatus/useUnifiedPayment: Hook for tracking payment status
+usePaymentActions: Hook for payment operations
+usePaymentOrchestrator: Hook for orchestrating payment flows
+
+
+Services:
+
+PaymentAPI: Frontend service for API interactions
+PaymentOrchestrator: Service for coordinating payment flows
+PaymentStatusService: Service for tracking payment states
+PaymentSocketService: Service for Socket.IO communication
+
+
+Backend:
+
+paymentController.js: Backend controller for payment logic
+Payment.js: Mongoose model for payment data
+stripeService: Service for Stripe API interactions
+
+
+
+PAYMENT PROCESS FLOW
+1. Payment Intent Creation
+Client Initiates Payment
+
+Client selects a session and proceeds to payment
+Payment intent creation is triggered through:
+
+javascriptCopyconst { createPaymentIntent } = usePaymentActions();
+// or
+PaymentOrchestrator.initializePayment(config);
+Flow Initialization:
+
+PaymentOrchestrator initializes a payment flow with:
+
+javascriptCopyasync initializePayment(config) {
+  // Create flow ID
+  const flowId = config.flowId || uuidv4();
+  
+  // Set up initial state
+  this.flows.set(flowId, {
+    id: flowId,
+    bookingId: null,
+    status: 'initializing',
+    amount: priceValidation.amount,
+    currency: priceValidation.currency || currency,
+    metadata: {...}
+  });
+  
+  // Initialize payment status tracking
+  await this.statusService.initializePaymentFlow(flowId, { amount, currency, timing });
+}
+Backend Processing:
+
+createPaymentIntent in paymentController processes the request
+It validates booking data and price structure
+It creates or retrieves Stripe customer:
+
+javascriptCopylet stripeCustomerId = customer.stripe?.customerId;
+if (!stripeCustomerId) {
+  const stripeCustomer = await paymentService.createOrUpdateCustomer({
+    userId: customer._id,
+    email: customer.email,
+    name: `${customer.firstName} ${customer.lastName}`.trim()
+  });
+  stripeCustomerId = stripeCustomer.id;
+}
+
+It creates a Stripe payment intent:
+
+javascriptCopyconst paymentIntent = await paymentService.createPaymentIntent({
+  bookingId: booking._id.toString(),
+  amount: totalAmount,
+  currency: currency.toLowerCase(),
+  stripeCustomerId,
+  userId: req.user._id.toString(),
+  coachStripeAccountId: coach.settings.paymentAndBilling.stripe.accountId,
+  metadata: {...}
+});
+
+It creates payment records in the database:
+
+javascriptCopyconst payment = new Payment({
+  booking: booking._id,
+  payer: booking.user._id,
+  recipient: booking.coach._id,
+  amount: {...},
+  status: 'pending',
+  stripe: {
+    paymentIntentId: paymentIntent.id,
+    clientSecret: paymentIntent.client_secret,
+    customerId: stripeCustomerId
+  }
+});
+await payment.save();
+
+booking.payment = {
+  status: 'pending',
+  stripe: { paymentIntentId: paymentIntent.id }
+};
+await booking.save();
+Response Handling:
+
+The server returns the client secret and payment intent ID
+Frontend updates payment state and initiates payment status monitoring:
+
+javascriptCopyconst result = await PaymentOrchestrator.initializePayment({
+  flowId,
+  amount: priceValidation.amount,
+  currency: priceValidation.currency || currency,
+  metadata: {...}
+});
+2. Payment Method Selection and Confirmation
+Payment Method Selection:
+
+User selects a saved payment method or enters a new one
+This is handled by Stripe Elements UI components
+
+Payment Confirmation:
+
+User confirms payment, triggering confirmation process:
+
+javascriptCopyconst { confirmPayment } = usePaymentActions();
+const result = await confirmPayment(paymentIntentId, paymentMethodId);
+Frontend Processing:
+
+PaymentAPI sends confirmation request to backend:
+
+javascriptCopyasync confirmPayment(paymentIntentId, paymentMethodId, context = {}) {
+  const response = await api.post('/api/payments/confirm', {
+    paymentIntentId,
+    paymentMethodId,
+    ...context
+  });
+  return response.data;
+}
+Backend Confirmation:
+
+Server confirms the payment intent with Stripe:
+
+javascriptCopyconst paymentIntent = await paymentService.confirmPaymentIntent(paymentIntentId, paymentMethodId);
+
+Updates booking and payment records:
+
+javascriptCopybooking.payment.status = 'completed';
+booking.payment.stripe.chargeId = chargeId;
+await booking.save();
+
+const payment = await Payment.findOneAndUpdate(
+  { 'stripe.paymentIntentId': paymentIntentId },
+  { status: 'completed', 'stripe.chargeId': chargeId },
+  { new: true }
+);
+
+Creates transaction record:
+
+javascriptCopyawait Transaction.create({
+  booking: booking._id,
+  payment: payment?._id,
+  type: 'charge',
+  amount: {
+    value: paymentIntent.amount / 100,
+    currency: paymentIntent.currency
+  },
+  status: 'completed',
+  stripe: {
+    transactionId: paymentIntentId,
+    chargeId: chargeId
+  }
+});
+
+Sends notification to relevant users:
+
+javascriptCopyawait UnifiedNotificationService.sendNotification({
+  type: NotificationTypes.PAYMENT_RECEIVED,
+  recipient: recipientId,
+  category: NotificationCategories.PAYMENT,
+  priority: NotificationPriorities.MEDIUM,
+  channels: ['in_app', 'email'],
+  content: {...},
+  metadata: {...}
+});
+Payment Status Update:
+
+Real-time updates via Socket.IO:
+
+javascriptCopysocket.emit('payment_confirmed', {
+  paymentIntentId,
+  bookingId: response.data.bookingId,
+  timestamp: new Date().toISOString()
+});
+
+Status monitoring via polling or socket events:
+
+javascriptCopyconst { startPolling } = usePaymentStatus(bookingId);
+startPolling(bookingId, { flowId });
+3. Payment Status Monitoring
+Socket-based Monitoring:
+
+PaymentSocketService sets up real-time monitoring:
+
+javascriptCopysetupPaymentSubscription(bookingId) {
+  const callbacks = {
+    'payment_status': (data) => {
+      updatePaymentStatus(bookingId, data.status, {...});
+    },
+    'payment_error': (error) => {
+      setError(error);
+    }
+  };
+  
+  const unsubscribe = PaymentSocketService.subscribeToPayment(bookingId, callbacks);
+  socketSubscriptionRef.current = unsubscribe;
+}
+Polling-based Fallback:
+
+Automatic fallback to polling if socket fails:
+
+javascriptCopyconst checkPaymentStatus = useCallback(async (options = {}) => {
+  try {
+    const status = await PaymentOrchestrator.getFlowStatus(activeFlowIdRef.current);
+    updatePaymentStatus(bookingId, status.status, {...});
+    
+    if ([PAYMENT_STATES.SUCCEEDED, PAYMENT_STATES.FAILED, PAYMENT_STATES.CANCELLED].includes(status.status)) {
+      stopPolling();
+      return;
+    }
+    
+    pollingTimeoutRef.current = setTimeout(
+      () => checkPaymentStatus(options),
+      interval
+    );
+  } catch (error) {
+    // Handle error with retry logic
+  }
+}, [bookingId, isPolling, retryCount, updatePaymentStatus, stopPolling]);
+State Management:
+
+PaymentStatusService tracks payment state:
+
+javascriptCopyasync handlePaymentStatusChange(bookingId, status, metadata = {}) {
+  const currentState = this.paymentStates.get(bookingId);
+  if (!currentState) {
+    logger.error('[PaymentStatusService] No payment state found');
+    return null;
+  }
+
+  const updatedState = {
+    ...currentState,
+    status,
+    lastUpdated: new Date().toISOString(),
+    updates: [...]
+  };
+
+  // Atomic state update
+  await this._atomicStateUpdate(bookingId, updatedState);
+  
+  // Notify subscribers
+  this._notifySubscribers(bookingId, updatedState);
+  
+  return updatedState;
+}
+Notification of State Changes:
+
+Subscribers get notified of all changes:
+
+javascriptCopy// Subscription setup
+const unsubscribe = PaymentOrchestrator.subscribeToState(flowId, (state) => {
+  dispatch({
+    type: 'UPDATE_PAYMENT_STATUS',
+    payload: {
+      bookingId,
+      status: state.status,
+      error: state.error
+    }
+  });
+});
+Webhook Handling:
+
+Backend processes Stripe webhooks for asynchronous updates:
+
+javascriptCopyconst webhookHandler = async (req, res) => {
+  const sig = req.headers['stripe-signature'];
+  const event = stripe.webhooks.constructEvent(
+    req.body,
+    sig,
+    process.env.STRIPE_WEBHOOK_SECRET
+  );
+
+  switch (event.type) {
+    case 'payment_intent.succeeded':
+      await handlePaymentSuccess(event.data.object);
+      break;
+    case 'payment_intent.payment_failed':
+      await handlePaymentFailure(event.data.object);
+      break;
+    // Other cases
+  }
+};
+4. Payment Completion and Error Handling
+Success Path:
+
+PaymentOrchestrator updates flow state:
+
+javascriptCopyawait this.updateFlow(flowId, {
+  status: 'succeeded',
+  metadata: {
+    completedAt: new Date().toISOString(),
+    ...metadata
+  }
+});
+
+UI updates to show success:
+
+javascriptCopywindow.dispatchEvent(
+  new CustomEvent('payment_status_update', {
+    detail: {
+      bookingId,
+      paymentIntentId,
+      status: 'succeeded',
+      timestamp: new Date().toISOString()
+    }
+  })
+);
+Error Handling:
+
+Comprehensive error handling at multiple levels:
+
+javascriptCopyasync handlePaymentError(flowId, error, options = {}) {
+  try {
+    // Update state to failed
+    await this.statusService.handlePaymentStatusChange(flowId, PAYMENT_STATES.FAILED, {
+      error: error.message,
+      failedAt: new Date().toISOString(),
+      recoverable: error.recoverable !== false
+    });
+    
+    // Publish error state to all subscribers
+    this.publishState(flowId, {
+      status: 'failed',
+      error: {
+        message: error.message,
+        code: error.code || 'payment_error',
+        recoverable: error.recoverable !== false
+      },
+      timestamp: new Date().toISOString()
+    });
+  } catch (handlingError) {
+    logger.error('[PaymentOrchestrator] Error while handling payment error');
+  }
+}
+
+Retry mechanisms for recoverable errors:
+
+javascriptCopyasync retryWithDelay(operation, options = {}) {
+  const {
+    maxAttempts = RETRY_CONFIG.MAX_ATTEMPTS,
+    baseDelay = RETRY_CONFIG.BASE_DELAY,
+    maxDelay = RETRY_CONFIG.MAX_DELAY,
+    context = {}
+  } = options;
+
+  let lastError = null;
+
+  for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+    try {
+      return await operation();
+    } catch (error) {
+      lastError = error;
+      
+      // Don't retry if not recoverable
+      if (error.name === 'AbortError' || error.recoverable === false) {
+        throw error;
+      }
+
+      const shouldRetry = attempt < maxAttempts;
+      if (!shouldRetry) break;
+
+      // Calculate delay with exponential backoff and jitter
+      const jitter = Math.random() * RETRY_CONFIG.JITTER_MAX;
+      const delay = Math.min(baseDelay * Math.pow(2, attempt - 1) + jitter, maxDelay);
+      
+      await new Promise(resolve => setTimeout(resolve, delay));
+    }
+  }
+
+  throw enhancedError;
+}
+Cleanup Operations:
+
+Resources are cleaned up after payment completion:
+
+javascriptCopyhandleCleanup(flowId, reason = 'manual') {
+  if (this._isProtectedState(flowId)) {
+    return;
+  }
+
+  // Clean up status service
+  this.statusService.cleanup(flow.bookingId);
+
+  // Clean up flow ID mapping
+  if (flow.bookingId) {
+    this._activeFlowIds.delete(flow.bookingId);
+  }
+
+  // Clear timeouts
+  if (this.cleanupTimeouts.has(flowId)) {
+    clearTimeout(this.cleanupTimeouts.get(flowId));
+    this.cleanupTimeouts.delete(flowId);
+  }
+
+  this.flows.delete(flowId);
+}
+5. Payment Method Management
+Retrieving Payment Methods:
+
+Frontend requests saved payment methods:
+
+javascriptCopyasync getPaymentMethods(userId) {
+  try {
+    const response = await api.get(`/api/payments/methods/${userId}`);
+    const methods = response.data.paymentMethods || [];
+    const normalizedMethods = methods.map(method => this._normalizePaymentMethod(method));
+    return normalizedMethods;
+  } catch (error) {
+    throw error;
+  }
+}
+Backend Processing:
+javascriptCopyconst getPaymentMethods = async (req, res) => {
+  const { userId } = req.params;
+  
+  // Authorization check
+  if (userId !== req.user._id.toString() && req.user.role !== 'admin') {
+    return res.status(403).json({
+      success: false,
+      message: 'Unauthorized access'
+    });
+  }
+  
+  const user = await User.findById(userId);
+  
+  // Get methods from Stripe
+  const paymentMethods = await stripe.paymentMethods.list({
+    customer: user.stripe.customerId,
+    type: 'card'
+  });
+  
+  // Return normalized payment methods
+  res.json({
+    success: true,
+    paymentMethods: paymentMethods.data.map(method => ({
+      id: method.id,
+      brand: method.card.brand,
+      last4: method.card.last4,
+      expMonth: method.card.exp_month,
+      expYear: method.card.exp_year,
+      isDefault: method.id === user.stripe?.defaultPaymentMethodId
+    }))
+  });
+}
+Adding Payment Methods:
+javascriptCopyconst addPaymentMethod = async (req, res) => {
+  const { paymentMethodId, isDefault } = req.body;
+  
+  const user = await User.findById(req.user._id);
+  
+  // Create Stripe customer if doesn't exist
+  if (!user.stripe?.customerId) {
+    const customer = await stripe.customers.create({
+      email: user.email,
+      name: `${user.firstName} ${user.lastName}`
+    });
+    user.stripe = { customerId: customer.id };
+  }
+  
+  // Attach payment method to customer
+  await stripe.paymentMethods.attach(paymentMethodId, {
+    customer: user.stripe.customerId,
+  });
+  
+  // Set as default if requested
+  if (isDefault || !user.stripe.defaultPaymentMethodId) {
+    await stripe.customers.update(user.stripe.customerId, {
+      invoice_settings: {
+        default_payment_method: paymentMethodId,
+      },
+    });
+    user.stripe.defaultPaymentMethodId = paymentMethodId;
+  }
+  
+  await user.save();
+  
+  res.json({
+    success: true,
+    message: 'Payment method added successfully'
+  });
+}
+Deleting Payment Methods:
+javascriptCopyconst deletePaymentMethod = async (req, res) => {
+  const { methodId } = req.params;
+  
+  const user = await User.findById(req.user._id);
+  
+  await stripe.paymentMethods.detach(methodId);
+  
+  // If this was the default method, update accordingly
+  if (user.stripe.defaultPaymentMethodId === methodId) {
+    user.stripe.defaultPaymentMethodId = undefined;
+    
+    // Find another payment method to set as default
+    const paymentMethods = await stripe.paymentMethods.list({
+      customer: user.stripe.customerId,
+      type: 'card'
+    });
+    
+    if (paymentMethods.data.length > 0) {
+      user.stripe.defaultPaymentMethodId = paymentMethods.data[0].id;
+      await stripe.customers.update(user.stripe.customerId, {
+        invoice_settings: {
+          default_payment_method: paymentMethods.data[0].id,
+        },
+      });
+    }
+  }
+  
+  await user.save();
+  
+  res.json({
+    success: true,
+    message: 'Payment method deleted successfully'
+  });
+}
+6. Refund Processing
+Client Requests Refund:
+
+Frontend initiates refund request:
+
+javascriptCopyconst handleRefund = async (amount, reason) => {
+  try {
+    const response = await paymentAPI.processRefund(paymentIntentId, amount, reason);
+    // Handle success
+  } catch (error) {
+    // Handle error
+  }
+};
+Backend Processing:
+javascriptCopyconst refundPayment = async (req, res) => {
+  const { paymentIntentId, amount, reason } = req.body;
+  
+  // Process refund with Stripe
+  const refund = await paymentService.processRefund({
+    paymentIntentId,
+    amount,
+    reason
+  });
+  
+  // Update payment status
+  payment.status = amount === payment.amount.total ? 'refunded' : 'partially_refunded';
+  payment.refunds.push({
+    amount: refund.amount / 100,
+    reason,
+    status: 'completed',
+    stripeRefundId: refund.id,
+    processedAt: new Date(),
+    processedBy: req.user._id
+  });
+  await payment.save();
+  
+  // Update booking status
+  booking.payment.status = payment.status;
+  await booking.save();
+  
+  // Create transaction record for refund
+  await Transaction.create({
+    booking: booking._id,
+    payment: payment._id,
+    type: 'refund',
+    amount: {
+      value: refund.amount / 100,
+      currency: refund.currency
+    },
+    status: 'completed',
+    stripe: {
+      transactionId: refund.id,
+      chargeId: refund.charge
+    }
+  });
+  
+  // Send notifications
+  await UnifiedNotificationService.sendNotification({
+    type: NotificationTypes.PAYMENT_REFUNDED,
+    recipient: booking.user?._id,
+    category: NotificationCategories.PAYMENT,
+    priority: NotificationPriorities.HIGH,
+    channels: ['in_app', 'email'],
+    content: {...},
+    metadata: {...}
+  });
+  
+  res.json({
+    success: true,
+    refund,
+    bookingId: booking._id,
+    amount: refund.amount / 100,
+    currency: refund.currency
+  });
+}
+DETAILED COMPONENT ANALYSIS
+Frontend Components
+PaymentContext.js
+React context for payment state management.
+Key Functions:
+javascriptCopy// Initialize payment with required parameters
+const initializePayment = useCallback(async (bookingId, amount, currency, metadata = {}) => {
+  // Validate price data
+  const priceValidation = validatePaymentAmount(amount, currency);
+  
+  // Create flow using PaymentOrchestrator
+  const flow = await PaymentOrchestrator.initializePayment({...});
+  
+  // Update local state
+  dispatch({
+    type: 'INITIALIZE_PAYMENT',
+    payload: {...}
+  });
+  
+  return flow.id;
+}, []);
+
+// Handle payment cleanup
+const handlePaymentCleanup = useCallback((bookingId, reason = 'manual') => {
+  PaymentOrchestrator.handleCleanup(bookingId, {
+    source: 'payment_context',
+    reason,
+    metadata: {...}
+  });
+  
+  dispatch({
+    type: 'CLEAR_PAYMENT_STATE',
+    payload: { bookingId }
+  });
+}, [state.activePayments]);
+State Management:
+javascriptCopy// Initial state structure
+const initialState = {
+  activePayments: new Map(),
+  paymentMethods: [],
+  processingPayments: new Set(),
+  optimisticUpdates: new Map(),
+  lastError: null,
+  isInitialized: false,
+  activeFlows: new Map(),
+  flowHistory: new Map(),
+  pendingFlows: new Map(),
+  paymentLocks: new Map(),
+  lifecycleStates: new Map(),
+  socketStates: new Map(),
+  retryAttempts: new Map(),
+  pendingTimeouts: new Map()
+};
+
+// Reducer for state updates
+const paymentReducer = (state, action) => {
+  switch (action.type) {
+    case 'INITIALIZE_PAYMENT': {
+      // Handle initialization
+    }
+    case 'UPDATE_PAYMENT_STATUS': {
+      // Handle status updates
+    }
+    case 'TRACK_FLOW': {
+      // Track flow state
+    }
+    // Other action types
+  }
+};
+usePaymentStatus.js / useUnifiedPayment.js
+Hook for tracking payment status with socket and polling capabilities.
+Key Functions:
+javascriptCopy// Start polling for status updates
+const startPolling = useCallback((newBookingId, options = {}) => {
+  const { flowId, interval, maxAttempts } = options;
+  
+  // Validate flow before starting polling
+  const isValidFlow = PaymentFlowService.ensureFlowValidity(newBookingId);
+  if (!isValidFlow) return;
+  
+  // Prevent multiple polling sessions
+  if (isPolling && activeFlowIdRef.current === flowId) return;
+  
+  // Set up polling
+  setIsPolling(true);
+  setRetryCount(0);
+  clearPollingTimeout();
+  
+  // Start checking status
+  setTimeout(() => {
+    checkPaymentStatus({
+      interval: interval || DEFAULT_POLLING_INTERVAL,
+      maxAttempts: maxAttempts || MAX_POLLING_RETRIES,
+      flowId
+    });
+  }, 100);
+}, [checkPaymentStatus, clearPollingTimeout, isPolling, stopPolling]);
+
+// Set up socket subscription
+const setupPaymentSubscription = useCallback((targetBookingId) => {
+  // Clean up existing subscription
+  if (typeof socketSubscriptionRef.current === 'function') {
+    socketSubscriptionRef.current();
+    socketSubscriptionRef.current = null;
+  }
+  
+  // Set up new subscription
+  const callbacks = {
+    'payment_status': (data) => {
+      queryClient.setQueryData(['payment', 'status', targetBookingId], {...});
+      updatePaymentStatus(targetBookingId, data.status, {...});
+    },
+    'payment_error': (error) => {
+      setError(error);
+    }
+  };
+  
+  const unsubscribe = PaymentSocketService.subscribeToPayment(targetBookingId, callbacks);
+  socketSubscriptionRef.current = unsubscribe;
+}, [queryClient, updatePaymentStatus, stopPolling]);
+usePaymentActions.js
+Hook for payment operations with retry and error handling.
+Key Functions:
+javascriptCopy// Create payment intent with retry logic
+const createPaymentIntent = useCallback(async (bookingId) => {
+  // Initialize abort controller
+  abortControllerRef.current = new AbortController();
+  
+  setIsProcessing(true);
+  let retryCount = 0;
+  
+  while (retryCount <= MAX_RETRIES) {
+    try {
+      // Set up timeout for request
+      const timeoutId = setTimeout(() => {
+        abortControllerRef.current.abort();
+      }, PAYMENT_REQUEST_TIMEOUT);
+      
+      // Make API request
+      const response = await paymentAPI.createPaymentIntent(bookingId, {
+        signal: abortControllerRef.current.signal,
+        metadata: {...}
+      });
+      
+      return response;
+    } catch (error) {
+      // Handle errors and retry logic
+      if (error.name === 'AbortError') {
+        if (retryCount < MAX_RETRIES) {
+          retryCount++;
+          continue;
+        }
+        throw enhancedError;
+      }
+      
+      // Determine if retryable
+      const enhancedError = {...};
+      if (enhancedError.recoverable) {
+        retryCount++;
+        await new Promise(resolve => setTimeout(resolve, 1000 * (retryCount)));
+        continue;
+      }
+      
+      throw enhancedError;
+    }
+  }
+}, []);
+
+// Confirm payment with retry logic
+const confirmPayment = useCallback(async (paymentIntentId, paymentMethodId) => {
+  setIsProcessing(true);
+  abortControllerRef.current = new AbortController();
+  
+  try {
+    const response = await retryWithDelay(async () => {
+      return await paymentAPI.confirmPayment(
+        paymentIntentId, 
+        paymentMethodId, 
+        { signal: abortControllerRef.current.signal }
+      );
+    });
+    
+    toast.success(t('payments:paymentConfirmed'));
+    return response;
+  } catch (error) {
+    const enhancedError = {...};
+    toast.error(t('payments:errorConfirmingPayment'));
+    throw enhancedError;
+  } finally {
+    setIsProcessing(false);
+  }
+}, [t]);
+usePaymentOrchestrator.js
+Hook for orchestrating payment flows and state transitions.
+Key Functions:
+javascriptCopy// Initialize payment flow
+const initializeFlow = useCallback(async (params) => {
+  try {
+    // Validate required parameters
+    if (!params?.bookingId) {
+      throw new Error('BookingId is required for flow initialization');
+    }
+    
+    const initParams = {
+      bookingId: params.bookingId,
+      amount: params.amount || 0,
+      currency: params.currency || 'CHF',
+      timing: params.timing || PAYMENT_TIMING.IMMEDIATE,
+      metadata: {...}
+    };
+    
+    // Initialize flow with orchestrator
+    const flow = await PaymentOrchestrator.initializePayment(initParams);
+    
+    setState(prev => ({
+      ...prev,
+      flowId: flow.id,
+      initialized: true,
+      error: null
+    }));
+    
+    return flow;
+  } catch (error) {
+    setState(prev => ({
+      ...prev,
+      error: error.message
+    }));
+    throw error;
+  }
+}, []);
+
+// Action dispatcher
+const dispatch = async (action) => {
+  try {
+    switch (action.type) {
+      case 'INITIALIZE_PAYMENT': {
+        return initializeFlow(action.payload);
+      }
+      case 'UPDATE_FLOW': {
+        return PaymentOrchestrator.updateFlow(flowId, {...});
+      }
+      case 'TRANSITION_TO_PAYMENT': {
+        // Handle payment transition
+      }
+      case 'INITIATE_CLOSE': {
+        // Clean up flow
+      }
+    }
+  } catch (error) {
+    setState(prev => ({
+      ...prev,
+      error: error.message
+    }));
+    throw error;
+  }
+};
+
+Services
+PaymentAPI.js
+Frontend service for interacting with payment-related endpoints.
+Key Functions:
+javascriptCopy// Create payment intent
+async createPaymentIntent(bookingId, options = {}) {
+  if (!bookingId) {
+    throw new Error('Missing booking ID');
+  }
+  
+  return this._ensureUniqueIntent(bookingId, async () => {
+    // Ensure socket connection
+    await this.socketService.ensureConnection().catch((error) => {
+      logger.warn('[PaymentAPI] Socket connection failed, proceeding with payment');
+    });
+    
+    // Make API request
+    const response = await this.retryWithDelay(async () => {
+      return await api.post(
+        '/api/payments/create-intent',
+        {
+          bookingId,
+          request_type: 'booking_payment',
+          price: options.price,
+          metadata: {...}
+        },
+        {
+          signal: controller.signal,
+          timeout: this.PAYMENT_REQUEST_TIMEOUT || 10000,
+          validateStatus: (status) => status === 200 || status === 201
+        }
+      );
+    });
+    
+    // Normalize response
+    const normalizedResponse = this._normalizePaymentIntentResponse(response.data);
+    
+    // Start monitoring
+    await this.startPaymentStatusMonitoring(normalizedResponse.paymentIntent.id, bookingId);
+    
+    return {
+      clientSecret: normalizedResponse.clientSecret,
+      paymentIntent: normalizedResponse.paymentIntent,
+      flowId: await PaymentOrchestrator._getOrCreateFlowId(bookingId),
+    };
+  });
+}
+
+// Confirm payment
+async confirmPayment(paymentIntentId, paymentMethodId, context = {}) {
+  try {
+    // Check if already confirmed
+    if (context?.bookingId) {
+      const paymentStatus = await this.getPaymentStatus(context.bookingId);
+      if (paymentStatus.status === 'succeeded') {
+        return {
+          success: true,
+          status: 'succeeded',
+          paymentIntentId,
+          bookingId: context.bookingId,
+          alreadyConfirmed: true,
+          message: 'Payment was already confirmed'
+        };
+      }
+    }
+    
+    // Confirm with server
+    const response = await this.retryWithDelay(async () => {
+      return await api.post('/api/payments/confirm', {
+        paymentIntentId,
+        paymentMethodId,
+        ...context
+      }, {
+        timeout: 10000,
+        validateStatus: (status) => status === 200 || status === 201
+      });
+    }, { maxAttempts: 2, context: 'payment_confirmation' });
+    
+    return response.data;
+  } catch (error) {
+    // Handle already confirmed case
+    if (error.response?.status === 500 && 
+        error.response?.data?.error?.includes('already succeeded') ||
+        error.message?.includes('already succeeded')) {
+      
+      // Try to verify success state
+      try {
+        const status = await this.getPaymentStatus(context.bookingId);
+        if (status.status === 'succeeded') {
+          return {  success: true,
+            status: 'succeeded',
+            paymentIntentId,
+            bookingId: context?.bookingId,
+            alreadyConfirmed: true,
+            message: 'Payment was already confirmed'
+          };
+        }
+      } catch (statusError) {
+        logger.warn('[PaymentAPI] Error checking status after error, assuming success');
+      }
+      
+      // Assume success even if status check fails
+      return {
+        success: true,
+        status: 'succeeded',
+        paymentIntentId,
+        bookingId: context?.bookingId,
+        alreadyConfirmed: true,
+        message: 'Payment was already confirmed'
+      };
+    }
+    
+    // For other errors
+    throw error;
+  }
+}
+
+// Retry mechanism for operations
+async retryWithDelay(operation, options = {}) {
+  const {
+    maxAttempts = RETRY_CONFIG.MAX_ATTEMPTS,
+    baseDelay = RETRY_CONFIG.BASE_DELAY,
+    maxDelay = RETRY_CONFIG.MAX_DELAY,
+    context = {}
+  } = options;
+
+  let lastError = null;
+
+  for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+    try {
+      return await operation();
+    } catch (error) {
+      lastError = error;
+      
+      // Don't retry aborted requests
+      if (error.name === 'AbortError' || error.recoverable === false) {
+        throw error;
+      }
+      
+      const shouldRetry = attempt < maxAttempts;
+      if (!shouldRetry) break;
+      
+      // Exponential backoff with jitter
+      const jitter = Math.random() * RETRY_CONFIG.JITTER_MAX;
+      const delay = Math.min(baseDelay * Math.pow(2, attempt - 1) + jitter, maxDelay);
+      
+      await new Promise(resolve => setTimeout(resolve, delay));
+    }
+  }
+
+  // Enhanced error for final failure
+  throw this._enhanceError(lastError, {
+    context: 'retry_exhausted',
+    attempts: maxAttempts,
+    ...context
+  });
+}
+PaymentOrchestrator.js
+Service for coordinating payment flows and managing state transitions.
+Key Functions:
+javascriptCopy// Initialize payment with flow tracking
+async initializePayment(config) {
+  const { bookingId, amount, currency, timing = PAYMENT_TIMING.IMMEDIATE } = config;
+  
+  if (!amount || !currency) throw new Error('Missing required payment parameters');
+  
+  const flowId = config.flowId || uuidv4();
+  const existingFlow = this.flows.get(flowId);
+  
+  if (existingFlow) {
+    return existingFlow;
+  }
+  
+  const maxAttempts = 3;
+  for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+    try {
+      // Set initial flow state
+      this.flows.set(flowId, {
+        id: flowId,
+        bookingId: null,
+        status: 'initializing',
+        amount,
+        currency,
+        metadata: {
+          ...config.metadata,
+          flowType: config.metadata?.isPreBooking ? 'pre_booking' : 'post_booking',
+          modalState: config.metadata?.modalState || 'booking',
+          paymentStep: config.metadata?.paymentStep || 'session',
+        },
+        createdAt: new Date().toISOString(),
+      });
+      
+      // Initialize status tracking
+      const statusState = await this.statusService.initializePaymentFlow(
+        flowId,
+        { amount, currency, timing },
+        {
+          ...config.metadata,
+          flowId,
+          confirmationId: config.metadata?.confirmationId,
+          modalState: config.metadata?.modalState || 'booking',
+          paymentStep: config.metadata?.paymentStep || 'session',
+        }
+      );
+      
+      // Ensure state readiness
+      const stateReady = await this.statusService.waitForStateReadiness(flowId);
+      if (!stateReady) throw new Error('Payment state initialization failed');
+      
+      // Ensure socket connection
+      const socketConnected = await this.socketManager.ensureConnection();
+      if (!socketConnected) throw new Error('Failed to establish socket connection');
+      
+      // Track flow ID
+      this._activeFlowIds.set(flowId, flowId);
+      
+      // Track confirmation mapping
+      if (config.metadata?.confirmationId) {
+        this._confirmationMappings.set(config.metadata.confirmationId, {
+          flowId,
+          bookingId: null,
+          timestamp: new Date().toISOString(),
+          metadata: config.metadata,
+        });
+      }
+      
+      return {
+        id: flowId,
+        bookingId: null,
+        status: statusState.status,
+        metadata: {
+          confirmationId: config.metadata?.confirmationId,
+          modalState: statusState.metadata?.modalState || 'booking',
+          paymentStep: statusState.metadata?.paymentStep || 'session',
+        },
+      };
+    } catch (error) {
+      // Retry logic
+      if (attempt === maxAttempts) {
+        throw error;
+      }
+      
+      const backoffDelay = Math.min(1000 * Math.pow(2, attempt - 1), 5000);
+      await new Promise(resolve => setTimeout(resolve, backoffDelay));
+    }
+  }
+}
+
+// Process payment with comprehensive error handling
+async processPayment(flowId, paymentMethodId, paymentIntentId, context = {}) {
+  const validation = this._validateFlow(flowId);
+  if (!validation.valid) {
+    const error = new Error(`Invalid payment flow: ${validation.reason}`);
+    await this.handlePaymentError(flowId, error);
+    throw error;
+  }
+  
+  const flow = validation.flow;
+  const bookingId = context.bookingId || flow?.bookingId || this._activeFlowIds.get(flowId) || flowId;
+  
+  // Ensure mappings are consistent
+  this._activeFlowIds.set(bookingId, flowId);
+  this._activeFlowIds.set(flowId, flowId);
+  
+  // Acquire lock for processing
+  const processingLockKey = `processing:${flowId}`;
+  if (!await this.statusService.lockManager.acquire(processingLockKey, 30000)) {
+    const error = new Error('Payment processing already in progress');
+    throw error;
+  }
+  
+  try {
+    // Update state to processing
+    await this.statusService.trackFlowState(flowId, PAYMENT_STATES.PROCESSING, {
+      paymentMethodId,
+      paymentIntentId,
+      submissionStarted: new Date().toISOString()
+    });
+    
+    // Update status
+    await this.statusService.handlePaymentStatusChange(bookingId, PAYMENT_STATES.PROCESSING);
+    
+    // Attempt payment confirmation
+    const result = await paymentAPI.confirmPayment(
+      paymentIntentId,
+      paymentMethodId,
+      paymentContext
+    );
+    
+    // Handle success
+    await this.statusService.handlePaymentStatusChange(bookingId, result.status || 'succeeded', {
+      paymentIntentId,
+      completedAt: new Date().toISOString(),
+      result
+    });
+    
+    return {
+      ...result,
+      bookingId,
+      flowId
+    };
+    
+  } catch (error) {
+    // Check for special case: already confirmed
+    if (error.message?.includes('already succeeded') || 
+        error.originalError?.message?.includes('already succeeded')) {
+      
+      // Update as succeeded
+      await this.statusService.handlePaymentStatusChange(bookingId, 'succeeded', {
+        paymentIntentId,
+        completedAt: new Date().toISOString(),
+        alreadyConfirmed: true
+      });
+      
+      return {
+        success: true,
+        status: 'succeeded',
+        alreadyConfirmed: true,
+        bookingId,
+        flowId,
+        paymentIntentId
+      };
+    }
+    
+    // For real failures
+    await this.handlePaymentError(flowId, error, {
+      shouldCleanup: false,
+      preserveState: true
+    });
+    
+    throw error;
+  } finally {
+    // Release lock
+    this.statusService.lockManager.release(processingLockKey);
+  }
+}
+
+// Error handling
+async handlePaymentError(flowId, error, options = {}) {
+  const { shouldCleanup = false, preserveState = true } = options;
+  
+  try {
+    // Update state to failed
+    await this.statusService.handlePaymentStatusChange(flowId, PAYMENT_STATES.FAILED, {
+      error: error.message,
+      failedAt: new Date().toISOString(),
+      recoverable: error.recoverable !== false
+    });
+    
+    if (shouldCleanup) {
+      // Perform controlled cleanup
+      await this.handleCleanup(flowId, {
+        source: 'error_handler',
+        reason: 'payment_error',
+        preserveState
+      });
+    }
+    
+    // Publish error state
+    this.publishState(flowId, {
+      status: 'failed',
+      error: {
+        message: error.message,
+        code: error.code || 'payment_error',
+        recoverable: error.recoverable !== false
+      },
+      timestamp: new Date().toISOString()
+    });
+    
+    return true;
+  } catch (handlingError) {
+    logger.error('[PaymentOrchestrator] Error while handling payment error');
+    return false;
+  }
+}
+PaymentStatusService.js
+Service for tracking payment states and managing transitions.
+
+Key Functions:
+javascriptCopy// Initialize payment flow state
+async initializePaymentFlow(flowId, priceDetails, options = {}) {
+  logger.info('[PaymentStatusService] Initializing flow state', {
+    flowId,
+    hasInitialState: !!initialState,
+    options,
+    timestamp: new Date().toISOString()
+  });
+
+  this._ensureStateMaps(flowId);
+
+  const baseState = {
+    status: 'initializing',
+    version: 1,
+    createdAt: new Date().toISOString(),
+    lastUpdated: new Date().toISOString(),
+    updates: [],
+    metadata: {},
+    ...initialState
+  };
+
+  // Atomic state initialization
+  this.paymentStates.set(flowId, baseState);
+  this._flowStates.set(flowId, {
+    ...baseState,
+    transitions: []
+  });
+  this.stateVersions.set(flowId, 1);
+
+  return baseState;
+}
+
+// Handle payment status changes
+async handlePaymentStatusChange(bookingId, status, metadata = {}) {
+  const currentState = this.paymentStates.get(bookingId);
+  if (!currentState) {
+    logger.error('[PaymentStatusService] No payment state found');
+    return null;
+  }
+
+  const updatedState = {
+    ...currentState,
+    status,
+    version: (currentState.version || 0) + 1,
+    lastUpdated: new Date().toISOString(),
+    updates: [
+      ...(currentState.updates || []),
+      {
+        status,
+        timestamp: new Date().toISOString(),
+        metadata: {
+          ...metadata,
+          version: (currentState.version || 0) + 1,
+          recovered: !!metadata.recovered
+        }
+      }
+    ]
+  };
+
+  // Atomic state update
+  await this._atomicStateUpdate(bookingId, updatedState);
+
+  // Track state in flow states
+  const flowId = currentState.flowId;
+  if (flowId) {
+    await this.trackFlowState(flowId, status, {
+      ...metadata,
+      version: updatedState.version,
+      isStatusChange: true
+    });
+  }
+
+  // Notify subscribers
+  this._notifySubscribers(bookingId, updatedState);
+
+  return updatedState;
+}
+
+// Atomic state transition between IDs
+async _atomicStateTransition(oldId, newId, state, metadata = {}) {
+  const transitionKey = `transition:${oldId}:${newId}`;
+  
+  // Acquire lock for transition
+  if (!await this.lockManager.acquire(transitionKey, 10000)) {
+    throw new Error('State transition already in progress');
+  }
+
+  try {
+    // Backup old state
+    const oldState = this.paymentStates.get(oldId);
+    if (!oldState) {
+      throw new Error(`Original state not found for ID: ${oldId}`);
+    }
+
+    const backupState = JSON.parse(JSON.stringify(oldState));
+    this._preservedStates.set(`backup:${oldId}:${newId}`, {
+      ...backupState,
+      preservedAt: new Date().toISOString(),
+      preservationReason: 'transition_backup'
+    });
+    
+    // Create new state with version increment
+    const oldVersion = this.stateVersions.get(oldId) || 0;
+    const newState = {
+      ...oldState,
+      ...state,
+      id: newId,
+      lastUpdated: new Date().toISOString(),
+      version: oldVersion + 1,
+      metadata: {
+        ...oldState.metadata,
+        ...state.metadata,
+        ...metadata,
+        transitionedFrom: oldId,
+        transitionTimestamp: new Date().toISOString()
+      }
+    };
+
+    // Check if target already exists
+    if (this.paymentStates.has(newId)) {
+      // Merge instead of overwriting
+      const existingState = this.paymentStates.get(newId);
+      newState.metadata = {
+        ...existingState.metadata,
+        ...newState.metadata,
+        mergedAt: new Date().toISOString()
+      };
+    }
+
+    // Set new state
+    this.paymentStates.set(newId, newState);
+    
+    // Update flow state
+    const oldFlowState = this._flowStates.get(oldId);
+    if (oldFlowState) {
+      this._flowStates.set(newId, {
+        ...oldFlowState,
+        id: newId,
+        lastUpdated: new Date().toISOString(),
+        version: oldVersion + 1
+      });
+    }
+
+    // Update version tracking
+    this.stateVersions.set(newId, oldVersion + 1);
+
+    // Verify new state
+    const verifyNewState = this.paymentStates.get(newId);
+    if (!verifyNewState) {
+      throw new Error('New state verification failed');
+    }
+
+    // Only delete original after verification
+    this.paymentStates.delete(oldId);
+    this._flowStates.delete(oldId);
+    this.stateVersions.delete(oldId);
+    
+    // Record transition
+    if (!this._stateTransitions.has(newId)) this._stateTransitions.set(newId, []);
+    
+    this._stateTransitions.get(newId).push({
+      from: oldId,
+      to: newId,
+      timestamp: new Date().toISOString(),
+      metadata: {
+        ...metadata,
+        version: oldVersion + 1
+      }
+    });
+
+    // Publish update
+    this._publishStateUpdate(newId, newState, {
+      source: 'transition',
+      previousId: oldId,
+      metadata
+    });
+
+    return true;
+  } catch (error) {
+    // Attempt recovery from backup
+    try {
+      const backupKey = `backup:${oldId}:${newId}`;
+      const backup = this._preservedStates.get(backupKey);
+      if (backup) {
+        // Don't delete original state during recovery
+      }
+    } catch (recoveryError) {
+      logger.error('[PaymentStatusService] Recovery also failed');
+    }
+    
+    return false;
+  } finally {
+    // Release lock
+    this.lockManager.release(transitionKey);
+  }
+}
+PaymentSocketService.js
+Service for Socket.IO communication and real-time updates.
+Key Functions:
+javascriptCopy// Ensure reliable socket connection
+async ensureConnection() {
+  const connectionId = `conn-${Date.now()}`;
+  
+  if (this.socket?.connected) {
+    if (await this._checkConnectionHealth(2000)) {
+      return true;
+    }
+    logger.warn('[PaymentSocket] Existing connection invalid, forcing reconnect');
+  }
+
+  if (this.isConnecting) {
+    return this.connectionPromise || false;
+  }
+
+  this.isConnecting = true;
+  this.stateManager.recordAttempt(connectionId);
+
+  try {
+    // Clean up existing socket
+    if (this.socket) {
+      this.socket.removeAllListeners();
+      this.socket.disconnect();
+      this.socket = null;
+    }
+
+    // Initialize heartbeat
+    this._setupHeartbeat();
+
+    this.connectionPromise = new Promise((resolve, reject) => {
+      const socketUrl = process.env.REACT_APP_API_URL.replace('/api', '');
+      
+      // Create socket
+      this.socket = io(socketUrl, {
+        transports: ['websocket'],
+        reconnection: true,
+        reconnectionAttempts: 5,
+        reconnectionDelay: 1000,
+        reconnectionDelayMax: 5000,
+        timeout: 10000,
+        auth: { connectionId, type: 'payment' }
+      });
+
+      // Handle reconnection failure
+      this.socket.io.on("reconnect_failed", () => {
+        logger.error('[PaymentSocket] Reconnection failed');
+      });
+
+      // Monitor connection
+      this._monitorConnection();
+
+      // Handle successful connection
+      this.socket.on('connect', async () => {
+        try {
+          await this._checkConnectionHealth(2000);
+          
+          this.connectionState = CONNECTION_STATES.CONNECTED;
+          this.isConnecting = false;
+          this._resetDisconnectTimeout();
+          
+          // Re-subscribe to active flows
+          this.activeSubscriptions.forEach((callbacksMap, eventName) => {
+            callbacksMap.forEach((callbacks, subscriptionId) => {
+              const flowId = subscriptionId.split('-')[0];
+              
+              this.socket.emit('join_flow', { 
+                flowId,
+                timestamp: new Date().toISOString()
+              });
+              
+              // Re-bind callbacks
+              Object.entries(callbacks).forEach(([event, callback]) => {
+                const normalizedEvent = this._normalizeEventName(event);
+                this._registerEventCallback(flowId, normalizedEvent, callback);
+              });
+            });
+          });
+
+          resolve(true);
+        } catch (error) {
+          logger.warn('[PaymentSocket] Connection established but unhealthy, proceeding anyway');
+          this.connectionState = CONNECTION_STATES.CONNECTED;
+          this.isConnecting = false;
+          resolve(true);
+        }
+      });
+
+      // Handle connection errors
+      this.socket.on('connect_error', (error) => {
+        logger.error('[PaymentSocket] Connection error');
+        reject(error);
+      });
+
+      this.socket.connect();
+    });
+
+    return await this.connectionPromise;
+  } catch (error) {
+    this.connectionAttempts++;
+    this.isConnecting = false;
+    this.connectionPromise = null;
+
+    // Handle retry logic
+    if (this.connectionAttempts >= this.MAX_RETRY_ATTEMPTS) {
+      this.resetConnectionState();
+      throw error;
+    }
+
+    const delay = Math.min(
+      SOCKET_CONFIG.TIMEOUTS.RETRY_BASE * Math.pow(2, this.connectionAttempts - 1),
+      SOCKET_CONFIG.CONNECTION.reconnectionDelayMax
+    );
+
+    await new Promise(resolve => setTimeout(resolve, delay));
+    return this.ensureConnection();
+  } finally {
+    if (!this.socket?.connected) {
+      this.stateManager.cleanup(connectionId);
+    }
+  }
+}
+
+// Subscribe to payment events
+async subscribeToPayment(paymentId, callbacks = {}) {
+  if (!paymentId) {
+    logger.error('[PaymentSocket] Cannot subscribe - missing paymentId');
+    return () => {
+      logger.debug('[PaymentSocket] Executing cleanup for invalid subscription');
+    };
+  }
+
+  return this._ensureUniqueOperation(`subscribe:${paymentId}`, async () => {
+    const validatedCallbacks = this._validateCallbacks(callbacks);
+    if (Object.keys(validatedCallbacks).length === 0) {
+      return () => {
+        logger.debug('[PaymentSocket] Cleanup for no valid callbacks');
+      };
+    }
+
+    this._updateSubscriptionState(paymentId, SUBSCRIPTION_STATES.SUBSCRIBING);
+
+    try {
+      const connected = await Promise.race([
+        this.ensureConnection(),
+        new Promise((_, reject) => 
+          setTimeout(() => reject(new Error('Subscription timeout')), 
+          SUBSCRIPTION_TIMEOUTS.SUBSCRIBE)
+        )
+      ]);
+
+      if (!connected) {
+        throw new Error('Failed to establish socket connection');
+      }
+
+      // Register callbacks
+      Object.entries(validatedCallbacks).forEach(([event, callback]) => {
+        this._registerEventCallback(paymentId, event, callback);
+      });
+
+      // Join room
+      const roomJoined = await this._attemptRoomJoin(paymentId);
+      
+      this._updateSubscriptionState(paymentId, SUBSCRIPTION_STATES.ACTIVE);
+
+      // Return unsubscribe function
+      return () => {
+        this.unsubscribeFromPayment(paymentId, validatedCallbacks);
+      };
+    } catch (error) {
+      this._handleSubscriptionError(paymentId, error);
+      return () => {
+        logger.debug('[PaymentSocket] Cleanup for failed subscription');
+      };
+    }
+  });
+}
+Backend Components
+paymentController.js
+Backend controller for payment operations.
+Key Functions:
+javascriptCopy// Create payment intent
+const createPaymentIntent = async (req, res) => {
+  try {
+    const { bookingId } = req.body;
+    
+    // Find and validate booking
+    const booking = await Booking.findById(bookingId)
+      .populate('coach')
+      .populate('user')
+      .populate('sessionType');
+    
+    if (!booking) {
+      return res.status(404).json({ success: false, message: 'Booking not found' });
+    }
+    
+    // Authorization check
+    if (booking.user._id.toString() !== req.user._id.toString()) {
+      return res.status(403).json({ success: false, message: 'Unauthorized payment attempt' });
+    }
+    
+    // Validate price structure
+    const priceValidation = validatePriceStructure(booking.price);
+    if (!priceValidation.isValid) {
+      return res.status(400).json({ success: false, message: priceValidation.error });
+    }
+    
+    const { base: baseAmount, final: finalAmount, currency } = priceValidation;
+    
+    // Calculate VAT and platform fee
+    const vatIncluded = booking.price.vat?.included !== false;
+    const vatRate = booking.price.vat?.rate || 8.1;
+    let totalAmount = finalAmount.amount;
+    let vatAmount = 0;
+    
+    if (!vatIncluded) {
+      const vatResult = taxService.calculateVAT(finalAmount.amount, false, vatRate);
+      totalAmount = vatResult.totalAmount;
+      vatAmount = vatResult.vatAmount;
+    } else {
+      const vatResult = taxService.calculateVAT(finalAmount.amount, true, vatRate);
+      vatAmount = vatResult.vatAmount;
+    }
+    
+    const platformFeePercentage = booking.price.platformFee?.percentage || 15;
+    const platformFeeAmount = (baseAmount.amount * platformFeePercentage) / 100;
+    const stripeAmount = convertToCents(totalAmount);
+    const stripeFeeAmount = convertToCents(platformFeeAmount);
+    
+    // Manage Stripe customer
+    let customer = await User.findById(req.user._id);
+    let stripeCustomerId = customer.stripe?.customerId;
+    
+    if (!stripeCustomerId) {
+      const stripeCustomer = await paymentService.createOrUpdateCustomer({
+        userId: customer._id,
+        email: customer.email,
+        name: `${customer.firstName} ${customer.lastName}`.trim()
+      });
+      stripeCustomerId = stripeCustomer.id;
+      
+      await User.findByIdAndUpdate(
+        customer._id,
+        { 
+          $set: { 
+            'stripe.customerId': stripeCustomerId,
+            'stripe.createdAt': new Date()
+          } 
+        },
+        { new: true, runValidators: false }
+      );
+    }
+    
+    // Check coach payment setup
+    const coach = await Coach.findOne({ user: booking.coach._id });
+    if (!coach?.settings?.paymentAndBilling?.stripe?.accountId) {
+      return res.status(400).json({
+        success: false,
+        message: 'Coach payments not configured',
+        code: 'COACH_PAYMENTS_NOT_CONFIGURED'
+      });
+    }
+    
+    // Create payment intent
+    const paymentIntent = await paymentService.createPaymentIntent({
+      bookingId: booking._id.toString(),
+      amount: totalAmount,
+      currency: currency.toLowerCase(),
+      stripeCustomerId,
+      userId: req.user._id.toString(),
+      coachStripeAccountId: coach.settings.paymentAndBilling.stripe.accountId,
+      metadata: {
+        bookingId: booking._id.toString(),
+        coachId: booking.coach._id.toString(),
+        userId: booking.user._id.toString(),
+        sessionType: booking.sessionType.name,
+        vatAmount: convertToCents(vatAmount),
+        vatRate,
+        platformFee: stripeFeeAmount,
+        originalAmount: convertToCents(baseAmount.amount)
+      }
+    });
+    
+    // Create payment record
+    const payment = new Payment({
+      booking: booking._id,
+      payer: booking.user._id,
+      recipient: booking.coach._id,
+      amount: {
+        base: baseAmount.amount,
+        platformFee: platformFeeAmount,
+        vat: {
+          rate: vatRate,
+          amount: vatAmount,
+          included: vatIncluded
+        },
+        total: totalAmount,
+        currency
+      },
+      status: 'pending',
+      stripe: {
+        paymentIntentId: paymentIntent.id,
+        clientSecret: paymentIntent.client_secret,
+        customerId: stripeCustomerId
+      }
+    });
+    
+    await payment.save();
+    
+    // Update booking
+    booking.payment = {
+      status: 'pending',
+      stripe: { paymentIntentId: paymentIntent.id }
+    };
+    await booking.save();
+    
+    // Return response
+    res.json({
+      success: true,
+      clientSecret: paymentIntent.client_secret,
+      paymentIntent: {
+        id: paymentIntent.id,
+        amount: stripeAmount,
+        currency: currency.toLowerCase()
+      }
+    });
+  } catch (error) {
+    logger.error('[PaymentController] Error creating payment intent', {
+      error: error.message,
+      stack: error.stack,
+      bookingId: req.body.bookingId,
+      userId: req.user._id
+    });
+    
+    res.status(500).json({
+      success: false,
+      message: 'Error creating payment intent',
+      error: process.env.NODE_ENV === 'production' ? 'Internal server error' : error.message
+    });
+  }
+};
+
+// Confirm payment
+const confirmPayment = async (req, res) => {
+  let paymentIntentId;
+  try {
+    const { paymentMethodId } = req.body;
+    paymentIntentId = req.body.paymentIntentId;
+    
+    // Validate input
+    if (!paymentIntentId || !paymentMethodId) {
+      return res.status(400).json({ success: false, message: 'Missing paymentIntentId or paymentMethodId' });
+    }
+    
+    // Check if payment already succeeded
+    const existingPaymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId);
+    if (existingPaymentIntent.status === 'succeeded') {
+      const booking = await Booking.findOne({ 'payment.stripe.paymentIntentId': paymentIntentId })
+        .populate('coach')
+        .populate('user')
+        .populate('sessionType');
+      
+      return res.json({
+        success: true,
+        status: 'succeeded',
+        bookingId: booking?._id,
+        recipientId: booking?.user?._id?.toString(),
+        amount: existingPaymentIntent.amount / 100,
+        currency: existingPaymentIntent.currency,
+        message: 'Payment already confirmed',
+        paymentIntent: existingPaymentIntent
+      });
+    }
+    
+    // Confirm payment
+    const paymentIntent = await paymentService.confirmPaymentIntent(paymentIntentId, paymentMethodId);
+    const booking = await Booking.findById(paymentIntent.metadata.bookingId)
+      .populate('coach')
+      .populate('user')
+      .populate('sessionType');
+    
+    if (!booking) {
+      return res.status(404).json({
+        success: false,
+        message: 'Booking not found'
+      });
+    }
+    
+    // Update booking
+    booking.payment.status = 'completed';
+    booking.payment.stripe = booking.payment.stripe || {};
+    const chargeId = paymentIntent.charges?.data?.length > 0 ? paymentIntent.charges.data[0].id : paymentIntent.id;
+    booking.payment.stripe.chargeId = chargeId;
+    await booking.save();
+    
+    // Update payment record
+    let updateData = { status: 'completed' };
+    updateData['stripe.chargeId'] = chargeId;
+    const payment = await Payment.findOneAndUpdate(
+      { 'stripe.paymentIntentId': paymentIntentId },
+      updateData,
+      { new: true }
+    );
+    
+    // Create transaction record
+    await Transaction.create({
+      booking: booking._id,
+      payment: payment?._id,
+      type: 'charge',
+      amount: {
+        value: paymentIntent.amount / 100,
+        currency: paymentIntent.currency
+      },
+      status: 'completed',
+      stripe: {
+        transactionId: paymentIntentId,
+        chargeId: chargeId
+      }
+    });
+    
+    // Send notification
+    const recipientId = booking.user?._id?.toString() || req.user._id.toString();
+    await UnifiedNotificationService.sendNotification({
+      type: NotificationTypes.PAYMENT_RECEIVED,
+      recipient: recipientId,
+      category: NotificationCategories.PAYMENT,
+      priority: NotificationPriorities.MEDIUM,
+      channels: ['in_app', 'email'],
+      content: {
+        title: 'Payment Received',
+        message: `Payment of ${(paymentIntent.amount / 100).toFixed(2)} ${paymentIntent.currency.toUpperCase()} has been processed successfully.`
+      },
+      metadata: {
+        bookingId: booking._id,
+        sessionType: booking.sessionType?.name || 'Session',
+        amount: paymentIntent.amount / 100,
+        currency: paymentIntent.currency.toUpperCase()
+      }
+    });
+    
+    res.json({
+      success: true,
+      paymentIntent,
+      recipientId,
+      bookingId: booking._id,
+      amount: paymentIntent.amount / 100,
+      currency: paymentIntent.currency
+    });
+  } catch (error) {
+    // Handle already successful payments
+    if (error.message?.includes('already succeeded')) {
+      const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId);
+      const booking = await Booking.findOne({ 'payment.stripe.paymentIntentId': paymentIntentId })
+        .populate('coach')
+        .populate('user')
+        .populate('sessionType');
+      
+      if (booking && booking.payment.status !== 'completed') {
+        booking.payment
+           if (booking && booking.payment.status !== 'completed') {
+        booking.payment.status = 'completed';
+        booking.payment.stripe = booking.payment.stripe || {};
+        const chargeId = paymentIntent.charges?.data?.length > 0 ? paymentIntent.charges.data[0].id : paymentIntent.id;
+        booking.payment.stripe.chargeId = chargeId;
+        await booking.save();
+      }
+
+      return res.json({
+        success: true,
+        status: 'succeeded',
+        bookingId: booking?._id,
+        recipientId: booking?.user?._id?.toString(),
+        amount: paymentIntent.amount / 100,
+        currency: paymentIntent.currency,
+        message: 'Payment already confirmed',
+        paymentIntent
+      });
+    }
+
+    res.status(500).json({
+      success: false,
+      message: 'Error confirming payment',
+      error: process.env.NODE_ENV === 'production' ? 'Internal server error' : error.message
+    });
+  }
+};
+
+// Webhook handler for Stripe events
+const webhookHandler = async (req, res) => {
+  try {
+    const sig = req.headers['stripe-signature'];
+    const event = stripe.webhooks.constructEvent(
+      req.body,
+      sig,
+      process.env.STRIPE_WEBHOOK_SECRET
+    );
+
+    switch (event.type) {
+      case 'payment_intent.succeeded':
+        await handlePaymentSuccess(event.data.object);
+        break;
+      
+      case 'payment_intent.payment_failed':
+        await handlePaymentFailure(event.data.object);
+        break;
+      
+      case 'charge.refunded':
+        await handleRefund(event.data.object);
+        break;
+      
+      default:
+        logger.info('[PaymentController] Unhandled webhook event:', event.type);
+    }
+
+    res.json({ received: true });
+  } catch (error) {
+    logger.error('[PaymentController] Webhook error:', {
+      error: error.message,
+      stack: error.stack,
+      type: error.type
+    });
+
+    return res.status(400).json({
+      success: false,
+      message: 'Webhook error',
+      error: error.message
+    });
+  }
+};
+Payment.js
+Mongoose model for payment data.
+Schema Definition:
+javascriptCopyconst PaymentSchema = new mongoose.Schema({
+  // Core fields
+  booking: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Booking',
+    required: true
+  },
+  payer: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true
+  },
+  recipient: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true
+  },
+  
+  // Payment details
+  amount: {
+    base: { type: Number, default: 0 },
+    platformFee: { type: Number, default: 0 },
+    vat: {
+      rate: { type: Number, default: 8.1 },
+      amount: { type: Number, default: 0 },
+      included: { type: Boolean, default: true }
+    },
+    total: { type: Number, default: 0 },
+    currency: { type: String, default: 'CHF' }
+  },
+
+  // Status tracking
+  status: {
+    type: String,
+    enum: [
+      'draft',
+      'pending',
+      'processing',
+      'completed',
+      'failed',
+      'cancelled',
+      'refunded',
+      'partially_refunded',
+      'disputed'
+    ],
+    default: 'draft'
+  },
+
+  // Stripe integration
+  stripe: {
+    paymentIntentId: String,
+    clientSecret: String,
+    setupIntentId: String,
+    customerId: String,
+    paymentMethodId: String,
+    chargeId: String,
+    refundId: String,
+    disputeId: String
+  },
+
+  // Payment method
+  paymentMethod: {
+    type: String,
+    brand: String,
+    last4: String,
+    expiryMonth: Number,
+    expiryYear: Number,
+    isDefault: Boolean
+  },
+
+  // Refund tracking
+  refunds: [{
+    amount: Number,
+    reason: String,
+    status: {
+      type: String,
+      enum: ['pending', 'completed', 'failed']
+    },
+    stripeRefundId: String,
+    processedAt: Date,
+    processedBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User'
+    }
+  }],
+
+  // Error handling
+  error: {
+    code: String,
+    message: String,
+    declineCode: String,
+    retriable: Boolean
+  }
+});
+
+// Middleware for calculations
+PaymentSchema.pre('save', function(next) {
+  // Calculate total amount if base amount changes
+  if (this.isModified('amount.base')) {
+    const base = this.amount.base || 0;
+    const fee = this.amount.platformFee || 0;
+    const vatRate = this.amount.vat?.rate || 8.1;
+    
+    const vatAmount = this.amount.vat?.included
+      ? base - (base / (1 + vatRate / 100))
+      : base * (vatRate / 100);
+
+    this.amount = {
+      ...this.amount,
+      vat: {
+        ...(this.amount.vat || {}),
+        amount: Number(vatAmount.toFixed(2)),
+        rate: vatRate
+      },
+      total: Number((base + (this.amount.vat?.included ? 0 : vatAmount)).toFixed(2))
+    };
+  }
+  next();
+});
+PAYMENT PROCESS FLOW DIAGRAMS
+1. Payment Intent Creation Flow
+Copy┌───────────────┐     ┌─────────────────────┐     ┌─────────────────────┐
+│               │     │                     │     │                     │
+│  Client UI    │────▶│ PaymentOrchestrator │────▶│ PaymentStatusService│
+│               │     │                     │     │                     │
+└───────┬───────┘     └─────────┬───────────┘     └─────────┬───────────┘
+        │                       │                           │
+        │                       │                           │
+        ▼                       ▼                           ▼
+┌───────────────┐     ┌─────────────────────┐     ┌─────────────────────┐
+│               │     │                     │     │                     │
+│  PaymentAPI   │────▶│  API Controller     │────▶│ Stripe API          │
+│               │     │                     │     │                     │
+└───────┬───────┘     └─────────┬───────────┘     └─────────┬───────────┘
+        │                       │                           │
+        │                       │                           │
+        ▼                       ▼                           ▼
+┌───────────────┐     ┌─────────────────────┐     ┌─────────────────────┐
+│               │     │                     │     │                     │
+│ Socket.IO     │◀───▶│  Database (MongoDB) │     │ Client UI (Update)  │
+│               │     │                     │     │                     │
+└───────────────┘     └─────────────────────┘     └─────────────────────┘
+2. Payment Confirmation Flow
+Copy┌───────────────┐     ┌─────────────────────┐     ┌─────────────────────┐
+│               │     │                     │     │                     │
+│ Stripe UI     │────▶│ usePaymentActions   │────▶│ PaymentAPI          │
+│ Elements      │     │                     │     │                     │
+└───────┬───────┘     └─────────┬───────────┘     └─────────┬───────────┘
+        │                       │                           │
+        │                       │                           │
+        ▼                       ▼                           ▼
+┌───────────────┐     ┌─────────────────────┐     ┌─────────────────────┐
+│               │     │                     │     │                     │
+│ API Controller│────▶│ Stripe API          │────▶│ Database Updates    │
+│               │     │                     │     │                     │
+└───────┬───────┘     └─────────┬───────────┘     └─────────┬───────────┘
+        │                       │                           │
+        │                       │                           │
+        ▼                       ▼                           ▼
+┌───────────────┐     ┌─────────────────────┐     ┌─────────────────────┐
+│               │     │                     │     │                     │
+│ Socket Events │────▶│ Payment Status      │────▶│ Client UI (Update)  │
+│               │     │ Updates             │     │                     │
+└───────────────┘     └─────────────────────┘     └─────────────────────┘
+3. Payment Status Monitoring Flow
+Copy┌───────────────┐     ┌─────────────────────┐     ┌─────────────────────┐
+│               │     │                     │     │                     │
+│ Socket.IO     │────▶│ PaymentSocketService│────▶│ Status Subscribers  │
+│ Connection    │     │                     │     │                     │
+└───────┬───────┘     └─────────┬───────────┘     └─────────┬───────────┘
+        │                       │                           │
+        │                       │                           │
+        ▼                       ▼                           ▼
+┌───────────────┐     ┌─────────────────────┐     ┌─────────────────────┐
+│               │     │                     │     │                     │
+│ Polling       │────▶│ PaymentStatusService│────▶│ UI State Updates    │
+│ Fallback      │     │                     │     │                     │
+└───────┬───────┘     └─────────┬───────────┘     └─────────┬───────────┘
+        │                       │                           │
+        │                       │                           │
+        ▼                       ▼                           ▼
+┌───────────────┐     ┌─────────────────────┐     ┌─────────────────────┐
+│               │     │                     │     │                     │
+│ Stripe Webhook│────▶│ PaymentController   │────▶│ Database & Events   │
+│               │     │                     │     │                     │
+└───────────────┘     └─────────────────────┘     └─────────────────────┘
+API REFERENCE
+Payment Endpoints
+MethodEndpointDescriptionAuthenticationParametersPOST/api/payments/create-intentCreate payment intentRequiredbookingId, price (optional)POST/api/payments/confirmConfirm paymentRequiredpaymentIntentId, paymentMethodIdGET/api/payments/status/:bookingIdGet payment statusRequired-POST/api/payments/refundProcess refundRequiredpaymentIntentId, amount, reasonGET/api/payments/methods/:userIdGet payment methodsRequired-POST/api/payments/methodsAdd payment methodRequiredpaymentMethodId, isDefaultDELETE/api/payments/methods/:methodIdDelete payment methodRequired-POST/api/payments/methods/defaultSet default payment methodRequiredpaymentMethodIdPOST/api/payments/webhookProcess Stripe webhooksNoneStripe signature in header
+Request/Response Examples
+Creating a Payment Intent:
+Request:
+javascriptCopy{
+  "bookingId": "6075e65b2d34a344b1f5f32c",
+  "price": {
+    "base": {
+      "amount": 100,
+      "currency": "CHF"
+    },
+    "final": {
+      "amount": 100,
+      "currency": "CHF"
+    },
+    "currency": "CHF",
+    "vat": {
+      "rate": 8.1,
+      "included": true
+    },
+    "platformFee": {
+      "percentage": 15
+    }
+  }
+}
+Response:
+javascriptCopy{
+  "success": true,
+  "clientSecret": "pi_3NhTy2HWMvEUw1Qt1RFnFvEG_secret_FkJeiasWvK8SWx5Q8aSx8QNnA",
+  "paymentIntent": {
+    "id": "pi_3NhTy2HWMvEUw1Qt1RFnFvEG",
+    "amount": 10000,
+    "currency": "chf"
+  }
+}
+Confirming a Payment:
+Request:
+javascriptCopy{
+  "paymentIntentId": "pi_3NhTy2HWMvEUw1Qt1RFnFvEG",
+  "paymentMethodId": "pm_1NhU1WHWMvEUw1QtYU2FfQX2"
+}
+Response:
+javascriptCopy{
+  "success": true,
+  "paymentIntent": {
+    "id": "pi_3NhTy2HWMvEUw1Qt1RFnFvEG",
+    "object": "payment_intent",
+    "amount": 10000,
+    "amount_received": 10000,
+    "currency": "chf",
+    "status": "succeeded",
+    "charges": {
+      "data": [
+        {
+          "id": "ch_3NhTy2HWMvEUw1Qt1TUrP8qD",
+          "object": "charge",
+          "amount": 10000,
+          "currency": "chf",
+          "status": "succeeded"
+        }
+      ]
+    }
+  },
+  "recipientId": "6075e65b2d34a344b1f5f32a",
+  "bookingId": "6075e65b2d34a344b1f5f32c",
+  "amount": 100,
+  "currency": "chf"
+}
+STATE MANAGEMENT DETAILS
+PaymentContext State
+The PaymentContext manages the following state structure:
+javascriptCopy{
+  activePayments: Map<bookingId, {
+    status: string,
+    paymentIntent: object,
+    amount: number,
+    currency: string,
+    metadata: object,
+    priceData: object,
+    retryCount: number,
+    flowId: string,
+    timestamp: number
+  }>,
+  paymentMethods: array,
+  processingPayments: Set<bookingId>,
+  optimisticUpdates: Map<bookingId, {
+    status: string,
+    timestamp: number
+  }>,
+  lastError: object,
+  isInitialized: boolean,
+  activeFlows: Map<flowId, {
+    bookingId: string,
+    status: string,
+    startedAt: number
+  }>,
+  flowHistory: Map<flowId, {
+    bookingId: string,
+    status: string,
+    completedAt: number
+  }>,
+  pendingFlows: Map<bookingId, {
+    status: string,
+    timestamp: number
+  }>,
+  lifecycleStates: Map<bookingId, {
+    lifecycle: string,
+    updatedAt: string
+  }>,
+  socketStates: Map<bookingId, {
+    connected: boolean,
+    error: object,
+    updatedAt: string
+  }>,
+  retryAttempts: Map<bookingId, number>,
+  pendingTimeouts: Map<bookingId, timeoutId>
+}
+PaymentOrchestrator State
+The PaymentOrchestrator manages the following state structure:
+javascriptCopy{
+  flows: Map<flowId, {
+    id: string,
+    bookingId: string,
+    status: string,
+    amount: number,
+    currency: string,
+    metadata: object,
+    createdAt: string,
+    lastUpdated: string
+  }>,
+  _activeFlowIds: Map<bookingId, flowId>,
+  _confirmationMappings: Map<confirmationId, {
+    flowId: string,
+    bookingId: string,
+    timestamp: string,
+    metadata: object
+  }>,
+  _pendingInitializations: Map<bookingId, Promise>,
+  _flowInitializationLocks: Map<bookingId, timestamp>,
+  _flowMappings: Map<bookingId, flowId>,
+  _transitioningFlows: Map<flowId, {
+    fromId: string,
+    toId: string,
+    timestamp: string
+  }>,
+  _flowLifecycles: Map<flowId, {
+    lifecycle: string,
+    timestamp: string,
+    metadata: object
+  }>,
+  preservedFlows: Map<flowId, {
+    id: string,
+    bookingId: string,
+    status: string,
+    preservedAt: string,
+    metadata: object,
+    expiresAt: number
+  }>,
+  statusSubscriptions: Map<flowId, Set<callback>>
+}
+PaymentStatusService State
+The PaymentStatusService manages the following state structure:
+javascriptCopy{
+  paymentStates: Map<flowId, {
+    status: string,
+    version: number,
+    createdAt: string,
+    lastUpdated: string,
+    updates: array,
+    metadata: object
+  }>,
+  _flowStates: Map<flowId, {
+    status: string,
+    version: number,
+    createdAt: string,
+    lastUpdated: string,
+    transitions: array
+  }>,
+  _preservedStates: Map<flowId, {
+    status: string,
+    version: number,
+    preservedAt: string,
+    preservationReason: string,
+    originalId: string,
+    metadata: object
+  }>,
+  _stateTransitions: Map<flowId, [
+    {
+      from: string,
+      to: string,
+      timestamp: string,
+      metadata: object
+    }
+  ]>,
+  stateVersions: Map<flowId, number>,
+  _submissionStates: Map<flowId, {
+    startedAt: string,
+    lastUpdated: string,
+    attempts: number
+  }>,
+  _flowLifecycles: Map<flowId, {
+    state: string,
+    enteredAt: string,
+    metadata: object
+  }>
+}
+AUTHENTICATION MECHANISMS
+The payment system uses several authentication and authorization mechanisms:
+
+API Authentication:
+
+JWT-based authentication via Auth middleware
+Each API request includes a token in the Authorization header
+
+
+Stripe Authentication:
+
+Client-side authentication using Stripe.js publishable key
+Server-side authentication using Stripe secret key
+Webhook authentication using Stripe signature verification:
+
+javascriptCopyconst sig = req.headers['stripe-signature'];
+const event = stripe.webhooks.constructEvent(
+  req.body,
+  sig,
+  process.env.STRIPE_WEBHOOK_SECRET
+);
+
+Payment Method Authorization:
+
+User can only access their own payment methods
+Authorization check example:
+
+javascriptCopyif (userId !== req.user._id.toString() && req.user.role !== 'admin') {
+  return res.status(403).json({
+    success: false,
+    message: 'Unauthorized access'
+  });
+}
+
+Booking Authorization:
+
+User can only make payments for their own bookings
+Authorization check example:
+
+javascriptCopyif (booking.user._id.toString() !== req.user._id.toString()) {
+  return res.status(403).json({
+    success: false,
+    message: 'Unauthorized payment attempt'
+  });
+}
+
+
+ERROR HANDLING PATTERNS
+The payment system implements several error handling patterns:
+
+Retry Mechanism:
+
+Exponential backoff with jitter for recoverable errors:
+
+javascriptCopyasync retryWithDelay(operation, options = {}) {
+  const {
+    maxAttempts = RETRY_CONFIG.MAX_ATTEMPTS,
+    baseDelay = RETRY_CONFIG.BASE_DELAY,
+    maxDelay = RETRY_CONFIG.MAX_DELAY
+  } = options;
+
+  for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+    try {
+      return await operation();
+    } catch (error) {
+      if (error.name === 'AbortError' || error.recoverable === false) {
+        throw error;
+      }
+
+      const shouldRetry = attempt < maxAttempts;
+      if (!shouldRetry) break;
+
+      const jitter = Math.random() * RETRY_CONFIG.JITTER_MAX;
+      const delay = Math.min(baseDelay * Math.pow(2, attempt - 1) + jitter, maxDelay);
+      
+      await new Promise(resolve => setTimeout(resolve, delay));
+    }
+  }
+
+  throw enhancedError;
+}
+
+Request Timeout Handling:
+
+Abort controller for canceling long-running requests:
+
+javascriptCopyconst controller = new AbortController();
+const timeoutId = setTimeout(() => {
+  controller.abort();
+}, this.PAYMENT_REQUEST_TIMEOUT || 10000);
+
+try {
+  const response = await api.post('/api/endpoint', data, {
+    signal: controller.signal,
+    timeout: this.PAYMENT_REQUEST_TIMEOUT || 10000
+  });
+  // Handle response
+} catch (error) {
+  if (error.name === 'AbortError') {
+    // Handle timeout
+  }
+} finally {
+  clearTimeout(timeoutId);
+}
+
+State Recovery Mechanism:
+
+Backup state before transitions:
+
+javascriptCopyconst backupState = JSON.parse(JSON.stringify(oldState));
+this._preservedStates.set(`backup:${oldId}:${newId}`, {
+  ...backupState,
+  preservedAt: new Date().toISOString(),
+  preservationReason: 'transition_backup'
+});
+
+State recovery from backup:
+
+javascriptCopyasync _attemptStateRecovery(flowId) {
+  const preservedState = this._preservedStates.get(flowId);
+  if (!preservedState) return null;
+
+  try {
+    const isExpired = Date.now() - new Date(preservedState.preservedAt).getTime() > FLOW_PRESERVATION.TIMEOUT;
+    if (isExpired) {
+      this._preservedStates.delete(flowId);
+      return null;
+    }
+
+    return this._restoreState(flowId, preservedState);
+  } catch (error) {
+    logger.error('[PaymentStatusService] State recovery failed');
+    return null;
+  }
+}
+
+Error Enhancement Pattern:
+
+Enhancing errors with context:
+
+javascriptCopy_enhanceError(error, context = {}) {
+  const enhancedError = new Error(error.message);
+  enhancedError.originalError = error;
+  enhancedError.timestamp = new Date().toISOString();
+  enhancedError.context = context;
+
+  if (error.response) {
+    enhancedError.code = `payment_${context.context}_${error.response.status}`;
+    enhancedError.recoverable = ![422, 404].includes(error.response.status);
+    enhancedError.serverResponse = error.response.data;
+  } else if (error.request) {
+    enhancedError.code = `payment_${context.context}_network_error`;
+    enhancedError.recoverable = true;
+  } else {
+    enhancedError.code = `payment_${context.context}_client_error`;
+    enhancedError.recoverable = false;
+  }
+
+  return enhancedError;
+}
+
+Atomic State Updates:
+
+Lock-based atomic state updates:
+
+javascriptCopyasync _atomicStateUpdate(flowId, updatedState) {
+  const lockKey = `flow:${flowId}`;
+  
+  if (!await this.statusService.lockManager.acquire(lockKey)) {
+    throw new Error('Flow update in progress');
+  }
+
+  try {
+    const flow = this.flows.get(flowId);
+    if (!flow) {
+      throw new Error('Flow not found');
+    }
+
+    const updatedFlow = await updateFn(flow);
+    this.flows.set(flowId, {
+      ...updatedFlow,
+      lastUpdated: new Date().toISOString()
+    });
+
+    return updatedFlow;
+  } finally {
+    this.statusService.lockManager.release(lockKey);
+  }
+}

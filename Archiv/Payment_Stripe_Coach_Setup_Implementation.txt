@@ -1,0 +1,156 @@
+Based on the existing codebase, here's an updated implementation plan for Stripe Connect integration:
+
+Backend Model Updates (already have good foundation)
+
+javascriptCopy// Additional fields needed in Coach.js -> settings.paymentAndBilling.stripe
+stripe: {
+  // Keep existing fields
+  accountId: String,
+  accountStatus: String,
+  accountType: { type: String, enum: ['express'], default: 'express' },
+  chargesEnabled: Boolean,
+  payoutsEnabled: Boolean,
+  detailsSubmitted: Boolean,
+  // Add new fields
+  onboardingStatus: {
+    completed: Boolean,
+    currentStep: String,
+    missingRequirements: [String],
+    lastChecked: Date,
+    nextCheckDue: Date
+  },
+  paymentSchedule: {
+    defaultCurrency: { type: String, default: 'CHF' },
+    payoutSchedule: {
+      frequency: { type: String, enum: ['daily', 'weekly', 'monthly'], default: 'weekly' },
+      weeklyAnchor: { type: Number, min: 1, max: 7 },
+      monthlyAnchor: { type: Number, min: 1, max: 31 }
+    }
+  }
+}
+
+Components Structure (integrate with existing payment folder)
+
+Copycomponents/
+├── payment/
+│   ├── connect/
+│   │   ├── ConnectDashboard.js     # Main connect management dashboard
+│   │   ├── ConnectStatus.js        # Status display & requirements
+│   │   ├── ConnectButton.js        # OAuth button component
+│   │   ├── PayoutSchedule.js       # Payout timing configuration
+│   │   └── BusinessProfile.js      # Business details form
+│   └── setup/
+        └── PaymentSetupWizard.js   # Step-by-step setup guide
+
+Backend Controllers & Services (extend existing)
+
+javascriptCopy// Add to stripeService.js
+class StripeService {
+  // Keep existing methods
+  async getConnectAccountStatus(accountId) { ... }
+  async updateConnectAccount(accountId, data) { ... }
+  async createConnectLoginLink(accountId) { ... }
+}
+
+// Add new connectController.js
+class ConnectController {
+  async getAccountStatus(req, res) { ... }
+  async createAccount(req, res) { ... }
+  async handleAccountUpdate(req, res) { ... }
+  async updatePayoutSchedule(req, res) { ... }
+  async getLoginLink(req, res) { ... }
+}
+
+New API Routes (add to paymentRoutes.js)
+
+javascriptCopyrouter.get('/connect/status', auth, connectController.getAccountStatus);
+router.post('/connect/account', auth, connectController.createAccount);
+router.put('/connect/account', auth, connectController.updateAccount);
+router.post('/connect/payout-schedule', auth, connectController.updatePayoutSchedule);
+router.get('/connect/login-link', auth, connectController.getLoginLink);
+
+React Hooks & Context (integrate with existing)
+
+javascriptCopy// New hook: hooks/useStripeConnect.js
+const useStripeConnect = () => {
+  const createAccount = async () => { ... }
+  const getAccountStatus = async () => { ... }
+  const updatePayoutSchedule = async () => { ... }
+  const getLoginLink = async () => { ... }
+  return { createAccount, getAccountStatus, updatePayoutSchedule, getLoginLink };
+};
+
+// Update contexts/PaymentContext.js to include Connect state
+
+UI Integration in CoachSettings.js
+
+javascriptCopy// Add new section in PaymentAndBilling section
+<section className="settings-section">
+  <ConnectDashboard />
+  <PayoutSchedule />
+  <BusinessProfile />
+  
+  {!hasStripeAccount && (
+    <PaymentSetupWizard 
+      onComplete={handleSetupComplete}
+      initialStep={currentStep}
+    />
+  )}
+</section>
+
+Connect Account Flow
+
+javascriptCopy// Frontend flow in ConnectDashboard.js
+const ConnectDashboard = () => {
+  const { connectAccount, status } = useStripeConnect();
+  
+  const handleConnect = async () => {
+    const accountLink = await connectAccount();
+    window.location.href = accountLink.url;
+  };
+
+  const handleLoginToDashboard = async () => {
+    const loginLink = await getLoginLink();
+    window.location.href = loginLink.url;
+  };
+};
+
+Status Monitoring & Webhook Handling
+
+javascriptCopy// Add to existing webhook handler in stripeService.js
+async handleWebhookEvent(event) {
+  switch(event.type) {
+    case 'account.updated':
+      await this.handleConnectAccountUpdate(event.data.object);
+      break;
+    case 'account.application.deauthorized':
+      await this.handleConnectAccountDeauthorized(event.data.object);
+      break;
+  }
+}
+
+Backend Service Integration (update existing paymentService.js)
+
+javascriptCopyclass PaymentService {
+  // Add connect-specific methods
+  async createConnectAccount(coachId, email) { ... }
+  async refreshConnectAccountStatus(accountId) { ... }
+  async updatePayoutSchedule(accountId, schedule) { ... }
+  async generateLoginLink(accountId) { ... }
+}
+
+Testing & Monitoring Integration
+
+javascriptCopy// Add to existing test suites
+describe('Stripe Connect Integration', () => {
+  test('Coach onboarding flow', async () => { ... });
+  test('Account status monitoring', async () => { ... });
+  test('Payout scheduling', async () => { ... });
+});
+
+// Add connect-specific monitoring to existing services
+class ConnectMonitoringService {
+  async checkAccountHealth(accountId) { ... }
+  async monitorPayoutStatus(accountId) { ... }
+  async trackOnboardingFunnel(coachId) { ... }
+}

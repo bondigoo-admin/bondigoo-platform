@@ -1,0 +1,354 @@
+TECHNICAL DOCUMENTATION: NOTIFICATION SYSTEM ARCHITECTURE
+EXECUTIVE SUMMARY
+This document provides a comprehensive technical overview of the notification system within our coaching platform. The system enables real-time notifications, preferences management, and multi-channel delivery for events such as booking requests, confirmations, cancellations, and session reminders.
+The notification system architecture comprises these interconnected components:
+
+React frontend components for notification display and interaction
+React hooks for notification state management
+RESTful API services for notification CRUD operations
+MongoDB data models with Mongoose ODM
+Socket.IO for real-time notifications
+Multi-channel delivery system (in-app, email, push)
+User-configurable notification preferences
+
+The document details each component's functionality, data flow, and state management to serve as a comprehensive reference for developers.
+SYSTEM ARCHITECTURE OVERVIEW
+Technology Stack
+
+Frontend: React (Create React App)
+Backend: Express.js
+Database: MongoDB with Mongoose ODM
+State Management: React Context API, React Query
+Real-time Communication: Socket.IO
+Authentication: JWT stored in localStorage
+Styling: CSS with potential migration to Tailwind CSS
+
+Core Components
+
+NotificationCenter: Main component for displaying notifications
+NotificationItem: Renders individual notifications
+NotificationPreferences: Interface for managing notification settings
+useNotifications: Custom hook for notification state management
+notificationAPI.js: Frontend service for API interactions
+notificationController.js: Backend controller for notification logic
+Notification.js: Mongoose model for notification data
+UnifiedNotificationService: Backend service for notification delivery
+Socket.IO Services: Handles real-time notification updates
+
+NOTIFICATION PROCESS FLOW
+1. Notification Creation
+Triggering Events
+
+Booking status changes (requested, confirmed, declined, cancelled)
+Session reminders (upcoming sessions)
+Payment events (received, failed)
+Connection requests
+
+The handleBookingStatusChange function in UnifiedNotificationService processes booking status changes and triggers appropriate notifications.
+Notification Generation
+
+BookingNotificationMapper determines notification configurations based on booking status
+BookingStatusToNotification maps booking statuses to notification types and their configuration
+getNotificationTitle and getNotificationMessage generate dynamic content based on notification type and recipient
+
+Backend Processing
+
+UnifiedNotificationService.createInAppNotification creates a notification document in MongoDB
+UnifiedNotificationService.sendNotification orchestrates delivery across channels
+User preference checking determines which channels to use for delivery
+
+2. Notification Delivery
+Multi-Channel Delivery
+
+handleSocketDelivery sends real-time notifications via Socket.IO
+handleEmailDelivery sends email notifications via email service
+sendPushNotification (where implemented) handles push notifications
+
+Delivery Rules
+
+shouldThrottleNotification prevents notification overload by limiting frequency
+getNotificationChannels determines which channels to use based on user preferences
+shouldSendNotification applies rules like quiet hours to determine if notification should be sent
+
+3. Notification Retrieval
+Frontend Fetching
+
+getNotifications in notificationAPI.js fetches notifications from the backend
+useQuery in React Query handles caching, refetching, and error handling
+
+Booking Data Enhancement
+
+useParallelBookingData fetches booking data for notifications in parallel
+buildBookingsMap creates a map of booking data for efficient lookup
+
+Notification Processing
+
+processNotification enhances notifications with booking data
+renderNotificationContent formats notification for display
+
+Grouping and Filtering
+
+groupNotificationsByDate/Type/Priority organizes notifications for display
+filterNotifications applies user-selected filters
+
+4. Notification Display
+Component Hierarchy
+
+NotificationCenter: Main container
+
+Filtering Controls
+NotificationGroup: Groups notifications by date/type/priority
+
+NotificationItem: Individual notification
+
+NotificationItemContent: Content and actions
+
+ActionButtons: Interaction buttons
+
+
+
+
+
+
+
+
+
+Notification Rendering
+
+renderNotificationItem handles individual notification rendering
+renderNotificationContent displays the notification content
+renderActions shows appropriate action buttons based on notification type
+
+Real-time Updates
+
+handleBookingUpdate processes booking status changes received via socket
+handleNotificationUpdate processes notification updates
+addNewNotification adds new notifications to state
+
+5. Notification Actions
+Action Handling
+
+handleAction processes user actions on notifications
+acceptBooking accepts booking requests
+declineBooking declines booking requests
+suggestAlternativeTime suggests alternative times for bookings
+
+Batch Actions
+
+batchMarkAsRead marks multiple notifications as read
+batchMoveToTrash moves multiple notifications to trash
+handleBatchAction orchestrates batch operations
+
+6. Notification Preferences
+Preference UI
+
+handleChannelChange toggles communication channels
+handleTypeChange toggles notification types
+handleTimingChange updates timing preferences
+
+Preference Management
+
+fetchPreferences loads user preferences
+savePreferences updates user preferences
+applyPreferences applies preferences to notification delivery
+
+DETAILED COMPONENT ANALYSIS
+Frontend Components
+NotificationCenter.js
+Primary component for displaying and interacting with notifications.
+Key Functions:
+
+fetchNotifications: Retrieves notifications from API
+handleFilterChange: Processes filter selection
+handleGroupingChange: Processes grouping selection
+handleSelectAll: Selects/deselects all notifications
+handleMarkAllRead: Marks all notifications as read
+handleContextMenu: Shows context menu for notification
+processNotification: Enhances notification with booking data
+
+State Management:
+
+filter, showFilters, contextMenu, activeFilter, activeFilters
+
+NotificationItem.js
+Component for individual notification items.
+Key Functions:
+
+handleAction: Processes notification actions
+handleItemClick: Handles click on notification
+toggleSelection: Toggles selection state
+
+State Management:
+
+isActioned, actionInProgress
+
+NotificationItemContent.js
+Component for rendering notification content.
+Key Functions:
+
+renderActions: Renders action buttons based on notification type
+renderTitle: Generates notification title
+renderPrimaryInfo: Displays primary notification information
+handleActionWithState: Processes actions with loading state
+
+State Management:
+
+showBookingModal, showMessageInput, actionInProgress, isActioned
+
+NotificationPreferences.js
+Component for managing notification preferences.
+Key Functions:
+
+handleChannelChange: Updates channel preferences
+handleTypeChange: Updates notification type preferences
+handleTimingChange: Updates timing preferences
+savePreferences: Saves preferences to backend
+
+State Management:
+
+loading, saving, preferences
+
+Backend Controllers and Services
+notificationController.js
+Backend controller handling notification API endpoints.
+Key Functions:
+
+createNotification: Creates a new notification
+getNotifications: Retrieves notifications for a user
+markAsRead: Marks a notification as read
+batchMarkAsRead: Marks multiple notifications as read
+updateNotificationStatus: Updates notification status (active/archived/trash)
+batchMoveToTrash: Moves multiple notifications to trash
+
+Error Handling:
+
+Validation errors
+Database errors with detailed logging
+Client-friendly error responses
+
+unifiedNotificationService.js
+Service for sending notifications through multiple channels.
+Key Functions:
+
+sendNotification: Sends a notification through configured channels
+createInAppNotification: Creates an in-app notification
+sendEmailNotification: Sends an email notification
+handleBookingStatusChange: Processes notification for booking status changes
+generateNotificationContent: Generates content for notifications
+getNotificationTitle: Returns title based on notification type
+getNotificationMessage: Returns message based on notification type and data
+
+Custom Hooks
+useNotifications.js
+Custom hook for notification state management.
+Key Functions:
+
+fetchNotifications: Retrieves notifications
+markAsRead: Marks a notification as read
+handleAction: Processes notification actions
+handleBatchAction: Processes batch actions
+toggleSelection: Toggles notification selection
+sortNotifications: Sorts notifications
+
+State Management:
+
+notifications, unreadCount, loading, selectedNotifications
+groupingType, sortBy, sortDirection, pinnedNotifications
+
+Real-time Updates:
+
+Socket event listeners for booking updates and new notifications
+
+API REFERENCE
+Notification Endpoints
+MethodEndpointDescriptionAuthenticationParametersGET/api/notificationsGet user notificationsRequiredstatus, category, limit, offset, startDate, endDatePOST/api/notificationsCreate notificationRequiredtype, recipient, content, metadata, priority, channelsGET/api/notifications/:idGet notification detailsRequired-PUT/api/notifications/:id/readMark notification as readRequired-PUT/api/notifications/batch/readMark multiple notifications as readRequirednotificationIdsPUT/api/notifications/:id/statusUpdate notification statusRequiredstatusPUT/api/notifications/batch/trashMove multiple notifications to trashRequirednotificationIdsPUT/api/notifications/batch/restoreRestore multiple notificationsRequirednotificationIdsDELETE/api/notifications/trash/emptyEmpty trashRequired-GET/api/notifications/preferencesGet notification preferencesRequired-PUT/api/notifications/preferencesUpdate notification preferencesRequiredpreferencesPOST/api/notifications/:id/actionHandle notification actionRequiredaction
+Request/Response Examples
+Getting Notifications:
+CopyGET /api/notifications?status=active&limit=20&offset=0
+
+Response contains:
+- success flag
+- notifications array with notification objects
+- pagination details (total, offset, limit, hasMore)
+Creating a Notification:
+CopyPOST /api/notifications
+Payload includes recipient, type, content, metadata, priority, channels
+
+Response contains:
+- success flag
+- created notification object
+STATE MANAGEMENT DETAILS
+Frontend State Management
+Local Component State:
+
+Used for UI elements (filter toggles, selection)
+Loading and error states
+Modal visibility
+
+React Query:
+
+Used for data fetching and caching
+Automatic refetching and background updates
+Configured with appropriate staleTime and refetchInterval
+
+Custom Hooks:
+
+useNotifications: Manages notification state
+useParallelBookingData: Fetches related booking data
+useNotificationActions: Handles notification actions
+
+Backend State Management
+Database State:
+
+Primary source of truth via MongoDB
+Mongoose models with validation
+
+Socket Management:
+
+Real-time client state via Socket.IO
+Connection monitoring and event emission
+Room-based notification targeting
+
+AUTHENTICATION MECHANISMS
+The notification system uses JWT for authentication, stored in localStorage:
+Authentication Middleware:
+
+Extracts token from Authorization header
+Verifies token and attaches user to request
+Handles invalid tokens
+
+API Requests with Authentication:
+
+Includes token in request headers
+Handles missing token gracefully
+
+Resource-Based Authorization:
+
+Verifies recipient matches authenticated user
+Prevents unauthorized access to notifications
+
+ERROR HANDLING PATTERNS
+The notification system implements several error handling patterns:
+Frontend Error Handling:
+
+Try-catch blocks with user feedback via toast messages
+Error state management for UI display
+Error boundaries for component isolation
+
+Optimistic Updates with Rollback:
+
+Updates UI immediately for responsiveness
+Reverts changes if API call fails
+Maintains data consistency
+
+Backend Error Logging:
+
+Structured logging with context information
+Stack traces for debugging
+Timestamp and operation details
+
+Socket Error Handling:
+
+Connection error detection and recovery
+Automatic reconnection attempts
+Fallback to API polling when sockets fail

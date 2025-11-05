@@ -1,0 +1,1473 @@
+TECHNICAL DOCUMENTATION: BOOKING PROCESS ARCHITECTURE
+EXECUTIVE SUMMARY
+This document provides a comprehensive technical overview of the booking process within our coaching platform. The platform facilitates session booking between coaches and clients with features including availability management, booking creation, payment processing, and real-time notifications.
+The booking system architecture comprises several interconnected components:
+
+React frontend components for calendar visualization and booking management
+RESTful API services for CRUD operations
+MongoDB data models with Mongoose ODM
+Stripe payment integration
+Socket.IO for real-time updates
+JWT-based authentication
+
+The document details each component's functionality, data flow, and state management.
+SYSTEM ARCHITECTURE OVERVIEW
+Technology Stack
+
+Frontend: React (Create React App)
+Backend: Express.js
+Database: MongoDB with Mongoose ODM
+State Management: React Context API, React Query
+Real-time Communication: Socket.IO
+Authentication: JWT stored in localStorage
+Payment Processing: Stripe
+Styling: CSS with potential migration to Tailwind
+
+Core Components
+
+BookingCalendar: Renders bookings and availability slots in calendar view
+UserBookingModal: Handles booking creation and modification
+bookingAPI.js: Frontend service for API interactions
+bookingController.js: Backend controller for booking logic
+Booking.js: Mongoose model for booking data
+SessionType.js: Mongoose model for session types
+PaymentOrchestrator: Manages payment flow
+Socket.IO Services: Handles real-time updates
+
+BOOKING PROCESS FLOW
+1. Availability Management
+
+Coach creates availability slots
+
+Sets recurring patterns if needed
+Defines bookable time slots
+Configures instant booking settings
+
+
+Availability slots are stored as Booking documents
+
+isAvailability flag set to true
+Contains coach ID, time range, and session type
+Includes settings for instant booking eligibility
+
+
+When clients book sessions, availability slots are split
+
+Original slot is deleted
+New slots are created before and after the booked time
+This preserves remaining available time
+
+
+
+2. Booking Creation
+
+Calendar Visualization
+
+BookingCalendar component fetches sessions:
+javascriptCopyfetchSessions() // Retrieves booking data from API
+
+Calendar displays availability slots and existing bookings
+Visibility respects privacy settings via:
+javascriptCopycanViewCalendar() // Determines calendar visibility based on permissions
+filterVisibleEvents() // Filters events based on visibility settings
+
+
+
+Slot Selection
+
+User selects an available slot
+handleSelectEvent() processes the selection
+Permission checks occur based on connection status
+System checks if time slot is in the future and available
+
+
+Booking Modal
+
+UserBookingModal opens with slot details
+User selects session duration:
+javascriptCopyhandleDurationSelection() // Updates booking duration
+
+User selects start time:
+javascriptCopyhandleTimeSelection() // Updates booking start time
+
+
+
+Price Calculation
+
+System calculates price based on:
+
+Coach's base rate
+Session duration
+Session type
+Time-based rates
+Special periods
+VAT and platform fees
+
+
+calculateSessionPrice() handles this logic
+
+
+Validation & Confirmation
+
+Booking is validated using:
+javascriptCopyvalidateBooking() // Checks for errors before submission
+
+User confirms booking details
+System determines booking type:
+
+FIRM: Immediate confirmation
+REQUEST: Requires coach approval
+
+
+
+
+Backend Processing
+
+createBooking() in bookingController processes the request
+Starts MongoDB transaction
+Validates booking data
+Checks for conflicts with existing bookings
+Finds appropriate availability slot
+Splits availability if needed:
+javascriptCopysplitAvailabilitySlot() // Creates new slots around the booking
+
+Creates booking record with price data
+Creates payment intent with Stripe if needed
+
+
+Payment Handling
+
+If payment is required, flow is managed by PaymentOrchestrator
+Creates Stripe payment intent
+Returns client secret to frontend
+Updates booking with payment status
+Monitors payment state transitions
+
+
+Notification Dispatching
+
+System sends notifications to both client and coach
+Uses sendBookingNotifications()
+Delivers via both in-app and email channels
+Socket.IO pushes real-time updates
+
+
+UI Updates
+
+Calendar refreshes to show new booking
+Success messages displayed to user
+Availability slots updated in UI
+
+
+
+3. Booking Management
+
+Coach Workflow
+
+Receiving booking requests
+Accepting requests:
+javascriptCopyacceptBooking() // Updates status to confirmed
+
+Declining requests:
+javascriptCopydeclineBooking() // Updates status and restores availability
+
+Suggesting alternative times:
+javascriptCopysuggestAlternativeTime() // Offers different slots
+
+
+
+Client Workflow
+
+Viewing confirmed bookings
+Cancelling bookings
+Rescheduling sessions
+Completing payment
+
+
+Status Transitions
+
+requested → confirmed | declined | time_suggested
+confirmed → completed | cancelled_by_coach | cancelled_by_client
+time_suggested → confirmed | declined
+
+
+Real-time Updates
+
+Socket.IO events notify users of changes
+UI components subscribe to relevant events
+Status changes reflected immediately
+
+
+
+DETAILED COMPONENT ANALYSIS
+Frontend Components
+BookingCalendar.js
+Primary component for displaying and interacting with the booking calendar.
+Key Functions:
+javascriptCopyfetchSessions()              // Retrieves booking data from API
+handleSelectEvent()          // Processes clicks on existing bookings
+handleSelectSlot()           // Processes clicks on empty calendar slots
+handleBookingConfirm()       // Creates booking after confirmation
+canViewCalendar()            // Determines calendar visibility based on permissions
+getSessionTypeIcon()         // Returns icon for session type
+filterVisibleEvents()        // Filters events based on visibility settings
+State Management:
+javascriptCopyconst [sessions, setSessions] = useState({ availability: [], regularBookings: [] });
+const [bookingToConfirm, setBookingToConfirm] = useState(null);
+const [selectedBooking, setSelectedBooking] = useState(null);
+const { isConnected } = useConnectionCheck(user?.id, userId);
+Calendar Visibility Logic:
+javascriptCopyconst canViewCalendar = useMemo(() => {
+  // Always allow users to see their own calendar
+  if (isOwnProfile) return true;
+  
+  // Otherwise check privacy settings
+  switch (settings.privacySettings.calendarVisibility) {
+    case CALENDAR_VISIBILITY.PUBLIC:
+      return true;
+    case CALENDAR_VISIBILITY.CONNECTED:
+      return isConnected;
+    case CALENDAR_VISIBILITY.PRIVATE:
+      return false;
+    default:
+      return false;
+  }
+}, [/* dependencies */]);
+Booking Selection Logic:
+javascriptCopyconst handleSelectEvent = useCallback((event) => {
+  // For available slots
+  if (event.isAvailability) {
+    // Validation logic
+    const currentTime = moment();
+    const eventStart = moment(event.start);
+    
+    // Check if slot is in the past
+    if (eventEnd.isBefore(currentTime)) {
+      toast.error(t('bookingcalendar:pastSlotError'));
+      return;
+    }
+    
+    // Process booking request
+    setBookingToConfirm({
+      coach: userId,
+      coachId: userId,
+      user: user?.id,
+      /* other booking details */
+    });
+  } 
+  // For existing bookings
+  else {
+    setSelectedBooking({
+      bookingId: event._id,
+      existingBooking: event,
+      isInitialData: true
+    });
+  }
+}, [/* dependencies */]);
+UserBookingModal.js
+Modal component for booking creation and management.
+Key Functions:
+javascriptCopyhandleDateSelection()        // Processes date selection
+handleTimeSelection()        // Processes time selection
+handleDurationSelection()    // Processes duration selection
+validateBooking()            // Validates booking data before submission
+handleConfirm()              // Processes booking confirmation
+handlePaymentSuccess()       // Handles successful payment
+handlePaymentError()         // Handles payment errors
+State Management:
+javascriptCopyconst [bookingData, setBookingData] = useState(initialBookingData);
+const [selectedTime, setSelectedTime] = useState(null);
+const [selectedDuration, setSelectedDuration] = useState(defaultDuration);
+const [priceDetails, setPriceDetails] = useState(null);
+const [isProcessing, setIsProcessing] = useState(false);
+const [orchestratorState, setOrchestratorState] = useState(null);
+const [isPaymentSectionVisible, setIsPaymentSectionVisible] = useState(false);
+Time Slot Generation Logic:
+javascriptCopyconst availableTimeSlots = React.useMemo(() => {
+  if (!selectedDate) return [];
+  
+  const slots = [];
+  let baseStartTime, baseEndTime;
+  
+  // Get availability for selected date
+  if (initialBookingData?.start && initialBookingData?.end) {
+    baseStartTime = moment(initialBookingData.start);
+    baseEndTime = moment(initialBookingData.end);
+  } else {
+    const availabilityForDay = existingSessions?.filter(session => 
+      session.isAvailability && 
+      moment(session.start).isSame(selectedDate, 'day')
+    );
+    
+    if (!availabilityForDay?.length) return [];
+    
+    // Sort availability slots
+    const sortedSlots = [...availabilityForDay].sort(
+      (a, b) => moment(a.start).valueOf() - moment(b.start).valueOf()
+    );
+    
+    baseStartTime = moment(sortedSlots[0].start);
+    baseEndTime = moment(sortedSlots[sortedSlots.length - 1].end);
+  }
+  
+  // Generate time slots in 15-minute increments
+  let currentTime = moment(baseStartTime);
+  while (currentTime.isBefore(baseEndTime)) {
+    if (currentTime.minutes() % 15 === 0) {
+      const slotEnd = moment(currentTime).add(selectedDuration || 60, 'minutes');
+      if (slotEnd.isSameOrBefore(baseEndTime)) {
+        slots.push({
+          time: currentTime.toDate(),
+          label: currentTime.format('HH:mm'),
+          isSelectable: true
+        });
+      }
+    }
+    currentTime.add(15, 'minutes');
+  }
+  
+  return slots;
+}, [selectedDate, initialBookingData, existingSessions, selectedDuration]);
+Booking Confirmation Logic:
+javascriptCopyconst handleConfirm = useCallback(async () => {
+  const errors = validateBooking();
+  if (errors.length > 0) {
+    errors.forEach((error) => toast.error(error));
+    return;
+  }
+  
+  setIsProcessing(true);
+  setErrorMessage(null);
+  
+  try {
+    // Initialize payment flow if needed
+    if ((bookingType === 'FIRM' || coachSettings?.requireImmediatePayment) && 
+        priceDetails?.final?.amount > 0) {
+      
+      // Set up payment with PaymentOrchestrator
+      orchestratorFlow = await PaymentOrchestrator.initializePayment({
+        flowId,
+        amount: Math.round(formattedPrice.amount * 100),
+        currency: formattedPrice.currency,
+        // Other payment details
+      });
+    }
+    
+    // Prepare booking data
+    const bookingDetails = {
+      coach: userId,
+      user: user?.id,
+      // Other booking data
+    };
+    
+    // Create booking via API
+    const createdBooking = await onConfirm(bookingDetails);
+    
+    // Update flow with booking ID if payment required
+    if (orchestratorFlow) {
+      await PaymentOrchestrator.updateFlow(orchestratorFlow.id, {
+        bookingId: createdBooking._id,
+        // Other update data
+      });
+      
+      // Transition to payment UI
+      setIsPaymentSectionVisible(true);
+    } else {
+      // Close modal on success
+      toast.success(t('bookings:bookingRequested'));
+      onClose();
+    }
+  } catch (error) {
+    handleBookingError(error);
+  } finally {
+    setIsProcessing(false);
+  }
+}, [/* dependencies */]);
+Backend Controllers
+bookingController.js
+Main controller handling booking operations on the backend.
+Key Functions:
+javascriptCopycreateBooking()              // Creates a new booking
+getCoachBookings()           // Retrieves bookings for a coach
+acceptBooking()              // Accepts a booking request
+declineBooking()             // Declines a booking request
+suggestAlternativeTime()     // Suggests alternative times
+createBooking Implementation:
+javascriptCopyexports.createBooking = async (req, res) => {
+  const session = await mongoose.startSession();
+  session.startTransaction();
+
+  try {
+    const {
+      coach,
+      user,
+      sessionType,
+      start,
+      end,
+      timezone,
+      title,
+      isAvailability,
+      // Other booking details
+    } = req.body;
+    
+    // Validation
+    if (!isAvailability) {
+      if (!price || !price.final?.amount?.amount || !price.currency) {
+        await session.abortTransaction();
+        return res.status(400).json({
+          message: 'Invalid price structure provided'
+        });
+      }
+    }
+    
+    // Fetch coach and session type
+    const coachDoc = await Coach.findOne({ user: coach }).session(session);
+    let sessionTypeDoc = await SessionType.findById(sessionType).session(session);
+    
+    // Check for conflicting bookings
+    const existingBooking = await Booking.findOne({
+      coach: coach,
+      start: { $lt: end },
+      end: { $gt: start },
+      isAvailability: false,
+      status: { $nin: ['cancelled', 'declined'] }
+    }).session(session);
+    
+    // Find available slot
+    const availabilitySlot = await Booking.findOne({
+      coach: coach,
+      start: { $lte: new Date(start) },
+      end: { $gte: new Date(end) },
+      isAvailability: true
+    }).session(session);
+    
+    // Split availability slot if needed
+    let newAvailabilitySlots = [];
+    if (!isAvailability && availabilitySlot) {
+      newAvailabilitySlots = await splitAvailabilitySlot(
+        availabilitySlot,
+        new Date(start),
+        new Date(end)
+      );
+      
+      await Booking.findByIdAndDelete(availabilitySlot._id, { session });
+      
+      if (newAvailabilitySlots.length > 0) {
+        await Booking.insertMany(newAvailabilitySlots, {
+          session,
+          setDefaultsOnInsert: false
+        });
+      }
+    }
+    
+    // Create booking
+    const booking = new Booking({
+      coach,
+      user,
+      sessionType: sessionTypeDoc._id,
+      start: new Date(start),
+      end: new Date(end),
+      timezone,
+      title,
+      status: status || (isAvailability ? 'confirmed' : 'requested'),
+      isAvailability,
+      // Other fields
+    });
+    
+    await booking.save({ session });
+    
+    // Create payment intent if needed
+    let paymentIntentClientSecret = null;
+    if (!isAvailability && price?.final) {
+      const paymentAmount = price.final.amount.amount;
+      
+      const paymentIntent = await paymentService.createPaymentIntent({
+        bookingId: booking._id.toString(),
+        amount: paymentAmount * 100,
+        currency: price.currency,
+        stripeCustomerId,
+        coachStripeAccountId: coachDoc.settings.paymentAndBilling.stripe.accountId,
+        // Other payment data
+      });
+      
+      // Create payment record
+      const paymentDoc = new Payment({
+        booking: booking._id,
+        payer: user,
+        recipient: coach,
+        amount: {
+          // Payment details
+        },
+        status: 'completed',
+        stripe: {
+          paymentIntentId: paymentIntent.id,
+          clientSecret: paymentIntent.client_secret,
+          chargeId: paymentIntent.latest_charge
+        }
+      });
+      
+      await paymentDoc.save({ session });
+      
+      // Update booking with payment
+      await Booking.findByIdAndUpdate(
+        booking._id,
+        {
+          'payment.paymentRecord': paymentDoc._id,
+          'payment.status': 'completed',
+          'payment.stripe': {
+            paymentIntentId: paymentIntent.id,
+            clientSecret: paymentIntent.client_secret,
+            chargeId: paymentIntent.latest_charge
+          }
+        },
+        { session }
+      );
+      
+      paymentIntentClientSecret = paymentIntent.client_secret;
+    }
+    
+    await session.commitTransaction();
+    session.endSession();
+    
+    // Send notifications
+    const populatedBooking = await Booking.findById(booking._id)
+      .populate('coach', 'firstName lastName email')
+      .populate('user', 'firstName lastName email stripe.customerId')
+      .populate('sessionType')
+      .populate('payment.paymentRecord');
+    
+    if (!isAvailability) {
+      await sendBookingNotifications(populatedBooking);
+    }
+    
+    res.status(201).json({
+      booking: populatedBooking,
+      paymentIntentClientSecret
+    });
+  } catch (error) {
+    await session.abortTransaction();
+    logger.error('[bookingController.createBooking] Error:', {
+      error: error.message,
+      stack: error.stack,
+      timestamp: new Date().toISOString()
+    });
+    res.status(500).json({ message: 'Error creating booking', error: error.message });
+  } finally {
+    session.endSession();
+  }
+};
+Availability Slot Splitting Logic:
+javascriptCopyconst splitAvailabilitySlot = async (originalSlot, bookedStart, bookedEnd) => {
+  const newSlots = [];
+  
+  // Create slot before booking if there's enough time
+  if (moment(bookedStart).isAfter(moment(originalSlot.start))) {
+    const beforeSlot = new Booking({
+      ...originalSlot.toObject(),
+      _id: undefined,
+      start: originalSlot.start,
+      end: bookedStart
+    });
+    newSlots.push(beforeSlot);
+  }
+  
+  // Create slot after booking if there's enough time
+  if (moment(bookedEnd).isBefore(moment(originalSlot.end))) {
+    const afterSlot = new Booking({
+      ...originalSlot.toObject(),
+      _id: undefined,
+      start: bookedEnd,
+      end: originalSlot.end
+    });
+    newSlots.push(afterSlot);
+  }
+  
+  return newSlots;
+};
+Accept Booking Logic:
+javascriptCopyexports.acceptBooking = async (req, res) => {
+  try {
+    const { bookingId } = req.params;
+    const { message } = req.body;
+    
+    // Get booking details
+    const booking = await Booking.findById(bookingId)
+      .populate('coach', 'firstName lastName email')
+      .populate('user', 'firstName lastName email')
+      .populate('sessionType');
+    
+    // Authorization check
+    if (booking.coach._id.toString() !== req.user._id.toString()) {
+      return res.status(403).json({ message: 'Not authorized to accept this booking' });
+    }
+    
+    // Update booking status
+    booking.status = 'confirmed';
+    if (message) {
+      booking.notes = message;
+    }
+    
+    await booking.save();
+    
+    // Send notifications
+    await sendBookingNotifications(booking);
+    
+    // Update original notification
+    const originalNotification = await Notification.findOne({
+      'metadata.bookingId': bookingId,
+      type: 'booking_request',
+      recipient: booking.coach._id,
+      status: { $nin: ['actioned', 'deleted'] }
+    });
+    
+    if (originalNotification) {
+      originalNotification.metadata.actionResult = 'confirmed';
+      originalNotification.metadata.actionedAt = new Date();
+      originalNotification.status = NotificationStatus.ARCHIVED;
+      await originalNotification.save();
+    }
+    
+    // Emit socket event
+    const socketService = getSocketService();
+    if (socketService) {
+      socketService.emitBookingStatusUpdate(
+        booking._id,
+        'confirmed',
+        [booking.coach._id.toString(), booking.user._id.toString()]
+      );
+    }
+    
+    res.json(booking);
+  } catch (error) {
+    console.error('[acceptBooking] Error accepting booking:', error);
+    res.status(500).json({ message: 'Error accepting booking', error: error.message });
+  }
+};
+Decline Booking Logic:
+javascriptCopyexports.declineBooking = async (req, res) => {
+  const session = await mongoose.startSession();
+  try {
+    session.startTransaction();
+    
+    const { bookingId } = req.params;
+    const { message } = req.body;
+    
+    // Get booking details
+    const booking = await Booking.findById(bookingId)
+      .populate(['coach', 'user', 'sessionType'])
+      .session(session);
+    
+    // Update booking status
+    booking.status = 'declined';
+    booking.declineReason = message;
+    booking.updatedAt = new Date();
+    await booking.save({ session });
+    
+    // Create new availability slot
+    const newAvailability = new Booking({
+      coach: booking.coach._id,
+      sessionType: booking.sessionType._id,
+      start: booking.start,
+      end: booking.end,
+      timezone: booking.timezone,
+      title: booking.title || 'Verfügbarkeit',
+      isAvailability: true,
+      // Other availability properties
+    });
+    
+    await newAvailability.save({ session });
+    
+    // Update notification
+    await Notification.findOneAndUpdate(
+      {
+        'metadata.bookingId': bookingId,
+        type: NotificationTypes.BOOKING_REQUEST,
+        status: { $nin: ['actioned', 'deleted'] }
+      },
+      {
+        $set: {
+          'metadata.actionResult': 'declined',
+          'metadata.actionedAt': new Date(),
+          status: NotificationStatus.ARCHIVED
+        }
+      },
+      { session }
+    );
+    
+    await session.commitTransaction();
+    
+    // Send notifications
+    const notificationConfigs = [{
+      type: NotificationTypes.BOOKING_DECLINED,
+      recipient: booking.user._id,
+      // Notification details
+    }];
+    
+    for (const config of notificationConfigs) {
+      await UnifiedNotificationService.sendNotification(config, {
+        ...booking.toObject(),
+        restoredAvailability: newAvailability._id
+      });
+    }
+    
+    // Emit socket events
+    const socketService = getSocketService();
+    if (socketService) {
+      // Emit decline event
+      await socketService.emitBookingStatusUpdate(
+        booking._id,
+        'declined',
+        [booking.coach._id.toString(), booking.user._id.toString()]
+      );
+      
+      // Emit new availability event
+      await socketService.emitAvailabilityUpdate(
+        newAvailability._id,
+        'created',
+        [booking.coach._id.toString()],
+        {
+          originalBookingId: booking._id,
+          restoredAvailability: true
+        }
+      );
+    }
+    
+    res.json({
+      message: 'Booking declined',
+      booking: booking.toObject(),
+      newAvailability: newAvailability.toObject()
+    });
+  } catch (error) {
+    await session.abortTransaction();
+    logger.error('[declineBooking] Error:', error);
+    res.status(500).json({ message: error.message });
+  } finally {
+    session.endSession();
+  }
+};
+Data Models
+Booking.js (Mongoose Model)
+Database schema for bookings with extensive methods for price calculation and status management.
+Schema Highlights:
+javascriptCopyconst BookingSchema = new mongoose.Schema({
+  coach: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+  sessionType: { type: mongoose.Schema.Types.Mixed, required: true },
+  start: { type: Date, required: true },
+  end: { type: Date, required: true },
+  timezone: { type: String, required: true },
+  status: { 
+    type: String, 
+    enum: [
+      'requested',
+      'firm_booked',
+      'confirmed',
+      'cancelled_by_coach',
+      'cancelled_by_client',
+      'completed',
+      'no_show',
+      'declined',
+      'pending_minimum_attendees',
+      'rescheduled',
+      'scheduled'
+    ], 
+    default: 'requested' 
+  },
+  price: { type: priceSchema },
+  payment: {
+    paymentRecord: { type: mongoose.Schema.Types.ObjectId, ref: 'Payment' },
+    status: { 
+      type: String, 
+      enum: [
+        'pending',
+        'payment_required',
+        'payment_processing',
+        'completed',
+        'failed',
+        'refunded',
+        'partial_refund',
+        'disputed',
+        'cancelled'
+      ],
+      default: 'pending'
+    },
+    stripe: { type: stripeSchema },
+    method: { type: paymentMethodSchema },
+    payout: { type: payoutSchema },
+    refunds: [{
+      amount: Number,
+      reason: String,
+      status: String,
+      stripeRefundId: String,
+      date: Date,
+      initiatedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+      notes: String
+    }]
+  },
+  isAvailability: { type: Boolean, default: false },
+  availableForInstantBooking: { type: Boolean, default: false },
+  firmBookingThreshold: { type: Number, default: 24 },
+  title: { type: String, required: true },
+  // Additional fields...
+});
+Price Schema:
+javascriptCopyconst priceSchema = new mongoose.Schema({
+  base: {
+    amount: { 
+      amount: { type: Number, required: true },
+      currency: { type: String, default: 'CHF' }
+    }
+  },
+  final: {
+    amount: { 
+      amount: { type: Number, required: true },
+      currency: { type: String, default: 'CHF' }
+    }
+  },
+  currency: { type: String, default: 'CHF' },
+  vat: {
+    rate: { type: Number, default: 8.1 },
+    amount: Number,
+    included: { type: Boolean, default: true }
+  },
+  platformFee: {
+    percentage: { type: Number, default: 15 },
+    amount: Number
+  },
+  discounts: [{
+    type: { 
+      type: String, 
+      enum: ['early_bird', 'package', 'recurring', 'connection', 'promotion']
+    },
+    amount: {
+      amount: Number,
+      currency: String
+    },
+    description: String
+  }],
+  calculationMeta: {
+    calculatedAt: Date,
+    version: String
+  }
+}, { _id: false });
+Model Methods:
+javascriptCopy// Calculate prices including VAT and fees
+BookingSchema.methods.calculatePrices = function() {
+  if (!this.price?.base?.amount?.amount) return null;
+
+  const baseAmount = this.price.base.amount.amount;
+  const vatRate = (this.price.vat?.rate || 8.1) / 100;
+  const platformFeeRate = (this.price.platformFee?.percentage || 15) / 100;
+  const currency = this.price.base.amount.currency || 'CHF';
+
+  try {
+    // Calculate VAT
+    const vatAmount = this.price.vat?.included ? 
+      (baseAmount - (baseAmount / (1 + vatRate))) : 
+      (baseAmount * vatRate);
+
+    // Calculate platform fee
+    const platformFeeAmount = baseAmount * platformFeeRate;
+
+    // Calculate final amount
+    const finalAmount = baseAmount + (this.price.vat?.included ? 0 : vatAmount);
+
+    // Update price object with new structure
+    this.price = {
+      base: {
+        amount: {
+          amount: Number(baseAmount.toFixed(2)),
+          currency
+        },
+        currency
+      },
+      final: {
+        amount: {
+          amount: Number(finalAmount.toFixed(2)),
+          currency
+        },
+        currency
+      },
+      currency,
+      vat: {
+        rate: Number((vatRate * 100).toFixed(1)),
+        amount: Number(vatAmount.toFixed(2)),
+        included: this.price.vat?.included ?? true
+      },
+      platformFee: {
+        percentage: Number((platformFeeRate * 100).toFixed(1)),
+        amount: Number(platformFeeAmount.toFixed(2))
+      },
+      discounts: this.price.discounts || [],
+      calculationMeta: {
+        calculatedAt: new Date(),
+        version: '1.0'
+      }
+    };
+
+    return this.price;
+  } catch (error) {
+    console.error('[BookingSchema] Error calculating prices:', error);
+    return null;
+  }
+};
+
+// Check if booking can be cancelled
+BookingSchema.methods.canBeCancelled = function() {
+  const now = new Date();
+  const sessionStart = new Date(this.start);
+  const hoursUntilSession = (sessionStart - now) / (1000 * 60 * 60);
+  
+  return this.status !== 'cancelled_by_coach' && 
+         this.status !== 'cancelled_by_client' &&
+         this.status !== 'completed' &&
+         hoursUntilSession > 24;
+};
+
+// Calculate refund amount
+BookingSchema.methods.calculateRefundAmount = function() {
+  const now = new Date();
+  const sessionStart = new Date(this.start);
+  const hoursUntilSession = (sessionStart - now) / (1000 * 60 * 60);
+  const price = this.getPrice();
+  
+  if (!price?.final?.amount) return 0;
+  
+  if (hoursUntilSession > 48) return price.final.amount;
+  if (hoursUntilSession > 24) return price.final.amount * 0.5;
+  return 0;
+};
+SessionType.js (Mongoose Model)
+Defines session types available for booking.
+Schema Highlights:
+javascriptCopyconst SessionTypeSchema = new mongoose.Schema({
+  name: { type: String, required: true, unique: true },
+  description: String,
+  isGroupSession: { type: Boolean, default: false },
+  
+  // Updated duration field to use schema
+  duration: { type: durationSchema, required: true },
+  
+  format: {
+    type: String,
+    enum: ['one_on_one', 'group', 'workshop'],
+    required: true,
+    default: 'one_on_one'
+  },
+  active: { type: Boolean, default: true },
+  bookingRules: { type: bookingRulesSchema, default: () => ({}) },
+  capacity: { type: capacitySchema, default: () => ({}) },
+  materials: { type: materialSchema, default: () => ({}) },
+  
+  calendarVisibility: {
+    type: String,
+    enum: ['public', 'connected', 'private'],
+    default: 'public'
+  },
+  
+  recurringOptions: {
+    enabled: { type: Boolean, default: false },
+    patterns: [{
+      type: String,
+      enum: ['weekly', 'biweekly', 'monthly', 'custom'],
+    }],
+    maxSessions: { type: Number, default: 12 }
+  },
+  
+  notifications: {
+    preSession: [{
+      timing: Number,
+      type: {
+        type: String,
+        enum: ['email', 'push', 'sms']
+      }
+    }],
+    postSession: [{
+      timing: Number,
+      type: {
+        type: String,
+        enum: ['email', 'push', 'sms']
+      }
+    }]
+  }
+});
+Duration Schema:
+javascriptCopyconst durationSchema = new mongoose.Schema({
+  default: { type: Number, required: true },
+  min: { type: Number, required: true },
+  max: { type: Number, required: true },
+  step: { type: Number, default: 15 }
+}, { _id: false });
+Booking Rules Schema:
+javascriptCopyconst bookingRulesSchema = new mongoose.Schema({
+  allowFirmBooking: { type: Boolean, default: true },
+  firmBookingThreshold: { type: Number, default: 24 },
+  bufferTimeBefore: { type: Number, default: 15 },
+  bufferTimeAfter: { type: Number, default: 15 },
+  maxSessionsPerDay: { type: Number, default: null },
+  maxSessionsPerWeek: { type: Number, default: null },
+  requireApprovalNonConnected: { type: Boolean, default: true },
+  cancellationPolicy: {
+    deadline: { type: Number, default: 24 },
+    refundPercentage: { type: Number, default: 100 }
+  }
+}, { _id: false });
+Frontend API Services
+bookingAPI.js
+Service for interacting with booking-related endpoints.
+Key Functions:
+javascriptCopygetCoachSessions()           // Fetches coach's sessions and availability
+createBooking()              // Creates a new booking
+acceptBooking()              // Accepts a booking request
+declineBooking()             // Declines a booking request
+suggestAlternativeTime()     // Suggests alternative times
+calculateBookingPrice()      // Calculates booking price
+createBooking Implementation:
+javascriptCopyexport const createBooking = async (bookingDetails) => {
+  try {
+    console.log('[bookingAPI] Creating booking with details:', {
+      ...bookingDetails,
+      payment: bookingDetails.payment ? 'PAYMENT_INFO_REDACTED' : undefined
+    });
+
+    // Validate required fields
+    const isAvailabilityBooking = bookingDetails.isAvailability === true;
+    const baseRequiredFields = ['start', 'end', 'timezone'];
+    const requiredFields = isAvailabilityBooking
+      ? [...baseRequiredFields, 'coach', 'sessionType']
+      : [...baseRequiredFields, 'coach', 'user', 'sessionType'];
+
+    const missingFields = requiredFields.filter(field => {
+      const value = bookingDetails[field] || 
+                    bookingDetails[field === 'coach' ? 'coachId' : field] ||
+                    bookingDetails[field === 'user' ? 'userId' : field];
+      return !value;
+    });
+
+    if (missingFields.length > 0) {
+      throw new Error(`Missing required fields: ${missingFields.join(', ')}`);
+    }
+
+    // Normalize price details
+    let priceDetails = normalizePriceDetails(bookingDetails.price);
+    if (!isAvailabilityBooking && !priceDetails) {
+      try {
+        priceDetails = await calculateSessionPrice({
+          userId: bookingDetails.coachId || bookingDetails.coach,
+          sessionTypeId: bookingDetails.sessionType?.id || 
+                        bookingDetails.sessionType?._id || 
+                        bookingDetails.sessionType,
+          start: bookingDetails.start,
+          end: bookingDetails.end,
+          timezone: bookingDetails.timezone,
+          participantCount: bookingDetails.maxAttendees || 1
+        });
+        
+        priceDetails = normalizePriceDetails(priceDetails);
+      } catch (error) {
+        throw error;
+      }
+    }
+
+    // Format booking data
+    const formattedBooking = {
+      start: new Date(bookingDetails.start),
+      end: new Date(bookingDetails.end),
+      timezone: bookingDetails.timezone || Intl.DateTimeFormat().resolvedOptions().timeZone,
+      coach: bookingDetails.coachId || bookingDetails.coach,
+      user: bookingDetails.userId || bookingDetails.user,
+      sessionType: bookingDetails.sessionType?.id || 
+                  bookingDetails.sessionType?._id || 
+                  bookingDetails.sessionType,
+      title: bookingDetails.sessionTypeName || 
+             bookingDetails.title || 
+             'Coaching Session',
+      availableForInstantBooking: bookingDetails.availableForInstantBooking || false,
+      firmBookingThreshold: bookingDetails.firmBookingThreshold || 24,
+      isAvailability: isAvailabilityBooking,
+      status: isAvailabilityBooking 
+        ? 'confirmed'
+        : (bookingDetails.type === 'FIRM' ? 'confirmed' : 'requested'),
+      price: isAvailabilityBooking ? null : {
+        base: {
+          amount: {
+            amount: priceDetails?.base?.amount || 0,
+            currency: priceDetails?.currency || 'CHF'
+          },
+          currency: priceDetails?.currency || 'CHF'
+        },
+        final: {
+          amount: {
+            amount: priceDetails?.final?.amount || 0,
+            currency: priceDetails?.currency || 'CHF'
+          },
+          currency: priceDetails?.currency || 'CHF'
+        },
+        currency: priceDetails?.currency || 'CHF',
+        // Other price fields
+      },
+      payment: isAvailabilityBooking || bookingDetails.type !== 'FIRM' ? null : {
+        required: true,
+        status: 'pending'
+      },
+      // Optional fields
+    };
+
+    // Send API request
+    const response = await api.post('/api/bookings', formattedBooking);
+    
+    return {
+      booking: response.data.booking,
+      paymentIntentClientSecret: response.data.paymentIntentClientSecret
+    };
+  } catch (error) {
+    console.error('[bookingAPI] Error creating booking:', error);
+    throw error;
+  }
+};
+STATE MANAGEMENT DETAILS
+Frontend State Management
+
+Local Component State:
+
+Used for UI elements (selected slots, modal open/close)
+Time and duration selection
+Validation errors
+
+
+React Query:
+
+Used for data fetching and caching
+Auto-refetching and background updates
+
+javascriptCopyconst { data, isLoading, error } = useQuery(
+  ['sessions', userId], 
+  () => getCoachSessions(userId)
+);
+
+Context API:
+
+AuthContext for user authentication state
+Payment context for payment flow
+
+javascriptCopyconst { user } = useContext(AuthContext);
+const { startPaymentFlow } = usePayment();
+
+Custom Hooks:
+
+useConnectionCheck: Checks connection status between users
+useConnectionManagement: Manages connection state
+usePriceCalculation: Handles price calculation logic
+usePaymentFlow: Manages payment flow state
+
+
+
+Backend State Management
+
+Database State:
+
+Primary source of truth via MongoDB
+Mongoose models with validation
+
+
+Transaction Management:
+
+MongoDB transactions for complex operations
+
+javascriptCopyconst session = await mongoose.startSession();
+session.startTransaction();
+try {
+  // Database operations
+  await session.commitTransaction();
+} catch (error) {
+  await session.abortTransaction();
+} finally {
+  session.endSession();
+}
+
+Socket State:
+
+Real-time client state via Socket.IO
+Connection management and monitoring
+
+javascriptCopysocket.on(SOCKET_EVENTS.BOOKING_UPDATE, (data) => {
+  io.emit(SOCKET_EVENTS.BOOKING_UPDATE, {
+    ...data,
+    timestamp: new Date().toISOString()
+  });
+});
+
+
+API REFERENCE
+Booking Endpoints
+MethodEndpointDescriptionAuthenticationParametersGET/api/bookings/:userId/bookingsGet coach bookingsRequiredstart, endPOST/api/bookingsCreate bookingRequiredBooking detailsGET/api/bookings/:bookingIdGet booking detailsRequired-PUT/api/bookings/:bookingId/statusUpdate booking statusRequiredstatusPOST/api/bookings/:bookingId/acceptAccept bookingRequiredOptional messagePOST/api/bookings/:bookingId/declineDecline bookingRequiredOptional messagePOST/api/bookings/:bookingId/suggestSuggest alternative timesRequiredtimes, optional messageGET/api/bookings/user/:userId/sessionsGet user sessionsRequiredOptional start, endPOST/api/bookings/availabilityCreate availability slotsRequired, CoachAvailability detailsPUT/api/bookings/availability/:availabilityIdUpdate availabilityRequired, CoachAvailability detailsDELETE/api/bookings/availability/:availabilityIdDelete availabilityRequired, Coach-
+Request/Response Examples
+Creating a Booking:
+javascriptCopy// Request
+{
+  "coach": "66d9cdcb0a7492a86482bd68",
+  "user": "66f418d10a19ec0e4bbd377e",
+  "sessionType": "66ec4ea477bec414bf2b8859",
+  "start": "2025-02-28T13:45:00.000Z",
+  "end": "2025-02-28T14:15:00.000Z",
+  "timezone": "Europe/Zurich",
+  "title": "Coaching Session",
+  "price": {
+    "base": {
+      "amount": {
+        "amount": 60,
+        "currency": "CHF"
+      },
+      "currency": "CHF"
+    },
+    "final": {
+      "amount": {
+        "amount": 73.5,
+        "currency": "CHF"
+      },
+      "currency": "CHF"
+    },
+    "currency": "CHF"
+  }
+}
+
+// Response
+{
+  "booking": {
+    "_id": "67c04177b2162b6d122e5dd6",
+    "coach": { /* coach details */ },
+    "user": { /* user details */ },
+    "sessionType": { /* session type details */ },
+    "start": "2025-02-28T13:45:00.000Z",
+    "end": "2025-02-28T14:15:00.000Z",
+    "status": "confirmed",
+    "price": { /* price details */ },
+    "payment": { /* payment details */ }
+  },
+  "paymentIntentClientSecret": "pi_3Qx4XSHKNqVBSHKU1X37TaZ4_secret_g1CusRjMSIdX4s3eMF0kXApJb"
+}
+AUTHENTICATION MECHANISMS
+The application uses JWT for authentication:
+
+Token Generation:
+
+Generated upon successful login/registration
+Stored in localStorage
+
+
+Authentication Middleware:
+javascriptCopyconst auth = (req, res, next) => {
+  const token = req.header('Authorization')?.replace('Bearer ', '');
+  if (!token) return res.status(401).json({ message: 'No token, authorization denied' });
+  
+  try {
+    const decoded = jwt.verify(token, config.jwtSecret);
+    req.user = decoded.user;
+    next();
+  } catch (err) {
+    res.status(401).json({ message: 'Token is not valid' });
+  }
+};
+
+Role-Based Authorization:
+javascriptCopyconst isCoach = (req, res, next) => {
+  if (req.user.role !== 'coach') {
+    return res.status(403).json({ message: 'Access denied. Coach role required.' });
+  }
+  next();
+};
+
+Resource-Based Authorization:
+
+Controllers check if user owns or has access to requested resources
+
+javascriptCopyif (booking.coach._id.toString() !== req.user._id.toString()) {
+  return res.status(403).json({ message: 'Not authorized to accept this booking' });
+}
+
+
+SOCKET.IO INTEGRATION
+Real-time features are implemented using Socket.IO:
+
+Connection Management:
+javascriptCopyio.on(SOCKET_EVENTS.CONNECTION, (socket) => {
+  socket.on(SOCKET_EVENTS.LOGIN, async (data) => {
+    const userId = data?.userId;
+    socket.join(userId);
+    activeConnections.set(userId, socket);
+  });
+});
+
+Event Types:
+
+booking_update: When bookings change
+notification: New notifications
+status_update: User status changes
+payment_update: Payment status changes
+
+
+Event Handling:
+javascriptCopyconst handleBookingUpdate = (event) => {
+  const { bookingId, status } = event.detail;
+  
+  if (status === 'declined') {
+    setSessions(prev => ({
+      ...prev,
+      regularBookings: prev.regularBookings.map(booking => 
+        booking._id === bookingId
+          ? { ...booking, status: 'declined' }
+          : booking
+      ).filter(booking => booking.status !== 'declined')
+    }));
+
+    // Refetch sessions to get the new availability slot
+    fetchSessions();
+  }
+};
+
+window.addEventListener('booking_update', handleBookingUpdate);
+
+
+PAYMENT INTEGRATION
+The application integrates with Stripe for payment processing:
+
+Payment Flow:
+
+Initiated during booking creation
+Managed by PaymentOrchestrator service
+Uses Stripe Elements for payment UI
+
+
+Payment States:
+
+initial: Payment not started
+payment_pending: Awaiting payment
+processing: Payment being processed
+succeeded: Payment successful
+failed: Payment failed
+
+
+Stripe Integration:
+javascriptCopyconst paymentIntent = await paymentService.createPaymentIntent({
+  bookingId: booking._id.toString(),
+  amount: paymentAmount * 100, // Convert to cents for Stripe
+  currency: price.currency,
+  stripeCustomerId,
+  coachStripeAccountId: coachDoc.settings.paymentAndBilling.stripe.accountId,
+  metadata: { /* booking metadata */ }
+});
+
+Payment Flow Orchestration:
+javascriptCopyorchestratorFlow = await PaymentOrchestrator.initializePayment({
+  flowId,
+  amount: Math.round(formattedPrice.amount * 100),
+  currency: formattedPrice.currency,
+  timing: PAYMENT_TIMING.IMMEDIATE,
+  metadata: {
+    bookingType,
+    sessionType: ONE_ON_ONE_SESSION_TYPE_ID,
+    duration: selectedDuration,
+    priceStructure: formattedPrice.metadata.priceStructure,
+    confirmationId: flowId,
+    preserveOnUnmount: true,
+    flowState: 'pre_booking',
+    isPreBooking: true,
+    modalState: MODAL_STATES.BOOKING,
+    paymentStep: PAYMENT_STEPS.SESSION,
+  },
+});
+
+
+CONNECTION MANAGEMENT AND PRIVACY
+The system implements a connection management system between coaches and clients:
+
+Connection Data Structure:
+javascriptCopy// Backend
+{
+  coach: {
+    _id: "coachUserId",
+    // other coach details
+  },
+  client: {
+    _id: "clientUserId",
+    // other client details
+  },
+  status: "accepted" | "pending" | "declined",
+  // other fields
+}
+
+// Frontend Transformed
+{
+  _id: "connectionId",
+  otherUser: {
+    _id: "userId",
+    // other user details
+  },
+  status: "accepted" | "pending" | "declined",
+  isCoach: boolean,
+  // other fields
+}
+
+Connection Status Checking:
+javascriptCopyconst isConnected = connections.some(conn => 
+  conn.otherUser?._id?.toString() === targetUserId?.toString() && 
+  conn.status === 'accepted'
+);
+
+Calendar Visibility System:
+javascriptCopyconst CALENDAR_VISIBILITY = {
+  PUBLIC: 'public',
+  CONNECTED: 'connected',
+  PRIVATE: 'private'
+};
+
+const canViewCalendar = () => {
+  if (isOwnProfile) return true;
+  if (!settings?.privacySettings) return false;
+  
+  switch (settings.privacySettings.calendarVisibility) {
+    case CALENDAR_VISIBILITY.PUBLIC:
+      return true;
+    case CALENDAR_VISIBILITY.CONNECTED:
+      return isConnected;
+    case CALENDAR_VISIBILITY.PRIVATE:
+      return false;
+    default:
+      return false;
+  }
+};
+
+
+ERROR HANDLING PATTERNS
+The application implements several error handling patterns:
+
+Frontend Error Handling:
+javascriptCopytry {
+  const response = await createBooking(bookingDetails);
+  // Success handling
+} catch (error) {
+  logger.error('[BookingCalendar] Error creating booking:', error);
+  toast.error(t('bookingcalendar:bookingError'));
+  setErrorMessage(error.message);
+} finally {
+  setIsProcessing(false);
+}
+
+Backend Error Handling:
+javascriptCopytry {
+  // Logic that might fail
+} catch (error) {
+  logger.error('[bookingController.createBooking] Error:', {
+    error: error.message,
+    stack: error.stack,
+    timestamp: new Date().toISOString()
+  });
+  res.status(500).json({ message: 'Error creating booking', error: error.message });
+}
+
+Comprehensive Logging:
+javascriptCopylogger.info('[bookingController.createBooking] Price validated:', {
+  amount: price.final.amount.amount,
+  currency: price.currency,
+  timestamp: new Date().toISOString()
+});

@@ -1,0 +1,296 @@
+{
+  "hero": {
+    "mainTitle": {
+      "line1": "Deine Ziele.",
+      "line2": "Unsere Coaches.",
+      "line3": "Grenzenlose Möglichkeiten."
+    },
+    "subheading": {
+      "main": "Live-Sessions, geplante Termine und On-Demand-Programme.",
+      "support": ""
+    },
+    "buttons": {
+      "beginJourney": "Registrieren",
+      "becomeCoach": "Werde Coach",
+      "exploreCoaches": "Finde Coaches",
+      "goToDashboard": "Zum Dashboard",
+      "myProfile": "Mein Profil"
+    }
+  },
+ "journey": {
+    "title": "Dein nächstes Level wartet",
+    "client": {
+      "title": "Für dich als Kunde",
+      "items": {
+        "connect": "Finde deinen Guide",
+        "goals": "Ziele setzen und erreichen",
+        "sessions": "Massgeschneiderte Sessions",
+        "progress": "Deinen Fortschritt tracken"
+      },
+      "cta": "Jetzt loslegen"
+    },
+    "coach": {
+      "title": "Für dich als Coach",
+      "items": {
+        "reach": "Global durchstarten",
+        "scheduling": "Flexibel planen",
+        "grow": "Dein Coaching-Business ausbauen",
+        "showcase": "Dein Wissen teilen"
+      },
+      "cta": "Coach werden"
+    }
+  },
+  "coachFinder": {
+    "title": "Finde den richtigen Coach für dich.",
+    "placeholder": "Suche nach Name, Spezialgebiet oder Stichwort...",
+    "button": "Coaches suchen"
+  },
+  "featured_programs_title": "Ausgewählte Programme",
+  "featured_programs_subtitle": "Entdecke unsere beliebtesten Programme und starte deine Lernreise.",
+  "view_all_programs": "Alle Programme ansehen",
+  "programs": {
+    "title": "Ein neuer Weg zu wachsen: Coaching-Programme",
+    "subtitle": "Gehe über Live-Sessions hinaus mit strukturierten On-Demand-Programmen, die von unserer Community entwickelt wurden. Lerne in deinem eigenen Tempo, jederzeit und überall.",
+    "cta": "Alle Programme ",
+    "byCoach": "von {{coach}}",
+    "preview": {
+      "card1": {
+        "title": "Achtsame Führung in der hybriden Arbeitswelt",
+        "coach": "Jane Smith"
+      },
+      "card2": {
+        "title": "Entfessle dein Produktivitätspotenzial",
+        "coach": "John Doe"
+      },
+      "card3": {
+        "title": "Souveräne Kommunikation für Kreative",
+        "coach": "Alice Brown"
+      }
+    }
+  },
+  "features": {
+    "title": "Eine Plattform für jeden Schritt deiner Reise",
+    "cards": {
+      "liveSessions": {
+        "title": "On-Demand Live-Sessions",
+        "description": "Verbinde dich sofort mit verfügbaren Coaches für Echtzeit-Videocoaching, abgerechnet pro Minute."
+      },
+      "coachingPrograms": {
+        "title": "Skalierbare Coaching-Programme",
+        "description": "Erstelle oder belege digitale Kurse in deinem eigenen Tempo, mit Videos, Texten und interaktiven Präsentationen."
+      },
+      "scheduling": {
+        "title": "Moderne Terminplanung",
+        "description": "Verwalte deine Verfügbarkeiten und buche Sitzungen über eine leistungsstarke und intuitive Kalenderoberfläche."
+      },
+      "payments": {
+        "title": "Sichere globale Zahlungen",
+        "description": "Erlebe nahtlose, sichere Transaktionen und konforme Rechnungsstellung für alle Dienste, powered by Stripe."
+      },
+      "messaging": {
+        "title": "Integriertes Messaging",
+        "description": "Bleibe über den direkten Echtzeit-Chat mit deinen verbundenen Coaches und Kunden in Kontakt."
+      },
+      "coachDashboard": {
+        "title": "Coach Mission-Control",
+        "description": "Erhalte einen vollständigen Überblick über dein Geschäft mit einem leistungsstarken Dashboard, Analysen und Kunden-Management-Tools."
+      },
+      "interactiveLearning": {
+        "title": "Interaktive Lernwerkzeuge",
+        "description": "Nutze einzigartige Lektionsformate, einschliesslich vertonter Präsentationen, bei denen du pro Folie Notizen machen kannst."
+      },
+      "clientManagement": {
+        "title": "Kunden-Beziehungs-Hub",
+        "description": "Coaches verwalten ihre Kunden-Verbindungen, sehen die Sitzungshistorie ein und führen private Notizen in einem leichten CRM."
+      }
+    }
+  },
+  "testimonials": {
+    "title": "Success Stories, die inspirieren",
+    "cards": {
+      "card1": {
+        "quote": "Mit CoachConnect habe ich meine Karriere komplett neu aufgestellt. Mein Coach hat mich genau dahin gebracht, wo ich hin wollte!",
+        "author": "Sarah L., Marketing-Leaderin",
+        "role": "Kundin"
+      },
+      "card2": {
+        "quote": "Als Coach kann ich jetzt global coachen und noch mehr Menschen dabei unterstützen, ihr Potenzial voll auszuschöpfen.",
+        "author": "James R., Business Coach",
+        "role": "Coach"
+      },
+      "card3": {
+        "quote": "Die Progress-Tracking Tools haben mich mega motiviert. Meine Fitness-Goals habe ich schneller erreicht als gedacht!",
+        "author": "Emily T., Fitness-Enthusiastin",
+        "role": "Kundin"
+      }
+    }
+  },
+  "featuredCoaches": {
+    "title": "Entdecke inspirierende Coaches",
+    "subtitle": "Menschen, die ihre Erfahrungen teilen, um dich auf deiner Reise zu begleiten.",
+    "exploreAll": "Alle Coaches"
+  },
+  "finalCta": {
+    "title": "Bereit für deinen Erfolg?",
+    "subtitle": "Schliesse dich Tausenden an, die bereits den ersten Schritt gemacht haben.",
+    "buttons": {
+      "client": "Als Kunde starten",
+      "coach": "Als Coach durchstarten"
+    },
+    "form": {
+      "success": "Vielen Dank! Wir werden uns bei dir melden.",
+      "error": "Ein Fehler ist aufgetreten. Bitte versuche es erneut.",
+      "emailPlaceholder": "Deine E-Mail-Adresse eingeben",
+      "privacyIntro": "Ich stimme der ",
+      "privacyLink": "Datenschutzrichtlinie",
+      "submitting": "Wird gesendet...",
+      "ctaCoach": "Für Early Access bewerben",
+      "ctaClient": "Beim Launch benachrichtigt werden"
+    }
+  },
+  "howItWorksSummary": {
+    "title": "Dein Erfolg hat einen Partner",
+    "subtitle": "Wir haben den Weg zu persönlichem und beruflichem Wachstum vereinfacht. Folge diesen klaren Schritten, um deine transformative Reise mit dem richtigen Partner an deiner Seite zu beginnen.",
+    "cta": "So funktioniert's im Detail",
+    "steps": {
+      "step1": {
+        "title": "Registrieren",
+        "description": "Erstelle dein sicheres Konto mit nur wenigen Klicks."
+      },
+      "step2": {
+        "title": "Ziele festlegen",
+        "description": "Definiere deine Ziele und was du erreichen möchtest."
+      },
+      "step3": {
+        "title": "Coach finden",
+        "description": "Durchsuche Profile oder nutze unser Matching-Tool, um die perfekte Übereinstimmung zu finden."
+      },
+      "step4": {
+        "title": "Sessions starten",
+        "description": "Beginne deine transformative Reise mit On-Demand- oder geplanten Sessions."
+      }
+    }
+  },
+    "prelaunch": {
+    "hero": {
+      "mainCta": "Sei beim Start dabei"
+    },
+    "problem": {
+      "title": "Schluss mit dem Tool-Chaos.",
+      "subtitle": "Du bist Coach, kein Admin. Trotzdem jonglierst du mit Tools für Anrufe, Terminplanung, Nachrichten und Zahlungen. Es ist Zeit für eine professionelle, einheitliche Lösung."
+    },
+    "solution": {
+      "col1": {
+        "title": "Live, Geplant & On-Demand",
+        "desc": "Verbinde dich sofort mit Live-Sessions pro Minute, plane 1-zu-1-Termine oder verkaufe skalierbare digitale Programme."
+      },
+      "col2": {
+        "title": "Automatisierte Finanzen",
+        "desc": "Wir kümmern uns um Rechnungsstellung, Steuerkonformität und automatisierte Auszahlungen. Du konzentrierst dich aufs Coaching."
+      },
+      "col3": {
+        "title": "Deine Kommandozentrale",
+        "desc": "Verwalte Kunden, analysiere deine Einnahmen und steuere deinen Zeitplan über ein einziges, leistungsstarkes Dashboard."
+      }
+    },
+     "cta": {
+      "coach": {
+        "title": "Möchtest du ein Gründer-Coach werden?",
+        "desc": "Werde Teil unserer Gründer-Community und gestalte die Zukunft der Plattform aktiv mit."
+      },
+      "client": {
+        "title": "Suchst du nach Coaches?",
+        "desc": "Erfahre als Erster, wenn unsere handverlesene Auswahl an Top-Coaches live geht."
+      }
+    }
+  },
+  "howItWorks": {
+    "hero": {
+      "title": "Dein Weg zur Transformation, vereinfacht.",
+      "subtitle": "Egal ob du Unterstützung suchst oder deine Expertise teilst – hier ist dein klarer Weg zum Erfolg. Wähle deine Rolle, um zu beginnen."
+    },
+    "toggle": {
+      "client": "Ich suche einen Coach",
+      "coach": "Ich bin ein Coach"
+    },
+    "client": {
+      "step1": {
+        "title": "Finde den richtigen Menschen für deinen Weg.",
+        "description": "Finde nicht irgendeinen Coach – finde deinen Coach. Nutze unsere leistungsstarken Filter, um nach Spezialgebiet und Zielen zu suchen. Sieh dir detaillierte Profile an, schau dir Video-Intros an und lies verifizierte Bewertungen, um den perfekten Partner für dich zu finden."
+      },
+      "step2": {
+        "title": "Verbinde dich, wie du willst. Sofort oder nach Plan.",
+        "card1": {
+          "title": "Sofortige Unterstützung",
+          "description": "Du steckst fest? Verbinde dich sofort mit einem verfügbaren Coach für eine Live-Session mit Abrechnung pro Minute. Erhalte die Hilfe, die du brauchst, genau in dem Moment, in dem du sie brauchst."
+        },
+        "card2": {
+          "title": "Plane deine Entwicklung",
+          "description": "Buche Einzel- oder Webinare mit Leichtigkeit. Sieh die Echtzeit-Verfügbarkeit deines Coaches und finde eine Zeit, die perfekt in dein Leben passt."
+        },
+        "card3": {
+          "title": "Lerne in deinem Tempo",
+          "description": "Nimm an strukturierten Programmen teil, die von deinen Lieblings-Coaches erstellt wurden. Greife jederzeit und überall auf Videos, Dokumente und Aufgaben zu."
+        }
+      },
+      "step3": {
+        "title": "Dein persönliches Dashboard für Fortschritt.",
+        "description": "Deine Reise wird auf deinem persönlichen Dashboard zentralisiert. Verwalte einfach anstehende Sitzungen, verfolge deinen Programmfortschritt, schreibe sicher mit deinen Coaches und greife auf geteilte Ressourcen zu – alles an einem Ort."
+      }
+    },
+    "coach": {
+      "step1": {
+        "title": "Starte in wenigen Minuten.",
+        "description": "Unser intuitives Setup führt dich durch die Erstellung eines überzeugenden Profils, die Einstellung deines Zeitplans mit unserem Drag-and-Drop-Kalender und die Festlegung deiner Preise für Sitzungen und Programme."
+      },
+      "step2": {
+        "title": "Teile deine Expertise, auf deine Weise.",
+        "card1": {
+          "title": "Verrechne Live pro Minute",
+          "description": "Schalte deinen Status auf 'Online' und verdiene sofort mit Live-Sessions pro Minute. Nutze deine freie Zeit und biete Kunden unmittelbaren Unterstützung."
+        },
+        "card2": {
+          "title": "Skaliere deinen Einfluss",
+          "description": "Teile dein Wissen, auch wenn du nicht online bist. Erstelle und verkaufe skalierbare digitale Programme mit unserem leistungsstarken Creator-Studio."
+        },
+        "card3": {
+          "title": "Biete geplante Termine an",
+          "description": "Plane deine Zeit, indem du im Voraus buchbare 1-zu-1-Sitzungen und Gruppen-Webinare anbietest. Unsere Plattform kümmert sich um die Terminplanung, Erinnerungen und Zahlungen."
+        }
+      },
+      "step3": {
+        "title": "Wir kümmern uns ums Administrative, du dich ums Coaching.",
+        "description": "Dies ist deine Kommandozentrale. Verfolge deine Einnahmen mit detaillierten Analysen, verwalte deine Kundenbeziehungen und mach dir nie wieder Sorgen um die Rechnungsstellung. Wir verwalten sichere Zahlungen, die globale Steuerkonformität und stellen dir alle B2B-Unterlagen für eine nahtlose Buchhaltung zur Verfügung."
+      }
+    },
+    "faq": {
+      "title": "Deine Fragen, beantwortet",
+      "client": {
+        "q1": "Wie funktioniert die Preisgestaltung?",
+        "a1": "Einfach und transparent. Du bezahlst nur den vom Coach festgelegten Preis zuzüglich der gesetzlichen Mehrwertsteuer. Es gibt keine versteckten Plattformgebühren oder Abonnements für Kunden. Der Preis, den du siehst, ist der Preis, den du bezahlst.",
+        "q2": "Wie stelle ich sicher, dass ein Coach gut zu mir passt?",
+        "a2": "Wir geben dir die Werkzeuge, um die perfekte Verbindung zu finden! Wir empfehlen, das Intro-Video eines Coaches anzusehen, sein Profil und die Bewertungen anderer Nutzer zu lesen und ihm vor der Buchung eine Nachricht zu senden. So stellst du sicher, dass deine Ziele und sein Ansatz für eine erfolgreiche Reise perfekt aufeinander abgestimmt sind.",
+        "q3": "Sind meine Daten privat und sicher?",
+        "a3": "Absolut. Unsere Datenbank verwendet sichere Verschlüsselung für alle Daten. Auch im Falle eines Hacks sind alle Daten verschlüsselt und können nicht gelesen oder verwendet werden. Deine persönlichen Daten werden sicher gespeichert und niemals ohne deine ausdrückliche Zustimmung an Dritte weitergegeben. Weitere Details findest du in unserer vollständigen Datenschutzrichtlinie."
+      },
+      "coach": {
+        "q1": "Was sind die Plattformgebühren?",
+        "a1": "Unsere standardmässige Platformgebühr beträgt 9.9%. Diese Gebühr deckt den Plattformunterhalt, Rückerstattungen und Marketing ab und ermöglicht es uns, die Plattform für dich kontinuierlich zu verbessern und dich mit mehr Kunden zu verbinden. Von deinen Bruttoeinnahmen werden Platformgebühr, Mehrwertsteuer und Transaktionsgebühren der Zahlungsdienstleister abgezogen. Auf allen Belegen siehst du detaillierte Aufstellungen der Kostenzusammensetzung.",
+        "q2": "Wie und wann werde ich bezahlt?",
+        "a2": "Unser System verwendet einen automatisierten, verzögerten Auszahlungsplan, um finanzielle Genauigkeit zu gewährleisten. Nach Abschluss der Zahlung eines Kunden wird das Geld für eine 24-Stunden-Sicherheitsperiode zurückgehalten. Danach wird das Geld Teil deiner nächsten geplanten Auszahlung, die automatisch auf dein verbundenes Stripe-Konto überwiesen wird. Dies macht manuelle Anfragen überflüssig und sorgt für einen zuverlässigen und vorhersehbaren Zahlungszyklus.",
+       "q3": "Welche Fähigkeiten brauche ich, um andere zu unterstützen?",
+        "a3": "Wir sind überzeugt, dass jeder Mensch etwas Wertvolles weiterzugeben hat - ob erlernte Fähigkeiten, persönliche Lebenserfahrung oder einfach die Bereitschaft, zuzuhören. Während formelle Zertifizierungen in bestimmten Bereichen ein grosser Vorteil sein können, sind sie keine Voraussetzung. Was bei uns wirklich zählt, ist die menschliche Verbindung: deine Empathie und deine Bereitschaft, andere auf ihrem Weg zu begleiten und zu unterstützen. Unsere Plattform bringt Menschen zusammen, die genau das suchen: gegenseitiges Lernen und Unterstützung."
+      }
+    },
+    "cta": {
+      "client": {
+        "title": "Bereit, deinen Coach zu finden?",
+        "button": "Coaches entdecken"
+      },
+      "coach": {
+        "title": "Bereit, dein Wissen zu teilen?",
+        "button": "Als Coach starten"
+      }
+    }
+  }
+}

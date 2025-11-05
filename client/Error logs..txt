@@ -1,0 +1,239 @@
+[NotificationAPI] Fetched notifications: {success: true, notifications: Array(50)}
+logger.js:110 [ManageSessions] Filtering sessions, raw data: {"availabilityCount":155,"regularBookingsCount":419}
+logger.js:116 [DEBUG] [ManageSessions] Processing booking for potential webinar expansion {"bookingId":"67b6c109a1140d8b64431bea","bookingTitle":"Verfügbarkeit","extractedSessionTypeId":"66ec4ea477bec414bf2b8859","expectedWebinarId":"66ec54f94a8965b22af33fd9","webinarSlotsCount":0}
+logger.js:110 [ManageSessions] Expanding webinar booking into slot events {"bookingId":"682d9ef860a42408ac473ee3","title":"Test webinar 3 with slots","slotCount":2}
+logger.js:110 [ManageSessions] Successfully created slot events for webinar {"bookingId":"682d9ef860a42408ac473ee3","createdSlotEventsCount":2,"sampleSlotEvent":{"id":"682d9ef860a42408ac473ee3_slot_0","start":"2025-05-21T12:00:09.702Z","end":"2025-05-21T13:00:09.702Z"}}
+logger.js:110 [ManageSessions] Combined sessions for calendar {"totalCount":577,"availabilityCount":155,"regularBookingsCount":422}
+logger.js:110 [ManageSessions] Final filtered sessions to be rendered {"filteredCount":577,"selectedSessionTypes":[]}
+logger.js:110 [ManageSessions] Recalculating calendarProps {"filteredSessionsLength":577,"coachSettings":null,"regularBookingsLength":419}
+useConnectionCheck.js:30 [useConnectionCheck] Checking connection status: {userId: '66d9cdcb0a7492a86482bd68', targetUserId: '66d9cdcb0a7492a86482bd68', connectionsCount: 1}
+useConnectionCheck.js:39 [useConnectionCheck] Connection status result: false
+useConnectionCheck.js:46 [useConnectionCheck] =============== Starting Connection Check ===============
+useConnectionCheck.js:47 [useConnectionCheck] Initial state: {userId: '66d9cdcb0a7492a86482bd68', targetUserId: '66d9cdcb0a7492a86482bd68', isConnected: false, isLoading: true, connectionsCount: 1, …}
+useConnectionCheck.js:66 [useConnectionCheck] ✅ User is viewing own profile: {userId: '66d9cdcb0a7492a86482bd68', targetUserId: '66d9cdcb0a7492a86482bd68'}
+logger.js:110 [ManageSessions] Fetching sessions for userId: "66d9cdcb0a7492a86482bd68"
+coachAPI.js:174 [coachAPI] Fetching coach availability for userId: 66d9cdcb0a7492a86482bd68
+bookingAPI.js:67 [getCoachSessions] Fetching bookings for user ID: 66d9cdcb0a7492a86482bd68, start: undefined, end: undefined
+adminAPI.js:83 Fetching translations for sessionTypes in de
+logger.js:110 [coachAPI] Fetching settings for userId: {"userId":"66d9cdcb0a7492a86482bd68"}
+logger.js:110 fetchSessionTypes effect triggered
+logger.js:110 Fetching session types...
+logger.js:110 Current sessionTypes:
+logger.js:110 [ManageSessions] showAvailabilityModal state changed {"showAvailabilityModal":false,"userId":"66d9cdcb0a7492a86482bd68"}
+logger.js:110 [ManageSessions] showAvailabilityModal changed {"showAvailabilityModal":false}
+useConnectionCheck.js:30 [useConnectionCheck] Checking connection status: {userId: '66d9cdcb0a7492a86482bd68', targetUserId: '66d9cdcb0a7492a86482bd68', connectionsCount: 1}
+useConnectionCheck.js:39 [useConnectionCheck] Connection status result: false
+useConnectionCheck.js:46 [useConnectionCheck] =============== Starting Connection Check ===============
+useConnectionCheck.js:47 [useConnectionCheck] Initial state: {userId: '66d9cdcb0a7492a86482bd68', targetUserId: '66d9cdcb0a7492a86482bd68', isConnected: false, isLoading: true, connectionsCount: 1, …}
+useConnectionCheck.js:66 [useConnectionCheck] ✅ User is viewing own profile: {userId: '66d9cdcb0a7492a86482bd68', targetUserId: '66d9cdcb0a7492a86482bd68'}
+useConnectionCheck.js:46 [useConnectionCheck] =============== Starting Connection Check ===============
+useConnectionCheck.js:47 [useConnectionCheck] Initial state: {userId: '66d9cdcb0a7492a86482bd68', targetUserId: '66d9cdcb0a7492a86482bd68', isConnected: true, isLoading: false, connectionsCount: 1, …}
+useConnectionCheck.js:66 [useConnectionCheck] ✅ User is viewing own profile: {userId: '66d9cdcb0a7492a86482bd68', targetUserId: '66d9cdcb0a7492a86482bd68'}
+adminAPI.js:87 Received translations for sessionTypes in de: {translations: {…}}
+logger.js:110 [coachAPI] Settings fetched successfully: {"userId":"66d9cdcb0a7492a86482bd68"}
+logger.js:110 [ManageSessions] Coach settings fetched: {"professionalProfile":{"specialties":[],"expertise":[],"hourlyRate":0,"currency":"USD","showTestimonials":true,"showReviews":true},"availabilityManagement":{"workingHours":{"monday":{},"tuesday":{},"wednesday":{},"thursday":{},"friday":{},"saturday":{},"sunday":{}},"vacationMode":false,"vacationStart":null,"vacationEnd":null,"bufferTime":15},"sessionManagement":{"overtime":{"allowOvertime":true,"freeOvertimeDuration":5,"paidOvertimeDuration":30,"overtimeRate":20},"durationRules":{"minDuration":30,"maxDuration":120,"defaultDuration":60,"durationStep":15,"allowCustomDuration":true},"sessionTypes":[],"maxSessionsPerDay":5,"maxSessionsPerWeek":25},"clientManagement":{"clientCapacity":20,"waitingListEnabled":false,"waitingListCapacity":10},"paymentAndBilling":{"stripe":{"accountStatus":{"status":"active","detailsSubmitted":true,"chargesEnabled":true,"payoutsEnabled":true,"requirementsProvided":["individual.verification.document"],"requirementsPending":[],"requirementsDue":["individual.verification.document"],"requirementsErrors":[{"code":"verification_failed_keyed_identity","reason":"The person's keyed-in identity information could not be verified. Correct any errors or upload a document that matches the identity fields (e.g., name and date of birth) entered.","resolveBy":null,"_id":"681f053cd405381d58562f19"}],"lastChecked":"2025-05-10T07:50:20.872Z"},"payoutSettings":{"schedule":{"interval":"weekly","weeklyAnchor":1},"minimumPayout":{"amount":50,"currency":"CHF"},"defaultCurrency":"CHF"},"capabilities":{"cardPayments":"inactive","transfers":"inactive","sepaDebit":"inactive"},"businessProfile":{"mcc":"8299"},"accountId":"acct_1QdFtkQjpPpOYbVB","accountType":"express"},"paymentMethods":[]},"marketingAndGrowth":{"featuredCoach":false,"referralProgramEnabled":false,"referralReward":10},"analyticsDashboard":{"displayMetrics":[],"customReports":[]},"privacySettings":{"profilePrivacy":{},"calendarVisibility":"connected","showFullCalendar":true,"bookingPrivacy":"registered","requireApprovalNonConnected":false,"availabilityNotifications":"all","notificationGroups":[]},"notificationPreferences":{"email":true,"sms":false,"inApp":true},"allowFirmBooking":true,"firmBookingThreshold":24,"cancellationPolicy":24,"bufferTimeBetweenSessions":15,"maxAdvanceBookingDays":30,"minNoticeForBooking":24,"timeZone":"UTC"}
+adminAPI.js:141 Raw session types data: (5) [{…}, {…}, {…}, {…}, {…}]
+logger.js:110 Fetched session types: [{"id":"66ec4ea477bec414bf2b8859","name":"1 on 1","duration":0,"price":0},{"id":"66ec54f44a8965b22af33fd5","name":"Group","duration":0,"price":0},{"id":"66ec54f94a8965b22af33fd9","name":"Webinar","duration":0,"price":0},{"id":"66ec54fe4a8965b22af33fdd","name":"Workshop","duration":0,"price":0},{"id":"66ec551a4a8965b22af33fe3","name":"Availability","duration":0,"price":0}]
+adminAPI.js:141 Raw session types data: (5) [{…}, {…}, {…}, {…}, {…}]
+coachAPI.js:176 [coachAPI] Coach availability fetched successfully: {availability: Array(155), settings: {…}}
+logger.js:110 First session type: {"id":"66ec4ea477bec414bf2b8859","name":"1 on 1","duration":0,"price":0}
+bookingAPI.js:71 [getCoachSessions] Bookings received: {availability: Array(155), regularBookings: Array(419)}
+logger.js:110 [ManageSessions] Raw data fetched {"sessionsCount":419}
+logger.js:110 [ManageSessions] Processed sessions {"availabilityCount":155,"regularBookingsCount":419,"sampleAvailability":{"payment":null,"sessionLink":{"expired":false},"userIds":[],"overtime":{"allowOvertime":false,"freeOvertimeDuration":0,"paidOvertimeDuration":0,"overtimeRate":0,"_id":"682ed6f260a42408ac47ab5f"},"isOnline":false,"isPublic":true,"showInWebinarBrowser":true,"earlyBirdDeadline":null,"earlyBirdPrice":null,"_id":"67bc4cd7316b7941bef132bf","coach":"66d9cdcb0a7492a86482bd68","user":"66d9cdcb0a7492a86482bd68","sessionType":"66ec551a4a8965b22af33fe3","start":"2025-02-25T19:30:00.000Z","end":"2025-02-25T20:00:00.000Z","timezone":"Europe/Zurich","status":"confirmed","price":null,"isAvailability":true,"availableForInstantBooking":true,"firmBookingThreshold":24,"title":"Verfügbarkeit","tags":[],"recurringPattern":"none","recurringEndDate":"2025-03-23T13:35:53.294Z","bookingType":"request","attendees":[],"suggestedTimes":[],"waitlist":[],"reminderSent":[],"createdAt":"2025-02-23T13:36:03.793Z","updatedAt":"2025-02-23T13:36:03.793Z","__v":0,"webinarSlots":[],"reminders":[],"recordings":{},"duration":30,"spotsRemaining":null,"color":"#4CAF50"},"sampleBooking":{"payment":{"reminderSent":[],"status":"pending","refunds":[]},"sessionLink":{"expired":false},"userIds":[],"overtime":{"allowOvertime":false,"freeOvertimeDuration":0,"paidOvertimeDuration":0,"overtimeRate":0,"_id":"682ed6f260a42408ac47aae8"},"isOnline":false,"isPublic":true,"showInWebinarBrowser":true,"earlyBirdDeadline":null,"earlyBirdPrice":null,"_id":"67b6c109a1140d8b64431bea","coach":"66d9cdcb0a7492a86482bd68","user":"66f418d10a19ec0e4bbd377e","sessionType":"66ec4ea477bec414bf2b8859","start":"2025-02-21T07:00:00.000Z","end":"2025-02-21T07:30:00.000Z","timezone":"Europe/Zurich","status":"confirmed","price":{"base":{"amount":{"amount":60,"currency":"CHF"}},"final":{"amount":{"amount":60,"currency":"CHF"}},"vat":{"rate":8.1,"amount":4.5,"included":true},"platformFee":{"percentage":15,"amount":9},"calculationMeta":{"calculatedAt":"2025-02-20T05:43:37.618Z","version":"1.0"},"currency":"CHF","discounts":[]},"isAvailability":false,"availableForInstantBooking":false,"firmBookingThreshold":24,"title":"Verfügbarkeit","tags":[],"recurringPattern":"none","recurringEndDate":null,"bookingType":"request","reminderSent":[],"attendees":[],"suggestedTimes":[],"waitlist":[],"createdAt":"2025-02-20T05:43:37.618Z","updatedAt":"2025-02-20T05:43:37.618Z","__v":0,"webinarSlots":[],"reminders":[],"recordings":{},"duration":30,"spotsRemaining":null,"color":"#2196F3"}}
+logger.js:110 [ManageSessions] Sessions fetch successful {"availabilityCount":155,"regularBookingsCount":419}
+useConnectionCheck.js:46 [useConnectionCheck] =============== Starting Connection Check ===============
+useConnectionCheck.js:47 [useConnectionCheck] Initial state: {userId: '66d9cdcb0a7492a86482bd68', targetUserId: undefined, isConnected: false, isLoading: true, connectionsCount: 1, …}
+useConnectionCheck.js:57 [useConnectionCheck] ❌ Missing required IDs: {userId: '66d9cdcb0a7492a86482bd68', targetUserId: 'missing'}
+useConnectionCheck.js:46 [useConnectionCheck] =============== Starting Connection Check ===============
+useConnectionCheck.js:47 [useConnectionCheck] Initial state: {userId: '66d9cdcb0a7492a86482bd68', targetUserId: undefined, isConnected: false, isLoading: true, connectionsCount: 1, …}
+useConnectionCheck.js:57 [useConnectionCheck] ❌ Missing required IDs: {userId: '66d9cdcb0a7492a86482bd68', targetUserId: 'missing'}
+hook.js:608  Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}. Error Component Stack
+    at DescriptionWarning (dialog.tsx:533:1)
+    at dialog.tsx:385:1
+    at dialog.tsx:260:1
+    at Presence (presence.tsx:12:1)
+    at dialog.tsx:235:1
+    at div (<anonymous>)
+    at slot.tsx:68:1
+    at slot.tsx:15:1
+    at primitive.tsx:39:1
+    at portal.tsx:22:1
+    at Presence (presence.tsx:12:1)
+    at Provider (create-context.tsx:59:1)
+    at DialogPortal (dialog.tsx:145:1)
+    at DialogPortal (dialog.tsx:12:1)
+    at _c4 (dialog.tsx:42:1)
+    at Provider (create-context.tsx:59:1)
+    at Dialog (dialog.tsx:52:1)
+    at BookingDetailsModal (BookingDetailsModal.js:70:1)
+    at PresenceChild (PresenceChild.mjs:9:1)
+    at AnimatePresence (index.mjs:44:1)
+    at div (<anonymous>)
+    at ErrorBoundary (ErrorBoundary.js:6:1)
+    at ManageSessions (ManageSessions.js:62:1)
+    at RenderedRoute (hooks.tsx:658:1)
+    at Outlet (components.tsx:333:1)
+    at ProtectedRoute (ProtectedRoute.js:7:1)
+    at RenderedRoute (hooks.tsx:658:1)
+    at Routes (components.tsx:504:1)
+    at div (<anonymous>)
+    at AppContent (App.js:163:1)
+    at NotificationSocketProvider (SocketContext.js:167:1)
+    at PaymentProvider (PaymentContext.js:549:1)
+    at Elements (react-stripe.umd.js:472:1)
+    at Suspense (<anonymous>)
+    at App (<anonymous>)
+    at AuthProvider (AuthContext.js:18:1)
+    at QueryClientProvider (QueryClientProvider.js:32:1)
+    at Router (components.tsx:413:1)
+    at BrowserRouter (index.tsx:783:1)
+overrideMethod @ hook.js:608
+(anonymous) @ dialog.tsx:542
+commitHookEffectListMount @ react-dom.development.js:23189
+commitPassiveMountOnFiber @ react-dom.development.js:24965
+commitPassiveMountEffects_complete @ react-dom.development.js:24930
+commitPassiveMountEffects_begin @ react-dom.development.js:24917
+commitPassiveMountEffects @ react-dom.development.js:24905
+flushPassiveEffectsImpl @ react-dom.development.js:27078
+flushPassiveEffects @ react-dom.development.js:27023
+commitRootImpl @ react-dom.development.js:26974
+commitRoot @ react-dom.development.js:26721
+performSyncWorkOnRoot @ react-dom.development.js:26156
+flushSyncCallbacks @ react-dom.development.js:12042
+(anonymous) @ react-dom.development.js:25690
+hook.js:608  Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+overrideMethod @ hook.js:608
+(anonymous) @ dialog.tsx:542
+commitHookEffectListMount @ react-dom.development.js:23189
+invokePassiveEffectMountInDEV @ react-dom.development.js:25193
+invokeEffectsInDev @ react-dom.development.js:27390
+commitDoubleInvokeEffectsInDEV @ react-dom.development.js:27369
+flushPassiveEffectsImpl @ react-dom.development.js:27095
+flushPassiveEffects @ react-dom.development.js:27023
+commitRootImpl @ react-dom.development.js:26974
+commitRoot @ react-dom.development.js:26721
+performSyncWorkOnRoot @ react-dom.development.js:26156
+flushSyncCallbacks @ react-dom.development.js:12042
+(anonymous) @ react-dom.development.js:25690
+logger.js:116 [DEBUG] [SocketService] Ping sent {"socketId":"I1eePXPkcyNia5zRAAAF"}
+logger.js:110 [BookingDetailsModal] Using actualApiBookingId from prop bookingId directly (assumed to be parent ID) {"propBookingId":"682d8d7d5abe15ce78f127c8"}
+logger.js:110 [BookingDetailsModal] Using currentDisplayBooking for eventSpecificTimeData. {"displayBookingId":"682d8d7d5abe15ce78f127c8","displayBookingStart":"2025-05-22T08:30:00.000Z"}
+useConnectionCheck.js:46 [useConnectionCheck] =============== Starting Connection Check ===============
+useConnectionCheck.js:47 [useConnectionCheck] Initial state: {userId: '66d9cdcb0a7492a86482bd68', targetUserId: undefined, isConnected: false, isLoading: true, connectionsCount: 1, …}
+useConnectionCheck.js:57 [useConnectionCheck] ❌ Missing required IDs: {userId: '66d9cdcb0a7492a86482bd68', targetUserId: 'missing'}
+useConnectionCheck.js:46 [useConnectionCheck] =============== Starting Connection Check ===============
+useConnectionCheck.js:47 [useConnectionCheck] Initial state: {userId: '66d9cdcb0a7492a86482bd68', targetUserId: undefined, isConnected: false, isLoading: true, connectionsCount: 1, …}
+useConnectionCheck.js:57 [useConnectionCheck] ❌ Missing required IDs: {userId: '66d9cdcb0a7492a86482bd68', targetUserId: 'missing'}
+hook.js:608  Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}. Error Component Stack
+    at DescriptionWarning (dialog.tsx:533:1)
+    at dialog.tsx:385:1
+    at dialog.tsx:260:1
+    at Presence (presence.tsx:12:1)
+    at dialog.tsx:235:1
+    at div (<anonymous>)
+    at slot.tsx:68:1
+    at slot.tsx:15:1
+    at primitive.tsx:39:1
+    at portal.tsx:22:1
+    at Presence (presence.tsx:12:1)
+    at Provider (create-context.tsx:59:1)
+    at DialogPortal (dialog.tsx:145:1)
+    at DialogPortal (dialog.tsx:12:1)
+    at _c4 (dialog.tsx:42:1)
+    at Provider (create-context.tsx:59:1)
+    at Dialog (dialog.tsx:52:1)
+    at BookingDetailsModal (BookingDetailsModal.js:70:1)
+    at PresenceChild (PresenceChild.mjs:9:1)
+    at AnimatePresence (index.mjs:44:1)
+    at div (<anonymous>)
+    at ErrorBoundary (ErrorBoundary.js:6:1)
+    at ManageSessions (ManageSessions.js:62:1)
+    at RenderedRoute (hooks.tsx:658:1)
+    at Outlet (components.tsx:333:1)
+    at ProtectedRoute (ProtectedRoute.js:7:1)
+    at RenderedRoute (hooks.tsx:658:1)
+    at Routes (components.tsx:504:1)
+    at div (<anonymous>)
+    at AppContent (App.js:163:1)
+    at NotificationSocketProvider (SocketContext.js:167:1)
+    at PaymentProvider (PaymentContext.js:549:1)
+    at Elements (react-stripe.umd.js:472:1)
+    at Suspense (<anonymous>)
+    at App (<anonymous>)
+    at AuthProvider (AuthContext.js:18:1)
+    at QueryClientProvider (QueryClientProvider.js:32:1)
+    at Router (components.tsx:413:1)
+    at BrowserRouter (index.tsx:783:1)
+overrideMethod @ hook.js:608
+(anonymous) @ dialog.tsx:542
+commitHookEffectListMount @ react-dom.development.js:23189
+commitPassiveMountOnFiber @ react-dom.development.js:24965
+commitPassiveMountEffects_complete @ react-dom.development.js:24930
+commitPassiveMountEffects_begin @ react-dom.development.js:24917
+commitPassiveMountEffects @ react-dom.development.js:24905
+flushPassiveEffectsImpl @ react-dom.development.js:27078
+flushPassiveEffects @ react-dom.development.js:27023
+commitRootImpl @ react-dom.development.js:26974
+commitRoot @ react-dom.development.js:26721
+performSyncWorkOnRoot @ react-dom.development.js:26156
+flushSyncCallbacks @ react-dom.development.js:12042
+(anonymous) @ react-dom.development.js:25690
+hook.js:608  Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+overrideMethod @ hook.js:608
+(anonymous) @ dialog.tsx:542
+commitHookEffectListMount @ react-dom.development.js:23189
+invokePassiveEffectMountInDEV @ react-dom.development.js:25193
+invokeEffectsInDev @ react-dom.development.js:27390
+commitDoubleInvokeEffectsInDEV @ react-dom.development.js:27369
+flushPassiveEffectsImpl @ react-dom.development.js:27095
+flushPassiveEffects @ react-dom.development.js:27023
+commitRootImpl @ react-dom.development.js:26974
+commitRoot @ react-dom.development.js:26721
+performSyncWorkOnRoot @ react-dom.development.js:26156
+flushSyncCallbacks @ react-dom.development.js:12042
+(anonymous) @ react-dom.development.js:25690
+logger.js:110 [BookingDetailsModal.renderSessionDetails] Processing session details with specific time context. {"mainBookingId":"682d8d7d5abe15ce78f127c8","timeContextId":"682d8d7d5abe15ce78f127c8","displayStart":"2025-05-22T08:30:00.000Z","isWebinarOrGroupType":true,"availableRecordingsCount":0,"participantDataSourceId":"682d8d7d5abe15ce78f127c8","coachTypeInSource":"string","userTypeInSource":"object","timestamp":"2025-05-22T07:49:15.865Z"}
+BookingDetailsModal.js:1075 i18next::translator: missingKey de bookings multipleParticipants multipleParticipants
+BookingDetailsModal.js:1119 i18next::translator: missingKey de common en en
+logger.js:110 [BookingDetailsModal.renderParticipants] START Rendering participants. {"displayDataId":"682d8d7d5abe15ce78f127c8","sourceForParticipantsId":"682d8d7d5abe15ce78f127c8","isConnectedToClient":false,"isLoadingConnection":true,"currentUserId":"66d9cdcb0a7492a86482bd68","hasCoachInSource":true,"typeOfCoachInSource":"string","hasUserInSource":false,"typeOfUserInSource":"object"}
+logger.js:104  [BookingDetailsModal.renderParticipants] Not enough data or coach is not a populated object in sourceForParticipants. Waiting for parent document or data to populate. {"sourceId":"682d8d7d5abe15ce78f127c8","coachData":"66d9cdcb0a7492a86482bd68","isFetchedBookingDocumentAvailable":true} Error Component Stack
+    at BookingDetailsModal (BookingDetailsModal.js:70:1)
+    at PresenceChild (PresenceChild.mjs:9:1)
+    at AnimatePresence (index.mjs:44:1)
+    at div (<anonymous>)
+    at ErrorBoundary (ErrorBoundary.js:6:1)
+    at ManageSessions (ManageSessions.js:62:1)
+    at RenderedRoute (hooks.tsx:658:1)
+    at Outlet (components.tsx:333:1)
+    at ProtectedRoute (ProtectedRoute.js:7:1)
+    at RenderedRoute (hooks.tsx:658:1)
+    at Routes (components.tsx:504:1)
+    at div (<anonymous>)
+    at AppContent (App.js:163:1)
+    at NotificationSocketProvider (SocketContext.js:167:1)
+    at PaymentProvider (PaymentContext.js:549:1)
+    at Elements (react-stripe.umd.js:472:1)
+    at Suspense (<anonymous>)
+    at App (<anonymous>)
+    at AuthProvider (AuthContext.js:18:1)
+    at QueryClientProvider (QueryClientProvider.js:32:1)
+    at Router (components.tsx:413:1)
+    at BrowserRouter (index.tsx:783:1)
+overrideMethod @ hook.js:608
+warn @ logger.js:104
+renderParticipants @ BookingDetailsModal.js:691
+renderSessionDetails @ BookingDetailsModal.js:1209
+renderContent @ BookingDetailsModal.js:2032
+BookingDetailsModal @ BookingDetailsModal.js:2184
+renderWithHooks @ react-dom.development.js:15486
+updateFunctionComponent @ react-dom.development.js:19617
+beginWork @ react-dom.development.js:21640
+beginWork$1 @ react-dom.development.js:27465
+performUnitOfWork @ react-dom.development.js:26596
+workLoopSync @ react-dom.development.js:26505
+renderRootSync @ react-dom.development.js:26473
+performConcurrentWorkOnRoot @ react-dom.development.js:25777
+workLoop @ scheduler.development.js:266
+flushWork @ scheduler.development.js:239
+performWorkUntilDeadline @ scheduler.development.js:533
+logger.js:110 [BookingDetailsModal.renderSessionDetails] No available recordings, hiding section. {"bookingId":"682d8d7d5abe15ce78f127c8"}

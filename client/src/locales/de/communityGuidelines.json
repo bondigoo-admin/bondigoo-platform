@@ -1,0 +1,63 @@
+{
+  "title": "Unsere Community-Richtlinien",
+  "header": "Ein Raum für authentische Verbindungen und persönliches Wachstum",
+  "introduction": {
+    "p1": "Willkommen in unserer Community aus engagierten Coaches und Menschen, die wachsen möchten. Unsere Mission ist es, eine Plattform zu schaffen, auf der persönliches Wachstum und Entwicklung durch sichere, respektvolle und bedeutungsvolle menschliche Verbindungen gedeihen können.",
+    "p2": "Diese Richtlinien sind das Fundament dieser Mission. Sie sind eine gemeinsame Vereinbarung, um die Integrität und Authentizität unserer Community zu wahren. Indem du diese Plattform nutzt, stimmst du zu, diesen Geist mitzutragen."
+  },
+  "principles": {
+    "title": "Unsere Leitprinzipien",
+    "authenticity": {
+      "title": "Echte Verbindungen schaffen",
+      "text": "Unsere Plattform lebt von echten, menschlichen Verbindungen. Wir ermutigen dich, authentisch zu sein und einen Raum zu schaffen, in dem sich andere sicher und verstanden fühlen."
+    },
+    "respect": {
+      "title": "Respektvoll kommunizieren",
+      "text": "Wir sind eine vielfältige Community. Meinungsverschiedenheiten können vorkommen, aber Respektlosigkeit und Belästigung werden nicht toleriert. Führe stets eine konstruktive und einfühlsame Kommunikation."
+    },
+    "trust": {
+      "title": "Authentizität und Vertrauen bewahren",
+      "text": "Deine Identität und deine Erfahrungen sind das Fundament des Vertrauens auf dieser Plattform. Sei ehrlich in dem, was du teilst, und respektvoll in deinem Feedback."
+    },
+    "safety": {
+      "title": "Sicherheit und Datenschutz gewährleisten",
+      "text": "Schütze deine Privatsphäre und respektiere die der anderen. Teile keine privaten Kontaktinformationen und führe keine Sitzungen ausserhalb der sicheren Umgebung der Plattform durch."
+    }
+  },
+  "rules": {
+    "title": "Spezifische Plattformregeln",
+    "intro": "Um für Klarheit zu sorgen, sind die folgenden Aktivitäten verboten. Verstösse gegen diese Regeln führen zu Massnahmen, wie im Abschnitt „Konsequenzen“ beschrieben.",
+    "profile": {
+      "title": "Profil- & Identitätsintegrität",
+      "impersonation": "Identitätsdiebstahl oder falsche Profile: Du darfst dich nicht als eine andere Person oder Organisation ausgeben. Coaches müssen ihre Qualifikationen wahrheitsgemäss angeben.",
+      "content": "Unangemessene Profilinhalte: Dein Profilbild, dein Name und deine Biografie müssen respektvoll und frei von beleidigenden oder hasserfüllten Inhalten sein."
+    },
+    "communication": {
+      "title": "Inhalts- & Kommunikationsstandards",
+      "harassment": "Belästigung oder Mobbing: Beleidigende Sprache, persönliche Angriffe, Drohungen oder jegliche Form der Einschüchterung gegenüber anderen sind strengstens verboten.",
+      "hateSpeech": "Hassrede: Inhalte, die Diskriminierung fördern oder Einzelpersonen aufgrund von Rasse, ethnischer Zugehörigkeit, Religion, Geschlecht oder anderen Merkmalen herabsetzen, sind nicht gestattet.",
+      "spam": "Spam oder Betrug: Unerwünschte Werbeinhalte, sich wiederholende Nachrichten, Phishing-Versuche oder jede Form von Finanzbetrug sind verboten.",
+      "inappropriate": "Unangemessene Inhalte: Teile keine Inhalte, die sexuell explizit, gewalttätig oder anderweitig nicht mit einem unterstützenden und sicheren Coaching-Umfeld vereinbar sind."
+    }
+  },
+  "consequences": {
+    "title": "Unser Moderationsprozess & Konsequenzen",
+    "intro": "Wir verwenden eine Kombination aus automatisierten Systemen und menschlicher Überprüfung, um diese Richtlinien durchzusetzen. Wenn Inhalte gemeldet werden, prüft unser Trust & Safety Team sie anhand dieser Richtlinien.",
+    "threeStrikes": {
+      "title": "Das „Drei-Verstösse“-System",
+      "intro": "Bei den meisten Verstössen folgen wir einem eskalierenden System, um eine Möglichkeit zur Aufklärung und Korrektur zu bieten.",
+      "strike1": "1. Verstoss: Formelle Verwarnung. Du erhältst eine offizielle Benachrichtigung, in der der Verstoss detailliert beschrieben wird. Dies wird in deinem Konto vermerkt.",
+      "strike2": "2. Verstoss: Letzte Verwarnung. Ein zweiter Verstoss führt zu einer schärfer formulierten Verwarnung, in der darauf hingewiesen wird, dass ein weiterer Verstoss zur Sperrung führt.",
+      "strike3": "3. Verstoss: Kontosperrung. Ein dritter Verstoss führt zu einer vorübergehenden Sperrung deines Kontos mit Lesezugriff."
+    },
+    "severeViolations": {
+      "title": "Schwerwiegende Verstösse",
+      "text": "Bitte beachte, dass schwerwiegende Verstösse (z. B. Gewaltandrohungen, illegale Aktivitäten) zu einer sofortigen und dauerhaften Kontosperrung führen können, wobei das Drei-Verstösse-System umgangen wird."
+    }
+  },
+  "appeals": {
+    "title": "Das Einspruchsverfahren",
+    "intro": "Wenn du der Meinung bist, dass eine gegen dein Konto ergriffene Massnahme fehlerhaft war, hast du das Recht, Einspruch einzulegen. Alle Benachrichtigungen über Moderationsmassnahmen enthalten einen Link, um einen Einspruch einzuleiten, der ein Support-Ticket für unser Team zur Überprüfung erstellt."
+  },
+  "conclusion": "Vielen Dank, dass du ein konstruktives Mitglied unserer Community bist und uns hilfst, eine Plattform für echtes menschliches Wachstum aufzubauen."
+}

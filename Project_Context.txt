@@ -1,0 +1,118 @@
+1. Project Overview
+Product: A full-stack, real-time coaching platform connecting coaches and clients for scheduled sessions, on-demand live sessions, and self-paced digital programs.
+Frontend: React (Create React App), styled with Tailwind CSS and ShadCN/UI components.
+Backend: Express.js, using Mongoose ODM.
+Database: MongoDB.
+Real-time: Socket.IO for notifications, status updates, and signaling.
+State Management: React Query for server state, React Context for global UI state.
+Key Services: Stripe (Payments, Invoicing, Tax), Cloudinary (File Storage), BullMQ/Redis (Job Queues).
+2. Core Architectural Principles
+Backend is the Source of Truth: All financial calculations (pricing, discounts, taxes, fees) are performed authoritatively on the backend. Client-side calculations are for display only and are never trusted for transactions.
+Platform as "Deemed Supplier": The platform is legally responsible for B2C invoicing and tax collection. The system architecture reflects this by handling both Platform-to-Client (B2C) and Coach-to-Platform (B2B) financial documentation.
+Stripe as the Financial Engine: We leverage Stripe's robust services (Invoicing, Tax, Connect) as the source of truth for financial documents, tax rates, and payment processing, rather than building and maintaining these complex systems internally.
+Persistent Job Queues for Reliability: Time-based, critical background tasks (e.g., live session billing monitors, coach cooldowns, status resets) are managed by BullMQ with a Redis backend, ensuring fault tolerance and scalability.
+Config-Driven, Reusable UI: Dashboards and complex UIs are designed to be dynamically rendered based on a configuration object. This promotes code reuse and allows for user customization.
+Strict Styling Adherence: All new frontend development uses Tailwind CSS utility classes exclusively. UI is composed of ShadCN/UI components, following a mobile-first, dark-mode compatible approach. A significant amount of legacy CSS exists from previous development phases and is still in use, but is being actively phased out.
+3. User & Coach Identification
+The platform employs a two-tiered identification strategy that is critical to understand:
+User Model as Primary Identity: The User model is the central source of identity for all individuals. The User model's _id is referred to as userId.
+Coach Model Relationship: The Coach model has a one-to-one relationship with the User model, linked via a user field referencing the User's _id. The Coach model's own _id is referred to as coachId.
+Identification Rules:
+Use userId for General Data: For fetching profiles, settings, dashboards, and other general, user-centric data, the userId is the primary key. API endpoints like /api/coaches/:userId/profile are standard, where the controller queries the Coach model using Coach.findOne({ user: userId }).
+Use coachId for Transactional Operations: For all booking, payment, and availability-related operations, the coachId is the key. The Booking model's coach field stores a direct reference to the Coach model's _id, not the associated User's _id. This is a fundamental architectural rule for the transactional core of the application.
+4. Key Systems & Features
+4.1. Pricing, Discounts & Tax System
+Authoritative Calculation Flow:
+Display Phase: Frontend calls a read-only API endpoint (e.g., /api/prices/calculate). The backend's PricingService performs a full calculation and returns a price object for the UI.
+Action Phase: Frontend sends only core parameters (e.g., programId, discountCode) to an action endpoint (e.g., /enroll).
+Authoritative Recalculation: The backend controller ignores any client-sent price and re-runs the PricingService calculation to get a trusted final amount before creating payment records.
+"Best Price Wins" Hierarchy: The PricingService implements a non-stacking discount model. The system calculates the price with automatic discounts (Time-Based Rates, Special Periods) and compares it to the price with a manual discount code, applying whichever is better for the client.
+Stripe Tax Integration: The backend TaxService acts as a wrapper for Stripe Tax. For each transaction, it deconstructs the tax-inclusive price into its net and tax components based on the customer's location, ensuring global tax compliance.
+Immutable Price Snapshot: Upon successful payment, the complete, authoritative price breakdown from the backend calculation is stored in the Payment model's priceSnapshot field for auditing, refunds, and financial reporting.
+4.2. Booking & Availability System
+Unified Booking Model: Both client-booked sessions and coach-defined availability slots are stored in the Booking model. Availability slots are distinguished by an isAvailability: true flag.
+Availability Slot Restoration: Upon booking cancellation by a client or decline by a coach, the backend coalesceAndRestoreAvailability helper intelligently recreates the original availability slot on the coach's calendar, making the time bookable again automatically.
+Unpaid Booking Limit: To prevent abuse, the system prohibits a user from creating a new booking if they have three or more existing unpaid future bookings. The API returns a TOO_MANY_UNPAID_BOOKINGS error code in this scenario.
+Automated Title Logic: The createBooking controller actively checks if a booking title from the frontend is a generic placeholder (e.g., "Availability"). If so, it is automatically replaced with the translated name of the actual SessionType being booked for a more professional client-facing experience.
+Webinar & Group Session Flow:
+Clients register for webinars via a dedicated POST /api/bookings/:bookingId/register endpoint. The payment webhook handler performs an atomic, final capacity check before adding the user to the attendees array to prevent race conditions.
+The system automatically transitions a group session's status between pending_minimum_attendees and scheduled based on whether the number of confirmed attendees meets the minAttendees threshold.
+4.3. Coaching Programs (On-Demand Courses)
+Concept: A full-featured system for coaches to create and sell scalable, on-demand digital products, and for clients to consume them in a dedicated learning player.
+Creator Studio (Coach): A wizard-style interface (ProgramCreator.js) for building programs, including a drag-and-drop curriculum builder.
+Program Player (Client): A distraction-free learning interface (ProgramPlayer.js) with a curriculum sidebar, video/document viewers, and per-lesson discussion threads.
+Normalized Data Model: The curriculum is stored in separate, relational Program, Module, and Lesson collections to ensure scalability. Enrollment and Comment models track user progress and engagement.
+Interactive Presentation Player: A lesson type that converts uploaded PDFs into a sequence of high-quality images via Cloudinary's transformation API. The player allows coaches to record per-slide audio narrations and clients to take per-slide notes.
+4.4. Video Conferencing (Scheduled & Live Sessions)
+The platform supports two distinct, architecturally separate video conferencing flows.
+Scheduled Sessions:
+Entry Point: VideoConferenceWrapper.js for pre-booked sessions.
+Socket Management: Uses a SocketProvider context to manage the connection.
+UI: Renders the standardized VideoConference.js component.
+Live Sessions (On-Demand):
+Concept: Allows clients to instantly connect with online coaches on a per-minute billing basis.
+Entry Point: LiveSessionInterface.js is the exclusive orchestrator for the entire live session lifecycle.
+Socket Management: Manages its own dedicated socket connection, creating it only when the session is ready to start.
+Dedicated Handshake: Uses a new, exclusive join-live-session-handshake socket event to ensure live session logic is completely isolated on the backend.
+Session Overtime System:
+Concept: An integrated system for extending sessions with additional per-minute billing.
+Billing: Implements an "authorize, re-authorize, capture" model. An initial block of time is authorized via a Stripe Payment Intent with capture_method: 'manual'. A persistent BullMQ job (monitor-session) runs every minute to check if re-authorization is needed. The final prorated amount is captured only after the session ends.
+State Management: The Session model tracks overtimeSegments with states like pending_confirmation, authorized, and finalizedAt to manage the complex, multi-step payment flow.
+4.5. Financial & Billing Systems
+Payment Processing & Stripe Connect Model: The PaymentOrchestratorService and frontend PaymentContext manage the payment flow. The system uses Stripe Connect's Separate Charges and Transfers model. A charge is made on the platform's Stripe account, with the platform's fee (application_fee_amount) calculated and retained. A separate transfer is then created to move the coach's net earnings to their connected Stripe Express account.
+Automated Payout Processing: A cron-driven job (payoutProcessor.js) runs periodically to process pending payouts. It includes batching, record-locking to prevent race conditions, and an exponential backoff retry mechanism for failed transfers.
+Invoicing & Statements (B2C & B2B):
+B2C Invoices (Platform-to-Client): For every client payment, the payment_intent.succeeded webhook triggers invoiceService.js to create a formal, tax-compliant invoice using Stripe Invoicing.
+B2B Documents (Platform-to-Coach):
+Self-Billed Invoices: Before creating a payout transfer, coachInvoiceService.js generates a B2B "self-billed" invoice (Coach-to-Platform) required for the platform's tax claims.
+Payout Settlement Advices: settlementAdviceService.js generates clear pdfkit statements for coaches detailing the breakdown of each transaction.
+Refunds & Disputes:
+Lifecycle: Client-initiated requests are managed as a SupportTicket. The coach has the first right of resolution; if declined or ignored, it escalates to an admin queue.
+Authoritative Service: AdminFinancialService.js is the sole service for processing refunds. It handles cost allocation based on the selected policy (Standard, Platform Fault, Goodwill) and correctly manages pre-payout vs. post-payout scenarios.
+4.6. Dashboards
+Coach Dashboard: A comprehensive, tabbed interface ("Mission Control") for the coach's business, with a customizable "Overview" tab where coaches can reorder and toggle widgets.
+User (Client) Dashboard: The client's "Personal Coaching Launchpad" providing a clear summary of upcoming sessions, active programs, and quick access to connected coaches.
+Admin Dashboard ("Command Center"): A powerful, role-oriented interface for platform management, including a job queue UI, webhook monitor, and moderation tools.
+4.7. Platform-Wide Features
+Notification System: A robust system managed by UnifiedNotificationService and BookingNotificationMapper. It handles multi-channel delivery (in-app, email), user preferences, and real-time updates via Socket.IO.
+Global Search: A unified search experience inspired by VS Code. A HeaderSearch.js component triggers a contextual popover for quick results and provides an entry point to a full SearchView.js page for advanced, filterable searching.
+User Safety & Moderation: A complete system for user safety:
+User Blocking: A full block/unblock feature is implemented and enforced on the backend, preventing all interactions (messaging, booking, search visibility).
+Content Flagging: Users can flag reviews, user profiles, and programs. These flags are managed in a dedicated admin moderation queue.
+Trust Score & Automated Actions: The system tracks a trustScore for each user. The moderationService and a dedicated job queue handle automated actions based on flags and user history, such as issuing warnings or applying suspensions.
+Automated Asset Management: The system ensures cost control by preventing orphaned files. When a coach updates a program, the programController compares the list of Cloudinary publicIds before and after the change. Any publicIds no longer referenced in the program's data are automatically queued in the assetCleanupService for deletion.
+5. Summary of Best Practices
+Centralized Logic: Encapsulate business logic in dedicated backend services (e.g., PricingService, AdminFinancialService, UnifiedNotificationService).
+Immutable Records: Store critical financial data, like the priceSnapshot, in an immutable way to ensure a perfect audit trail.
+Component Reusability: Aggressively reuse components (ProgramCard, CoachCard) across different parts of the application, adapting them with props.
+Asynchronous Reliability: Use a persistent job queue (BullMQ/Redis) for any critical, time-dependent background tasks to protect against server restarts or crashes.
+Clear Architectural Separation: Maintain distinct, isolated architectures for features with different requirements, as demonstrated by the separation of Live Session and Scheduled Session video flows.
+Tightly Coupled State Models: For every Booking document (the contractual event), a corresponding Session document (the live state and artifacts) is created or updated within the same database transaction. This ensures data consistency and a clear separation of concerns.
+Comprehensive Logging: Implement detailed, contextual logging in all services and controllers for effective debugging and monitoring.
+5.1. UX & Frontend Principles
+Optimistic UI for Instantaneous User Experience: The platform employs an Optimistic UI strategy, particularly for file uploads. The UI updates instantly upon user action, assuming success, while the actual work (e.g., image compression, transfer) is handled asynchronously in the background, eliminating blocking UI elements and providing immediate visual feedback.
+
+6. Deployment & Environment Strategy
+The platform utilizes a modern, Git-based, multi-environment deployment strategy to ensure stability, security, and a seamless development workflow. The strategy is built on the principle of isolating the live production environment from all development and testing activities.
+
+6.1. Environment Tiers
+The project operates across three distinct environments:
+Local: The developer's machine. Used for all new feature development and initial bug fixing. Connects to the `coaching-platform-dev` database.
+Staging: A private, fully-functional, online replica of the production environment, accessible at `test.bondigoo.com`. This environment is used for end-to-end testing, user acceptance testing (UAT) with the "Founder's Circle" coaches, and final validation before a feature goes live. It connects to the same `coaching-platform-dev` database as the Local environment to provide a rich set of test data.
+Production: The live, public-facing environment accessible at `bondigoo.com`. This environment serves real users and connects to a completely separate, secure `bondigoo-prod` database.
+
+6.2. Git Branching Model
+The deployment workflow is managed by a simple and strict Git branching model:
+`develop` Branch: This branch serves as the source of truth for the Staging environment. All new feature branches are merged into `develop` for testing. A push to this branch automatically triggers a new deployment to the Staging environment.
+`main` Branch: This branch serves as the source of truth for the Production environment. Only stable, tested, and approved code from the `develop` branch is ever merged into `main`. A push to this branch automatically triggers a new deployment to the Production environment.
+
+6.3. Hosting Infrastructure
+The infrastructure is decoupled to optimize for performance, cost, and developer experience:
+Frontend (Client Application): Deployed on **Vercel**. Vercel is used for its seamless Git integration, automatic deployments, global CDN, and first-class support for React applications. Two separate Vercel projects are maintained: one connected to the `develop` branch for Staging, and one connected to the `main` branch for Production.
+Backend (Server API & Job Queues): Deployed on **Render.com**. Render is used for its flexibility in hosting Node.js web services and managed background services. Two separate Web Services are maintained for the Staging and Production APIs.
+Cache & Job Queue Broker: A managed **Redis** instance is deployed on Render.com for each environment (Staging and Production) to power the BullMQ job queues and caching services.
+
+6.4. The "Launch Gate" Mechanism
+The frontend application contains a "launch gate" controlled by a `REACT_APP_LAUNCHED` environment variable.
+When `REACT_APP_LAUNCHED` is `false` (as it is in the Production environment pre-launch), the application's router only renders the public-facing landing page (`Home.js`), legal pages, and the lead capture form. All other routes redirect to the homepage.
+When `REACT_APP_LAUNCHED` is `true` (as it is in the Staging environment), the application router renders the full, complete platform with all features. This allows for a "soft launch" of the landing page while the full application remains private for testing.

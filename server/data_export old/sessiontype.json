@@ -1,0 +1,33 @@
+[
+  {
+    "_id": "66ec4ea477bec414bf2b8859",
+    "name": "1 on 1",
+    "duration": 0,
+    "isGroupSession": false,
+    "__v": 0
+  },
+  {
+    "_id": "66ec54f44a8965b22af33fd5",
+    "name": "Group",
+    "isGroupSession": false,
+    "__v": 0
+  },
+  {
+    "_id": "66ec54f94a8965b22af33fd9",
+    "name": "Webinar",
+    "isGroupSession": false,
+    "__v": 0
+  },
+  {
+    "_id": "66ec54fe4a8965b22af33fdd",
+    "name": "Workshop",
+    "isGroupSession": false,
+    "__v": 0
+  },
+  {
+    "_id": "66ec551a4a8965b22af33fe3",
+    "name": "Availability",
+    "isGroupSession": false,
+    "__v": 0
+  }
+]

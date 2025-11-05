@@ -1,0 +1,1950 @@
+[
+  {
+    "_id": "671ff60f21a7d662f659a272",
+    "recipient": "66d9cdcb0a7492a86482bd68",
+    "sender": "66f418d10a19ec0e4bbd377e",
+    "type": "booking_confirmed",
+    "priority": "medium",
+    "content": {
+      "title": "booking_confirmed.title",
+      "message": "booking_confirmed.message"
+    },
+    "status": "pending",
+    "channels": [
+      "in_app"
+    ],
+    "metadata": {
+      "bookingId": "671ff60e21a7d662f659a264"
+    },
+    "delivery": {
+      "attempts": 0,
+      "maxAttempts": 3,
+      "statuses": [
+        {
+          "channel": "in_app",
+          "status": "pending",
+          "timestamp": "2024-10-28T20:37:35.093Z"
+        }
+      ]
+    },
+    "isRead": false,
+    "actions": [],
+    "createdAt": "2024-10-28T20:37:35.100Z",
+    "updatedAt": "2024-10-28T20:37:35.100Z",
+    "__v": 0
+  },
+  {
+    "_id": "671ff60f21a7d662f659a276",
+    "recipient": "66f418d10a19ec0e4bbd377e",
+    "sender": "66f418d10a19ec0e4bbd377e",
+    "type": "booking_confirmed",
+    "priority": "medium",
+    "content": {
+      "title": "booking_confirmed.title",
+      "message": "booking_confirmed.message"
+    },
+    "status": "pending",
+    "channels": [
+      "in_app"
+    ],
+    "metadata": {
+      "bookingId": "671ff60e21a7d662f659a264"
+    },
+    "delivery": {
+      "attempts": 0,
+      "maxAttempts": 3,
+      "statuses": [
+        {
+          "channel": "in_app",
+          "status": "pending",
+          "timestamp": "2024-10-28T20:37:35.420Z"
+        }
+      ]
+    },
+    "isRead": false,
+    "actions": [],
+    "createdAt": "2024-10-28T20:37:35.423Z",
+    "updatedAt": "2024-10-28T20:37:35.423Z",
+    "__v": 0
+  },
+  {
+    "_id": "671ff60f21a7d662f659a27a",
+    "recipient": "66f418d10a19ec0e4bbd377e",
+    "sender": "66f418d10a19ec0e4bbd377e",
+    "type": "session_reminder",
+    "priority": "medium",
+    "content": {
+      "title": "session_reminder.title",
+      "message": "session_reminder.message"
+    },
+    "status": "pending",
+    "channels": [
+      "in_app"
+    ],
+    "metadata": {
+      "bookingId": "671ff60e21a7d662f659a264"
+    },
+    "delivery": {
+      "attempts": 0,
+      "maxAttempts": 3,
+      "statuses": [
+        {
+          "channel": "in_app",
+          "status": "pending",
+          "timestamp": "2024-10-28T20:37:35.508Z"
+        }
+      ]
+    },
+    "isRead": false,
+    "actions": [],
+    "createdAt": "2024-10-28T20:37:35.511Z",
+    "updatedAt": "2024-10-28T20:37:35.511Z",
+    "__v": 0
+  },
+  {
+    "_id": "671ff60f21a7d662f659a27e",
+    "recipient": "66d9cdcb0a7492a86482bd68",
+    "sender": "66f418d10a19ec0e4bbd377e",
+    "type": "session_reminder",
+    "priority": "medium",
+    "content": {
+      "title": "session_reminder.title",
+      "message": "session_reminder.message"
+    },
+    "status": "pending",
+    "channels": [
+      "in_app"
+    ],
+    "metadata": {
+      "bookingId": "671ff60e21a7d662f659a264"
+    },
+    "delivery": {
+      "attempts": 0,
+      "maxAttempts": 3,
+      "statuses": [
+        {
+          "channel": "in_app",
+          "status": "pending",
+          "timestamp": "2024-10-28T20:37:35.573Z"
+        }
+      ]
+    },
+    "isRead": false,
+    "actions": [],
+    "createdAt": "2024-10-28T20:37:35.576Z",
+    "updatedAt": "2024-10-28T20:37:35.576Z",
+    "__v": 0
+  },
+  {
+    "_id": "671ff60f21a7d662f659a282",
+    "recipient": "66f418d10a19ec0e4bbd377e",
+    "sender": "66f418d10a19ec0e4bbd377e",
+    "type": "session_reminder",
+    "priority": "medium",
+    "content": {
+      "title": "session_reminder.title",
+      "message": "session_reminder.message"
+    },
+    "status": "pending",
+    "channels": [
+      "in_app"
+    ],
+    "metadata": {
+      "bookingId": "671ff60e21a7d662f659a264"
+    },
+    "delivery": {
+      "attempts": 0,
+      "maxAttempts": 3,
+      "statuses": [
+        {
+          "channel": "in_app",
+          "status": "pending",
+          "timestamp": "2024-10-28T20:37:35.640Z"
+        }
+      ]
+    },
+    "isRead": false,
+    "actions": [],
+    "createdAt": "2024-10-28T20:37:35.643Z",
+    "updatedAt": "2024-10-28T20:37:35.643Z",
+    "__v": 0
+  },
+  {
+    "_id": "671ff60f21a7d662f659a286",
+    "recipient": "66d9cdcb0a7492a86482bd68",
+    "sender": "66f418d10a19ec0e4bbd377e",
+    "type": "session_reminder",
+    "priority": "medium",
+    "content": {
+      "title": "session_reminder.title",
+      "message": "session_reminder.message"
+    },
+    "status": "pending",
+    "channels": [
+      "in_app"
+    ],
+    "metadata": {
+      "bookingId": "671ff60e21a7d662f659a264"
+    },
+    "delivery": {
+      "attempts": 0,
+      "maxAttempts": 3,
+      "statuses": [
+        {
+          "channel": "in_app",
+          "status": "pending",
+          "timestamp": "2024-10-28T20:37:35.703Z"
+        }
+      ]
+    },
+    "isRead": false,
+    "actions": [],
+    "createdAt": "2024-10-28T20:37:35.706Z",
+    "updatedAt": "2024-10-28T20:37:35.706Z",
+    "__v": 0
+  },
+  {
+    "_id": "671ff60f21a7d662f659a28a",
+    "recipient": "66f418d10a19ec0e4bbd377e",
+    "sender": "66f418d10a19ec0e4bbd377e",
+    "type": "session_reminder",
+    "priority": "medium",
+    "content": {
+      "title": "session_reminder.title",
+      "message": "session_reminder.message"
+    },
+    "status": "pending",
+    "channels": [
+      "in_app"
+    ],
+    "metadata": {
+      "bookingId": "671ff60e21a7d662f659a264"
+    },
+    "delivery": {
+      "attempts": 0,
+      "maxAttempts": 3,
+      "statuses": [
+        {
+          "channel": "in_app",
+          "status": "pending",
+          "timestamp": "2024-10-28T20:37:35.768Z"
+        }
+      ]
+    },
+    "isRead": false,
+    "actions": [],
+    "createdAt": "2024-10-28T20:37:35.771Z",
+    "updatedAt": "2024-10-28T20:37:35.771Z",
+    "__v": 0
+  },
+  {
+    "_id": "671ff60f21a7d662f659a28e",
+    "recipient": "66d9cdcb0a7492a86482bd68",
+    "sender": "66f418d10a19ec0e4bbd377e",
+    "type": "session_reminder",
+    "priority": "medium",
+    "content": {
+      "title": "session_reminder.title",
+      "message": "session_reminder.message"
+    },
+    "status": "pending",
+    "channels": [
+      "in_app"
+    ],
+    "metadata": {
+      "bookingId": "671ff60e21a7d662f659a264"
+    },
+    "delivery": {
+      "attempts": 0,
+      "maxAttempts": 3,
+      "statuses": [
+        {
+          "channel": "in_app",
+          "status": "pending",
+          "timestamp": "2024-10-28T20:37:35.918Z"
+        }
+      ]
+    },
+    "isRead": false,
+    "actions": [],
+    "createdAt": "2024-10-28T20:37:35.920Z",
+    "updatedAt": "2024-10-28T20:37:35.920Z",
+    "__v": 0
+  },
+  {
+    "_id": "671ff877f06ec86ea50bc133",
+    "recipient": "66d9cdcb0a7492a86482bd68",
+    "sender": "66f418d10a19ec0e4bbd377e",
+    "type": "booking_confirmed",
+    "priority": "medium",
+    "content": {
+      "title": "booking_confirmed.title",
+      "message": "booking_confirmed.message"
+    },
+    "status": "pending",
+    "channels": [
+      "in_app"
+    ],
+    "metadata": {
+      "bookingId": "671ff876f06ec86ea50bc125"
+    },
+    "delivery": {
+      "attempts": 0,
+      "maxAttempts": 3,
+      "statuses": [
+        {
+          "channel": "in_app",
+          "status": "pending",
+          "timestamp": "2024-10-28T20:47:51.288Z"
+        }
+      ]
+    },
+    "isRead": false,
+    "actions": [],
+    "createdAt": "2024-10-28T20:47:51.295Z",
+    "updatedAt": "2024-10-28T20:47:51.295Z",
+    "__v": 0
+  },
+  {
+    "_id": "671ff877f06ec86ea50bc137",
+    "recipient": "66f418d10a19ec0e4bbd377e",
+    "sender": "66f418d10a19ec0e4bbd377e",
+    "type": "booking_confirmed",
+    "priority": "medium",
+    "content": {
+      "title": "booking_confirmed.title",
+      "message": "booking_confirmed.message"
+    },
+    "status": "pending",
+    "channels": [
+      "in_app"
+    ],
+    "metadata": {
+      "bookingId": "671ff876f06ec86ea50bc125"
+    },
+    "delivery": {
+      "attempts": 0,
+      "maxAttempts": 3,
+      "statuses": [
+        {
+          "channel": "in_app",
+          "status": "pending",
+          "timestamp": "2024-10-28T20:47:51.418Z"
+        }
+      ]
+    },
+    "isRead": false,
+    "actions": [],
+    "createdAt": "2024-10-28T20:47:51.421Z",
+    "updatedAt": "2024-10-28T20:47:51.421Z",
+    "__v": 0
+  },
+  {
+    "_id": "671ff877f06ec86ea50bc13b",
+    "recipient": "66f418d10a19ec0e4bbd377e",
+    "sender": "66f418d10a19ec0e4bbd377e",
+    "type": "session_reminder",
+    "priority": "medium",
+    "content": {
+      "title": "session_reminder.title",
+      "message": "session_reminder.message"
+    },
+    "status": "pending",
+    "channels": [
+      "in_app"
+    ],
+    "metadata": {
+      "bookingId": "671ff876f06ec86ea50bc125"
+    },
+    "delivery": {
+      "attempts": 0,
+      "maxAttempts": 3,
+      "statuses": [
+        {
+          "channel": "in_app",
+          "status": "pending",
+          "timestamp": "2024-10-28T20:47:51.482Z"
+        }
+      ]
+    },
+    "isRead": false,
+    "actions": [],
+    "createdAt": "2024-10-28T20:47:51.484Z",
+    "updatedAt": "2024-10-28T20:47:51.484Z",
+    "__v": 0
+  },
+  {
+    "_id": "671ff877f06ec86ea50bc13f",
+    "recipient": "66d9cdcb0a7492a86482bd68",
+    "sender": "66f418d10a19ec0e4bbd377e",
+    "type": "session_reminder",
+    "priority": "medium",
+    "content": {
+      "title": "session_reminder.title",
+      "message": "session_reminder.message"
+    },
+    "status": "pending",
+    "channels": [
+      "in_app"
+    ],
+    "metadata": {
+      "bookingId": "671ff876f06ec86ea50bc125"
+    },
+    "delivery": {
+      "attempts": 0,
+      "maxAttempts": 3,
+      "statuses": [
+        {
+          "channel": "in_app",
+          "status": "pending",
+          "timestamp": "2024-10-28T20:47:51.553Z"
+        }
+      ]
+    },
+    "isRead": false,
+    "actions": [],
+    "createdAt": "2024-10-28T20:47:51.555Z",
+    "updatedAt": "2024-10-28T20:47:51.555Z",
+    "__v": 0
+  },
+  {
+    "_id": "671ff877f06ec86ea50bc143",
+    "recipient": "66f418d10a19ec0e4bbd377e",
+    "sender": "66f418d10a19ec0e4bbd377e",
+    "type": "session_reminder",
+    "priority": "medium",
+    "content": {
+      "title": "session_reminder.title",
+      "message": "session_reminder.message"
+    },
+    "status": "pending",
+    "channels": [
+      "in_app"
+    ],
+    "metadata": {
+      "bookingId": "671ff876f06ec86ea50bc125"
+    },
+    "delivery": {
+      "attempts": 0,
+      "maxAttempts": 3,
+      "statuses": [
+        {
+          "channel": "in_app",
+          "status": "pending",
+          "timestamp": "2024-10-28T20:47:51.616Z"
+        }
+      ]
+    },
+    "isRead": false,
+    "actions": [],
+    "createdAt": "2024-10-28T20:47:51.619Z",
+    "updatedAt": "2024-10-28T20:47:51.619Z",
+    "__v": 0
+  },
+  {
+    "_id": "671ff877f06ec86ea50bc147",
+    "recipient": "66d9cdcb0a7492a86482bd68",
+    "sender": "66f418d10a19ec0e4bbd377e",
+    "type": "session_reminder",
+    "priority": "medium",
+    "content": {
+      "title": "session_reminder.title",
+      "message": "session_reminder.message"
+    },
+    "status": "pending",
+    "channels": [
+      "in_app"
+    ],
+    "metadata": {
+      "bookingId": "671ff876f06ec86ea50bc125"
+    },
+    "delivery": {
+      "attempts": 0,
+      "maxAttempts": 3,
+      "statuses": [
+        {
+          "channel": "in_app",
+          "status": "pending",
+          "timestamp": "2024-10-28T20:47:51.683Z"
+        }
+      ]
+    },
+    "isRead": false,
+    "actions": [],
+    "createdAt": "2024-10-28T20:47:51.686Z",
+    "updatedAt": "2024-10-28T20:47:51.686Z",
+    "__v": 0
+  },
+  {
+    "_id": "671ff877f06ec86ea50bc14b",
+    "recipient": "66f418d10a19ec0e4bbd377e",
+    "sender": "66f418d10a19ec0e4bbd377e",
+    "type": "session_reminder",
+    "priority": "medium",
+    "content": {
+      "title": "session_reminder.title",
+      "message": "session_reminder.message"
+    },
+    "status": "pending",
+    "channels": [
+      "in_app"
+    ],
+    "metadata": {
+      "bookingId": "671ff876f06ec86ea50bc125"
+    },
+    "delivery": {
+      "attempts": 0,
+      "maxAttempts": 3,
+      "statuses": [
+        {
+          "channel": "in_app",
+          "status": "pending",
+          "timestamp": "2024-10-28T20:47:51.746Z"
+        }
+      ]
+    },
+    "isRead": false,
+    "actions": [],
+    "createdAt": "2024-10-28T20:47:51.748Z",
+    "updatedAt": "2024-10-28T20:47:51.748Z",
+    "__v": 0
+  },
+  {
+    "_id": "671ff877f06ec86ea50bc14f",
+    "recipient": "66d9cdcb0a7492a86482bd68",
+    "sender": "66f418d10a19ec0e4bbd377e",
+    "type": "session_reminder",
+    "priority": "medium",
+    "content": {
+      "title": "session_reminder.title",
+      "message": "session_reminder.message"
+    },
+    "status": "pending",
+    "channels": [
+      "in_app"
+    ],
+    "metadata": {
+      "bookingId": "671ff876f06ec86ea50bc125"
+    },
+    "delivery": {
+      "attempts": 0,
+      "maxAttempts": 3,
+      "statuses": [
+        {
+          "channel": "in_app",
+          "status": "pending",
+          "timestamp": "2024-10-28T20:47:51.808Z"
+        }
+      ]
+    },
+    "isRead": false,
+    "actions": [],
+    "createdAt": "2024-10-28T20:47:51.810Z",
+    "updatedAt": "2024-10-28T20:47:51.810Z",
+    "__v": 0
+  },
+  {
+    "_id": "672083b41fba5be94a7532c2",
+    "recipient": "66d9cdcb0a7492a86482bd68",
+    "sender": "66f418d10a19ec0e4bbd377e",
+    "type": "booking_confirmed",
+    "priority": "medium",
+    "content": {
+      "title": "booking_confirmed.title",
+      "message": "booking_confirmed.message"
+    },
+    "status": "pending",
+    "channels": [
+      "in_app"
+    ],
+    "metadata": {
+      "bookingId": "672083b31fba5be94a7532b4"
+    },
+    "delivery": {
+      "attempts": 0,
+      "maxAttempts": 3,
+      "statuses": [
+        {
+          "channel": "in_app",
+          "status": "pending",
+          "timestamp": "2024-10-29T06:41:56.487Z"
+        }
+      ]
+    },
+    "isRead": false,
+    "actions": [],
+    "createdAt": "2024-10-29T06:41:56.495Z",
+    "updatedAt": "2024-10-29T06:41:56.495Z",
+    "__v": 0
+  },
+  {
+    "_id": "672083b41fba5be94a7532c6",
+    "recipient": "66f418d10a19ec0e4bbd377e",
+    "sender": "66f418d10a19ec0e4bbd377e",
+    "type": "booking_confirmed",
+    "priority": "medium",
+    "content": {
+      "title": "booking_confirmed.title",
+      "message": "booking_confirmed.message"
+    },
+    "status": "pending",
+    "channels": [
+      "in_app"
+    ],
+    "metadata": {
+      "bookingId": "672083b31fba5be94a7532b4"
+    },
+    "delivery": {
+      "attempts": 0,
+      "maxAttempts": 3,
+      "statuses": [
+        {
+          "channel": "in_app",
+          "status": "pending",
+          "timestamp": "2024-10-29T06:41:56.620Z"
+        }
+      ]
+    },
+    "isRead": false,
+    "actions": [],
+    "createdAt": "2024-10-29T06:41:56.623Z",
+    "updatedAt": "2024-10-29T06:41:56.623Z",
+    "__v": 0
+  },
+  {
+    "_id": "672083b41fba5be94a7532ca",
+    "recipient": "66f418d10a19ec0e4bbd377e",
+    "sender": "66f418d10a19ec0e4bbd377e",
+    "type": "session_reminder",
+    "priority": "medium",
+    "content": {
+      "title": "session_reminder.title",
+      "message": "session_reminder.message"
+    },
+    "status": "pending",
+    "channels": [
+      "in_app"
+    ],
+    "metadata": {
+      "bookingId": "672083b31fba5be94a7532b4"
+    },
+    "delivery": {
+      "attempts": 0,
+      "maxAttempts": 3,
+      "statuses": [
+        {
+          "channel": "in_app",
+          "status": "pending",
+          "timestamp": "2024-10-29T06:41:56.682Z"
+        }
+      ]
+    },
+    "isRead": false,
+    "actions": [],
+    "createdAt": "2024-10-29T06:41:56.686Z",
+    "updatedAt": "2024-10-29T06:41:56.686Z",
+    "__v": 0
+  },
+  {
+    "_id": "672083b41fba5be94a7532ce",
+    "recipient": "66d9cdcb0a7492a86482bd68",
+    "sender": "66f418d10a19ec0e4bbd377e",
+    "type": "session_reminder",
+    "priority": "medium",
+    "content": {
+      "title": "session_reminder.title",
+      "message": "session_reminder.message"
+    },
+    "status": "pending",
+    "channels": [
+      "in_app"
+    ],
+    "metadata": {
+      "bookingId": "672083b31fba5be94a7532b4"
+    },
+    "delivery": {
+      "attempts": 0,
+      "maxAttempts": 3,
+      "statuses": [
+        {
+          "channel": "in_app",
+          "status": "pending",
+          "timestamp": "2024-10-29T06:41:56.781Z"
+        }
+      ]
+    },
+    "isRead": false,
+    "actions": [],
+    "createdAt": "2024-10-29T06:41:56.785Z",
+    "updatedAt": "2024-10-29T06:41:56.785Z",
+    "__v": 0
+  },
+  {
+    "_id": "672083b41fba5be94a7532d2",
+    "recipient": "66f418d10a19ec0e4bbd377e",
+    "sender": "66f418d10a19ec0e4bbd377e",
+    "type": "session_reminder",
+    "priority": "medium",
+    "content": {
+      "title": "session_reminder.title",
+      "message": "session_reminder.message"
+    },
+    "status": "pending",
+    "channels": [
+      "in_app"
+    ],
+    "metadata": {
+      "bookingId": "672083b31fba5be94a7532b4"
+    },
+    "delivery": {
+      "attempts": 0,
+      "maxAttempts": 3,
+      "statuses": [
+        {
+          "channel": "in_app",
+          "status": "pending",
+          "timestamp": "2024-10-29T06:41:56.888Z"
+        }
+      ]
+    },
+    "isRead": false,
+    "actions": [],
+    "createdAt": "2024-10-29T06:41:56.890Z",
+    "updatedAt": "2024-10-29T06:41:56.890Z",
+    "__v": 0
+  },
+  {
+    "_id": "672083b41fba5be94a7532d6",
+    "recipient": "66d9cdcb0a7492a86482bd68",
+    "sender": "66f418d10a19ec0e4bbd377e",
+    "type": "session_reminder",
+    "priority": "medium",
+    "content": {
+      "title": "session_reminder.title",
+      "message": "session_reminder.message"
+    },
+    "status": "pending",
+    "channels": [
+      "in_app"
+    ],
+    "metadata": {
+      "bookingId": "672083b31fba5be94a7532b4"
+    },
+    "delivery": {
+      "attempts": 0,
+      "maxAttempts": 3,
+      "statuses": [
+        {
+          "channel": "in_app",
+          "status": "pending",
+          "timestamp": "2024-10-29T06:41:56.950Z"
+        }
+      ]
+    },
+    "isRead": false,
+    "actions": [],
+    "createdAt": "2024-10-29T06:41:56.952Z",
+    "updatedAt": "2024-10-29T06:41:56.952Z",
+    "__v": 0
+  },
+  {
+    "_id": "672083b51fba5be94a7532da",
+    "recipient": "66f418d10a19ec0e4bbd377e",
+    "sender": "66f418d10a19ec0e4bbd377e",
+    "type": "session_reminder",
+    "priority": "medium",
+    "content": {
+      "title": "session_reminder.title",
+      "message": "session_reminder.message"
+    },
+    "status": "pending",
+    "channels": [
+      "in_app"
+    ],
+    "metadata": {
+      "bookingId": "672083b31fba5be94a7532b4"
+    },
+    "delivery": {
+      "attempts": 0,
+      "maxAttempts": 3,
+      "statuses": [
+        {
+          "channel": "in_app",
+          "status": "pending",
+          "timestamp": "2024-10-29T06:41:57.011Z"
+        }
+      ]
+    },
+    "isRead": false,
+    "actions": [],
+    "createdAt": "2024-10-29T06:41:57.013Z",
+    "updatedAt": "2024-10-29T06:41:57.013Z",
+    "__v": 0
+  },
+  {
+    "_id": "672083b51fba5be94a7532de",
+    "recipient": "66d9cdcb0a7492a86482bd68",
+    "sender": "66f418d10a19ec0e4bbd377e",
+    "type": "session_reminder",
+    "priority": "medium",
+    "content": {
+      "title": "session_reminder.title",
+      "message": "session_reminder.message"
+    },
+    "status": "pending",
+    "channels": [
+      "in_app"
+    ],
+    "metadata": {
+      "bookingId": "672083b31fba5be94a7532b4"
+    },
+    "delivery": {
+      "attempts": 0,
+      "maxAttempts": 3,
+      "statuses": [
+        {
+          "channel": "in_app",
+          "status": "pending",
+          "timestamp": "2024-10-29T06:41:57.073Z"
+        }
+      ]
+    },
+    "isRead": false,
+    "actions": [],
+    "createdAt": "2024-10-29T06:41:57.075Z",
+    "updatedAt": "2024-10-29T06:41:57.075Z",
+    "__v": 0
+  },
+  {
+    "_id": "672099b8f28f0ed0f1c02fe9",
+    "recipient": "66d9cdcb0a7492a86482bd68",
+    "sender": "66f418d10a19ec0e4bbd377e",
+    "type": "booking_confirmed",
+    "priority": "medium",
+    "content": {
+      "title": "booking_confirmed.title",
+      "message": "booking_confirmed.message"
+    },
+    "status": "pending",
+    "channels": [
+      "in_app"
+    ],
+    "metadata": {
+      "bookingId": "672099b7f28f0ed0f1c02fdb"
+    },
+    "delivery": {
+      "attempts": 0,
+      "maxAttempts": 3,
+      "statuses": []
+    },
+    "isRead": false,
+    "actions": [],
+    "createdAt": "2024-10-29T08:15:52.037Z",
+    "updatedAt": "2024-10-29T08:15:52.037Z",
+    "__v": 0
+  },
+  {
+    "_id": "672099b8f28f0ed0f1c02fec",
+    "recipient": "66f418d10a19ec0e4bbd377e",
+    "sender": "66f418d10a19ec0e4bbd377e",
+    "type": "booking_confirmed",
+    "priority": "medium",
+    "content": {
+      "title": "booking_confirmed.title",
+      "message": "booking_confirmed.message"
+    },
+    "status": "pending",
+    "channels": [
+      "in_app"
+    ],
+    "metadata": {
+      "bookingId": "672099b7f28f0ed0f1c02fdb"
+    },
+    "delivery": {
+      "attempts": 0,
+      "maxAttempts": 3,
+      "statuses": []
+    },
+    "isRead": false,
+    "actions": [],
+    "createdAt": "2024-10-29T08:15:52.175Z",
+    "updatedAt": "2024-10-29T08:15:52.175Z",
+    "__v": 0
+  },
+  {
+    "_id": "672099b8f28f0ed0f1c02fef",
+    "recipient": "66f418d10a19ec0e4bbd377e",
+    "sender": "66f418d10a19ec0e4bbd377e",
+    "type": "session_reminder",
+    "priority": "medium",
+    "content": {
+      "title": "session_reminder.title",
+      "message": "session_reminder.message"
+    },
+    "status": "pending",
+    "channels": [
+      "in_app"
+    ],
+    "metadata": {
+      "bookingId": "672099b7f28f0ed0f1c02fdb"
+    },
+    "delivery": {
+      "attempts": 0,
+      "maxAttempts": 3,
+      "statuses": []
+    },
+    "isRead": false,
+    "actions": [],
+    "createdAt": "2024-10-29T08:15:52.235Z",
+    "updatedAt": "2024-10-29T08:15:52.235Z",
+    "__v": 0
+  },
+  {
+    "_id": "672099b8f28f0ed0f1c02ff2",
+    "recipient": "66d9cdcb0a7492a86482bd68",
+    "sender": "66f418d10a19ec0e4bbd377e",
+    "type": "session_reminder",
+    "priority": "medium",
+    "content": {
+      "title": "session_reminder.title",
+      "message": "session_reminder.message"
+    },
+    "status": "pending",
+    "channels": [
+      "in_app"
+    ],
+    "metadata": {
+      "bookingId": "672099b7f28f0ed0f1c02fdb"
+    },
+    "delivery": {
+      "attempts": 0,
+      "maxAttempts": 3,
+      "statuses": []
+    },
+    "isRead": false,
+    "actions": [],
+    "createdAt": "2024-10-29T08:15:52.294Z",
+    "updatedAt": "2024-10-29T08:15:52.294Z",
+    "__v": 0
+  },
+  {
+    "_id": "672099b8f28f0ed0f1c02ff5",
+    "recipient": "66f418d10a19ec0e4bbd377e",
+    "sender": "66f418d10a19ec0e4bbd377e",
+    "type": "session_reminder",
+    "priority": "medium",
+    "content": {
+      "title": "session_reminder.title",
+      "message": "session_reminder.message"
+    },
+    "status": "pending",
+    "channels": [
+      "in_app"
+    ],
+    "metadata": {
+      "bookingId": "672099b7f28f0ed0f1c02fdb"
+    },
+    "delivery": {
+      "attempts": 0,
+      "maxAttempts": 3,
+      "statuses": []
+    },
+    "isRead": false,
+    "actions": [],
+    "createdAt": "2024-10-29T08:15:52.358Z",
+    "updatedAt": "2024-10-29T08:15:52.358Z",
+    "__v": 0
+  },
+  {
+    "_id": "672099b8f28f0ed0f1c02ff8",
+    "recipient": "66d9cdcb0a7492a86482bd68",
+    "sender": "66f418d10a19ec0e4bbd377e",
+    "type": "session_reminder",
+    "priority": "medium",
+    "content": {
+      "title": "session_reminder.title",
+      "message": "session_reminder.message"
+    },
+    "status": "pending",
+    "channels": [
+      "in_app"
+    ],
+    "metadata": {
+      "bookingId": "672099b7f28f0ed0f1c02fdb"
+    },
+    "delivery": {
+      "attempts": 0,
+      "maxAttempts": 3,
+      "statuses": []
+    },
+    "isRead": false,
+    "actions": [],
+    "createdAt": "2024-10-29T08:15:52.420Z",
+    "updatedAt": "2024-10-29T08:15:52.420Z",
+    "__v": 0
+  },
+  {
+    "_id": "672099b8f28f0ed0f1c02ffb",
+    "recipient": "66f418d10a19ec0e4bbd377e",
+    "sender": "66f418d10a19ec0e4bbd377e",
+    "type": "session_reminder",
+    "priority": "medium",
+    "content": {
+      "title": "session_reminder.title",
+      "message": "session_reminder.message"
+    },
+    "status": "pending",
+    "channels": [
+      "in_app"
+    ],
+    "metadata": {
+      "bookingId": "672099b7f28f0ed0f1c02fdb"
+    },
+    "delivery": {
+      "attempts": 0,
+      "maxAttempts": 3,
+      "statuses": []
+    },
+    "isRead": false,
+    "actions": [],
+    "createdAt": "2024-10-29T08:15:52.480Z",
+    "updatedAt": "2024-10-29T08:15:52.480Z",
+    "__v": 0
+  },
+  {
+    "_id": "672099b8f28f0ed0f1c02ffe",
+    "recipient": "66d9cdcb0a7492a86482bd68",
+    "sender": "66f418d10a19ec0e4bbd377e",
+    "type": "session_reminder",
+    "priority": "medium",
+    "content": {
+      "title": "session_reminder.title",
+      "message": "session_reminder.message"
+    },
+    "status": "pending",
+    "channels": [
+      "in_app"
+    ],
+    "metadata": {
+      "bookingId": "672099b7f28f0ed0f1c02fdb"
+    },
+    "delivery": {
+      "attempts": 0,
+      "maxAttempts": 3,
+      "statuses": []
+    },
+    "isRead": false,
+    "actions": [],
+    "createdAt": "2024-10-29T08:15:52.541Z",
+    "updatedAt": "2024-10-29T08:15:52.541Z",
+    "__v": 0
+  },
+  {
+    "_id": "67209cb6c403c692a86dcd2d",
+    "recipient": "66d9cdcb0a7492a86482bd68",
+    "sender": "66f418d10a19ec0e4bbd377e",
+    "type": "booking_confirmed",
+    "priority": "medium",
+    "content": {
+      "title": "booking_confirmed.title",
+      "message": "booking_confirmed.message"
+    },
+    "status": "pending",
+    "channels": [
+      "in_app"
+    ],
+    "metadata": {
+      "bookingId": "67209cb5c403c692a86dcd1f"
+    },
+    "delivery": {
+      "attempts": 0,
+      "maxAttempts": 3,
+      "statuses": []
+    },
+    "isRead": false,
+    "actions": [],
+    "createdAt": "2024-10-29T08:28:38.096Z",
+    "updatedAt": "2024-10-29T08:28:38.096Z",
+    "__v": 0
+  },
+  {
+    "_id": "67209cb6c403c692a86dcd31",
+    "recipient": "66f418d10a19ec0e4bbd377e",
+    "sender": "66f418d10a19ec0e4bbd377e",
+    "type": "booking_confirmed",
+    "priority": "medium",
+    "content": {
+      "title": "booking_confirmed.title",
+      "message": "booking_confirmed.message"
+    },
+    "status": "pending",
+    "channels": [
+      "in_app"
+    ],
+    "metadata": {
+      "bookingId": "67209cb5c403c692a86dcd1f"
+    },
+    "delivery": {
+      "attempts": 0,
+      "maxAttempts": 3,
+      "statuses": []
+    },
+    "isRead": false,
+    "actions": [],
+    "createdAt": "2024-10-29T08:28:38.228Z",
+    "updatedAt": "2024-10-29T08:28:38.228Z",
+    "__v": 0
+  },
+  {
+    "_id": "67209cb6c403c692a86dcd35",
+    "recipient": "66f418d10a19ec0e4bbd377e",
+    "sender": "66f418d10a19ec0e4bbd377e",
+    "type": "session_reminder",
+    "priority": "medium",
+    "content": {
+      "title": "session_reminder.title",
+      "message": "session_reminder.message"
+    },
+    "status": "pending",
+    "channels": [
+      "in_app"
+    ],
+    "metadata": {
+      "bookingId": "67209cb5c403c692a86dcd1f"
+    },
+    "delivery": {
+      "attempts": 0,
+      "maxAttempts": 3,
+      "statuses": []
+    },
+    "isRead": false,
+    "actions": [],
+    "createdAt": "2024-10-29T08:28:38.290Z",
+    "updatedAt": "2024-10-29T08:28:38.290Z",
+    "__v": 0
+  },
+  {
+    "_id": "67209cb6c403c692a86dcd39",
+    "recipient": "66d9cdcb0a7492a86482bd68",
+    "sender": "66f418d10a19ec0e4bbd377e",
+    "type": "session_reminder",
+    "priority": "medium",
+    "content": {
+      "title": "session_reminder.title",
+      "message": "session_reminder.message"
+    },
+    "status": "pending",
+    "channels": [
+      "in_app"
+    ],
+    "metadata": {
+      "bookingId": "67209cb5c403c692a86dcd1f"
+    },
+    "delivery": {
+      "attempts": 0,
+      "maxAttempts": 3,
+      "statuses": []
+    },
+    "isRead": false,
+    "actions": [],
+    "createdAt": "2024-10-29T08:28:38.357Z",
+    "updatedAt": "2024-10-29T08:28:38.357Z",
+    "__v": 0
+  },
+  {
+    "_id": "67209cb6c403c692a86dcd3d",
+    "recipient": "66f418d10a19ec0e4bbd377e",
+    "sender": "66f418d10a19ec0e4bbd377e",
+    "type": "session_reminder",
+    "priority": "medium",
+    "content": {
+      "title": "session_reminder.title",
+      "message": "session_reminder.message"
+    },
+    "status": "pending",
+    "channels": [
+      "in_app"
+    ],
+    "metadata": {
+      "bookingId": "67209cb5c403c692a86dcd1f"
+    },
+    "delivery": {
+      "attempts": 0,
+      "maxAttempts": 3,
+      "statuses": []
+    },
+    "isRead": false,
+    "actions": [],
+    "createdAt": "2024-10-29T08:28:38.415Z",
+    "updatedAt": "2024-10-29T08:28:38.415Z",
+    "__v": 0
+  },
+  {
+    "_id": "67209cb6c403c692a86dcd41",
+    "recipient": "66d9cdcb0a7492a86482bd68",
+    "sender": "66f418d10a19ec0e4bbd377e",
+    "type": "session_reminder",
+    "priority": "medium",
+    "content": {
+      "title": "session_reminder.title",
+      "message": "session_reminder.message"
+    },
+    "status": "pending",
+    "channels": [
+      "in_app"
+    ],
+    "metadata": {
+      "bookingId": "67209cb5c403c692a86dcd1f"
+    },
+    "delivery": {
+      "attempts": 0,
+      "maxAttempts": 3,
+      "statuses": []
+    },
+    "isRead": false,
+    "actions": [],
+    "createdAt": "2024-10-29T08:28:38.476Z",
+    "updatedAt": "2024-10-29T08:28:38.476Z",
+    "__v": 0
+  },
+  {
+    "_id": "67209cb6c403c692a86dcd45",
+    "recipient": "66f418d10a19ec0e4bbd377e",
+    "sender": "66f418d10a19ec0e4bbd377e",
+    "type": "session_reminder",
+    "priority": "medium",
+    "content": {
+      "title": "session_reminder.title",
+      "message": "session_reminder.message"
+    },
+    "status": "pending",
+    "channels": [
+      "in_app"
+    ],
+    "metadata": {
+      "bookingId": "67209cb5c403c692a86dcd1f"
+    },
+    "delivery": {
+      "attempts": 0,
+      "maxAttempts": 3,
+      "statuses": []
+    },
+    "isRead": false,
+    "actions": [],
+    "createdAt": "2024-10-29T08:28:38.690Z",
+    "updatedAt": "2024-10-29T08:28:38.690Z",
+    "__v": 0
+  },
+  {
+    "_id": "67209cb6c403c692a86dcd49",
+    "recipient": "66d9cdcb0a7492a86482bd68",
+    "sender": "66f418d10a19ec0e4bbd377e",
+    "type": "session_reminder",
+    "priority": "medium",
+    "content": {
+      "title": "session_reminder.title",
+      "message": "session_reminder.message"
+    },
+    "status": "pending",
+    "channels": [
+      "in_app"
+    ],
+    "metadata": {
+      "bookingId": "67209cb5c403c692a86dcd1f"
+    },
+    "delivery": {
+      "attempts": 0,
+      "maxAttempts": 3,
+      "statuses": []
+    },
+    "isRead": false,
+    "actions": [],
+    "createdAt": "2024-10-29T08:28:38.761Z",
+    "updatedAt": "2024-10-29T08:28:38.761Z",
+    "__v": 0
+  },
+  {
+    "_id": "67209cf0c403c692a86dcd99",
+    "recipient": "66d9cdcb0a7492a86482bd68",
+    "sender": "66f418d10a19ec0e4bbd377e",
+    "type": "booking_confirmed",
+    "priority": "medium",
+    "content": {
+      "title": "booking_confirmed.title",
+      "message": "booking_confirmed.message"
+    },
+    "status": "pending",
+    "channels": [
+      "in_app"
+    ],
+    "metadata": {
+      "bookingId": "67209cf0c403c692a86dcd8b"
+    },
+    "delivery": {
+      "attempts": 0,
+      "maxAttempts": 3,
+      "statuses": []
+    },
+    "isRead": false,
+    "actions": [],
+    "createdAt": "2024-10-29T08:29:36.700Z",
+    "updatedAt": "2024-10-29T08:29:36.700Z",
+    "__v": 0
+  },
+  {
+    "_id": "67209cf0c403c692a86dcd9d",
+    "recipient": "66f418d10a19ec0e4bbd377e",
+    "sender": "66f418d10a19ec0e4bbd377e",
+    "type": "booking_confirmed",
+    "priority": "medium",
+    "content": {
+      "title": "booking_confirmed.title",
+      "message": "booking_confirmed.message"
+    },
+    "status": "pending",
+    "channels": [
+      "in_app"
+    ],
+    "metadata": {
+      "bookingId": "67209cf0c403c692a86dcd8b"
+    },
+    "delivery": {
+      "attempts": 0,
+      "maxAttempts": 3,
+      "statuses": []
+    },
+    "isRead": false,
+    "actions": [],
+    "createdAt": "2024-10-29T08:29:36.902Z",
+    "updatedAt": "2024-10-29T08:29:36.902Z",
+    "__v": 0
+  },
+  {
+    "_id": "67209cf0c403c692a86dcda1",
+    "recipient": "66f418d10a19ec0e4bbd377e",
+    "sender": "66f418d10a19ec0e4bbd377e",
+    "type": "session_reminder",
+    "priority": "medium",
+    "content": {
+      "title": "session_reminder.title",
+      "message": "session_reminder.message"
+    },
+    "status": "pending",
+    "channels": [
+      "in_app"
+    ],
+    "metadata": {
+      "bookingId": "67209cf0c403c692a86dcd8b"
+    },
+    "delivery": {
+      "attempts": 0,
+      "maxAttempts": 3,
+      "statuses": []
+    },
+    "isRead": false,
+    "actions": [],
+    "createdAt": "2024-10-29T08:29:36.977Z",
+    "updatedAt": "2024-10-29T08:29:36.977Z",
+    "__v": 0
+  },
+  {
+    "_id": "67209cf1c403c692a86dcda5",
+    "recipient": "66d9cdcb0a7492a86482bd68",
+    "sender": "66f418d10a19ec0e4bbd377e",
+    "type": "session_reminder",
+    "priority": "medium",
+    "content": {
+      "title": "session_reminder.title",
+      "message": "session_reminder.message"
+    },
+    "status": "pending",
+    "channels": [
+      "in_app"
+    ],
+    "metadata": {
+      "bookingId": "67209cf0c403c692a86dcd8b"
+    },
+    "delivery": {
+      "attempts": 0,
+      "maxAttempts": 3,
+      "statuses": []
+    },
+    "isRead": false,
+    "actions": [],
+    "createdAt": "2024-10-29T08:29:37.036Z",
+    "updatedAt": "2024-10-29T08:29:37.036Z",
+    "__v": 0
+  },
+  {
+    "_id": "67209cf1c403c692a86dcda9",
+    "recipient": "66f418d10a19ec0e4bbd377e",
+    "sender": "66f418d10a19ec0e4bbd377e",
+    "type": "session_reminder",
+    "priority": "medium",
+    "content": {
+      "title": "session_reminder.title",
+      "message": "session_reminder.message"
+    },
+    "status": "pending",
+    "channels": [
+      "in_app"
+    ],
+    "metadata": {
+      "bookingId": "67209cf0c403c692a86dcd8b"
+    },
+    "delivery": {
+      "attempts": 0,
+      "maxAttempts": 3,
+      "statuses": []
+    },
+    "isRead": false,
+    "actions": [],
+    "createdAt": "2024-10-29T08:29:37.095Z",
+    "updatedAt": "2024-10-29T08:29:37.095Z",
+    "__v": 0
+  },
+  {
+    "_id": "67209cf1c403c692a86dcdad",
+    "recipient": "66d9cdcb0a7492a86482bd68",
+    "sender": "66f418d10a19ec0e4bbd377e",
+    "type": "session_reminder",
+    "priority": "medium",
+    "content": {
+      "title": "session_reminder.title",
+      "message": "session_reminder.message"
+    },
+    "status": "pending",
+    "channels": [
+      "in_app"
+    ],
+    "metadata": {
+      "bookingId": "67209cf0c403c692a86dcd8b"
+    },
+    "delivery": {
+      "attempts": 0,
+      "maxAttempts": 3,
+      "statuses": []
+    },
+    "isRead": true,
+    "actions": [],
+    "createdAt": "2024-10-29T08:29:37.154Z",
+    "updatedAt": "2024-10-29T09:46:38.807Z",
+    "__v": 0,
+    "readAt": "2024-10-29T09:46:38.807Z"
+  },
+  {
+    "_id": "67209cf1c403c692a86dcdb1",
+    "recipient": "66f418d10a19ec0e4bbd377e",
+    "sender": "66f418d10a19ec0e4bbd377e",
+    "type": "session_reminder",
+    "priority": "medium",
+    "content": {
+      "title": "session_reminder.title",
+      "message": "session_reminder.message"
+    },
+    "status": "pending",
+    "channels": [
+      "in_app"
+    ],
+    "metadata": {
+      "bookingId": "67209cf0c403c692a86dcd8b"
+    },
+    "delivery": {
+      "attempts": 0,
+      "maxAttempts": 3,
+      "statuses": []
+    },
+    "isRead": false,
+    "actions": [],
+    "createdAt": "2024-10-29T08:29:37.361Z",
+    "updatedAt": "2024-10-29T08:29:37.361Z",
+    "__v": 0
+  },
+  {
+    "_id": "67209cf1c403c692a86dcdb5",
+    "recipient": "66d9cdcb0a7492a86482bd68",
+    "sender": "66f418d10a19ec0e4bbd377e",
+    "type": "session_reminder",
+    "priority": "medium",
+    "content": {
+      "title": "session_reminder.title",
+      "message": "session_reminder.message"
+    },
+    "status": "pending",
+    "channels": [
+      "in_app"
+    ],
+    "metadata": {
+      "bookingId": "67209cf0c403c692a86dcd8b"
+    },
+    "delivery": {
+      "attempts": 0,
+      "maxAttempts": 3,
+      "statuses": []
+    },
+    "isRead": true,
+    "actions": [],
+    "createdAt": "2024-10-29T08:29:37.418Z",
+    "updatedAt": "2024-10-29T09:46:38.656Z",
+    "__v": 0,
+    "readAt": "2024-10-29T09:46:38.656Z"
+  },
+  {
+    "_id": "67209dc6c403c692a86dce9f",
+    "recipient": "66d9cdcb0a7492a86482bd68",
+    "sender": "66f418d10a19ec0e4bbd377e",
+    "type": "booking_confirmed",
+    "priority": "medium",
+    "content": {
+      "title": "booking_confirmed.title",
+      "message": "booking_confirmed.message"
+    },
+    "status": "pending",
+    "channels": [
+      "in_app"
+    ],
+    "metadata": {
+      "bookingId": "67209dc5c403c692a86dce91"
+    },
+    "delivery": {
+      "attempts": 0,
+      "maxAttempts": 3,
+      "statuses": []
+    },
+    "isRead": true,
+    "actions": [],
+    "createdAt": "2024-10-29T08:33:10.036Z",
+    "updatedAt": "2024-10-29T09:46:38.486Z",
+    "__v": 0,
+    "readAt": "2024-10-29T09:46:38.486Z"
+  },
+  {
+    "_id": "67209dc6c403c692a86dcea3",
+    "recipient": "66f418d10a19ec0e4bbd377e",
+    "sender": "66f418d10a19ec0e4bbd377e",
+    "type": "booking_confirmed",
+    "priority": "medium",
+    "content": {
+      "title": "booking_confirmed.title",
+      "message": "booking_confirmed.message"
+    },
+    "status": "pending",
+    "channels": [
+      "in_app"
+    ],
+    "metadata": {
+      "bookingId": "67209dc5c403c692a86dce91"
+    },
+    "delivery": {
+      "attempts": 0,
+      "maxAttempts": 3,
+      "statuses": []
+    },
+    "isRead": false,
+    "actions": [],
+    "createdAt": "2024-10-29T08:33:10.274Z",
+    "updatedAt": "2024-10-29T08:33:10.274Z",
+    "__v": 0
+  },
+  {
+    "_id": "67209dc6c403c692a86dcea7",
+    "recipient": "66f418d10a19ec0e4bbd377e",
+    "sender": "66f418d10a19ec0e4bbd377e",
+    "type": "session_reminder",
+    "priority": "medium",
+    "content": {
+      "title": "session_reminder.title",
+      "message": "session_reminder.message"
+    },
+    "status": "pending",
+    "channels": [
+      "in_app"
+    ],
+    "metadata": {
+      "bookingId": "67209dc5c403c692a86dce91"
+    },
+    "delivery": {
+      "attempts": 0,
+      "maxAttempts": 3,
+      "statuses": []
+    },
+    "isRead": false,
+    "actions": [],
+    "createdAt": "2024-10-29T08:33:10.335Z",
+    "updatedAt": "2024-10-29T08:33:10.335Z",
+    "__v": 0
+  },
+  {
+    "_id": "67209dc6c403c692a86dceab",
+    "recipient": "66d9cdcb0a7492a86482bd68",
+    "sender": "66f418d10a19ec0e4bbd377e",
+    "type": "session_reminder",
+    "priority": "medium",
+    "content": {
+      "title": "session_reminder.title",
+      "message": "session_reminder.message"
+    },
+    "status": "pending",
+    "channels": [
+      "in_app"
+    ],
+    "metadata": {
+      "bookingId": "67209dc5c403c692a86dce91"
+    },
+    "delivery": {
+      "attempts": 0,
+      "maxAttempts": 3,
+      "statuses": []
+    },
+    "isRead": true,
+    "actions": [],
+    "createdAt": "2024-10-29T08:33:10.396Z",
+    "updatedAt": "2024-10-29T09:46:38.316Z",
+    "__v": 0,
+    "readAt": "2024-10-29T09:46:38.316Z"
+  },
+  {
+    "_id": "67209dc6c403c692a86dceaf",
+    "recipient": "66f418d10a19ec0e4bbd377e",
+    "sender": "66f418d10a19ec0e4bbd377e",
+    "type": "session_reminder",
+    "priority": "medium",
+    "content": {
+      "title": "session_reminder.title",
+      "message": "session_reminder.message"
+    },
+    "status": "pending",
+    "channels": [
+      "in_app"
+    ],
+    "metadata": {
+      "bookingId": "67209dc5c403c692a86dce91"
+    },
+    "delivery": {
+      "attempts": 0,
+      "maxAttempts": 3,
+      "statuses": []
+    },
+    "isRead": false,
+    "actions": [],
+    "createdAt": "2024-10-29T08:33:10.461Z",
+    "updatedAt": "2024-10-29T08:33:10.461Z",
+    "__v": 0
+  },
+  {
+    "_id": "67209dc6c403c692a86dceb3",
+    "recipient": "66d9cdcb0a7492a86482bd68",
+    "sender": "66f418d10a19ec0e4bbd377e",
+    "type": "session_reminder",
+    "priority": "medium",
+    "content": {
+      "title": "session_reminder.title",
+      "message": "session_reminder.message"
+    },
+    "status": "pending",
+    "channels": [
+      "in_app"
+    ],
+    "metadata": {
+      "bookingId": "67209dc5c403c692a86dce91"
+    },
+    "delivery": {
+      "attempts": 0,
+      "maxAttempts": 3,
+      "statuses": []
+    },
+    "isRead": true,
+    "actions": [],
+    "createdAt": "2024-10-29T08:33:10.521Z",
+    "updatedAt": "2024-10-29T09:46:38.115Z",
+    "__v": 0,
+    "readAt": "2024-10-29T09:46:38.115Z"
+  },
+  {
+    "_id": "67209dc6c403c692a86dceb7",
+    "recipient": "66f418d10a19ec0e4bbd377e",
+    "sender": "66f418d10a19ec0e4bbd377e",
+    "type": "session_reminder",
+    "priority": "medium",
+    "content": {
+      "title": "session_reminder.title",
+      "message": "session_reminder.message"
+    },
+    "status": "pending",
+    "channels": [
+      "in_app"
+    ],
+    "metadata": {
+      "bookingId": "67209dc5c403c692a86dce91"
+    },
+    "delivery": {
+      "attempts": 0,
+      "maxAttempts": 3,
+      "statuses": []
+    },
+    "isRead": false,
+    "actions": [],
+    "createdAt": "2024-10-29T08:33:10.577Z",
+    "updatedAt": "2024-10-29T08:33:10.577Z",
+    "__v": 0
+  },
+  {
+    "_id": "67209dc6c403c692a86dcebb",
+    "recipient": "66d9cdcb0a7492a86482bd68",
+    "sender": "66f418d10a19ec0e4bbd377e",
+    "type": "session_reminder",
+    "priority": "medium",
+    "content": {
+      "title": "session_reminder.title",
+      "message": "session_reminder.message"
+    },
+    "status": "pending",
+    "channels": [
+      "in_app"
+    ],
+    "metadata": {
+      "bookingId": "67209dc5c403c692a86dce91"
+    },
+    "delivery": {
+      "attempts": 0,
+      "maxAttempts": 3,
+      "statuses": []
+    },
+    "isRead": true,
+    "actions": [],
+    "createdAt": "2024-10-29T08:33:10.636Z",
+    "updatedAt": "2024-10-29T09:46:37.937Z",
+    "__v": 0,
+    "readAt": "2024-10-29T09:46:37.937Z"
+  },
+  {
+    "_id": "6720a064963883e5c6c9efa2",
+    "recipient": "66d9cdcb0a7492a86482bd68",
+    "sender": "66f418d10a19ec0e4bbd377e",
+    "type": "booking_confirmed",
+    "priority": "medium",
+    "content": {
+      "title": "booking_confirmed.title",
+      "message": "booking_confirmed.message"
+    },
+    "status": "pending",
+    "channels": [
+      "in_app"
+    ],
+    "metadata": {
+      "bookingId": "6720a064963883e5c6c9ef94"
+    },
+    "delivery": {
+      "attempts": 0,
+      "maxAttempts": 3,
+      "statuses": []
+    },
+    "isRead": true,
+    "actions": [],
+    "createdAt": "2024-10-29T08:44:20.938Z",
+    "updatedAt": "2024-10-29T09:46:37.767Z",
+    "__v": 0,
+    "readAt": "2024-10-29T09:46:37.767Z"
+  },
+  {
+    "_id": "6720a065963883e5c6c9efa6",
+    "recipient": "66f418d10a19ec0e4bbd377e",
+    "sender": "66f418d10a19ec0e4bbd377e",
+    "type": "booking_confirmed",
+    "priority": "medium",
+    "content": {
+      "title": "booking_confirmed.title",
+      "message": "booking_confirmed.message"
+    },
+    "status": "pending",
+    "channels": [
+      "in_app"
+    ],
+    "metadata": {
+      "bookingId": "6720a064963883e5c6c9ef94"
+    },
+    "delivery": {
+      "attempts": 0,
+      "maxAttempts": 3,
+      "statuses": []
+    },
+    "isRead": false,
+    "actions": [],
+    "createdAt": "2024-10-29T08:44:21.141Z",
+    "updatedAt": "2024-10-29T08:44:21.141Z",
+    "__v": 0
+  },
+  {
+    "_id": "6720a065963883e5c6c9efaa",
+    "recipient": "66f418d10a19ec0e4bbd377e",
+    "sender": "66f418d10a19ec0e4bbd377e",
+    "type": "session_reminder",
+    "priority": "medium",
+    "content": {
+      "title": "session_reminder.title",
+      "message": "session_reminder.message"
+    },
+    "status": "pending",
+    "channels": [
+      "in_app"
+    ],
+    "metadata": {
+      "bookingId": "6720a064963883e5c6c9ef94"
+    },
+    "delivery": {
+      "attempts": 0,
+      "maxAttempts": 3,
+      "statuses": []
+    },
+    "isRead": false,
+    "actions": [],
+    "createdAt": "2024-10-29T08:44:21.203Z",
+    "updatedAt": "2024-10-29T08:44:21.203Z",
+    "__v": 0
+  },
+  {
+    "_id": "6720a065963883e5c6c9efae",
+    "recipient": "66d9cdcb0a7492a86482bd68",
+    "sender": "66f418d10a19ec0e4bbd377e",
+    "type": "session_reminder",
+    "priority": "medium",
+    "content": {
+      "title": "session_reminder.title",
+      "message": "session_reminder.message"
+    },
+    "status": "pending",
+    "channels": [
+      "in_app"
+    ],
+    "metadata": {
+      "bookingId": "6720a064963883e5c6c9ef94"
+    },
+    "delivery": {
+      "attempts": 0,
+      "maxAttempts": 3,
+      "statuses": []
+    },
+    "isRead": true,
+    "actions": [],
+    "createdAt": "2024-10-29T08:44:21.264Z",
+    "updatedAt": "2024-10-29T09:46:37.593Z",
+    "__v": 0,
+    "readAt": "2024-10-29T09:46:37.592Z"
+  },
+  {
+    "_id": "6720a065963883e5c6c9efb2",
+    "recipient": "66f418d10a19ec0e4bbd377e",
+    "sender": "66f418d10a19ec0e4bbd377e",
+    "type": "session_reminder",
+    "priority": "medium",
+    "content": {
+      "title": "session_reminder.title",
+      "message": "session_reminder.message"
+    },
+    "status": "pending",
+    "channels": [
+      "in_app"
+    ],
+    "metadata": {
+      "bookingId": "6720a064963883e5c6c9ef94"
+    },
+    "delivery": {
+      "attempts": 0,
+      "maxAttempts": 3,
+      "statuses": []
+    },
+    "isRead": false,
+    "actions": [],
+    "createdAt": "2024-10-29T08:44:21.326Z",
+    "updatedAt": "2024-10-29T08:44:21.326Z",
+    "__v": 0
+  },
+  {
+    "_id": "6720a065963883e5c6c9efb6",
+    "recipient": "66d9cdcb0a7492a86482bd68",
+    "sender": "66f418d10a19ec0e4bbd377e",
+    "type": "session_reminder",
+    "priority": "medium",
+    "content": {
+      "title": "session_reminder.title",
+      "message": "session_reminder.message"
+    },
+    "status": "pending",
+    "channels": [
+      "in_app"
+    ],
+    "metadata": {
+      "bookingId": "6720a064963883e5c6c9ef94"
+    },
+    "delivery": {
+      "attempts": 0,
+      "maxAttempts": 3,
+      "statuses": []
+    },
+    "isRead": true,
+    "actions": [],
+    "createdAt": "2024-10-29T08:44:21.391Z",
+    "updatedAt": "2024-10-29T09:46:37.359Z",
+    "__v": 0,
+    "readAt": "2024-10-29T09:46:37.359Z"
+  },
+  {
+    "_id": "6720a065963883e5c6c9efba",
+    "recipient": "66f418d10a19ec0e4bbd377e",
+    "sender": "66f418d10a19ec0e4bbd377e",
+    "type": "session_reminder",
+    "priority": "medium",
+    "content": {
+      "title": "session_reminder.title",
+      "message": "session_reminder.message"
+    },
+    "status": "pending",
+    "channels": [
+      "in_app"
+    ],
+    "metadata": {
+      "bookingId": "6720a064963883e5c6c9ef94"
+    },
+    "delivery": {
+      "attempts": 0,
+      "maxAttempts": 3,
+      "statuses": []
+    },
+    "isRead": false,
+    "actions": [],
+    "createdAt": "2024-10-29T08:44:21.455Z",
+    "updatedAt": "2024-10-29T08:44:21.455Z",
+    "__v": 0
+  },
+  {
+    "_id": "6720a065963883e5c6c9efbe",
+    "recipient": "66d9cdcb0a7492a86482bd68",
+    "sender": "66f418d10a19ec0e4bbd377e",
+    "type": "session_reminder",
+    "priority": "medium",
+    "content": {
+      "title": "session_reminder.title",
+      "message": "session_reminder.message"
+    },
+    "status": "trash",
+    "channels": [
+      "in_app"
+    ],
+    "metadata": {
+      "bookingId": "6720a064963883e5c6c9ef94"
+    },
+    "delivery": {
+      "attempts": 0,
+      "maxAttempts": 3,
+      "statuses": []
+    },
+    "isRead": true,
+    "actions": [],
+    "createdAt": "2024-10-29T08:44:21.525Z",
+    "updatedAt": "2024-10-30T13:17:28.867Z",
+    "__v": 0,
+    "readAt": "2024-10-29T09:46:36.106Z",
+    "expiresAt": "2024-11-29T13:17:28.867Z",
+    "trashedAt": "2024-10-30T13:17:28.867Z"
+  }
+]

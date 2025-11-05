@@ -1,0 +1,96 @@
+{
+  "nav": {
+    "dashboard": {
+      "name": "{{header:dashboard}}",
+      "keywords": "home, main, overview"
+    },
+    "profile": {
+      "name": "{{header:profile}}",
+      "keywords": "account, bio, my details, view profile"
+    },
+    "calendar": {
+      "name": "{{header:calendar}}",
+      "keywords": "schedule, appointments, bookings"
+    },
+    "connections": {
+      "name": "{{header:connections}}",
+      "keywords": "clients, my coaches, network, contacts"
+    },
+    "messages": {
+      "name": "{{header:messages}}",
+      "keywords": "chat, inbox, conversations"
+    },
+    "notifications": {
+      "name": "{{header:notifications}}",
+      "keywords": "alerts, updates, activity"
+    },
+    "analytics": {
+      "name": "{{header:analytics}}",
+      "keywords": "stats, statistics, reports, data"
+    },
+    "resources": {
+      "name": "{{header:resources}}",
+      "keywords": "help, guides, documents, library"
+    },
+    "forum": {
+      "name": "{{header:forum}}",
+      "keywords": "community, discussion, questions"
+    },
+    "referral": {
+      "name": "{{header:referralSystem}}",
+      "keywords": "invite, friends, rewards, affiliate"
+    },
+    "findCoaches": {
+      "name": "{{header:findCoaches}}",
+      "keywords": "browse, search coaches, explore"
+    },
+    "browsePrograms": {
+      "name": "{{common:programs}}",
+      "keywords": "courses, learning, training"
+    },
+    "manageSessions": {
+      "name": "{{header:manageSessions}}",
+      "keywords": "my sessions, availability, services"
+    },
+    "earnings": {
+      "name": "{{header:earnings}}",
+      "keywords": "revenue, payouts, income, money"
+    },
+    "billing": {
+      "name": "{{header:billing}}",
+      "keywords": "payment, credit card, receipts, subscription"
+    },
+    "adminDashboard": {
+      "name": "{{header:adminDashboard}}",
+      "keywords": "administration, manage users, system overview"
+    },
+    "settings": {
+      "name": "{{header:settings}}",
+      "keywords": "preferences, options, configuration"
+    },
+    "settingsGeneral": {
+      "name": "{{settings:generalSettings}}",
+      "keywords": "appearance, theme, dark mode, light mode, language"
+    },
+    "settingsProfile": {
+      "name": "{{userprofile:profileSettings}}",
+      "keywords": "edit profile, my name, phone number, address, occupation"
+    },
+    "settingsSecurity": {
+      "name": "{{settings:security}}",
+      "keywords": "password, change password, security, 2fa, two factor, blocked users"
+    },
+    "settingsBilling": {
+      "name": "{{settings:billing.title}}",
+      "keywords": "manage payment, credit card, invoices, receipts"
+    },
+    "settingsCoach": {
+      "name": "{{settings:coachSettings}}",
+      "keywords": "availability, booking rules, scheduling, cancellation policy, overtime"
+    },
+    "settingsPricing": {
+      "name": "{{coachSettings:pricing}}",
+      "keywords": "hourly rate, discounts, session price, my rates"
+    }
+  }
+}

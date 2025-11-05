@@ -1,0 +1,16 @@
+{
+  "welcomeBack": "Welcome Back",
+  "enterDetails": "Please enter your details to log in.",
+  "email": "Email",
+  "emailPlaceholder": "Enter your email",
+  "password": "Password",
+  "passwordPlaceholder": "Enter your password",
+  "logIn": "Log In",
+  "loggingIn": "Logging in...",
+  "forgotPassword": "Forgot password?",
+  "noAccount": "Don't have an account?",
+  "signUp": "Sign up",
+  "loginSuccessful": "Login successful! Redirecting...",
+  "loginError": "An error occurred during login",
+  "invalidResponse": "Invalid response from server"
+}

@@ -1,0 +1,186 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 215 10% 20%;
+ 
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+ 
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+ 
+    --primary: 222.2 47.4% 11.2%;
+    --primary-foreground: 210 40% 98%;
+ 
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+ 
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+ 
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+ 
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 222.2 84% 4.9%;
+ 
+    --radius: 1rem;
+
+    /* -- GRADIENTS -- */
+    /* Primary: A translucent version of the Accent gradient. Ideal for overlays. */
+    --gradient-primary-from: 226 86% 72% / 0.6;
+    --gradient-primary-to: 268 60% 70% / 0.6;
+ 
+    /* Accent: The vibrant, attention-grabbing gradient, for hero sections and CTAs. */
+    --gradient-accent-from: 226 86% 72%;
+    --gradient-accent-to: 268 60% 70%;
+
+    /* Subtle: A stronger, brand-aligned gradient for general backgrounds. Uses platform colors. */
+    --gradient-subtle-from: 226 86% 98%;
+    --gradient-subtle-to: 268 60% 98%;
+
+    /* Animated: A harmonious and soothing blend of analogous cool colors for a premium feel. */
+    --gradient-animated-1: 260 70% 70%; /* soft blue */
+    --gradient-animated-2: 250 85% 75%; /* sky blue */
+    --gradient-animated-3: 245 80% 78%; /* mint green */
+    --gradient-animated-4: 266 86% 82%; /* periwinkle */
+  }
+ 
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 10% 90%;
+ 
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+ 
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+ 
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+ 
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+ 
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+ 
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+ 
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+ 
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 222.2 84% 4.9%;
+
+    /* -- GRADIENTS -- */
+    --gradient-primary-from: 226 35% 22% / 0.6;
+    --gradient-primary-to: 268 30% 20% / 0.6;
+
+    --gradient-accent-from: 226 35% 22%;
+    --gradient-accent-to: 268 30% 20%;
+
+    --gradient-subtle-from: 220 50% 8%;
+    --gradient-subtle-to: 222.2 84% 4.9%;
+
+    /* Animated: A moody, deep-space version of the harmonious palette for dark mode. */
+    --gradient-animated-1: 245 50% 20%; /* deep blue */
+    --gradient-animated-2: 280 40% 18%; /* deep purple */
+    --gradient-animated-3: 250 30% 15%; /* deep teal */
+    --gradient-animated-4: 250 35% 22%; /* indigo */
+  }
+}
+ 
+@layer base {
+  * {
+    border-color: hsl(var(--border));
+  }
+  body {
+    background-color: transparent;
+    color: hsl(var(--foreground));
+  }
+}
+
+@layer utilities {
+  @keyframes blob {
+    0% { transform: translate(0px, 0px) scale(1); }
+    33% { transform: translate(30px, -50px) scale(1.1); }
+    66% { transform: translate(-20px, 20px) scale(0.9); }
+    100% { transform: translate(0px, 0px) scale(1); }
+  }
+  .animate-blob { animation: blob 7s infinite; }
+  .animation-delay-2000 { animation-delay: -2s; }
+  .animation-delay-4000 { animation-delay: -4s; }
+}
+
+@layer utilities {
+  /* For Firefox */
+  html {
+    scrollbar-width: thin;
+    scrollbar-color: hsl(var(--muted-foreground)) hsl(var(--muted));
+  }
+
+  /* For Webkit-based browsers (Chrome, Safari, Edge) */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background-color: hsl(var(--muted));
+    border-radius: 10px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: hsl(var(--muted-foreground));
+    border-radius: 10px;
+    border: 2px solid hsl(var(--muted));
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: hsl(var(--foreground));
+  }
+}
+
+@layer components {
+  /* React Big Calendar Dark Mode Overrides */
+  .dark .rbc-time-view,
+  .dark .rbc-month-view,
+  .dark .rbc-agenda-view {
+    background-color: transparent;
+    border-color: hsl(220, 10%, 25%);
+  }
+  .dark .rbc-time-view .rbc-day-bg + .rbc-day-bg {
+    border-left-color: hsl(220, 10%, 25%);
+  }
+  .dark .rbc-time-view .rbc-timeslot-group {
+    border-bottom: 1px solid hsl(220, 10%, 25%);
+  }
+  .dark .rbc-time-header-content,
+  .dark .rbc-time-view .rbc-time-gutter {
+    border-color: hsl(220, 10%, 25%);
+  }
+  .dark .rbc-time-view .rbc-time-slot {
+    border-top: 1px dotted hsl(220, 10%, 18%) !important;
+  }
+  .dark .rbc-header {
+    border-color: hsl(220, 10%, 25%);
+    color: hsl(var(--muted-foreground));
+  }
+  .dark .rbc-time-gutter .rbc-time-slot .rbc-label {
+    color: hsl(var(--muted-foreground));
+  }
+  .dark .rbc-today {
+    background-color: hsl(215, 30%, 22%);
+  }
+}

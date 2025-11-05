@@ -1,0 +1,32 @@
+const SOCKET_EVENTS = {
+  CONNECTION: 'connection',
+  DISCONNECT: 'disconnect',
+  LOGIN: 'login',
+  ERROR: 'error',
+  BOOKING_UPDATE: 'booking_update',
+  NOTIFICATION: 'notification',
+  NOTIFICATION_DELIVERED: 'notification_delivered',
+  NOTIFICATION_READ: 'notification_read',
+  NOTIFICATION_ACTION: 'notification_action',
+  NOTIFICATION_STATUS_CHANGED: 'notification_status_changed',
+  JOIN_SESSION: 'join-session',
+  PARTICIPANT_JOINED: 'participant-joined',
+  PARTICIPANT_LEFT: 'participant-left',
+  SIGNAL: 'signal',
+  SESSION_ENDED: 'session-ended',
+  CHAT_MESSAGE: 'chat-message',
+  WHITEBOARD_UPDATE: 'whiteboard-update',
+  NOTIFICATION_STATUS_UPDATED: 'notification_status_updated',
+  SEND_MESSAGE: 'send_message',
+  NEW_MESSAGE: 'new_message',
+  CONVERSATION_LIST_UPDATE: 'conversation_list_update',
+  START_TYPING: 'start_typing',
+  STOP_TYPING: 'stop_typing',
+  CONVERSATION_READ: 'conversation_read',
+  NEW_CONVERSATION: 'new_conversation',
+  BOOKING_UPDATE: 'booking_update',
+};
+
+module.exports = {
+  SOCKET_EVENTS,
+};

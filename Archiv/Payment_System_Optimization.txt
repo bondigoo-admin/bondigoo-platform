@@ -1,0 +1,1163 @@
+Payment System Optimization Specification
+Version 1.0 - January 2025
+Executive Summary
+The current payment implementation suffers from several critical issues causing poor performance (8-12s loading times), unreliable price calculations (NaN errors), and suboptimal user experience. This specification outlines a complete overhaul of the payment flow to create a robust, performant, and user-friendly payment system.
+Current System Analysis
+Critical Issues Identified:
+
+Performance Bottlenecks
+
+
+Multiple redundant state updates during payment initialization
+Excessive socket connection attempts and retries
+Unoptimized price calculation flow with redundant API calls
+Race conditions between payment status checks
+Inefficient error handling causing cascading retries
+
+
+Architecture Problems
+
+
+Tight coupling between booking and payment flows
+Inconsistent price data structure handling
+Lack of proper cleanup for aborted payment flows
+Multiple competing payment status monitoring implementations
+Redundant socket connections and polling mechanisms
+
+
+UX/UI Issues
+
+
+Modal blocking during long initialization
+Lack of progressive loading states
+Poor error recovery options
+Confusing price display and calculation feedback
+
+Technical Root Causes:
+
+Price Calculation Issues
+
+javascriptCopy// Current problematic flow
+price.final = {
+  amount: {
+    amount: { amount: 60, currency: "CHF" },
+    currency: "CHF"
+  }
+}
+// Leading to nested object access issues and NaN errors
+
+State Management Problems
+
+javascriptCopy// Multiple competing state updates
+setIsProcessing(true);
+setModalState(MODAL_STATES.PAYMENT_PENDING);
+setFlowState(PAYMENT_FLOW_STATES.PAYMENT_PENDING);
+
+Socket Connection Issues
+
+javascriptCopy// Current implementation allows multiple parallel connection attempts
+if (this.socket?.connected) {
+  this.socket.emit(PAYMENT_EVENTS.ROOM.JOIN, { paymentId });
+}
+Proposed Solution
+1. Architecture Improvements
+A. Payment Flow Separation
+Create a dedicated PaymentOrchestrator service:
+typescriptCopyinterface PaymentOrchestrator {
+  initializePayment(bookingId: string): Promise<PaymentSession>;
+  processPayment(sessionId: string): Promise<PaymentResult>;
+  handlePaymentStatus(sessionId: string): Observable<PaymentStatus>;
+}
+B. Price Calculation Pipeline
+typescriptCopyinterface PriceCalculationPipeline {
+  basePrice: StageProcessor;
+  adjustments: StageProcessor[];
+  taxes: StageProcessor;
+  formatter: PriceFormatter;
+}
+
+Details:
+1. PaymentOrchestrator Service Design
+1.1. Core Architecture
+The PaymentOrchestrator will be a centralized service managing all payment flows while integrating with our existing React Query and Context setup. Key integration points:
+typescriptCopy// /src/services/PaymentOrchestratorService.ts
+interface PaymentSession {
+  id: string;
+  bookingId: string;
+  status: PaymentSessionStatus;
+  amount: {
+    value: number;
+    currency: string;
+  };
+  metadata: {
+    timing: PaymentTiming;
+    flowId: string;
+    version: string;
+    sessionType: string;
+    lastCalculation: Date;
+  };
+}
+
+interface PaymentResult {
+  success: boolean;
+  sessionId: string;
+  paymentIntentId?: string;
+  error?: PaymentError;
+  timing: PaymentTiming;
+  status: PaymentStatus;
+}
+
+class PaymentOrchestratorService {
+  private static instance: PaymentOrchestratorService;
+  private activeFlows: Map<string, PaymentFlow>;
+  private paymentAPI: typeof paymentAPI;
+  private socketManager: PaymentSocketManager;
+
+  constructor() {
+    this.activeFlows = new Map();
+    this.paymentAPI = paymentAPI;
+    this.socketManager = new PaymentSocketManager();
+  }
+
+  async initializePayment(config: PaymentInitConfig): Promise<PaymentSession> {
+    const flowId = `${config.bookingId}-${Date.now()}`;
+    logger.info('[PaymentOrchestrator] Initializing payment flow:', {
+      flowId,
+      bookingId: config.bookingId,
+      timing: config.timing,
+      timestamp: new Date().toISOString()
+    });
+
+    // Create and store flow instance
+    const flow = new PaymentFlow(config);
+    this.activeFlows.set(flowId, flow);
+
+    return flow.initialize();
+  }
+
+  // Other methods...
+}
+1.2. Integration with Existing Architecture
+Payment Context Updates
+typescriptCopy// /src/contexts/PaymentContext.js
+export const PaymentProvider = ({ children }) => {
+  const [state, dispatch] = useReducer(paymentReducer, initialState);
+  const orchestrator = useRef(new PaymentOrchestratorService());
+
+  const initializePayment = useCallback(async (bookingId, amount, currency, options) => {
+    if (!bookingId) {
+      logger.error('[PaymentContext] Missing bookingId');
+      throw new Error('Missing booking ID');
+    }
+
+    const session = await orchestrator.current.initializePayment({
+      bookingId,
+      amount,
+      currency,
+      ...options
+    });
+
+    dispatch({
+      type: 'INITIALIZE_PAYMENT',
+      payload: {
+        bookingId,
+        sessionId: session.id,
+        flowId: session.metadata.flowId
+      }
+    });
+
+    return session;
+  }, []);
+
+  // Other context methods...
+};
+1.3. Flow Management
+typescriptCopy// /src/services/payment/flows/PaymentFlow.ts
+class PaymentFlow {
+  private config: PaymentFlowConfig;
+  private status: PaymentFlowStatus;
+  private socket: PaymentSocketConnection;
+  private cleanup: Array<() => void> = [];
+
+  constructor(config: PaymentFlowConfig) {
+    this.config = config;
+    this.status = { state: 'initial' };
+  }
+
+  async initialize(): Promise<PaymentSession> {
+    // Initialize socket connection
+    this.socket = await this.initializeSocket();
+    
+    // Setup cleanup
+    this.cleanup.push(() => this.socket.disconnect());
+    
+    // Create initial session
+    const session = await this.createSession();
+    
+    return session;
+  }
+
+  private async createSession(): Promise<PaymentSession> {
+    const { bookingId, amount, currency, timing } = this.config;
+    
+    try {
+      const result = await paymentAPI.createPaymentIntent(bookingId, {
+        amount,
+        currency,
+        timing,
+        metadata: {
+          flowId: this.getId(),
+          version: '1.0'
+        }
+      });
+
+      return {
+        id: result.id,
+        bookingId,
+        status: 'initialized',
+        amount: { value: amount, currency },
+        metadata: {
+          timing,
+          flowId: this.getId(),
+          version: '1.0',
+          sessionType: this.config.sessionType,
+          lastCalculation: new Date()
+        }
+      };
+    } catch (error) {
+      logger.error('[PaymentFlow] Session creation failed:', {
+        error: error.message,
+        bookingId,
+        flowId: this.getId()
+      });
+      throw error;
+    }
+  }
+
+  // Other flow methods...
+}
+1.4. Socket Management Enhancement
+typescriptCopy// /src/services/payment/PaymentSocketManager.ts
+class PaymentSocketManager {
+  private connections: Map<string, SocketConnection>;
+  private config: SocketConfig;
+
+  constructor() {
+    this.connections = new Map();
+    this.config = {
+      reconnection: true,
+      reconnectionAttempts: 3,
+      timeout: 10000
+    };
+  }
+
+  async createConnection(sessionId: string): Promise<SocketConnection> {
+    if (this.connections.has(sessionId)) {
+      return this.connections.get(sessionId)!;
+    }
+
+    const connection = new SocketConnection(sessionId, this.config);
+    await connection.connect();
+    
+    this.connections.set(sessionId, connection);
+    return connection;
+  }
+
+  // Other socket management methods...
+}
+1.5. Payment Status Management
+typescriptCopy// /src/services/payment/PaymentStatusTracker.ts
+class PaymentStatusTracker {
+  private sessionId: string;
+  private socket: SocketConnection;
+  private pollingInterval?: NodeJS.Timeout;
+
+  constructor(sessionId: string, socket: SocketConnection) {
+    this.sessionId = sessionId;
+    this.socket = socket;
+  }
+
+  startTracking(): void {
+    // Socket-based tracking
+    this.socket.on('payment_status', this.handleStatusUpdate);
+    
+    // Fallback polling
+    this.pollingInterval = setInterval(
+      () => this.pollStatus(),
+      3000
+    );
+  }
+
+  private async pollStatus(): Promise<void> {
+    try {
+      const status = await paymentAPI.getPaymentStatus(this.sessionId);
+      this.handleStatusUpdate(status);
+    } catch (error) {
+      logger.error('[PaymentStatusTracker] Polling failed:', {
+        error: error.message,
+        sessionId: this.sessionId
+      });
+    }
+  }
+
+  // Other tracking methods...
+}
+2. Integration Strategy
+
+Create new service files in phases:
+
+Phase 1a: Core orchestrator and flow management
+Phase 1b: Socket management enhancement
+Phase 1c: Status tracking improvements
+
+
+Update existing components gradually:
+
+Start with UserBookingModal.js
+Move to PaymentFlow.js
+Update PaymentContext.js last
+
+
+Testing strategy:
+
+Unit tests for each new service
+Integration tests for flow combinations
+End-to-end tests for complete payment scenarios
+
+2. Performance Optimizations
+A. State Management
+
+Implement Redux Toolkit with RTK Query for payment state
+Create optimistic updates with proper rollback
+Implement proper cleanup mechanisms
+
+B. Socket Management
+New SocketConnectionManager:
+typescriptCopyclass PaymentSocketManager {
+  private static instance: PaymentSocketManager;
+  private connections: Map<string, SocketConnection>;
+  
+  connect(sessionId: string): Promise<SocketConnection>;
+  disconnect(sessionId: string): void;
+}
+
+Details:
+Payment System Performance Optimization Specification
+Version 1.0 - January 2025
+1. State Management Optimization
+1.1 RTK Query Implementation
+typescriptCopy// /src/state/payment/paymentApi.ts
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+
+export const paymentApi = createApi({
+  reducerPath: 'paymentApi',
+  baseQuery: fetchBaseQuery({ baseUrl: '/api' }),
+  tagTypes: ['Payment', 'PaymentStatus', 'PaymentMethod'],
+  endpoints: (builder) => ({
+    getPaymentStatus: builder.query({
+      query: (paymentId) => `/payments/status/${paymentId}`,
+      providesTags: ['PaymentStatus'],
+      // Add polling configuration
+      pollingInterval: 3000,
+      // Add cache configuration
+      keepUnusedDataFor: 30,
+    }),
+
+    createPaymentIntent: builder.mutation({
+      query: (data) => ({
+        url: '/payments/intent',
+        method: 'POST',
+        body: data,
+      }),
+      invalidatesTags: ['Payment'],
+    }),
+  }),
+});
+1.2 Optimistic Updates Implementation
+typescriptCopy// /src/hooks/usePaymentOptimisticUpdates.ts
+export const usePaymentOptimisticUpdates = () => {
+  const queryClient = useQueryClient();
+
+  const optimisticPaymentUpdate = async (bookingId: string, update: PaymentUpdate) => {
+    // Store previous data
+    const previousData = queryClient.getQueryData(['payment', bookingId]);
+
+    // Optimistically update the cache
+    queryClient.setQueryData(['payment', bookingId], (old: any) => ({
+      ...old,
+      ...update,
+      _optimistic: true,
+    }));
+
+    return {
+      rollback: () => {
+        queryClient.setQueryData(['payment', bookingId], previousData);
+      },
+    };
+  };
+
+  return { optimisticPaymentUpdate };
+};
+1.3 Cleanup Service
+typescriptCopy// /src/services/payment/PaymentCleanupService.ts
+class PaymentCleanupService {
+  private cleanupTasks: Map<string, () => void>;
+  private timeouts: Map<string, NodeJS.Timeout>;
+
+  constructor() {
+    this.cleanupTasks = new Map();
+    this.timeouts = new Map();
+  }
+
+  registerCleanup(paymentId: string, cleanup: () => void, timeout: number = 5000) {
+    this.cleanupTasks.set(paymentId, cleanup);
+    
+    // Set automatic cleanup timeout
+    const timeoutId = setTimeout(() => {
+      this.executeCleanup(paymentId);
+    }, timeout);
+    
+    this.timeouts.set(paymentId, timeoutId);
+  }
+
+  executeCleanup(paymentId: string) {
+    const cleanup = this.cleanupTasks.get(paymentId);
+    if (cleanup) {
+      try {
+        cleanup();
+      } catch (error) {
+        logger.error('[PaymentCleanup] Cleanup failed:', {
+          error,
+          paymentId,
+          timestamp: new Date().toISOString(),
+        });
+      } finally {
+        this.cleanupTasks.delete(paymentId);
+        const timeoutId = this.timeouts.get(paymentId);
+        if (timeoutId) {
+          clearTimeout(timeoutId);
+          this.timeouts.delete(paymentId);
+        }
+      }
+    }
+  }
+}
+2. Socket Connection Optimization
+2.1 Enhanced Socket Manager
+typescriptCopy// /src/services/payment/EnhancedSocketManager.ts
+class EnhancedSocketManager {
+  private static instance: EnhancedSocketManager;
+  private connections: Map<string, SocketConnection>;
+  private connectionAttempts: Map<string, number>;
+  private pendingConnections: Map<string, Promise<SocketConnection>>;
+
+  async getConnection(paymentId: string): Promise<SocketConnection> {
+    // Check for existing connection
+    if (this.connections.has(paymentId)) {
+      return this.connections.get(paymentId)!;
+    }
+
+    // Check for pending connection
+    if (this.pendingConnections.has(paymentId)) {
+      return this.pendingConnections.get(paymentId)!;
+    }
+
+    // Create new connection with connection sharing
+    const connectionPromise = this._createConnection(paymentId);
+    this.pendingConnections.set(paymentId, connectionPromise);
+
+    try {
+      const connection = await connectionPromise;
+      this.connections.set(paymentId, connection);
+      return connection;
+    } finally {
+      this.pendingConnections.delete(paymentId);
+    }
+  }
+
+  private async _createConnection(paymentId: string): Promise<SocketConnection> {
+    const connection = new SocketConnection({
+      paymentId,
+      reconnectionAttempts: 3,
+      timeout: 10000,
+      heartbeatInterval: 30000,
+    });
+
+    await connection.connect();
+    return connection;
+  }
+}
+2.2 Socket Connection Pool
+typescriptCopy// /src/services/payment/SocketConnectionPool.ts
+class SocketConnectionPool {
+  private pool: Map<string, SocketConnection[]>;
+  private maxPoolSize: number = 5;
+  private minConnections: number = 2;
+
+  async acquireConnection(paymentId: string): Promise<SocketConnection> {
+    const connections = this.pool.get(paymentId) || [];
+    
+    // Get available connection or create new one
+    const connection = connections.find(c => c.isAvailable()) || 
+                      await this.createConnection(paymentId);
+
+    connection.markBusy();
+    return connection;
+  }
+
+  releaseConnection(paymentId: string, connection: SocketConnection) {
+    connection.markAvailable();
+    this.cleanupStaleConnections(paymentId);
+  }
+
+  private cleanupStaleConnections(paymentId: string) {
+    const connections = this.pool.get(paymentId) || [];
+    const staleConnections = connections.filter(
+      c => c.isAvailable() && c.getIdleTime() > 60000
+    );
+
+    staleConnections.forEach(c => c.disconnect());
+    this.pool.set(
+      paymentId,
+      connections.filter(c => !staleConnections.includes(c))
+    );
+  }
+}
+3. State Normalization
+3.1 Normalized State Structure
+typescriptCopy// /src/state/payment/normalizedState.ts
+interface NormalizedPaymentState {
+  payments: {
+    byId: Record<string, Payment>;
+    allIds: string[];
+  };
+  statuses: {
+    byId: Record<string, PaymentStatus>;
+    allIds: string[];
+  };
+  methods: {
+    byId: Record<string, PaymentMethod>;
+    allIds: string[];
+  };
+}
+
+const initialState: NormalizedPaymentState = {
+  payments: {
+    byId: {},
+    allIds: [],
+  },
+  statuses: {
+    byId: {},
+    allIds: [],
+  },
+  methods: {
+    byId: {},
+    allIds: [],
+  },
+};
+3.2 Selectors with Memoization
+typescriptCopy// /src/state/payment/selectors.ts
+import { createSelector } from '@reduxjs/toolkit';
+
+export const selectPaymentById = createSelector(
+  [(state) => state.payments.byId, (_, id) => id],
+  (paymentsById, id) => paymentsById[id]
+);
+
+export const selectActivePayments = createSelector(
+  [(state) => state.payments.byId, (state) => state.payments.allIds],
+  (byId, allIds) => allIds
+    .map(id => byId[id])
+    .filter(payment => !isTerminalState(payment.status))
+);
+4. Performance Monitoring
+4.1 Performance Tracking Service
+typescriptCopy// /src/services/performance/PaymentPerformanceTracker.ts
+class PaymentPerformanceTracker {
+  private metrics: Map<string, PerformanceMetric[]>;
+
+  trackOperation(operation: string, duration: number, metadata: any) {
+    const metric = {
+      operation,
+      duration,
+      timestamp: Date.now(),
+      metadata,
+    };
+
+    const metrics = this.metrics.get(operation) || [];
+    metrics.push(metric);
+    this.metrics.set(operation, metrics);
+
+    // Alert if threshold exceeded
+    if (duration > this.getThreshold(operation)) {
+      logger.warn('[Performance] Operation exceeded threshold:', {
+        operation,
+        duration,
+        threshold: this.getThreshold(operation),
+        metadata,
+      });
+    }
+  }
+
+  getMetrics(operation: string): PerformanceMetric[] {
+    return this.metrics.get(operation) || [];
+  }
+}
+5. Implementation Strategy
+
+Phase 2a: State Management
+
+
+Implement RTK Query
+Add optimistic updates
+Set up cleanup service
+
+
+Phase 2b: Socket Optimization
+
+
+Deploy enhanced socket manager
+Implement connection pool
+Add reconnection logic
+
+
+Phase 2c: State Normalization
+
+
+Normalize state structure
+Add memoized selectors
+Implement performance tracking
+
+
+Phase 2d: Integration
+
+
+Update existing components
+Add performance monitoring
+Implement error boundaries
+
+Key Integration Points:
+typescriptCopy// Example usage in UserBookingModal.js
+const {
+  payment,
+  isLoading,
+  error
+} = usePaymentQuery(bookingId, {
+  pollingInterval: 3000,
+  refetchOnFocus: true,
+});
+
+// Socket optimization in PaymentFlow.js
+const { socket } = useSocketConnection(paymentId, {
+  pooled: true,
+  heartbeat: true,
+});
+
+// Performance tracking
+const { trackOperation } = usePerformanceTracking();
+
+useEffect(() => {
+  const start = performance.now();
+  // Payment operation
+  trackOperation('payment_processing', performance.now() - start, {
+    paymentId,
+    status: paymentStatus,
+  });
+}, [paymentStatus]);
+6. Success Metrics
+
+Performance Targets:
+
+
+Payment initialization: < 500ms
+Status updates: < 100ms
+Socket connections: < 300ms
+State updates: < 50ms
+
+
+Resource Usage:
+
+
+Max socket connections per client: 5
+Memory usage: < 50MB
+CPU usage: < 10%
+
+3. UI/UX Improvements
+A. Payment Flow Container
+New component structure:
+typescriptCopyinterface PaymentFlowContainer {
+  StepIndicator: FC<StepIndicatorProps>;
+  PriceDisplay: FC<PriceDisplayProps>;
+  PaymentForm: FC<PaymentFormProps>;
+  StatusIndicator: FC<StatusIndicatorProps>;
+}
+
+Details:
+
+Payment System UI/UX Improvements Specification
+Version 1.0 - January 2025
+1. Payment Flow Container Design
+1.1 Core Component Architecture
+typescriptCopy// /src/components/payment/PaymentFlowContainer.tsx
+interface PaymentFlowContainerProps {
+  amount: number;
+  currency: string;
+  bookingId: string;
+  timing: PaymentTiming;
+  onSuccess: (result: PaymentResult) => void;
+  onError: (error: PaymentError) => void;
+}
+
+const PaymentFlowContainer = ({ ...props }: PaymentFlowContainerProps) => {
+  const steps = [
+    { id: 'timing', component: PaymentTimingStep },
+    { id: 'method', component: PaymentMethodStep },
+    { id: 'confirm', component: PaymentConfirmStep }
+  ];
+
+  return (
+    <Card className="w-full max-w-xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
+      <StepProvider steps={steps}>
+        <div className="flex flex-col gap-6 p-6">
+          <PaymentStepIndicator />
+          <AnimatePresence mode="wait">
+            <ActiveStep />
+          </AnimatePresence>
+        </div>
+      </StepProvider>
+    </Card>
+  );
+};
+1.2 Step Indicator Component
+typescriptCopy// /src/components/payment/PaymentStepIndicator.tsx
+const PaymentStepIndicator = () => {
+  const { currentStep, steps } = useSteps();
+  
+  return (
+    <div className="relative">
+      {/* Progress Bar */}
+      <div className="absolute top-1/2 w-full h-0.5 bg-gray-200">
+        <motion.div 
+          className="h-full bg-primary"
+          animate={{ width: `${(currentStep / (steps.length - 1)) * 100}%` }}
+          transition={{ type: "spring", stiffness: 100 }}
+        />
+      </div>
+      
+      {/* Step Indicators */}
+      <div className="relative flex justify-between">
+        {steps.map((step, index) => (
+          <StepDot 
+            key={step.id}
+            isActive={index <= currentStep}
+            label={step.label}
+          />
+        ))}
+      </div>
+    </div>
+  );
+};
+1.3 Payment Method Selection
+typescriptCopy// /src/components/payment/PaymentMethodSelection.tsx
+const PaymentMethodSelection = () => {
+  const { isLoading } = usePaymentMethods();
+
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>
+          <div className="flex items-center gap-2">
+            <CreditCard className="h-5 w-5" />
+            <span>Payment Method</span>
+          </div>
+        </CardTitle>
+      </CardHeader>
+      <CardContent>
+        <div className="space-y-4">
+          <SavedMethodsList />
+          <Separator />
+          <NewMethodForm />
+        </div>
+      </CardContent>
+    </Card>
+  );
+};
+
+const SavedMethodsList = () => {
+  return (
+    <RadioGroup>
+      <AnimatePresence>
+        {methods.map((method) => (
+          <motion.div
+            key={method.id}
+            layout
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+          >
+            <RadioGroupItem value={method.id}>
+              <PaymentMethodCard method={method} />
+            </RadioGroupItem>
+          </motion.div>
+        ))}
+      </AnimatePresence>
+    </RadioGroup>
+  );
+};
+1.4 Price Breakdown Component
+typescriptCopy// /src/components/payment/PriceBreakdown.tsx
+const PriceBreakdown = ({ priceDetails }: PriceBreakdownProps) => {
+  return (
+    <motion.div
+      initial={{ height: 0, opacity: 0 }}
+      animate={{ height: "auto", opacity: 1 }}
+      exit={{ height: 0, opacity: 0 }}
+      className="rounded-lg bg-gray-50 p-4"
+    >
+      <div className="space-y-3">
+        <PriceRow
+          label="Session Price"
+          amount={priceDetails.base}
+          currency={priceDetails.currency}
+        />
+        
+        {priceDetails.platformFee && (
+          <PriceRow
+            label="Platform Fee"
+            amount={priceDetails.platformFee.amount}
+            currency={priceDetails.currency}
+            info="Platform service fee"
+          />
+        )}
+
+        {priceDetails.vat && (
+          <PriceRow
+            label={`VAT (${priceDetails.vat.rate}%)`}
+            amount={priceDetails.vat.amount}
+            currency={priceDetails.currency}
+          />
+        )}
+
+        <Separator className="my-2" />
+        
+        <PriceRow
+          label="Total"
+          amount={priceDetails.final}
+          currency={priceDetails.currency}
+          isTotal
+        />
+      </div>
+    </motion.div>
+  );
+};
+1.5 Loading States
+typescriptCopy// /src/components/payment/LoadingStates.tsx
+const PaymentLoadingState = () => {
+  return (
+    <div className="flex flex-col items-center justify-center p-8">
+      <div className="relative">
+        <div className="h-16 w-16">
+          <CircularProgress
+            size={64}
+            className="text-primary"
+            isIndeterminate
+          />
+        </div>
+        <CheckCircle2 
+          className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-primary" 
+          size={24} 
+        />
+      </div>
+      <h3 className="mt-4 font-semibold text-lg">Processing Payment</h3>
+      <p className="text-gray-500 text-sm mt-2">Please don't close this window</p>
+    </div>
+  );
+};
+2. Animation and Transition System
+2.1 Step Transitions
+typescriptCopy// /src/components/payment/transitions/StepTransition.tsx
+const stepVariants = {
+  enter: (direction: number) => ({
+    x: direction > 0 ? 100 : -100,
+    opacity: 0
+  }),
+  center: {
+    x: 0,
+    opacity: 1
+  },
+  exit: (direction: number) => ({
+    x: direction < 0 ? 100 : -100,
+    opacity: 0
+  })
+};
+
+const StepTransition = ({ children }: { children: React.ReactNode }) => {
+  const { direction } = useStepContext();
+  
+  return (
+    <motion.div
+      custom={direction}
+      variants={stepVariants}
+      initial="enter"
+      animate="center"
+      exit="exit"
+      transition={{
+        x: { type: "spring", stiffness: 300, damping: 30 },
+        opacity: { duration: 0.2 }
+      }}
+    >
+      {children}
+    </motion.div>
+  );
+};
+2.2 Status Animations
+typescriptCopy// /src/components/payment/animations/StatusAnimation.tsx
+const statusVariants = {
+  processing: {
+    rotate: 360,
+    transition: {
+      duration: 1,
+      repeat: Infinity,
+      ease: "linear"
+    }
+  },
+  success: {
+    scale: [1, 1.2, 1],
+    transition: {
+      duration: 0.5,
+      times: [0, 0.5, 1]
+    }
+  },
+  error: {
+    x: [0, -10, 10, -10, 10, 0],
+    transition: {
+      duration: 0.5,
+      times: [0, 0.2, 0.4, 0.6, 0.8, 1]
+    }
+  }
+};
+3. Error Handling and Recovery UI
+3.1 Error Display Component
+typescriptCopy// /src/components/payment/ErrorDisplay.tsx
+const ErrorDisplay = ({ error, onRetry }: ErrorDisplayProps) => {
+  return (
+    <Alert variant="destructive">
+      <AlertCircle className="h-4 w-4" />
+      <AlertTitle>Payment Failed</AlertTitle>
+      <AlertDescription>
+        {getErrorMessage(error)}
+        
+        {error.recoverable && (
+          <Button
+            variant="outline"
+            size="sm"
+            className="mt-2"
+            onClick={onRetry}
+          >
+            Try Again
+          </Button>
+        )}
+      </AlertDescription>
+    </Alert>
+  );
+};
+3.2 Recovery Flow UI
+typescriptCopy// /src/components/payment/RecoveryFlow.tsx
+const RecoveryFlow = ({ error, onRetry }: RecoveryFlowProps) => {
+  const recoverySteps = [
+    {
+      id: 'verify',
+      title: 'Verify Payment Method',
+      action: () => verifyPaymentMethod()
+    },
+    {
+      id: 'retry',
+      title: 'Retry Payment',
+      action: () => retryPayment()
+    }
+  ];
+
+  return (
+    <Card className="border-orange-200 bg-orange-50">
+      <CardHeader>
+        <CardTitle className="text-orange-800">
+          Payment Needs Attention
+        </CardTitle>
+      </CardHeader>
+      <CardContent>
+        <Steps
+          current={currentStep}
+          items={recoverySteps}
+          onChange={handleStepChange}
+        />
+      </CardContent>
+    </Card>
+  );
+};
+4. Responsive Design System
+typescriptCopy// /src/components/payment/PaymentDrawer.tsx
+const PaymentDrawer = () => {
+  return (
+    <>
+      {/* Desktop Modal */}
+      <Dialog
+        open={isOpen}
+        onOpenChange={setIsOpen}
+        className="hidden md:block"
+      >
+        <DialogContent className="sm:max-w-[425px]">
+          <PaymentFlowContainer />
+        </DialogContent>
+      </Dialog>
+
+      {/* Mobile Drawer */}
+      <Sheet open={isOpen} onOpenChange={setIsOpen} className="md:hidden">
+        <SheetContent side="bottom" className="h-[90vh]">
+          <PaymentFlowContainer />
+        </SheetContent>
+      </Sheet>
+    </>
+  );
+};
+5. Implementation Strategy
+
+Create base components:
+
+PaymentFlowContainer
+Step components
+Loading states
+Error displays
+
+
+Add animations and transitions:
+
+Step transitions
+Status animations
+Loading indicators
+
+
+Implement responsive design:
+
+Mobile-first approach
+Sheet/Drawer for mobile
+Modal for desktop
+
+
+Integration:
+
+Replace current payment UI
+Add error boundaries
+Implement analytics
+Add loading states
+
+
+
+6. Success Metrics
+
+Performance:
+
+First paint < 1s
+Time to interactive < 2s
+Animation frame rate > 60fps
+
+
+User Experience:
+
+Clear progress indication
+Intuitive error recovery
+Responsive feedback
+Accessible design
+
+
+Accessibility:
+
+WCAG 2.1 AA compliance
+Keyboard navigation
+Screen reader support
+Color contrast
+
+Implementation Plan
+Phase 1: Foundation (Week 1)
+
+Create new payment architecture
+
+PaymentOrchestrator service
+Price calculation pipeline
+Socket connection manager
+
+
+Implement core state management
+
+Payment reducer
+Action creators
+Middleware
+
+
+
+Phase 2: Core Features (Week 2)
+
+Build new UI components
+
+PaymentFlowContainer
+Status indicators
+Price display
+
+
+Implement payment processing
+
+Stripe integration
+Error handling
+Status monitoring
+
+
+
+Phase 3: Optimization (Week 3)
+
+Performance improvements
+
+Caching
+State normalization
+Socket optimization
+
+
+Error handling & recovery
+
+Retry mechanisms
+Fallback strategies
+User feedback
+
+
+
+Phase 4: Testing & Deployment (Week 4)
+
+Testing
+
+Unit tests
+Integration tests
+Performance testing
+
+
+Documentation & Deployment
+
+API documentation
+Deployment procedures
+Monitoring setup
+
+
+
+File Structure Changes
+Copy/src
+  /payment
+    /core
+      PaymentOrchestrator.ts
+      PriceCalculator.ts
+      SocketManager.ts
+    /components
+      PaymentFlowContainer.tsx
+      StepIndicator.tsx
+      PriceDisplay.tsx
+    /state
+      paymentSlice.ts
+      paymentApi.ts
+    /types
+      payment.types.ts

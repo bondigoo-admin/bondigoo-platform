@@ -1,0 +1,165 @@
+{
+  "common": {
+    "step": "Schritt {{current}} von {{total}}",
+    "skip": "Überspringen",
+    "back": "Zurück",
+    "next": "Weiter",
+    "finish": "Abschliessen",
+    "finishing": "Wird abgeschlossen..."
+  },
+  "step1": {
+    "title": "Was ist dein Hauptziel?",
+    "description": "Sag uns, was dich heute hierher führt, damit wir deine Erfahrung personalisieren können."
+  },
+  "step2": {
+    "title": "Wofür interessierst du dich?",
+    "description": "Wähle Themen aus, über die du mehr erfahren möchtest. Dies hilft uns, die richtigen Coaches und Programme zu empfehlen."
+  },
+  "step3": {
+    "title": "Wie interagierst du am liebsten?",
+    "description": "Deine Präferenz hilft uns, Coaches mit dem passenden Stil für dich zu finden."
+  },
+  "step4": {
+    "title": "Was ist dein Erfahrungslevel?",
+    "description": "Dies stellt sicher, dass wir dir Inhalte zeigen, die weder zu einfach noch zu fortgeschritten sind."
+  },
+  "step5": {
+    "title": "Letzte Feinabstimmungen",
+    "description": "Diese optionalen Einstellungen helfen uns, deine Ergebnisse weiter zu verfeinern."
+  },
+  "submit": {
+    "success": "Deine Angaben wurden erfolgreich gespeichert!",
+    "error": "Fehler beim Senden der Daten. Bitte versuche es erneut."
+  },
+  "welcome": {
+    "title": "Willkommen!",
+    "subtitle": "Hallo {{name}}, lass uns dein Konto einrichten, um die besten Coaches für dich zu finden.",
+    "guest": "Gast"
+  },
+  "goal": {
+    "title": "Was ist dein Hauptziel?",
+    "one_on_one": {
+      "title": "1-zu-1-Coaching finden",
+      "description": "Verbinde dich direkt mit Coaches für persönliche Sitzungen."
+    },
+    "programs": {
+      "title": "Digitale Programme erkunden",
+      "description": "Finde Kurse und Programme zum Selbststudium, die zu deinem Zeitplan passen."
+    },
+    "live_sessions": {
+      "title": "An Live-Sitzungen teilnehmen",
+      "description": "Erhalte sofortige Hilfe und interagiere in Echtzeit per Video."
+    },
+    "webinars": {
+      "title": "An Webinaren teilnehmen",
+      "description": "Lerne von Experten in Live-Präsentationen und Gruppen-Events."
+    },
+    "exploring": {
+      "title": "Ich schaue mich nur um",
+      "description": "Ich bin mir noch nicht sicher und möchte die Möglichkeiten erkunden."
+    }
+  },
+  "interests": {
+    "title": "Wofür interessierst du dich?",
+    "description": "Wähle Themen aus, über die du mehr erfahren möchtest. Dies hilft uns, die richtigen Coaches und Programme zu empfehlen.",
+    "placeholder": "Nach Interessen suchen..."
+  },
+  "style": {
+    "title": "Wie interagierst du am liebsten?",
+    "live": {
+      "title": "Live & Interaktiv",
+      "description": "Ich bevorzuge Echtzeit-Video-Sitzungen und direkte Kommunikation."
+    },
+    "scheduled": {
+      "title": "Geplant & Strukturiert",
+      "description": "Ich mag regelmässige Check-ins und asynchrone Kommunikation wie Messaging."
+    },
+    "self_paced": {
+      "title": "Im eigenen Tempo & Flexibel",
+      "description": "Ich lerne am besten, indem ich Materialien selbstständig durcharbeite."
+    }
+  },
+  "experience": {
+    "title": "Was ist dein Erfahrungslevel?",
+    "beginner": {
+      "title": "Anfänger",
+      "description": "Ich fange gerade erst an und suche grundlegende Anleitung."
+    },
+    "intermediate": {
+      "title": "Fortgeschritten",
+      "description": "Ich habe einige Erfahrung und möchte meine Fähigkeiten vertiefen."
+    },
+    "advanced": {
+      "title": "Experte",
+      "description": "Ich bin sehr erfahren und suche nach spezialisierter Expertise."
+    }
+  },
+  "final": {
+    "title": "Letzte Feinabstimmungen",
+    "budget": {
+      "label": "Stundenbudget",
+      "description": "Was ist dein ungefähres Budget für eine 1-zu-1-Coaching-Stunde?",
+      "minValue": "${{value}}",
+      "maxValue": "${{value}}",
+      "maxValuePlus": "${{value}}+"
+    },
+    "notifications": {
+      "label": "Benachrichtigungen",
+      "description": "Lass dich benachrichtigen, um auf dem Laufenden zu bleiben.",
+      "newCoaches": "Neue Coaches in meinen Interessensgebieten",
+      "newPrograms": "Neue Programme, die meinen Zielen entsprechen"
+    }
+  },
+
+  "profileStrength": "Vollständigkeit",
+  "step1c": {
+    "title": "Die Grundlagen",
+    "description": "Lade ein Profilbild hoch und erstelle eine einprägsame Überschrift, die deine Expertise auf den Punkt bringt.",
+    "headlineLabel": "Deine Kurzbeschreibung für dein Profil",
+    "headlinePlaceholder": "z.B. Karriere-Coach für Tech-Führungskräfte"
+  },
+  "step2c": {
+    "title": "Deine Expertise",
+    "description": "Präsentiere deine Fachgebiete, Fähigkeiten und die Sprachen, in denen du Coaching anbietest.",
+    "specialtiesLabel": "Fachgebiete",
+    "specialtiesPlaceholder": "Füge deine Fachgebiete hinzu...",
+    "skillsLabel": "Fähigkeiten",
+    "skillsPlaceholder": "Füge relevante Fähigkeiten hinzu...",
+    "languagesLabel": "Sprachen",
+    "languagesPlaceholder": "Füge die Sprachen hinzu, die du sprichst..."
+  },
+  "step3c": {
+    "title": "Deine Referenzen",
+    "description": "Teile deinen Hintergrund, deine Ausbildung und deine Coaching-Stile, um bei potenziellen Kunden Vertrauen aufzubauen.",
+    "bioLabel": "Über mich",
+    "educationLabel": "Ausbildung",
+    "educationPlaceholder": "Füge deine Ausbildungen hinzu...",
+    "coachingStylesLabel": "Coaching-Stile",
+    "coachingStylesPlaceholder": "Beschreibe deine Coaching-Stile..."
+  },
+  "step4c": {
+    "title": "Dienstleistungen & Preise",
+    "description": "Lege deine Preise für geplante Sitzungen und spontane Live-Sitzungen fest.",
+    "baseRateLabel": "Dein Stundensatz",
+    "baseRateDescription": "Dies ist dein Standardpreis für eine 60-minütige 1-zu-1-Sitzung. Du kannst später weitere Sitzungsarten, Spezialpreise und Rabatte hinzufügen.",
+    "liveSessionLabel": "Live-Sitzungen anbieten",
+    "liveSessionDescription": "Ermögliche es Kunden, eine Video-Sitzung mit dir zu starten, wenn du online bist. Die Abrechnung erfolgt pro Minute."
+  },
+  "step5c": {
+    "title": "Geschäftliche Einrichtung",
+    "description": "Konfiguriere deine steuerlichen Informationen und Versicherungsanerkennungen.",
+    "taxTitle": "Steuern & Rechnungsstellung",
+    "taxDescription": "Bitte gib deine geschäftlichen Steuerinformationen an. Diese werden für die Rechnungsstellung und Auszahlungen benötigt.",
+    "insuranceTitle": "Krankenkassenanerkennung",
+    "insuranceDescription": "Wenn deine Dienstleistungen von Krankenkassen anerkannt sind, füge hier deine Qualifikationen hinzu."
+  },
+  "step6c": {
+    "title": "Profil veröffentlichen",
+    "description": "Überprüfe dein Profil in der Vorschau und gehe dann live, um von deinen ersten Kunden gefunden zu werden.",
+    "previewTitle": "So sehen Kunden dein Profil",
+    "finalStepTitle": "Du bist fast fertig!",
+    "finalStepDescription": "Bist du bereit, dein Profil zu veröffentlichen? Du kannst jederzeit zurückkehren und Änderungen vornehmen.",
+    "publishButton": "Profil veröffentlichen",
+    "publishSuccessToast": "Dein Profil wurde erfolgreich veröffentlicht!"
+  }
+}

@@ -1,0 +1,886 @@
+Notification Service Architecture & Implementation Plan
+1. Core Architecture
+mermaidCopygraph TD
+    A[Notification Triggers] -->|Emit Events| B[Notification Service]
+    B -->|Create| C[Notification Store]
+    B -->|Dispatch| D[Distribution Service]
+    D -->|Real-time| E[Socket Service]
+    D -->|Email| F[Email Service]
+    D -->|Push| G[Push Service]
+    C -->|Query| H[Notification Center]
+    H -->|Display| I[UI Components]
+2. Key Components
+2.1 Enhanced Notification Model
+File: models/Notification.js
+typescriptCopyinterface NotificationModel {
+  _id: ObjectId;
+  recipient: ObjectId;
+  sender: ObjectId;
+  type: NotificationType;
+  subType?: string;
+  priority: 'high' | 'medium' | 'low';
+  content: {
+    title: string;
+    message: string;
+    data: any;
+  };
+  status: 'pending' | 'delivered' | 'read' | 'failed';
+  channels: ['in_app', 'email', 'push'];
+  metadata: {
+    bookingId?: ObjectId;
+    sessionId?: ObjectId;
+    connectionId?: ObjectId;
+  };
+  delivery: {
+    attempts: number;
+    lastAttempt: Date;
+    channels: {
+      channel: string;
+      status: string;
+      timestamp: Date;
+    }[];
+  };
+  expiresAt?: Date;
+  createdAt: Date;
+  updatedAt: Date;
+}
+2.2 Notification Service
+New File: services/NotificationManager.js
+typescriptCopyinterface NotificationManager {
+  createNotification(params: NotificationParams): Promise<Notification>;
+  sendNotification(notification: Notification): Promise<void>;
+  markAsRead(notificationId: string): Promise<void>;
+  deleteNotification(notificationId: string): Promise<void>;
+  getUnreadCount(userId: string): Promise<number>;
+  getNotifications(userId: string, filter?: NotificationFilter): Promise<Notification[]>;
+}
+2.3 Socket Service Enhancement
+Update File: socketService.js
+
+Add notification-specific events
+Implement real-time notification delivery
+Add connection status tracking
+Enhance error handling
+
+2.4 Distribution Service
+New File: services/NotificationDistributor.js
+
+Handle multi-channel notification delivery
+Manage delivery retries
+Track delivery status
+Handle channel-specific formatting
+
+3. Implementation Plan
+Phase 1: Core Infrastructure
+
+Enhanced Database Schema
+
+Update Notification.js model
+Add indexes for efficient querying
+Implement TTL for notification expiration
+
+
+Notification Manager Service
+
+Create base service structure
+Implement CRUD operations
+Add filtering and pagination
+Implement real-time delivery via Socket.IO
+
+
+Socket Service Enhancement
+
+Add notification events
+Implement delivery confirmation
+Add connection management
+Enhance error handling
+
+
+
+Phase 2: UI Integration
+
+Notification Center Component Enhancement
+
+Add real-time updates
+Implement mark as read/unread
+Add filters and sorting
+Add infinite scroll
+Add notification grouping
+
+
+Toast Notifications
+
+Implement priority-based display
+Add action buttons
+Handle stacking and queuing
+Add custom styling per type
+
+
+
+Phase 3: Distribution & Preferences
+
+Notification Preferences
+
+Enhanced preferences UI
+Channel-specific settings
+Type-specific settings
+Schedule-based preferences
+Do not disturb settings
+
+
+Multi-channel Distribution
+
+Email templates
+Push notification setup
+Delivery scheduling
+Retry logic
+Failure handling
+
+
+
+4. Files to Create/Modify
+New Files:
+
+services/NotificationManager.js
+services/NotificationDistributor.js
+components/NotificationToast.js
+utils/notificationHelpers.js
+hooks/useNotifications.js
+config/notificationConfig.js
+
+Files to Modify:
+
+models/Notification.js
+services/socketService.js
+components/NotificationCenter.js
+components/NotificationPreferences.js
+contexts/AuthContext.js
+server.js (for Socket.IO enhancements)
+
+5. Integration Points
+Booking System Integration
+typescriptCopy// Example booking notification trigger
+await notificationManager.createNotification({
+  type: 'BOOKING_REQUEST',
+  recipient: coachId,
+  sender: userId,
+  content: {
+    title: 'New Booking Request',
+    message: `${userName} requested a session for ${date}`,
+    data: { bookingId, sessionType, dateTime }
+  },
+  channels: ['in_app', 'email'],
+  priority: 'high'
+});
+Notification Templates
+typescriptCopyinterface NotificationTemplate {
+  type: string;
+  channels: {
+    inApp: {
+      title: string;
+      message: string;
+      actions?: NotificationAction[];
+    };
+    email: {
+      subject: string;
+      template: string;
+    };
+    push: {
+      title: string;
+      body: string;
+      data?: any;
+    };
+  };
+}
+
+Current Notification System Implementation Status
+Existing Components & Structure
+Server-Side Services
+
+server/services/notificationService.js (Basic email service)
+
+javascriptCopy- Mock email sending functionality
+- Basic booking-related email templates
+- No real email provider integration yet
+
+server/services/reminderService.js
+
+javascriptCopy- Cron-based reminder system
+- Session reminders (60, 30, 15, 5 minutes)
+- Daily digest functionality
+- Requires working NotificationSettings model
+
+server/socket/setup
+
+javascriptCopy- Socket.IO initialized in server.js
+- Active connections tracking
+- User status management
+- Basic booking update events
+Client-Side Services
+
+src/services/socketService.js
+
+javascriptCopy- Socket connection management
+- Event subscriptions
+- Notification event handling
+- Real-time updates
+
+src/services/notificationService.js
+
+javascriptCopy- Client-side notification formatting
+- Error handling
+- Toast notifications integration
+
+src/services/emailService.js
+
+javascriptCopy- Booking confirmation emails
+- Booking rejection emails
+- Request notifications
+- Cancellation notifications
+Components
+
+NotificationCenter.js (Exists)
+NotificationToast.jsx (Exists)
+NotificationPreferences.js (Exists)
+
+Database Models
+
+Notification.js (Basic)
+NotificationSettings.js (Basic)
+
+Required Enhancements
+1. Database Models Enhancement
+javascriptCopy// Notification.js needs update to:
+{
+  recipient: ObjectId,
+  sender: ObjectId,
+  type: String,
+  priority: String,
+  content: {
+    title: String,
+    message: String,
+    data: Mixed
+  },
+  status: String,
+  channels: [String],
+  metadata: {
+    bookingId: ObjectId,
+    sessionId: ObjectId,
+    connectionId: ObjectId
+  },
+  delivery: {
+    attempts: Number,
+    lastAttempt: Date,
+    channels: [{
+      channel: String,
+      status: String,
+      timestamp: Date
+    }]
+  },
+  expiresAt: Date,
+  createdAt: Date,
+  updatedAt: Date
+}
+
+// Add indexes:
+- recipient + createdAt
+- status + createdAt
+- expiresAt (TTL)
+2. Server-Side Implementation Needed
+
+NotificationController.js
+NotificationDistributor.js
+Enhanced Socket Events
+Email Provider Integration
+
+3. Client-Side Implementation Needed
+
+NotificationManager Service
+Real-time Updates Enhancement
+Notification Action Handlers
+Toast System Enhancement
+
+Current Integration Points
+Booking Flow
+javascriptCopy- UserBookingModal -> sendNotification
+- CoachBookingManagement -> sendNotification
+- ReminderService -> createNotification
+Socket Events
+javascriptCopyCurrent:
+- 'notification'
+- 'notification_read'
+- 'notification_action'
+
+Needed:
+- 'notification_delivered'
+- 'notification_failed'
+- 'notification_expired'
+Environment Requirements
+javascriptCopyRequired ENV variables:
+- EMAIL_PROVIDER
+- EMAIL_API_KEY
+- PUSH_NOTIFICATION_KEY
+- SOCKET_URL
+Dependencies
+javascriptCopyServer:
+- node-cron: "^2.0.0"
+- socket.io: "^4.0.0"
+- mongoose: "^6.0.0"
+
+Client:
+- socket.io-client: "^4.0.0"
+- react-hot-toast: "^2.0.0"
+- moment: "^2.29.1"
+Current Usage Examples
+javascriptCopy// Creating notification
+await sendNotification({
+  recipient: coachId,
+  type: NotificationTypes.BOOKING_REQUEST,
+  priority: 'high',
+  content: notificationContent,
+  metadata: { bookingId: response._id }
+});
+
+// Handling notification
+const handleNotification = (notification) => {
+  // Display using toast
+  // Update NotificationCenter
+  // Handle actions
+};
+Next Implementation Steps
+
+Complete NotificationDistributor service
+Enhance notification templates
+Implement delivery tracking
+Add notification preferences handling
+Set up email provider integration
+
+Important Files to Track
+
+server/services/notificationService.js
+server/services/reminderService.js
+src/services/socketService.js
+src/components/NotificationCenter.js
+server/models/Notification.js
+server/models/NotificationSettings.js
+
+Note on State
+Current implementation is basic but functional. Next phase should focus on:
+
+Robust delivery tracking
+Enhanced error handling
+Proper email integration
+Push notification setup
+User preferences implementation
+
+Repository Structure
+Copyserver/
+  ├── services/
+  │   ├── notificationService.js
+  │   └── reminderService.js
+  ├── models/
+  │   ├── Notification.js
+  │   └── NotificationSettings.js
+  └── socket/
+      └── setup.js
+
+src/
+  ├── services/
+  │   ├── socketService.js
+  │   ├── notificationService.js
+  │   └── emailService.js
+  ├── components/
+  │   ├── NotificationCenter.js
+  │   ├── NotificationToast.jsx
+  │   └── NotificationPreferences.js
+  └── hooks/
+      └── useNotifications.js
+This document contains all current implementation details and requirements for continuing notification service development in future conversations.
+
+Current Usage Examples
+// Creating notification in UserBookingModal.js
+  const notificationData = {
+    ...createdBooking,
+    coachName,
+    clientName: user?.firstName ? `${user.firstName} ${user.lastName}` : t('common:anonymousUser'),
+    sessionTypeName: bookingDetails.sessionType.name,
+  };
+
+  await BookingNotificationService.sendBookingNotification(
+    notificationData,
+    coachId,
+    notificationType,
+    {
+      t,
+      metadata: {
+        bookingId: createdBooking._id,
+        clientId: userId,
+        coachId: coachId,
+        sessionType: bookingDetails.sessionType._id,
+        isInstantBooking: bookingType === 'FIRM'
+      }
+    }
+  );
+
+Current Integration Points
+Connection Checking:
+- Connection model structure from DB:
+{
+  "_id": "670f6b3221b477194a3c64d1",
+  "coach": "66fbe443af6e5fe3198d22eb",
+  "client": "66f418d10a19ec0e4bbd377e",
+  "initiator": "66f418d10a19ec0e4bbd377e",
+  "status": "accepted",
+  ...
+}
+
+- Connection model structure after transformation:
+{
+  "_id": "670f6b3221b477194a3c64d1",
+  "otherUser": {
+    "_id": "66fbe443af6e5fe3198d22eb",
+    ...
+  },
+  "status": "accepted",
+  ...
+}
+
+Known Issues:
+1. Connection check needs to handle both data structures
+2. Notification settings/preferences naming consistency needs to be maintained
+3. Calendar visibility checks depend on correct connection verification
+
+Important Files to Track:
+- useConnectionCheck.js
+- BookingNotificationService.js
+- NotificationCenter.js
+- UserBookingModal.js
+- Connection.js model
+
+Next Implementation Steps:
+1. Standardize connection data structure handling
+2. Complete booking notification integration
+3. Implement notification delivery tracking
+4. Add session reminder notifications
+5. Handle quiet hours and notification preferences
+
+Current Implementation Status:
+- Basic notification creation working
+- Connection checking implemented but needs refinement
+- Booking modal integrated with notification service
+- Calendar visibility tied to connection status
+
+# Progress Update - October 28, 2024
+
+## Implemented Features
+1. Enhanced UserBookingModal with notification support
+2. Added detailed logging for notification creation flow
+3. Updated notification controller error handling
+4. Implemented basic notification creation through the booking flow
+
+## Current Issues Identified
+1. Notifications are being triggered but not properly created
+2. Getting undefined response from notification creation
+3. Socket service implementation needs review
+4. Missing or incomplete components:
+   - socketService.js implementation
+   - Server-side socket.io setup
+   - Notification database operations
+
+## Required Files for Next Session
+Please provide:
+1. `socketService.js` current implementation
+2. Server-side socket.io setup in `server.js`
+3. Current database schema for Notifications
+4. Any existing socket event handlers
+5. Current implementation of `NotificationCenter.js`
+
+## Current Integration Points
+```javascript
+// Successful booking flow:
+[UserBookingModal] -> createBooking -> sendNotification
+[BookingController] Response: {
+  _id: '671fe6b148756fc68155afb9',
+  // ... booking details
+}
+```
+
+## Error Tracking
+Current error in logs:
+```
+[UserBookingModal] Created session_reminder notification for 66f418d10a19ec0e4bbd377e: undefined
+```
+
+## Implementation Status
+- ✅ Booking creation working
+- ✅ Basic notification triggers implemented
+- ❌ Notification creation failing
+- ❌ Socket service integration incomplete
+- ❌ Real-time updates not working
+
+## Next Steps
+1. Implement proper socket service for notifications:
+   ```javascript
+   // Need to implement
+   sendNotification({
+     recipient: recipientId,
+     type,
+     content,
+     metadata
+   })
+   ```
+
+2. Add server-side socket event handlers:
+   ```javascript
+   // Need to implement
+   io.on('connection', (socket) => {
+     socket.on('notification', handleNotification);
+     socket.on('notification_read', handleNotificationRead);
+   });
+   ```
+
+3. Complete notification database operations:
+   ```javascript
+   // Need to implement
+   createNotification
+   markAsRead
+   getNotifications
+   ```
+
+## Required Information for Next Session
+1. How notifications should be displayed in the UI
+2. Existing socket.io implementation details
+3. Current notification center implementation
+4. Any existing notification preferences settings
+5. Expected notification behavior for different user roles
+
+## Dependencies to Verify
+- socket.io
+- socket.io-client
+- MongoDB notification collection setup
+- Notification translation files
+
+## Migration Plan
+1. Implement socket service
+2. Set up database operations
+3. Add real-time updates
+4. Implement notification center
+5. Add user preferences
+
+## Questions for Next Session
+1. Should notifications be persistent or temporary?
+2. Are there any specific quiet hours requirements?
+3. How should notification preferences be handled?
+4. What notification types need different UI treatments?
+5. How should failed notifications be handled?
+
+
+## Progress Update - October 30, 2024
+
+### Implemented Features
+1. Enhanced notification grouping and sorting
+2. Added batch operations support
+3. Implemented notification throttling
+4. Added trash system with recovery options
+5. Enhanced UI with touch support and animations
+
+### Current Implementation Status
+- ✅ Notification grouping by date/type/priority
+- ✅ Batch operations (mark read, delete, pin)
+- ✅ Enhanced UI components
+- ✅ Mobile-friendly touch interactions
+- ✅ Throttling service implementation
+- ❌ Push notifications still pending
+- ❌ Email service integration pending
+
+### Component Updates
+1. NotificationCenter.js:
+- Added grouping support
+- Implemented batch actions
+- Added touch gestures
+- Enhanced accessibility
+
+2. useNotifications Hook:
+- Added sorting and filtering
+- Implemented batch operations
+- Added pinned notifications support
+- Enhanced real-time updates
+
+3. Styles:
+- Added responsive design
+- Implemented touch interactions
+- Added skeleton loading
+- Added dark mode support
+- Enhanced accessibility features
+
+### Database Model Extensions
+```javascript
+{
+  // Added new fields
+  status: {
+    type: String,
+    enum: ['active', 'archived', 'trash', 'deleted'],
+    default: 'active',
+    index: true
+  },
+  pinned: {
+    type: Boolean,
+    default: false
+  },
+  category: String,
+  trashedAt: Date,
+  restoredAt: Date,
+  groupId: String,
+  groupOrder: Number
+}
+New Services
+
+NotificationThrottlingService:
+
+
+Type-specific throttling windows
+User preference support
+Priority-based exemptions
+Enhanced cleanup
+
+Next Implementation Steps
+
+Complete email service integration
+Implement push notifications
+Add notification preferences UI
+Set up notification analytics
+Implement notification templates
+
+Questions Resolved
+
+Notifications persistent: Yes, with trash system
+Notifications per type tracking implemented
+Batch operations confirmed and implemented
+Rich media support added
+Mobile interactions enhanced
+
+New Questions
+
+Should we implement notification analytics?
+Do we need custom notification templates per user role?
+Should we add notification categories beyond current set?
+Do we need export functionality for notifications?
+Should we implement notification search?
+
+Based on your requirements, here's an updated concept for enhancing the NotificationItem component and related functionality:
+
+Enhanced NotificationItem Component:
+
+Create a new component called NotificationItemContent to handle different types of notifications.
+Implement conditional rendering based on notification type.
+Add action buttons with hover effects and icons (no text).
+Create a collapsible section for more detailed information.
+Implement a new BookingDetailsModal component for viewing full booking details.
+Session Request Notification (Coach View):
+
+Display session request name, user name, and profile picture.
+Show start time, end time, and date.
+Include action buttons: Accept, Decline, Suggest Other Time, See Booking Calendar.
+Add a collapsible section for additional booking information.
+BookingDetailsModal Component:
+
+Create a reusable modal for displaying detailed booking information.
+Include different actions based on user role (coach/client) and booking status.
+Incorporate messaging placeholder for future integration.
+Reusable Action Buttons:
+
+Create a separate component for action buttons (ActionButton).
+Implement hover effects and icons.
+Handle different actions based on notification type and user role.
+Linking to Other Applications:
+
+Implement a LinkButton component for navigating to other parts of the application.
+Use this component for actions like "See Booking Calendar".
+Styling:
+
+Create a separate CSS file for NotificationItem and related components (NotificationItem.css).
+Implement responsive design for various screen sizes.
+Data Handling:
+
+Enhance useBookingData hook to fetch additional required information.
+Implement new API calls for notification actions (accept, decline, suggest time).
+NotificationCenter Enhancements:
+
+Update to handle new NotificationItem structure and actions.
+Implement real-time updates for notification status changes.
+Additional files needed:
+
+NotificationItemContent.js
+BookingDetailsModal.js
+ActionButton.js
+LinkButton.js
+NotificationItem.css
+Suggestions:
+
+Implement a notification action handler in the NotificationCenter to manage all notification-related actions.
+Create a separate service for notification actions (e.g., NotificationActionService.js).
+Implement optimistic updates for a better user experience when performing actions.
+Add animations for expanding/collapsing additional information and for action button interactions.
+Implement a notification preferences system to allow users to customize their notification display and actions.
+Create a notification archive or history view for past notifications.
+Implement a notification grouping system for related notifications (e.g., all notifications for a specific booking).
+Add a "Mark as Read" functionality for individual notifications.
+Implement a notification priority system and display indicators for high-priority notifications.
+Create a notification settings page where users can manage their notification preferences and view notification history.
+
+You're absolutely right, and I appreciate your feedback. It's indeed a better practice to utilize existing API calls from other components when available, or to build them in the appropriate service (like the booking service) and then use them across the application, including in the notification system. This approach promotes code reuse, maintains consistency, and follows the principle of separation of concerns.
+
+Here's a revised approach for data handling:
+
+Use existing booking API calls (from BookingAPI or similar) for actions like accept, decline, and suggest other time.
+If these calls don't exist yet, implement them in the BookingAPI service.
+In the notification system, use these BookingAPI methods when handling booking-related notifications.
+For notification-specific actions (like marking as read), keep these in a NotificationAPI service.
+
+
+currentstate:
+
+
+
+
+
+Original Requirements vs Current State
+1. Session Request Notification for Coach
+
+✅ Session request name - Implemented in NotificationItemContent
+✅ User name and profile picture - Using shadcn Avatar component
+✅ Start and end time, date - Using moment.js for formatting
+❌ Action buttons not visible - Need to fix rendering in notification chain
+❌ Action button styling/hover - Styling needs to be properly applied
+
+2. Application Linking
+
+❌ Navigation integration missing - Need to properly implement LinkButton
+❌ Calendar routing integration - Need to verify routing config
+
+3. Action Button Features
+
+❌ Button visibility issues
+❌ Hover effects missing
+❌ Message integration incomplete
+
+4. Collapsible Details
+
+❌ Collapsible section incomplete
+❌ BookingDetailsModal integration missing
+
+Component Relationships
+Core Components Chain:
+CopyNotificationCenter
+└── NotificationItem
+    └── NotificationItemContent
+        ├── BookingActions (not properly integrated)
+        └── BookingDetailsModal (integration incomplete)
+Current Files and Their Status:
+
+NotificationItemContent.js
+
+Has basic structure
+Missing proper BookingActions integration
+Collapsible section needs work
+Action handling duplicated
+
+
+BookingActions.js
+
+Component exists but not properly used
+Has message placeholder
+Has action handling logic
+Needs integration with NotificationItemContent
+
+
+NotificationItem.js
+
+Needs to be updated to properly pass props
+Missing proper action handling
+Checkbox handling working
+
+
+BookingDetailsModal.js
+
+Basic modal exists
+Needs integration with notification actions
+Needs proper state management
+
+
+useNotificationActions.js
+
+Has basic CRUD operations
+Needs integration with booking actions
+
+
+useBookingActions.js
+
+Has core booking actions
+Needs better error handling
+Needs optimistic updates
+
+
+
+Missing Features:
+
+Action Button Integration
+
+BookingActions component not properly used in NotificationItemContent
+Action handlers not properly connected
+
+
+State Management
+
+Notification actions not properly propagated
+Booking actions not properly integrated
+
+
+UI/UX
+
+Hover effects missing
+Transitions/animations incomplete
+Loading states incomplete
+
+
+
+Next Steps Priority:
+
+Fix notification component chain:
+
+Update NotificationItem to properly handle NotificationItemContent
+Integrate BookingActions into NotificationItemContent
+Implement proper prop drilling
+
+
+Implement collapsible section:
+
+Add proper animations
+Integrate with BookingDetailsModal
+Add proper state management
+
+
+Fix action buttons:
+
+Implement proper styling
+Add hover effects
+Integrate message functionality
+
+
+
+Files Needed to Proceed:
+
+Any existing notification type definitions
+Routing configuration
+Any global state management setup
+Any existing animation configurations
+Translation files for notifications and bookings
+
+Outstanding Questions:
+
+How should routing between applications be handled?
+Should we implement optimistic updates?
+How should we handle failed actions?
+Do we need to implement any caching strategies?
+
+This status will help maintain context and track progress as we implement the remaining features. Would you like me to share any additional context or see specific files before proceeding?

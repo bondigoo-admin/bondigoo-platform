@@ -1,0 +1,38 @@
+[
+  {
+    "_id": "66e4153848cdfa73ee74db5e",
+    "name": "German",
+    "code": "ge",
+    "__v": 0
+  },
+  {
+    "_id": "66e4154f48cdfa73ee74db68",
+    "name": "English",
+    "code": "en",
+    "__v": 0
+  },
+  {
+    "_id": "66e4154f48cdfa73ee74db6a",
+    "name": "Swedish",
+    "code": "sw",
+    "__v": 0
+  },
+  {
+    "_id": "66e4154f48cdfa73ee74db6c",
+    "name": "Arabic",
+    "code": "ar",
+    "__v": 0
+  },
+  {
+    "_id": "66e4186448cdfa73ee74dbbd",
+    "name": "Hindu",
+    "code": "hi",
+    "__v": 0
+  },
+  {
+    "_id": "66ec49c477bec414bf2b882d",
+    "name": "Spanish",
+    "code": "sp",
+    "__v": 0
+  }
+]

@@ -1,0 +1,11 @@
+{
+    "online": "Online",
+    "busy": "Busy",
+    "away": "Away",
+    "offline": "Offline",
+    "availability:online": "Online",
+    "availability:busy": "Busy",
+    "availability:away": "Away",
+    "availability:offline": "Offline",
+    "availability:abwesend": "Away"
+}

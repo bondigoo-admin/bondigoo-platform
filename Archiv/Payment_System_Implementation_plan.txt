@@ -1,0 +1,286 @@
+# Updated Payment System Implementation Plan
+Version: 2.0
+Last Updated: January 2025
+
+## 1. Overview
+
+Three core payment flows:
+1. Request Booking (No Payment)
+2. Secure with Payment Method (Primary Flow)
+   - Capture payment method during booking
+   - Process payment 24-48h before session
+   - Flexible cancellation
+3. Immediate Payment
+   - Required for near-term bookings (<48h)
+   - Coach-configurable requirement
+   - Premium sessions
+
+## 2. Database Updates
+
+### Phase 1: Schema Updates
+
+1. Booking.js Enhancements:
+```javascript
+const BookingSchema = new mongoose.Schema({
+  // Existing fields remain
+  payment: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Payment'
+  },
+  platformFee: {
+    amount: Number,
+    currency: String
+  },
+  paymentTiming: {
+    type: String,
+    enum: ['immediate', 'scheduled', 'on_approval'],
+    default: 'immediate'
+  },
+  paymentStatus: {
+    type: String,
+    enum: ['pending', 'authorized', 'processing', 'completed', 'failed'],
+    default: 'pending'
+  }
+});
+```
+
+2. Payment.js (New Model):
+```javascript
+const PaymentSchema = new mongoose.Schema({
+  booking: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Booking',
+    required: true
+  },
+  stripePaymentIntentId: String,
+  amount: {
+    total: Number,
+    currency: String,
+    breakdown: {
+      base: Number,
+      platformFee: Number,
+      vat: { rate: Number, amount: Number }
+    }
+  },
+  scheduledFor: Date,
+  status: {
+    current: String,
+    history: [{
+      status: String,
+      timestamp: Date,
+      metadata: Schema.Types.Mixed
+    }]
+  }
+});
+```
+
+3. User.js Updates:
+```javascript
+const UserSchema = new mongoose.Schema({
+  // Existing fields remain
+  stripe: {
+    customerId: String,
+    defaultPaymentMethodId: String
+  },
+  paymentMethods: [{
+    type: String,
+    brand: String,
+    last4: String,
+    expiryMonth: Number,
+    expiryYear: Number,
+    isDefault: Boolean
+  }]
+});
+```
+
+## 3. Component Structure
+
+```javascript
+/components/payment/
+├── core/
+│   ├── PaymentMethodCapture.js     # Payment method input
+│   ├── PaymentScheduling.js        # Schedule selection
+│   └── PaymentConfirmation.js      # Confirmation UI
+├── flows/
+│   ├── ImmediatePaymentFlow.js     # Direct payment
+│   ├── DeferredPaymentFlow.js      # Scheduled payment
+│   └── PaymentRetryFlow.js         # Recovery flow
+├── status/
+│   ├── PaymentStatusIndicator.js   # Status display
+│   ├── PaymentErrorDisplay.js      # Error handling
+│   └── ProcessingIndicator.js      # Loading states
+└── forms/
+    ├── PaymentTimingForm.js        # Timing selection
+    ├── PaymentMethodForm.js        # Method input
+    └── PaymentConfirmationForm.js  # Final step
+```
+
+## 4. Implementation Phases
+
+### Phase 1: Core Infrastructure (Week 1)
+
+1. Payment Context Setup:
+```javascript
+const PaymentContext = {
+  state: {
+    status: PAYMENT_STATES.INITIAL,
+    paymentMethod: null,
+    paymentIntent: null,
+    error: null
+  },
+  actions: {
+    initializePayment: (bookingId) => void,
+    setPaymentMethod: (method) => void,
+    processPayment: () => Promise,
+    handleError: (error) => void
+  }
+};
+```
+
+2. Payment Flow States:
+```javascript
+const PAYMENT_STATES = {
+  INITIAL: 'initial',
+  METHOD_SELECTION: 'method_selection',
+  PROCESSING: 'processing',
+  REQUIRES_ACTION: 'requires_action',
+  COMPLETED: 'completed',
+  FAILED: 'failed'
+};
+
+const PAYMENT_TIMING = {
+  IMMEDIATE: {
+    id: 'immediate',
+    label: 'Pay Now'
+  },
+  DEFERRED: {
+    id: 'deferred',
+    label: 'Pay Later',
+    conditions: {
+      minTimeToSession: 48
+    }
+  }
+};
+```
+
+### Phase 2: Flow Implementation (Week 2)
+
+1. Core Payment Processing:
+```javascript
+const processPayment = async (bookingId, paymentMethodId) => {
+  // 1. Create payment intent
+  const intent = await createPaymentIntent(bookingId);
+  
+  // 2. Confirm payment
+  const result = await stripe.confirmCardPayment(intent.clientSecret, {
+    payment_method: paymentMethodId
+  });
+  
+  // 3. Handle result
+  if (result.error) {
+    handlePaymentError(result.error);
+  } else {
+    handlePaymentSuccess(result);
+  }
+};
+```
+
+2. Payment Scheduling:
+```javascript
+const schedulePayment = async (bookingId, paymentMethodId, scheduledDate) => {
+  // 1. Create setup intent
+  const setup = await createSetupIntent(bookingId);
+  
+  // 2. Save payment method
+  await confirmSetupIntent(setup.clientSecret, paymentMethodId);
+  
+  // 3. Schedule payment
+  await schedulePaymentCollection(bookingId, scheduledDate);
+};
+```
+
+### Phase 3: Error Handling (Week 3)
+
+1. Error Recovery:
+```javascript
+const ERROR_RECOVERY = {
+  NETWORK: {
+    maxRetries: 3,
+    backoff: 'exponential'
+  },
+  VALIDATION: {
+    recoverable: false
+  },
+  TIMEOUT: {
+    maxAttempts: 2
+  }
+};
+```
+
+2. Status Management:
+```javascript
+const PaymentStatusTracker = ({
+  bookingId,
+  onStatusChange,
+  onComplete,
+  onError
+}) => {
+  useEffect(() => {
+    const pollStatus = async () => {
+      const status = await getPaymentStatus(bookingId);
+      handleStatusUpdate(status);
+    };
+    
+    const interval = setInterval(pollStatus, 3000);
+    return () => clearInterval(interval);
+  }, [bookingId]);
+};
+```
+
+## 5. API Endpoints
+
+```javascript
+// Payment Endpoints
+POST /api/payments/intent      // Create payment intent
+POST /api/payments/confirm    // Confirm payment
+POST /api/payments/schedule   // Schedule payment
+GET  /api/payments/methods    // Get saved methods
+POST /api/payments/methods    // Save payment method
+GET  /api/payments/status/:id // Get payment status
+```
+
+## 6. Testing Requirements
+
+1. Critical Test Cases:
+- Payment flow completion
+- Payment method storage
+- Scheduled payment processing 
+- Error recovery flows
+- Race condition handling
+- State cleanup
+
+2. Integration Tests:
+- Full booking flow
+- Payment processing
+- Status updates
+- Error scenarios
+
+## 7. Launch Checklist
+
+1. Security:
+- Stripe webhook verification
+- Error logging setup
+- Rate limiting
+- Payment validation
+
+2. Monitoring:
+- Payment success rates
+- Error tracking
+- Performance metrics
+- User feedback
+
+3. Documentation:
+- API documentation
+- Error handling guide
+- Recovery procedures
+- Support documentation

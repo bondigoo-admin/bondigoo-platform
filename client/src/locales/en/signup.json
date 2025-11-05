@@ -1,0 +1,122 @@
+{
+  "title": "Coach Signup",
+  "steps": {
+    "basicInfo": "Basic Information",
+    "coachingProfile": "Coaching Profile",
+    "additionalInfo": "Additional Information"
+  },
+  "labels": {
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "email": "Email Address",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "preferredLanguage": "Preferred Language",
+    "spokenLanguages": "Spoken Languages",
+    "register": "Register Coach",
+    "coachingAreas": "Coaching Areas",
+    "biography": "About You",
+    "experience": "Experience",
+    "certifications": "Certifications",
+    "hourlyRate": "Hourly Rate",
+    "profilePicture": "Profile Picture",
+    "availability": "Availability"
+  },
+  "placeholders": {
+    "firstName": "Enter your first name",
+    "lastName": "Enter your last name",
+    "email": "Enter your email address",
+    "password": "Enter a strong password",
+    "confirmPassword": "Confirm your password",
+    "biography": "Tell us and your potential clients about yourself (minimum 50 characters)",
+    "experience": "Briefly describe your coaching experience",
+    "certifications": "List any relevant certifications"
+  },
+  "errors": {
+    "firstNameRequired": "First name is required",
+    "lastNameRequired": "Last name is required",
+    "emailRequired": "Email is required",
+    "errorMessage": "Your Coach account has not been created!",
+    "emailInvalid": "Please enter a valid email address",
+    "passwordRequired": "Password is required",
+    "passwordLength": "Password must be at least 8 characters long",
+    "passwordMismatch": "Passwords do not match",
+    "biographyLength": "Biography must be at least 50 characters long"
+  },
+  "passwordStrength": {
+    "veryWeak": "Very Weak",
+    "weak": "Weak",
+    "fair": "Fair",
+    "strong": "Strong",
+    "veryStrong": "Very Strong"
+  },
+  "coachingAreas": {
+    "title": "Select Your Coaching Areas",
+    "personalDevelopment": "Personal Development",
+    "careerCoaching": "Career Coaching",
+    "businessCoaching": "Business Coaching",
+    "executiveCoaching": "Executive Coaching",
+    "lifeCoaching": "Life Coaching",
+    "relationshipCoaching": "Relationship Coaching",
+    "healthWellnessCoaching": "Health & Wellness Coaching",
+    "performanceCoaching": "Performance Coaching",
+    "financialCoaching": "Financial Coaching",
+    "spiritualCoaching": "Spiritual Coaching",
+    "other": "Other"
+  },
+  "languages": {
+    "english": "English",
+    "german": "German",
+    "french": "French",
+    "spanish": "Spanish",
+    "italian": "Italian",
+    "portuguese": "Portuguese",
+    "russian": "Russian",
+    "chinese": "Chinese",
+    "japanese": "Japanese",
+    "arabic": "Arabic",
+    "other": "Other"
+  },
+  "availability": {
+    "weekdays": "Weekdays",
+    "evenings": "Evenings",
+    "weekends": "Weekends"
+  },
+  "profileCompletion": {
+    "title": "Profile Completion",
+    "basicInfo": "Basic Information",
+    "coachingAreas": "Coaching Areas",
+    "languages": "Languages",
+    "biography": "Biography",
+    "certifications": "Certifications",
+    "availability": "Availability",
+    "profilePicture": "Profile Picture"
+  },
+  "optionalSections": {
+    "title": "Optional Profile Enhancements",
+    "uploadPicture": "Upload Profile Picture",
+    "addCertifications": "Add Certifications",
+    "createPackages": "Create Coaching Packages",
+    "offerPackages": "Offer Coaching Packages",
+    "setupAvailability": "Set Up Availability",
+    "availability": "Availability"
+  },
+  "cta": {
+    "createAccount": "Create Your Coach Account",
+    "completeSignup": "Complete Signup",
+    "saveAndContinue": "Save & Continue Later",
+    "register": "Register"
+  },
+  "success": {
+    "accountCreated": "Your coach account has been created successfully!",
+    "successMessage": "Your Coach account has been successfully created!",
+    "whatNext": "What's next?",
+    "completeProfile": "Complete your profile to attract more clients",
+    "exploreFeatures": "Explore platform features",
+    "bookFirstSession": "Book your first coaching session"
+  },
+  "messages": {
+    "packageSetupLater": "You can set up your coaching packages later in your dashboard.",
+    "availabilitySetupLater": "You can set your availability later in your dashboard."
+  }
+}

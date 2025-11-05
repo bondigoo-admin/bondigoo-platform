@@ -1,0 +1,81 @@
+﻿[bookingAPI] Fetching booking details: {"bookingId":"682ebc9b60a42408ac477411"}
+logger.js:110 [BookingDetailsModal] handleInternalSave called for direct edit. {"internalFormData":{"title":"Webinar with slots 23.05.","description":"Test Agenda 14","price":"120","currency":"CHF","earlyBirdPrice":"99.95","earlyBirdDeadline":"2025-05-22T21:30:00.000Z","minAttendees":"4","maxAttendees":"8","webinarPlatform":"coachconnect","webinarLink":"","presenterBio":"","qaSession":false,"recordingAvailable":false,"replayAccessDuration":"","isPublic":true,"showInWebinarBrowser":true,"webinarLanguage":"de","location":"","isOnline":false,"skillLevel":"allLevels","webinarSlots":[{"date":"2025-05-23T00:00:00.000Z","startTime":"2025-05-23T06:15:00.000Z","endTime":"2025-05-23T07:00:24.000Z"},{"date":"2025-05-23T00:00:00.000Z","startTime":"2025-05-23T08:00:24.000Z","endTime":"2025-05-23T09:00:24.000Z"},{"date":"2025-05-23T00:00:00.000Z","startTime":"2025-05-23T11:00:24.000Z","endTime":"2025-05-23T12:00:24.000Z"}],"courseMaterials":[],"prerequisites":"","learningObjectives":"","whatToBring":"","materialsProvided":"","sessionTopic":"","tags":[],"certificationOffered":false,"certificationDetails":"","type":"66ec54f94a8965b22af33fd9"}}
+logger.js:110 [ManageSessions] handleSaveSession V5 called {"sessionTitle":"Webinar with slots 23.05.","isEditing":true,"hasNewTitlePic":false,"newMaterialsCount":0}
+logger.js:110 [ManageSessions] Updating existing booking document via API {"bookingId":"682ebc9b60a42408ac477411"}
+bookingAPI.js:412 [updateBooking] Updating booking 682ebc9b60a42408ac477411: {title: 'Webinar with slots 23.05.', description: 'Test Agenda 14', price: 120, currency: 'CHF', earlyBirdPrice: 99.95, …}
+logger.js:110 [bookingAPI] Booking details fetched successfully: {"bookingId":"682ebc9b60a42408ac477411","responseStatus":200,"hasData":true}
+bookingAPI.js:417  [updateBooking] Error updating booking: AxiosError {message: 'Request failed with status code 404', name: 'AxiosError', code: 'ERR_BAD_REQUEST', config: {…}, request: XMLHttpRequest, …}
+overrideMethod @ hook.js:608
+__webpack_modules__../node_modules/its-fine/dist/index.js.console.error @ index.tsx:86
+updateBooking @ bookingAPI.js:417
+await in updateBooking
+(anonymous) @ ManageSessions.js:545
+handleInternalSave @ BookingDetailsModal.js:1580
+callCallback @ react-dom.development.js:4164
+invokeGuardedCallbackDev @ react-dom.development.js:4213
+invokeGuardedCallback @ react-dom.development.js:4277
+invokeGuardedCallbackAndCatchFirstError @ react-dom.development.js:4291
+executeDispatch @ react-dom.development.js:9041
+processDispatchQueueItemsInOrder @ react-dom.development.js:9073
+processDispatchQueue @ react-dom.development.js:9086
+dispatchEventsForPlugins @ react-dom.development.js:9097
+(anonymous) @ react-dom.development.js:9288
+batchedUpdates$1 @ react-dom.development.js:26179
+batchedUpdates @ react-dom.development.js:3991
+dispatchEventForPluginEventSystem @ react-dom.development.js:9287
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ react-dom.development.js:6465
+dispatchEvent @ react-dom.development.js:6457
+dispatchDiscreteEvent @ react-dom.development.js:6430
+logger.js:98  [ManageSessions] Error in handleSaveSession V5 {"errorMessage":"Request failed with status code 404","response":"<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<title>Error</title>\n</head>\n<body>\n<pre>Cannot PUT /api/bookings/682ebc9b60a42408ac477411</pre>\n</body>\n</html>\n"}
+overrideMethod @ hook.js:608
+__webpack_modules__../node_modules/its-fine/dist/index.js.console.error @ index.tsx:86
+error @ logger.js:98
+(anonymous) @ ManageSessions.js:595
+await in (anonymous)
+handleInternalSave @ BookingDetailsModal.js:1580
+callCallback @ react-dom.development.js:4164
+invokeGuardedCallbackDev @ react-dom.development.js:4213
+invokeGuardedCallback @ react-dom.development.js:4277
+invokeGuardedCallbackAndCatchFirstError @ react-dom.development.js:4291
+executeDispatch @ react-dom.development.js:9041
+processDispatchQueueItemsInOrder @ react-dom.development.js:9073
+processDispatchQueue @ react-dom.development.js:9086
+dispatchEventsForPlugins @ react-dom.development.js:9097
+(anonymous) @ react-dom.development.js:9288
+batchedUpdates$1 @ react-dom.development.js:26179
+batchedUpdates @ react-dom.development.js:3991
+dispatchEventForPluginEventSystem @ react-dom.development.js:9287
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ react-dom.development.js:6465
+dispatchEvent @ react-dom.development.js:6457
+dispatchDiscreteEvent @ react-dom.development.js:6430
+logger.js:110 [toastThrottler] Displaying toast {"message":"Fehler beim Speichern der Sitzung"}
+logger.js:98  [BookingDetailsModal] Error during internal save: {"error":"Request failed with status code 404","stack":"AxiosError: Request failed with status code 404\n    at settle (http://localhost:3000/static/js/bundle.js:555714:12)\n    at XMLHttpRequest.onloadend (http://localhost:3000/static/js/bundle.js:554351:66)\n    at Axios.request (http://localhost:3000/static/js/bundle.js:554850:41)\n    at async updateBooking (http://localhost:3000/static/js/bundle.js:97625:22)\n    at async http://localhost:3000/static/js/bundle.js:28395:37\n    at async handleInternalSave (http://localhost:3000/main.b777767c1a4c15326f6b.hot-update.js:2304:9)"}
+overrideMethod @ hook.js:608
+__webpack_modules__../node_modules/its-fine/dist/index.js.console.error @ index.tsx:86
+error @ logger.js:98
+handleInternalSave @ BookingDetailsModal.js:1596
+await in handleInternalSave
+callCallback @ react-dom.development.js:4164
+invokeGuardedCallbackDev @ react-dom.development.js:4213
+invokeGuardedCallback @ react-dom.development.js:4277
+invokeGuardedCallbackAndCatchFirstError @ react-dom.development.js:4291
+executeDispatch @ react-dom.development.js:9041
+processDispatchQueueItemsInOrder @ react-dom.development.js:9073
+processDispatchQueue @ react-dom.development.js:9086
+dispatchEventsForPlugins @ react-dom.development.js:9097
+(anonymous) @ react-dom.development.js:9288
+batchedUpdates$1 @ react-dom.development.js:26179
+batchedUpdates @ react-dom.development.js:3991
+dispatchEventForPluginEventSystem @ react-dom.development.js:9287
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ react-dom.development.js:6465
+dispatchEvent @ react-dom.development.js:6457
+dispatchDiscreteEvent @ react-dom.development.js:6430
+
+info: [Server] Incoming request {"method":"GET","timestamp":"2025-05-22T08:10:21.295Z","url":"/api/bookings/682ebc9b60a42408ac477411"}
+debug: [bookingController.getBooking] Data fetched {"bookingId":"682ebc9b60a42408ac477411","fetchedCoachProfileData":{"profilePicture":{"publicId":"profile_picture_cuvee5","url":"https://res.cloudinary.com/dzpjkn8eo/image/upload/v1726506932/profile_picture_cuvee5.jpg"}},"populatedBookingClientAsUser":null,"populatedBookingCoachAsUser":{"_id":"66d9cdcb0a7492a86482bd68","name":"Dominic Frei Coach "},"timestamp":"2025-05-22T08:10:21.380Z"}
+GET /api/bookings/682ebc9b60a42408ac477411 304 103.710 ms - -
+[bookingRoutes] PUT /api/bookings/682ebc9b60a42408ac477411
+error: PUT /api/bookings/682ebc9b60a42408ac477411 {"duration":"4ms","ip":"::1","status":404,"timestamp":"2025-05-22T08:10:21.406Z"}
+PUT /api/bookings/682ebc9b60a42408ac477411 404 1.212 ms - 176
+debug: [Socket] Received event payload {"event":"pong","socketId":"I1eePXPkcyNia5zRAAAF","timestamp":"2025-05-22T08:10:27.118Z","userId":"66d9cdcb0a7492a86482bd68"}
+info: [Socket] Caught event: {"args":"[]","event":"pong","socketId":"I1eePXPkcyNia5zRAAAF","timestamp":"2025-05-22T08:10:27.118Z"}

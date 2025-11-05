@@ -1,0 +1,318 @@
+Coaching Platform Pricing System Restructuring
+Technical Specification and Implementation Plan
+Version 1.0 - December 2024
+1. Current Situation Analysis
+1.1 Identified Issues
+
+Pricing information is scattered across multiple models
+Redundant price fields in SessionType and Coach models
+No clear hierarchy for base rates and overrides
+Inconsistent handling of VAT (fixed at 8.1% for Switzerland)
+Platform fee calculations mixed with business logic
+Limited support for complex pricing scenarios
+
+1.2 Current Implementation
+
+Pricing exists in:
+
+Coach.hourlyRate
+Coach.settings.professionalProfile.hourlyRate
+SessionType pricing fields
+Booking.price structure
+Individual calculation methods
+
+
+
+2. Objectives
+2.1 Primary Goals
+
+Centralize pricing logic and configuration
+Implement hierarchical pricing system with clear override rules
+Separate pricing concerns from session type definitions
+Improve pricing flexibility and customization
+Streamline VAT and platform fee handling
+Create maintainable and scalable pricing architecture
+
+2.2 Business Requirements
+
+Support base rates with session-specific overrides
+Handle variable pricing based on:
+
+Session type
+Duration
+Time of day/week
+Connection status
+Special periods
+
+
+Maintain Swiss VAT compliance (8.1%)
+Support 15% platform fee
+Enable future international expansion
+
+3. Proposed Architecture
+3.1 Core Models
+3.1.1 PriceConfiguration Model
+
+Primary pricing configuration per coach
+
+CopyFields:
+- coach (ref: User, required)
+- baseRate: {
+    amount: Number,
+    currency: String
+  }
+- sessionTypeOverrides: [{
+    sessionType: (ref: SessionType),
+    rate: {
+      amount: Number,
+      currency: String
+    },
+    conditions: {
+      minDuration: Number,
+      maxDuration: Number,
+      participantCount: Number
+    }
+  }]
+- timeBasedRates: [{
+    rate: {
+      amount: Number,
+      currency: String
+    },
+    dayOfWeek: [Number],
+    timeRange: {
+      start: String,
+      end: String
+    },
+    priority: Number
+  }]
+- specialPeriods: [{
+    name: String,
+    startDate: Date,
+    endDate: Date,
+    rate: {
+      amount: Number,
+      currency: String
+    },
+    priority: Number
+  }]
+3.1.2 Updated SessionType Model
+Remove pricing fields, focus on session characteristics
+CopyFields:
+- name
+- description
+- duration: {
+    default: Number,
+    min: Number,
+    max: Number,
+    step: Number
+  }
+- format
+- capacity
+- requirements
+- materials
+3.1.3 Enhanced Price Structure (within Booking Model)
+Fields:
+- base: {
+    amount: Number (required),
+    currency: String (default: 'CHF')
+  }
+- final: {
+    amount: Number (required),
+    currency: String (default: 'CHF')
+  }
+- currency: String (default: 'CHF')
+- vat: {
+    rate: Number (default: 8.1),
+    amount: Number,
+    included: Boolean (default: true)
+  }
+- platformFee: {
+    percentage: Number (default: 15),
+    amount: Number
+  }
+- discounts: [{
+    type: String,
+    amount: Number,
+    description: String
+  }]
+- calculationMeta: {
+    calculatedAt: Date,
+    version: String
+  }
+3.2 Services
+3.2.1 PricingService
+Handles all price calculations and rule application
+
+calculateSessionPrice
+applyOverrides
+calculatePlatformFee
+calculateVAT
+validatePricing
+applySpecialRates
+
+3.2.2 TaxService
+Dedicated VAT handling
+
+calculateVAT
+validateTaxRules
+generateTaxBreakdown
+
+3.2.3 BookingPriceService
+Booking-specific price operations
+
+calculateBookingPrice
+applyDiscounts
+generatePriceBreakdown
+handleRefundCalculations
+
+3.2.4 Price Flow Strategy
+- Frontend calculates all prices using PricingService
+- Backend validates price structure but trusts frontend calculations
+- Price data flows one-way from frontend to backend
+- No recalculation on backend unless explicitly requested
+- Backend stores complete price structure for record-keeping
+
+3.3 Critical Dependencies and Order of Operations
+
+Coach Creation Flow:
+1. User document created
+2. Coach document created with user reference
+3. PriceConfiguration document created with coach reference
+
+Required Document References:
+- PriceConfiguration needs valid Coach reference
+- Coach needs valid User reference
+- All queries should use User ID as primary identifier
+
+Error Prevention:
+1. Always validate userId before database queries
+2. Check for existing Coach document before price operations
+3. Create default PriceConfiguration if none exists
+4. Use mongoose.Types.ObjectId for ID conversions
+
+4. Implementation Phases
+Phase 1: Database Restructuring
+
+Create new PriceConfiguration model
+Update SessionType model
+Enhance Booking price structure
+Create migration scripts
+Add validation rules
+- Move price calculation logic to frontend
+- Implement PricingService in frontend
+- Add comprehensive frontend validation
+- Add price preview functionality
+
+Phase 2: Service Layer Implementation
+
+Create PricingService
+Implement TaxService
+Build BookingPriceService
+Add comprehensive logging
+Implement error handling
+- Remove BookingPriceService
+- Update Booking model price schema
+- Implement price structure validation
+- Remove redundant price calculations
+
+Phase 3: API Updates
+
+Create pricing configuration endpoints
+Update booking endpoints
+Add price calculation endpoints
+Implement validation middleware
+Update documentation
+- Implement one-way price flow
+- Add detailed price logging
+- Update error handling
+- Implement price audit trail
+
+Phase 4: Frontend Integration
+
+Update CoachSettings component
+Enhance BookingModal
+Update price displays
+Add price management interface
+Implement real-time price calculations
+- Update BookingModal price handling
+- Enhance price display components
+- Add real-time price calculations
+- Implement price breakdown display
+
+5. Migration Strategy
+5.1 Data Migration
+
+Create new price configurations from existing rates
+Transfer session type prices to overrides
+Update existing bookings
+Validate migrated data
+Implement rollback procedures
+
+5.2 Code Migration
+
+Deprecate old pricing methods
+Update service references
+Implement new pricing logic
+Update frontend components
+Add backward compatibility layer
+
+6. Testing Requirements
+6.1 Unit Tests
+
+Price calculation accuracy
+Override rule application
+VAT calculations
+Platform fee calculations
+Special rate handling
+
+6.2 Integration Tests
+
+End-to-end booking flow
+Price updates
+Migration scripts
+API endpoints
+Frontend integration
+
+7. Future Considerations
+7.1 Extensibility
+
+Multi-currency support
+Additional override types
+Dynamic platform fees
+Complex discount rules
+International tax handling
+
+7.2 Performance
+
+Price calculation caching
+Bulk operations
+Query optimization
+Frontend performance
+Real-time updates
+
+8. Success Criteria
+
+Centralized pricing management
+Accurate price calculations
+Flexible override system
+Maintainable codebase
+Proper separation of concerns
+Comprehensive testing coverage
+Clear upgrade path
+Performance benchmarks met
+
+Price Flow Integrity
+- Frontend price calculations match business rules
+- Backend validation prevents invalid price structures
+- Complete price history maintained
+- Price modifications tracked and audited
+
+9. Dependencies
+
+MongoDB
+Mongoose ODM
+Express.js
+React
+React Query
+Socket.IO
+Stripe Integration

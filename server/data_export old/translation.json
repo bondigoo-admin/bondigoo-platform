@@ -1,0 +1,694 @@
+[
+  {
+    "_id": "66e2e21989a1bf5f855f7d88",
+    "key": "specialty_66e2e21989a1bf5f855f7d86",
+    "translations": {
+      "en": "Agile Coaching 2",
+      "fr": "",
+      "de": "",
+      "es": ""
+    },
+    "createdAt": "2024-09-12T12:44:09.403Z",
+    "updatedAt": "2024-09-12T12:44:09.403Z",
+    "__v": 0
+  },
+  {
+    "_id": "66e3ed61ba5c0e5465af61b4",
+    "key": "specialty_66e3ed61ba5c0e5465af61b2",
+    "translations": {
+      "en": "Agile Coaching 3",
+      "fr": "",
+      "de": "",
+      "es": ""
+    },
+    "createdAt": "2024-09-13T07:44:33.320Z",
+    "updatedAt": "2024-09-13T07:44:33.320Z",
+    "__v": 0
+  },
+  {
+    "_id": "66e3f60fba5c0e5465af61f1",
+    "key": "specialty_66e3f60fba5c0e5465af61ef",
+    "translations": {
+      "en": "Agile Coaching 3",
+      "fr": "",
+      "de": "",
+      "es": ""
+    },
+    "createdAt": "2024-09-13T08:21:35.090Z",
+    "updatedAt": "2024-09-13T08:21:35.090Z",
+    "__v": 0
+  },
+  {
+    "_id": "66e54e7f1445265fa3c919d7",
+    "key": "specialties_66e2bff9616218a1d7678fc8",
+    "listType": "specialties",
+    "translations": {
+      "fr": "Test 12",
+      "de": "Test 2",
+      "es": "Test 3"
+    },
+    "createdAt": "2024-09-14T08:51:11.504Z",
+    "updatedAt": "2024-09-14T09:02:18.799Z",
+    "__v": 0
+  },
+  {
+    "_id": "66e54e7f1445265fa3c919da",
+    "key": "specialties_66e2bff9616218a1d7678fac",
+    "listType": "specialties",
+    "translations": {
+      "fr": "",
+      "de": "",
+      "es": ""
+    },
+    "createdAt": "2024-09-14T08:51:11.568Z",
+    "updatedAt": "2024-09-14T08:51:14.548Z",
+    "__v": 0
+  },
+  {
+    "_id": "66e54e7f1445265fa3c919dd",
+    "key": "specialties_66e2bff9616218a1d7678fb0",
+    "listType": "specialties",
+    "translations": {
+      "fr": "",
+      "de": "",
+      "es": ""
+    },
+    "createdAt": "2024-09-14T08:51:11.603Z",
+    "updatedAt": "2024-09-14T08:51:14.586Z",
+    "__v": 0
+  },
+  {
+    "_id": "66e54e7f1445265fa3c919e0",
+    "key": "specialties_66e2bff9616218a1d7678fba",
+    "listType": "specialties",
+    "translations": {
+      "fr": "",
+      "de": "",
+      "es": ""
+    },
+    "createdAt": "2024-09-14T08:51:11.637Z",
+    "updatedAt": "2024-09-14T08:51:14.621Z",
+    "__v": 0
+  },
+  {
+    "_id": "66e54e7f1445265fa3c919e3",
+    "key": "specialties_66e2bff9616218a1d7678fa8",
+    "listType": "specialties",
+    "translations": {
+      "fr": "",
+      "de": "",
+      "es": ""
+    },
+    "createdAt": "2024-09-14T08:51:11.674Z",
+    "updatedAt": "2024-09-14T08:51:14.659Z",
+    "__v": 0
+  },
+  {
+    "_id": "66e54e7f1445265fa3c919e6",
+    "key": "specialties_66e2bff9616218a1d7678f9a",
+    "listType": "specialties",
+    "translations": {
+      "fr": "",
+      "de": "",
+      "es": ""
+    },
+    "createdAt": "2024-09-14T08:51:11.710Z",
+    "updatedAt": "2024-09-14T08:51:14.705Z",
+    "__v": 0
+  },
+  {
+    "_id": "66e54e7f1445265fa3c919e9",
+    "key": "specialties_66e2bff9616218a1d7678f9c",
+    "listType": "specialties",
+    "translations": {
+      "fr": "",
+      "de": "",
+      "es": ""
+    },
+    "createdAt": "2024-09-14T08:51:11.749Z",
+    "updatedAt": "2024-09-14T08:51:14.743Z",
+    "__v": 0
+  },
+  {
+    "_id": "66e54e7f1445265fa3c919ec",
+    "key": "specialties_66e2bff9616218a1d7678f96",
+    "listType": "specialties",
+    "translations": {
+      "fr": "",
+      "de": "",
+      "es": ""
+    },
+    "createdAt": "2024-09-14T08:51:11.783Z",
+    "updatedAt": "2024-09-14T08:51:14.781Z",
+    "__v": 0
+  },
+  {
+    "_id": "66e54e7f1445265fa3c919ef",
+    "key": "specialties_66e2bff9616218a1d7678f98",
+    "listType": "specialties",
+    "translations": {
+      "fr": "",
+      "de": "",
+      "es": ""
+    },
+    "createdAt": "2024-09-14T08:51:11.817Z",
+    "updatedAt": "2024-09-14T08:51:14.818Z",
+    "__v": 0
+  },
+  {
+    "_id": "66e54e7f1445265fa3c919f2",
+    "key": "specialties_66e2bff9616218a1d7678fc4",
+    "listType": "specialties",
+    "translations": {
+      "fr": "",
+      "de": "",
+      "es": ""
+    },
+    "createdAt": "2024-09-14T08:51:11.853Z",
+    "updatedAt": "2024-09-14T08:51:14.853Z",
+    "__v": 0
+  },
+  {
+    "_id": "66e54e7f1445265fa3c919f5",
+    "key": "specialties_66e2bff9616218a1d7678f94",
+    "listType": "specialties",
+    "translations": {
+      "fr": "",
+      "de": "",
+      "es": ""
+    },
+    "createdAt": "2024-09-14T08:51:11.891Z",
+    "updatedAt": "2024-09-14T08:51:14.889Z",
+    "__v": 0
+  },
+  {
+    "_id": "66e54e7f1445265fa3c919f8",
+    "key": "specialties_66e2bff9616218a1d7678fb2",
+    "listType": "specialties",
+    "translations": {
+      "fr": "",
+      "de": "",
+      "es": ""
+    },
+    "createdAt": "2024-09-14T08:51:11.937Z",
+    "updatedAt": "2024-09-14T08:51:14.923Z",
+    "__v": 0
+  },
+  {
+    "_id": "66e54e7f1445265fa3c919fb",
+    "key": "specialties_66e2bff9616218a1d7678fca",
+    "listType": "specialties",
+    "translations": {
+      "fr": "",
+      "de": "",
+      "es": ""
+    },
+    "createdAt": "2024-09-14T08:51:11.973Z",
+    "updatedAt": "2024-09-14T08:51:14.959Z",
+    "__v": 0
+  },
+  {
+    "_id": "66e54e801445265fa3c919fe",
+    "key": "specialties_66e2bff9616218a1d7678fd0",
+    "listType": "specialties",
+    "translations": {
+      "fr": "",
+      "de": "",
+      "es": ""
+    },
+    "createdAt": "2024-09-14T08:51:12.013Z",
+    "updatedAt": "2024-09-14T08:51:14.990Z",
+    "__v": 0
+  },
+  {
+    "_id": "66e54e801445265fa3c91a01",
+    "key": "specialties_66e2bff9616218a1d7678fc2",
+    "listType": "specialties",
+    "translations": {
+      "fr": "",
+      "de": "",
+      "es": ""
+    },
+    "createdAt": "2024-09-14T08:51:12.050Z",
+    "updatedAt": "2024-09-14T08:51:15.022Z",
+    "__v": 0
+  },
+  {
+    "_id": "66e54e801445265fa3c91a04",
+    "key": "specialties_66e2bff9616218a1d7678fa6",
+    "listType": "specialties",
+    "translations": {
+      "fr": "",
+      "de": "",
+      "es": ""
+    },
+    "createdAt": "2024-09-14T08:51:12.087Z",
+    "updatedAt": "2024-09-14T08:51:15.055Z",
+    "__v": 0
+  },
+  {
+    "_id": "66e54e801445265fa3c91a07",
+    "key": "specialties_66e2bff9616218a1d7678fc0",
+    "listType": "specialties",
+    "translations": {
+      "fr": "",
+      "de": "",
+      "es": ""
+    },
+    "createdAt": "2024-09-14T08:51:12.124Z",
+    "updatedAt": "2024-09-14T08:51:15.091Z",
+    "__v": 0
+  },
+  {
+    "_id": "66e54e801445265fa3c91a0a",
+    "key": "specialties_66e2bff9616218a1d7678fd2",
+    "listType": "specialties",
+    "translations": {
+      "fr": "",
+      "de": "",
+      "es": ""
+    },
+    "createdAt": "2024-09-14T08:51:12.160Z",
+    "updatedAt": "2024-09-14T08:51:15.124Z",
+    "__v": 0
+  },
+  {
+    "_id": "66e54e801445265fa3c91a0d",
+    "key": "specialties_66e2bff9616218a1d7678fd4",
+    "listType": "specialties",
+    "translations": {
+      "fr": "",
+      "de": "",
+      "es": ""
+    },
+    "createdAt": "2024-09-14T08:51:12.195Z",
+    "updatedAt": "2024-09-14T08:51:15.156Z",
+    "__v": 0
+  },
+  {
+    "_id": "66e54e801445265fa3c91a10",
+    "key": "specialties_66e2bff9616218a1d7678f9e",
+    "listType": "specialties",
+    "translations": {
+      "fr": "",
+      "de": "",
+      "es": ""
+    },
+    "createdAt": "2024-09-14T08:51:12.229Z",
+    "updatedAt": "2024-09-14T08:51:15.189Z",
+    "__v": 0
+  },
+  {
+    "_id": "66e54e801445265fa3c91a13",
+    "key": "specialties_66e2bff9616218a1d7678fb4",
+    "listType": "specialties",
+    "translations": {
+      "fr": "",
+      "de": "",
+      "es": ""
+    },
+    "createdAt": "2024-09-14T08:51:12.267Z",
+    "updatedAt": "2024-09-14T08:51:15.222Z",
+    "__v": 0
+  },
+  {
+    "_id": "66e54e801445265fa3c91a16",
+    "key": "specialties_66e2bff9616218a1d7678fa2",
+    "listType": "specialties",
+    "translations": {
+      "fr": "",
+      "de": "",
+      "es": ""
+    },
+    "createdAt": "2024-09-14T08:51:12.307Z",
+    "updatedAt": "2024-09-14T08:51:15.255Z",
+    "__v": 0
+  },
+  {
+    "_id": "66e54e801445265fa3c91a19",
+    "key": "specialties_66e2bff9616218a1d7678faa",
+    "listType": "specialties",
+    "translations": {
+      "fr": "",
+      "de": "",
+      "es": ""
+    },
+    "createdAt": "2024-09-14T08:51:12.340Z",
+    "updatedAt": "2024-09-14T08:51:15.289Z",
+    "__v": 0
+  },
+  {
+    "_id": "66e54e801445265fa3c91a1c",
+    "key": "specialties_66e2bff9616218a1d7678fbc",
+    "listType": "specialties",
+    "translations": {
+      "fr": "",
+      "de": "",
+      "es": ""
+    },
+    "createdAt": "2024-09-14T08:51:12.373Z",
+    "updatedAt": "2024-09-14T08:51:15.321Z",
+    "__v": 0
+  },
+  {
+    "_id": "66e54e801445265fa3c91a1f",
+    "key": "specialties_66e2bff9616218a1d7678fa0",
+    "listType": "specialties",
+    "translations": {
+      "fr": "",
+      "de": "",
+      "es": ""
+    },
+    "createdAt": "2024-09-14T08:51:12.406Z",
+    "updatedAt": "2024-09-14T08:51:15.357Z",
+    "__v": 0
+  },
+  {
+    "_id": "66e54e801445265fa3c91a22",
+    "key": "specialties_66e2bff9616218a1d7678f90",
+    "listType": "specialties",
+    "translations": {
+      "fr": "",
+      "de": "",
+      "es": ""
+    },
+    "createdAt": "2024-09-14T08:51:12.440Z",
+    "updatedAt": "2024-09-14T08:51:15.391Z",
+    "__v": 0
+  },
+  {
+    "_id": "66e54e801445265fa3c91a25",
+    "key": "specialties_66e2bff9616218a1d7678fb6",
+    "listType": "specialties",
+    "translations": {
+      "fr": "Test",
+      "de": "Test 12",
+      "es": "Test 123"
+    },
+    "createdAt": "2024-09-14T08:51:12.475Z",
+    "updatedAt": "2024-09-14T16:42:05.777Z",
+    "__v": 0
+  },
+  {
+    "_id": "66e54e801445265fa3c91a28",
+    "key": "specialties_66e2bff9616218a1d7678fa4",
+    "listType": "specialties",
+    "translations": {
+      "fr": "",
+      "de": "",
+      "es": ""
+    },
+    "createdAt": "2024-09-14T08:51:12.515Z",
+    "updatedAt": "2024-09-14T08:51:15.459Z",
+    "__v": 0
+  },
+  {
+    "_id": "66e54e801445265fa3c91a2b",
+    "key": "specialties_66e2bff9616218a1d7678fbe",
+    "listType": "specialties",
+    "translations": {
+      "fr": "",
+      "de": "",
+      "es": ""
+    },
+    "createdAt": "2024-09-14T08:51:12.548Z",
+    "updatedAt": "2024-09-14T08:51:15.492Z",
+    "__v": 0
+  },
+  {
+    "_id": "66e54e801445265fa3c91a2e",
+    "key": "specialties_66e2bff9616218a1d7678fce",
+    "listType": "specialties",
+    "translations": {
+      "fr": "",
+      "de": "",
+      "es": ""
+    },
+    "createdAt": "2024-09-14T08:51:12.584Z",
+    "updatedAt": "2024-09-14T08:51:15.524Z",
+    "__v": 0
+  },
+  {
+    "_id": "66e54e801445265fa3c91a31",
+    "key": "specialties_66e2bff9616218a1d7678fae",
+    "listType": "specialties",
+    "translations": {
+      "fr": "",
+      "de": "",
+      "es": ""
+    },
+    "createdAt": "2024-09-14T08:51:12.618Z",
+    "updatedAt": "2024-09-14T08:51:15.562Z",
+    "__v": 0
+  },
+  {
+    "_id": "66e54e801445265fa3c91a34",
+    "key": "specialties_66e2bff9616218a1d7678f92",
+    "listType": "specialties",
+    "translations": {
+      "fr": "",
+      "de": "",
+      "es": ""
+    },
+    "createdAt": "2024-09-14T08:51:12.652Z",
+    "updatedAt": "2024-09-14T08:51:15.597Z",
+    "__v": 0
+  },
+  {
+    "_id": "66e54e801445265fa3c91a37",
+    "key": "specialties_66e2bff9616218a1d7678fb8",
+    "listType": "specialties",
+    "translations": {
+      "fr": "",
+      "de": "",
+      "es": ""
+    },
+    "createdAt": "2024-09-14T08:51:12.686Z",
+    "updatedAt": "2024-09-14T08:51:15.630Z",
+    "__v": 0
+  },
+  {
+    "_id": "66e54e801445265fa3c91a3a",
+    "key": "specialties_66e2bff9616218a1d7678fcc",
+    "listType": "specialties",
+    "translations": {
+      "fr": "",
+      "de": "",
+      "es": ""
+    },
+    "createdAt": "2024-09-14T08:51:12.720Z",
+    "updatedAt": "2024-09-14T08:51:15.664Z",
+    "__v": 0
+  },
+  {
+    "_id": "66e54e801445265fa3c91a3d",
+    "key": "specialties_66e2cd7ecbbd9d0b706539bd",
+    "listType": "specialties",
+    "translations": {
+      "fr": "",
+      "de": "",
+      "es": ""
+    },
+    "createdAt": "2024-09-14T08:51:12.759Z",
+    "updatedAt": "2024-09-14T08:51:15.697Z",
+    "__v": 0
+  },
+  {
+    "_id": "66e54e801445265fa3c91a40",
+    "key": "specialties_66e4127c48cdfa73ee74db3d",
+    "listType": "specialties",
+    "translations": {
+      "fr": "",
+      "de": "",
+      "es": ""
+    },
+    "createdAt": "2024-09-14T08:51:12.800Z",
+    "updatedAt": "2024-09-14T08:51:15.731Z",
+    "__v": 0
+  },
+  {
+    "_id": "66e54e801445265fa3c91a43",
+    "key": "specialties_66e4153048cdfa73ee74db58",
+    "listType": "specialties",
+    "translations": {
+      "fr": "",
+      "de": "",
+      "es": ""
+    },
+    "createdAt": "2024-09-14T08:51:12.837Z",
+    "updatedAt": "2024-09-14T08:51:15.766Z",
+    "__v": 0
+  },
+  {
+    "_id": "66e54e801445265fa3c91a46",
+    "key": "specialties_66e4153048cdfa73ee74db5a",
+    "listType": "specialties",
+    "translations": {
+      "fr": "",
+      "de": "",
+      "es": ""
+    },
+    "createdAt": "2024-09-14T08:51:12.871Z",
+    "updatedAt": "2024-09-14T08:51:15.804Z",
+    "__v": 0
+  },
+  {
+    "_id": "66e54e801445265fa3c91a49",
+    "key": "specialties_66e4320548cdfa73ee74dbe5",
+    "listType": "specialties",
+    "translations": {
+      "fr": "",
+      "de": "",
+      "es": ""
+    },
+    "createdAt": "2024-09-14T08:51:12.903Z",
+    "updatedAt": "2024-09-14T08:51:15.839Z",
+    "__v": 0
+  },
+  {
+    "_id": "66e54e801445265fa3c91a4c",
+    "key": "specialties_66e4320548cdfa73ee74dbe7",
+    "listType": "specialties",
+    "translations": {
+      "fr": "",
+      "de": "",
+      "es": ""
+    },
+    "createdAt": "2024-09-14T08:51:12.936Z",
+    "updatedAt": "2024-09-14T08:51:15.872Z",
+    "__v": 0
+  },
+  {
+    "_id": "66e54e801445265fa3c91a4f",
+    "key": "specialties_66e442f4bfed647b4e69b236",
+    "listType": "specialties",
+    "translations": {
+      "fr": "",
+      "de": "",
+      "es": ""
+    },
+    "createdAt": "2024-09-14T08:51:12.969Z",
+    "updatedAt": "2024-09-14T08:51:15.906Z",
+    "__v": 0
+  },
+  {
+    "_id": "66e55151c54ce149922c780b",
+    "key": "languages_66e4153848cdfa73ee74db5e",
+    "listType": "languages",
+    "translations": {
+      "fr": "",
+      "de": "Deutsch",
+      "es": ""
+    },
+    "createdAt": "2024-09-14T09:03:13.834Z",
+    "updatedAt": "2024-09-14T09:03:14.242Z",
+    "__v": 0
+  },
+  {
+    "_id": "66e55151c54ce149922c780e",
+    "key": "languages_66e4154f48cdfa73ee74db68",
+    "listType": "languages",
+    "translations": {
+      "fr": "",
+      "de": "",
+      "es": ""
+    },
+    "createdAt": "2024-09-14T09:03:13.936Z",
+    "updatedAt": "2024-09-14T09:03:14.292Z",
+    "__v": 0
+  },
+  {
+    "_id": "66e55151c54ce149922c7811",
+    "key": "languages_66e4154f48cdfa73ee74db6a",
+    "listType": "languages",
+    "translations": {
+      "fr": "",
+      "de": "",
+      "es": ""
+    },
+    "createdAt": "2024-09-14T09:03:13.971Z",
+    "updatedAt": "2024-09-14T09:03:14.333Z",
+    "__v": 0
+  },
+  {
+    "_id": "66e55152c54ce149922c7814",
+    "key": "languages_66e4154f48cdfa73ee74db6c",
+    "listType": "languages",
+    "translations": {
+      "fr": "",
+      "de": "",
+      "es": ""
+    },
+    "createdAt": "2024-09-14T09:03:14.007Z",
+    "updatedAt": "2024-09-14T09:03:14.368Z",
+    "__v": 0
+  },
+  {
+    "_id": "66e55152c54ce149922c7817",
+    "key": "languages_66e4186448cdfa73ee74dbbd",
+    "listType": "languages",
+    "translations": {
+      "fr": "",
+      "de": "",
+      "es": ""
+    },
+    "createdAt": "2024-09-14T09:03:14.044Z",
+    "updatedAt": "2024-09-14T09:03:14.403Z",
+    "__v": 0
+  },
+  {
+    "_id": "66ec55434a8965b22af34018",
+    "key": "sessionTypes_66ec4ea477bec414bf2b8859",
+    "listType": "sessionTypes",
+    "translations": {
+      "de": "Einzel"
+    },
+    "createdAt": "2024-09-19T16:45:55.842Z",
+    "updatedAt": "2024-09-19T16:45:55.842Z",
+    "__v": 0
+  },
+  {
+    "_id": "66ec55434a8965b22af3401b",
+    "key": "sessionTypes_66ec54f44a8965b22af33fd5",
+    "listType": "sessionTypes",
+    "translations": {
+      "de": "Gruppe"
+    },
+    "createdAt": "2024-09-19T16:45:55.881Z",
+    "updatedAt": "2024-09-19T16:45:55.881Z",
+    "__v": 0
+  },
+  {
+    "_id": "66ec55434a8965b22af3401e",
+    "key": "sessionTypes_66ec54f94a8965b22af33fd9",
+    "listType": "sessionTypes",
+    "translations": {
+      "de": "Webinar"
+    },
+    "createdAt": "2024-09-19T16:45:55.915Z",
+    "updatedAt": "2024-09-19T16:45:55.915Z",
+    "__v": 0
+  },
+  {
+    "_id": "66ec55434a8965b22af34021",
+    "key": "sessionTypes_66ec54fe4a8965b22af33fdd",
+    "listType": "sessionTypes",
+    "translations": {
+      "de": "Workshop"
+    },
+    "createdAt": "2024-09-19T16:45:55.947Z",
+    "updatedAt": "2024-09-19T16:45:55.947Z",
+    "__v": 0
+  },
+  {
+    "_id": "66ec55434a8965b22af34024",
+    "key": "sessionTypes_66ec551a4a8965b22af33fe3",
+    "listType": "sessionTypes",
+    "translations": {
+      "de": "Verfügbarkeit"
+    },
+    "createdAt": "2024-09-19T16:45:55.983Z",
+    "updatedAt": "2024-09-19T16:45:55.983Z",
+    "__v": 0
+  }
+]

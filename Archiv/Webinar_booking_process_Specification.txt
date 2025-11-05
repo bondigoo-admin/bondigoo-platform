@@ -1,0 +1,548 @@
+User Stories
+As a User (Client):
+I want to see a clear "Book Webinar" button on the webinar details page if spots are available and I haven't booked it yet.
+I want to know the current price (regular or early bird) before I commit to booking.
+I want to be informed if the webinar is full or if booking has closed (e.g., past start time).
+I want a seamless and secure process to pay for the webinar.
+After successful payment and booking, I want to see the webinar in "My Bookings" with clear "Join" links and access to any provided materials.
+I want to receive a confirmation email after successful booking and payment.
+As a Coach:
+I want my webinar's attendees list to be automatically updated when a user successfully books and pays.
+I want to be notified (in-app and email) when a user books my webinar.
+I want to easily see the current number of booked attendees for my webinar.
+As the Platform:
+I want to accurately determine and charge the correct price (early bird or regular) based on the booking time.
+I want to strictly enforce the maxAttendees limit, preventing overbooking even with concurrent requests.
+I want to securely process payments via Stripe, associating them with the specific user and webinar.
+I want to reliably update the Booking document (attendee list) only after successful payment confirmation (typically via webhook).
+I want to ensure that only users who have successfully booked and paid can access the webinar join links and materials.
+I want to handle payment failures gracefully, informing the user without incorrectly adding them as an attendee.
+Assumptions
+Webinars are Booking documents with a specific sessionType._id (e.g., WEBINAR_TYPE_ID_STRING = '66ec54f94a8965b22af33fd9').
+Coaches create these Booking documents, setting title, description, webinarSlots, price (as a priceSchema object like the sample provided), earlyBirdPrice, earlyBirdDeadline, maxAttendees, webinarLink (or a sessionLink is generated), courseMaterials, etc. The user field on such a coach-created Booking is initially null.
+The Booking schema has an attendees array: [{ user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }, joinedAt: Date, status: { type: String, enum: ['confirmed', 'cancelled'], default: 'confirmed' } }].
+BookingDetailsModal.js is the primary UI for users to view webinar details.
+The existing payment infrastructure (PaymentPopup.js, PaymentOrchestratorService.js, paymentController.js, paymentAPI.js, Payment.js model) can be leveraged and adapted.
+A robust notification system (UnifiedNotificationService) is in place.
+User authentication (JWT) is functional and req.user._id provides the current user's ID on the backend.
+Proposed Solution Architecture (High-Level)
+Frontend (User Action): User views webinar details in BookingDetailsModal.js. A "Book Webinar" button is present if conditions are met.
+Backend (Registration & Payment Intent Creation - New Endpoint): User clicks "Book." Frontend calls POST /api/bookings/:bookingId/register. This backend endpoint validates eligibility, calculates price, and creates a Stripe Payment Intent specifically for this user and webinar. It returns the clientSecret.
+Frontend (Payment Execution): Frontend uses the clientSecret to initialize Stripe Elements via PaymentPopup.js (likely orchestrated by PaymentOrchestratorService.js). User enters payment details and submits.
+Backend (Payment Confirmation - Webhook): Stripe sends a payment_intent.succeeded webhook to paymentController.js. The webhook handler identifies the webinar registration, validates capacity again (atomically), adds the user to the Booking.attendees array, updates the Payment record, and triggers confirmation notifications.
+Frontend (UI Update): After client-side payment submission (or via real-time socket event post-webhook), BookingDetailsModal.js refreshes. It now shows the user as booked and grants access to webinar resources.
+Detailed Implementation Plan
+
+Phase 1: Backend - Webinar Registration & Payment Intent Endpoint
+API Route Definition (bookingRoutes.js):
+Add the new route:
+router.post('/:bookingId/register', auth, bookingController.registerForWebinar);
+
+Controller Logic (bookingController.js - New function registerForWebinar):
+Function Signature: exports.registerForWebinar = async (req, res) => { ... }
+Inputs: req.params.bookingId (ID of the webinar's Booking document), req.user._id (authenticated user ID).
+Fetch Webinar Booking & Essential Data:
+const webinarBookingId = req.params.bookingId;
+const currentUserId = req.user._id;
+
+try {
+    const webinarBooking = await Booking.findById(webinarBookingId)
+        .populate('sessionType') // Essential for type check
+        .populate('coach')       // Essential for Stripe Connect Account ID (User model referenced by coach field)
+        .populate('attendees.user', '_id'); // Only need _id for efficient check
+
+    if (!webinarBooking) {
+        return res.status(404).json({ message: "Webinar not found." });
+    }
+
+Validations (Crucial - perform before PI creation):
+const WEBINAR_TYPE_ID_STRING = '66ec54f94a8965b22af33fd9'; // Ensure this matches your constant
+    let sessionTypeIdString = '';
+    if (typeof webinarBooking.sessionType === 'string') {
+        sessionTypeIdString = webinarBooking.sessionType;
+    } else if (webinarBooking.sessionType && typeof webinarBooking.sessionType === 'object') {
+        sessionTypeIdString = webinarBooking.sessionType._id?.toString() || webinarBooking.sessionType.id?.toString();
+    }
+
+    if (sessionTypeIdString !== WEBINAR_TYPE_ID_STRING) {
+        return res.status(400).json({ message: "This booking is not a webinar session." });
+    }
+
+    const firstWebinarSlot = webinarBooking.webinarSlots && webinarBooking.webinarSlots.length > 0 ? webinarBooking.webinarSlots[0] : null;
+    const webinarEffectiveStartTime = firstWebinarSlot ? new Date(firstWebinarSlot.startTime) : new Date(webinarBooking.start);
+
+    if (webinarEffectiveStartTime < new Date()) {
+        return res.status(400).json({ message: "Webinar booking has closed as the start time is in the past." });
+    }
+
+    if (webinarBooking.attendees.some(att => att.user && att.user._id.toString() === currentUserId.toString())) {
+        return res.status(409).json({ message: "You are already registered for this webinar." });
+    }
+
+    if (webinarBooking.attendees.length >= webinarBooking.maxAttendees) {
+        return res.status(403).json({ message: "This webinar is currently full." });
+    }
+
+Price Calculation:
+const now = new Date();
+    let applicablePriceAmount;
+    let priceReason = 'regular';
+
+    if (webinarBooking.earlyBirdPrice != null && typeof webinarBooking.earlyBirdPrice === 'number' && webinarBooking.earlyBirdDeadline && now < new Date(webinarBooking.earlyBirdDeadline)) {
+        applicablePriceAmount = webinarBooking.earlyBirdPrice;
+        priceReason = 'early_bird';
+    } else {
+        // Accessing nested price structure correctly based on your sample Booking.price
+        applicablePriceAmount = webinarBooking.price?.final?.amount?.amount;
+    }
+    const applicableCurrency = webinarBooking.price?.currency || 'CHF';
+
+    if (typeof applicablePriceAmount !== 'number' || applicablePriceAmount <= 0) {
+        logger.warn('[registerForWebinar] Webinar price is zero or not configured for payment.', { webinarBookingId, applicablePriceAmount });
+        return res.status(400).json({ message: "Webinar price is not set up for paid booking or is free. Please contact support for free webinars." });
+    }
+
+Fetch Paying User & Coach Stripe Details:
+const payingUser = await User.findById(currentUserId);
+    if (!payingUser) {
+         return res.status(404).json({ message: "Paying user not found." });
+    }
+    if (!payingUser.stripe || !payingUser.stripe.customerId) {
+        // Optionally create Stripe customer here if your flow allows/requires it
+        // For now, assume customerId should exist for a paying user.
+        logger.error('[registerForWebinar] Paying user missing Stripe customer ID.', { userId: currentUserId });
+        return res.status(400).json({ message: "Payment details not set up for your account. Please add a payment method." });
+    }
+
+    // webinarBooking.coach should be populated User document for the coach
+    const coachProfile = await Coach.findOne({ user: webinarBooking.coach._id }); 
+    if (!coachProfile || !coachProfile.settings?.paymentAndBilling?.stripe?.accountId) {
+        logger.error('[registerForWebinar] Coach payment configuration not found.', { coachUserId: webinarBooking.coach._id });
+        return res.status(500).json({ message: "Coach is not configured to receive payments at this time." });
+    }
+    const coachStripeAccountId = coachProfile.settings.paymentAndBilling.stripe.accountId;
+
+Create Payment Intent (via paymentService.js):
+const paymentIntent = await paymentService.createPaymentIntent({
+        amount: applicablePriceAmount, // Service should handle conversion to cents
+        currency: applicableCurrency,
+        stripeCustomerId: payingUser.stripe.customerId,
+        coachStripeAccountId: coachStripeAccountId,
+        metadata: {
+            userId: currentUserId.toString(),
+            bookingId: webinarBookingId, // This is the Webinar's Booking ID
+            type: 'webinar_registration', // Crucial for webhook identification
+            webinarTitle: webinarBooking.title,
+            priceReason: priceReason,
+            userEmail: payingUser.email // For Stripe receipt or reference
+        }
+    });
+
+    if (!paymentIntent || !paymentIntent.client_secret) {
+        logger.error('[registerForWebinar] Failed to create Payment Intent or client_secret missing.', { webinarBookingId });
+        throw new Error("Failed to initialize payment.");
+    }
+
+Response:
+res.status(200).json({
+        clientSecret: paymentIntent.client_secret,
+        paymentIntentId: paymentIntent.id,
+        bookingId: webinarBookingId, // Webinar ID
+        userId: currentUserId.toString(), // User attempting to book
+        amount: applicablePriceAmount,
+        currency: applicableCurrency
+    });
+} catch (error) {
+    logger.error('[registerForWebinar] Error:', { error: error.message, stack: error.stack, webinarBookingId, currentUserId });
+    res.status(500).json({ message: error.message || "Failed to initiate webinar registration." });
+}
+
+Phase 2: Frontend - UI and Initiating Booking Flow
+BookingDetailsModal.js Enhancements:
+New State & Derived Values:
+const [isRegistering, setIsRegistering] = useState(false);
+// user is from useAuth()
+// bookingData is the fetched webinar details
+
+const isCurrentUserCoach = useMemo(() => user?._id === bookingData?.coach?._id, [user, bookingData?.coach]);
+
+const isAlreadyBooked = useMemo(() =>
+    bookingData?.attendees?.some(att => att.user && (att.user._id?.toString() === user?._id || att.user.toString() === user?._id)),
+    [bookingData?.attendees, user]
+);
+
+const isFull = useMemo(() =>
+    bookingData?.attendees?.length >= bookingData?.maxAttendees,
+    [bookingData?.attendees, bookingData?.maxAttendees]
+);
+
+const applicablePriceInfo = useMemo(() => {
+    if (!bookingData?.price?.final?.amount?.amount) return { amountDisplay: t('common:notAvailable'), currency: '', reason: '' };
+    
+    const now = new Date();
+    let displayAmount;
+    let reason = '';
+
+    if (bookingData.earlyBirdPrice != null && typeof bookingData.earlyBirdPrice === 'number' && bookingData.earlyBirdDeadline && now < new Date(bookingData.earlyBirdDeadline)) {
+        displayAmount = bookingData.earlyBirdPrice;
+        reason = ` (${t('bookings:earlyBird')})`;
+    } else {
+        displayAmount = bookingData.price.final.amount.amount;
+    }
+    const currency = bookingData.price.currency || 'CHF';
+    return { amount: displayAmount, amountDisplay: `${displayAmount.toFixed(2)} ${currency}`, reason };
+}, [bookingData, t]);
+
+const firstWebinarSlot = bookingData?.webinarSlots && bookingData.webinarSlots.length > 0 ? bookingData.webinarSlots[0] : null;
+const webinarEffectiveStartTime = firstWebinarSlot ? new Date(firstWebinarSlot.startTime) : (bookingData?.start ? new Date(bookingData.start) : new Date(0));
+
+const canBook = !isCurrentUserCoach && !isAlreadyBooked && !isFull && webinarEffectiveStartTime > new Date();
+
+UI Rendering:
+Display applicablePriceInfo.amountDisplay and applicablePriceInfo.reason.
+Display "Spots available: bookingData.maxAttendees - (bookingData.attendees?.length || 0)" or "Webinar Full".
+If webinarEffectiveStartTime <= new Date(), show "Booking closed".
+If canBook, show "Book Webinar" button, disabled if isRegistering.
+If isAlreadyBooked, show "You're Booked!" and ensure webinar link (bookingData.webinarLink or bookingData.sessionLink?.url) and bookingData.courseMaterials are accessible.
+handleBookWebinar function (for "Book Webinar" button onClick):
+const handleBookWebinar = async () => {
+    if (!bookingData?._id) {
+        showToast({ type: 'error', message: "Cannot identify the webinar." });
+        return;
+    }
+    setIsRegistering(true);
+    try {
+        const response = await bookingAPI.registerForWebinar(bookingData._id);
+        // response = { clientSecret, paymentIntentId, bookingId (webinar's), amount, currency, userId }
+
+        // Ensure PaymentPopup is ready to receive these props or get them from orchestrator
+        // If PaymentOrchestrator is used to *manage* the PaymentPopup:
+        const flowId = response.paymentIntentId; // Using PI as flow ID for this specific, short-lived flow.
+        await PaymentOrchestrator.initializePayment({ // This might need to be adapted to just set state for an existing flow.
+            flowId: flowId, 
+            amount: response.amount,
+            currency: response.currency,
+            timing: PAYMENT_TIMING.IMMEDIATE,
+            metadata: {
+                bookingId: response.bookingId, // Webinar's Booking ID
+                userId: response.userId,       // Current user booking
+                paymentIntentId: response.paymentIntentId, // For PaymentPopup if it needs it explicitly
+                clientSecret: response.clientSecret,       // For PaymentPopup
+                flowType: 'webinar_registration',          // Custom type for orchestrator if needed
+                preserveOnUnmount: false,                  // Cleanup after popup closes
+                modalState: MODAL_STATES.PAYMENT_ACTIVE,   // Trigger payment UI
+                paymentStep: PAYMENT_STEPS.METHOD,
+            }
+        });
+        // The PaymentPopup component will likely read clientSecret and other details 
+        // from the orchestrator's state for the given flowId or from props.
+        // The existing `showPaymentPopup` state variable can trigger its visibility.
+        // This assumes PaymentPopup is set up to work with PaymentOrchestrator.
+
+        // For direct PaymentPopup usage (simpler if Orchestrator interaction is complex for this):
+        // setPaymentPopupProps({ // New state to hold props for PaymentPopup
+        //    isOpen: true,
+        //    clientSecret: response.clientSecret,
+        //    paymentIntentId: response.paymentIntentId,
+        //    amount: response.amount,
+        //    currency: response.currency,
+        //    bookingId: response.bookingId, // Webinar ID for context in onComplete
+        //    sessionStartTime: new Date(bookingData.start), // Or webinarEffectiveStartTime
+        //    priceDetails: bookingData.price, // For display in popup
+        //    stripePromise: stripePromise, // From usePayment context
+        //    onClose: handlePaymentPopupClose, // Your existing close handler
+        //    onComplete: handleWebinarPaymentComplete // New specific handler
+        // });
+        // setShowPaymentPopup(true); // Then trigger this
+        
+        // Assuming PaymentOrchestrator handles triggering PaymentPopup:
+        setShowPaymentPopup(true); 
+
+    } catch (error) {
+        logger.error("[BookingDetailsModal] Failed to initiate webinar booking", { error: error.response?.data || error.message });
+        showToast({ type: 'error', message: error.response?.data?.message || t('bookings:errors.webinarBookingFailed') });
+    } finally {
+        setIsRegistering(false);
+    }
+};
+
+handleWebinarPaymentComplete (passed as onComplete to PaymentPopup):
+// This is the onComplete callback for PaymentPopup
+const handleWebinarPaymentComplete = useCallback(async (success, paymentDetails) => {
+    // paymentDetails might include { paymentIntent, error } from Stripe.js
+    logger.info('[BookingDetailsModal] Webinar PaymentPopup onComplete', { 
+        success, 
+        paymentIntentId: paymentDetails?.paymentIntent?.id,
+        bookingId: actualApiBookingId // The webinar's booking ID
+    });
+    
+    setShowPaymentPopup(false); // Close the popup regardless of outcome
+
+    if (success) {
+        showToast({ type: 'info', message: t('bookings:webinarBookingPaymentProcessing') });
+        // Invalidate queries. The webhook will handle backend update.
+        // UI will eventually reflect the change.
+        await queryClient.invalidateQueries(['booking', actualApiBookingId]);
+        await queryClient.invalidateQueries(['userCalendar']); // Or other relevant queries
+    } else {
+        showToast({ type: 'error', message: paymentDetails?.error?.message || t('bookings:paymentFailed') });
+    }
+}, [actualApiBookingId, queryClient, showToast, t]);
+
+Note: Ensure PaymentPopup calls onComplete with (true, { paymentIntent }) on Stripe's client-side success, and (false, { error }) on client-side failure.
+bookingAPI.js (Frontend Service):
+New function:
+export const registerForWebinar = async (webinarBookingId) => {
+    try {
+        const response = await api.post(`/api/bookings/${webinarBookingId}/register`);
+        return response.data;
+    } catch (error) {
+        logger.error(`[bookingAPI.registerForWebinar] Error for webinar ${webinarBookingId}:`, error.response?.data || error.message);
+        throw error;
+    }
+};
+
+Phase 3: Backend - Finalizing Booking on Payment Success (Webhook)
+paymentController.js - Webhook Handler (within payment_intent.succeeded case):
+Identify Webinar Registration & Process:
+// ... existing webhook structure ...
+// case 'payment_intent.succeeded':
+//   const paymentIntent = event.data.object;
+if (paymentIntent.metadata && paymentIntent.metadata.type === 'webinar_registration') {
+    const webinarBookingId = paymentIntent.metadata.bookingId;
+    const payingUserId = paymentIntent.metadata.userId;
+    const paymentIntentIdFromWebhook = paymentIntent.id;
+
+    logger.info('[Webhook] Processing webinar_registration PI.succeeded', { webinarBookingId, payingUserId, paymentIntentId: paymentIntentIdFromWebhook });
+
+    const mongoSession = await mongoose.startSession();
+    mongoSession.startTransaction();
+    try {
+        // Fetch booking with FOR UPDATE behavior if your DB supports it, or use optimistic locking via __v
+        const booking = await Booking.findById(webinarBookingId).session(mongoSession);
+
+        if (!booking) {
+            logger.error('[Webhook] Webinar Booking not found for webinar_registration', { webinarBookingId, paymentIntentId: paymentIntentIdFromWebhook });
+            await mongoSession.abortTransaction();
+            mongoSession.endSession();
+            // CRITICAL: Payment succeeded for a non-existent/deleted booking. Initiate refund.
+            await paymentService.processRefund({ paymentIntentId: paymentIntentIdFromWebhook, reason: 'Booking not found post-payment.' });
+            return; // Stop processing
+        }
+
+        // Idempotency: Check if user already added
+        if (booking.attendees.some(att => att.user.toString() === payingUserId)) {
+            logger.info('[Webhook] User already in attendees list (idempotency).', { webinarBookingId, payingUserId, paymentIntentId: paymentIntentIdFromWebhook });
+            await mongoSession.commitTransaction(); // Commit to release lock if any
+            mongoSession.endSession();
+            // Consider if notifications should be re-sent or if this is a silent success
+            return;
+        }
+
+        // CRITICAL: Final check for maxAttendees within transaction
+        if (booking.attendees.length >= booking.maxAttendees) {
+            logger.error('[Webhook] CRITICAL RACE: Webinar full at final webhook confirmation step!', { webinarBookingId, payingUserId, currentAttendees: booking.attendees.length, maxAttendees: booking.maxAttendees, paymentIntentId: paymentIntentIdFromWebhook });
+            
+            // Initiate refund
+            await paymentService.processRefund({ paymentIntentId: paymentIntentIdFromWebhook, amount: paymentIntent.amount / 100, currency: paymentIntent.currency, reason: 'Webinar became full during payment confirmation.' });
+            
+            await mongoSession.abortTransaction();
+            mongoSession.endSession();
+            
+            // Notify user of failure and refund.
+            // This requires fetching user details for notification.
+            const userToNotify = await User.findById(payingUserId);
+            if (userToNotify) {
+                await UnifiedNotificationService.sendNotification({
+                    type: NotificationTypes.WEBINAR_BOOKING_FAILED_FULL, // New specific type
+                    recipient: payingUserId,
+                    recipientType: 'client',
+                    category: NotificationCategories.BOOKING,
+                    priority: NotificationPriorities.HIGH,
+                    channels: ['in_app', 'email'],
+                    metadata: {
+                        bookingId: webinarBookingId,
+                        webinarTitle: booking.title,
+                        reason: 'Webinar became full during payment processing. Your payment has been refunded.'
+                    }
+                }, booking); // Pass booking for context if needed by template
+            }
+            return;
+        }
+
+        // Add attendee
+        booking.attendees.push({ user: payingUserId, joinedAt: new Date(), status: 'confirmed' });
+        
+        // Update booking status if it was 'pending_minimum_attendees' and now meets threshold
+        if (booking.status === 'pending_minimum_attendees' && booking.minAttendees > 0 && booking.attendees.length >= booking.minAttendees) {
+            booking.status = 'scheduled'; // Or 'confirmed' - align with how you manage webinar states
+            logger.info('[Webhook] Webinar minimum attendees met, status updated.', { webinarBookingId, newStatus: booking.status });
+        } else if (booking.status === 'pending_minimum_attendees' && (booking.minAttendees === 0 || !booking.minAttendees)) {
+            // If minAttendees is 0 or not set, and it was pending, move to scheduled
+            booking.status = 'scheduled';
+             logger.info('[Webhook] Webinar minAttendees is 0 or null, status updated to scheduled.', { webinarBookingId, newStatus: booking.status });
+        }
+        
+        await booking.save({ session: mongoSession });
+
+        // Update or Create Payment document
+        const chargeId = paymentIntent.latest_charge || paymentIntent.charges?.data[0]?.id;
+        let paymentRecord = await Payment.findOne({ 'stripe.paymentIntentId': paymentIntentIdFromWebhook }).session(mongoSession);
+
+        if (paymentRecord) {
+            paymentRecord.status = 'completed';
+            paymentRecord.stripe.chargeId = chargeId;
+            paymentRecord.booking = webinarBookingId;
+            paymentRecord.payer = payingUserId;
+            paymentRecord.recipient = booking.coach; // Coach's User ID
+            paymentRecord.amount.total = paymentIntent.amount / 100; // Ensure it's updated from PI
+            paymentRecord.amount.currency = paymentIntent.currency.toUpperCase();
+            // Update other relevant fields like base, platformFee, vat if they are part of PI or booking.price
+            paymentRecord.amount.base = booking.price.base.amount.amount;
+            paymentRecord.amount.platformFee = booking.price.platformFee.amount;
+            paymentRecord.amount.vat = booking.price.vat;
+
+        } else {
+            logger.warn("[Webhook] Payment record not found for PI, creating new one.", { paymentIntentId: paymentIntentIdFromWebhook, webinarBookingId });
+            paymentRecord = new Payment({
+                booking: webinarBookingId,
+                payer: payingUserId,
+                recipient: booking.coach, // Coach's User ID
+                amount: { 
+                    total: paymentIntent.amount / 100, 
+                    currency: paymentIntent.currency.toUpperCase(),
+                    base: booking.price.base.amount.amount, // from webinar Booking
+                    platformFee: booking.price.platformFee.amount, // from webinar Booking
+                    vat: booking.price.vat, // from webinar Booking
+                },
+                status: 'completed',
+                stripe: { 
+                    paymentIntentId: paymentIntentIdFromWebhook, 
+                    chargeId, 
+                    customerId: paymentIntent.customer 
+                },
+                metadata: { type: 'webinar_registration', source: 'webhook_creation' }
+            });
+        }
+        await paymentRecord.save({ session: mongoSession });
+
+        await mongoSession.commitTransaction();
+        logger.info('[Webhook] User added to webinar & payment record finalized.', { webinarBookingId, payingUserId, paymentId: paymentRecord._id });
+
+        // Send Notifications (outside transaction)
+        const populatedBookingForNotif = await Booking.findById(webinarBookingId).populate('coach user sessionType attendees.user');
+        if (populatedBookingForNotif) {
+            // User: "Webinar Booking Confirmed"
+            await UnifiedNotificationService.sendNotification({
+                type: NotificationTypes.BOOKING_CONFIRMED, // Or specific WEBINAR_BOOKING_CONFIRMED
+                recipient: payingUserId,
+                recipientType: 'client',
+                category: NotificationCategories.BOOKING,
+                priority: NotificationPriorities.HIGH,
+                channels: ['in_app', 'email'],
+                metadata: {
+                    bookingId: webinarBookingId,
+                    sessionType: populatedBookingForNotif.sessionType?.name,
+                    title: populatedBookingForNotif.title,
+                    startTime: populatedBookingForNotif.start,
+                    webinarLink: populatedBookingForNotif.webinarLink || populatedBookingForNotif.sessionLink?.url,
+                }
+            }, populatedBookingForNotif);
+
+            // Coach: "New Attendee for Webinar X"
+            const newAttendee = populatedBookingForNotif.attendees.find(a => a.user._id.toString() === payingUserId)?.user;
+            await UnifiedNotificationService.sendNotification({
+                type: NotificationTypes.NEW_WEBINAR_ATTENDEE, // Create this new type
+                recipient: populatedBookingForNotif.coach._id.toString(),
+                recipientType: 'coach',
+                category: NotificationCategories.BOOKING,
+                priority: NotificationPriorities.MEDIUM,
+                channels: ['in_app', 'email'],
+                metadata: {
+                    bookingId: webinarBookingId,
+                    attendeeName: newAttendee ? `${newAttendee.firstName} ${newAttendee.lastName}` : 'A new user',
+                    webinarTitle: populatedBookingForNotif.title,
+                    currentAttendeeCount: populatedBookingForNotif.attendees.length,
+                    maxAttendees: populatedBookingForNotif.maxAttendees
+                }
+            }, populatedBookingForNotif);
+        } else {
+            logger.error("[Webhook] Could not populate booking for notifications after successful registration.", { webinarBookingId });
+        }
+
+    } catch (error) {
+        if (mongoSession.inTransaction()) {
+          await mongoSession.abortTransaction();
+        }
+        logger.error('[Webhook] Error processing webinar_registration.succeeded webhook:', { error: error.message, stack: error.stack, webinarBookingId, payingUserId, paymentIntentId: paymentIntentIdFromWebhook });
+        // TODO: Add to a retry queue or flag for manual intervention.
+        // If payment succeeded but DB update failed, a refund might be necessary if not resolvable.
+    } finally {
+        mongoSession.endSession();
+    }
+// ...
+// else { handle other payment_intent.succeeded types }
+// ...
+}
+
+Phase 4: Frontend - Post-Booking UI Updates & Access
+BookingDetailsModal.js:
+The handleWebinarPaymentComplete (called from PaymentPopup's onComplete) will have already triggered a toast and query invalidations.
+The UI should naturally update once the queries refetch data changed by the webhook.
+Accessibility for links/materials:
+const canAccessContent = isAlreadyBooked || isCurrentUserCoach; 
+// ... then use canAccessContent to enable/disable links/material downloads ...
+
+"My Bookings" Page / UserCalendar.js:
+Ensure getUserSessions in bookingAPI.js (and its backend counterpart bookingController.getUserSessions) correctly fetches webinars where the user is an attendee. The query in bookingController.getUserSessions might need to be:
+const query = {
+    $or: [
+        { user: userId }, // Bookings they created
+        { 'attendees.user': userId } // Webinars they are an attendee of
+    ],
+    status: { $nin: ['cancelled_by_coach', 'cancelled_by_client', 'declined'] }
+};
+
+Real-time UI Update via Sockets (Enhancement):
+Backend (UnifiedNotificationService or a dedicated socket emission in webhook): After successful attendee addition, emit a specific event:
+// In webhook, after successful commit
+const socketService = getSocketService();
+if (socketService) {
+    // Notify the user who booked
+    socketService.emitToUser(payingUserId, 'webinar_registration_confirmed', { 
+        bookingId: webinarBookingId, 
+        title: booking.title 
+    });
+    // Notify the coach
+    socketService.emitToUser(booking.coach._id.toString(), 'webinar_new_attendee', { 
+        bookingId: webinarBookingId, 
+        webinarTitle: booking.title,
+        attendeeId: payingUserId 
+    });
+    // Optionally, a general event for anyone viewing the webinar details to refresh
+    socketService.emitToRoom(`booking_${webinarBookingId}`, 'booking_updated', { bookingId: webinarBookingId });
+}
+
+Frontend (BookingDetailsModal.js, UserCalendar.js, etc.):
+Use a useSocketListener hook to listen for webinar_registration_confirmed (if current user is payingUserId) or webinar_new_attendee or booking_updated.
+On receiving the event, call queryClient.invalidateQueries(['booking', webinarBookingId]) and other relevant queries to refresh data immediately.
+Phase 5: Edge Cases and Refinements
+Max Attendee Race Condition: Addressed by fetching the Booking document within a transaction (or using findOneAndUpdate with care for atomicity) in the webhook before adding the attendee and re-checking attendees.length < maxAttendees.
+Payment Failure (Client-Side, e.g., card declined by Stripe.js): PaymentPopup's onComplete(false, { error }) is called. handleWebinarPaymentComplete shows an error toast. No backend changes occur to Booking.attendees.
+Payment Failure (Server-Side, e.g., post-3DS, webhook payment_intent.payment_failed):
+Webhook handler for payment_intent.payment_failed should log this.
+If metadata.type === 'webinar_registration', it implies an authorization or processing issue after initial PI creation.
+No attendee should be added. A Payment record (if one was created with 'pending_webinar_join') should be marked 'failed'.
+Notify the user about the payment failure.
+Idempotency of Webhook: Addressed by checking if user is already in attendees before adding.
+Free Webinars (Price <= 0):
+In bookingController.registerForWebinar: if applicablePriceAmount <= 0:
+Perform all validations (not full, not past, not already booked).
+Atomically add user to attendees array (similar to webhook logic, re-check capacity).
+await booking.save();
+Send "Webinar Registration Successful" notifications (user & coach).
+Return a specific success response like res.status(200).json({ success: true, freeBooking: true, message: "Successfully registered for free webinar." });.
+Frontend handleBookWebinar needs to check for response.freeBooking === true and skip payment flow, directly showing success and refreshing data.
+Notifications:
+Create new NotificationTypes like WEBINAR_BOOKING_CONFIRMED_USER, WEBINAR_NEW_ATTENDEE_COACH, WEBINAR_BOOKING_FAILED_FULL_USER.
+Ensure BookingNotificationMapper and UnifiedNotificationService.generateNotificationContent templates are updated for these.

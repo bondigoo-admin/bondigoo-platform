@@ -1,0 +1,81 @@
+{
+  "progress": "Schritt {{step}} von {{total}}",
+  "buttons": {
+    "back": "Zurück",
+    "next": "Weiter",
+    "letsGo": "Los geht's",
+    "finish": "Abschließen & Personalisieren",
+    "skip": "Für den Moment überspringen"
+  },
+  "submit": {
+    "success": "Profil eingerichtet! Wir stellen Ihre Empfehlungen zusammen.",
+    "error": "Fehler beim Speichern. Bitte versuchen Sie es erneut."
+  },
+  "welcome": {
+    "title": "Willkommen bei uns!",
+    "subtitle": "Hallo {{name}}, lassen Sie uns Ihre Erfahrung personalisieren. Ein paar schnelle Fragen helfen uns, die perfekten Coaches und Programme für Sie zu finden."
+  },
+  "goal": {
+    "title": "Was bringt Sie heute hierher?",
+    "one_on_one": {
+      "title": "Einen Coach für 1-zu-1-Sitzungen finden",
+      "description": "Ich wünsche mir persönliche Anleitung von einem Experten."
+    },
+    "programs": {
+      "title": "An einem Selbstlernprogramm teilnehmen",
+      "description": "Ich bevorzuge es, unabhängig mit einem strukturierten Kurs zu lernen."
+    },
+    "exploring": {
+      "title": "Ich schaue mich nur um",
+      "description": "Ich bin noch nicht sicher und möchte alles sehen."
+    }
+  },
+  "interests": {
+    "title": "Lassen Sie uns Ihren Fokus finden",
+    "description": "Wählen Sie bis zu 5 Bereiche aus. Dies personalisiert Ihre Empfehlungen für Coaches und Programme.",
+    "placeholder": "Interessensgebiete auswählen..."
+  },
+  "style": {
+    "title": "Wie interagieren Sie am liebsten?",
+    "live": {
+      "title": "Live & Spontan",
+      "description": "Ich möchte die Möglichkeit haben, sofort eine Verbindung herzustellen, wenn ich Hilfe brauche."
+    },
+    "scheduled": {
+      "title": "Strukturiert & Geplant",
+      "description": "Ich bevorzuge es, meine Sitzungen im Voraus zu planen."
+    },
+    "self_paced": {
+      "title": "Flexibel & bei Bedarf",
+      "description": "Ich möchte in meinem eigenen Tempo und zu meiner eigenen Zeit lernen."
+    }
+  },
+  "experience": {
+    "title": "Was ist Ihr aktuelles Niveau in diesen Bereichen?",
+    "beginner": {
+      "title": "Anfänger",
+      "description": "Ich bin neu in diesem Bereich und suche nach grundlegender Anleitung."
+    },
+    "intermediate": {
+      "title": "Fortgeschritten",
+      "description": "Ich habe bereits Erfahrung, möchte aber meine Fähigkeiten vertiefen."
+    },
+    "advanced": {
+      "title": "Experte",
+      "description": "Ich suche einen hochrangigen Partner, um mein Denken herauszufordern."
+    }
+  },
+  "final": {
+    "title": "Letzte Anpassungen (Optional)",
+    "budget": {
+      "label": "Budget pro Sitzung",
+      "description": "Wählen Sie Ihre bevorzugte Preisspanne, um noch relevantere Ergebnisse zu erhalten."
+    },
+    "notifications": {
+      "label": "Benachrichtigungen",
+      "description": "Lassen Sie sich über passende Gelegenheiten informieren.",
+      "newCoaches": "E-Mail über neue passende Coaches erhalten",
+      "newPrograms": "Über neue Programme in meinen Interessensgebieten benachrichtigen"
+    }
+  }
+}

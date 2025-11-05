@@ -1,0 +1,238 @@
+ ├── ui
+│   │   ├── accordion.jsx
+│   │   ├── ActionButton.js
+│   │   ├── alert-dialog.tsx
+│   │   ├── alert.tsx
+│   │   ├── avatar.tsx
+│   │   ├── badge.tsx
+│   │   ├── BlockUserMenuItem.js
+│   │   ├── button.tsx
+│   │   ├── calendar.jsx
+│   │   ├── card.tsx
+│   │   ├── checkbox.tsx
+│   │   ├── collapsible.jsx
+│   │   ├── command.jsx
+│   │   ├── dialog.tsx
+│   │   ├── dropdown-menu.tsx
+│   │   ├── GlobalSearch.js
+│   │   ├── Highlight.js
+│   │   ├── input.tsx
+│   │   ├── label.tsx
+│   │   ├── LinkButton.js
+│   │   ├── multi-select.tsx
+│   │   ├── NotificationToast.jsx
+│   │   ├── pagination.jsx
+│   │   ├── popover.jsx
+│   │   ├── progress.jsx
+│   │   ├── radio-group.jsx
+│   │   ├── ReminderBadge.jsx
+│   │   ├── resizable.jsx
+│   │   ├── ResizableDialog.jsx
+│   │   ├── scroll-area.jsx
+│   │   ├── select.tsx
+│   │   ├── separator.jsx
+│   │   ├── sheet.jsx
+│   │   ├── skeleton.jsx
+│   │   ├── slider.tsx
+│   │   ├── switch.tsx
+│   │   ├── table.tsx
+│   │   ├── tabs.tsx
+│   │   ├── textarea.tsx
+│   │   ├── toggle-group.jsx
+│   │   ├── toggle.jsx
+│   │   └── tooltip.tsx
+
+
+DETAILS:
+import * as React from "react"
+import { Slot } from "@radix-ui/react-slot"
+import { cva, type VariantProps } from "class-variance-authority"
+
+import { cn } from "../../lib/utils" 
+
+const buttonVariants = cva(
+  "inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50 gap-2 [&_svg]:size-5",
+  {
+    variants: {
+      variant: {
+        default:
+          "bg-indigo-600 text-white hover:bg-indigo-600/90 dark:bg-indigo-500 dark:text-indigo-50 dark:hover:bg-indigo-500/90",
+        primary:
+          "bg-indigo-600 text-white hover:bg-indigo-600/90 dark:bg-indigo-500 dark:text-indigo-50 dark:hover:bg-indigo-500/90",
+        destructive:
+          "text-slate-600 hover:text-white dark:text-slate-400 dark:hover:text-red-400",
+        outline:
+          "border border-indigo-200 bg-transparent hover:bg-indigo-50 text-indigo-700 dark:border-slate-800 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-slate-100",
+        input:
+          "border border-input bg-background hover:border-slate-400 dark:border-slate-800 dark:hover:border-slate-600",
+       "action-accept":
+          "border border-green-500 bg-transparent text-green-600 hover:bg-green-500 hover:text-white dark:border-green-600 dark:text-green-500 dark:hover:bg-green-600 dark:hover:text-white",
+        "action-decline":
+          "border border-red-500 bg-transparent text-red-600 hover:bg-red-500 hover:text-white dark:border-red-600 dark:text-red-500 dark:hover:bg-red-600 dark:hover:text-white",
+        "action-suggest":
+          "border border-slate-400 bg-transparent text-slate-500 hover:bg-slate-100 dark:border-slate-600 dark:text-slate-400 dark:hover:bg-slate-800",
+        "action-star":
+          "border border-yellow-500 bg-transparent text-yellow-600 hover:bg-yellow-50 dark:border-yellow-500/50 dark:text-yellow-400 dark:hover:bg-yellow-900/20",
+        "action-pay":
+          "border border-green-600 bg-transparent text-green-700 hover:bg-green-50 dark:border-green-500/80 dark:text-green-400 dark:hover:bg-green-900/20",
+        secondary:
+          "bg-indigo-100 text-indigo-700 hover:bg-indigo-100/80 dark:bg-slate-800 dark:text-slate-50 dark:hover:bg-slate-800/80",
+        ghost: "text-slate-700 dark:text-slate-400",
+        link: "text-indigo-600 underline-offset-4 hover:underline dark:text-indigo-400",
+        save: "bg-[#4a90e2] text-white hover:bg-[#3a7bc8]",
+        hero: "border border-primary-foreground/50 bg-white/10 text-primary-foreground backdrop-blur-sm hover:bg-white/20 dark:text-foreground dark:border-foreground/30",
+        success:
+          "bg-green-600 text-white hover:bg-green-600/90 dark:bg-green-700 dark:text-green-50 dark:hover:bg-green-700/90",
+        warning:
+          "bg-yellow-600 text-white hover:bg-yellow-600/90 dark:bg-yellow-700 dark:text-yellow-50 dark:hover:bg-yellow-700/90",
+        info:
+          "bg-blue-600 text-white hover:bg-blue-600/90 dark:bg-blue-700 dark:text-blue-50 dark:hover:bg-blue-700/90",
+        subtle:
+          "bg-slate-100 text-slate-900 hover:bg-slate-200 dark:bg-slate-700 dark:text-slate-100 dark:hover:bg-slate-600",
+        delete:
+          "bg-red-600 text-white hover:bg-red-600/90 dark:bg-red-700 dark:text-red-50 dark:hover:bg-red-700/90",
+        "delete-outline":
+          "border border-red-200 bg-transparent hover:bg-red-50 text-red-700 dark:border-red-800 dark:text-red-300 dark:hover:bg-red-800 dark:hover:text-red-100",
+       "delete-ghost": "text-slate-700 dark:text-slate-400",
+       "delete-destructive": "text-slate-700 hover:text-red-600 dark:text-slate-400 dark:hover:text-red-400",
+        "delete-link": "text-red-600 underline-offset-4 hover:underline dark:text-red-400",
+      "calendar-day":
+          "h-9 w-9 p-0 font-normal rounded-md hover:bg-accent hover:text-accent-foreground",
+      },
+      size: {
+        default: "h-10 px-4 py-2 rounded-md",
+        th: "h-7 px-3 rounded-sm",
+        sm: "h-9 px-3 rounded-sm",
+        lg: "h-11 px-8 rounded-lg",
+        icon: "h-10 w-10",
+        "icon-sm": "h-8 w-8 rounded-sm p-0 [&_svg]:size-4",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+      size: "default",
+    },
+  }
+)
+
+export interface ButtonProps
+  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
+    VariantProps<typeof buttonVariants> {
+  asChild?: boolean
+}
+
+// Reverted to the simple, standard implementation that works correctly with `asChild`
+const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+  ({ className, variant, size, asChild = false, ...props }, ref) => {
+    const Comp = asChild ? Slot : "button"
+    return (
+      <Comp
+        className={cn(buttonVariants({ variant, size, className }))}
+        ref={ref}
+        {...props}
+      />
+    )
+  }
+)
+Button.displayName = "Button"
+
+export { Button, buttonVariants }
+
+
+import * as React from "react"
+import { Eye, EyeOff } from "lucide-react";
+import { cn } from "../../lib/utils";
+import { Button } from "./button.tsx";
+
+export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+  label?: string;
+  icon?: React.ElementType;
+  variant?: 'default' | 'compact' | 'glass';
+  position?: 'left' | 'right' | 'middle';
+}
+
+const Input = React.forwardRef<HTMLInputElement, InputProps>(
+  ({ className, type, label, icon: Icon, variant = 'default', position, size = 'default', ...props }, ref) => {
+    const id = React.useId();
+    const [isVisible, setIsVisible] = React.useState(false);
+    const inputType = type === 'password' ? (isVisible ? 'text' : 'password') : type;
+
+    const isCompact = variant === 'compact';
+    const isGlass = variant === 'glass';
+    const isLarge = size === 'large';
+
+    return (
+      <div className={cn("relative", className)}>
+      <input
+          id={id}
+          type={inputType}
+          ref={ref}
+          placeholder=" "
+          className={cn(
+            "peer block w-full appearance-none border bg-card text-sm text-slate-900 dark:text-slate-50 placeholder:text-slate-500 dark:placeholder:text-slate-400 transition-colors focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 focus:relative focus:z-10",
+             type === 'number' && "[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none",
+             // Default variant styles
+             !isCompact && "rounded-xl border-slate-300 focus:border-indigo-600 dark:border-slate-600 dark:focus:border-indigo-500",
+             !isCompact && (Icon ? "pl-11" : "px-4"),
+            !isCompact && (type === 'password' ? "pr-12" : "pr-4"),
+            // Compact variant styles
+            isCompact && "rounded-md border-input py-2 hover:border-slate-400 focus:border-slate-500 dark:border-slate-800 dark:hover:border-slate-600 dark:focus:border-slate-600",
+            isCompact && (Icon ? "pl-11" : "px-3"),
+            isCompact && (type === 'password' ? "pr-12" : "pr-3"),
+            isLarge ? "h-12" : "h-10",
+            position === 'left' && 'rounded-r-none',
+            position === 'right' && 'rounded-l-none',
+            position === 'middle' && 'rounded-none',
+            // --- UPDATED & FIXED: Glass variant overrides ---
+            isGlass && "bg-white/40 dark:bg-black/20 border-white/50 dark:border-white/20 text-slate-900 dark:text-white placeholder:text-transparent focus:border-primary dark:focus:border-primary backdrop-blur-sm"
+          )}
+          {...props}
+        />
+        {label && (
+            <label
+            htmlFor={id}
+            className={cn(
+              "absolute text-sm text-slate-500 dark:text-slate-400 duration-300 transform origin-[0] pointer-events-none z-10",
+              "top-0 -translate-y-1/2 scale-75 bg-card px-2 rounded-full",
+              "peer-placeholder-shown:scale-100 peer-placeholder-shown:top-1/2 peer-placeholder-shown:bg-transparent peer-placeholder-shown:px-0 peer-placeholder-shown:rounded-none peer-placeholder-shown:z-0",
+              isCompact ? (Icon ? 'left-11' : 'left-3') : (Icon ? 'left-11' : 'left-4'),
+              "peer-focus:text-indigo-600 dark:peer-focus:text-indigo-500",
+               // --- UPDATED & FIXED: Glass variant overrides ---
+              isGlass && "bg-transparent text-slate-600 dark:text-slate-300 peer-placeholder-shown:text-slate-600 dark:peer-placeholder-shown:text-slate-300 peer-focus:text-primary dark:peer-focus:text-primary"
+            )}
+            >
+            {label}
+            </label>
+        )}
+        {Icon && (
+          <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4 z-10">
+             {/* --- UPDATED & FIXED: Glass variant icon color --- */}
+            <Icon className={cn("h-5 w-5 text-slate-400", isGlass && "text-slate-500 dark:text-slate-400")} />
+          </div>
+        )}
+       {type === 'password' && (
+          <Button 
+            type="button" 
+            variant="ghost" 
+            size="icon" 
+            onClick={() => setIsVisible(v => !v)} 
+            className={cn(
+                "absolute right-2 top-1/2 -translate-y-1/2",
+                isCompact ? "h-8 w-8" : "h-10 w-10",
+                // This was already mostly correct, but we'll ensure it works with the new glass variant
+                isGlass 
+                  ? "text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200"
+                  : "text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200"
+            )}
+            aria-label={isVisible ? "Hide password" : "Show password"}
+          >
+            {isVisible ? <EyeOff size={20} /> : <Eye size={20} />}
+          </Button>
+        )}
+      </div>
+    );
+  }
+);
+Input.displayName = "Input";
+
+export { Input };

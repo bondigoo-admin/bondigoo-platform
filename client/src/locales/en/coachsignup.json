@@ -1,0 +1,68 @@
+{
+  "title": "Become a Coach",
+  "submitting": {
+    "title": "Processing your registration...",
+    "message": "Just a moment, we're setting up your account."
+  },
+  "firstName": {
+    "label": "First Name"
+  },
+  "lastName": {
+    "label": "Last Name"
+  },
+  "email": {
+    "label": "Email Address"
+  },
+  "password": {
+    "label": "Password"
+  },
+  "confirmPassword": {
+    "label": "Confirm Password"
+  },
+  "language": {
+    "label": "Preferred Language",
+    "placeholder": "Select a language"
+  },
+  "languages": {
+    "english": "English",
+    "spanish": "Spanish",
+    "french": "French",
+    "german": "German"
+  },
+  "passwordStrength": {
+    "veryWeak": "Very Weak",
+    "weak": "Weak",
+    "fair": "Fair",
+    "strong": "Strong",
+    "veryStrong": "Very Strong"
+  },
+  "errors": {
+    "firstName": "First name is required.",
+    "lastName": "Last name is required.",
+    "email": {
+      "required": "Email is required.",
+      "invalid": "Please enter a valid email address."
+    },
+    "password": {
+      "required": "Password is required.",
+      "length": "Password must be at least 8 characters long."
+    },
+    "confirmPassword": "The passwords do not match.",
+    "terms": "You must agree to the terms and policies to continue."
+  },
+  "buttons": {
+    "register": "Create Account",
+    "submitting": "Creating..."
+  },
+  "toasts": {
+    "success": "Registration successful! You'll be redirected shortly.",
+    "error": {
+      "generic": "Registration failed. Please try again."
+    }
+  },
+  "loginPrompt": {
+    "text": "Already have an account?",
+    "link": "Log in"
+  },
+  "terms.label": "I have read, understood, and agree to the <tos>Terms of Service</tos>, <privacy>Privacy Policy</privacy>, and <community>Community Guidelines</community>."
+}

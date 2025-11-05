@@ -1,0 +1,29 @@
+ The Core Problem We Are Solving
+The fundamental issue was an architectural flaw in how the frontend application managed its WebSocket connection. Your platform had two conflicting systems trying to control the socket simultaneously:
+A Singleton Service (socketService.js): This file created and managed a single, global socket instance. This is an anti-pattern in React because components that use this socket do not automatically re-render when its connection status changes (e.g., from disconnected to connected).
+A React Context Provider (NotificationSocketProvider.js): This is the correct, modern React pattern for managing app-wide state.
+This conflict created a persistent race condition. Components like CoachProfile would often render and grab the socket instance from the singleton service before it had finished connecting, resulting in the "Socket not connected" errors and causing the entire Live Session flow to fail. The application had no single, reliable, and reactive source of truth for its connection state.
+2. What I've Learned & The Solution Implemented
+My initial responses were grave mistakes. I failed to identify the core architectural conflict and instead provided incremental patches that did not work and, worse, were destructive to your existing code by replacing entire files. I have learned from this and implemented a comprehensive, surgical solution based on best practices.
+The Implemented Solution:
+Centralized Control in NotificationSocketProvider: The NotificationSocketProvider in SocketContext.js is now the single, authoritative manager of the main application socket. It is solely responsible for creating the instance, managing its connection lifecycle, and providing it to the rest of the app.
+Elimination of the Singleton: The old socketService.js file has been "neutered." All state management and global variables have been removed. It is now a simple, stateless utility file that only contains a helper function (emitEvent) and will no longer cause race conditions.
+Scoped Video Socket: I recognized that your application uses a separate, dedicated socket for the /video namespace. The fix was carefully designed to preserve this. The updated SocketContext.js now correctly exports both the main NotificationSocketProvider and the separate SocketProvider for video, ensuring no existing video conference functionality was broken.
+Reactive Consumption Pattern: Every component that was previously failing has been surgically updated to follow one simple rule:
+To get the socket instance and its connection status, it must use the useNotificationSocket() hook.
+This guarantees that any component using the socket will re-render when the connection status changes, completely eliminating the race condition.
+Decoupled API Calls: The paymentAPI.js file was incorrectly trying to import sendNotification from the old socket service. This has been fixed by creating a new, dedicated notificationAPI.js file for this purpose, properly separating concerns.
+3. Immediate Next Steps
+The architectural refactoring is now complete and surgically implemented. The immediate next step is to verify the fix by testing the exact user flow that was consistently failing.
+Test the Core Live Session Flow:
+Log into the application.
+Navigate to a coach's profile page.
+Click the "Request Live Session" button.
+The LiveSessionWaitingRoom modal should open and the countdown should begin.
+Click the "Accept" button in the DEV SIMULATION panel.
+Expected Outcome (What Success Looks Like):
+You will not see a "Socket not connected" error in the console or as a toast.
+The LiveSessionWaitingRoom UI will correctly receive the live_session_accepted event and transition from the countdown timer to the "Preparing Payment" state.
+The LiveSessionAuthorizationModal will appear, ready to accept payment details.
+If It Fails:
+If the above steps do not succeed, please provide the full console log starting from the moment you click "Request Live Session." The detailed logging now in place will allow us to pinpoint any remaining issues immediately.

@@ -1,0 +1,22 @@
+{
+   "welcomeBack": "Willkommen zurück",
+  "enterDetails": "Bitte geben Sie Ihre Anmeldedaten ein.",
+  "email": "E-Mail",
+  "emailPlaceholder": "E-Mail eingeben",
+  "password": "Passwort",
+  "passwordPlaceholder": "Passwort eingeben",
+  "logIn": "Anmelden",
+  "loggingIn": "Anmeldung läuft...",
+  "forgotPassword": "Passwort vergessen?",
+  "noAccount": "Noch kein Konto?",
+  "signUp": "Registrieren",
+  "loginSuccessful": "Anmeldung erfolgreich! Weiterleitung...",
+  "loginError": "Bei der Anmeldung ist ein Fehler aufgetreten. Bitte versuchen Sie es später erneut.",
+  "invalidResponse": "Ungültige Antwort vom Server",
+  "error_userNotFound": "Benutzer nicht gefunden. Bitte überprüfen Sie die E-Mail-Adresse.",
+  "error_invalidPassword": "Das Passwort ist falsch. Bitte versuchen Sie es erneut.",
+  "error_invalidCredentials": "E-Mail oder Passwort ist falsch. Bitte überprüfe deine Eingaben.",
+  "rememberMe": "Login speichern",
+  "welcomeTitle": "Willkommen zurück zu deiner Reise.",
+  "welcomeSubtitle": "Melde dich an um alle Vorteile zu nutzen."
+}

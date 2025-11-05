@@ -1,0 +1,22 @@
+{
+  "leaveReviewForCoach": "Bewerte deinen Coach {{coachName}}",
+  "leaveReviewForClient": "Bewerte deinen Kunden",
+  "comment": "Kommentar",
+  "coachComment": "Kommentar des Coaches",
+  "submit": "Bewertung absenden",
+  "review.rating": "Bewertung",
+  "ratingRequired": "Bitte gib eine Bewertung ab",
+  "commentPlaceholder": "Teile deine Erfahrungen...",
+  "privateFeedback": "Privates Feedback (nur für den Coach sichtbar)",
+  "privateFeedbackPlaceholder": "Private Notizen für den Coach...",
+  "writeResponse": "Schreibe eine Antwort auf diese Bewertung",
+  "notifications.reviewPrompt.coach.title": "Bewerte deine Sitzung mit {{name}}",
+  "notifications.reviewPrompt.client.title": "Wie war deine Sitzung mit {{name}}?",
+  "rating": "Bewertung",
+  "reviewProgramTitle": "Bewertung abgeben",
+  "editReviewProgramTitle": "Bewertung bearbeiten",
+  "reviewSubmittedSuccess": "Bewertung erfolgreich gespeichert",
+   "reviewSessionTitle": "Bewerte deine Sitzung",
+  "editReviewSessionTitle": "Sitzungsbewertung bearbeiten",
+  "reviewSubmitted": "Bewertung gespeichert"
+}

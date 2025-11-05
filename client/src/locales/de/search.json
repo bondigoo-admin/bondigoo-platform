@@ -1,0 +1,143 @@
+{
+  "nav": {
+    "dashboard": {
+      "name": "{{header:dashboard}}",
+      "keywords": "startseite, hauptseite, übersicht"
+    },
+    "profile": {
+      "name": "{{header:profile}}",
+      "keywords": "konto, biografie, meine daten, profil ansehen"
+    },
+    "calendar": {
+      "name": "{{header:calendar}}",
+      "keywords": "zeitplan, termine, buchungen"
+    },
+    "connections": {
+      "name": "{{header:connections}}",
+      "keywords": "Kunden, meine coaches, netzwerk, kontakte"
+    },
+    "messages": {
+      "name": "{{header:messages}}",
+      "keywords": "chat, posteingang, unterhaltungen"
+    },
+    "notifications": {
+      "name": "{{header:notifications}}",
+      "keywords": "benachrichtigungen, updates, aktivität"
+    },
+    "analytics": {
+      "name": "{{header:analytics}}",
+      "keywords": "statistiken, berichte, daten"
+    },
+    "resources": {
+      "name": "{{header:resources}}",
+      "keywords": "hilfe, anleitungen, dokumente, bibliothek"
+    },
+    "forum": {
+      "name": "{{header:forum}}",
+      "keywords": "community, diskussion, fragen"
+    },
+    "referral": {
+      "name": "{{header:referralSystem}}",
+      "keywords": "einladen, freunde, belohnungen"
+    },
+    "findCoaches": {
+      "name": "{{header:findCoaches}}",
+      "keywords": "durchsuchen, coaches suchen, entdecken"
+    },
+    "browsePrograms": {
+      "name": "{{common:programs}}",
+      "keywords": "kurse, lernen, training"
+    },
+    "manageSessions": {
+      "name": "{{header:manageSessions}}",
+      "keywords": "meine termine, verfügbarkeit, dienstleistungen"
+    },
+    "earnings": {
+      "name": "{{header:earnings}}",
+      "keywords": "einnahmen, auszahlungen, einkommen, geld"
+    },
+    "billing": {
+      "name": "{{header:billing}}",
+      "keywords": "zahlung, kreditkarte, belege, abonnement"
+    },
+    "adminDashboard": {
+      "name": "{{header:adminDashboard}}",
+      "keywords": "verwaltung, benutzer verwalten, systemübersicht"
+    },
+    "settings": {
+      "name": "{{header:settings}}",
+      "keywords": "einstellungen, optionen, konfiguration"
+    },
+    "settingsGeneral": {
+      "name": "{{settings:generalSettings}}",
+      "keywords": "erscheinungsbild, theme, dark mode, light mode, sprache"
+    },
+    "settingsProfile": {
+      "name": "{{userprofile:profileSettings}}",
+      "keywords": "profil bearbeiten, mein name, telefonnummer, adresse, beruf"
+    },
+    "settingsSecurity": {
+      "name": "{{settings:security}}",
+      "keywords": "passwort, passwort ändern, sicherheit, 2fa, zwei faktor, blockierte benutzer"
+    },
+    "settingsBilling": {
+      "name": "{{settings:billing.title}}",
+      "keywords": "zahlung verwalten, kreditkarte, rechnungen, belege"
+    },
+    "settingsCoach": {
+      "name": "{{settings:coachSettings}}",
+      "keywords": "verfügbarkeit, buchungsregeln, terminplanung, stornierungsbedingungen, überzeit"
+    },
+    "settingsPricing": {
+      "name": "{{coachSettings:pricing}}",
+      "keywords": "stundensatz, rabatte, sitzungspreis, meine preise"
+    }
+  },
+ "keywords": {
+    "home": "startseite", "main": "haupt", "overview": "übersicht",
+    "account": "konto", "bio": "biografie", "myDetails": "meine daten", "viewProfile": "profil ansehen",
+    "schedule": "zeitplan", "appointments": "termine", "bookings": "buchungen",
+    "clients": "klienten", "myCoaches": "meine coaches", "network": "netzwerk", "contacts": "kontakte",
+    "chat": "chat", "inbox": "posteingang", "conversations": "unterhaltungen",
+    "alerts": "warnungen", "updates": "aktualisierungen", "activity": "aktivität",
+    "stats": "statistiken", "statistics": "statistiken", "reports": "berichte", "data": "daten",
+    "help": "hilfe", "guides": "anleitungen", "documents": "dokumente", "library": "bibliothek",
+    "community": "community", "discussion": "diskussion", "questions": "fragen",
+    "invite": "einladen", "friends": "freunde", "rewards": "belohnungen", "affiliate": "partner",
+    "browse": "durchsuchen", "searchCoaches": "coaches suchen", "explore": "erkunden",
+    "courses": "kurse", "learning": "lernen", "training": "training",
+    "mySessions": "meine sitzungen", "availability": "verfügbarkeit", "services": "dienstleistungen",
+    "revenue": "einnahmen", "payouts": "auszahlungen", "income": "einkommen", "money": "geld",
+    "payment": "zahlung", "creditCard": "kreditkarte", "receipts": "belege", "subscription": "abonnement",
+    "administration": "verwaltung", "manageUsers": "benutzer verwalten", "systemOverview": "systemübersicht",
+    "preferences": "einstellungen", "options": "optionen", "configuration": "konfiguration",
+    "appearance": "erscheinungsbild", "theme": "design", "darkMode": "dunkelmodus", "lightMode": "hellmodus", "language": "sprache",
+    "editProfile": "profil bearbeiten", "myName": "mein name", "phoneNumber": "telefonnummer", "address": "adresse", "occupation": "beruf",
+    "password": "passwort", "changePassword": "passwort ändern", "security": "sicherheit", "2fa": "2fa", "twoFactor": "zwei faktor", "blockedUsers": "blockierte benutzer",
+    "managePayment": "zahlung verwalten", "invoices": "rechnungen",
+    "bookingRules": "buchungsregeln", "scheduling": "terminplanung", "cancellationPolicy": "stornierungsbedingungen", "overtime": "überstunden",
+    "hourlyRate": "stundensatz", "discounts": "rabatte", "sessionPrice": "sitzungspreis", "myRates": "meine preise"
+  },
+  "typeLabels": {
+    "navigation": "Navigation"
+  },
+ "placeholder": "Suchen...",
+  "loading": "Lädt...",
+  "noResults": "Keine Ergebnisse für '{{query}}' gefunden.",
+  "prompt": "Beginne zu tippen, um zu suchen.",
+  "groupHeadings": {
+    "recent": "Letzte Suchen",
+    "connections": "Deine Verbindungen",
+    "bookings": "Deine Buchungen",
+    "coaches": "Coaches",
+    "users": "Benutzer",
+    "programs": "Programme",
+    "navigation": "Navigation"
+  },
+  "details": {
+    "yourConnection": "Deine Verbindung",
+    "bookingOnDate": "Buchung am {{date}}",
+    "byCoach": "Von {{name}}",
+    "userRoleLabel": "Benutzer"
+  }
+}

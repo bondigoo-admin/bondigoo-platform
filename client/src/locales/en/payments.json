@@ -1,0 +1,105 @@
+{
+  "paymentDetails": "Payment Details",
+  "sessionCost": "Session Cost",
+  "vat": "VAT",
+  "total": "Total",
+  "savedMethods": "Saved Payment Methods",
+  "retry": "Retry",
+  "paymentConfirmationFailed": "Payment Confirmation Failed",
+  "paymentSuccessful": "Payment Successful",
+  "paymentFailed": "Payment Failed",
+  "status": {
+    "processing": "Processing",
+    "completed": "Completed",
+    "pending": "Pending",
+    "failed": "Failed",
+    "active": "Active",
+    "incomplete": "Incomplete",
+    "inactive": "Inactive"
+  },
+  "stripeConnect": "Stripe Connect",
+  "noConnectAccount": "No Connected Account",
+  "connectWithStripe": "Connect with Stripe",
+  "loading": {
+    "initializing": "Initializing...",
+    "redirecting": "Redirecting...",
+    "processing": "Processing...",
+    "completing": "Completing..."
+  },
+  "errorFetchingAccountStatus": "Error Fetching Account Status",
+  "accountIncomplete": "Account Incomplete",
+  "requirements": {
+    "business_profile": {
+      "mcc": "Merchant Category Code",
+      "url": "Business Website"
+    },
+    "business_type": "Business Type",
+    "external_account": "External Account",
+    "representative": {
+      "address": {
+        "city": "City",
+        "line1": "Address Line 1",
+        "postal_code": "Postal Code"
+      },
+      "dob": {
+        "day": "Day",
+        "month": "Month",
+        "year": "Year"
+      },
+      "email": "Email Address",
+      "first_name": "First Name",
+      "last_name": "Last Name",
+      "phone": "Phone Number"
+    },
+    "tos_acceptance": {
+      "date": "Terms Acceptance Date",
+      "ip": "IP Address of Acceptance"
+    }
+  },
+  "statusActive": "Active",
+  "statusIncomplete": "Incomplete",
+  "statusInactive": "Not Active",
+  "startStripeSetup": "Start Stripe Setup",
+  "completeStripeSetup": "Complete Setup",
+  "editStripeAccount": "Edit Stripe Account",
+  "accountActive": "Your Stripe account is active and ready to receive payments",
+  "setupIncompleteInfo": "Please complete your Stripe account setup to start receiving payments",
+  "accountErrors": "Account Issues",
+  "errorCreatingConnectAccount": "Error Creating Stripe Account",
+  "connectAccountExists": "A Stripe Account Already Exists",
+  "notAuthorized": "Not Authorized",
+  "noSavedMethods": "No saved payment methods",
+  "cardDetails": "Card details",
+  "saveCardForFuture": "Save card for future payments",
+  "addCard": "Add card",
+  "securePaymentInfo": "Secure payment information",
+  "processing": "Processing",
+  "setAsDefault": "Set as default",
+  "setDefault": "Set default",
+  "deleteMethod": "Delete payment method",
+  "expiresOn": "Expires on",
+  "loadingStripe Error Component Stack": "Loading Stripe",
+  "paymentFailedContact": "Please contact support if the issue persists",
+  "processingMessage": "Your payment is being processed. This may take a few seconds.",
+  "initializing": "Initializing",
+  "loadingMethods": "Loading payment methods",
+  "methodAriaLabel": "Payment method",
+  "chooseTiming": "Choose payment timing",
+  "payNow": "Pay now",
+  "payNowDescription": "Pay immediately to confirm your booking",
+  "payLater": "Pay later",
+  "payLaterDescription": "Pay up to 48 hours before the session starts",
+  "sessionTooSoon": "The session starts in less than 48 hours",
+  "selectTiming": "Select payment timing",
+  "connectRequired": "Connection required for later payment",
+  "statusInitial": "Initialized",
+  "error": {
+    "title": "Payment Error",
+    "general": "An error occurred during payment",
+    "retriesRemaining": "Retries remaining: {{count}}",
+    "recoveryInstructions": "Please try again or use a different payment method",
+    "initialization": "initialization"
+  },
+  "success": "Payment completed successfully"
+ 
+}

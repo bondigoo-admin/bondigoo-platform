@@ -1,0 +1,97 @@
+[
+  {
+    "_id": "66ffc8a0a8b6067467aa7359",
+    "coach": "66d9cdcb0a7492a86482bd6a",
+    "client": "66f418d10a19ec0e4bbd377e",
+    "status": "declined",
+    "initiator": "client",
+    "createdAt": "2024-10-04T10:51:12.349Z",
+    "updatedAt": "2024-10-04T12:48:23.308Z",
+    "__v": 0
+  },
+  {
+    "_id": "66ffde3c2279e2117138cfc5",
+    "coach": "66fbe443af6e5fe3198d22ed",
+    "client": "66f418d10a19ec0e4bbd377e",
+    "status": "declined",
+    "initiator": "client",
+    "createdAt": "2024-10-04T12:23:24.420Z",
+    "updatedAt": "2024-10-04T12:48:26.393Z",
+    "__v": 0
+  },
+  {
+    "_id": "66ffde592279e2117138cfed",
+    "coach": "66fceae8aa08bb09188eeb7f",
+    "client": "66f418d10a19ec0e4bbd377e",
+    "status": "declined",
+    "initiator": "client",
+    "createdAt": "2024-10-04T12:23:53.795Z",
+    "updatedAt": "2024-10-04T12:48:27.615Z",
+    "__v": 0
+  },
+  {
+    "_id": "66ffe51b44f9ebe8025a0b9d",
+    "coach": "66fced13aa08bb09188eec6c",
+    "client": "66f418d10a19ec0e4bbd377e",
+    "status": "accepted",
+    "initiator": "client",
+    "createdAt": "2024-10-04T12:52:43.681Z",
+    "updatedAt": "2024-10-04T12:54:43.835Z",
+    "__v": 0
+  },
+  {
+    "_id": "67027675ec9395f6bb77e408",
+    "coach": "66d9cdcb0a7492a86482bd68",
+    "client": "66f418d10a19ec0e4bbd377e",
+    "initiator": "66f418d10a19ec0e4bbd377e",
+    "status": "accepted",
+    "lastInteractionDate": "2024-10-06T11:37:25.537Z",
+    "createdAt": "2024-10-06T11:37:25.540Z",
+    "updatedAt": "2024-10-06T11:45:32.789Z",
+    "__v": 0
+  },
+  {
+    "_id": "67039d9d1e68792602927e06",
+    "coach": "66fbe443af6e5fe3198d22eb",
+    "client": "66f418d10a19ec0e4bbd377e",
+    "initiator": "66f418d10a19ec0e4bbd377e",
+    "status": "accepted",
+    "lastInteractionDate": "2024-10-07T08:36:45.516Z",
+    "createdAt": "2024-10-07T08:36:45.518Z",
+    "updatedAt": "2024-10-07T08:37:07.330Z",
+    "__v": 0
+  },
+  {
+    "_id": "6703a9338a11fc8eee70013f",
+    "coach": "66fbea16bb1aa6e7e257e726",
+    "client": "66f418d10a19ec0e4bbd377e",
+    "initiator": "66f418d10a19ec0e4bbd377e",
+    "status": "pending",
+    "lastInteractionDate": "2024-10-07T09:26:11.924Z",
+    "createdAt": "2024-10-07T09:26:11.928Z",
+    "updatedAt": "2024-10-07T09:26:11.928Z",
+    "__v": 0
+  },
+  {
+    "_id": "670966521a2151ffa645091e",
+    "coach": "66fced13aa08bb09188eec6a",
+    "client": "66f418d10a19ec0e4bbd377e",
+    "initiator": "66f418d10a19ec0e4bbd377e",
+    "status": "pending",
+    "lastInteractionDate": "2024-10-11T17:54:26.973Z",
+    "createdAt": "2024-10-11T17:54:26.977Z",
+    "updatedAt": "2024-10-11T17:54:26.977Z",
+    "__v": 0
+  },
+  {
+    "_id": "670b99f54f80a78d69602002",
+    "coach": "66fcec87aa08bb09188eebf3",
+    "client": "66f418d10a19ec0e4bbd377e",
+    "initiator": "66f418d10a19ec0e4bbd377e",
+    "status": "pending",
+    "lastInteractionDate": "2024-10-13T09:59:17.645Z",
+    "createdAt": "2024-10-13T09:59:17.647Z",
+    "updatedAt": "2024-10-13T09:59:17.647Z",
+    "__v": 0
+  }
+]

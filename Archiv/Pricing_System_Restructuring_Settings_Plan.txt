@@ -1,0 +1,208 @@
+Current Architecture Analysis & Implementation Plan
+Current System State
+Key Models and Their Relationships
+
+PriceConfiguration Model
+
+Main pricing source of truth
+Stores base rates, overrides, time-based rates, special periods
+Follows versioning pattern with active/inactive status
+
+
+SessionType Model
+
+Defines session characteristics
+Recently migrated away from direct pricing fields
+Maintains metadata of legacy price fields
+
+
+Coach Model
+
+Contains legacy pricing in settings.sessionManagement.sessionTypes
+Still has hourlyRate field that needs migration
+Contains important settings for pricing rules
+
+
+
+Current Frontend Components
+
+CoachSettings Component
+
+Has pricing section but needs update for new model
+Handles settings updates via updateCoachSettings
+Currently uses old pricing structure
+
+
+Price Calculation Flow
+
+PricingService calculates final prices
+Handles various overrides and conditions
+Integrates with booking system
+
+
+
+Target State
+Data Structure
+
+Centralized Pricing
+
+Single source of truth in PriceConfiguration
+All pricing logic isolated from session types
+Version-controlled pricing history
+
+
+Clean Session Types
+
+No direct pricing information
+Focus on session characteristics
+Reference-only relationship to pricing
+
+
+Modern Coach Settings
+
+Intuitive pricing interface
+Real-time validation
+Preview capabilities
+
+
+
+Implementation Plan
+Phase 1: Data Migration & Cleanup
+
+Create Migration Script
+
+javascriptCopy// Tasks:
+- Extract existing pricing from Coach.settings.sessionManagement.sessionTypes
+- Convert to PriceConfiguration format
+- Store legacy data in metadata
+- Create initial active price configuration
+
+Update Coach Model
+
+javascriptCopy// Tasks:
+- Remove pricing-related fields from sessionTypes
+- Add reference to active PriceConfiguration
+- Deprecate hourlyRate field
+
+Enhance SessionType Model
+
+javascriptCopy// Tasks:
+- Remove remaining price fields
+- Add migration completion flag
+- Update validation rules
+Phase 2: Backend API Enhancement
+
+Price Configuration Controller Updates
+
+javascriptCopy// Tasks:
+- Add version management endpoints
+- Implement price preview calculation
+- Add bulk update capabilities
+- Enhance validation middleware
+
+Price Calculation Service Refinement
+
+javascriptCopy// Tasks:
+- Optimize override resolution
+- Add caching layer for active configurations
+- Implement real-time price updates
+Phase 3: Frontend Implementation
+
+CoachSettings Component Update
+
+javascriptCopy// Tasks:
+- Create new PricingSection component
+- Implement real-time validation
+- Add price preview functionality
+- Create override management interface
+
+New Components Needed
+
+javascriptCopy- PriceConfigurationManager
+- OverrideEditor
+- TimeBasedRateEditor
+- SpecialPeriodManager
+- PricePreviewCalculator
+
+State Management Updates
+
+javascriptCopy// Tasks:
+- Add pricing-specific context
+- Implement optimistic updates
+- Add version control UI
+Phase 4: Integration & Testing
+
+Integration Points
+
+javascriptCopy// Tasks:
+- Connect booking system to new pricing
+- Update payment processing
+- Integrate with notifications
+
+Testing Suite
+
+javascriptCopy// Tasks:
+- Unit tests for price calculations
+- Integration tests for booking flow
+- Migration test cases
+- Performance testing
+Phase 5: Deployment & Monitoring
+
+Deployment Strategy
+
+javascriptCopy// Tasks:
+- Create feature flags
+- Implement gradual rollout
+- Set up monitoring
+
+Performance Monitoring
+
+javascriptCopy// Tasks:
+- Add pricing-specific metrics
+- Set up alerts
+- Create dashboard
+Dependencies & Requirements
+Technical Requirements
+
+MongoDB with transaction support
+Node.js environment
+React frontend
+Redis for caching (optional)
+
+External Services
+
+Stripe integration
+Notification service
+Logging service
+
+Development Tools
+
+TypeScript (recommended)
+Jest for testing
+React Testing Library
+Monitoring tools
+
+Success Criteria
+
+Performance
+
+
+Price calculation < 100ms
+Settings updates < 500ms
+Zero downtime migration
+
+
+Data Integrity
+
+
+No pricing inconsistencies
+Complete audit trail
+Version control working
+
+
+User Experience
+
+
+Intuitive pricing interface
+Real-time feedback
+Clear validation messages

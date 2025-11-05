@@ -1,0 +1,579 @@
+TECHNICAL DOCUMENTATION: PAYMENT PROCESS ARCHITECTURE
+EXECUTIVE SUMMARY
+This document provides a comprehensive technical overview of the payment processing system within the coaching platform. The platform facilitates secure payments between clients and coaches with features including payment intent creation, payment method management, payment confirmation, and refund processing.
+The payment system architecture comprises several interconnected components:
+
+React frontend components for payment UI and state management
+RESTful API services for payment operations
+Stripe integration for payment processing
+Socket.IO for real-time payment status updates
+State management services for payment flow orchestration
+Error handling and recovery mechanisms
+
+The document details each component's functionality, data flow, state management, and error handling approaches.
+SYSTEM ARCHITECTURE OVERVIEW
+Technology Stack
+
+Frontend: React (Create React App)
+Backend: Express.js
+Database: MongoDB with Mongoose ODM
+State Management: React Context API, React Query
+Real-time Communication: Socket.IO
+Authentication: JWT stored in localStorage
+Payment Processing: Stripe
+Styling: CSS with potential migration to Tailwind
+
+Core Components
+
+Frontend:
+
+PaymentContext: React context for payment state management
+usePaymentStatus/useUnifiedPayment: Hook for tracking payment status
+usePaymentActions: Hook for payment operations
+usePaymentOrchestrator: Hook for orchestrating payment flows
+
+
+Services:
+
+PaymentAPI: Frontend service for API interactions
+PaymentOrchestrator: Service for coordinating payment flows
+PaymentStatusService: Service for tracking payment states
+PaymentSocketService: Service for Socket.IO communication
+
+
+Backend:
+
+paymentController.js: Backend controller for payment logic
+Payment.js: Mongoose model for payment data
+stripeService: Service for Stripe API interactions
+
+
+
+PAYMENT PROCESS FLOW
+1. Payment Intent Creation
+Client Initiates Payment
+
+Client selects a session and proceeds to payment
+Payment intent creation is triggered through createPaymentIntent() from usePaymentActions or PaymentOrchestrator.initializePayment()
+
+Flow Initialization:
+
+PaymentOrchestrator initializes a flow with unique ID
+Sets up initial flow state in memory with status, amount, currency, metadata
+Initializes payment status tracking via StatusService
+
+Backend Processing:
+
+createPaymentIntent controller processes the request
+Validates booking data and price structure
+Creates or retrieves Stripe customer
+Creates a Stripe payment intent with appropriate metadata
+Creates payment records in the database and updates booking
+
+Response Handling:
+
+Server returns client secret and payment intent ID
+Frontend updates payment state and initiates status monitoring
+
+2. Payment Method Selection and Confirmation
+Payment Method Selection:
+
+User selects a saved payment method or enters a new one via Stripe Elements
+
+Payment Confirmation:
+
+User confirms payment, triggering confirmation process using confirmPayment()
+
+Frontend Processing:
+
+PaymentAPI sends confirmation request to backend
+
+Backend Confirmation:
+
+Server confirms the payment intent with Stripe
+Updates booking and payment records with completed status
+Creates transaction record for the payment
+Sends notification to relevant users
+
+Payment Status Update:
+
+Real-time updates via Socket.IO
+Status monitoring via polling or socket events
+
+3. Payment Status Monitoring
+Socket-based Monitoring:
+
+PaymentSocketService sets up real-time monitoring with callback handlers
+
+Polling-based Fallback:
+
+Automatic fallback to polling if socket fails
+Checks status at regular intervals with exponential backoff on failure
+
+State Management:
+
+PaymentStatusService tracks payment state with atomic updates
+Notifies subscribers of state changes
+
+Webhook Handling:
+
+Backend processes Stripe webhooks for asynchronous updates
+Handles payment success, failure, and refund events
+
+4. Payment Completion and Error Handling
+Success Path:
+
+PaymentOrchestrator updates flow state to succeeded
+UI updates to show success status
+
+Error Handling:
+
+Comprehensive error handling at multiple levels
+Retry mechanisms for recoverable errors
+State preservation and recovery for critical failures
+
+Cleanup Operations:
+
+Resources are cleaned up after payment completion
+Temporary states and subscriptions are removed
+
+5. Payment Method Management
+Retrieving Payment Methods:
+
+Frontend requests saved payment methods
+Backend fetches and returns normalized payment methods
+
+Adding Payment Methods:
+
+Frontend creates or attaches payment method to customer
+Backend stores reference in user profile
+
+Deleting Payment Methods:
+
+Frontend requests removal
+Backend detaches from Stripe and updates user profile
+Handles default payment method reassignment
+
+6. Refund Processing
+Client Requests Refund:
+
+Frontend initiates refund request with amount and reason
+
+Backend Processing:
+
+Processes refund with Stripe
+Updates payment and booking status
+Creates transaction record for refund
+Sends notifications to relevant users
+
+DETAILED COMPONENT ANALYSIS
+Frontend Components
+PaymentContext.js
+React context for payment state management.
+Key Functions:
+
+initializePayment(): Initializes payment with validation and orchestrator integration
+handlePaymentCleanup(): Handles cleanup of payment resources
+paymentReducer(): Manages state updates using action types like INITIALIZE_PAYMENT, UPDATE_PAYMENT_STATUS
+
+State Management:
+
+Manages complex state for active payments, methods, processing status, etc.
+Uses React's useReducer for predictable state updates
+
+usePaymentStatus.js / useUnifiedPayment.js
+Hook for tracking payment status with socket and polling capabilities.
+Key Functions:
+
+startPolling(): Begins status polling with validation and options
+setupPaymentSubscription(): Sets up socket subscription for status updates
+checkPaymentStatus(): Checks current status and handles state changes
+
+usePaymentActions.js
+Hook for payment operations with retry and error handling.
+Key Functions:
+
+createPaymentIntent(): Creates payment intent with retry logic
+confirmPayment(): Confirms payment with error handling
+retryWithDelay(): Implements retry logic with exponential backoff
+
+usePaymentOrchestrator.js
+Hook for orchestrating payment flows and state transitions.
+Key Functions:
+
+initializeFlow(): Sets up payment flow with required parameters
+dispatch(): Handles different action types for state updates
+subscribeToState(): Sets up state subscription for UI updates
+
+Services
+PaymentAPI.js
+Frontend service for interacting with payment-related endpoints.
+Key Functions:
+
+createPaymentIntent(): Creates payment intent via API
+confirmPayment(): Confirms payment with error handling
+retryWithDelay(): Implements retry mechanism
+getPaymentMethods(): Fetches saved payment methods
+startPaymentStatusMonitoring(): Monitors payment status
+
+PaymentOrchestrator.js
+Service for coordinating payment flows and managing state transitions.
+Key Functions:
+
+initializePayment(): Sets up payment flow with retry logic
+processPayment(): Handles payment processing with comprehensive error handling
+handlePaymentError(): Manages payment errors with recovery options
+updateFlow(): Updates flow state with atomic operations
+subscribeToFlow(): Sets up flow state subscription
+
+PaymentStatusService.js
+Service for tracking payment states and managing transitions.
+Key Functions:
+
+initializePaymentFlow(): Sets up initial payment state
+handlePaymentStatusChange(): Updates payment status with notifications
+_atomicStateTransition(): Handles state transitions with backup and recovery
+trackFlowState(): Tracks flow state transitions
+
+PaymentSocketService.js
+Service for Socket.IO communication and real-time updates.
+Key Functions:
+
+ensureConnection(): Ensures reliable socket connection with retry
+subscribeToPayment(): Sets up payment subscription with validation
+_setupHeartbeat(): Monitors connection health
+_attemptRoomJoin(): Joins socket room for updates
+
+Backend Components
+paymentController.js
+Backend controller for payment operations.
+Key Functions:
+
+createPaymentIntent(): Creates Stripe payment intent and database records
+confirmPayment(): Confirms payment and updates records
+webhookHandler(): Processes Stripe webhook events
+refundPayment(): Processes refunds
+getPaymentMethods(): Retrieves saved payment methods
+
+Payment.js
+Mongoose model for payment data.
+Schema Definition:
+
+Core fields: booking, payer, recipient references
+Payment details: amount structure with base, fees, VAT
+Status tracking with multiple states
+Stripe integration fields
+Payment method and refund tracking
+
+Middleware:
+
+Pre-save hooks for calculation of totals and VAT
+
+PAYMENT PROCESS FLOW DIAGRAMS
+1. Payment Intent Creation Flow
+Copy┌───────────────┐     ┌─────────────────────┐     ┌─────────────────────┐
+│               │     │                     │     │                     │
+│  Client UI    │────▶│ PaymentOrchestrator │────▶│ PaymentStatusService│
+│               │     │                     │     │                     │
+└───────┬───────┘     └─────────┬───────────┘     └─────────┬───────────┘
+        │                       │                           │
+        │                       │                           │
+        ▼                       ▼                           ▼
+┌───────────────┐     ┌─────────────────────┐     ┌─────────────────────┐
+│               │     │                     │     │                     │
+│  PaymentAPI   │────▶│  API Controller     │────▶│ Stripe API          │
+│               │     │                     │     │                     │
+└───────┬───────┘     └─────────┬───────────┘     └─────────┬───────────┘
+        │                       │                           │
+        │                       │                           │
+        ▼                       ▼                           ▼
+┌───────────────┐     ┌─────────────────────┐     ┌─────────────────────┐
+│               │     │                     │     │                     │
+│ Socket.IO     │◀───▶│  Database (MongoDB) │     │ Client UI (Update)  │
+│               │     │                     │     │                     │
+└───────────────┘     └─────────────────────┘     └─────────────────────┘
+2. Payment Confirmation Flow
+Copy┌───────────────┐     ┌─────────────────────┐     ┌─────────────────────┐
+│               │     │                     │     │                     │
+│ Stripe UI     │────▶│ usePaymentActions   │────▶│ PaymentAPI          │
+│ Elements      │     │                     │     │                     │
+└───────┬───────┘     └─────────┬───────────┘     └─────────┬───────────┘
+        │                       │                           │
+        │                       │                           │
+        ▼                       ▼                           ▼
+┌───────────────┐     ┌─────────────────────┐     ┌─────────────────────┐
+│               │     │                     │     │                     │
+│ API Controller│────▶│ Stripe API          │────▶│ Database Updates    │
+│               │     │                     │     │                     │
+└───────┬───────┘     └─────────┬───────────┘     └─────────┬───────────┘
+        │                       │                           │
+        │                       │                           │
+        ▼                       ▼                           ▼
+┌───────────────┐     ┌─────────────────────┐     ┌─────────────────────┐
+│               │     │                     │     │                     │
+│ Socket Events │────▶│ Payment Status      │────▶│ Client UI (Update)  │
+│               │     │ Updates             │     │                     │
+└───────────────┘     └─────────────────────┘     └─────────────────────┘
+3. Payment Status Monitoring Flow
+Copy┌───────────────┐     ┌─────────────────────┐     ┌─────────────────────┐
+│               │     │                     │     │                     │
+│ Socket.IO     │────▶│ PaymentSocketService│────▶│ Status Subscribers  │
+│ Connection    │     │                     │     │                     │
+└───────┬───────┘     └─────────┬───────────┘     └─────────┬───────────┘
+        │                       │                           │
+        │                       │                           │
+        ▼                       ▼                           ▼
+┌───────────────┐     ┌─────────────────────┐     ┌─────────────────────┐
+│               │     │                     │     │                     │
+│ Polling       │────▶│ PaymentStatusService│────▶│ UI State Updates    │
+│ Fallback      │     │                     │     │                     │
+└───────┬───────┘     └─────────┬───────────┘     └─────────┬───────────┘
+        │                       │                           │
+        │                       │                           │
+        ▼                       ▼                           ▼
+┌───────────────┐     ┌─────────────────────┐     ┌─────────────────────┐
+│               │     │                     │     │                     │
+│ Stripe Webhook│────▶│ PaymentController   │────▶│ Database & Events   │
+│               │     │                     │     │                     │
+└───────────────┘     └─────────────────────┘     └─────────────────────┘
+API REFERENCE
+Payment Endpoints
+MethodEndpointDescriptionAuthenticationParametersPOST/api/payments/create-intentCreate payment intentRequiredbookingId, price (optional)POST/api/payments/confirmConfirm paymentRequiredpaymentIntentId, paymentMethodIdGET/api/payments/status/:bookingIdGet payment statusRequired-POST/api/payments/refundProcess refundRequiredpaymentIntentId, amount, reasonGET/api/payments/methods/:userIdGet payment methodsRequired-POST/api/payments/methodsAdd payment methodRequiredpaymentMethodId, isDefaultDELETE/api/payments/methods/:methodIdDelete payment methodRequired-POST/api/payments/methods/defaultSet default payment methodRequiredpaymentMethodIdPOST/api/payments/webhookProcess Stripe webhooksNoneStripe signature in header
+Request/Response Examples
+Creating a Payment Intent:
+Request:
+javascriptCopy{
+  "bookingId": "6075e65b2d34a344b1f5f32c",
+  "price": {
+    "base": {
+      "amount": 100,
+      "currency": "CHF"
+    },
+    "final": {
+      "amount": 100,
+      "currency": "CHF"
+    },
+    "currency": "CHF",
+    "vat": {
+      "rate": 8.1,
+      "included": true
+    },
+    "platformFee": {
+      "percentage": 15
+    }
+  }
+}
+Response:
+javascriptCopy{
+  "success": true,
+  "clientSecret": "pi_3NhTy2HWMvEUw1Qt1RFnFvEG_secret_FkJeiasWvK8SWx5Q8aSx8QNnA",
+  "paymentIntent": {
+    "id": "pi_3NhTy2HWMvEUw1Qt1RFnFvEG",
+    "amount": 10000,
+    "currency": "chf"
+  }
+}
+Confirming a Payment:
+Request:
+javascriptCopy{
+  "paymentIntentId": "pi_3NhTy2HWMvEUw1Qt1RFnFvEG",
+  "paymentMethodId": "pm_1NhU1WHWMvEUw1QtYU2FfQX2"
+}
+Response:
+javascriptCopy{
+  "success": true,
+  "paymentIntent": {
+    "id": "pi_3NhTy2HWMvEUw1Qt1RFnFvEG",
+    "object": "payment_intent",
+    "amount": 10000,
+    "amount_received": 10000,
+    "currency": "chf",
+    "status": "succeeded",
+    "charges": {
+      "data": [
+        {
+          "id": "ch_3NhTy2HWMvEUw1Qt1TUrP8qD",
+          "object": "charge",
+          "amount": 10000,
+          "currency": "chf",
+          "status": "succeeded"
+        }
+      ]
+    }
+  },
+  "recipientId": "6075e65b2d34a344b1f5f32a",
+  "bookingId": "6075e65b2d34a344b1f5f32c",
+  "amount": 100,
+  "currency": "chf"
+}
+STATE MANAGEMENT DETAILS
+PaymentContext State
+The PaymentContext manages the following state structure:
+javascriptCopy{
+  activePayments: Map<bookingId, PaymentState>,
+  paymentMethods: array,
+  processingPayments: Set<bookingId>,
+  optimisticUpdates: Map<bookingId, OptimisticState>,
+  lastError: object,
+  isInitialized: boolean,
+  activeFlows: Map<flowId, FlowState>,
+  flowHistory: Map<flowId, CompletedFlowState>,
+  pendingFlows: Map<bookingId, PendingState>,
+  lifecycleStates: Map<bookingId, LifecycleState>,
+  socketStates: Map<bookingId, SocketState>,
+  retryAttempts: Map<bookingId, number>,
+  pendingTimeouts: Map<bookingId, timeoutId>
+}
+PaymentOrchestrator State
+The PaymentOrchestrator manages the following state structure:
+javascriptCopy{
+  flows: Map<flowId, FlowState>,
+  _activeFlowIds: Map<bookingId, flowId>,
+  _confirmationMappings: Map<confirmationId, ConfirmationMapping>,
+  _pendingInitializations: Map<bookingId, Promise>,
+  _flowInitializationLocks: Map<bookingId, timestamp>,
+  _flowMappings: Map<bookingId, flowId>,
+  _transitioningFlows: Map<flowId, TransitionState>,
+  _flowLifecycles: Map<flowId, LifecycleState>,
+  preservedFlows: Map<flowId, PreservedFlowState>,
+  statusSubscriptions: Map<flowId, Set<callback>>
+}
+PaymentStatusService State
+The PaymentStatusService manages the following state structure:
+javascriptCopy{
+  paymentStates: Map<flowId, PaymentState>,
+  _flowStates: Map<flowId, FlowState>,
+  _preservedStates: Map<flowId, PreservedState>,
+  _stateTransitions: Map<flowId, Array<TransitionRecord>>,
+  stateVersions: Map<flowId, number>,
+  _submissionStates: Map<flowId, SubmissionState>,
+  _flowLifecycles: Map<flowId, LifecycleState>
+}
+AUTHENTICATION MECHANISMS
+The payment system uses several authentication and authorization mechanisms:
+
+API Authentication:
+
+JWT-based authentication via Auth middleware
+Each API request includes a token in the Authorization header
+
+
+Stripe Authentication:
+
+Client-side authentication using Stripe.js publishable key
+Server-side authentication using Stripe secret key
+Webhook authentication using Stripe signature verification
+
+
+Payment Method Authorization:
+
+User can only access their own payment methods
+Authorization check based on user ID and role
+
+
+Booking Authorization:
+
+User can only make payments for their own bookings
+Authorization check comparing booking user ID and request user ID
+
+
+
+ERROR HANDLING PATTERNS
+The payment system implements several error handling patterns:
+
+Retry Mechanism:
+
+Exponential backoff with jitter for recoverable errors
+Configurable retry count and delay parameters
+Different strategies based on error type
+
+
+Request Timeout Handling:
+
+Abort controller for canceling long-running requests
+Timeout tracking with automatic cancellation
+Fallback strategies for aborted requests
+
+
+State Recovery Mechanism:
+
+Backup state before transitions
+State restoration from preserved backups
+Expiration handling for old backups
+
+
+Error Enhancement Pattern:
+
+Errors enhanced with context information
+Categorization of errors by source and type
+Recoverability assessment based on error characteristics
+
+
+Atomic State Updates:
+
+Lock-based atomic state updates
+Transaction-like state changes with rollback
+Version tracking for concurrent modification detection
+
+
+
+POTENTIAL IMPROVEMENTS
+
+Consolidated State Management:
+
+The system currently uses multiple state management approaches
+Consider consolidating into a single, more cohesive system
+
+
+Error Recovery Enhancement:
+
+Implement more sophisticated recovery strategies
+Consider a Dead Letter Queue for failed payments
+
+
+Performance Optimization:
+
+Reduce dependencies between services
+Implement caching for frequently accessed data
+
+
+Security Enhancements:
+
+Move from localStorage JWT storage to secure cookies
+Implement rate limiting for payment operations
+
+
+Refactoring Opportunities:
+
+PaymentOrchestrator has grown too large and should be divided
+Consider creating a dedicated PaymentTransitionService
+
+
+Testing Improvements:
+
+Add comprehensive unit and integration tests
+Implement mocking for Stripe API calls
+
+
+Documentation Improvements:
+
+Generate API documentation from code comments
+Create sequence diagrams for each flow
+
+
+Monitoring and Logging:
+
+Enhance logging with structured logs and correlation IDs
+Implement metrics collection for payment operations
+
+
+Code Duplication:
+
+Remove duplicate code between PaymentAPI and paymentController
+Consolidate error handling logic into shared utilities
+
+
+Technical Debt:
+
+Fix TODO comments and incomplete implementations
+Improve naming consistency across the codebase

@@ -1,0 +1,59 @@
+{
+  "lastUpdated": "Last Updated: {{date}}",
+  "title": "Terms of Service (TOS)",
+  "glance": {
+    "title": "Key Points at a Glance",
+    "p1": "These TOS are a legally binding contract between you and Nomadik GmbH. By using our platform, you agree to these terms.",
+    "p2": "We are a technology platform connecting Clients and Coaches. We are not responsible for the quality of the coaching itself.",
+    "p3": "For billing purposes, you purchase services from Nomadik GmbH. Coaches agree to a self-billing procedure where we create invoices on their behalf.",
+    "p4": "In case of disputes between users, the Platform acts as the sole and final arbiter.",
+    "p5": "We reserve the right to moderate content and suspend accounts that violate our policies."
+  },
+  "preamble": {
+    "title": "Preamble: About These Terms",
+    "p1": "These Terms of Service ('TOS') constitute a legally binding agreement between you ('User', 'you') and Nomadik GmbH, a company registered in Switzerland with its address at [Your Business Address, e.g., Bahnhofstrasse 1, 8001 Zurich, Switzerland] ('Nomadik', 'Platform', 'we', 'us').",
+    "p2": "By registering an account or using our Services in any way, you confirm that you have read, understood, and agree to be bound by this TOS, our <1>Privacy Policy</1>, and our <3>Community Guidelines</3>. Together, these documents form the 'Agreement'."
+  },
+  "definitions": {
+    "title": "Definitions",
+    "platform": {
+      "term": "Platform",
+      "def": "Refers to the technology provided by Nomadik GmbH, including our websites, applications, and associated services, which operate as a marketplace for coaching services."
+    },
+    "user": {
+      "term": "User",
+      "def": "Refers to any person or entity accessing or using the Platform, whether as a Client or a Coach."
+    },
+    "coach": {
+      "term": "Coach",
+      "def": "Refers to a User who offers their professional services on the Platform. This term includes, but is not limited to, coaches, trainers, authors, consultants, and therapists."
+    },
+    "client": {
+      "term": "Client",
+      "def": "Refers to a User who engages the services of a Coach through the Platform."
+    },
+    "services": {
+      "term": "Services",
+      "def": "Refers to the entirety of the functionalities provided by the Platform, including coach discovery, booking tools, payment processing, communication tools, and access to digital programs."
+    }
+  },
+  "chapter1": {
+    "title": "1. Nature and Scope of Our Services",
+    "venue": {
+      "title": "1.1. Platform as a Venue",
+      "p1": "Nomadik is a technology platform that acts as a marketplace to connect Clients and Coaches. We are not a coaching agency, nor are we a provider of coaching services. Our role is limited to providing the technological infrastructure. We are not a party to the direct agreement or the coaching relationship between a Client and a Coach."
+    },
+    "deemedSupplier": {
+      "title": "1.2. Our Role in Transactions",
+      "p1": "For the purposes of billing, invoicing, and tax collection, the Platform is considered a 'Deemed Supplier'. This means the Client's contract of sale for coaching services is with Nomadik GmbH. The Coach, in turn, provides their service to Nomadik GmbH as an independent contractor. This structure is to simplify billing and ensure tax compliance."
+    },
+    "noGuarantee": {
+      "title": "1.3. No Endorsement and No Guarantees",
+      "p1": "The Platform may verify certain qualifications of Coaches, but we make no guarantee, representation, or endorsement regarding the ability, qualifications, quality, safety, or legality of the services provided by Coaches. A Client's decision to engage a Coach is at their own risk. We are not responsible for the conduct, omissions, or content of any User on the Platform."
+    },
+    "modifications": {
+      "title": "1.4. Service Modifications",
+      "p1": "We reserve the right to modify, suspend, or discontinue any aspect of our Services at any time, without prior notice. Material changes to these TOS will be communicated to Users with at least 30 days' notice."
+    }
+  }
+}

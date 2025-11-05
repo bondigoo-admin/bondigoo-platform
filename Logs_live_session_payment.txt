@@ -1,0 +1,789 @@
+[PaymentService] Creating SetupIntent for session. {
+  function: 'createSetupIntentForSession',
+  stripeCustomerId: 'cus_RUlp0o3z2WooA6',
+  metadata: {
+    liveSessionId: '68ecd205c2bed6ec1bea83d6',
+    bookingId: '68ecd20ac2bed6ec1bea855c',
+    userId: '66f418d10a19ec0e4bbd377e'
+  }
+}
+[getDashboardOverview] ANALYTICS: Data fetching complete. { payments: 64, enrollments: 0 }
+[getDashboardOverview] ANALYTICS: Revenue by source calculated. {
+  grossRevenue: 3718.5899999999997,
+  totalProgramRevenue: 0,
+  breakdown: { Programs: 0, 'Session Bookings': 3718.5899999999997 }
+}
+[getDashboardOverview] ANALYTICS: Program KPIs calculated. { totalEnrollments: 0, topProgram: 'N/A', avgRating: 0 }
+[getDashboardOverview] ANALYTICS: Revenue per program for chart calculated. [
+  { name: 'Test Program 1', revenue: 0 },
+  { name: 'Test Program', revenue: 0 }
+]
+[PaymentService] SetupIntent created successfully. {
+  setupIntentId: 'seti_1SHiq5HKNqVBSHKUqwCeHWfn',
+  function: 'createSetupIntentForSession',
+  stripeCustomerId: 'cus_RUlp0o3z2WooA6',
+  metadata: {
+    liveSessionId: '68ecd205c2bed6ec1bea83d6',
+    bookingId: '68ecd20ac2bed6ec1bea855c',
+    userId: '66f418d10a19ec0e4bbd377e'
+  }
+}
+[[[SERVER-ENTRY-POINT]]] Webhook request received at server entry. {
+  method: 'POST',
+  url: '/api/payments/webhook',
+  headers: {
+    host: 'localhost:5000',
+    'user-agent': 'Stripe/1.0 (+https://stripe.com/docs/webhooks)',
+    'content-length': '1545',
+    accept: '*/*; q=0.5, application/xml',
+    'cache-control': 'no-cache',
+    'content-type': 'application/json; charset=utf-8',
+    'stripe-signature': 't=1760350729,v1=1797667d7022ba520b44d66f78ff3ec82193f29716c9ef49efcceaf348a98b92,v0=6c7cde5eb2bb152fe839d294671b37b18d70f369fffb098e3a29947a2a194367',
+    'accept-encoding': 'gzip'
+  },
+  ip: '::1'
+}
+[PaymentController:Webhook] RAW REQUEST RECEIVED Top of webhookHandler. Headers: {
+  "host": "localhost:5000",
+  "user-agent": "Stripe/1.0 (+https://stripe.com/docs/webhooks)",
+  "content-length": "1545",
+  "accept": "*/*; q=0.5, application/xml",
+  "cache-control": "no-cache",
+  "content-type": "application/json; charset=utf-8",
+  "stripe-signature": "t=1760350729,v1=1797667d7022ba520b44d66f78ff3ec82193f29716c9ef49efcceaf348a98b92,v0=6c7cde5eb2bb152fe839d294671b37b18d70f369fffb098e3a29947a2a194367",
+  "accept-encoding": "gzip"
+}
+[Webhook] Received a request from Stripe.
+[PaymentController:Webhook] Stripe signature from header: t=1760350729,v1=1797667d7022ba520b44d66f78ff3ec82193f29716c9ef49efcceaf348a98b92,v0=6c7cde5eb2bb152fe839d294671b37b18d70f369fffb098e3a29947a2a194367
+[PaymentController:Webhook] STRIPE_WEBHOOK_SECRET used: SET
+[PaymentController:Webhook] Stripe event constructed successfully. Event Type: setup_intent.created Event ID: evt_1SHiq5HKNqVBSHKUt2lRLcb2
+[PaymentController:Webhook] Processing event: {
+  type: 'setup_intent.created',
+  id: 'evt_1SHiq5HKNqVBSHKUt2lRLcb2',
+  apiVersion: '2024-11-20.acacia',
+  timestamp: '2025-10-13T10:18:51.678Z'
+}
+[PaymentController:Webhook] Unhandled event type: setup_intent.created
+[getDashboardOverview] FINAL PAYLOAD (with merged preferences) being sent to frontend: {
+  kpiKeys: [
+    'newEnrollments',
+    'sessionsBooked',
+    'newClients',
+    'grossRevenue',
+    'netEarnings'
+  ],
+  actionCenterCount: 5,
+  hasPrefs: true
+}
+GET /api/coaches/dashboard/overview?period=last30days 304 2264.520 ms - -
+[Webhook Logging] Successfully processed and logged event: setup_intent.created (evt_1SHiq5HKNqVBSHKUt2lRLcb2)
+info: POST /api/payments/webhook {"duration":"37ms","status":200,"timestamp":"2025-10-13T10:18:51.711Z"}
+POST /api/livesessions/68ecd205c2bed6ec1bea83d6/authorize 200 1213.762 ms - 135
+[PaymentController] Fetching payment methods: {
+  userId: '66f418d10a19ec0e4bbd377e',
+  authenticatedUserId: '66f418d10a19ec0e4bbd377e',
+  timestamp: '2025-10-13T10:18:51.763Z'
+}
+[PaymentController] Payment methods retrieved: { count: 2, userId: '66f418d10a19ec0e4bbd377e' }
+GET /api/payments/methods/66f418d10a19ec0e4bbd377e 200 272.559 ms - 262
+[PaymentController] Fetching payment methods: {
+  userId: '66f418d10a19ec0e4bbd377e',
+  authenticatedUserId: '66f418d10a19ec0e4bbd377e',
+  timestamp: '2025-10-13T10:18:52.037Z'
+}
+[PaymentController] Payment methods retrieved: { count: 2, userId: '66f418d10a19ec0e4bbd377e' }
+GET /api/payments/methods/66f418d10a19ec0e4bbd377e 304 282.734 ms - -
+GET /api/notifications?excludeTrash=true&status=active&category=&limit=50&offset=0 200 144.858 ms - 61729
+[[[SERVER-ENTRY-POINT]]] Webhook request received at server entry. {
+  method: 'POST',
+  url: '/api/payments/webhook',
+  headers: {
+    host: 'localhost:5000',
+    'user-agent': 'Stripe/1.0 (+https://stripe.com/docs/webhooks)',
+    'content-length': '1569',
+    accept: '*/*; q=0.5, application/xml',
+    'cache-control': 'no-cache',
+    'content-type': 'application/json; charset=utf-8',
+    'stripe-signature': 't=1760350743,v1=c1309cb5d02ad6765049f4f2bf558baf3f96745e320db15a3d841de78d7f4d63,v0=73af6281796579165de44ba1c92922d9409c53548f85e0d1acc0b3effb1beea3',
+    'accept-encoding': 'gzip'
+  },
+  ip: '::1'
+}
+[PaymentController:Webhook] RAW REQUEST RECEIVED Top of webhookHandler. Headers: {
+  "host": "localhost:5000",
+  "user-agent": "Stripe/1.0 (+https://stripe.com/docs/webhooks)",
+  "content-length": "1569",
+  "accept": "*/*; q=0.5, application/xml",
+  "cache-control": "no-cache",
+  "content-type": "application/json; charset=utf-8",
+  "stripe-signature": "t=1760350743,v1=c1309cb5d02ad6765049f4f2bf558baf3f96745e320db15a3d841de78d7f4d63,v0=73af6281796579165de44ba1c92922d9409c53548f85e0d1acc0b3effb1beea3",
+  "accept-encoding": "gzip"
+}
+[Webhook] Received a request from Stripe.
+[PaymentController:Webhook] Stripe signature from header: t=1760350743,v1=c1309cb5d02ad6765049f4f2bf558baf3f96745e320db15a3d841de78d7f4d63,v0=73af6281796579165de44ba1c92922d9409c53548f85e0d1acc0b3effb1beea3
+[PaymentController:Webhook] STRIPE_WEBHOOK_SECRET used: SET
+[PaymentController:Webhook] Stripe event constructed successfully. Event Type: setup_intent.succeeded Event ID: evt_1SHiqJHKNqVBSHKUdnGvb9xw
+[PaymentController:Webhook] Processing event: {
+  type: 'setup_intent.succeeded',
+  id: 'evt_1SHiqJHKNqVBSHKUdnGvb9xw',
+  apiVersion: '2024-11-20.acacia',
+  timestamp: '2025-10-13T10:19:05.152Z'
+}
+[PaymentController:Webhook] Unhandled event type: setup_intent.succeeded
+[Webhook Logging] Successfully processed and logged event: setup_intent.succeeded (evt_1SHiqJHKNqVBSHKUdnGvb9xw)
+POST /api/livesessions/68ecd205c2bed6ec1bea83d6/start 200 491.024 ms - 1022
+[BullMQ] Processing job 'monitor-session' from 'live-session-jobs' {
+  jobId: 'repeat:f8dd14564a1d438a7683963cf02aff41:1760350740000',
+  data: { sessionId: '68ea963bde1f5a4564f1c57d' }
+}
+[BullMQ] Processing job 'monitor-session' from 'live-session-jobs' {
+  jobId: 'repeat:bdb9cf29cdabdcff3fd78d2b2d14ae1c:1760350740000',
+  data: { sessionId: '68eaa5c7b7f766329e439455' }
+}
+[BullMQ] Processing job 'monitor-session' from 'live-session-jobs' {
+  jobId: 'repeat:73c596d8da644a2f481999c000c7bea0:1760350740000',
+  data: { sessionId: '68ea8c1cffb5129cda7c73bf' }
+}
+[BullMQ] Processing job 'monitor-session' from 'live-session-jobs' {
+  jobId: 'repeat:4673cc9c426096180f435cbde75917c9:1760350740000',
+  data: { sessionId: '68eca01e4a522752acc33772' }
+}
+[BullMQ] Processing job 'monitor-session' from 'live-session-jobs' {
+  jobId: 'repeat:8c991c8fb52e7509b0516c8872a4fd4d:1760350740000',
+  data: { sessionId: '68eaa9858f5f5287bf8518db' }
+}
+[BullMQ] Processing job 'monitor-session' from 'live-session-jobs' {
+  jobId: 'repeat:878ee0814859cb0b6ff6181a74dddd7f:1760350740000',
+  data: { sessionId: '68ec9af111a70802db9e39b0' }
+}
+[BullMQ] Processing job 'monitor-session' from 'live-session-jobs' {
+  jobId: 'repeat:ad9a5ccabb79ad52f416a9ac1452fb90:1760350740000',
+  data: { sessionId: '68eaa9ea8f5f5287bf8519db' }
+}
+[BullMQ] Processing job 'monitor-session' from 'live-session-jobs' {
+  jobId: 'repeat:0fe347f746e92263abb4ec449d59cf1c:1760350740000',
+  data: { sessionId: '68eca57b8fdd5a133325c9af' }
+}
+[BullMQ] Processing job 'monitor-session' from 'live-session-jobs' {
+  jobId: 'repeat:3090c1cea9a1257376030b5e7bcdcc15:1760350740000',
+  data: { sessionId: '68eca4f656f855e4b14aed5a' }
+}
+[BullMQ] Processing job 'monitor-session' from 'live-session-jobs' {
+  jobId: 'repeat:f754ba6b8f57aed618844f75315f91de:1760350740000',
+  data: { sessionId: '68ec9c47eb31d2e7952e5835' }
+}
+GET /api/livesessions/validate/8b2c3b6e342cb15cbd491f211a45896637fed33867740c45f0d200848f749be5/2d8197bf35a9fd6d8f92e69d68de072b5ff54d1407023b97895771e2b68415ea 200 93.525 ms - 393
+GET /api/livesessions/validate/8b2c3b6e342cb15cbd491f211a45896637fed33867740c45f0d200848f749be5/2d8197bf35a9fd6d8f92e69d68de072b5ff54d1407023b97895771e2b68415ea 200 92.472 ms - 393
+[BullMQ] Processing job 'monitor-session' from 'live-session-jobs' {
+  jobId: 'repeat:a6e84a14b9f245608c7596a17305edbb:1760350740000',
+  data: { sessionId: '68eaa4c0ba664521c3d62696' }
+}
+[BullMQ] Processing job 'monitor-session' from 'live-session-jobs' {
+  jobId: 'repeat:ff8111f43bef56c8d1fe2b7be09b7028:1760350740000',
+  data: { sessionId: '68ea8ec420cc143211a1d719' }
+}
+[BullMQ] Processing job 'monitor-session' from 'live-session-jobs' {
+  jobId: 'repeat:d368dd8a19cb9f62f0684b6c0ebb9afa:1760350740000',
+  data: { sessionId: '68ec98ba7da04838816d7d3e' }
+}
+[BullMQ] Processing job 'monitor-session' from 'live-session-jobs' {
+  jobId: 'repeat:a86dc6478e26caa3d9fcb256b3d4a18b:1760350740000',
+  data: { sessionId: '68ec939d64722b14fb4a70a4' }
+}
+GET /api/livesessions/validate/8b2c3b6e342cb15cbd491f211a45896637fed33867740c45f0d200848f749be5/2d8197bf35a9fd6d8f92e69d68de072b5ff54d1407023b97895771e2b68415ea 304 89.751 ms - -
+GET /api/livesessions/validate/8b2c3b6e342cb15cbd491f211a45896637fed33867740c45f0d200848f749be5/2d8197bf35a9fd6d8f92e69d68de072b5ff54d1407023b97895771e2b68415ea 304 87.581 ms - -
+GET /api/users/backgrounds 200 63.147 ms - 324
+GET /api/users/backgrounds 200 69.956 ms - 324
+GET /api/users/backgrounds 304 51.331 ms - -
+GET /api/users/backgrounds 304 51.411 ms - -
+[BullMQ] Processing job 'monitor-session' from 'live-session-jobs' {
+  jobId: 'repeat:45d87fb2a87e5703af6d5ff975ee6bf1:1760350740000',
+  data: { sessionId: '68eaa785925719db49763e26' }
+}
+[BullMQ] Processing job 'monitor-session' from 'live-session-jobs' {
+  jobId: 'repeat:f2471ea3077ca135bc4b02ead0d493e6:1760350740000',
+  data: { sessionId: '68ec9444374ddb8f056c2406' }
+}
+[BullMQ] Processing job 'monitor-session' from 'live-session-jobs' {
+  jobId: 'repeat:35d8ff9d01c2cc3a46146aff490e74f1:1760350740000',
+  data: { sessionId: '68ea98ea57de4c55cd7f9b73' }
+}
+GET /api/notifications?excludeTrash=true&status=active&category=&limit=50&offset=0 200 128.242 ms - 61729
+
+GET /api/notifications?excludeTrash=true&status=active&category=&limit=50&offset=0 200 104.013 ms - 55503
+GET /api/notifications?excludeTrash=true&status=active&category=&limit=50&offset=0 200 135.544 ms - 61729
+warn: [TaxService] Customer country not provided. Falling back to default Swiss VAT deconstruction. {"timestamp":"2025-10-13T10:19:50.617Z"}
+POST /api/livesessions/68ecd205c2bed6ec1bea83d6/end 200 1265.373 ms - 1599
+warn: [SocketConfig] << RCVD peer-disconnected from user 66d9cdcb0a7492a86482bd68 regarding peer Yn6Bg_nfFwBNRqBnAAAH in session 8b2c3b6e342cb15cbd491f211a45896637fed33867740c45f0d200848f749be5 {"timestamp":"2025-10-13T10:19:51.803Z"}
+warn: [SocketConfig] << RCVD peer-disconnected from user 66f418d10a19ec0e4bbd377e regarding peer lCcqA-IywoeESLlHAAAJ in session 8b2c3b6e342cb15cbd491f211a45896637fed33867740c45f0d200848f749be5 {"timestamp":"2025-10-13T10:19:51.805Z"}
+warn: [SocketConfig] Peer-disconnected event for an invalid or non-active session ignored. {"sessionId":"8b2c3b6e342cb15cbd491f211a45896637fed33867740c45f0d200848f749be5","timestamp":"2025-10-13T10:19:51.829Z"}
+warn: [SocketConfig] Peer-disconnected event for an invalid or non-active session ignored. {"sessionId":"8b2c3b6e342cb15cbd491f211a45896637fed33867740c45f0d200848f749be5","timestamp":"2025-10-13T10:19:51.830Z"}
+[[[SERVER-ENTRY-POINT]]] Webhook request received at server entry. {
+  method: 'POST',
+  url: '/api/payments/webhook',
+  headers: {
+    host: 'localhost:5000',
+    'user-agent': 'Stripe/1.0 (+https://stripe.com/docs/webhooks)',
+    'content-length': '3939',
+    accept: '*/*; q=0.5, application/xml',
+    'cache-control': 'no-cache',
+    'content-type': 'application/json; charset=utf-8',
+    'stripe-signature': 't=1760350790,v1=ac7231880a562d44b031980385d74a3b51769cdf5a1bc012bcd60135de3174b8,v0=5c71724f181ba7057b0df0bf02752899e94ee19c56c9b540b19e2a6a99b469d6',
+    'accept-encoding': 'gzip'
+  },
+  ip: '::1'
+}
+[PaymentController:Webhook] RAW REQUEST RECEIVED Top of webhookHandler. Headers: {
+  "host": "localhost:5000",
+  "user-agent": "Stripe/1.0 (+https://stripe.com/docs/webhooks)",
+  "content-length": "3939",
+  "accept": "*/*; q=0.5, application/xml",
+  "cache-control": "no-cache",
+  "content-type": "application/json; charset=utf-8",
+  "stripe-signature": "t=1760350790,v1=ac7231880a562d44b031980385d74a3b51769cdf5a1bc012bcd60135de3174b8,v0=5c71724f181ba7057b0df0bf02752899e94ee19c56c9b540b19e2a6a99b469d6",
+  "accept-encoding": "gzip"
+}
+[Webhook] Received a request from Stripe.
+[PaymentController:Webhook] Stripe signature from header: t=1760350790,v1=ac7231880a562d44b031980385d74a3b51769cdf5a1bc012bcd60135de3174b8,v0=5c71724f181ba7057b0df0bf02752899e94ee19c56c9b540b19e2a6a99b469d6
+[PaymentController:Webhook] STRIPE_WEBHOOK_SECRET used: SET
+[PaymentController:Webhook] Stripe event constructed successfully. Event Type: charge.succeeded Event ID: evt_3SHir3HKNqVBSHKU1DuDI6fZ
+[PaymentController:Webhook] Processing event: {
+  type: 'charge.succeeded',
+  id: 'evt_3SHir3HKNqVBSHKU1DuDI6fZ',
+  apiVersion: '2024-11-20.acacia',
+  timestamp: '2025-10-13T10:19:52.012Z'
+}
+[PaymentController:Webhook] Unhandled event type: charge.succeeded
+[Webhook Logging] Successfully processed and logged event: charge.succeeded (evt_3SHir3HKNqVBSHKU1DuDI6fZ)
+info: POST /api/payments/webhook {"duration":"34ms","status":200,"timestamp":"2025-10-13T10:19:52.045Z"}
+[[[SERVER-ENTRY-POINT]]] Webhook request received at server entry. {
+  method: 'POST',
+  url: '/api/payments/webhook',
+  headers: {
+    host: 'localhost:5000',
+    'user-agent': 'Stripe/1.0 (+https://stripe.com/docs/webhooks)',
+    'content-length': '2548',
+    accept: '*/*; q=0.5, application/xml',
+    'cache-control': 'no-cache',
+    'content-type': 'application/json; charset=utf-8',
+    'stripe-signature': 't=1760350790,v1=1d2b92a6f8db4dc0f5021b7fed0aca1aa75bba435304408b87d244fd3cebdd94,v0=dc0e82f61f9fffec339938c1e46df64e38a81d1c7da2b18252a2acfa43f711b1',
+    'accept-encoding': 'gzip'
+  },
+  ip: '::1'
+}
+[PaymentController:Webhook] RAW REQUEST RECEIVED Top of webhookHandler. Headers: {
+  "host": "localhost:5000",
+  "user-agent": "Stripe/1.0 (+https://stripe.com/docs/webhooks)",
+  "content-length": "2548",
+  "accept": "*/*; q=0.5, application/xml",
+  "cache-control": "no-cache",
+  "content-type": "application/json; charset=utf-8",
+  "stripe-signature": "t=1760350790,v1=1d2b92a6f8db4dc0f5021b7fed0aca1aa75bba435304408b87d244fd3cebdd94,v0=dc0e82f61f9fffec339938c1e46df64e38a81d1c7da2b18252a2acfa43f711b1",
+  "accept-encoding": "gzip"
+}
+[Webhook] Received a request from Stripe.
+[PaymentController:Webhook] Stripe signature from header: t=1760350790,v1=1d2b92a6f8db4dc0f5021b7fed0aca1aa75bba435304408b87d244fd3cebdd94,v0=dc0e82f61f9fffec339938c1e46df64e38a81d1c7da2b18252a2acfa43f711b1
+[PaymentController:Webhook] STRIPE_WEBHOOK_SECRET used: SET
+[PaymentController:Webhook] Stripe event constructed successfully. Event Type: payment_intent.succeeded Event ID: evt_3SHir3HKNqVBSHKU1s9sG4yq
+[PaymentController:Webhook] Processing event: {
+  type: 'payment_intent.succeeded',
+  id: 'evt_3SHir3HKNqVBSHKU1s9sG4yq',
+  apiVersion: '2024-11-20.acacia',
+  timestamp: '2025-10-13T10:19:52.087Z'
+}
+[Webhook] Processing 'payment_intent.succeeded' event. { paymentIntentId: 'pi_3SHir3HKNqVBSHKU1pEWhR23' }
+[PaymentController:Webhook] Entered payment_intent.succeeded case. Event ID: evt_3SHir3HKNqVBSHKU1s9sG4yq PaymentIntent ID: pi_3SHir3HKNqVBSHKU1pEWhR23
+[[[WEBHOOK-CASE-MATCH]]] Entered switch case: payment_intent.succeeded. { paymentIntentId: 'pi_3SHir3HKNqVBSHKU1pEWhR23' }
+[Webhook] Processing non-webinar/non-program PI.succeeded {
+  paymentIntentId: 'pi_3SHir3HKNqVBSHKU1pEWhR23',
+  metadata: {
+    type: 'live_session_charge',
+    liveSessionId: '68ecd205c2bed6ec1bea83d6',
+    bookingId: '68ecd20ac2bed6ec1bea855c',
+    paymentId: '68ecd246c2bed6ec1bea924b'
+  },
+  timestamp: '2025-10-13T10:19:52.088Z'
+}
+[[[SERVER-ENTRY-POINT]]] Webhook request received at server entry. {
+  method: 'POST',
+  url: '/api/payments/webhook',
+  headers: {
+    host: 'localhost:5000',
+    'user-agent': 'Stripe/1.0 (+https://stripe.com/docs/webhooks)',
+    'content-length': '2508',
+    accept: '*/*; q=0.5, application/xml',
+    'cache-control': 'no-cache',
+    'content-type': 'application/json; charset=utf-8',
+    'stripe-signature': 't=1760350790,v1=e5b12ef6761c982c2f947fa0ffbbcaf6e651453f3435b925508b548b987304a2,v0=86b9e7684191ac55268880fafe94b7c64a5d5d67a39b12a0cfb870aa3da7d61f',
+    'accept-encoding': 'gzip'
+  },
+  ip: '::1'
+}
+[PaymentController:Webhook] RAW REQUEST RECEIVED Top of webhookHandler. Headers: {
+  "host": "localhost:5000",
+  "user-agent": "Stripe/1.0 (+https://stripe.com/docs/webhooks)",
+  "content-length": "2508",
+  "accept": "*/*; q=0.5, application/xml",
+  "cache-control": "no-cache",
+  "content-type": "application/json; charset=utf-8",
+  "stripe-signature": "t=1760350790,v1=e5b12ef6761c982c2f947fa0ffbbcaf6e651453f3435b925508b548b987304a2,v0=86b9e7684191ac55268880fafe94b7c64a5d5d67a39b12a0cfb870aa3da7d61f",
+  "accept-encoding": "gzip"
+}
+[Webhook] Received a request from Stripe.
+[PaymentController:Webhook] Stripe signature from header: t=1760350790,v1=e5b12ef6761c982c2f947fa0ffbbcaf6e651453f3435b925508b548b987304a2,v0=86b9e7684191ac55268880fafe94b7c64a5d5d67a39b12a0cfb870aa3da7d61f
+[PaymentController:Webhook] STRIPE_WEBHOOK_SECRET used: SET
+[PaymentController:Webhook] Stripe event constructed successfully. Event Type: payment_intent.created Event ID: evt_3SHir3HKNqVBSHKU1MmDro95
+[PaymentController:Webhook] Processing event: {
+  type: 'payment_intent.created',
+  id: 'evt_3SHir3HKNqVBSHKU1MmDro95',
+  apiVersion: '2024-11-20.acacia',
+  timestamp: '2025-10-13T10:19:52.191Z'
+}
+[PaymentController:Webhook] Unhandled event type: payment_intent.created
+[Webhook] Payment record 68ecd246c2bed6ec1bea924b updated. Status: completed, Type: live_session_charge. { paymentIntentId: 'pi_3SHir3HKNqVBSHKU1pEWhR23' }
+[handleLiveSessionPaymentSuccess] - Received successful live session payment event. {
+  paymentId: '68ecd246c2bed6ec1bea924b',
+  liveSessionId: '68ecd205c2bed6ec1bea83d6',
+  paymentIntentId: 'pi_3SHir3HKNqVBSHKU1pEWhR23',
+  chargeId: 'ch_3SHir3HKNqVBSHKU1Y3XmSHl'
+}
+[Webhook Logging] Successfully processed and logged event: payment_intent.created (evt_3SHir3HKNqVBSHKU1MmDro95)
+[handleLiveSessionPaymentSuccess] LiveSession status updated to completed. {
+  paymentId: '68ecd246c2bed6ec1bea924b',
+  liveSessionId: '68ecd205c2bed6ec1bea83d6',
+  paymentIntentId: 'pi_3SHir3HKNqVBSHKU1pEWhR23',
+  chargeId: 'ch_3SHir3HKNqVBSHKU1Y3XmSHl'
+}
+[Booking Model] Booking saved successfully: 68ecd20ac2bed6ec1bea855c
+[handleLiveSessionPaymentSuccess] Associated Booking status updated to completed. {
+  paymentId: '68ecd246c2bed6ec1bea924b',
+  liveSessionId: '68ecd205c2bed6ec1bea83d6',
+  paymentIntentId: 'pi_3SHir3HKNqVBSHKU1pEWhR23',
+  chargeId: 'ch_3SHir3HKNqVBSHKU1Y3XmSHl'
+}
+[handleLiveSessionPaymentSuccess] 'charge' transaction record created. {
+  paymentId: '68ecd246c2bed6ec1bea924b',
+  liveSessionId: '68ecd205c2bed6ec1bea83d6',
+  paymentIntentId: 'pi_3SHir3HKNqVBSHKU1pEWhR23',
+  chargeId: 'ch_3SHir3HKNqVBSHKU1Y3XmSHl'
+}
+[handleLiveSessionPaymentSuccess] DB transaction committed. {
+  paymentId: '68ecd246c2bed6ec1bea924b',
+  liveSessionId: '68ecd205c2bed6ec1bea83d6',
+  paymentIntentId: 'pi_3SHir3HKNqVBSHKU1pEWhR23',
+  chargeId: 'ch_3SHir3HKNqVBSHKU1Y3XmSHl'
+}
+[InvoiceService] Starting detailed invoice creation. {
+  paymentId: new ObjectId('68ecd246c2bed6ec1bea924b'),
+  bookingId: new ObjectId('68ecd20ac2bed6ec1bea855c'),
+  programId: undefined
+}
+[[[SERVER-ENTRY-POINT]]] Webhook request received at server entry. {
+  method: 'POST',
+  url: '/api/payments/webhook',
+  headers: {
+    host: 'localhost:5000',
+    'user-agent': 'Stripe/1.0 (+https://stripe.com/docs/webhooks)',
+    'content-length': '4361',
+    accept: '*/*; q=0.5, application/xml',
+    'cache-control': 'no-cache',
+    'content-type': 'application/json; charset=utf-8',
+    'stripe-signature': 't=1760350791,v1=779d18a24fee72379aeb08f6279f30731ce38cacd652455ec50121be78362774,v0=5585d6d61d752eefd9543e651a12c3567e78511d612ad40bb5e6d3465b8dc621',
+    'accept-encoding': 'gzip'
+  },
+  ip: '::1'
+}
+[PaymentController:Webhook] RAW REQUEST RECEIVED Top of webhookHandler. Headers: {
+  "host": "localhost:5000",
+  "user-agent": "Stripe/1.0 (+https://stripe.com/docs/webhooks)",
+  "content-length": "4361",
+  "accept": "*/*; q=0.5, application/xml",
+  "cache-control": "no-cache",
+  "content-type": "application/json; charset=utf-8",
+  "stripe-signature": "t=1760350791,v1=779d18a24fee72379aeb08f6279f30731ce38cacd652455ec50121be78362774,v0=5585d6d61d752eefd9543e651a12c3567e78511d612ad40bb5e6d3465b8dc621",
+  "accept-encoding": "gzip"
+}
+[Webhook] Received a request from Stripe.
+[PaymentController:Webhook] Stripe signature from header: t=1760350791,v1=779d18a24fee72379aeb08f6279f30731ce38cacd652455ec50121be78362774,v0=5585d6d61d752eefd9543e651a12c3567e78511d612ad40bb5e6d3465b8dc621
+[PaymentController:Webhook] STRIPE_WEBHOOK_SECRET used: SET
+[PaymentController:Webhook] Stripe event constructed successfully. Event Type: invoice.created Event ID: evt_1SHir5HKNqVBSHKUPwL7YxXI
+[PaymentController:Webhook] Processing event: {
+  type: 'invoice.created',
+  id: 'evt_1SHir5HKNqVBSHKUPwL7YxXI',
+  apiVersion: '2024-11-20.acacia',
+  timestamp: '2025-10-13T10:19:53.378Z'
+}
+[PaymentController:Webhook] Unhandled event type: invoice.created
+[Webhook Logging] Successfully processed and logged event: invoice.created (evt_1SHir5HKNqVBSHKUPwL7YxXI)
+[[[SERVER-ENTRY-POINT]]] Webhook request received at server entry. {
+  method: 'POST',
+  url: '/api/payments/webhook',
+  headers: {
+    host: 'localhost:5000',
+    'user-agent': 'Stripe/1.0 (+https://stripe.com/docs/webhooks)',
+    'content-length': '8378',
+    accept: '*/*; q=0.5, application/xml',
+    'cache-control': 'no-cache',
+    'content-type': 'application/json; charset=utf-8',
+    'stripe-signature': 't=1760350792,v1=ba6d2490c1784082b2a433b8b178f9af7ac079b42ec49108d0311b573efeca62,v0=902b8d87bc28e5a386cdbf511e0ee1460615a1137159e614218ef93533ec7cdb',
+    'accept-encoding': 'gzip'
+  },
+  ip: '::1'
+}
+[PaymentController:Webhook] RAW REQUEST RECEIVED Top of webhookHandler. Headers: {
+  "host": "localhost:5000",
+  "user-agent": "Stripe/1.0 (+https://stripe.com/docs/webhooks)",
+  "content-length": "8378",
+  "accept": "*/*; q=0.5, application/xml",
+  "cache-control": "no-cache",
+  "content-type": "application/json; charset=utf-8",
+  "stripe-signature": "t=1760350792,v1=ba6d2490c1784082b2a433b8b178f9af7ac079b42ec49108d0311b573efeca62,v0=902b8d87bc28e5a386cdbf511e0ee1460615a1137159e614218ef93533ec7cdb",
+  "accept-encoding": "gzip"
+}
+[Webhook] Received a request from Stripe.
+[PaymentController:Webhook] Stripe signature from header: t=1760350792,v1=ba6d2490c1784082b2a433b8b178f9af7ac079b42ec49108d0311b573efeca62,v0=902b8d87bc28e5a386cdbf511e0ee1460615a1137159e614218ef93533ec7cdb
+[PaymentController:Webhook] STRIPE_WEBHOOK_SECRET used: SET
+[PaymentController:Webhook] Stripe event constructed successfully. Event Type: invoice.updated Event ID: evt_1SHir5HKNqVBSHKUb7CaWGxd
+[PaymentController:Webhook] Processing event: {
+  type: 'invoice.updated',
+  id: 'evt_1SHir5HKNqVBSHKUb7CaWGxd',
+  apiVersion: '2024-11-20.acacia',
+  timestamp: '2025-10-13T10:19:53.846Z'
+}
+[PaymentController:Webhook] Unhandled event type: invoice.updated
+[[[SERVER-ENTRY-POINT]]] Webhook request received at server entry. {
+  method: 'POST',
+  url: '/api/payments/webhook',
+  headers: {
+    host: 'localhost:5000',
+    'user-agent': 'Stripe/1.0 (+https://stripe.com/docs/webhooks)',
+    'content-length': '1937',
+    accept: '*/*; q=0.5, application/xml',
+    'cache-control': 'no-cache',
+    'content-type': 'application/json; charset=utf-8',
+    'stripe-signature': 't=1760350792,v1=3d458757b2b04d8c5ff3453393b29a02d6c8c3846784fce058ea7f7214ce7dcd,v0=befc97b4dc1d92069ee533cd2d8c0f6552fa83e49f2c0f94ea5ff402dd47c685',
+    'accept-encoding': 'gzip'
+  },
+  ip: '::1'
+}
+[PaymentController:Webhook] RAW REQUEST RECEIVED Top of webhookHandler. Headers: {
+  "host": "localhost:5000",
+  "user-agent": "Stripe/1.0 (+https://stripe.com/docs/webhooks)",
+  "content-length": "1937",
+  "accept": "*/*; q=0.5, application/xml",
+  "cache-control": "no-cache",
+  "content-type": "application/json; charset=utf-8",
+  "stripe-signature": "t=1760350792,v1=3d458757b2b04d8c5ff3453393b29a02d6c8c3846784fce058ea7f7214ce7dcd,v0=befc97b4dc1d92069ee533cd2d8c0f6552fa83e49f2c0f94ea5ff402dd47c685",
+  "accept-encoding": "gzip"
+}
+[Webhook] Received a request from Stripe.
+[PaymentController:Webhook] Stripe signature from header: t=1760350792,v1=3d458757b2b04d8c5ff3453393b29a02d6c8c3846784fce058ea7f7214ce7dcd,v0=befc97b4dc1d92069ee533cd2d8c0f6552fa83e49f2c0f94ea5ff402dd47c685
+[PaymentController:Webhook] STRIPE_WEBHOOK_SECRET used: SET
+[PaymentController:Webhook] Stripe event constructed successfully. Event Type: invoiceitem.created Event ID: evt_1SHir6HKNqVBSHKU8QtOLhxZ
+[PaymentController:Webhook] Processing event: {
+  type: 'invoiceitem.created',
+  id: 'evt_1SHir6HKNqVBSHKU8QtOLhxZ',
+  apiVersion: '2024-11-20.acacia',
+  timestamp: '2025-10-13T10:19:53.851Z'
+}
+[PaymentController:Webhook] Unhandled event type: invoiceitem.created
+[Webhook Logging] Successfully processed and logged event: invoice.updated (evt_1SHir5HKNqVBSHKUb7CaWGxd)
+[Webhook Logging] Successfully processed and logged event: invoiceitem.created (evt_1SHir6HKNqVBSHKU8QtOLhxZ)
+info: [VideoSocket] Socket still connected {"rooms":["lCcqA-IywoeESLlHAAAJ","session:8b2c3b6e342cb15cbd491f211a45896637fed33867740c45f0d200848f749be5"],"socketId":"lCcqA-IywoeESLlHAAAJ","timestamp":"2025-10-13T10:19:54.192Z","transport":"websocket"}
+[[[SERVER-ENTRY-POINT]]] Webhook request received at server entry. {
+  method: 'POST',
+  url: '/api/payments/webhook',
+  headers: {
+    host: 'localhost:5000',
+    'user-agent': 'Stripe/1.0 (+https://stripe.com/docs/webhooks)',
+    'content-length': '4146',
+    accept: '*/*; q=0.5, application/xml',
+    'cache-control': 'no-cache',
+    'content-type': 'application/json; charset=utf-8',
+    'stripe-signature': 't=1760350792,v1=c0f53d967add4160a5edc2384fcaa563629f755c3b134b89308c91f8c56195bd,v0=578cf4290b408594d51dbfd6ed04b3e325763594024502b9103bab0cd8a91efa',
+    'accept-encoding': 'gzip'
+  },
+  ip: '::1'
+}
+[PaymentController:Webhook] RAW REQUEST RECEIVED Top of webhookHandler. Headers: {
+  "host": "localhost:5000",
+  "user-agent": "Stripe/1.0 (+https://stripe.com/docs/webhooks)",
+  "content-length": "4146",
+  "accept": "*/*; q=0.5, application/xml",
+  "cache-control": "no-cache",
+  "content-type": "application/json; charset=utf-8",
+  "stripe-signature": "t=1760350792,v1=c0f53d967add4160a5edc2384fcaa563629f755c3b134b89308c91f8c56195bd,v0=578cf4290b408594d51dbfd6ed04b3e325763594024502b9103bab0cd8a91efa",
+  "accept-encoding": "gzip"
+}
+[Webhook] Received a request from Stripe.
+[PaymentController:Webhook] Stripe signature from header: t=1760350792,v1=c0f53d967add4160a5edc2384fcaa563629f755c3b134b89308c91f8c56195bd,v0=578cf4290b408594d51dbfd6ed04b3e325763594024502b9103bab0cd8a91efa
+[PaymentController:Webhook] STRIPE_WEBHOOK_SECRET used: SET
+[PaymentController:Webhook] Stripe event constructed successfully. Event Type: charge.updated Event ID: evt_3SHir3HKNqVBSHKU1FRWUEct
+[PaymentController:Webhook] Processing event: {
+  type: 'charge.updated',
+  id: 'evt_3SHir3HKNqVBSHKU1FRWUEct',
+  apiVersion: '2024-11-20.acacia',
+  timestamp: '2025-10-13T10:19:54.305Z'
+}
+[PaymentController:Webhook] Unhandled event type: charge.updated
+[Webhook Logging] Successfully processed and logged event: charge.updated (evt_3SHir3HKNqVBSHKU1FRWUEct)
+[[[SERVER-ENTRY-POINT]]] Webhook request received at server entry. {
+  method: 'POST',
+  url: '/api/payments/webhook',
+  headers: {
+    host: 'localhost:5000',
+    'user-agent': 'Stripe/1.0 (+https://stripe.com/docs/webhooks)',
+    'content-length': '15192',
+    accept: '*/*; q=0.5, application/xml',
+    'cache-control': 'no-cache',
+    'content-type': 'application/json; charset=utf-8',
+    'stripe-signature': 't=1760350792,v1=c8eca3027c0cf59bd2ef65f1506a359c6ec8df5583f76cefa03a30bd8003bf90,v0=a01a4a09146bd40d9e278b382b61b49338a4d4f59ec254b240aaa7767961a2ff',
+    'accept-encoding': 'gzip'
+  },
+  ip: '::1'
+}
+[PaymentController:Webhook] RAW REQUEST RECEIVED Top of webhookHandler. Headers: {
+  "host": "localhost:5000",
+  "user-agent": "Stripe/1.0 (+https://stripe.com/docs/webhooks)",
+  "content-length": "15192",
+  "accept": "*/*; q=0.5, application/xml",
+  "cache-control": "no-cache",
+  "content-type": "application/json; charset=utf-8",
+  "stripe-signature": "t=1760350792,v1=c8eca3027c0cf59bd2ef65f1506a359c6ec8df5583f76cefa03a30bd8003bf90,v0=a01a4a09146bd40d9e278b382b61b49338a4d4f59ec254b240aaa7767961a2ff",
+  "accept-encoding": "gzip"
+}
+[Webhook] Received a request from Stripe.
+[PaymentController:Webhook] Stripe signature from header: t=1760350792,v1=c8eca3027c0cf59bd2ef65f1506a359c6ec8df5583f76cefa03a30bd8003bf90,v0=a01a4a09146bd40d9e278b382b61b49338a4d4f59ec254b240aaa7767961a2ff
+[PaymentController:Webhook] STRIPE_WEBHOOK_SECRET used: SET
+[PaymentController:Webhook] Stripe event constructed successfully. Event Type: invoice.updated Event ID: evt_1SHir6HKNqVBSHKUuHd3poCS
+[PaymentController:Webhook] Processing event: {
+  type: 'invoice.updated',
+  id: 'evt_1SHir6HKNqVBSHKUuHd3poCS',
+  apiVersion: '2024-11-20.acacia',
+  timestamp: '2025-10-13T10:19:54.368Z'
+}
+[PaymentController:Webhook] Unhandled event type: invoice.updated
+[Webhook Logging] Successfully processed and logged event: invoice.updated (evt_1SHir6HKNqVBSHKUuHd3poCS)
+[[[SERVER-ENTRY-POINT]]] Webhook request received at server entry. {
+  method: 'POST',
+  url: '/api/payments/webhook',
+  headers: {
+    host: 'localhost:5000',
+    'user-agent': 'Stripe/1.0 (+https://stripe.com/docs/webhooks)',
+    'content-length': '1950',
+    accept: '*/*; q=0.5, application/xml',
+    'cache-control': 'no-cache',
+    'content-type': 'application/json; charset=utf-8',
+    'stripe-signature': 't=1760350792,v1=111c75b7024a25d49b11c783522ecd36bf8266432cb1d269789a0839e0f2e5b1,v0=ae79c69ea89cb088d48c6df762343cac7742ac0089730410e97b60f903b78496',
+    'accept-encoding': 'gzip'
+  },
+  ip: '::1'
+}
+[PaymentController:Webhook] RAW REQUEST RECEIVED Top of webhookHandler. Headers: {
+  "host": "localhost:5000",
+  "user-agent": "Stripe/1.0 (+https://stripe.com/docs/webhooks)",
+  "content-length": "1950",
+  "accept": "*/*; q=0.5, application/xml",
+  "cache-control": "no-cache",
+  "content-type": "application/json; charset=utf-8",
+  "stripe-signature": "t=1760350792,v1=111c75b7024a25d49b11c783522ecd36bf8266432cb1d269789a0839e0f2e5b1,v0=ae79c69ea89cb088d48c6df762343cac7742ac0089730410e97b60f903b78496",
+  "accept-encoding": "gzip"
+}
+[Webhook] Received a request from Stripe.
+[PaymentController:Webhook] Stripe signature from header: t=1760350792,v1=111c75b7024a25d49b11c783522ecd36bf8266432cb1d269789a0839e0f2e5b1,v0=ae79c69ea89cb088d48c6df762343cac7742ac0089730410e97b60f903b78496
+[PaymentController:Webhook] STRIPE_WEBHOOK_SECRET used: SET
+[PaymentController:Webhook] Stripe event constructed successfully. Event Type: invoiceitem.created Event ID: evt_1SHir6HKNqVBSHKUbRFrgEKM
+[PaymentController:Webhook] Processing event: {
+  type: 'invoiceitem.created',
+  id: 'evt_1SHir6HKNqVBSHKUbRFrgEKM',
+  apiVersion: '2024-11-20.acacia',
+  timestamp: '2025-10-13T10:19:54.444Z'
+}
+[PaymentController:Webhook] Unhandled event type: invoiceitem.created
+[Webhook Logging] Successfully processed and logged event: invoiceitem.created (evt_1SHir6HKNqVBSHKUbRFrgEKM)
+[[[SERVER-ENTRY-POINT]]] Webhook request received at server entry. {
+  method: 'POST',
+  url: '/api/payments/webhook',
+  headers: {
+    host: 'localhost:5000',
+    'user-agent': 'Stripe/1.0 (+https://stripe.com/docs/webhooks)',
+    'content-length': '1261',
+    accept: '*/*; q=0.5, application/xml',
+    'cache-control': 'no-cache',
+    'content-type': 'application/json; charset=utf-8',
+    'stripe-signature': 't=1760350793,v1=752dd0bcee8c8e8a13ea20e50fa70a1434cb3065526b517275dc6f0212fbb534,v0=0a69b48699adafb6d31f7334539bcbb218195c6fd2335a667b2e5047ef83d63f',
+    'accept-encoding': 'gzip'
+  },
+  ip: '::1'
+}
+[PaymentController:Webhook] RAW REQUEST RECEIVED Top of webhookHandler. Headers: {
+  "host": "localhost:5000",
+  "user-agent": "Stripe/1.0 (+https://stripe.com/docs/webhooks)",
+  "content-length": "1261",
+  "accept": "*/*; q=0.5, application/xml",
+  "cache-control": "no-cache",
+  "content-type": "application/json; charset=utf-8",
+  "stripe-signature": "t=1760350793,v1=752dd0bcee8c8e8a13ea20e50fa70a1434cb3065526b517275dc6f0212fbb534,v0=0a69b48699adafb6d31f7334539bcbb218195c6fd2335a667b2e5047ef83d63f",
+  "accept-encoding": "gzip"
+}
+[Webhook] Received a request from Stripe.
+[PaymentController:Webhook] Stripe signature from header: t=1760350793,v1=752dd0bcee8c8e8a13ea20e50fa70a1434cb3065526b517275dc6f0212fbb534,v0=0a69b48699adafb6d31f7334539bcbb218195c6fd2335a667b2e5047ef83d63f
+[PaymentController:Webhook] STRIPE_WEBHOOK_SECRET used: SET
+[PaymentController:Webhook] Stripe event constructed successfully. Event Type: customer.updated Event ID: evt_1SHir7HKNqVBSHKUdEn4GhAV
+[PaymentController:Webhook] Processing event: {
+  type: 'customer.updated',
+  id: 'evt_1SHir7HKNqVBSHKUdEn4GhAV',
+  apiVersion: '2024-11-20.acacia',
+  timestamp: '2025-10-13T10:19:55.460Z'
+}
+[PaymentController:Webhook] Unhandled event type: customer.updated
+[Webhook Logging] Successfully processed and logged event: customer.updated (evt_1SHir7HKNqVBSHKUdEn4GhAV)
+[[[SERVER-ENTRY-POINT]]] Webhook request received at server entry. {
+  method: 'POST',
+  url: '/api/payments/webhook',
+  headers: {
+    host: 'localhost:5000',
+    'user-agent': 'Stripe/1.0 (+https://stripe.com/docs/webhooks)',
+    'content-length': '12037',
+    accept: '*/*; q=0.5, application/xml',
+    'cache-control': 'no-cache',
+    'content-type': 'application/json; charset=utf-8',
+    'stripe-signature': 't=1760350793,v1=af06f3f2a565817fb950d54c59633fb267ccae32f24e82ec8d92c62e346d229c,v0=b68dfd687932140364a42806eec4e19c203d81990bb061e6c570ec84ecd78978',
+    'accept-encoding': 'gzip'
+  },
+  ip: '::1'
+}
+[PaymentController:Webhook] RAW REQUEST RECEIVED Top of webhookHandler. Headers: {
+  "host": "localhost:5000",
+  "user-agent": "Stripe/1.0 (+https://stripe.com/docs/webhooks)",
+  "content-length": "12037",
+  "accept": "*/*; q=0.5, application/xml",
+  "cache-control": "no-cache",
+  "content-type": "application/json; charset=utf-8",
+  "stripe-signature": "t=1760350793,v1=af06f3f2a565817fb950d54c59633fb267ccae32f24e82ec8d92c62e346d229c,v0=b68dfd687932140364a42806eec4e19c203d81990bb061e6c570ec84ecd78978",
+  "accept-encoding": "gzip"
+}
+[Webhook] Received a request from Stripe.
+[PaymentController:Webhook] Stripe signature from header: t=1760350793,v1=af06f3f2a565817fb950d54c59633fb267ccae32f24e82ec8d92c62e346d229c,v0=b68dfd687932140364a42806eec4e19c203d81990bb061e6c570ec84ecd78978
+[PaymentController:Webhook] STRIPE_WEBHOOK_SECRET used: SET
+[PaymentController:Webhook] Stripe event constructed successfully. Event Type: invoice.updated Event ID: evt_1SHir7HKNqVBSHKUaL01GYku
+[PaymentController:Webhook] Processing event: {
+  type: 'invoice.updated',
+  id: 'evt_1SHir7HKNqVBSHKUaL01GYku',
+  apiVersion: '2024-11-20.acacia',
+  timestamp: '2025-10-13T10:19:55.742Z'
+}
+[PaymentController:Webhook] Unhandled event type: invoice.updated
+[Webhook Logging] Successfully processed and logged event: invoice.updated (evt_1SHir7HKNqVBSHKUaL01GYku)
+[[[SERVER-ENTRY-POINT]]] Webhook request received at server entry. {
+  method: 'POST',
+  url: '/api/payments/webhook',
+  headers: {
+    host: 'localhost:5000',
+    'user-agent': 'Stripe/1.0 (+https://stripe.com/docs/webhooks)',
+    'content-length': '11525',
+    accept: '*/*; q=0.5, application/xml',
+    'cache-control': 'no-cache',
+    'content-type': 'application/json; charset=utf-8',
+    'stripe-signature': 't=1760350794,v1=23f049138273a1f85955d9971f12392bd54e0ac5da566eac8ab91d8478083864,v0=46dec1ef942237b6ba619eb3d7120b8d6afb13d68e7ae53b69a6450f02821131',
+    'accept-encoding': 'gzip'
+  },
+  ip: '::1'
+}
+[PaymentController:Webhook] RAW REQUEST RECEIVED Top of webhookHandler. Headers: {
+  "host": "localhost:5000",
+  "user-agent": "Stripe/1.0 (+https://stripe.com/docs/webhooks)",
+  "content-length": "11525",
+  "accept": "*/*; q=0.5, application/xml",
+  "cache-control": "no-cache",
+  "content-type": "application/json; charset=utf-8",
+  "stripe-signature": "t=1760350794,v1=23f049138273a1f85955d9971f12392bd54e0ac5da566eac8ab91d8478083864,v0=46dec1ef942237b6ba619eb3d7120b8d6afb13d68e7ae53b69a6450f02821131",
+  "accept-encoding": "gzip"
+}
+[Webhook] Received a request from Stripe.
+[PaymentController:Webhook] Stripe signature from header: t=1760350794,v1=23f049138273a1f85955d9971f12392bd54e0ac5da566eac8ab91d8478083864,v0=46dec1ef942237b6ba619eb3d7120b8d6afb13d68e7ae53b69a6450f02821131
+[PaymentController:Webhook] STRIPE_WEBHOOK_SECRET used: SET
+[PaymentController:Webhook] Stripe event constructed successfully. Event Type: invoice.finalized Event ID: evt_1SHir7HKNqVBSHKUhsYNhDHf
+[PaymentController:Webhook] Processing event: {
+  type: 'invoice.finalized',
+  id: 'evt_1SHir7HKNqVBSHKUhsYNhDHf',
+  apiVersion: '2024-11-20.acacia',
+  timestamp: '2025-10-13T10:19:55.835Z'
+}
+[PaymentController:Webhook] Unhandled event type: invoice.finalized
+[Webhook Logging] Successfully processed and logged event: invoice.finalized (evt_1SHir7HKNqVBSHKUhsYNhDHf)
+[[[SERVER-ENTRY-POINT]]] Webhook request received at server entry. {
+  method: 'POST',
+  url: '/api/payments/webhook',
+  headers: {
+    host: 'localhost:5000',
+    'user-agent': 'Stripe/1.0 (+https://stripe.com/docs/webhooks)',
+    'content-length': '11520',
+    accept: '*/*; q=0.5, application/xml',
+    'cache-control': 'no-cache',
+    'content-type': 'application/json; charset=utf-8',
+    'stripe-signature': 't=1760350794,v1=75c407652dfbfbb2c5b676086b48fcfc6831a74697a6ec5dfab093774b42ed18,v0=30bbab7a8bf0bbe108e3a84481ac2650ca2d3763e5e09c97117b216c24732ce5',
+    'accept-encoding': 'gzip'
+  },
+  ip: '::1'
+}
+[PaymentController:Webhook] RAW REQUEST RECEIVED Top of webhookHandler. Headers: {
+  "host": "localhost:5000",
+  "user-agent": "Stripe/1.0 (+https://stripe.com/docs/webhooks)",
+  "content-length": "11520",
+  "accept": "*/*; q=0.5, application/xml",
+  "cache-control": "no-cache",
+  "content-type": "application/json; charset=utf-8",
+  "stripe-signature": "t=1760350794,v1=75c407652dfbfbb2c5b676086b48fcfc6831a74697a6ec5dfab093774b42ed18,v0=30bbab7a8bf0bbe108e3a84481ac2650ca2d3763e5e09c97117b216c24732ce5",
+  "accept-encoding": "gzip"
+}
+[Webhook] Received a request from Stripe.
+[PaymentController:Webhook] Stripe signature from header: t=1760350794,v1=75c407652dfbfbb2c5b676086b48fcfc6831a74697a6ec5dfab093774b42ed18,v0=30bbab7a8bf0bbe108e3a84481ac2650ca2d3763e5e09c97117b216c24732ce5
+[PaymentController:Webhook] STRIPE_WEBHOOK_SECRET used: SET
+[PaymentController:Webhook] Stripe event constructed successfully. Event Type: invoice.paid Event ID: evt_1SHir8HKNqVBSHKU3MmaV5DL
+[PaymentController:Webhook] Processing event: {
+  type: 'invoice.paid',
+  id: 'evt_1SHir8HKNqVBSHKU3MmaV5DL',
+  apiVersion: '2024-11-20.acacia',
+  timestamp: '2025-10-13T10:19:56.035Z'
+}
+[PaymentController:Webhook] Unhandled event type: invoice.paid
+[Webhook Logging] Successfully processed and logged event: invoice.paid (evt_1SHir8HKNqVBSHKU3MmaV5DL)
+[[[SERVER-ENTRY-POINT]]] Webhook request received at server entry. {
+  method: 'POST',
+  url: '/api/payments/webhook',
+  headers: {
+    host: 'localhost:5000',
+    'user-agent': 'Stripe/1.0 (+https://stripe.com/docs/webhooks)',
+    'content-length': '11533',
+    accept: '*/*; q=0.5, application/xml',
+    'cache-control': 'no-cache',
+    'content-type': 'application/json; charset=utf-8',
+    'stripe-signature': 't=1760350794,v1=484393d24803a09eca4f59b2df48747b3d3327a251258775cebc0b5d09d5d3b7,v0=c607721a85544d213152c4dfb23b55b76d41c87b90102af32711506df75c5e1c',
+    'accept-encoding': 'gzip'
+  },
+  ip: '::1'
+}
+[PaymentController:Webhook] RAW REQUEST RECEIVED Top of webhookHandler. Headers: {
+  "host": "localhost:5000",
+  "user-agent": "Stripe/1.0 (+https://stripe.com/docs/webhooks)",
+  "content-length": "11533",
+  "accept": "*/*; q=0.5, application/xml",
+  "cache-control": "no-cache",
+  "content-type": "application/json; charset=utf-8",
+  "stripe-signature": "t=1760350794,v1=484393d24803a09eca4f59b2df48747b3d3327a251258775cebc0b5d09d5d3b7,v0=c607721a85544d213152c4dfb23b55b76d41c87b90102af32711506df75c5e1c",
+  "accept-encoding": "gzip"
+}
+[Webhook] Received a request from Stripe.
+[PaymentController:Webhook] Stripe signature from header: t=1760350794,v1=484393d24803a09eca4f59b2df48747b3d3327a251258775cebc0b5d09d5d3b7,v0=c607721a85544d213152c4dfb23b55b76d41c87b90102af32711506df75c5e1c
+[PaymentController:Webhook] STRIPE_WEBHOOK_SECRET used: SET
+[PaymentController:Webhook] Stripe event constructed successfully. Event Type: invoice.payment_succeeded Event ID: evt_1SHir8HKNqVBSHKUg20ZYhOb
+[PaymentController:Webhook] Processing event: {
+  type: 'invoice.payment_succeeded',
+  id: 'evt_1SHir8HKNqVBSHKUg20ZYhOb',
+  apiVersion: '2024-11-20.acacia',
+  timestamp: '2025-10-13T10:19:56.138Z'
+}
+[PaymentController:Webhook] Unhandled event type: invoice.payment_succeeded
+[Webhook Logging] Successfully processed and logged event: invoice.payment_succeeded (evt_1SHir8HKNqVBSHKUg20ZYhOb)
+error: [handleLiveSessionPaymentSuccess] CRITICAL: Payment succeeded but invoice generation failed. {"chargeId":"ch_3SHir3HKNqVBSHKU1Y3XmSHl","error":"Invoice is already paid","liveSessionId":"68ecd205c2bed6ec1bea83d6","paymentId":"68ecd246c2bed6ec1bea924b","paymentIntentId":"pi_3SHir3HKNqVBSHKU1pEWhR23","timestamp":"2025-10-13T10:19:56.251Z"}

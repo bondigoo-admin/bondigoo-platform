@@ -1,0 +1,619 @@
+# Payment System Technical Specification
+Version 1.0 - December 2024
+
+## 1. Overview
+
+### 1.1 Project Context
+- Platform: Coaching marketplace connecting coaches and clients
+- Initial Market: Switzerland
+- Business Structure: Starting as GmbH with VAT registration
+- Platform Model: Marketplace/connection service between users and coaches
+
+### 1.2 Key Strategic Decisions
+- Payment Provider: Stripe
+- Revenue Model: Percentage Fee Model (platform fee per transaction)
+- Payment Timing: Payment at booking time
+- Coach Status: Independent contractors
+
+## 2. Business Requirements
+
+### 2.1 Pricing Structure
+- Coach Session Rates: CHF 60-180 per hour (coach-determined)
+- Platform Fee: 15-20% per transaction
+- Payment Flow: Immediate payment at booking time
+
+### 2.2 Currency and Pricing
+- Primary Currency: Swiss Francs (CHF)
+- Future Support: Multi-currency capability through Stripe
+- Exchange Rates: Handled by Stripe
+
+### 2.3 Tax Handling
+- VAT Collection: Required for Swiss operations
+- VAT Reporting: Built into initial implementation
+- International Tax: Prepared for future expansion
+
+### 2.4 Revenue Recognition
+- Timing: At booking confirmation
+- Fee Collection: Automatic via Stripe
+- Coach Payouts: Periodic through Stripe Connect
+
+### 2.5 Refund Policy
+- Booking Cancellation: Integrated with existing booking system
+- Refund Processing: Automated through Stripe
+- Cancellation Windows: Based on booking terms
+
+### 2.6 Coach Onboarding Flow
+- Stripe Connect Account Creation
+- Required Documentation Collection
+- Verification Process
+- Payout Schedule Selection
+- Tax Information Collection
+
+### 2.7 Platform Fee Structure
+- Base Fee: 15% standard rate
+- VAT Handling: Additional to base fee
+- Transaction Cost Coverage
+- Volume-based Adjustments
+
+## 3. Technical Requirements
+
+### 3.1 Integration Points
+- Frontend: React with Context API and React Query
+- Backend: Express.js with MongoDB
+- Authentication: JWT-based system
+- Real-time Updates: Socket.IO integration
+
+### 3.2 Payment Processing Requirements
+- Secure Payment Collection: Stripe Elements
+- Payment Method Storage: Through Stripe
+- Transaction Monitoring: Real-time status updates
+- Webhook Processing: Automated status updates
+
+### 3.3 Security Requirements
+- PCI Compliance: Handled through Stripe
+- Data Protection: Swiss and EU standards
+- Authentication: Integrated with existing JWT system
+- Audit Trail: Comprehensive transaction logging
+
+### 3.4 Platform Integration
+- Booking System: Direct integration with existing booking flow
+- User Management: Linked to existing user system
+- Coach Profiles: Connected to payment processing
+- Notification System: Real-time payment status updates
+
+### 3.5 Error Handling Requirements
+- Failed Payment Recovery
+- Timeout Handling
+- Network Error Management
+- Duplicate Transaction Prevention
+- Inconsistent State Recovery
+
+### 3.6 Monitoring and Alerting
+- Real-time payment flow monitoring
+- Failed transaction alerts
+- Fraud detection patterns
+- System health metrics
+- Performance benchmarks
+- Error rate thresholds
+- Payout verification systems
+- Reconciliation monitoring
+
+### 3.7 Payment Flow State Management
+a. Core Flow States:
+- SESSION -> METHOD -> PROCESSING -> SUCCESS/FAILURE
+- Clear state cleanup between transitions
+- Proper error state recovery
+
+b. Error Handling Strategy:
+- Clear distinction between recoverable/non-recoverable errors
+- Explicit validation states
+- Proper cleanup on component unmount
+
+### 3.8 Component Integration Rules
+a. Modal Integration:
+- Single source of truth for payment state
+- Clear separation between booking and payment flows
+- Proper cleanup and state reset
+
+b. Payment Flow Component:
+- Self-contained payment logic
+- Clear callback interfaces
+- Standardized error handling
+
+## 4. Implementation Specifications
+
+### 4.1 Data Models
+- Payment Model: Comprehensive transaction tracking
+- Booking Model: Enhanced with payment status
+- User Model: Extended with payment-related fields
+- Coach Model: Added payout preferences
+
+### 4.2 API Endpoints Required
+- Payment Processing
+- Refund Handling
+- Payment Status
+- Coach Payout Management
+- Transaction History
+- Webhook Handlers
+
+### 4.3 User Interfaces Required
+- Payment Collection
+- Payment Confirmation
+- Transaction History
+- Refund Processing
+- Payout Management (Coaches)
+
+### 4.4 Background Processes
+- Payment Status Monitoring
+- Automated Payout Processing
+- Tax Calculation
+- Exchange Rate Updates
+- Transaction Reconciliation
+
+### 4.5 State Management
+- Payment Flow States
+- Booking Status Synchronization
+- Transaction Status Tracking
+- Error State Handling
+- Recovery Procedures
+
+### 4.6 User Experience Flow
+- Integrate payment setup into coach onboarding flow after profile creation
+- Add payment method setup during client's first booking attempt
+- Implement progressive disclosure for complex payment settings
+- Add clear visual feedback for payment status
+- Implement smart defaults based on location
+- Show estimated payout calculations in real-time
+
+### 4.7 Coach Payment Interface
+a. Create PaymentSetupWizard component:
+- Step-by-step Stripe Connect account creation
+- Clear documentation requirements
+- Progress tracking
+- Status monitoring
+- Real-time validation
+
+### 4.8 Client Payment Flow
+a. Enhance BookingModal:
+- Seamless payment method addition
+- Clear price breakdown
+- VAT display
+- Dynamic currency conversion
+- Save payment method option
+- Clear cancellation terms
+
+### 4.9 Error Recovery Patterns
+- Implement smart retry logic
+- Clear error messages with recovery actions
+- Automatic session rescheduling on payment failure
+- Payment intent recovery system
+- Transaction monitoring with alerts
+
+b. Create PayoutDashboard component:
+- Upcoming payouts overview
+- Historical transactions
+- Filterable payment history
+- Export capabilities
+- Tax document access
+
+## 5. Compliance Requirements
+
+### 5.1 Swiss Regulations
+- VAT Compliance
+- Financial Record Keeping
+- Data Protection
+- Consumer Protection
+
+### 5.2 Platform Policies
+- Terms of Service Updates
+- Coach Agreements
+- User Payment Terms
+- Refund Policies
+
+### 5.3 Stripe-Specific Requirements
+- Connect Platform Configuration
+- Webhook Security
+- API Version Management
+- Rate Limiting Handling
+- Service Account Management
+
+### 5.4 Integration Touchpoints
+a. Update CoachSettings.js:
+- Add Stripe Connect status section
+- Add payout preference controls
+- Add tax information section
+- Add payment method management
+
+b. Enhance ClientSignup.js:
+- Add optional payment method setup
+- Add billing address collection
+- Add tax residence information
+
+c. Modify CoachProfile.js:
+- Add payment status indicators
+- Add payout schedule display
+- Add earnings overview
+- Add transaction history access
+
+## 6. Testing Requirements
+
+### 6.1 Test Environments
+- Stripe Sandbox Integration
+- Test Data Management
+- Scenario Testing
+
+### 6.2 Test Cases
+- Payment Processing
+- Refund Handling
+- Error Scenarios
+- Edge Cases
+- Load Testing
+
+## 7. Monitoring and Reporting
+
+### 7.1 Transaction Monitoring
+- Real-time Status Tracking
+- Error Detection
+- Fraud Prevention
+- Performance Metrics
+
+### 7.2 Financial Reporting
+- Transaction Reports
+- Payout Reports
+- Tax Reports
+- Reconciliation Reports
+
+## 8. Future Considerations
+
+### 8.1 Scalability
+- International Expansion
+- Multi-currency Support
+- Additional Payment Methods
+- Volume Handling
+
+### 8.2 Feature Expansion
+- Subscription Packages
+- Group Sessions
+- Gift Cards
+- Promotional Credits
+
+## 9. Implementation Phases
+
+### Phase 1: Core Payment Processing
+- Basic Stripe Integration
+- Payment Collection
+- Status Updates
+- Basic Reporting
+
+### Phase 2: Enhanced Features
+- Refund Automation
+- Advanced Reporting
+- Tax Management
+- Payout Optimization
+
+### Phase 3: Platform Optimization
+- Performance Improvements
+- Advanced Analytics
+- Additional Payment Methods
+- International Expansion Support
+
+## 10. Technical Dependencies
+
+### 10.1 Required Services
+- Stripe Account and API
+- Webhook Processing
+- SSL Certificates
+- Database Capacity
+
+### 10.2 Integration Requirements
+- Stripe SDK
+- Payment UI Components
+- Webhook Handlers
+- Monitoring Tools
+
+## 11. Security Measures
+
+### 11.1 Data Protection
+- Payment Data Handling
+- Personal Information Protection
+- Audit Logging
+- Access Control
+
+### 11.2 Fraud Prevention
+- Transaction Monitoring
+- Risk Assessment
+- Dispute Handling
+- Verification Processes
+
+Payment System Update Specification
+Version 2.0 - January 2025
+1. Current State Analysis
+1.1 Implemented Components
+
+Basic Stripe integration and API configuration
+Initial payment intent creation flow
+Basic payment controller structure
+Booking integration with payment status
+VAT calculation system
+Basic webhook handling
+
+1.2 Current Architecture
+plaintextCopy/components/payment/
+├── BookingPaymentSection.js        # Basic payment integration
+├── PaymentForm.js                  # Incomplete Stripe Elements integration
+├── PaymentStatus.js               # Basic status display
+├── PaymentSummary.js              # Price breakdown display
+└── SavedPaymentMethodsManager.js   # Basic payment method management
+1.3 Identified Gaps
+
+Missing Stripe Elements Integration
+
+No secure card collection interface
+Incomplete 3D Secure handling
+Missing payment method management
+
+
+Incomplete Payment Flow
+
+No deferred payment option
+Missing payment timing selection
+Incomplete error recovery
+Limited status tracking
+
+
+Architecture Limitations
+
+Insufficient state management
+Missing real-time updates
+Limited error handling
+No comprehensive logging
+
+
+
+2. Target Architecture
+2.1 Component Structure
+plaintextCopy/components/payment/
+├── elements/
+│   ├── StripeElementsProvider.js     # Stripe Elements context
+│   ├── CardElement.js                # Card input component
+│   └── PaymentMethodSelector.js      # Payment method selection
+├── flows/
+│   ├── ImmediatePaymentFlow.js       # Direct payment handling
+│   ├── DeferredPaymentFlow.js        # Pay later system
+│   └── PaymentRetryFlow.js           # Error recovery
+├── status/
+│   ├── PaymentStatusIndicator.js     # Status tracking
+│   ├── PaymentErrorDisplay.js        # Error handling
+│   └── ProcessingIndicator.js        # Loading states
+└── forms/
+    ├── PaymentTimingForm.js          # Payment timing selection
+    ├── PaymentMethodForm.js          # Payment input form
+    └── PaymentConfirmationForm.js    # Final confirmation
+2.2 State Management
+javascriptCopyconst PAYMENT_STATES = {
+  INITIAL: 'initial',
+  TIMING_SELECTION: 'timing',
+  METHOD_SELECTION: 'method',
+  PROCESSING: 'processing',
+  REQUIRES_ACTION: 'requires_action',
+  DEFERRED: 'deferred',
+  COMPLETED: 'completed',
+  FAILED: 'failed',
+  RETRY: 'retry'
+};
+
+const PAYMENT_TIMING = {
+  IMMEDIATE: {
+    id: 'immediate',
+    label: 'Pay Now',
+    description: 'Secure your booking immediately'
+  },
+  DEFERRED: {
+    id: 'deferred',
+    label: 'Pay Later',
+    description: 'Pay up to 24 hours before session',
+    conditions: {
+      minTimeToSession: 48,
+      requiresConnection: true
+    }
+  }
+};
+3. Implementation Requirements
+3.1 Core Components
+
+StripeElementsProvider.js
+
+Stripe Elements initialization
+Payment method management
+Secure card collection
+Error handling
+
+
+PaymentTimingForm.js
+
+Timing selection interface
+Eligibility validation
+Condition checking
+User guidance
+
+
+PaymentStatusIndicator.js
+
+Real-time status updates
+Error display
+Recovery options
+Progress tracking
+
+
+
+3.2 Backend Services
+
+Payment Service (services/paymentService.js)
+
+Payment intent management
+Status tracking
+Error handling
+Logging system
+
+
+Webhook Handler (controllers/webhookController.js)
+
+Event processing
+Status updates
+Error recovery
+Notification triggering
+
+
+Deferred Payment Service (services/deferredPaymentService.js)
+
+Payment scheduling
+Reminder system
+Collection automation
+Failure handling
+
+
+
+3.3 Database Models
+
+Payment Model Enhancement (models/Payment.js)
+
+javascriptCopyconst PaymentSchema = new mongoose.Schema({
+  booking: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Booking',
+    required: true
+  },
+  timing: {
+    type: String,
+    enum: Object.keys(PAYMENT_TIMING),
+    required: true
+  },
+  schedule: {
+    dueDate: Date,
+    remindersSent: [{
+      type: Date,
+      status: String
+    }]
+  },
+  stripe: {
+    paymentIntentId: String,
+    paymentMethodId: String,
+    setupIntentId: String
+  },
+  status: {
+    current: String,
+    history: [{
+      status: String,
+      timestamp: Date,
+      metadata: Schema.Types.Mixed
+    }]
+  },
+  amount: {
+    total: Number,
+    currency: String,
+    breakdown: {
+      base: Number,
+      platformFee: Number,
+      vat: {
+        rate: Number,
+        amount: Number
+      }
+    }
+  }
+});
+4. Technical Dependencies
+4.1 Required Libraries
+
+@stripe/stripe-js: Latest version
+@stripe/react-stripe-js: Latest version
+socket.io-client: For real-time updates
+date-fns: For scheduling logic
+react-query: For state management
+
+4.2 Configuration Requirements
+
+Stripe public and secret keys
+Webhook endpoints configuration
+Socket.IO setup
+Error monitoring integration
+
+5. Implementation Phases
+Phase 1: Core Infrastructure (Week 1)
+
+Stripe Elements integration
+Payment component creation
+State management enhancement
+Basic error handling
+
+Phase 2: Payment Flows (Week 2)
+
+Immediate payment implementation
+Deferred payment system
+Recovery mechanisms
+Status tracking
+
+Phase 3: UI Enhancement (Week 3)
+
+Component styling
+Accessibility implementation
+Error state handling
+Loading states
+
+Phase 4: Testing & Optimization (Week 4)
+
+Unit testing
+Integration testing
+Performance optimization
+Documentation
+
+6. Testing Requirements
+6.1 Unit Tests
+
+Payment component functionality
+State management
+Form validation
+Error handling
+
+6.2 Integration Tests
+
+Complete payment flows
+Status updates
+Error recovery
+Real-time updates
+
+6.3 End-to-End Tests
+
+Full booking flow
+Payment processing
+Status tracking
+Error scenarios
+
+7. Monitoring Requirements
+7.1 Performance Metrics
+
+Payment processing times
+Error rates
+Success rates
+Recovery effectiveness
+
+7.2 Error Tracking
+
+Payment failures
+Processing timeouts
+Validation errors
+State inconsistencies
+
+8. Success Criteria
+8.1 Functional Requirements
+
+Successful payment processing
+Proper error handling
+Complete status tracking
+Effective recovery flows
+
+8.2 Performance Requirements
+
+< 3s payment processing
+< 1% error rate
+100% status accuracy
+< 5s loading times

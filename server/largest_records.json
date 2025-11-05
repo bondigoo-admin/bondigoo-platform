@@ -1,0 +1,321 @@
+{
+  "Booking": {
+    "_id": "6757e647ad10af58b280a4bb",
+    "coach": "66d9cdcb0a7492a86482bd68",
+    "user": "66f418d10a19ec0e4bbd377e",
+    "sessionType": "66ec4ea477bec414bf2b8859",
+    "start": "2024-12-11T07:00:00.000Z",
+    "end": "2024-12-11T07:30:00.000Z",
+    "timezone": "Europe/Zurich",
+    "status": "confirmed",
+    "price": {
+      "base": {
+        "base": 0,
+        "currency": "CHF",
+        "discounts": [],
+        "final": 0,
+        "vat": {
+          "rate": 8.1,
+          "included": true
+        }
+      },
+      "currency": "CHF",
+      "final": {
+        "base": 0,
+        "currency": "CHF",
+        "discounts": [],
+        "final": 0,
+        "vat": {
+          "rate": 8.1,
+          "included": true
+        }
+      },
+      "vat": {
+        "rate": 8.1,
+        "amount": null,
+        "included": true
+      },
+      "platformFee": {
+        "amount": null,
+        "vat": {
+          "amount": null,
+          "rate": 8.1
+        }
+      },
+      "coachPayout": {
+        "base": null,
+        "vat": {
+          "amount": 0
+        },
+        "total": null
+      }
+    },
+    "payment": {
+      "status": "pending",
+      "refunds": []
+    },
+    "isAvailability": false,
+    "availableForInstantBooking": false,
+    "firmBookingThreshold": 24,
+    "title": "Verfügbarkeit",
+    "tags": [],
+    "recurringPattern": "none",
+    "recurringEndDate": null,
+    "bookingType": "request",
+    "reminderSent": [],
+    "attendees": [],
+    "suggestedTimes": [],
+    "waitlist": [],
+    "createdAt": "2024-12-10T06:57:11.846Z",
+    "updatedAt": "2024-12-10T06:57:11.846Z",
+    "__v": 0
+  },
+  "Coach": {
+    "_id": "66d9cdcb0a7492a86482bd6a",
+    "user": "66d9cdcb0a7492a86482bd68",
+    "specialties": [],
+    "languages": [],
+    "methodologies": [],
+    "bio": "test.coach2@example.comtest.coach2@example.comtest.coach2@example.com",
+    "settings": {
+      "professionalProfile": {
+        "specialties": [],
+        "expertise": []
+      },
+      "sessionManagement": {
+        "sessionTypes": []
+      },
+      "paymentAndBilling": {
+        "paymentMethods": []
+      },
+      "analyticsDashboard": {
+        "displayMetrics": [],
+        "customReports": []
+      },
+      "privacySettings": {
+        "calendarVisibility": "connected",
+        "bookingPrivacy": "connected",
+        "notificationGroups": []
+      },
+      "allowFirmBooking": true,
+      "firmBookingThreshold": 24,
+      "cancellationPolicy": 24,
+      "bufferTimeBetweenSessions": 15,
+      "maxAdvanceBookingDays": 30,
+      "minNoticeForBooking": 24,
+      "timeZone": "UTC"
+    },
+    "reviews": [],
+    "sessions": [],
+    "education": [],
+    "createdAt": "2024-09-05T15:27:07.541Z",
+    "updatedAt": "2024-10-21T07:48:52.913Z",
+    "__v": 220,
+    "packages": [],
+    "rates": [
+      {
+        "sessionType": "oneOnOne",
+        "amount": 150,
+        "currency": "USD",
+        "_id": "66db15869d2b4c8c160014dd"
+      },
+      {
+        "sessionType": "group",
+        "amount": 60,
+        "currency": "USD",
+        "_id": "66db15b89d2b4c8c160014f4"
+      }
+    ],
+    "liveStatus": "offline",
+    "status": "pending",
+    "achievements": [],
+    "coachingStyles": [],
+    "educationLevels": [],
+    "rating": 0,
+    "skills": [],
+    "profilePicture": {
+      "publicId": "profile_picture_cuvee5",
+      "url": "https://res.cloudinary.com/dzpjkn8eo/image/upload/v1726506932/profile_picture_cuvee5.jpg"
+    },
+    "videoIntroduction": {
+      "publicId": "Test_Video_Jack_km1jzl",
+      "url": "https://res.cloudinary.com/dzpjkn8eo/video/upload/v1726485218/Test_Video_Jack_km1jzl.mp4",
+      "duration": 103.282358
+    },
+    "headline": "Best coach in the world for your needs and wishes",
+    "availability": {
+      "availability": [
+        {
+          "start": "2024-09-22T11:02:12.192Z",
+          "end": "2024-09-22T12:02:12.192Z",
+          "recurringPattern": "none",
+          "_id": "66effb2ab88c4604d37e65a2"
+        },
+        {
+          "start": "2024-09-24T11:30:00.000Z",
+          "end": "2024-09-24T12:02:12.000Z",
+          "recurringPattern": "none",
+          "_id": "66effb2ab88c4604d37e65a3"
+        }
+      ]
+    }
+  },
+  "CoachingStyle": {
+    "_id": "66e4158648cdfa73ee74db87",
+    "name": "Friendly",
+    "__v": 0
+  },
+  "Connection": {
+    "_id": "670f6b3221b477194a3c64d1",
+    "coach": "66fbe443af6e5fe3198d22eb",
+    "client": "66f418d10a19ec0e4bbd377e",
+    "initiator": "66f418d10a19ec0e4bbd377e",
+    "status": "accepted",
+    "lastInteractionDate": "2024-10-16T07:28:50.037Z",
+    "createdAt": "2024-10-16T07:28:50.039Z",
+    "updatedAt": "2024-10-16T07:29:14.075Z",
+    "__v": 0
+  },
+  "Language": {
+    "_id": "66e4154f48cdfa73ee74db68",
+    "name": "English",
+    "code": "en",
+    "__v": 0
+  },
+  "Notification": {
+    "_id": "673b6413d4bcbb243cb208b1",
+    "recipient": "66d9cdcb0a7492a86482bd68",
+    "type": "booking_request",
+    "priority": "high",
+    "content": {
+      "title": "New Booking Request from Test User 2",
+      "message": "Test User 2 has requested a Session session on 19.11.2024 at 09:30:00. This request booking requires your response.",
+      "data": {
+        "bookingId": "673b6412d4bcbb243cb208a5",
+        "bookingTime": "2024-11-19T08:30:00.000Z",
+        "duration": 30,
+        "bookingType": "request",
+        "requiresAction": true,
+        "validActions": [
+          "approve",
+          "decline",
+          "suggest"
+        ],
+        "status": "requested",
+        "actionResult": "requested"
+      }
+    },
+    "status": "trash",
+    "category": "booking",
+    "channels": [
+      "in_app",
+      "email"
+    ],
+    "metadata": {
+      "bookingId": "673b6412d4bcbb243cb208a5",
+      "additionalData": {
+        "actionRequired": true,
+        "responseTimeout": 86400000,
+        "bookingId": "673b6412d4bcbb243cb208a5",
+        "sessionType": "66ec4ea477bec414bf2b8859",
+        "startTime": "2024-11-19T08:30:00.000Z",
+        "endTime": "2024-11-19T09:00:00.000Z",
+        "bookingType": "request",
+        "status": "requested",
+        "requiresAction": true,
+        "validActions": [
+          "approve",
+          "decline",
+          "suggest"
+        ]
+      }
+    },
+    "delivery": {
+      "attempts": 0,
+      "maxAttempts": 3,
+      "statuses": []
+    },
+    "isRead": true,
+    "deliveryAttempts": 0,
+    "actions": [],
+    "createdAt": "2024-11-18T15:58:11.131Z",
+    "updatedAt": "2024-11-21T11:58:06.796Z",
+    "__v": 0,
+    "readAt": "2024-11-18T16:02:17.486Z",
+    "expiresAt": "2024-12-21T11:58:06.796Z",
+    "trashedAt": "2024-11-21T11:58:06.796Z"
+  },
+  "Review": {
+    "_id": "66ec4ea477bec414bf2b8859",
+    "name": "1 on 1",
+    "duration": 0,
+    "isGroupSession": false,
+    "__v": 0
+  },
+  "SessionType": {
+    "_id": "66ec4ea477bec414bf2b8859",
+    "name": "1 on 1",
+    "duration": 0,
+    "isGroupSession": false,
+    "__v": 0
+  },
+  "Specialty": {
+    "_id": "66e2bff9616218a1d7678fa2",
+    "name": "Mindfulness and Meditation",
+    "order": 0,
+    "__v": 0
+  },
+  "Translation": {
+    "_id": "66e54e7f1445265fa3c919d7",
+    "key": "specialties_66e2bff9616218a1d7678fc8",
+    "listType": "specialties",
+    "translations": {
+      "fr": "Test 12",
+      "de": "Test 2",
+      "es": "Test 3"
+    },
+    "createdAt": "2024-09-14T08:51:11.504Z",
+    "updatedAt": "2024-09-14T09:02:18.799Z",
+    "__v": 0
+  },
+  "User": {
+    "_id": "66f418d10a19ec0e4bbd377e",
+    "firstName": "Test",
+    "lastName": "User 2",
+    "email": "test.user2@example.com",
+    "password": "$2a$10$SdG04Ep6a557HJvic.CEIOKdRlTa68D5iCFUJ3nVdKfBf0fSh9MEu",
+    "role": "client",
+    "preferredLanguage": "German",
+    "isActive": true,
+    "profileVisibility": "public",
+    "createdAt": "2024-09-25T14:06:09.833Z",
+    "__v": 0,
+    "status": "offline",
+    "profilePicture": {
+      "publicId": "profile_picture_hqwk0d",
+      "url": "https://res.cloudinary.com/dzpjkn8eo/image/upload/v1728328664/profile_picture_hqwk0d.jpg"
+    },
+    "settings": {
+      "notificationPreferences": {
+        "pushNotifications": false,
+        "email": true,
+        "sms": false,
+        "inApp": true
+      },
+      "privacySettings": {
+        "showLocation": true,
+        "showOccupation": true,
+        "showEmail": false,
+        "showPhone": false
+      },
+      "dateFormat": "DD/MM/YYYY",
+      "timeFormat": "24h",
+      "currency": "USD",
+      "language": "en",
+      "timeZone": "UTC"
+    },
+    "stripe": {
+      "customerId": "cus_RUlp0o3z2WooA6"
+    }
+  }
+}

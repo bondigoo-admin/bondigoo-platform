@@ -1,0 +1,19 @@
+{
+  "notificationSettings": "Notification Settings",
+  "emailNotifications": "Email Notifications",
+  "smsNotifications": "SMS Notifications",
+  "languageAndTimeZone": "Language and Time Zone",
+  "language": "Language",
+  "timeZone": "Time Zone",
+  "privacySettings": "Privacy Settings",
+  "showProfile": "Show Profile to Others",
+  "settingsUpdated": "Settings updated successfully",
+  "errorUpdateSettings": "Error updating settings",
+  "save": "Save Changes",
+  "english": "English",
+  "spanish": "Spanish",
+  "french": "French",
+  "utc": "UTC",
+  "easternTime": "Eastern Time",
+  "pacificTime": "Pacific Time"
+}
