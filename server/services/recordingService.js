@@ -6,12 +6,7 @@ const Session = require('../models/Session');
 const Booking = require('../models/Booking');
 const User = require('../models/User');
 const StorageManager = require('./storageManager');
-const Redis = require('ioredis');
-
-const redis = new Redis({
-  host: process.env.REDIS_HOST || 'localhost',
-  port: process.env.REDIS_PORT || 6380,
-});
+const redis = require('../redisClient');
 
 class RecordingService {
   constructor() {

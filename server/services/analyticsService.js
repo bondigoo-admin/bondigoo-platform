@@ -1,12 +1,6 @@
-// server/services/analyticsService.js
-const Redis = require('ioredis');
+const redis = require('../redisClient');
 const Session = require('../models/Session');
 const { logger } = require('../utils/logger');
-
-const redis = new Redis({
-  host: process.env.REDIS_HOST || 'localhost',
-  port: process.env.REDIS_PORT || 6380,
-});
 
 class AnalyticsService {
   async trackLiveSessionFunnel(sessionId, status, metadata = {}) {

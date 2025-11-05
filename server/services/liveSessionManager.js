@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const Redis = require('ioredis');
+const connection = require('../redisClient');
 
 const LiveSession = require('../models/LiveSession');
 const Payment = require('../models/Payment');
@@ -14,11 +14,6 @@ const { NotificationTypes } = require('../utils/notificationHelpers');
 const analyticsService = require('./analyticsService');
 const TaxService = require('./taxService');
 const taxService = new TaxService();
-
-const connection = new Redis(process.env.REDIS_URL || 'redis://localhost:6380', {
-  maxRetriesPerRequest: null,
-  enableReadyCheck: false,
-});
 
 const REAUTHORIZATION_MINUTES = 15;
 const REAUTH_WARNING_THRESHOLD_MINUTES = 5;

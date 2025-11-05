@@ -1,7 +1,7 @@
 const { logger } = require('../utils/logger');
 const MediaServer = require('./mediaServer');
 const Redis = require('ioredis');
-const redis = new Redis({ host: process.env.REDIS_HOST || 'localhost', port: process.env.REDIS_PORT || 6380 });
+const redis = require('../redisClient');
 
 class StreamManager {
   constructor() {

@@ -2,23 +2,26 @@ const path = require('path');
 const dotenv = require('dotenv');
 const Redis = require('ioredis');
 
-// --- FIX: LOAD THE CORRECT ENVIRONMENT VARIABLES ---
 const envFile = process.env.NODE_ENV ? `.env.${process.env.NODE_ENV}` : '.env.development';
 dotenv.config({ path: path.resolve(__dirname, '..', envFile) });
 
-// --- FIX: Check for HOST and PORT instead of URL ---
-if (!process.env.REDIS_HOST || !process.env.REDIS_PORT) {
-  console.error('ERROR: REDIS_HOST or REDIS_PORT is not defined in your environment variables. The script cannot connect.');
-  process.exit(1);
-}
+let connection;
+const redisUrl = process.env.REDIS_URL;
 
-// --- FIX: Use HOST and PORT to create the connection, matching your server.js ---
-const connection = new Redis({
-  host: process.env.REDIS_HOST,
-  port: process.env.REDIS_PORT,
-  db: 0, // <-- ADD THIS LINE
-  maxRetriesPerRequest: null, // Recommended for scripts
-});
+if (redisUrl) {
+  console.log(`[CleanupScript] Connecting to Redis via URL...`);
+  connection = new Redis(redisUrl, {
+    tls: { rejectUnauthorized: false },
+    maxRetriesPerRequest: null,
+  });
+} else {
+  console.log(`[CleanupScript] Connecting to Redis via HOST/PORT...`);
+  connection = new Redis({
+    host: process.env.REDIS_HOST,
+    port: process.env.REDIS_PORT,
+    maxRetriesPerRequest: null,
+  });
+}
 
 async function cleanupOrphanedJobs() {
   console.log('Starting cleanup of orphaned BullMQ repeatable jobs...');

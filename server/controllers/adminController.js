@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const cloudinary = require('../utils/cloudinaryConfig');
-const Redis = require('ioredis');
 const User = require('../models/User');
 const Coach = require('../models/Coach');
 const Client = require('../models/Client');
