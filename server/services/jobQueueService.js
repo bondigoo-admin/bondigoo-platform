@@ -1,5 +1,5 @@
 const { Queue, Worker } = require('bullmq');
-const Redis = require('ioredis');
+const connection = require('../redisClient'); 
 const { logger } = require('../utils/logger');
 const cloudinary = require('../utils/cloudinaryConfig');
 const User = require('../models/User');
@@ -11,13 +11,6 @@ const Coach = require('../models/Coach');
 const Lesson = require('../models/Lesson');
 
 let io;
-
-const connection = new Redis({
-  host: process.env.REDIS_HOST || 'localhost',
-  port: process.env.REDIS_PORT || 6380,
-  maxRetriesPerRequest: null,
-  enableReadyCheck: false
-});
 
 const initialize = (socketIoInstance) => {
     io = socketIoInstance;

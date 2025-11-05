@@ -1,9 +1,9 @@
 ==> Cloning from https://github.com/bondigoo-admin/bondigoo-platform
-==> Checking out commit f960d750e00e344bd5df63954cf14e48a2d0f975 in branch main
+==> Checking out commit 1835f1d73e36ce09322c1a02655be4c128f0d908 in branch main
 ==> Using Node.js version 22.16.0 (default)
 ==> Docs on specifying a Node.js version: https://render.com/docs/node-version
 ==> Running build command 'cd server && npm install'...
-added 799 packages, and audited 800 packages in 45s
+added 799 packages, and audited 800 packages in 1m
 104 packages are looking for funding
   run `npm fund` for details
 1 moderate severity vulnerability
@@ -11,16 +11,14 @@ To address all issues (including breaking changes), run:
   npm audit fix --force
 Run `npm audit` for details.
 ==> Uploading build...
-==> Uploaded in 17.0s. Compression took 6.5s
+==> Uploaded in 16.0s. Compression took 19.9s
 ==> Build successful 🎉
 ==> Deploying...
 ==> Running 'cd server && npm start'
 > coaching-platform-server@1.0.0 start
 > cross-env NODE_ENV=production node server.js
 [UserModel] User schema updated with additional settings fields
-==> No open ports detected, continuing to scan...
 [PriceConfiguration] Model updated with discount schema and findApplicableDiscounts method
-==> Docs on specifying a port: https://render.com/docs/web-services#port-binding
 [userRoutes.js] The user routes file is being executed.
 Coach routes initialized: [
   '/get-signature',
@@ -71,7 +69,7 @@ Coach routes initialized: [
   '/me/tax-info',
   '/me/tax-info'
 ]
-info: [StripeService] Initialized with Stripe API version: {"0":"2","1":"0","10":".","11":"a","12":"c","13":"a","14":"c","15":"i","16":"a","2":"2","3":"4","4":"-","5":"1","6":"1","7":"-","8":"2","9":"0","timestamp":"2025-11-05T10:41:20.587Z"}
+info: [StripeService] Initialized with Stripe API version: {"0":"2","1":"0","10":".","11":"a","12":"c","13":"a","14":"c","15":"i","16":"a","2":"2","3":"4","4":"-","5":"1","6":"1","7":"-","8":"2","9":"0","timestamp":"2025-11-05T10:56:26.287Z"}
 [PaymentService] Initializing payment service
 Connection routes defined: [
   '/request',
@@ -87,11 +85,10 @@ Exporting from sessionController: {
   startSession: [AsyncFunction: startSession]
 }
 [ReminderService] Initialized reminder service with cron schedules
---- DIAGNOSING ENVIRONMENT ---
+--- DIAGNOSING REDIS CONNECTION ---
 [DIAG] NODE_ENV: production
-[DIAG] REDIS_URL from process.env: rediss://red-d447qlqli9vc73dtk9q0:2ij474BY4lziuAjc4jtizfzCjfwQZeqF@frankfurt-keyvalue.render.com:6379
-[DIAG] Type of REDIS_URL: string
-------------------------------
+[DIAG] Attempting to use REDIS_URL: rediss://red-d447qlqli9vc73dtk9q0:2ij474BY4lziuAjc4jtizfzCjfwQZeqF@frankfurt-keyvalue.render.com:6379
+[Server] Redis initialized { host: 'frankfurt-keyvalue.render.com', port: 6379 }
 [DEBUG] ==> Loading invoiceController.js...
 [DEBUG] <== Preparing to export from invoiceController.js. Object keys: [ 'fetchAllUserInvoices', 'generateInvoiceDownloadUrl' ]
 (node:87) [MONGOOSE] Warning: Duplicate schema index on {"payoutStatus":1} found. This is often due to declaring an index using both "index: true" and "schema.index()". Please remove the duplicate index definition.
@@ -118,3 +115,110 @@ Error: connect ECONNREFUSED 127.0.0.1:6380
   address: '127.0.0.1',
   port: 6380
 }
+Error: connect ECONNREFUSED 127.0.0.1:6380
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16) {
+  errno: -111,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '127.0.0.1',
+  port: 6380
+}
+Error: connect ECONNREFUSED 127.0.0.1:6380
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16) {
+  errno: -111,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '127.0.0.1',
+  port: 6380
+}
+Error: connect ECONNREFUSED 127.0.0.1:6380
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16) {
+  errno: -111,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '127.0.0.1',
+  port: 6380
+}
+Error: connect ECONNREFUSED 127.0.0.1:6380
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16) {
+  errno: -111,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '127.0.0.1',
+  port: 6380
+}
+Error: connect ECONNREFUSED 127.0.0.1:6380
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16) {
+  errno: -111,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '127.0.0.1',
+  port: 6380
+}
+Error: connect ECONNREFUSED 127.0.0.1:6380
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16) {
+  errno: -111,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '127.0.0.1',
+  port: 6380
+}
+Error: connect ECONNREFUSED 127.0.0.1:6380
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16) {
+  errno: -111,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '127.0.0.1',
+  port: 6380
+}
+Error: connect ECONNREFUSED 127.0.0.1:6380
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16) {
+  errno: -111,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '127.0.0.1',
+  port: 6380
+}
+Error: connect ECONNREFUSED 127.0.0.1:6380
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16) {
+  errno: -111,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '127.0.0.1',
+  port: 6380
+}
+Error: connect ECONNREFUSED 127.0.0.1:6380
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16) {
+  errno: -111,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '127.0.0.1',
+  port: 6380
+}
+Error: connect ECONNREFUSED 127.0.0.1:6380
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16) {
+  errno: -111,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '127.0.0.1',
+  port: 6380
+}
+Error: connect ECONNREFUSED 127.0.0.1:6380
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16) {
+  errno: -111,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '127.0.0.1',
+  port: 6380
+}
+Error: connect ECONNREFUSED 127.0.0.1:6380
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16) {
+  errno: -111,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '127.0.0.1',
+  port: 6380
+}
+Error: connect ECONNREFUSED 127.0.0.1:6380
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16) {
+  errno: -111,
