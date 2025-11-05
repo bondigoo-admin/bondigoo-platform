@@ -91,6 +91,12 @@ const pendingNotifications = new Map();
 // Notification delivery tracking
 const notificationDeliveryLog = new Map();
 
+console.log("--- DIAGNOSING ENVIRONMENT ---");
+console.log(`[DIAG] NODE_ENV: ${process.env.NODE_ENV}`);
+console.log(`[DIAG] REDIS_URL from process.env: ${process.env.REDIS_URL}`);
+console.log(`[DIAG] Type of REDIS_URL: ${typeof process.env.REDIS_URL}`);
+console.log("------------------------------");
+
 const redis = new Redis(process.env.REDIS_URL || {
   host: process.env.REDIS_HOST || 'localhost',
   port: process.env.REDIS_PORT || 6380,
@@ -100,8 +106,6 @@ app.set('redis', redis);
 
 
 app.use(requestLogger);
-
-
 
 app.use('/api/earnings/temp', express.static(path.join(__dirname, 'temp_pdfs')));
 
