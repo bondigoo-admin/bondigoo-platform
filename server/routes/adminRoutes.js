@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const adminController = require('../controllers/adminController');
+const coachController = require('../controllers/coachController');
 const { auth } = require('../middleware/auth');
 const checkRole = require('../middleware/checkRole');
 const adminNotificationController = require('../controllers/adminNotificationController');
@@ -78,6 +79,7 @@ router.post('/verifications/resolve', auth, checkRole('admin'), adminController.
 // --- USER-FACING SUPPORT & MODERATION ROUTES ---
 // These routes are used by regular users, not just admins, so they only use the `auth` middleware.
 router.post('/support/tickets', auth, supportController.createSupportTicket);
+router.get('/feedback-attachment-signature', auth, coachController.getFeedbackAttachmentSignature);
 router.get('/moderation-actions/:auditId', auth, adminController.getModerationActionDetails);
 
 // Support Routes

@@ -205,7 +205,7 @@ exports.updateTicket = async (req, res) => {
 };
 
 exports.createSupportTicket = async (req, res) => {
-    const { subject, initialMessage, ticketType, relatedAuditLog } = req.body;
+    const { subject, initialMessage, ticketType, relatedAuditLog, contextSnapshot, attachments } = req.body;
     const userId = req.user.id;
 
     if (!subject || !initialMessage) {
@@ -218,6 +218,11 @@ exports.createSupportTicket = async (req, res) => {
             subject,
             ticketType,
         };
+
+        if (ticketType === 'feedback_report') {
+            ticketData.contextSnapshot = contextSnapshot;
+            ticketData.attachments = attachments;
+        }
 
         if (ticketType === 'appeal') {
             if (!relatedAuditLog) {

@@ -18,11 +18,13 @@ import {
   Clock,
   History,
   CheckCircle2,
+  File as FileIcon,
+  Bug
 } from 'lucide-react';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '../../../ui/alert-dialog.tsx';
 import { Dialog, DialogContent, DialogHeader, DialogFooter, DialogTitle, DialogDescription } from '../../../ui/dialog.tsx';
 import { Button } from '../../../ui/button.tsx';
-import { Card, CardContent, CardHeader, CardFooter } from '../../../ui/card.tsx';
+import { Card, CardContent, CardHeader, CardFooter, CardTitle } from '../../../ui/card.tsx';
 import { Separator } from '../../../ui/separator.jsx';
 import { Avatar, AvatarFallback, AvatarImage } from '../../../ui/avatar.tsx';
 import { Textarea } from '../../../ui/textarea.tsx';
@@ -330,7 +332,62 @@ const TicketDetailView = ({ ticketId }) => {
                     </DialogFooter>
                 </DialogContent>
             </Dialog>
-        </div>
+
+            {ticket.ticketType === 'feedback_report' && (
+          <Card className="mt-6">
+              <CardHeader>
+                  <CardTitle className="flex items-center">
+                      <Bug className="mr-2 h-5 w-5" />
+                      {t('admin:feedback.technicalDetails')}
+                  </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4 text-sm">
+                  {ticket.contextSnapshot && (
+                      <div className="grid grid-cols-1 gap-x-4 gap-y-2 md:grid-cols-2">
+                          <div>
+                              <p className="font-semibold text-muted-foreground">URL</p>
+                              <a href={ticket.contextSnapshot.url} target="_blank" rel="noopener noreferrer" className="break-all text-primary hover:underline">{ticket.contextSnapshot.url}</a>
+                          </div>
+                          <div>
+                              <p className="font-semibold text-muted-foreground">Viewport</p>
+                              <p>{ticket.contextSnapshot.viewport}</p>
+                          </div>
+                          <div>
+                              <p className="font-semibold text-muted-foreground">Screen Resolution</p>
+                              <p>{ticket.contextSnapshot.screenResolution}</p>
+                          </div>
+                          <div className="md:col-span-2">
+                              <p className="font-semibold text-muted-foreground">Browser</p>
+                              <p className="text-xs">{ticket.contextSnapshot.browser}</p>
+                          </div>
+                      </div>
+                  )}
+                  {ticket.attachments && ticket.attachments.length > 0 && (
+                      <>
+                          <Separator />
+                          <div>
+                              <p className="font-semibold text-muted-foreground mb-2">{t('common:attachments')}</p>
+                              <div className="flex flex-wrap gap-4">
+                                  {ticket.attachments.map(att => (
+                                      <a key={att.public_id} href={att.url} target="_blank" rel="noopener noreferrer" className="relative h-24 w-24 rounded-md border p-1 bg-background hover:ring-2 hover:ring-primary">
+                                          {att.resource_type === 'image' ? (
+                                              <img src={att.url} alt={att.filename} className="h-full w-full object-contain" />
+                                          ) : (
+                                              <div className="flex h-full w-full flex-col items-center justify-center text-muted-foreground">
+                                                  <FileIcon className="h-8 w-8" />
+                                                  <p className="mt-1 max-w-full truncate text-center text-xs">{att.filename}</p>
+                                              </div>
+                                            )}
+                                        </a>
+                                    ))}
+                                </div>
+                            </div>
+                        </>
+                    )}
+                </CardContent>
+            </Card>
+        )}
+    </div>
     );
 };
 

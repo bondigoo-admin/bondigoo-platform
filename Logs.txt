@@ -1,196 +1,97 @@
-==> Cloning from https://github.com/bondigoo-admin/bondigoo-platform
-==> Checking out commit bce78a2de013a5f1ceba260d823502b57ddc6ed4 in branch main
-==> Using Node.js version 22.16.0 (default)
-==> Docs on specifying a Node.js version: https://render.com/docs/node-version
-==> Running build command 'cd server && npm install'...
-added 799 packages, and audited 800 packages in 52s
-104 packages are looking for funding
-  run `npm fund` for details
-1 moderate severity vulnerability
-To address all issues (including breaking changes), run:
-  npm audit fix --force
-Run `npm audit` for details.
-==> Uploading build...
-==> Uploaded in 15.0s. Compression took 6.4s
-==> Build successful 🎉
-==> Deploying...
-==> Running 'cd server && npm start'
-> coaching-platform-server@1.0.0 start
-> cross-env NODE_ENV=production node server.js
-[UserModel] User schema updated with additional settings fields
-[PriceConfiguration] Model updated with discount schema and findApplicableDiscounts method
---- [RedisClient] Initializing Central Redis Connection ---
-[RedisClient] NODE_ENV: production
-[RedisClient] Received REDIS_URL: rediss://red-d447qlqli9vc73dtk9q0:2ij474BY4lziuAjc4jtizfzCjfwQZeqF@frankfurt-keyvalue.render.com:6379
-[userRoutes.js] The user routes file is being executed.
-Coach routes initialized: [
-  '/get-signature',
-  '/upload-video-introduction',
-  '/me/video-introduction',
-  '/:userId/availability',
-  '/:userId/availability',
-  '/check/:userId',
-  '/',
-  '/featured',
-  '/insurance-registries',
-  '/me/insurance-recognition/signature',
-  '/me/insurance-recognition/submit',
-  '/session-types',
-  '/:userId/session-types',
-  '/:userId/session-types',
-  '/:userId/session-types/:typeId',
-  '/:userId/session-types',
-  '/:userId/session-types/:typeId',
-  '/:userId/sessions',
-  '/:userId/get-profile-picture-signature',
-  '/:userId/upload-profile-picture',
-  '/:userId/remove-profile-picture',
-  '/me/video-introduction/signature',
-  '/register',
-  '/:userId/reviews',
-  '/profile/:userId',
-  '/review',
-  '/:userId/bookings',
-  '/bookings/:bookingId',
-  '/profile/:userId',
-  '/check-settings/:userId',
-  '/settings/:userId',
-  '/settings/:userId',
-  '/search-list-items',
-  '/update-profile-items',
-  '/dashboard/overview',
-  '/dashboard-preferences',
-  '/dashboard-stats',
-  '/program-analytics',
-  '/clients/:clientId',
-  '/dashboard/action-counts',
-  '/submissions/mark-all-reviewed',
-  '/qa/mark-all-read',
-  '/all-submissions',
-  '/all-qa',
-  '/all-participants',
-  '/me/tax-info',
-  '/me/tax-info'
-]
-==> No open ports detected, continuing to scan...
-info: [StripeService] Initialized with Stripe API version: {"0":"2","1":"0","10":".","11":"a","12":"c","13":"a","14":"c","15":"i","16":"a","2":"2","3":"4","4":"-","5":"1","6":"1","7":"-","8":"2","9":"0","timestamp":"2025-11-05T12:58:44.381Z"}
-==> Docs on specifying a port: https://render.com/docs/web-services#port-binding
-[PaymentService] Initializing payment service
-Connection routes defined: [
-  '/request',
-  '/:connectionId/respond',
-  '/user',
-  '/status/:targetUserId',
-  '/:connectionId/cancel',
-  '/:connectionId/remove'
-]
-Exporting from sessionController: {
-  generateSessionLink: [AsyncFunction: generateSessionLink],
-  validateSessionLink: [AsyncFunction: validateSessionLink],
-  startSession: [AsyncFunction: startSession]
-}
-[ReminderService] Initialized reminder service with cron schedules
-[Server] Redis initialized { host: 'frankfurt-keyvalue.render.com', port: 6379 }
-[DEBUG] ==> Loading invoiceController.js...
-[DEBUG] <== Preparing to export from invoiceController.js. Object keys: [ 'fetchAllUserInvoices', 'generateInvoiceDownloadUrl' ]
-(node:87) [MONGOOSE] Warning: Duplicate schema index on {"payoutStatus":1} found. This is often due to declaring an index using both "index: true" and "schema.index()". Please remove the duplicate index definition.
-(Use `node --trace-warnings ...` to show where the warning was created)
-(node:87) [MONGOOSE] Warning: Duplicate schema index on {"expiresAt":1} found. This is often due to declaring an index using both "index: true" and "schema.index()". Please remove the duplicate index definition.
-(node:87) [MONGOOSE] Warning: mongoose: the method name "validate" is used by mongoose internally, overwriting it may cause bugs. If you're sure you know what you're doing, you can suppress this error by using `schema.method('validate', fn, { suppressWarning: true })`.
-Attempting to connect to MongoDB...
-Environment: development
-(node:87) [MONGODB DRIVER] Warning: useNewUrlParser is a deprecated option: useNewUrlParser has no effect since Node.js Driver version 4.0.0 and will be removed in the next major version
-(node:87) [MONGODB DRIVER] Warning: useUnifiedTopology is a deprecated option: useUnifiedTopology has no effect since Node.js Driver version 4.0.0 and will be removed in the next major version
-[RedisClient] Central connection successful.
-ReplyError: Too many requests. Please try again later.
-    at parseError (/opt/render/project/src/server/node_modules/redis-parser/lib/parser.js:179:12)
-    at parseType (/opt/render/project/src/server/node_modules/redis-parser/lib/parser.js:302:14) {
-  command: {
-    name: 'auth',
-    args: [ 'red-d447qlqli9vc73dtk9q0', '2ij474BY4lziuAjc4jtizfzCjfwQZeqF' ]
-  }
-}
-ReplyError: Too many requests. Please try again later.
-    at parseError (/opt/render/project/src/server/node_modules/redis-parser/lib/parser.js:179:12)
-    at parseType (/opt/render/project/src/server/node_modules/redis-parser/lib/parser.js:302:14) {
-  command: {
-    name: 'auth',
-    args: [ 'red-d447qlqli9vc73dtk9q0', '2ij474BY4lziuAjc4jtizfzCjfwQZeqF' ]
-  }
-}
-ReplyError: Too many requests. Please try again later.
-    at parseError (/opt/render/project/src/server/node_modules/redis-parser/lib/parser.js:179:12)
-    at parseType (/opt/render/project/src/server/node_modules/redis-parser/lib/parser.js:302:14) {
-  command: {
-    name: 'auth',
-    args: [ 'red-d447qlqli9vc73dtk9q0', '2ij474BY4lziuAjc4jtizfzCjfwQZeqF' ]
-  }
-}
-MongoDB Connected: coaching-platform-dev-shard-00-00.nnaff.mongodb.net
-Database Name: coaching-platform-dev
-Available collections: [
-  'notifications',         'connections',          'clients',
-  'leads',                 'programs',             'groups',
-  'announcements',         'supportmessages',      'modules',
-  'sessiontypes',          'webhooklogs',          'featureflags',
-  'languages',             'auditlogs',            'resources',
-  'programcategories',     'users',                'discounts',
-  'coaches',               'search_collection',    'transactions',
-  'packages',              'lessons',              'coachingstyles',
-  'achievements',          'messages',             'qas',
-  'translations',          'polls',                'conversations',
-  'enrollments',           'educationlevels',      'comments',
-  'reviews',               'price_configurations', 'invoices',
-  'CoachingPlatform',      'emailchangerequests',  'notificationsettings',
-  'payments',              'livesessions',         'bookings',
-  'specialties',           'sessions',             'supporttickets',
-  'passwordresetrequests', 'conversationmembers',  'discountusages',
-  'skilllevels',           'skills'
-]
-Mongoose connection state: 1
-[Cron] Scheduling payout processor job to run every 30 minutes.
-[Cron] Scheduling dispute escalation job.
-[Cron] Scheduling daily attachment cleanup job.
-[Cron] Scheduling daily trust score calculation job.
-[Cron] Scheduling daily verification expiry reminder job.
-[Server] Resource cleanup job scheduled
-[Server] ReminderService initialized and running
-[BullMQ] Socket.io instance received for real-time updates.
-[BullMQ] Asset Cleanup Worker initialized.
-[Server] BullMQ Workers have been initialized.
-Server running in production mode on port 10000
-Server started { port: 10000, environment: 'production' }
-==> Your service is live 🎉
-==> 
-==> ///////////////////////////////////////////////////////////
-==> 
-==> ///////////////////////////////////////////////////////////
-==> 
-==> Available at your primary URL https://bondigoo-api-main.onrender.com
-==> 
-==> ///////////////////////////////////////////////////////////
-IMPORTANT! Eviction policy is allkeys-lru. It should be "noeviction"
-IMPORTANT! Eviction policy is allkeys-lru. It should be "noeviction"
-IMPORTANT! Eviction policy is allkeys-lru. It should be "noeviction"
-IMPORTANT! Eviction policy is allkeys-lru. It should be "noeviction"
-IMPORTANT! Eviction policy is allkeys-lru. It should be "noeviction"
-IMPORTANT! Eviction policy is allkeys-lru. It should be "noeviction"
-IMPORTANT! Eviction policy is allkeys-lru. It should be "noeviction"
-IMPORTANT! Eviction policy is allkeys-lru. It should be "noeviction"
-IMPORTANT! Eviction policy is allkeys-lru. It should be "noeviction"
-IMPORTANT! Eviction policy is allkeys-lru. It should be "noeviction"
-IMPORTANT! Eviction policy is allkeys-lru. It should be "noeviction"
-IMPORTANT! Eviction policy is allkeys-lru. It should be "noeviction"
-IMPORTANT! Eviction policy is allkeys-lru. It should be "noeviction"
-ReplyError: Too many requests. Please try again later.
-    at parseError (/opt/render/project/src/server/node_modules/redis-parser/lib/parser.js:179:12)
-    at parseType (/opt/render/project/src/server/node_modules/redis-parser/lib/parser.js:302:14) {
-  command: {
-    name: 'auth',
-    args: [ 'red-d447qlqli9vc73dtk9q0', '2ij474BY4lziuAjc4jtizfzCjfwQZeqF' ]
-  }
-}
-IMPORTANT! Eviction policy is allkeys-lru. It should be "noeviction"
-IMPORTANT! Eviction policy is allkeys-lru. It should be "noeviction"
-IMPORTANT! Eviction policy is allkeys-lru. It should be "noeviction"
-IMPORTANT! Eviction policy is allkeys-lru. It should be "noeviction"
+hook.js:608 
+ Warning: Unknown event handler property `onEnablePip`. It will be ignored. Error Component Stack
+    at div (<anonymous>)
+    at _a (vendors-node_modules…0e4.chunk.js:1086:7)
+    at div (<anonymous>)
+    at div (<anonymous>)
+    at CustomVideoPlayer (src_components_playe…s_jsx.chunk.js:60:3)
+    at div (<anonymous>)
+    at div (<anonymous>)
+    at div (<anonymous>)
+    at a (<anonymous>)
+    at LinkWithRef (bundle.js:118390:7)
+    at Provider (bundle.js:4231:9)
+    at TooltipProvider (bundle.js:8714:5)
+    at ProgramCard (src_components_progr…rd_js.chunk.js:69:3)
+    at div (<anonymous>)
+    at div (<anonymous>)
+    at div (<anonymous>)
+    at div (<anonymous>)
+    at section (<anonymous>)
+    at FeaturedPrograms (src_components_Home_…d98b.chunk.js:42:68)
+    at div (<anonymous>)
+    at div (<anonymous>)
+    at LaunchedHome (src_components_Home_…8b.chunk.js:1418:68)
+    at Home (<anonymous>)
+    at RenderedRoute (bundle.js:119704:5)
+    at Outlet (bundle.js:120351:26)
+    at PublicLayout (<anonymous>)
+    at RenderedRoute (bundle.js:119704:5)
+    at Routes (bundle.js:120438:5)
+    at Suspense (<anonymous>)
+    at main (<anonymous>)
+    at div (<anonymous>)
+    at AppContent (bundle.js:139950:69)
+    at LiveSessionProvider (bundle.js:150029:3)
+    at NotificationSocketProvider (bundle.js:150856:3)
+    at AppWithSocketProvider (bundle.js:140882:69)
+    at AppWithSocketProviderWrapper (bundle.js:140965:69)
+    at AuthProvider (bundle.js:149668:3)
+    at PaymentProvider (bundle.js:150644:3)
+    at Elements (bundle.js:15364:30)
+    at Suspense (<anonymous>)
+    at App (bundle.js:140917:51)
+    at AuthProvider (bundle.js:149668:3)
+    at QueryClientProvider (bundle.js:115607:21)
+    at Router (bundle.js:120372:15)
+    at BrowserRouter (bundle.js:118272:5)
+hook.js:608 
+ Warning: Unknown event handler property `onDisablePip`. It will be ignored. Error Component Stack
+    at div (<anonymous>)
+    at _a (vendors-node_modules…0e4.chunk.js:1086:7)
+    at div (<anonymous>)
+    at div (<anonymous>)
+    at CustomVideoPlayer (src_components_playe…s_jsx.chunk.js:60:3)
+    at div (<anonymous>)
+    at div (<anonymous>)
+    at div (<anonymous>)
+    at a (<anonymous>)
+    at LinkWithRef (bundle.js:118390:7)
+    at Provider (bundle.js:4231:9)
+    at TooltipProvider (bundle.js:8714:5)
+    at ProgramCard (src_components_progr…rd_js.chunk.js:69:3)
+    at div (<anonymous>)
+    at div (<anonymous>)
+    at div (<anonymous>)
+    at div (<anonymous>)
+    at section (<anonymous>)
+    at FeaturedPrograms (src_components_Home_…d98b.chunk.js:42:68)
+    at div (<anonymous>)
+    at div (<anonymous>)
+    at LaunchedHome (src_components_Home_…8b.chunk.js:1418:68)
+    at Home (<anonymous>)
+    at RenderedRoute (bundle.js:119704:5)
+    at Outlet (bundle.js:120351:26)
+    at PublicLayout (<anonymous>)
+    at RenderedRoute (bundle.js:119704:5)
+    at Routes (bundle.js:120438:5)
+    at Suspense (<anonymous>)
+    at main (<anonymous>)
+    at div (<anonymous>)
+    at AppContent (bundle.js:139950:69)
+    at LiveSessionProvider (bundle.js:150029:3)
+    at NotificationSocketProvider (bundle.js:150856:3)
+    at AppWithSocketProvider (bundle.js:140882:69)
+    at AppWithSocketProviderWrapper (bundle.js:140965:69)
+    at AuthProvider (bundle.js:149668:3)
+    at PaymentProvider (bundle.js:150644:3)
+    at Elements (bundle.js:15364:30)
+    at Suspense (<anonymous>)
+    at App (bundle.js:140917:51)
+    at AuthProvider (bundle.js:149668:3)
+    at QueryClientProvider (bundle.js:115607:21)
+    at Router (bundle.js:120372:15)
+    at BrowserRouter (bundle.js:118272:5)
+bundle.js:173139 [DEBUG] [ProgramCard] Rendering card for program "Test Program" (ID: 68945a389db38950cdcaf985). isEnrolled: false
+﻿
+
