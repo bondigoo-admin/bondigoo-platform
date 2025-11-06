@@ -206,7 +206,7 @@ const SearchableListSelector = ({
           </div>
 
          {isDropdownOpen && (
-            <div className="absolute z-10 w-full mt-1 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg max-h-60 overflow-auto animate-fadeIn">
+            <div className="w-full mt-1 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg max-h-60 overflow-auto animate-fadeIn">
               {isLoading ? (
                 <div className="p-4 flex items-center justify-center text-sm text-gray-500 dark:text-gray-400">
                   <Loader2 className="h-4 w-4 mr-2 animate-spin" />

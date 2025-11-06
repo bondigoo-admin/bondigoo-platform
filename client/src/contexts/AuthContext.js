@@ -25,36 +25,84 @@ const AuthProvider = ({ children }) => {
   const [coachData, setCoachData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [authData, setAuthData] = useState(null);
-  const [token, setToken] = useState(localStorage.getItem('token')); // Always use localStorage
+  const [token, setToken] = useState(null); // Initial state is null, will be checked from localStorage
 
-  // Step 1: Your original 'checkAuthStatus' logic is moved here and wrapped in useCallback.
-  // This preserves ALL of your original code, including the localStorage check.
- const checkAuthStatus = useCallback(async () => {
-    logger.info('[AuthContext] >>>>>>>>>> checkAuthStatus RUNNING...');
-    setLoading(true);
+  const logout = useCallback(async () => {
+    logger.warn('[AuthContext] Logout function initiated', new Error('Logout Trace'));
     try {
-      const token = localStorage.getItem('token'); // Always use localStorage
-      const storedUserString = localStorage.getItem('user'); // Always use localStorage
-      const storedUser = storedUserString ? JSON.parse(storedUserString) : null;
+      try {
+        await apiLogout();
+      } catch (e) {
+        logger.warn('[AuthContext] Server logout failed, proceeding with client-side cleanup', e);
+      }
+      
+      // Clear all potential storage locations.
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+      sessionStorage.removeItem('token');
+      sessionStorage.removeItem('user');
+      
+      setUser(null);
+      setIsAuthenticated(false);
+      setUserRole(null);
+      setUserEmail(null);
+      setUserId(null);
+      
+      setNotifications([]);
+      setLiveSessionRequests([]);
+      setToken(null);
+      delete api.defaults.headers.common['Authorization'];
+      
+    } catch (error) {
+      logger.error('[AuthContext] Logout process failed:', error);
+      // Ensure local state is cleared even if server request fails
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+      sessionStorage.removeItem('token');
+      sessionStorage.removeItem('user');
+      setUser(null);
+      setIsAuthenticated(false);
+      setUserRole(null);
+      setUserEmail(null);
+      setUserId(null);
+      
+      setNotifications([]);
+      setLiveSessionRequests([]);
+      setToken(null);
+      delete api.defaults.headers.common['Authorization'];
+   } finally {
+        // Add this block to ensure invalidation happens even if server logout fails
+        logger.info('[AuthContext] Invalidating activeAnnouncements query on logout.');
+        await queryClient.invalidateQueries('activeAnnouncements');
+    }
+  }, [queryClient]);
 
-      if (token && storedUser) {
-        // YOUR ORIGINAL LOGIC - PRESERVED
-        setUser(storedUser);
-        setIsAuthenticated(true);
-        setUserRole(storedUser.role);
-        setUserEmail(storedUser.email);
-        setUserId(storedUser.id);
-        api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-        logger.info('[AuthContext] >>>>>>>>>> checkAuthStatus successfully restored user from storage.');
-      } else if (token) {
-        // YOUR ORIGINAL SERVER FETCH LOGIC - PRESERVED
-        api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+
+  // **REFACTORED LOGIC**
+  // This single useEffect hook now handles all initial authentication logic.
+  useEffect(() => {
+    const checkAuthStatus = async () => {
+      logger.info('[AuthContext] Verifying authentication status...');
+      const storedToken = localStorage.getItem('token');
+
+      if (!storedToken) {
+        // This is the normal, expected state for a logged-out user. Not an error.
+        logger.info('[AuthContext] No token found. Setting application to public/unauthenticated state.');
+        setLoading(false);
+        return; // Exit early, leaving the state as unauthenticated.
+      }
+      
+      // We have a token. Let's try to use it.
+      api.defaults.headers.common['Authorization'] = `Bearer ${storedToken}`;
+      setToken(storedToken);
+
+      try {
         const response = await api.get('/users/me');
         const userData = response.data;
         let finalUserData = { ...userData };
 
         if (userData.role === 'coach' && (userData.id || userData._id)) {
-          try {
+           try {
               const coachId = userData.id || userData._id;
               const coachResponse = await api.get(`/coaches/${coachId}`);
               const coachProfile = coachResponse.data;
@@ -65,62 +113,31 @@ const AuthProvider = ({ children }) => {
                       finalUserData.coachProfilePicture = coachProfile.profilePicture;
                   }
               }
-              logger.info(`[AuthContext] >>>>>>>>>> checkAuthStatus SUCCESSFULLY fetched coach profile from server.`);
+              logger.info(`[AuthContext] Successfully fetched coach profile during auth check.`);
           } catch (err) {
-              logger.error(`[AuthContext] >>>>>>>>>> checkAuthStatus FAILED to fetch coach profile from server.`, { error: err.message });
+              logger.error(`[AuthContext] Failed to fetch coach profile during auth check.`, { error: err.message });
           }
         }
-        
+
         setUser(finalUserData);
         setIsAuthenticated(true);
         setUserRole(finalUserData.role);
         setUserEmail(finalUserData.email);
         setUserId(finalUserData.id);
-        
-        // Always persist to localStorage for cross-tab sessions.
-        localStorage.setItem('user', JSON.stringify(finalUserData)); // Persist fully hydrated user
-        logger.info(`[AuthContext] >>>>>>>>>> checkAuthStatus successfully hydrated user from server.`);
-      } else {
-        throw new Error("No token found.");
-      }
-    } catch (error) {
-      logger.error('[AuthContext] >>>>>>>>>> checkAuthStatus FAILED. Clearing session.', { message: error.message });
-      setUser(null);
-      setIsAuthenticated(false);
-      setUserId(null);
-      setCoachData(null);
-      setToken(null);
-      localStorage.removeItem('token');
-      localStorage.removeItem('user');
-      sessionStorage.removeItem('token'); // Keep cleaning sessionStorage for users migrating from old version
-      sessionStorage.removeItem('user');
-      delete api.defaults.headers.common['Authorization'];
-    } finally {
-      setLoading(false);
-      logger.info('[AuthContext] >>>>>>>>>> checkAuthStatus FINISHED.');
-    }
-  }, []);
+        localStorage.setItem('user', JSON.stringify(finalUserData));
+        logger.info('[AuthContext] Token is valid. User session established successfully.');
 
- useEffect(() => {
-    const token = localStorage.getItem('token'); // Always use localStorage
-    setToken(token);
-    logger.debug('[AuthContext] Current token from storage:', token);
-    const storedUserString = localStorage.getItem('user'); // Always use localStorage
-    const storedUser = storedUserString ? JSON.parse(storedUserString) : null;
-    
-    if (token && storedUser) {
-      setUser(storedUser);
-      setIsAuthenticated(true);
-      setUserRole(storedUser.role);
-      setUserEmail(storedUser.email);
-      setUserId(storedUser.id);
-    }
-  }, []);
-  
- useEffect(() => {
-    // This effect now correctly calls the function defined above on initial mount.
+      } catch (error) {
+        // This is the "reset mechanism": the token was invalid or expired.
+        logger.warn('[AuthContext] Token validation failed. It might be expired or invalid. Clearing session.', { message: error.message });
+        await logout(); // Re-use the logout function for a clean reset.
+      } finally {
+        setLoading(false);
+      }
+    };
+
     checkAuthStatus();
-  }, [checkAuthStatus]);
+  }, [logout]); // We include logout as a dependency because we call it.
 
   useEffect(() => {
     const handleActivity = () => setLastActivity(Date.now());
@@ -141,12 +158,10 @@ const AuthProvider = ({ children }) => {
   }, []);
 
   const addNotification = useCallback((notification) => {
-    //logger.info('[AuthContext] Adding notification:', notification);
     setNotifications(prev => [notification, ...prev]);
   }, []);
 
   const markNotificationAsRead = useCallback((notificationId) => {
-    //logger.info('[AuthContext] Marking notification as read:', notificationId);
     setNotifications(prev => 
       prev.map(notif => 
         notif.id === notificationId ? { ...notif, read: true } : notif
@@ -155,12 +170,10 @@ const AuthProvider = ({ children }) => {
   }, []);
 
   const deleteNotification = useCallback((notificationId) => {
-    //logger.info('[AuthContext] Deleting notification:', notificationId);
     setNotifications(prev => prev.filter(notif => notif.id !== notificationId));
   }, []);
 
   const requestLiveSession = useCallback((requestId) => {
-    //logger.info('[AuthContext] Starting live session for request ID:', requestId);
     setLiveSessionRequests(prev => prev.filter(request => request.id !== requestId));
   }, []);
 
@@ -171,7 +184,6 @@ const AuthProvider = ({ children }) => {
     }
 
     try {
-      // Always use localStorage to ensure session persists across tabs.
       const storage = localStorage;
       logger.info(`[AuthContext] Storing session in localStorage for cross-tab compatibility.`);
 
@@ -198,7 +210,6 @@ const AuthProvider = ({ children }) => {
                 if (coachProfile.profilePicture) {
                     userToSet.coachProfilePicture = coachProfile.profilePicture;
                 }
-                // Add the full coach profile to the user object in storage
                 userToSet.coachProfile = coachProfile; 
             }
         } catch (err) {
@@ -215,9 +226,6 @@ const AuthProvider = ({ children }) => {
       setUserId(userToSet._id);
       logger.info('[AuthContext] User authenticated. Final User ID:', userToSet._id, 'Role:', userToSet.role);
 
-      logger.info(`[AuthContext] >>>>>>>>>> AUTH CONTEXT LOGIN COMPLETE. User object is now set.`, { user: userToSet });
-      logger.info(`[AuthContext] >>>>>>>>>> AUTH CONTEXT LOGIN COMPLETE. Token in state is now: ${loginData.token}`);
-
       logger.info('[AuthContext] Invalidating activeAnnouncements query on login.');
       await queryClient.invalidateQueries('activeAnnouncements');
 
@@ -230,20 +238,18 @@ const AuthProvider = ({ children }) => {
 
     } catch (error) {
       logger.error('[AuthContext] Error during login user fetch:', error);
-      localStorage.removeItem('token'); // Clear both on failure just in case
+      localStorage.removeItem('token');
       sessionStorage.removeItem('token');
       delete api.defaults.headers.common['Authorization'];
       throw error;
     }
-  }, []);
+  }, [queryClient]);
 
   const registerNewCoach = useCallback(async (coachData) => {
     try {
-      //logger.info('[AuthContext] Registering new coach');
       const result = await registerCoach(coachData);
       login(result.user);
       setCoachData(result.coachData);
-      //logger.info('[AuthContext] New coach registered successfully');
       return result;
     } catch (error) {
       logger.error('[AuthContext] Coach registration failed:', error);
@@ -253,14 +259,12 @@ const AuthProvider = ({ children }) => {
 
   const updateCoach = useCallback(async (coachProfileData) => {
     try {
-      //logger.info('[AuthContext] Updating coach profile:', coachProfileData);
       const updatedCoachData = await updateCoachProfile(coachProfileData);
       setCoachData(updatedCoachData);
       setUser(prevUser => ({
         ...prevUser,
         ...updatedCoachData.user
       }));
-      //logger.info('[AuthContext] Coach profile updated successfully');
       return updatedCoachData;
     } catch (error) {
       logger.error('[AuthContext] Failed to update coach profile:', error);
@@ -270,65 +274,14 @@ const AuthProvider = ({ children }) => {
 
   const updateCoachAvailabilityStatus = useCallback(async (availabilityData) => {
     try {
-      //logger.info('[AuthContext] Updating coach availability:', availabilityData);
       const updatedAvailability = await updateCoachAvailability(availabilityData);
       setCoachData(prev => ({ ...prev, availability: updatedAvailability }));
-      //logger.info('[AuthContext] Coach availability updated successfully');
       return updatedAvailability;
     } catch (error) {
       logger.error('[AuthContext] Failed to update coach availability:', error);
       throw error;
     }
   }, []);
-
-const logout = useCallback(async () => {
-    logger.warn('[AuthContext] Logout function initiated', new Error('Logout Trace'));
-    try {
-      // The socket logout event is now emitted from the component (e.g., Header)
-      try {
-        await apiLogout();
-      } catch (e) {
-        logger.warn('[AuthContext] Server logout failed, proceeding with client-side cleanup', e);
-      }
-      
-      // Clear all potential storage locations.
-      localStorage.removeItem('token');
-      localStorage.removeItem('user');
-      sessionStorage.removeItem('token');
-      sessionStorage.removeItem('user');
-      
-      setUser(null);
-      setIsAuthenticated(false);
-      setUserRole(null);
-      setUserEmail(null);
-     setUserId(null);
-      
-      setNotifications([]);
-      setLiveSessionRequests([]);
-      setToken(null);
-      
-    } catch (error) {
-      logger.error('[AuthContext] Logout process failed:', error);
-      // Ensure local state is cleared even if server request fails
-      localStorage.removeItem('token');
-      localStorage.removeItem('user');
-      sessionStorage.removeItem('token');
-      sessionStorage.removeItem('user');
-      setUser(null);
-      setIsAuthenticated(false);
-      setUserRole(null);
-     setUserEmail(null);
-      setUserId(null);
-      
-      setNotifications([]);
-      setLiveSessionRequests([]);
-      setToken(null);
-   } finally {
-        // Add this block to ensure invalidation happens even if server logout fails
-        logger.info('[AuthContext] Invalidating activeAnnouncements query on logout.');
-        await queryClient.invalidateQueries('activeAnnouncements');
-    }
-  }, [queryClient]);
 
   const contextValue = useMemo(() => ({
     user,

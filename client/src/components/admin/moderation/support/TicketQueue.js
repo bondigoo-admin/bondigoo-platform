@@ -6,7 +6,7 @@ import { Badge } from '../../../ui/badge.tsx';
 import { Skeleton } from '../../../ui/skeleton.jsx';
 import { formatDistanceToNow } from 'date-fns';
 import { Button } from '../../../ui/button.tsx';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Bug } from 'lucide-react';
 
 const TicketQueue = ({ onTicketSelect, selectedTicketId }) => {
     const { t } = useTranslation(['admin', 'common']);
@@ -36,8 +36,11 @@ const TicketQueue = ({ onTicketSelect, selectedTicketId }) => {
                             onClick={() => onTicketSelect(ticket._id)} 
                             className={`p-3 border rounded-lg cursor-pointer transition-colors ${selectedTicketId === ticket._id ? 'bg-muted dark:bg-zinc-800' : 'hover:bg-muted/50'}`}
                         >
-                            <div className="flex justify-between items-start">
-                                <p className="font-semibold pr-2">{ticket.subject}</p>
+                           <div className="flex justify-between items-start">
+                                <p className="font-semibold pr-2 flex items-center">
+                                    {ticket.ticketType === 'feedback_report' && <Bug className="h-4 w-4 mr-2 text-muted-foreground" />}
+                                    {ticket.subject}
+                                </p>
                                 <Badge variant={getStatusVariant(ticket.status)} className="flex-shrink-0">{ticket.status}</Badge>
                             </div>
                             <div className="text-sm text-muted-foreground mt-2 flex justify-between">
@@ -74,7 +77,10 @@ const TicketQueue = ({ onTicketSelect, selectedTicketId }) => {
                                     onClick={() => onTicketSelect(ticket._id)} 
                                     className={`cursor-pointer transition-colors hover:bg-muted/50 ${selectedTicketId === ticket._id ? 'bg-muted dark:bg-zinc-800' : ''}`}
                                 >
-                                    <TableCell className="font-medium">{ticket.subject}</TableCell>
+                                    <TableCell className="font-medium flex items-center">
+                                        {ticket.ticketType === 'feedback_report' && <Bug className="h-4 w-4 mr-2 text-muted-foreground" />}
+                                        {ticket.subject}
+                                    </TableCell>
                                     <TableCell>{ticket.user?.firstName} {ticket.user?.lastName}</TableCell>
                                     <TableCell><Badge variant={getStatusVariant(ticket.status)}>{ticket.status}</Badge></TableCell>
                                     <TableCell>{formatDistanceToNow(new Date(ticket.updatedAt), { addSuffix: true })}</TableCell>

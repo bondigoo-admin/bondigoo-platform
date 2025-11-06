@@ -14,7 +14,12 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSepara
 import { Progress } from '../ui/progress.jsx';
 import CustomVideoPlayer from '../player/CustomVideoPlayer.js';
 
-const ProgramCard = ({ program, view = 'client', onEdit, onDelete, progress = 0, isEnrolled = false }) => {
+const ProgramCard = ({ program, view = 'client', onEdit, onDelete, progress = 0, isEnrolled = false, ...rest }) => {
+  useEffect(() => {
+    if (Object.keys(rest).length > 0) {
+      logger.warn('[ProgramCard Diagnostic] Received unexpected props:', rest);
+    }
+  }, [rest]);
   logger.debug(`[ProgramCard] Rendering card for program "${program.title}" (ID: ${program._id}). isEnrolled: ${isEnrolled}`);
   const { t, i18n } = useTranslation(['programs', 'common']);
   const navigate = useNavigate();

@@ -10,6 +10,9 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../ui/
 import LearningOutcomeFilter from './LearningOutcomeFilter';
 import AuthorFilter from './AuthorFilter';
 
+// A list of filter IDs that require special styling for dropdowns to be visible
+const dropdownFilters = ['learningOutcomes', 'author', 'categories', 'language', 'skillLevel'];
+
 // Redesigned PriceFilter with styling consistent with FilterSidebar.js
 const PriceFilter = ({ value, onChange }) => {
     const { t } = useTranslation('programs');
@@ -146,7 +149,7 @@ const ProgramsFilterSidebar = ({ filters, onFilterChange }) => {
                     <AccordionItem 
                         key={filter.id} 
                         value={filter.id}
-                        className={filter.id === 'learningOutcomes' ? 'relative data-[state=open]:z-10' : ''}
+                        className={dropdownFilters.includes(filter.id) ? 'relative data-[state=open]:z-10' : ''}
                     >
                         <AccordionTrigger className="text-base font-medium hover:no-underline">
                             <div className="flex items-center gap-2">
@@ -164,7 +167,7 @@ const ProgramsFilterSidebar = ({ filters, onFilterChange }) => {
                                  )}
                             </div>
                         </AccordionTrigger>
-                       <AccordionContent className={filter.id === 'learningOutcomes' ? 'data-[state=open]:overflow-visible' : ''}>
+                       <AccordionContent className={dropdownFilters.includes(filter.id) ? 'data-[state=open]:overflow-visible' : ''}>
                             <FilterComponent 
                                 {...componentProps} 
                                 value={value} 

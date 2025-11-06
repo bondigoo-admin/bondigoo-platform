@@ -26,6 +26,7 @@ import GlobalAnnouncementBanner from './components/GlobalAnnouncementBanner';
 import AppealModal from './components/shared/AppealModal';
 import SubFooter from './components/layouts/SubFooter'; 
 import PublicLayout from './components/layouts/PublicLayout';
+import FeedbackWidget from './components/shared/FeedbackWidget';
 
 const Home = React.lazy(() => import('./components/Home'));
 const HowItWorks = React.lazy(() => import('./components/HowItWorks'));
@@ -356,6 +357,7 @@ const AppContent = () => {
         />
         )}
       </main>
+       <FeedbackWidget />
       <Toaster
         position="top-center"
         containerStyle={{

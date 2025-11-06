@@ -528,3 +528,12 @@ export const useResolveVerification = () => {
         },
     });
 };
+
+export const useSubmitSupportTicket = () => {
+    const queryClient = useQueryClient();
+    return useMutation(adminAPI.submitSupportTicket, {
+      onSuccess: () => {
+        queryClient.invalidateQueries('adminSupportTickets');
+      },
+    });
+};
