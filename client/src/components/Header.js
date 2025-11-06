@@ -710,10 +710,8 @@ if (!isLaunched) {
             <LaunchSignupModal isOpen={isSignupModalOpen} onOpenChange={setIsSignupModalOpen} onApplyCoachClick={handleApplyCoachClick} />
             <CoachApplicationModal isOpen={isCoachModalOpen} onOpenChange={setIsCoachModalOpen} onSuccess={() => setIsCoachModalOpen(false)} />
             <header className="fixed top-0 z-50 h-[65px] w-full px-4 transition-all duration-300 md:px-6">
-                <div className="mx-auto flex h-full items-center justify-between">
-                    <Link to="/" className="block">
-                      <img src={logo} alt="Bondigoo Logo" className="h-7 w-auto" />
-                  </Link>
+                <div className="mx-auto flex h-full items-center justify-end">
+                    {/* The logo has been removed from here to declutter the pre-launch view */}
                     <div className="flex items-center">
                         <Sheet open={isMobileMenuOpen} onOpenChange={setMobileMenuOpen}>
                             <SheetTrigger asChild>
@@ -728,7 +726,17 @@ if (!isLaunched) {
                             </SheetTrigger>
                             <SheetContent side="right" className="p-0 sm:max-w-xs">
                                 <div className="flex h-full flex-col">
-                                    <div className="flex-grow overflow-y-auto px-4 pt-8 pb-4">
+                                    {/* The logo is now placed at the top of the slide-out menu */}
+                                    <div className="border-b p-4">
+                                        <Link
+                                            to="/"
+                                            className="flex items-center"
+                                            onClick={() => setMobileMenuOpen(false)}
+                                        >
+                                            <img src={logo} alt="Bondigoo Logo" className="h-7 w-auto" />
+                                        </Link>
+                                    </div>
+                                    <div className="flex-grow overflow-y-auto px-4 pt-4 pb-4">
                                         <nav className="flex flex-col gap-1">
                                             <NavLink
                                                 to="/how-it-works"
@@ -772,7 +780,7 @@ return (
       <div className="mx-auto flex h-full items-center justify-between">
         <div className="flex items-center gap-4">
           <Link to="/" className="block" onClick={() => { setMobileMenuOpen(false); setDesktopMenuOpen(false); }}>
-            <img src={logo} alt="Bondigoo Logo" className="h-14 w-auto" />
+            <img src={logo} alt="Bondigoo Logo" className="h-10 w-auto" />
         </Link>
         </div>
 
