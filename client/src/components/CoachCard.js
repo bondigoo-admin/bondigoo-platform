@@ -201,14 +201,15 @@ const renderPrice = () => {
     </TooltipProvider>
   );
 
-  if (view === 'list') {
+if (view === 'list') {
     return (
+      <TooltipProvider>
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }} className="group">
             <div className="flex flex-col sm:flex-row items-stretch gap-4 p-3 border rounded-lg hover:shadow-lg transition-shadow duration-300 bg-card dark:border-slate-800 w-full">
                 <div className="relative flex-shrink-0 w-full sm:w-32 h-32 sm:h-auto self-start cursor-pointer" onClick={handleViewProfile}>
                     <img src={profilePictureUrl } alt={`${coach.user?.firstName || 'Coach'} ${coach.user?.lastName || ''}`} className="w-full h-full object-cover rounded-md transition-transform duration-300 ease-in-out group-hover:scale-105" />
                     <div className="absolute top-2 left-2 z-10">
-    <TooltipProvider><Tooltip><TooltipTrigger><div className={cn('h-3 w-3 rounded-full border-2 border-white dark:border-slate-900', statusInfo.color, coach.user?.status === 'online' && 'animate-pulse')} /></TooltipTrigger><TooltipContent><p>{statusInfo.text}</p></TooltipContent></Tooltip></TooltipProvider>
+   <Tooltip><TooltipTrigger><div className={cn('h-3 w-3 rounded-full border-2 border-white dark:border-slate-900', statusInfo.color, coach.user?.status === 'online' && 'animate-pulse')} /></TooltipTrigger><TooltipContent><p>{statusInfo.text}</p></TooltipContent></Tooltip>
 </div>
                 </div>
 
@@ -235,7 +236,8 @@ const renderPrice = () => {
                     <div className="w-full sm:w-full flex sm:flex-col gap-2">{isAuthenticated ? <>{renderConnectionButton()}{liveSessionButton}</> : <Button asChild className="w-full"><Link to={`/coach/${coachId}`}>{t('coachList:viewProfile', 'View Profile')}</Link></Button>}</div>
                 </div>
             </div>
-        </motion.div>
+       </motion.div>
+      </TooltipProvider>
     );
   }
 

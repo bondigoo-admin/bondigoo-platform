@@ -19,7 +19,7 @@ const formatTime = (seconds) => {
   return `${mm}:${ss}`;
 };
 
-const CustomVideoPlayer = ({ videoFile, onLessonComplete, previewMode = false, ...props }) => {
+const CustomVideoPlayer = ({ videoFile, onLessonComplete, previewMode = false, onEnablePip, onDisablePip, ...divProps }) => {
   const { url: videoUrl, thumbnail: thumbnailUrl, trimStart = 0, trimEnd, width, height } = videoFile || {};
   // Refs for player and container elements
   const playerRef = useRef(null);
@@ -49,7 +49,6 @@ const CustomVideoPlayer = ({ videoFile, onLessonComplete, previewMode = false, .
   const [activeSubMenu, setActiveSubMenu] = useState(null);
   const [isPip, setIsPip] = useState(false);
   const [isChangingVolume, setIsChangingVolume] = useState(false);
-  const { onEnablePip, onDisablePip, ...divProps } = props;
 
    const playerWrapperStyle = useMemo(() => {
     if (width && height && height > 0) {

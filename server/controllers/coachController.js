@@ -3099,6 +3099,33 @@ exports.getAllParticipants = async (req, res) => {
     }
 };
 
+exports.getFeedbackAttachmentSignature = (req, res) => {
+  try {
+    const timestamp = Math.round((new Date()).getTime() / 1000);
+    const folder = `feedback_attachments/${req.user.id}`;
+
+    const paramsToSign = {
+      timestamp: timestamp,
+      upload_preset: 'feedback_attachments_preset',
+      folder: folder
+    };
+
+    const signature = cloudinary.utils.api_sign_request(paramsToSign, process.env.CLOUDINARY_API_SECRET);
+
+    res.json({
+      signature,
+      timestamp,
+      cloudName: process.env.CLOUDINARY_CLOUD_NAME,
+      apiKey: process.env.CLOUDINARY_API_KEY,
+      folder: folder,
+      upload_preset: 'feedback_attachments_preset'
+    });
+  } catch (error) {
+    logger.error('Error generating feedback attachment signature:', { error: error.message, stack: error.stack });
+    res.status(500).json({ message: 'Error generating signature', error: error.message });
+  }
+};
+
 module.exports = {
   registerCoach: exports.registerCoach,
   removeProfilePicture: exports.removeProfilePicture,
@@ -3150,4 +3177,5 @@ module.exports = {
   getAllSubmissions: exports.getAllSubmissions,
   getAllQA: exports.getAllQA,
   getAllParticipants: exports.getAllParticipants,
+  getFeedbackAttachmentSignature: exports.getFeedbackAttachmentSignature,
 };

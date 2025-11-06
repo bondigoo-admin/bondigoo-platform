@@ -130,7 +130,7 @@ const ServicesAndPricingTab = ({ coachId, coach, onTabChange, onLiveSessionClick
                 <ShieldAlert className="h-6 w-6 flex-shrink-0 mt-1" />
                 <div>
                     <h3 className="font-bold text-lg">{t('coachprofile:pricingNotVisibleTitle', 'Preise nicht sichtbar')}</h3>
-                    <p className="mt-1">{t('coachprofile:pricingNotVisibleDesc', 'Dieser Coach hat seine Preise so eingestellt, dass sie für Sie nicht sichtbar sind. Um die Preise zu sehen, müssen Sie möglicherweise ein registrierter Benutzer sein oder eine Verbindung zum Coach herstellen.')}</p>
+                    <p className="mt-1">{t('coachprofile:pricingNotVisibleDesc', 'Dieser Coach hat seine Preise so eingestellt, dass sie für Sie nicht sichtbar sind. Um die Preise zu sehen, müssen Sie eine Verbindung zum Coach herstellen.')}</p>
                 </div>
             </div>
         );

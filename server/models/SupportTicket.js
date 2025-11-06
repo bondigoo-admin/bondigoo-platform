@@ -21,10 +21,22 @@ const SupportTicketSchema = new mongoose.Schema({
   
 ticketType: { 
       type: String, 
-      enum: ['general_inquiry', 'technical_support', 'refund_request', 'safety_report', 'appeal'], 
+      enum: ['general_inquiry', 'technical_support', 'refund_request', 'safety_report', 'appeal', 'feedback_report'], 
       default: 'general_inquiry',
       index: true
   },
+  contextSnapshot: {
+    url: String,
+    browser: String,
+    screenResolution: String,
+    viewport: String,
+  },
+  attachments: [{
+    public_id: { type: String, required: true },
+    url: { type: String, required: true },
+    filename: { type: String },
+    resource_type: { type: String, default: 'image' }
+  }],
   auditLog: { type: mongoose.Schema.Types.ObjectId, ref: 'AuditLog', index: true },
   booking: { type: mongoose.Schema.Types.ObjectId, ref: 'Booking', index: true },
   payment: { type: mongoose.Schema.Types.ObjectId, ref: 'Payment', index: true },

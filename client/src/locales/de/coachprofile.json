@@ -58,6 +58,7 @@
   "reportUser": "Benutzer melden",
   "reportUserTitle": "Benutzer melden",
   "reportUserDesc": "Helfen Sie uns, das Problem zu verstehen. Was ist mit diesem Benutzer los?",
+  "pricingNotVisibleDesc": "Dieser Coach hat seine Preise so eingestellt, dass sie für Sie nicht sichtbar sind. Um die Preise zu sehen, müssen Sie eine Verbindung zum Coach herstellen.",
   "profileReportReasons": {
     "impersonation": "Identitätsdiebstahl oder gefälschtes Profil",
     "inappropriate_profile": "Unangemessenes Profilbild/Bio",

@@ -20,24 +20,28 @@ class SocketNotificationService {
     logger.info(`[SocketService] EMIT SUCCESS: Broadcasted event '${event}' to admin_room.`);
   }
   
- async addUser(userId, socketId) {
+async addUser(userId, socketId) {
     if (!userId) {
       logger.error('[SocketService] FAILED to add user: Invalid userId.', { userId, socketId });
       return;
     }
     const userIdStr = userId.toString();
     try {
-      // Check if this is the user's FIRST connection
       const sockets = await this.io.in(userIdStr).allSockets();
-      if (sockets.size === 1) { // This is the first socket to connect for this user
-        await User.findByIdAndUpdate(userIdStr, { status: 'online', lastStatusUpdate: new Date() });
+      if (sockets.size === 1) { // This is the user's FIRST connection
         this.broadcastUserStatus(userIdStr, 'online');
-        logger.info(`[SocketService] User ${userIdStr}'s FIRST connection detected. Status set to ONLINE.`);
+        logger.info(`[SocketService] User ${userIdStr}'s FIRST connection detected. Status broadcasted to ONLINE.`);
+        
+        // Fire-and-forget the database update, but log any potential errors.
+        User.findByIdAndUpdate(userIdStr, { status: 'online', lastStatusUpdate: new Date() })
+          .catch(dbError => {
+            logger.error(`[SocketService] Background DB update to ONLINE for user ${userIdStr} failed.`, { error: dbError.message });
+          });
       } else {
         logger.info(`[SocketService] User ${userIdStr} has another active connection. Total: ${sockets.size}. Status remains online.`);
       }
     } catch (error) {
-      logger.error(`[SocketService] Failed to set user ${userIdStr} status to online.`, { error: error.message });
+      logger.error(`[SocketService] Failed to check sockets for user ${userIdStr} to set status online.`, { error: error.message });
     }
   }
 

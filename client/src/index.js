@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { QueryClientProvider } from 'react-query';
-import { ReactQueryDevtools } from 'react-query/devtools';
 import { AuthProvider } from './contexts/AuthContext';
 import { queryClient } from './config/queryClient';
 import './index.css';
@@ -11,6 +10,7 @@ import reportWebVitals from './reportWebVitals';
 import { logger } from './utils/logger';
 
 console.log(">>> BATTLEDOME: React App JS bundle is executing. <<<");
+console.log(">>> BATTLEDOME V2: React App JS bundle is executing as correct user. <");
 
 logger.info('[LOG] index.js: SCRIPT EXECUTION STARTED.');
 
