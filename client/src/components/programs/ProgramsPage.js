@@ -82,7 +82,7 @@ const generateInitialFilters = () => {
 };
 
 const ProgramsPage = () => {
-  const { t, i18n } = useTranslation(['programs', 'common']);
+  const { t, i18n } = useTranslation(['programs', 'common', 'pageTitles']);
   const [filters, setFilters] = useState(generateInitialFilters());
   const [view, setView] = useState('grid');
   const [isDesktopSidebarVisible, setIsDesktopSidebarVisible] = useState(true);
@@ -100,6 +100,10 @@ const ProgramsPage = () => {
     if (!enrollments) return new Set();
     return new Set(enrollments.map(e => e.program._id));
   }, [enrollments]);
+
+  useEffect(() => {
+  document.title = t('pageTitles:explorePrograms', 'Explore Programs - Bondigoo');
+  }, [t]);
 
   useEffect(() => {
     document.querySelector('main')?.scrollTo(0, 0);

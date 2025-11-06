@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
@@ -93,20 +93,23 @@ BenefitCard.propTypes = {
 
 const HowItWorks = () => {
   const [userType, setUserType] = useState('client');
-  const { t } = useTranslation('home');
+  const { t } = useTranslation(['home', 'pageTitles']);
   const isLaunched = process.env.REACT_APP_LAUNCHED === 'true';
+
+  useEffect(() => {
+  document.title = t('pageTitles:howItWorks', 'How It Works - Bondigoo');
+  }, [t]);
 
   logger.info('[HowItWorks] Rendering page with active userType:', userType);
 
   return (
     <div className="bg-gradient-subtle text-foreground">
-      {/* CHANGE: Replaced continuous CSS animation with a controlled Framer Motion animation */}
       <motion.section 
         className="relative text-center text-primary-foreground dark:text-foreground overflow-hidden bg-gradient-animated bg-size-400"
         variants={gradientAnimation}
         initial="initial"
         whileInView="animate" // Animate only when in view
-        viewport={{ once: true, amount: 0.2 }} // Animate only ONCE
+        viewport={{ once: true }}
       >
         <div className="relative isolate container mx-auto px-4 py-24 sm:py-32 lg:py-40">
             <motion.div 

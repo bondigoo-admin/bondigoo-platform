@@ -13,7 +13,7 @@ import { logger } from '../utils/logger';
 import LoadingSpinner from './LoadingSpinner';
 
 const UserProfile = ({ userId: propUserId, isOwnProfile: propIsOwnProfileFromNav }) => {
-  const { t } = useTranslation(['common', 'userprofile']);
+  const { t } = useTranslation(['common', 'userprofile', 'pageTitles']);
   const { id: paramId } = useParams();
   const { user: loggedInUser, isAuthenticated, loading: authLoading } = useAuth();
   
@@ -24,7 +24,14 @@ const UserProfile = ({ userId: propUserId, isOwnProfile: propIsOwnProfileFromNav
   const [isOwnProfileState, setIsOwnProfileState] = useState(false);
   const navigate = useNavigate();
 
-  // The logic for determining the ID is moved inside the useEffect for clarity and safety.
+  useEffect(() => {
+  if (profile?.firstName) {
+    const userName = `${profile.firstName} ${profile.lastName}`;
+    document.title = t('pageTitles:userProfile', '{{userName}} - Bondigoo', { userName });
+  } else {
+    document.title = t('pageTitles:loadingProfile', 'Loading Profile... - Bondigoo');
+  }
+}, [profile, t]);
   
   useEffect(() => {
     const determineProfileIdToFetch = () => {

@@ -89,8 +89,8 @@ module.exports = {
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
-        "gradient-shift": "gradient-shift 15s ease-in-out infinite",
-        blob: "blob 15s infinite ease-in-out",
+        "gradient-shift": "gradient-shift 15s ease-in-out",
+        blob: "blob 15s ease-in-out",
       },
       spacing: {
         'header-height': 'var(--header-height, 65px)',

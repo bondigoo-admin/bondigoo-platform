@@ -1,0 +1,14 @@
+{
+    "home": "Plateforme de coaching pour la croissance - Bondigoo",
+    "howItWorks": "Comment ça marche - Bondigoo",
+    "login": "Connexion - Bondigoo",
+    "signup": "Créer votre compte - Bondigoo",
+    "findACoach": "Trouver un coach - Bondigoo",
+    "coachProfile": "{{coachName}} - Bondigoo",
+    "userProfile": "{{userName}} - Bondigoo",
+    "loadingProfile": "Chargement du profil... - Bondigoo",
+    "userDashboard": "Tableau de bord - Bondigoo",
+    "coachDashboard": "Tableau de bord du coach - Bondigoo",
+    "explorePrograms": "Découvrir les programmes - Bondigoo",
+    "programPlayer": "{{programName}} - Bondigoo"
+}

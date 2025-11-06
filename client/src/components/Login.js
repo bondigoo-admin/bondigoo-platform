@@ -19,7 +19,11 @@ const Login = () => {
   const [rememberMe, setRememberMe] = useState(false);
   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
-  const { t } = useTranslation(['common', 'login', 'header']);
+  const { t } = useTranslation(['common', 'login', 'header', 'pageTitles']);
+
+  useEffect(() => {
+  document.title = t('pageTitles:login', 'Login - Bondigoo');
+}, [t]);
 
  useEffect(() => {
     const header = document.querySelector('.main-header');
