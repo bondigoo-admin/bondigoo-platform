@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
 import { programKeys } from '../../hooks/usePrograms';
 import { useParams, Navigate, useSearchParams } from 'react-router-dom';
@@ -12,6 +13,7 @@ import { Loader2 } from 'lucide-react';
 
 const ProgramPlayer = () => {
   const { programId } = useParams();
+  const { t } = useTranslation(['pageTitles']);
   const { user } = useAuth();
   const queryClient = useQueryClient();
 
@@ -22,6 +24,12 @@ const ProgramPlayer = () => {
       }
     };
   }, [user, queryClient]);
+
+  useEffect(() => {
+    if (programForProvider?.name) {
+        document.title = t('pageTitles:programPlayer', '{{programName}} - Bondigoo', { programName: programForProvider.name });
+    }
+}, [programForProvider, t]);
 
   const { data: enrollments, isLoading: isLoadingEnrollments } = useUserEnrollments(user?._id);
   const { data: publicProgramData, isLoading: isLoadingPublicProgram } = useProgramLandingPage(programId);
