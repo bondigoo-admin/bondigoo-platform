@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
@@ -23,7 +23,11 @@ const staggerContainer = {
 };
 
 const SignupSelection = () => {
-  const { t } = useTranslation('signup');
+  const { t } = useTranslation(['signup', 'pageTitles']);
+
+  useEffect(() => {
+  document.title = t('pageTitles:signup', 'Create Your Account - Bondigoo');
+  }, [t]);
 
 const SelectionCard = ({ icon, title, description, benefits, linkTo, ctaText }) => (
     <motion.div variants={fadeInUp} className="h-full">

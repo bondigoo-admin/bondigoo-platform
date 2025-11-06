@@ -1,5 +1,7 @@
 import React, { useContext, useState, useEffect, useMemo, useRef } from 'react';
 import { useNavigate, Link, NavLink, useLocation } from 'react-router-dom';
+import logo from '../assets/logo.svg';
+import logomark from '../assets/logomark.svg';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { AuthContext } from '../contexts/AuthContext';
@@ -564,12 +566,13 @@ case 'coach':
 
     return (
       <div className="flex h-full w-full flex-col">
-        <div className="p-4 border-b">
-          <Link to="/" className="flex items-center gap-2 text-2xl font-bold text-[#3498db] dark:text-[#60a5fa] focus:outline-none" onClick={onLinkClick}>
-              <University className="h-7 w-7" />
-              <span>{t('header:logo', 'CoachingPlatform')}</span>
-          </Link>
-        </div>
+    
+<div className="p-4 border-b">
+  <Link to="/" className="flex items-center gap-3" onClick={onLinkClick}>
+    <img src={logomark} alt="Bondigoo Icon" className="h-7 w-7" />
+  </Link>
+</div>
+   
         
         <div className="flex-grow overflow-y-auto px-4 py-2">
           <nav className="flex flex-col gap-1">
@@ -708,14 +711,9 @@ if (!isLaunched) {
             <CoachApplicationModal isOpen={isCoachModalOpen} onOpenChange={setIsCoachModalOpen} onSuccess={() => setIsCoachModalOpen(false)} />
             <header className="fixed top-0 z-50 h-[65px] w-full px-4 transition-all duration-300 md:px-6">
                 <div className="mx-auto flex h-full items-center justify-between">
-                    <Link to="/" className={cn(
-                        "text-2xl font-bold transition-colors focus:outline-none",
-                        isOverLightBg
-                            ? "text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
-                            : "text-white/90 hover:text-white"
-                    )}>
-                        <span>bondigoo</span>
-                    </Link>
+                    <Link to="/" className="block">
+                      <img src={logo} alt="Bondigoo Logo" className="h-7 w-auto" />
+                  </Link>
                     <div className="flex items-center">
                         <Sheet open={isMobileMenuOpen} onOpenChange={setMobileMenuOpen}>
                             <SheetTrigger asChild>
@@ -773,10 +771,9 @@ return (
     <header className="relative z-50 h-[65px] w-full border-b bg-gradient-subtle px-4 transition-colors md:px-6">
       <div className="mx-auto flex h-full items-center justify-between">
         <div className="flex items-center gap-4">
-           <Link to="/" className="flex items-center gap-2 text-2xl font-bold text-[#3498db] dark:text-[#60a5fa] focus:outline-none" onClick={() => { setMobileMenuOpen(false); setDesktopMenuOpen(false); }}>
-              <University className="h-7 w-7 lg:hidden" />
-              <span className="hidden lg:block">{t('header:logo')}</span>
-            </Link>
+          <Link to="/" className="block" onClick={() => { setMobileMenuOpen(false); setDesktopMenuOpen(false); }}>
+            <img src={logo} alt="Bondigoo Logo" className="h-14 w-auto" />
+        </Link>
         </div>
 
          <div className="flex items-center gap-2">

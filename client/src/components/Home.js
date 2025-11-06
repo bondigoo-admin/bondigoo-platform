@@ -41,7 +41,19 @@ const staggerChildren = {
   visible: { opacity: 1, transition: { staggerChildren: 0.2 } }
 };
 
-// --- PRE-LAUNCH COMPONENTS ---
+const gradientAnimation = {
+    initial: {
+        backgroundPosition: '0% 50%',
+    },
+    animate: {
+        backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'],
+        transition: {
+            duration: 15,
+            ease: 'linear',
+            repeat: Infinity, 
+        }
+    }
+};
 
 const PreLaunchFeatureCard = ({ icon, title, description }) => (
     <motion.div variants={fadeInUp}> <Card className="h-full text-center transition-transform duration-300 hover:-translate-y-2 hover:shadow-xl dark:bg-card"> <CardHeader className="items-center pb-4"> <div className="flex h-20 w-20 items-center justify-center rounded-full bg-primary/10"> {React.cloneElement(icon, { className: "h-10 w-10 text-primary" })} </div> </CardHeader> <CardContent> <h3 className="text-xl font-bold">{title}</h3> <p className="mt-2 text-muted-foreground">{description}</p> </CardContent> </Card> </motion.div>
@@ -133,7 +145,14 @@ const PreLaunchHome = () => {
         <div className="flex flex-col bg-transparent">
             <LaunchSignupModal isOpen={isSignupModalOpen} onOpenChange={setIsSignupModalOpen} onApplyCoachClick={handleApplyCoachClick} />
             <CoachApplicationModal isOpen={isCoachModalOpen} onOpenChange={setIsCoachModalOpen} onSuccess={() => setIsCoachModalOpen(false)} />
-            <section id="prelaunch-hero" className="relative text-center text-primary-foreground dark:text-foreground overflow-hidden bg-gradient-animated bg-size-400 animate-gradient-shift">
+            <motion.section 
+                id="prelaunch-hero" 
+                className="relative text-center text-primary-foreground dark:text-foreground overflow-hidden bg-gradient-animated bg-size-400"
+                variants={gradientAnimation}
+                initial="initial"
+                whileInView="animate"
+                viewport={{ once: true }}
+              >
                 <div className="relative isolate container mx-auto px-4 py-32 sm:py-40 lg:py-72">
                     <motion.div className="mx-auto max-w-4xl" initial="hidden" animate={mounted ? "visible" : "hidden"} variants={staggerChildren}>
                         <motion.div className="mb-8 flex flex-col gap-1" variants={fadeInUp}>
@@ -152,7 +171,7 @@ const PreLaunchHome = () => {
                         </motion.div>
                     </motion.div>
                 </div>
-            </section>
+            </motion.section>
             
             <div className="-mt-[100px] sm:-mt-[150px] lg:-mt-[200px] relative z-10">
                 <ShapeDivider variants={fadeInUp} />
@@ -274,7 +293,7 @@ const FeaturedCoachesSection = ({ onInitiateRequest }) => {
 FeaturedCoachesSection.propTypes = { onInitiateRequest: PropTypes.func.isRequired };
 
 const LaunchedHome = () => {
-  const { t } = useTranslation('home');
+  const { t } = useTranslation(['home', 'pageTitles']);
   const { t: tSignup } = useTranslation('signup');
   const { isAuthenticated, user, userRole } = useAuth();
   const mounted = useMounted();
@@ -282,6 +301,10 @@ const LaunchedHome = () => {
   const [selectedCoach, setSelectedCoach] = useState(null);
   const [isRequestModalOpen, setIsRequestModalOpen] = useState(false);
   const [isWaitingRoomOpen, setIsWaitingRoomOpen] = useState(false);
+
+  useEffect(() => {
+  document.title = t('pageTitles:home', 'Coaching Platform for Growth - Bondigoo');
+}, [t]);
   
   const handleInitiateRequest = useCallback((coachForRequest) => {
     if (!isAuthenticated) {
@@ -336,7 +359,13 @@ const LaunchedHome = () => {
     <div className="flex flex-col bg-transparent">
       {selectedCoach && ( <LiveSessionClientRequestModal isOpen={isRequestModalOpen} onClose={() => setIsRequestModalOpen(false)} coach={selectedCoach} onConfirmRequest={handleConfirmRequest} /> )}
       {selectedCoach && user && ( <LiveSessionWaitingRoom isOpen={isWaitingRoomOpen} onClose={handleCloseWaitingRoom} coach={selectedCoach} user={user} sessionId={sessionId} onCancelRequest={handleCancelLiveRequest} status={outgoingRequestStatus} declineMessage={sessionInfo?.declineMessage} skipDeviceCheck={true} /> )}
-      <section className="relative text-center text-primary-foreground dark:text-foreground overflow-hidden bg-gradient-animated bg-size-400 animate-gradient-shift">
+      <motion.section 
+          className="relative text-center text-primary-foreground dark:text-foreground overflow-hidden bg-gradient-animated bg-size-400"
+          variants={gradientAnimation}
+          initial="initial"
+          whileInView="animate"
+          viewport={{ once: true }}
+        >
         <div className="relative isolate container mx-auto px-4 py-32 sm:py-40 lg:py-72">
           <motion.div className="mx-auto max-w-4xl" initial="hidden" animate={mounted ? "visible" : "hidden"} variants={staggerChildren} >
             <motion.div className="mb-8 flex flex-col gap-1" variants={fadeInUp}>
@@ -363,7 +392,7 @@ const LaunchedHome = () => {
             </motion.div>
           </motion.div>
         </div>
-      </section>
+      </motion.section>
       <div className="-mt-[100px] sm:-mt-[150px] lg:-mt-[200px] relative z-10">
         <ShapeDivider variants={fadeInUp} />
       </div>
@@ -430,7 +459,7 @@ const LaunchedHome = () => {
       {!isAuthenticated && (
         <>
         <div className="transform rotate-180"><ShapeDivider variants={fadeInUp}/></div>
-        <motion.section className="relative text-center text-primary-foreground overflow-hidden bg-gradient-animated bg-size-400 animate-gradient-shift " initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.5 }} variants={staggerChildren}>
+        <motion.section className="relative text-center text-primary-foreground overflow-hidden bg-gradient-animated bg-size-400  " initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.5 }} variants={staggerChildren}>
           <div className="relative isolate container mx-auto px-4 py-32 sm:py-40 ">
             <motion.h2 variants={fadeInUp} className="text-3xl font-bold tracking-tight sm:text-4xl dark:text-foreground">{t('finalCta.title')}</motion.h2>
             <motion.div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row" variants={staggerChildren}>

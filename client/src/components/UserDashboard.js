@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs.tsx';
 import UserDashboardOverviewTab from './dashboard/UserDashboardOverviewTab';
@@ -9,7 +9,11 @@ import { useTranslation } from 'react-i18next';
 
 const UserDashboard = () => {
     const { user } = useAuth();
-    const { t } = useTranslation('userdashboard');
+    const { t } = useTranslation(['userdashboard', 'pageTitles']);
+
+    useEffect(() => {
+    document.title = t('pageTitles:userDashboard', 'Dashboard - Bondigoo');
+    }, [t]);
 
     return (
         <div className="w-full px-4 sm:px-6 lg:px-8">

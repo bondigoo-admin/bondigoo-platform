@@ -31,7 +31,7 @@ import { Button } from './ui/button.tsx';
 import { ArrowRight, Megaphone } from 'lucide-react';
 
 const CoachProfile = ({ userId: propUserIdForOwnProfile, isOwnProfile: propIsOwnProfileFlag }) => {
-  const { t } = useTranslation(['common', 'coachprofile', 'liveSession']);
+  const { t } = useTranslation(['common', 'coachprofile', 'liveSession', 'pageTitles']);
   const { id: paramIdFromUrl } = useParams();
   const { user: loggedInUser, isAuthenticated, loading: authLoading } = useAuth(); 
   const { isConnected } = useNotificationSocket();
@@ -57,6 +57,15 @@ const CoachProfile = ({ userId: propUserIdForOwnProfile, isOwnProfile: propIsOwn
     const searchParams = new URLSearchParams(location.search);
     return searchParams.get('preview') === 'true';
 }, [location.search]);
+
+useEffect(() => {
+  if (coach?.user?.firstName) {
+    const coachName = `${coach.user.firstName} ${coach.user.lastName}`;
+    document.title = t('pageTitles:coachProfile', '{{coachName}} - Bondigoo', { coachName });
+  } else {
+    document.title = t('pageTitles:loadingProfile', 'Loading Profile... - Bondigoo');
+  }
+}, [coach, t]);
 
 const { data: allSessionTypes, isLoading: isLoadingSessionTypes } = useQuery(
       'sessionTypes', 

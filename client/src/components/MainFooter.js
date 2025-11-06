@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { University, Twitter, Linkedin, Instagram } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
+import logo from '../assets/logo.svg';
 
 const FooterLink = ({ to, children }) => (
   <Link to={to} className="text-sm text-muted-foreground transition-colors hover:text-primary dark:hover:text-primary-foreground">
@@ -21,17 +22,16 @@ const MainFooter = () => {
           
           {/* Column 1: Brand & Socials */}
           <div className="col-span-2 lg:col-span-1">
-            <Link to="/" className="flex items-center gap-2 text-2xl font-bold text-primary dark:text-primary-foreground mb-4">
-              <University className="h-7 w-7 flex-shrink-0" />
-              <span className="hidden sm:inline">{t('header:logo', 'CoachingPlatform')}</span>
+            <Link to="/" className="block mb-4">
+                <img src={logo} alt="Bondigoo Logo" className="h-16 w-auto" />
             </Link>
             <p className="text-muted-foreground text-sm max-w-xs">
               {t('footer.tagline', 'Unlock your potential, on-demand.')}
             </p>
             <div className="flex items-center space-x-4 mt-6">
-              <a href="#" aria-label="Twitter" className="text-muted-foreground hover:text-primary dark:hover:text-primary-foreground"><Twitter size={20} /></a>
+             {/* <a href="#" aria-label="Twitter" className="text-muted-foreground hover:text-primary dark:hover:text-primary-foreground"><Twitter size={20} /></a>
               <a href="#" aria-label="LinkedIn" className="text-muted-foreground hover:text-primary dark:hover:text-primary-foreground"><Linkedin size={20} /></a>
-              <a href="#" aria-label="Instagram" className="text-muted-foreground hover:text-primary dark:hover:text-primary-foreground"><Instagram size={20} /></a>
+              <a href="#" aria-label="Instagram" className="text-muted-foreground hover:text-primary dark:hover:text-primary-foreground"><Instagram size={20} /></a>*/}
             </div>
           </div>
 

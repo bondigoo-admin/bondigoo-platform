@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../contexts/AuthContext';
@@ -18,7 +18,7 @@ import { Button } from './ui/button.tsx';
 import { Progress } from './ui/progress.jsx';
 
 const CoachDashboard = () => {
-  const { t } = useTranslation(['programs', 'common', 'coach_dashboard', 'onboarding_coach']);
+  const { t } = useTranslation(['programs', 'common', 'coach_dashboard', 'onboarding_coach', 'pageTitles']);
   const { user } = useAuth();
   const coachId = user?._id;
   const [searchParams, setSearchParams] = useSearchParams();
@@ -47,6 +47,10 @@ const CoachDashboard = () => {
     if (Object.values(coachProfile.settings?.availabilityManagement?.workingHours || {}).some(day => day.start && day.end)) score += 10;
     return Math.min(score, 100);
   }, [coachProfile]);
+
+  useEffect(() => {
+  document.title = t('pageTitles:coachDashboard', 'Coach Dashboard - Bondigoo');
+  }, [t]);
 
   const handleCreateProgram = () => {
     setProgramToEdit(null);

@@ -65,7 +65,7 @@ const generateInitialFilters = () => {
 };
 
 const CoachList = () => {
-  const { t, i18n } = useTranslation(['common', 'connections', 'coachList', 'liveSession']);
+  const { t, i18n } = useTranslation(['common', 'connections', 'coachList', 'liveSession', 'pageTitles']);
   const currentLanguage = i18n.language;
   const { user } = useContext(AuthContext);
   const { requestLiveSession, outgoingRequestStatus, sessionId, sessionInfo, cancelLiveSessionRequest, resetOutgoingRequest } = useLiveSession();
@@ -86,11 +86,15 @@ const CoachList = () => {
   const searchInputRef = useRef(null);
   const searchContainerRef = useRef(null);
 
-     const isSwissUser = useMemo(() => {
-    const country = user?.billingDetails?.address?.country;
-    logger.info(`[CoachList] Checking user's country for Insurance Filter. Found country: '${country}'`);
+  const isSwissUser = useMemo(() => {
+  const country = user?.billingDetails?.address?.country;
+  logger.info(`[CoachList] Checking user's country for Insurance Filter. Found country: '${country}'`);
     return country === 'CH';
   }, [user]);
+
+  useEffect(() => {
+  document.title = t('pageTitles:findACoach', 'Find a Coach - Bondigoo');
+}, [t]);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
