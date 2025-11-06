@@ -91,10 +91,7 @@ return (
       <div className="absolute inset-0 bg-[linear-gradient(135deg,_#6e8efb_0%,_#a777e3_100%)] dark:bg-[linear-gradient(135deg,_#1d2b64_0%,_#48267d_100%)]" />
       
     <div className="relative z-10 flex h-full w-full items-center justify-center p-4">
-  <Link to="/" className="absolute top-6 left-6 md:top-8 md-left-8 flex items-center gap-2 text-2xl font-bold text-primary-foreground dark:text-white focus:outline-none">
-    <University className="h-7 w-7 lg:hidden" />
-    <span className="hidden lg:block">{t('header:logo')}</span>
-  </Link>
+ 
   <div className="w-full max-w-6xl grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16 items-center">
           <div className="hidden md:flex flex-col gap-4 text-left text-primary-foreground dark:text-white">
              <h1 className="text-4xl lg:text-5xl font-bold tracking-tight">
