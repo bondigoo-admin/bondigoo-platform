@@ -417,11 +417,10 @@ const LaunchedHome = () => {
           <div className="container mx-auto px-4 text-center">
             <motion.h2 variants={fadeInUp} className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">{t('howItWorksSummary.title')}</motion.h2>
             <motion.p variants={fadeInUp} className="mt-4 max-w-3xl mx-auto text-lg text-muted-foreground">{t('howItWorksSummary.subtitle')}</motion.p>
-            <motion.div className="mt-16 grid grid-cols-1 gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-4" variants={staggerChildren}>
+            <motion.div className="mt-16 grid grid-cols-1 gap-x-8 gap-y-12 md:grid-cols-3" variants={staggerChildren}>
               <SummaryStep icon={UserPlus} title={t('howItWorksSummary.steps.step1.title')} description={t('howItWorksSummary.steps.step1.description')} />
-              <SummaryStep icon={CheckCircle} title={t('howItWorksSummary.steps.step2.title')} description={t('howItWorksSummary.steps.step2.description')} />
-              <SummaryStep icon={Users} title={t('howItWorksSummary.steps.step3.title')} description={t('howItWorksSummary.steps.step3.description')} />
-              <SummaryStep icon={PlayCircle} title={t('howItWorksSummary.steps.step4.title')} description={t('howItWorksSummary.steps.step4.description')} />
+              <SummaryStep icon={Users} title={t('howItWorksSummary.steps.step2.title')} description={t('howItWorksSummary.steps.step2.description')} />
+              <SummaryStep icon={TrendingUp} title={t('howItWorksSummary.steps.step3.title')} description={t('howItWorksSummary.steps.step3.description')} />
             </motion.div>
             <motion.div variants={fadeInUp} className="mt-16">
               <Button asChild size="lg" variant="outline">

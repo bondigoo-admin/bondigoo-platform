@@ -34,7 +34,6 @@ const PaymentSchema = new mongoose.Schema({
       'on_hold',
     ],
     default: 'pending',
-    index: true,
   },
   stripeTransferId: { type: String, index: true },
   payoutProcessedAt: { type: Date },

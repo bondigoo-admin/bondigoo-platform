@@ -44,5 +44,11 @@
   "myNetwork": "Mein Netzwerk",
   "blockedUsers": "Blockierte Benutzer",
   "requestCancelledSuccess": "Anfrage erfolgreich zurückgezogen.",
-  "blockUser": "Benutzer blockieren"
+  "blockUser": "Benutzer blockieren",
+  "blockedUsersTitle": "Blockierte Benutzer verwalten",
+  "blockedUsersSubtitle": "Hier siehst du alle Benutzer, die du blockiert hast. Du kannst die Blockierung jederzeit aufheben.",
+  "noBlockedUsers": "Keine blockierten Benutzer",
+  "noBlockedUsersHint": "Du hast derzeit niemanden blockiert.",
+  "confirmUnblockTitle": "Blockierung aufheben?",
+  "confirmUnblockDescription": "Möchtest du diesen Benutzer wirklich entsperren? Er kann dein Profil wieder sehen und dich kontaktieren."
 }

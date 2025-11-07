@@ -96,7 +96,6 @@ metadata: {
   },
   expiresAt: {
     type: Date,
-    index: true
   },
   isRead: { 
     type: Boolean, 

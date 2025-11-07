@@ -42,6 +42,9 @@ const cardVariants = {
  */
 
 const SavedPaymentMethodsManager = ({ userId, onSelect, selectedMethodId, mode, disabled = false, bookingId = null }) => {
+  useEffect(() => {
+    logger.info('[SPMM] Component Props Received', { userId, mode, selectedMethodId, disabled, hasOnSelect: !!onSelect });
+  }, [userId, mode, selectedMethodId, disabled, onSelect]);
   const { t } = useTranslation(['payments']);
   const [paymentMethods, setPaymentMethods] = useState([]);
   const [isLoading, setIsLoading] = useState(true);

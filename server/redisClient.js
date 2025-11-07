@@ -40,7 +40,7 @@ if (redisUrl) {
 } else {
   console.warn('[RedisClient] REDIS_URL not found. Falling back to local development settings.');
   redis = new Redis({
-    host: process.env.REDIS_HOST || 'localhost',
+    host: process.env.REDIS_HOST || '127.0.0.1',
     port: process.env.REDIS_PORT || 6380,
     maxRetriesPerRequest: null,
     enableReadyCheck: false,

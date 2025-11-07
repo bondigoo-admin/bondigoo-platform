@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect, useMemo, useRef } from 'react';
 import { useNavigate, Link, NavLink, useLocation } from 'react-router-dom';
 import logo from '../assets/logo.svg';
 import logomark from '../assets/logomark.svg';
+import logotrans from '../assets/logo_mark_transparent.svg';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { AuthContext } from '../contexts/AuthContext';
@@ -568,9 +569,13 @@ case 'coach':
       <div className="flex h-full w-full flex-col">
     
 <div className="p-4 border-b">
-  <Link to="/" className="flex items-center gap-3" onClick={onLinkClick}>
-    <img src={logomark} alt="Bondigoo Icon" className="h-7 w-7" />
-  </Link>
+  <Link to="/" className="block" onClick={() => { setMobileMenuOpen(false); setDesktopMenuOpen(false); }}>
+  <img
+    src={location.pathname === '/' ? logo : logotrans}
+    alt="Bondigoo Logo"
+    className={location.pathname === '/' ? "h-10 w-auto" : "h-7 w-7"}
+  />
+</Link>
 </div>
    
         
@@ -779,9 +784,11 @@ return (
     <header className="relative z-50 h-[65px] w-full border-b bg-gradient-subtle px-4 transition-colors md:px-6">
       <div className="mx-auto flex h-full items-center justify-between">
         <div className="flex items-center gap-4">
-          <Link to="/" className="block" onClick={() => { setMobileMenuOpen(false); setDesktopMenuOpen(false); }}>
-            <img src={logo} alt="Bondigoo Logo" className="h-10 w-auto" />
-        </Link>
+          <img
+              src={location.pathname === '/' ? logo : logotrans}
+              alt="Bondigoo Logo"
+              className={location.pathname === '/' ? "h-10 w-auto" : "h-7 w-7"}
+            />
         </div>
 
          <div className="flex items-center gap-2">
