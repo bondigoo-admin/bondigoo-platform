@@ -26,11 +26,11 @@ export const BillingCenter = ({ profile }) => {
       <BillingDetailsForm profile={profile} />
       
        <Card>
-                       <CardHeader><CardTitle className="flex items-center gap-2"><CreditCard />{t('userprofile:paymentMethods')}</CardTitle></CardHeader>
-                       <CardContent>
-                          <SavedPaymentMethodsManager userId={user.id} mode="manage" />
-                       </CardContent>
-                  </Card>
+           <CardHeader><CardTitle className="flex items-center gap-2"><CreditCard />{t('userprofile:paymentMethods')}</CardTitle></CardHeader>
+           <CardContent>
+              <SavedPaymentMethodsManager userId={user._id} mode="manage" />
+           </CardContent>
+      </Card>
 
       <PaymentHistory />
     </div>

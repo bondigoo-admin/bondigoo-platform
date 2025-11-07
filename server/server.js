@@ -43,6 +43,7 @@ const earningsController = require('./controllers/earningsController');
 const searchRoutes = require('./routes/searchRoutes');
 const announcementRoutes = require('./routes/announcementRoutes');
 const cron = require('node-cron');
+const { getSchedule } = require('./config/schedules');
 const { processPendingPayouts } = require('./services/payoutProcessor');
 const { escalateStaleDisputes } = require('./jobs/disputeEscalationJob');
 const { runAttachmentCleanup } = require('./jobs/attachmentCleanupJob');
@@ -66,16 +67,30 @@ app.use((req, res, next) => {
   next();
 });
 
-const allowedOrigins = ['http://localhost:3000', 'http://localhost:3001', 'http://localhost:5000', 'http://localhost:5001', 'http://localhost:5002'];
+
+
+const allowedOrigins = process.env.CORS_ORIGIN ? process.env.CORS_ORIGIN.split(',') : [];
+
+if (process.env.NODE_ENV === 'development' && allowedOrigins.length === 0) {
+  allowedOrigins.push('http://localhost:3000');
+}
 
 const corsOptions = {
-  origin: allowedOrigins,
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true,
   maxAge: 86400,
   exposedHeaders: ['Content-Disposition'],
 };
+
+app.use(cors(corsOptions));
 
 const { io, activeConnections, connectionMonitor } = configureSocket(server);
 app.set('io', io);
@@ -133,7 +148,6 @@ app.use(express.json({
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
 app.use('/tfjs', (req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
   res.setHeader('Content-Type', 'application/javascript');
   res.setHeader('Cache-Control', 'no-cache');
   next();
@@ -141,7 +155,6 @@ app.use('/tfjs', (req, res, next) => {
 
 app.use('/', (req, res, next) => {
   if (req.path.endsWith('.worker.js')) {
-    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
     res.setHeader('Content-Type', 'application/javascript');
     res.setHeader('Cache-Control', 'no-cache');
   }
@@ -160,8 +173,6 @@ app.use((req, res, next) => {
   }
   next();
 });
-
-app.use(cors(corsOptions));
 
 app.use(cookieParser());
 
@@ -232,14 +243,6 @@ app.post('/api/webhook/stripe',
     }
   }
 );
-
-app.options('/api/users/background', (req, res) => {
-  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000'); // Match your frontend
-  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Authorization, Content-Type');
-  res.setHeader('Access-Control-Max-Age', 86400); // Cache preflight for 24 hours
-  res.sendStatus(204);
-});
 
 app.use('/api/payments', paymentRoutes.router);
 
@@ -368,32 +371,28 @@ const startServer = async () => {
      console.log(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`)
     );
 
-    console.log('[Cron] Scheduling payout processor job to run every 30 minutes.');
-    cron.schedule('*/1 * * * *', () => {
-     console.log('[Cron] Triggering processPendingPayouts job.');
-      processPendingPayouts();
-    });
+ console.log('[Cron] Initializing scheduled jobs...');
 
-     console.log('[Cron] Scheduling dispute escalation job.');
-    cron.schedule('0 * * * *', () => { // Run at the top of every hour
-     console.log('[Cron] Triggering escalateStaleDisputes job.');
-      escalateStaleDisputes();
-    });
+  const jobs = [
+    { name: 'payoutProcessor', task: processPendingPayouts },
+    { name: 'disputeEscalation', task: escalateStaleDisputes },
+    { name: 'attachmentCleanup', task: runAttachmentCleanup },
+    { name: 'trustScoreCalculation', task: calculateTrustScores },
+    { name: 'verificationExpiry', task: scheduleVerificationExpiryReminders },
+  ];
 
-    console.log('[Cron] Scheduling daily attachment cleanup job.');
-    cron.schedule('0 3 * * *', () => { // Run at 3 AM every day
-     console.log('[Cron] Triggering runAttachmentCleanup job.');
-      runAttachmentCleanup();
+    jobs.forEach(job => {
+      const schedule = getSchedule(job.name);
+      if (schedule) {
+        console.log(`[Cron] Scheduling job '${job.name}' with schedule: ${schedule}`);
+        cron.schedule(schedule, () => {
+          console.log(`[Cron] Triggering ${job.name} job.`);
+          job.task();
+        });
+      } else {
+        console.log(`[Cron] Job '${job.name}' is DISABLED for the '${process.env.NODE_ENV}' environment.`);
+      }
     });
-
-    console.log('[Cron] Scheduling daily trust score calculation job.');
-    cron.schedule('0 4 * * *', () => { // Run at 4 AM every day
-     console.log('[Cron] Triggering calculateTrustScores script.');
-      calculateTrustScores();
-    });
-
-    console.log('[Cron] Scheduling daily verification expiry reminder job.');
-      scheduleVerificationExpiryReminders();
 
     // Start cleanup job
     cleanupUnusedResources(); // Run once on startup for immediate cleanup
