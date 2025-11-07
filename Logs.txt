@@ -1,97 +1,50 @@
-hook.js:608 
- Warning: Unknown event handler property `onEnablePip`. It will be ignored. Error Component Stack
-    at div (<anonymous>)
-    at _a (vendors-node_modules…0e4.chunk.js:1086:7)
-    at div (<anonymous>)
-    at div (<anonymous>)
-    at CustomVideoPlayer (src_components_playe…s_jsx.chunk.js:60:3)
-    at div (<anonymous>)
-    at div (<anonymous>)
-    at div (<anonymous>)
-    at a (<anonymous>)
-    at LinkWithRef (bundle.js:118390:7)
-    at Provider (bundle.js:4231:9)
-    at TooltipProvider (bundle.js:8714:5)
-    at ProgramCard (src_components_progr…rd_js.chunk.js:69:3)
-    at div (<anonymous>)
-    at div (<anonymous>)
-    at div (<anonymous>)
-    at div (<anonymous>)
-    at section (<anonymous>)
-    at FeaturedPrograms (src_components_Home_…d98b.chunk.js:42:68)
-    at div (<anonymous>)
-    at div (<anonymous>)
-    at LaunchedHome (src_components_Home_…8b.chunk.js:1418:68)
-    at Home (<anonymous>)
-    at RenderedRoute (bundle.js:119704:5)
-    at Outlet (bundle.js:120351:26)
-    at PublicLayout (<anonymous>)
-    at RenderedRoute (bundle.js:119704:5)
-    at Routes (bundle.js:120438:5)
-    at Suspense (<anonymous>)
-    at main (<anonymous>)
-    at div (<anonymous>)
-    at AppContent (bundle.js:139950:69)
-    at LiveSessionProvider (bundle.js:150029:3)
-    at NotificationSocketProvider (bundle.js:150856:3)
-    at AppWithSocketProvider (bundle.js:140882:69)
-    at AppWithSocketProviderWrapper (bundle.js:140965:69)
-    at AuthProvider (bundle.js:149668:3)
-    at PaymentProvider (bundle.js:150644:3)
-    at Elements (bundle.js:15364:30)
-    at Suspense (<anonymous>)
-    at App (bundle.js:140917:51)
-    at AuthProvider (bundle.js:149668:3)
-    at QueryClientProvider (bundle.js:115607:21)
-    at Router (bundle.js:120372:15)
-    at BrowserRouter (bundle.js:118272:5)
-hook.js:608 
- Warning: Unknown event handler property `onDisablePip`. It will be ignored. Error Component Stack
-    at div (<anonymous>)
-    at _a (vendors-node_modules…0e4.chunk.js:1086:7)
-    at div (<anonymous>)
-    at div (<anonymous>)
-    at CustomVideoPlayer (src_components_playe…s_jsx.chunk.js:60:3)
-    at div (<anonymous>)
-    at div (<anonymous>)
-    at div (<anonymous>)
-    at a (<anonymous>)
-    at LinkWithRef (bundle.js:118390:7)
-    at Provider (bundle.js:4231:9)
-    at TooltipProvider (bundle.js:8714:5)
-    at ProgramCard (src_components_progr…rd_js.chunk.js:69:3)
-    at div (<anonymous>)
-    at div (<anonymous>)
-    at div (<anonymous>)
-    at div (<anonymous>)
-    at section (<anonymous>)
-    at FeaturedPrograms (src_components_Home_…d98b.chunk.js:42:68)
-    at div (<anonymous>)
-    at div (<anonymous>)
-    at LaunchedHome (src_components_Home_…8b.chunk.js:1418:68)
-    at Home (<anonymous>)
-    at RenderedRoute (bundle.js:119704:5)
-    at Outlet (bundle.js:120351:26)
-    at PublicLayout (<anonymous>)
-    at RenderedRoute (bundle.js:119704:5)
-    at Routes (bundle.js:120438:5)
-    at Suspense (<anonymous>)
-    at main (<anonymous>)
-    at div (<anonymous>)
-    at AppContent (bundle.js:139950:69)
-    at LiveSessionProvider (bundle.js:150029:3)
-    at NotificationSocketProvider (bundle.js:150856:3)
-    at AppWithSocketProvider (bundle.js:140882:69)
-    at AppWithSocketProviderWrapper (bundle.js:140965:69)
-    at AuthProvider (bundle.js:149668:3)
-    at PaymentProvider (bundle.js:150644:3)
-    at Elements (bundle.js:15364:30)
-    at Suspense (<anonymous>)
-    at App (bundle.js:140917:51)
-    at AuthProvider (bundle.js:149668:3)
-    at QueryClientProvider (bundle.js:115607:21)
-    at Router (bundle.js:120372:15)
-    at BrowserRouter (bundle.js:118272:5)
-bundle.js:173139 [DEBUG] [ProgramCard] Rendering card for program "Test Program" (ID: 68945a389db38950cdcaf985). isEnrolled: false
-﻿
 
+Search
+
+Live tail
+GMT+1
+
+Menu
+
+     ==> Deploying...
+==> Running 'cd server && npm install'
+     ==> Your service is live 🎉
+up to date, audited 520 packages in 7s
+69 packages are looking for funding
+  run `npm fund` for details
+1 moderate severity vulnerability
+To address all issues (including breaking changes), run:
+  npm audit fix --force
+Run `npm audit` for details.
+==> Running 'cd server && npm install'
+up to date, audited 520 packages in 6s
+69 packages are looking for funding
+  run `npm fund` for details
+1 moderate severity vulnerability
+To address all issues (including breaking changes), run:
+  npm audit fix --force
+Run `npm audit` for details.
+==> Running 'cd server && npm install'
+up to date, audited 520 packages in 7s
+69 packages are looking for funding
+  run `npm fund` for details
+1 moderate severity vulnerability
+To address all issues (including breaking changes), run:
+  npm audit fix --force
+Run `npm audit` for details.
+==> Running 'cd server && npm install'
+up to date, audited 520 packages in 8s
+69 packages are looking for funding
+  run `npm fund` for details
+1 moderate severity vulnerability
+To address all issues (including breaking changes), run:
+  npm audit fix --force
+Run `npm audit` for details.
+==> Running 'cd server && npm install'
+up to date, audited 520 packages in 6s
+69 packages are looking for funding
+  run `npm fund` for details
+1 moderate severity vulnerability
+To address all issues (including breaking changes), run:
+  npm audit fix --force
+Run `npm audit` for details.

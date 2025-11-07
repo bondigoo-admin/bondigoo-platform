@@ -1,0 +1,243 @@
+mplementation Plan: From Development to Production
+Phase 0: Pre-Flight & Codebase Preparation
+Before creating any new infrastructure, we must prepare our codebase and repository.
+Step 1: Solidify Git Branching Strategy
+Verify Branches: Ensure you have the main, staging, and develop branches in your GitHub repository. main should reflect the current, stable pre-launch code.
+Protect Branches: In GitHub, navigate to Settings > Branches. Apply branch protection rules to:
+main: Require pull request reviews before merging. Disallow force pushes. This is your sacred branch.
+staging: Require pull request reviews. This prevents accidental merges from develop.
+develop: (Optional but recommended) Require pull requests to enforce code review for all new features.
+Step 2: Implement Dynamic CORS in Backend
+This is the only critical code change required to support multiple environments.
+Open server/server.js.
+Replace your existing corsOptions with the following dynamic implementation:
+code
+JavaScript
+// server/server.js
+
+// Get allowed origins from an environment variable, splitting by comma
+const allowedOrigins = process.env.CORS_ORIGIN ? process.env.CORS_ORIGIN.split(',') : [];
+
+// For local development, if the variable isn't set, fallback to localhost
+if (process.env.NODE_ENV === 'development' && allowedOrigins.length === 0) {
+  allowedOrigins.push('http://localhost:3000');
+  console.log('[CORS] Development mode: allowing localhost:3000 by default.');
+}
+
+const corsOptions = {
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps, server-to-server, or curl requests)
+    if (!origin) return callback(null, true);
+    
+    if (allowedOrigins.indexOf(origin) !== -1) {
+      return callback(null, true);
+    } else {
+      const msg = `The CORS policy for this site does not allow access from the specified Origin: ${origin}`;
+      console.error(`[CORS] Blocked request from origin: ${origin}`);
+      return callback(new Error(msg), false);
+    }
+  },
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true,
+  maxAge: 86400,
+  exposedHeaders: ['Content-Disposition'],
+};
+
+// ... ensure you have this line
+app.use(cors(corsOptions));
+Commit and push this change through your workflow (feature -> develop -> staging -> main) to ensure it's present in all environments.
+Phase 1: Infrastructure Provisioning
+Step 3: Provision MongoDB Atlas Databases
+
+Production Cluster:
+*   In MongoDB Atlas, create a new, dedicated cluster for production. Name it `bondigoo-prod-cluster`.
+*   Inside this cluster, your application will use the `bondigoo-prod` database.
+*   Create a database user (`bondigoo-prod-user`) with a strong, generated password. Grant it `readWrite` access only to the `bondigoo-prod` database.
+
+Utilize Existing coaching-platform-dev Cluster:
+*   This cluster will host both the `bondigoo-staging` and `coaching-platform-dev` databases.
+*   Navigate to Database Access for this cluster.
+*   Verify the existing user `coaching_platform_dev_user` has `readWrite` privileges for both the `coaching-platform-dev` and `bondigoo-staging` databases. If it does not have access to `bondigoo-staging`, edit the user to add this privilege.
+*   Record the password for the `coaching_platform_dev_user` for use in the environment variables.
+
+Step 4: Provision Render Services
+In the Render dashboard, create new services. Use your bondigoo-platform GitHub repository for all of them.
+Production Services:
+API:
+Type: Web Service
+Name: bondigoo-api-prod
+Branch: main
+Start Command: npm start
+Worker:
+Type: Background Worker
+Name: bondigoo-worker-prod
+Branch: main
+Start Command: npm run dev (Assuming your worker logic is initiated via the dev script, adjust if needed, or create npm run worker)
+Redis:
+Type: Redis
+Name: bondigoo-redis-prod
+Action: After creation, copy its External URL.
+Staging Services:
+API:
+Type: Web Service
+Name: bondigoo-api-staging
+Branch: staging
+Start Command: npm start
+Worker:
+Type: Background Worker
+Name: bondigoo-worker-staging
+Branch: staging
+Start Command: npm run dev
+Redis:
+Type: Redis
+Name: bondigoo-redis-staging
+Action: Copy its External URL.
+Development Services: (If not already present)
+API:
+Type: Web Service
+Name: bondigoo-api-dev
+Branch: develop
+Start Command: npm run dev
+Worker:
+Type: Background Worker
+Name: bondigoo-worker-dev
+Branch: develop
+Start Command: npm run dev
+Redis:
+Type: Redis
+Name: bondigoo-redis-dev
+Action: Copy its External URL.
+Step 5: Provision Vercel Projects
+Production Project: Your existing Vercel project is now your production project.
+Rename it to bondigoo-platform-prod.
+In project settings, ensure the "Production Branch" is main.
+Staging Project:
+Create a new Vercel project.
+Name it bondigoo-platform-staging.
+Connect it to the same bondigoo-platform GitHub repository.
+In project settings, set the "Production Branch" to staging.
+Phase 2: Configuration & DNS
+This is a meticulous process of connecting all the services using DNS and environment variables.
+Step 6: Configure DNS
+In your domain registrar's DNS management panel for bondigoo.ch:
+Vercel Domains:
+In your bondigoo-platform-prod Vercel project, add www.bondigoo.ch as a domain. Follow Vercel's instructions to add the provided A or CNAME record.
+In your bondigoo-platform-staging Vercel project, add staging.bondigoo.ch as a domain and configure the DNS as instructed.
+(Optional) In your bondigoo-platform-prod project settings, under "Domains", you can assign dev.bondigoo.ch to the develop branch.
+Render Domains:
+In your bondigoo-api-prod Render service, add api.bondigoo.ch as a custom domain and add the required CNAME record to your DNS.
+In bondigoo-api-staging, add api.staging.bondigoo.ch.
+In bondigoo-api-dev, add api.dev.bondigoo.ch.
+Step 7: Set All Environment Variables
+
+This is the most critical step. Create Render Environment Groups for each environment (`bondigoo-prod-env`, `bondigoo-staging-env`, `bondigoo-dev-env`) and populate them with these values.
+
+| Variable Name             | Production Value (`bondigoo-prod-env`)                                                                                                                                     | Staging Value (`bondigoo-staging-env`)                                                                                                                                                      | Development Value (`bondigoo-dev-env`)                                                                                                                                                     |
+| ------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `NODE_ENV`                | `production`                                                                                                                                                                 | `production`                                                                                                                                                                                | `development`                                                                                                                                                                               |
+| `DATABASE_URL`            | `mongodb+srv://bondigoo-prod-user:<PROD_PASS>@bondigoo-prod-cluster.btsivoa.mongodb.net/bondigoo-prod?retryWrites=true&w=majority&appName=bondigoo-prod-cluster`                | `mongodb+srv://coaching_platform_dev_user:<DEV_PASS>@coaching-platform-dev.nnaff.mongodb.net/bondigoo-staging?retryWrites=true&w=majority&appName=coaching-platform-dev` | `mongodb+srv://coaching_platform_dev_user:<DEV_PASS>@coaching-platform-dev.nnaff.mongodb.net/coaching-platform-dev?retryWrites=true&w=majority&appName=coaching-platform-dev` |
+| `REDIS_URL`               | **External URL of `bondigoo-redis-prod`**                                                                                                                                    | **External URL of `bondigoo-redis-prod`**                                                                                                                                                   | **External URL of `bondigoo-redis-prod`**                                                                                                                                                   |
+| `ENVIRONMENT_NAME`        | `production`                                                                                                                                                                 | `staging`                                                                                                                                                                                   | `development`                                                                                                                                                                               |
+| `CORS_ORIGIN`             | `https://www.bondigoo.ch`                                                                                                                                                    | `https://staging.bondigoo.ch`                                                                                                                                                               | `https://dev.bondigoo.ch,http://localhost:3000`                                                                                                                                             |
+| `STRIPE_SECRET_KEY`       | `sk_test_...` (Use TEST key for now)                                                                                                                                         | `sk_test_...`                                                                                                                                                                               | `sk_test_...`                                                                                                                                                                               |
+| *...other secrets...*     | ...                                                                                                                                                                          | ...                                                                                                                                                                                         | ...                                                                                                                                                                                         |                                                                                                                                                                       |
+
+Phase 3: Data Management Scripting
+Step 8: Develop the Data Sanitization Script
+Create a new file: server/scripts/sanitizeDatabase.js.
+Use the following script as a robust starting point. It uses Mongoose to connect to a source DB, anonymize data, and is designed to be run locally against a dump.
+code
+JavaScript
+// server/scripts/sanitizeDatabase.js
+const mongoose = require('mongoose');
+const { faker } = require('@faker-js/faker'); // You may need to `npm install @faker-js/faker`
+const User = require('../models/User');
+const Message = require('../models/Message');
+// ... import other sensitive models
+
+require('dotenv').config({ path: './.env.development' });
+
+// IMPORTANT: This script connects to the DATABASE_URL specified in your .env file.
+// Before running, ensure this URL points to a RESTORED DUMP of production, NOT live production.
+const SOURCE_DB_URL = process.env.DATABASE_URL;
+
+async function sanitizeData() {
+  try {
+    await mongoose.connect(SOURCE_DB_URL);
+    console.log('Connected to source database for sanitization...');
+
+    // 1. Sanitize Users
+    console.log('Sanitizing Users...');
+    const users = await User.find({});
+    for (const user of users) {
+      user.firstName = faker.person.firstName();
+      user.lastName = faker.person.lastName();
+      user.email = `sanitized-${user._id.toString()}@test.bondigoo.ch`;
+      user.password = await bcrypt.hash('SafePassword123!', 10); // Set a generic password
+      // Nullify sensitive fields
+      user.phoneNumber = undefined; 
+      user.stripeCustomerId = undefined;
+      user.stripeConnectAccountId = undefined;
+      // ... nullify other PII fields
+      await user.save();
+    }
+    console.log(`Sanitized ${users.length} users.`);
+
+    // 2. Sanitize Messages
+    console.log('Sanitizing Messages...');
+    await Message.updateMany({}, {
+      $set: {
+        content: "[Content sanitized for staging environment]",
+        // You might want to keep attachments for layout testing, or remove them
+        // attachments: [] 
+      }
+    });
+    console.log('Sanitized all messages.');
+    
+    // 3. Sanitize other models (Reviews, Bookings, etc.)
+    // Add logic here to replace review text, booking notes, etc. with placeholder content.
+
+    console.log('Sanitization complete.');
+    
+  } catch (error) {
+    console.error('An error occurred during sanitization:', error);
+  } finally {
+    await mongoose.disconnect();
+    console.log('Disconnected from database.');
+  }
+}
+
+sanitizeData();
+Define the Prod-to-Staging Workflow:
+Backup Prod: Use mongodump to create a secure backup of the bondigoo-prod database.
+Restore Locally: Restore this dump to a temporary local MongoDB database.
+Run Sanitizer: Point your .env.development DATABASE_URL to this local DB and run node server/scripts/sanitizeDatabase.js.
+Dump Sanitized Data: mongodump the now-sanitized local database.
+Restore to Staging: Use mongorestore to load the sanitized dump into your bondigoo-staging database on Atlas, using the --drop flag to ensure a clean slate.
+Phase 4: Validation and Launch
+Step 9: Test the Full Deployment Pipeline
+Create a test branch: git checkout -b feature/validate-pipeline.
+Make a small, visible change (e.g., add text to the home page).
+PR to develop: Open a Pull Request. Verify the Vercel Preview Deployment URL. Merge it.
+Verify dev: Go to https://dev.bondigoo.ch and https://api.dev.bondigoo.ch. Confirm the change is live and the API is functional.
+PR to staging: Open a PR from develop into staging. Merge it.
+Verify staging: Go to https://staging.bondigoo.ch. Confirm the change is there. Perform a key user action (e.g., create a booking) to ensure it works against the staging database and Stripe Test Mode.
+PR to main: Open a final PR from staging into main. Merge it.
+Verify prod: Go to https://www.bondigoo.ch. Confirm the change is live on the pre-launch site.
+Step 10: Pre-Launch Final Checklist
+
+[ ] **Infrastructure Hardening (Go-Live Requirement):**
+    [ ] Provision dedicated Redis instances (`bondigoo-redis-staging`, `bondigoo-redis-dev`).
+    [ ] Update `bondigoo-staging-env` and `bondigoo-dev-env` groups with the new, separate `REDIS_URL`s.
+    [ ] Upgrade Staging and Development workers from the Free Tier to a paid plan to prevent spin-down during active UAT.
+
+[ ] **Configuration Finalization:**
+    [ ] All Production environment variables (`bondigoo-prod-env`) are set and double-checked.
+    [ ] Stripe keys in `bondigoo-prod-env` are switched from Test Mode (`sk_test_...`) to **Live Mode (`sk_live_...`)**.
+    [ ] `REACT_APP_STRIPE_PKEY` in Vercel Production is set to the **Live Publishable Key (`pk_live_...`)**.
+    [ ] `REACT_APP_LAUNCHED` is `false` in Vercel Production settings.
+
+[ ] **Data & DNS:**
+    [ ] The `bondigoo-prod` database is seeded with any necessary initial data (e.g., admin user, program categories).
+    [ ] All custom domains are configured and DNS records have fully propagated.

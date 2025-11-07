@@ -158,16 +158,12 @@
         "description": "Erstelle dein sicheres Konto mit nur wenigen Klicks."
       },
       "step2": {
-        "title": "Ziele festlegen",
-        "description": "Definiere deine Ziele und was du erreichen möchtest."
-      },
-      "step3": {
         "title": "Coach finden",
         "description": "Durchsuche Profile oder nutze unser Matching-Tool, um die perfekte Übereinstimmung zu finden."
       },
-      "step4": {
-        "title": "Sessions starten",
-        "description": "Beginne deine transformative Reise mit On-Demand- oder geplanten Sessions."
+      "step3": {
+        "title": "Wachsen und lernen",
+        "description": "Beginne deine Reise mit On-Demand-Programmen, geplanten Terminen oder Live-Sessions."
       }
     }
   },
@@ -216,7 +212,7 @@
     "client": {
       "step1": {
         "title": "Finde den richtigen Menschen für deinen Weg.",
-        "description": "Finde nicht irgendeinen Coach – finde deinen Coach. Nutze unsere leistungsstarken Filter, um nach Spezialgebiet und Zielen zu suchen. Sieh dir detaillierte Profile an, schau dir Video-Intros an und lies verifizierte Bewertungen, um den perfekten Partner für dich zu finden."
+        "description": "Finde nicht irgendeinen Coach – finde deinen Coach. Nutze unsere Übersichten mit Filtern, um nach Spezialgebieten, Sprachen, Lernzielen und vielem mehr zu filtern. Sieh dir detaillierte Profile an, schau dir Video-Intros an und lies verifizierte Bewertungen, um den perfekten Coach für dich zu finden."
       },
       "step2": {
         "title": "Verbinde dich, wie du willst. Sofort oder nach Plan.",
