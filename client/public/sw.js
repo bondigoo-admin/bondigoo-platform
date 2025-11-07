@@ -1,20 +1,4 @@
 const CACHE_NAME = 'video-intro-cache-v1';
-const urlsToCache = [
-  '/static/js/bundle.js',
-  '/static/js/main.chunk.js',
-  '/static/js/0.chunk.js',
-  '/index.html',
-  '/'
-];
-
-self.addEventListener('install', function(event) {
-  event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then(function(cache) {
-        return cache.addAll(urlsToCache);
-      })
-  );
-});
 
 self.addEventListener('fetch', function(event) {
   if (event.request.url.includes('/api/coaches/video-introduction/')) {
@@ -29,15 +13,6 @@ self.addEventListener('fetch', function(event) {
       })
     );
   } else {
-    event.respondWith(
-      caches.match(event.request)
-        .then(function(response) {
-          if (response) {
-            return response;
-          }
-          return fetch(event.request);
-        }
-      )
-    );
+    event.respondWith(fetch(event.request));
   }
 });
