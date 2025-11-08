@@ -136,6 +136,10 @@
       "benefit2": "Verkaufe skalierbare digitale Programme",
       "benefit3": "Biete sofortige On-Demand Live-Sitzungen an",
       "cta": "Als Coach starten"
+    },
+    "loginPrompt": {
+      "text": "Hast du bereits ein Konto?",
+      "link": "Anmelden"
     }
   },
   "client": {
