@@ -32,13 +32,8 @@ const FeaturedPrograms = () => {
       );
     }
 
-    if (programs.length === 0) {
-      return (
-        <div className="flex flex-col items-center justify-center rounded-lg border border-dashed bg-background p-12 text-center min-h-[30vh]">
-          <Frown className="h-16 w-16 text-muted-foreground" />
-          <h2 className="mt-4 text-xl font-semibold text-foreground">{t('programs:no_programs_title')}</h2>
-        </div>
-      );
+    if (!programs || programs.length === 0) {
+      return null;
     }
 
     return (
@@ -54,6 +49,12 @@ const FeaturedPrograms = () => {
       </div>
     );
   };
+  
+  const content = renderContent();
+
+  if (!content) {
+    return null;
+  }
 
   return (
     <section className="py-16 sm:py-20 lg:py-24 bg-gradient-to-b from-background to-muted/20 dark:to-black/20">
@@ -67,15 +68,13 @@ const FeaturedPrograms = () => {
           </p>
         </div>
         
-        {renderContent()}
+        {content}
 
-        {programs.length > 0 && (
-          <div className="mt-12 text-center">
+        <div className="mt-12 text-center">
             <Button asChild size="lg">
               <Link to="/programs">{t('view_all_programs', 'View All Programs')}</Link>
             </Button>
-          </div>
-        )}
+        </div>
       </div>
     </section>
   );

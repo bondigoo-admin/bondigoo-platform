@@ -260,12 +260,12 @@ const FeaturedCoachesSection = ({ onInitiateRequest }) => {
     const navigate = useNavigate();
     const { isAuthenticated } = useAuth();
     
-    const { data: coaches, isLoading, isError } = useQuery('featuredCoaches', async () => {
+    const { data: coachesData, isLoading, isError } = useQuery('featuredCoaches', async () => {
         const { data } = await axios.get('/api/coaches/featured');
         return data;
     }, { staleTime: 5 * 60 * 1000 });
 
-    if (isLoading || isError || !coaches || coaches.length === 0) {
+    if (isLoading || isError || !coachesData || !Array.isArray(coachesData) || coachesData.length === 0) {
         return null;
     }
 
@@ -276,7 +276,7 @@ const FeaturedCoachesSection = ({ onInitiateRequest }) => {
                 <p className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground">{t('featuredCoaches.subtitle', 'Handpicked experts to guide you on your journey.')}</p>
             </div>
             <motion.div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" variants={staggerChildren}>
-                {coaches.map((coach) => (
+                {coachesData.map((coach) => (
                     <motion.div key={coach.user._id} variants={fadeInUp}>
                         <CoachCard coach={coach} isAuthenticated={isAuthenticated} onInitiateRequest={onInitiateRequest} status={coach.user?.status} />
                     </motion.div>
