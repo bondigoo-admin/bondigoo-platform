@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { Send, Paperclip, X, Film, FileText, Mic } from 'lucide-react';
+import { Send, Paperclip, X, Film, FileText, Mic, AlertTriangle } from 'lucide-react';
 import { logger } from '../../utils/logger';
 import { useAuth } from '../../contexts/AuthContext';
 import { toast } from 'react-hot-toast';
@@ -11,6 +11,7 @@ import { SOCKET_EVENTS } from '../../constants/socketEvents';
 import { Button } from '../ui/button.tsx';
 import { Input } from '../ui/input.tsx';
 import { Textarea } from '../ui/textarea.tsx';
+import { Progress } from '../ui/progress.jsx';
 
 const MessageInput = ({ onSendMessage, conversationId, isSending, recipientUserId, activeConversation }) => {
   const { t } = useTranslation(['messaging', 'common']);
@@ -22,6 +23,8 @@ const MessageInput = ({ onSendMessage, conversationId, isSending, recipientUserI
   const [caption, setCaption] = useState('');
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
   const [isTyping, setIsTyping] = useState(false);
+  const [isCompletionVisible, setIsCompletionVisible] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
   const textareaRef = useRef(null);
   const captionInputRef = useRef(null);
   const fileInputRef = useRef(null);
@@ -29,8 +32,9 @@ const MessageInput = ({ onSendMessage, conversationId, isSending, recipientUserI
   const isBroadcast = activeConversation?.type === 'broadcast';
   const currentUserIsAdmin = activeConversation?.currentUserRole === 'admin';
 
-  const isAttachmentDisabled = isPreviewOpen || (isBroadcast && !currentUserIsAdmin);
-  const isInputDisabled = isSending || isPreviewOpen || (isBroadcast && !currentUserIsAdmin);
+  const isAttachmentDisabled = isUploading || isPreviewOpen || (isBroadcast && !currentUserIsAdmin);
+  const isInputDisabled = isSending || (isBroadcast && !currentUserIsAdmin);
+  const canSendMessage = !isUploading && !isSending && (message.trim().length > 0 || (attachment && attachment.status === 'complete'));
   const placeholderText = isBroadcast && !currentUserIsAdmin
     ? t('messaging:broadcastOnlyAdminsCanPost', 'Only admins can post in this channel')
     : t('messaging:inputPlaceholder');
@@ -114,6 +118,19 @@ const MessageInput = ({ onSendMessage, conversationId, isSending, recipientUserI
     };
   }, [emitTypingStart, emitTypingStop, isTyping, userId, recipientUserId, conversationId]);
 
+  useEffect(() => {
+    let timer;
+    if (attachment?.status === 'complete') {
+        setIsCompletionVisible(true);
+        timer = setTimeout(() => {
+            setIsCompletionVisible(false);
+        }, 500);
+    } else if (attachment?.status !== 'complete') {
+        setIsCompletionVisible(false);
+    }
+    return () => clearTimeout(timer);
+  }, [attachment]);
+
   const handleInputChange = (e) => {
     const newMessage = e.target.value;
     setMessage(newMessage);
@@ -141,12 +158,13 @@ const MessageInput = ({ onSendMessage, conversationId, isSending, recipientUserI
   };
 
   const handleSend = useCallback(() => {
-    if (isSending || (!message.trim() && !attachment && !caption.trim())) {
+    if (!canSendMessage) {
       logger.debug('[MessageInput] Send aborted: invalid state', {
         isSending,
+        isUploading,
         hasMessage: !!message.trim(),
         hasAttachment: !!attachment,
-        hasCaption: !!caption.trim(),
+        attachmentStatus: attachment?.status,
         userId,
         recipientUserId,
         conversationId: conversationId || 'none',
@@ -165,24 +183,28 @@ const MessageInput = ({ onSendMessage, conversationId, isSending, recipientUserI
       return;
     }
   
-    const contentType = attachment ? (attachment.resourceType === 'image' ? 'image' : 'file') : 'text';
-    const contentValue = attachment && attachment.resourceType === 'image' ? (caption.trim() || null) : (message.trim() || null);
+    // eslint-disable-next-line no-unused-vars
+    const { status, progress, ...finalAttachment } = attachment || {};
+    const hasFinalAttachment = attachment && status === 'complete';
+
+    const contentType = hasFinalAttachment ? (finalAttachment.resourceType === 'image' ? 'image' : 'file') : 'text';
+    const contentValue = hasFinalAttachment && finalAttachment.resourceType === 'image' ? (caption.trim() || null) : (message.trim() || null);
   
     const messageData = {
       recipientUserId,
       content: contentValue,
       contentType,
-      attachment: attachment || null,
+      attachment: hasFinalAttachment ? [finalAttachment] : null,
     };
   
     logger.info('[MessageInput] Sending message to user', {
       userId,
       recipientUserId,
       contentType,
-      hasAttachment: !!attachment,
+      hasAttachment: hasFinalAttachment,
       hasContent: !!contentValue,
       contentLength: contentValue?.length || 0,
-      resourceType: attachment?.resourceType || 'none',
+      resourceType: hasFinalAttachment ? finalAttachment.resourceType : 'none',
       conversationId: conversationId || 'none',
       timestamp: new Date().toISOString(),
     });
@@ -213,8 +235,10 @@ const MessageInput = ({ onSendMessage, conversationId, isSending, recipientUserI
     attachment,
     caption,
     isSending,
+    isUploading,
     onSendMessage,
     isTyping,
+    canSendMessage,
     emitTypingStop,
     emitTypingStart,
     userId,
@@ -230,31 +254,43 @@ const MessageInput = ({ onSendMessage, conversationId, isSending, recipientUserI
     }
   };
 
-  const handleAttachmentChange = async (e) => {
+const handleAttachmentChange = async (e) => {
     const file = e.target.files[0];
     const fileInput = e.target;
   
     if (!file) {
-      logger.debug('[MessageInput] No file selected for attachment', {
-        userId,
-        conversationId: conversationId || 'none',
-        timestamp: new Date().toISOString(),
-      });
+      logger.debug('[MessageInput] No file selected for attachment', { userId, conversationId: conversationId || 'none', timestamp: new Date().toISOString() });
       return;
     }
   
     const maxSize = 10 * 1024 * 1024;
     if (file.size > maxSize) {
-      logger.warn('[MessageInput] Attachment size exceeds limit', {
-        userId,
-        fileName: file.name,
-        fileSize: file.size,
-        timestamp: new Date().toISOString(),
-      });
+      logger.warn('[MessageInput] Attachment size exceeds limit', { userId, fileName: file.name, fileSize: file.size, timestamp: new Date().toISOString() });
       toast.error(t('messaging:fileSizeExceedsLimit', { maxSize: maxSize / 1024 / 1024 }));
       fileInput.value = null;
       return;
     }
+  
+    setIsUploading(true);
+    const isImage = file.type.startsWith('image/');
+    const isVideo = file.type.startsWith('video/');
+    const localUrl = isImage ? URL.createObjectURL(file) : null;
+    
+    let resourceType = 'raw';
+    if (isImage) resourceType = 'image';
+    if (isVideo) resourceType = 'video';
+    
+    setAttachment({
+      url: localUrl,
+      publicId: `temp_${Date.now()}`,
+      resourceType: resourceType,
+      format: file.name.split('.').pop().toLowerCase(),
+      originalFilename: file.name,
+      bytes: file.size,
+      status: 'uploading',
+      progress: 0,
+    });
+    if (isImage) setIsPreviewOpen(true);
   
     try {
       const response = await fetch('/api/messages/upload-signature', {
@@ -274,67 +310,71 @@ const MessageInput = ({ onSendMessage, conversationId, isSending, recipientUserI
       formData.append('upload_preset', uploadPreset);
       formData.append('folder', folder);
   
-      const uploadResponse = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/auto/upload`, {
-        method: 'POST',
-        body: formData,
-      });
-  
-      if (!uploadResponse.ok) {
-        const errorData = await uploadResponse.json().catch(() => ({ error: { message: uploadResponse.statusText } }));
-        throw new Error(`Cloudinary upload failed: ${uploadResponse.status} ${errorData.error?.message || ''}`);
-      }
-      const uploadData = await uploadResponse.json();
-  
-      if (uploadData.secure_url) {
-        const fileExtension = file.name.split('.').pop().toLowerCase();
-        const isImage = ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp'].includes(fileExtension);
-        const resourceType = isImage ? 'image' : 'file';
-        const newAttachment = {
-          url: uploadData.secure_url,
-          publicId: uploadData.public_id,
-          resourceType,
-          format: uploadData.format || fileExtension,
-          originalFilename: file.name,
-          bytes: uploadData.bytes,
-        };
-        setAttachment(newAttachment);
-        if (isImage) {
-          setIsPreviewOpen(true);
+     const xhr = new XMLHttpRequest();
+      xhr.open('POST', `https://api.cloudinary.com/v1_1/${cloudName}/auto/upload`);
+      
+      xhr.upload.onprogress = (event) => {
+        if (event.lengthComputable) {
+          const percent = Math.round((event.loaded / event.total) * 100);
+          setAttachment(prev => {
+              if (!prev || prev.status !== 'uploading') return prev;
+              return { ...prev, progress: percent };
+          });
         }
-        logger.info('[MessageInput] Attachment uploaded successfully', {
-          userId,
-          recipientUserId,
-          conversationId: conversationId || 'none',
-          publicId: uploadData.public_id,
-          resourceType,
-          fileExtension,
-          isPreviewOpen: isImage,
-          timestamp: new Date().toISOString(),
-        });
-        toast.success(t('messaging:attachmentReady'));
-      } else {
-        throw new Error('Upload succeeded but no secure_url received');
-      }
+      };
+
+      xhr.onload = () => {
+        if (xhr.status >= 200 && xhr.status < 300) {
+          const uploadData = JSON.parse(xhr.responseText);
+          if (uploadData.secure_url) {
+            const newAttachment = {
+              url: uploadData.secure_url,
+              publicId: uploadData.public_id,
+              resourceType: uploadData.resource_type,
+              format: uploadData.format || file.name.split('.').pop().toLowerCase(),
+              originalFilename: file.name,
+              bytes: uploadData.bytes,
+              status: 'complete',
+              progress: 100,
+            };
+            if (localUrl) URL.revokeObjectURL(localUrl);
+            setAttachment(newAttachment);
+            setIsUploading(false);
+            logger.info('[MessageInput] Attachment uploaded successfully', { userId, publicId: uploadData.public_id, timestamp: new Date().toISOString() });
+          } else {
+            throw new Error('Upload succeeded but no secure_url received');
+          }
+        } else {
+          const errorText = xhr.responseText || `{"error":{"message":"${xhr.statusText}"}}`;
+          const errorData = JSON.parse(errorText);
+          throw new Error(`Cloudinary upload failed: ${xhr.status} ${errorData.error?.message || ''}`);
+        }
+      };
+
+      xhr.onerror = () => {
+        throw new Error(t('messaging:uploadNetworkError', 'Upload failed due to a network error.'));
+      };
+      
+      xhr.send(formData);
     } catch (error) {
-      logger.error('[MessageInput] Attachment upload failed', {
-        userId,
-        recipientUserId,
-        conversationId: conversationId || 'none',
-        error: error.message,
-        fileName: file?.name,
-        timestamp: new Date().toISOString(),
-      });
-      toast.error(`Attachment upload failed: ${error.message}`);
-      setAttachment(null);
-      setIsPreviewOpen(false);
-      if (fileInput) fileInput.value = null;
+      logger.error('[MessageInput] Attachment upload failed', { userId, error: error.message, fileName: file?.name, timestamp: new Date().toISOString() });
+      toast.error(`${t('common:uploadFailed')}: ${error.message}`);
+      setAttachment(prev => (prev ? { ...prev, status: 'error', progress: 0 } : null));
+      setIsUploading(false);
+      if (localUrl) URL.revokeObjectURL(localUrl);
     }
   };
 
   const removeAttachment = () => {
+    if (attachment && attachment.url && attachment.url.startsWith('blob:')) {
+      URL.revokeObjectURL(attachment.url);
+    }
     setAttachment(null);
     setCaption('');
     setIsPreviewOpen(false);
+    if (fileInputRef.current) {
+        fileInputRef.current.value = null;
+    }
     logger.debug('[MessageInput] Attachment removed', {
       userId,
       recipientUserId,
@@ -343,29 +383,24 @@ const MessageInput = ({ onSendMessage, conversationId, isSending, recipientUserI
     });
   };
 
-  return (
-    <div className="flex flex-col gap-2 p-3 bg-background border-t border-border">
+return (
+    <div className="flex flex-col gap-2 p-2 md:p-4 bg-background border-t border-border">
       {attachment && !isPreviewOpen && (
         <div className="relative flex items-center justify-between gap-2 p-2 bg-muted rounded-lg border border-border">
           <div className="flex items-center gap-3 min-w-0 flex-1">
-            {attachment.resourceType === 'video' && (
-              <div className="relative group flex-shrink-0">
-                <img
-                  src={`${attachment.url.replace(/\.mp4$/, '.jpg')}`}
-                  alt={attachment.originalFilename}
-                  className="h-14 w-14 rounded-md object-cover"
-                  loading="lazy"
-                />
-                <div className="absolute inset-0 bg-black/40 flex items-center justify-center rounded-md">
-                   <Film size={32} className="text-white opacity-80 group-hover:opacity-100 transition-opacity" />
-                </div>
-              </div>
-            )}
             {attachment.resourceType === 'file' && <FileText size={24} className="text-muted-foreground flex-shrink-0" />}
-            {attachment.resourceType === 'audio' && <Mic size={24} className="text-muted-foreground flex-shrink-0" />}
-            <div className="flex flex-col min-w-0">
+            <div className="flex flex-col min-w-0 flex-1">
               <span className="text-sm font-medium text-foreground truncate">{attachment.originalFilename}</span>
               <span className="text-xs text-muted-foreground">{(attachment.bytes / 1024 / 1024).toFixed(2)} MB</span>
+                {(attachment.status === 'uploading' || isCompletionVisible) && (
+                  <Progress value={isCompletionVisible ? 100 : attachment.progress} className="h-1 w-full mt-1.5 bg-muted" />
+                )}
+                {attachment.status === 'error' && (
+                    <div className="flex items-center text-xs text-destructive mt-1">
+                        <AlertTriangle className="h-3.5 w-3.5 mr-1.5 flex-shrink-0" />
+                        <span>{t('common:uploadFailed')}</span>
+                    </div>
+                )}
             </div>
           </div>
           <Button
@@ -390,13 +425,29 @@ const MessageInput = ({ onSendMessage, conversationId, isSending, recipientUserI
           >
             <X size={20} />
           </Button>
-          <div className="self-center max-w-xs md:max-w-sm">
+          <div className="relative self-center max-w-xs md:max-w-lg">
             <img
               src={attachment.url}
               alt={attachment.originalFilename}
               className="max-h-96 w-full h-auto object-contain rounded-md"
               loading="lazy"
             />
+            {attachment.status === 'uploading' && (
+                <div className="absolute bottom-2 left-2 right-2">
+                    <Progress value={attachment.progress} className="h-1.5 bg-black/30 backdrop-blur-sm" />
+                </div>
+            )}
+            {isCompletionVisible && (
+                <div className="absolute bottom-2 left-2 right-2">
+                    <Progress value={100} className="h-1.5 bg-black/30 backdrop-blur-sm" />
+                </div>
+            )}
+            {attachment.status === 'error' && (
+                 <div className="absolute inset-0 flex flex-col items-center justify-center rounded-md bg-black/70 p-4 text-white">
+                    <AlertTriangle className="h-8 w-8 text-destructive" />
+                    <p className="mt-2 text-sm font-semibold">{t('common:uploadFailed')}</p>
+                </div>
+            )}
           </div>
           <Input
             ref={captionInputRef}
@@ -404,13 +455,13 @@ const MessageInput = ({ onSendMessage, conversationId, isSending, recipientUserI
             onChange={handleCaptionChange}
             onKeyPress={handleKeyPress}
             placeholder={t('messaging:addCaptionPlaceholder')}
-            className="self-center max-w-sm"
+            className="self-center w-full max-w-xs md:max-w-lg"
             aria-label={t('messaging:captionInput')}
             disabled={isSending}
           />
         </div>
       )}
-     <div className="flex items-end gap-2 p-1.5 border border-input rounded-2xl bg-background has-[textarea:focus]:ring-2 has-[textarea:focus]:ring-ring has-[textarea:focus]:ring-offset-background transition-all">
+     <div className="flex items-end gap-2 p-1.5 border border-input rounded-2xl bg-background transition-all has-[textarea:focus]:border-indigo-600 dark:has-[textarea:focus]:border-indigo-500">
         <Button
           type="button"
           variant="ghost"
@@ -437,14 +488,14 @@ const MessageInput = ({ onSendMessage, conversationId, isSending, recipientUserI
           onChange={handleInputChange}
           onKeyPress={handleKeyPress}
           placeholder={placeholderText}
-          className="flex-1 resize-none border-0 bg-transparent p-2 shadow-none focus-visible:ring-0 focus-visible:ring-offset-0 min-h-[24px] max-h-32 text-base"
+          className="flex-1 resize-none border-0 bg-transparent p-2 shadow-none focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 min-h-[24px] max-h-32 text-base"
           disabled={isInputDisabled}
           rows={1}
           aria-label={t('messaging:messageTextInput')}
         />
         <Button
             onClick={handleSend}
-            disabled={isSending || (!message.trim() && !attachment && !caption.trim()) || (isBroadcast && !currentUserIsAdmin)}
+            disabled={!canSendMessage || (isBroadcast && !currentUserIsAdmin)}
             size="icon"
             className="w-10 h-10 rounded-full flex-shrink-0"
             aria-label={t('messaging:sendMessage')}

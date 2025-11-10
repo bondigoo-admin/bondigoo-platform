@@ -48,6 +48,15 @@ const corsOptions = {
 app.use(cors(corsOptions));
 Commit and push this change through your workflow (feature -> develop -> staging -> main) to ensure it's present in all environments.
 Phase 1: Infrastructure Provisioning
+
+Step 2.1: Configure Vercel Build Command for CI Environments
+Vercel's build environment sets the variable CI=true, which causes the Create React App build script to treat all ESLint warnings as fatal errors. This will block deployments if there is any technical debt (e.g., unused variables).
+Action: To prevent this, override the build command in the Vercel project settings for each environment (prod, staging, dev).
+In the Vercel project, go to Settings -> General -> Build & Development Settings.
+Enable the Override toggle next to the Build Command.
+Set the command to: CI=false npm run build
+Note: This is a temporary measure to ensure deployments are not blocked. A long-term task should be created to fix all ESLint warnings, at which point this override can be removed.
+
 Step 3: Provision MongoDB Atlas Databases
 
 Production Cluster:
@@ -129,6 +138,27 @@ Render Domains:
 In your bondigoo-api-prod Render service, add api.bondigoo.ch as a custom domain and add the required CNAME record to your DNS.
 In bondigoo-api-staging, add api.staging.bondigoo.ch.
 In bondigoo-api-dev, add api.dev.bondigoo.ch.
+
+Step 6.1: Add Custom Domains in Render
+Before DNS can be configured for the API, the custom domains must be added to each Render service.
+Navigate to the bondigoo-api-prod service in Render, go to Settings, and add the custom domain api.bondigoo.ch. Copy the CNAME value Render provides.
+Navigate to the bondigoo-api-staging service in Render, go to Settings, and add the custom domain api.staging.bondigoo.ch. Copy its unique CNAME value.
+Navigate to the bondigoo-api-dev service in Render, go to Settings, and add the custom domain api.dev.bondigoo.ch. Copy its unique CNAME value.
+Step 6.2: Create DNS Records for Render Services
+In your domain registrar (GoDaddy), add the following CNAME records:
+Production API:
+Type: CNAME
+Name: api
+Value: Paste the CNAME value from the bondigoo-api-prod service.
+Staging API:
+Type: CNAME
+Name: api.staging
+Value: Paste the CNAME value from the bondigoo-api-staging service.
+Development API:
+Type: CNAME
+Name: api.dev
+Value: Paste the CNAME value from the bondigoo-api-dev service.
+
 Step 7: Set All Environment Variables
 
 This is the most critical step. Create Render Environment Groups for each environment (`bondigoo-prod-env`, `bondigoo-staging-env`, `bondigoo-dev-env`) and populate them with these values.

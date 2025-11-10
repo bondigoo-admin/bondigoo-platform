@@ -4,11 +4,14 @@ const { initializeSocketService, getSocketService } = require('../services/socke
 const Message = require('../models/Message');
 const { SOCKET_EVENTS } = require ('../utils/socket_events');
 const Conversation = require('../models/Conversation');
+const ConversationMember = require('../models/ConversationMember');
 const Coach = require('../models/Coach');
 const User = require('../models/User');
 const encryptionService = require('../utils/encryptionService');
 const mongoose = require('mongoose');
 const assetCleanupService = require('../services/assetCleanupService');
+const cloudinary = require('../utils/cloudinaryConfig');
+const axios = require('axios');
 
 /**
  * Sends a new message in a conversation.
@@ -710,14 +713,19 @@ exports.getSecureAttachmentUrl = async (req, res) => {
   const userId = req.user._id;
 
   try {
-    const message = await Message.findOne({ 'attachment.publicId': publicId }).select('conversationId').lean();
+    const message = await Message.findOne({ 'attachment.publicId': publicId }).select('conversationId attachment').lean();
     if (!message) {
       return res.status(404).json({ message: 'Attachment not found.' });
     }
 
-    const isMember = await mongoose.model('ConversationMember').findOne({
+    const attachment = message.attachment.find(att => att.publicId === publicId);
+    if (!attachment) {
+      return res.status(404).json({ message: 'Attachment details not found within message.' });
+    }
+
+    const isMember = await ConversationMember.findOne({
       conversationId: message.conversationId,
-      userId: userId
+      userId: userId,
     }).lean();
 
     if (!isMember) {
@@ -725,7 +733,7 @@ exports.getSecureAttachmentUrl = async (req, res) => {
     }
 
     const secureUrl = cloudinary.url(publicId, {
-      resource_type: 'auto',
+      resource_type: attachment.resourceType || 'auto',
       type: 'private',
       sign_url: true,
       expires_at: Math.floor(Date.now() / 1000) + 3600 // 1 hour expiration
@@ -736,5 +744,53 @@ exports.getSecureAttachmentUrl = async (req, res) => {
   } catch (error) {
     logger.error('[getSecureAttachmentUrl] Failed to generate secure URL', { publicId, userId, error: error.message });
     res.status(500).json({ message: 'Could not generate secure URL.' });
+  }
+};
+
+exports.downloadAttachment = async (req, res) => {
+  const { id: publicId } = req.query;
+  const userId = req.user._id;
+
+  try {
+    const message = await Message.findOne({ 'attachment.publicId': publicId }).select('conversationId attachment').lean();
+    if (!message) {
+      return res.status(404).json({ message: 'Attachment not found.' });
+    }
+
+    const attachment = message.attachment.find(att => att.publicId === publicId);
+    if (!attachment) {
+      return res.status(404).json({ message: 'Attachment details not found within message.' });
+    }
+
+    const isMember = await ConversationMember.findOne({
+      conversationId: message.conversationId,
+      userId: userId,
+    }).lean();
+
+    if (!isMember) {
+      return res.status(403).json({ message: 'Access denied.' });
+    }
+
+    const secureUrl = cloudinary.url(publicId, {
+      resource_type: attachment.resourceType || 'auto',
+      type: 'private',
+      sign_url: true,
+      expires_at: Math.floor(Date.now() / 1000) + 60 // Short expiration for server-side use
+    });
+
+    const response = await axios({
+      method: 'get',
+      url: secureUrl,
+      responseType: 'stream'
+    });
+    
+    res.setHeader('Content-Type', response.headers['content-type']);
+    res.setHeader('Content-Disposition', `inline; filename="${attachment.originalFilename}"`);
+
+    response.data.pipe(res);
+
+  } catch (error) {
+    logger.error('[downloadAttachment] Failed to proxy attachment', { publicId, userId, error: error.message });
+    res.status(500).json({ message: 'Could not retrieve attachment.' });
   }
 };

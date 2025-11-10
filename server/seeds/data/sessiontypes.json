@@ -1,0 +1,101 @@
+[
+  {
+    "_id": "66ec4ea477bec414bf2b8859",
+    "name": "1 on 1",
+    "isGroupSession": false,
+    "format": "one_on_one",
+    "duration": {
+      "default": 60,
+      "min": 30,
+      "max": 120
+    },
+    "translations": {
+      "de": { "name": "1-zu-1" },
+      "fr": { "name": "Individuel" },
+      "it": { "name": "Individuale" }
+    }
+  },
+  {
+    "_id": "66ec54f44a8965b22af33fd5",
+    "name": "Group",
+    "isGroupSession": true,
+    "requiresAvailability": false,
+    "format": "group",
+    "duration": {
+      "default": 90,
+      "min": 60,
+      "max": 180
+    },
+    "translations": {
+      "de": { "name": "Gruppen" },
+      "fr": { "name": "Groupe" },
+      "it": { "name": "Gruppo" }
+    }
+  },
+  {
+    "_id": "66ec54f94a8965b22af33fd9",
+    "name": "Webinar",
+    "isGroupSession": true,
+    "requiresAvailability": false,
+    "format": "group",
+    "duration": {
+      "default": 60,
+      "min": 45,
+      "max": 90
+    },
+    "translations": {
+      "de": { "name": "Webinar" },
+      "fr": { "name": "Webinaire" },
+      "it": { "name": "Webinar" }
+    }
+  },
+  {
+    "_id": "66ec54fe4a8965b22af33fdd",
+    "name": "Workshop",
+    "isGroupSession": true,
+    "requiresAvailability": false,
+    "format": "workshop",
+    "duration": {
+      "default": 180,
+      "min": 120,
+      "max": 480
+    },
+    "translations": {
+      "de": { "name": "Workshop" },
+      "fr": { "name": "Atelier" },
+      "it": { "name": "Workshop" }
+    }
+  },
+  {
+    "_id": "66ec551a4a8965b22af33fe3",
+    "name": "Availability",
+    "isGroupSession": false,
+    "format": "one_on_one",
+    "duration": {
+      "default": 60,
+      "min": 15,
+      "max": 120
+    },
+    "translations": {
+      "de": { "name": "Verfügbarkeit" },
+      "fr": { "name": "Disponibilité" },
+      "it": { "name": "Disponibilità" }
+    }
+  },
+  {
+    "_id": "686cd5a08dff63337216c888",
+    "name": "Program",
+    "isGroupSession": false,
+    "format": "one_on_one",
+    "duration": {
+      "default": 0,
+      "min": 0,
+      "max": 0
+    },
+    "translations": {
+      "de": { "name": "Programm" },
+      "fr": { "name": "Programme" },
+      "it": { "name": "Programma" }
+    }
+  }
+]
