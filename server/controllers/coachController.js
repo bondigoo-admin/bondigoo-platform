@@ -196,15 +196,16 @@ exports.searchListItems = async (req, res) => {
     let items;
     const isProgramCategory = type === 'programCategories';
     const dbListType = isProgramCategory ? 'program_categories' : type;
+
     const translationPath = isProgramCategory
       ? `translations.name.${language}`
-      : `translations.${language}`;
+      : `translations.${language}.name`;
 
     if (query) {
       // Find items where the original name matches the query
       const nameMatchPromise = Model.find({ name: { $regex: query, $options: 'i' } }).select('_id').lean();
 
-      // Find items where a translation matches the query
+      // Find items where a translation matches the query (using the corrected path)
       const translationMatchPromise = Translation.find({
         listType: dbListType,
         [translationPath]: { $regex: query, $options: 'i' }
@@ -235,16 +236,19 @@ exports.searchListItems = async (req, res) => {
 
     const translations = await Translation.find({
       listType: dbListType,
-      [translationPath]: { $exists: true, $ne: null }
+      // We only need to check for the existence of the language object now
+      [`translations.${language}`]: { $exists: true, $ne: null }
     }).lean();
 
     const translationMap = new Map();
     translations.forEach(t => {
       const itemId = t.key.split('_').pop();
       if (itemIdsSet.has(itemId) && t.translations) {
-         const translatedName = isProgramCategory
-          ? t.translations.name?.[language]
-          : t.translations[language];
+        
+        // FIX #2: Extract the 'name' property from the translation object.
+        const translatedName = isProgramCategory
+          ? t.translations.name?.[language] // This handles the unique structure of program categories
+          : t.translations[language]?.name; // This handles all other lists
         
         if (translatedName) {
             translationMap.set(itemId, translatedName);
@@ -255,6 +259,7 @@ exports.searchListItems = async (req, res) => {
     const resultsWithTranslations = items.map(item => {
       const itemIdStr = item._id.toString();
       const translatedName = translationMap.get(itemIdStr);
+      // The error-causing `.trim()` will now work because translatedName is a string.
       return {
         ...item,
         translation: translatedName && translatedName.trim() !== '' ? translatedName : null,

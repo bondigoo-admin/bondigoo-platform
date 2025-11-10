@@ -455,15 +455,7 @@ const renderContent = () => {
                     <ToggleGroupItem value="list" aria-label={t('common:view_list', 'List View')}><List className="h-4 w-4" /></ToggleGroupItem>
                 </ToggleGroup>
               </div>
-            </div>
-          
-            <p className="text-sm text-muted-foreground font-medium">
-              {isLoading && !programsCount ? (
-                <span>{t('common:loading')}…</span>
-              ) : (
-                <span>{t('showing_programs', { ns: 'programs', count: programsCount })}</span>
-              )}
-            </p>
+            </div>     
 
            {hasActiveFilters && (
                 <div className="flex flex-wrap items-center gap-2">
