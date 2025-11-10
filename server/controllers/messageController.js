@@ -190,6 +190,44 @@ exports.sendMessage = async (req, res) => {
   }
 };
 
+exports.getGroupAvatarUploadSignature = async (req, res) => {
+  const { conversationId } = req.params;
+  const userId = req.user._id;
+
+  try {
+    const isMember = await ConversationMember.findOne({ conversationId, userId }).lean();
+    if (!isMember) {
+      logger.warn('[getGroupAvatarUploadSignature] User is not a member of the conversation.', { userId, conversationId });
+      return res.status(403).json({ message: 'Access denied. You are not a member of this group.' });
+    }
+
+    const timestamp = Math.round((new Date()).getTime() / 1000);
+    const uploadPreset = 'group_avatars'; // NOTE: This upload preset must be created in your Cloudinary account.
+    const folder = `group_avatars/${conversationId}`;
+
+    const signature = cloudinary.utils.api_sign_request(
+      {
+        timestamp,
+        upload_preset: uploadPreset,
+        folder,
+      },
+      process.env.CLOUDINARY_API_SECRET
+    );
+
+    res.json({
+      signature,
+      timestamp,
+      apiKey: process.env.CLOUDINARY_API_KEY,
+      cloudName: process.env.CLOUDINARY_CLOUD_NAME,
+      uploadPreset,
+      folder,
+    });
+  } catch (error) {
+    logger.error('[getGroupAvatarUploadSignature] Failed to generate signature', { conversationId, userId, error: error.message });
+    res.status(500).json({ message: 'Could not generate upload signature.' });
+  }
+};
+
 exports.createGroupConversation = async (req, res) => {
   const { memberIds, name, type, groupAvatar } = req.body;
   const creatorId = req.user._id.toString();
@@ -792,5 +830,96 @@ exports.downloadAttachment = async (req, res) => {
   } catch (error) {
     logger.error('[downloadAttachment] Failed to proxy attachment', { publicId, userId, error: error.message });
     res.status(500).json({ message: 'Could not retrieve attachment.' });
+  }
+};
+
+exports.addMembers = async (req, res) => {
+  const { conversationId } = req.params;
+  const { memberIds } = req.body;
+  const userId = req.user._id.toString();
+  try {
+    if (!Array.isArray(memberIds) || memberIds.length === 0) {
+      return res.status(400).json({ error: 'At least one member ID is required.' });
+    }
+    const result = await messageService.addMembersToGroup(conversationId, userId, memberIds);
+    return res.status(200).json(result);
+  } catch (error) {
+    logger.error('[MessageController] Error adding members to group', { error: error.message, stack: error.stack });
+    return res.status(error.statusCode || 500).json({ error: error.message || 'Failed to add members.' });
+  }
+};
+
+exports.removeMember = async (req, res) => {
+  const { conversationId, memberId } = req.params;
+  const userId = req.user._id.toString();
+  try {
+    const result = await messageService.removeMembersFromGroup(conversationId, userId, memberId);
+    return res.status(200).json(result);
+  } catch (error) {
+    logger.error('[MessageController] Error removing member from group', { error: error.message, stack: error.stack });
+    return res.status(error.statusCode || 500).json({ error: error.message || 'Failed to remove member.' });
+  }
+};
+
+exports.updateMemberRole = async (req, res) => {
+  const { conversationId, memberId } = req.params;
+  const { newRole } = req.body;
+  const userId = req.user._id.toString();
+  try {
+    if (!['admin', 'member'].includes(newRole)) {
+      return res.status(400).json({ error: 'Invalid role specified.' });
+    }
+    const result = await messageService.updateMemberRole(conversationId, userId, memberId, newRole);
+    return res.status(200).json(result);
+  } catch (error) {
+    logger.error('[MessageController] Error updating member role', { error: error.message, stack: error.stack });
+    return res.status(error.statusCode || 500).json({ error: error.message || 'Failed to update member role.' });
+  }
+};
+
+exports.updateGroupInfo = async (req, res) => {
+  const { conversationId } = req.params;
+  const { name, groupAvatar, description } = req.body;
+  const userId = req.user._id.toString();
+  try {
+    if (groupAvatar !== undefined) {
+        const conversation = await Conversation.findById(conversationId).select('groupAvatar.publicId').lean();
+        const oldPublicId = conversation?.groupAvatar?.publicId;
+        if (oldPublicId) {
+            if (!groupAvatar || oldPublicId !== groupAvatar.publicId) {
+                assetCleanupService.queueAssetDeletion(oldPublicId, 'image');
+            }
+        }
+    }
+    const result = await messageService.updateGroupInfo(conversationId, userId, { name, groupAvatar, description });
+    return res.status(200).json(result);
+  } catch (error) {
+    logger.error('[MessageController] Error updating group info', { error: error.message, stack: error.stack });
+    return res.status(error.statusCode || 500).json({ error: error.message || 'Failed to update group information.' });
+  }
+};
+
+exports.updateGroupSettings = async (req, res) => {
+  const { conversationId } = req.params;
+  const { allowMemberInvites, allowMemberInfoEdit } = req.body;
+  const userId = req.user._id.toString();
+  try {
+    const result = await messageService.updateGroupSettings(conversationId, userId, { allowMemberInvites, allowMemberInfoEdit });
+    return res.status(200).json(result);
+  } catch (error) {
+    logger.error('[MessageController] Error updating group settings', { error: error.message, stack: error.stack });
+    return res.status(error.statusCode || 500).json({ error: error.message || 'Failed to update group settings.' });
+  }
+};
+
+exports.leaveGroup = async (req, res) => {
+  const { conversationId } = req.params;
+  const userId = req.user._id.toString();
+  try {
+    const result = await messageService.leaveGroup(conversationId, userId);
+    return res.status(200).json(result);
+  } catch (error) {
+    logger.error('[MessageController] Error leaving group', { error: error.message, stack: error.stack });
+    return res.status(error.statusCode || 500).json({ error: error.message || 'Failed to leave group.' });
   }
 };

@@ -1,5 +1,6 @@
 import api, { fileApi } from './api';
 import { logger } from '../utils/logger';
+import axios from 'axios';
 
 /**
  * Fetches the list of conversations for the current user.
@@ -411,4 +412,125 @@ export const downloadMessageAttachment = async ({ publicId }) => {
     });
     throw error.response?.data || new Error('Failed to download attachment');
   }
+};
+
+export const addMembersToGroup = async ({ conversationId, memberIds }) => {
+  logger.info('[messageAPI] Adding members to group', { conversationId, memberCount: memberIds.length });
+  try {
+    const response = await api.post(`/api/messages/conversations/${conversationId}/members`, { memberIds });
+    return response.data;
+  } catch (error) {
+    logger.error('[messageAPI] Error adding members to group:', { error: error.response?.data || error.message });
+    throw error.response?.data || new Error('Failed to add members to group');
+  }
+};
+
+export const removeMemberFromGroup = async ({ conversationId, memberId }) => {
+  logger.info('[messageAPI] Removing member from group', { conversationId, memberId });
+  try {
+    const response = await api.delete(`/api/messages/conversations/${conversationId}/members/${memberId}`);
+    return response.data;
+  } catch (error) {
+    logger.error('[messageAPI] Error removing member from group:', { error: error.response?.data || error.message });
+    throw error.response?.data || new Error('Failed to remove member from group');
+  }
+};
+
+export const updateMemberRole = async ({ conversationId, memberId, newRole }) => {
+  logger.info('[messageAPI] Updating member role in group', { conversationId, memberId, newRole });
+  try {
+    const response = await api.patch(`/api/messages/conversations/${conversationId}/members/${memberId}/role`, { newRole });
+    return response.data;
+  } catch (error) {
+    logger.error('[messageAPI] Error updating member role:', { error: error.response?.data || error.message });
+    throw error.response?.data || new Error('Failed to update member role');
+  }
+};
+
+export const updateGroupInfo = async ({ conversationId, updates }) => {
+  logger.info('[messageAPI] Updating group information', { conversationId, updates });
+  try {
+    const response = await api.patch(`/api/messages/conversations/${conversationId}/info`, updates);
+    return response.data;
+  } catch (error) {
+    logger.error('[messageAPI] Error updating group information:', { error: error.response?.data || error.message });
+    throw error.response?.data || new Error('Failed to update group information');
+  }
+};
+
+export const updateGroupSettings = async ({ conversationId, settingsUpdates }) => {
+  logger.info('[messageAPI] Updating group settings', { conversationId, settingsUpdates });
+  try {
+    const response = await api.patch(`/api/messages/conversations/${conversationId}/settings`, settingsUpdates);
+    return response.data;
+  } catch (error) {
+    logger.error('[messageAPI] Error updating group settings:', { error: error.response?.data || error.message });
+    throw error.response?.data || new Error('Failed to update group settings');
+  }
+};
+
+export const leaveGroup = async (conversationId) => {
+  logger.info('[messageAPI] Leaving group', { conversationId });
+  try {
+    const response = await api.delete(`/api/messages/conversations/${conversationId}/members/self`);
+    return response.data;
+  } catch (error) {
+    logger.error('[messageAPI] Error leaving group:', { error: error.response?.data || error.message });
+    throw error.response?.data || new Error('Failed to leave group');
+  }
+};
+
+export const getGroupAvatarUploadSignature = async (conversationId) => {
+    logger.info('[messageAPI] Fetching group avatar upload signature', { conversationId });
+    try {
+        const response = await api.get(`/api/messages/conversations/${conversationId}/avatar-signature`);
+        return response.data;
+    } catch (error) {
+        logger.error('[messageAPI] Error fetching group avatar upload signature:', {
+            error: error.response?.data || error.message,
+        });
+        throw error.response?.data || new Error('Failed to get group avatar upload signature');
+    }
+};
+
+export const uploadGroupAvatar = async ({ conversationId, file }) => {
+  logger.info('[messageAPI] Starting group avatar upload', { conversationId });
+  try {
+    const signatureData = await getGroupAvatarUploadSignature(conversationId);
+
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('signature', signatureData.signature);
+    formData.append('timestamp', signatureData.timestamp);
+    formData.append('api_key', signatureData.apiKey);
+    formData.append('upload_preset', signatureData.uploadPreset);
+    formData.append('folder', signatureData.folder);
+
+    const cloudinaryResponse = await axios.post(
+      `https://api.cloudinary.com/v1_1/${signatureData.cloudName}/image/upload`,
+      formData
+    );
+
+    const updates = {
+      groupAvatar: {
+        publicId: cloudinaryResponse.data.public_id,
+        url: cloudinaryResponse.data.secure_url,
+      },
+    };
+
+    const result = await updateGroupInfo({ conversationId, updates });
+    logger.info('[messageAPI] Group avatar uploaded and updated successfully', { conversationId });
+    return result;
+  } catch (error) {
+    logger.error('[messageAPI] Error uploading group avatar:', {
+      error: error.response?.data || error.message,
+    });
+    throw error;
+  }
+};
+
+export const removeGroupAvatar = async (conversationId) => {
+    logger.info('[messageAPI] Removing group avatar', { conversationId });
+    const updates = { groupAvatar: null };
+    return updateGroupInfo({ conversationId, updates });
 };

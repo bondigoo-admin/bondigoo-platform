@@ -27,6 +27,8 @@ router.get('/conversations/:conversationId/messages', auth, messageController.ge
 // Send a new message in a specific conversation
 router.post('/conversations/:conversationId/messages', auth, messageController.sendMessage);
 
+router.get('/conversations/:conversationId/avatar-signature', auth, messageController.getGroupAvatarUploadSignature);
+
 // Cloudinary upload signature for message attachments
 router.get('/upload-signature', auth, (req, res) => {
   try {
@@ -65,5 +67,11 @@ router.get('/attachments/download', auth, messageController.downloadAttachment);
 router.delete('/conversations/:conversationId', auth, messageController.deleteConversation);
 // Delete a specific message
 router.delete('/messages/:messageId', auth, messageController.deleteMessage);
+router.delete('/conversations/:conversationId/members/self', auth, messageController.leaveGroup);
+router.post('/conversations/:conversationId/members', auth, messageController.addMembers);
+router.delete('/conversations/:conversationId/members/:memberId', auth, messageController.removeMember);
+router.patch('/conversations/:conversationId/members/:memberId/role', auth, messageController.updateMemberRole);
+router.patch('/conversations/:conversationId/info', auth, messageController.updateGroupInfo);
+router.patch('/conversations/:conversationId/settings', auth, messageController.updateGroupSettings);
 
 module.exports = router;

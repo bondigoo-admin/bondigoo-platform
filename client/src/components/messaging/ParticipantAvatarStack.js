@@ -8,7 +8,6 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "../ui/tooltip.tsx";
-import { logger } from '../../utils/logger';
 
 const getInitials = (firstName = '', lastName = '') => {
   if (!firstName && !lastName) return 'U';
@@ -24,7 +23,6 @@ const ParticipantAvatarStack = ({ participants, maxVisible = 5 }) => {
     : [];
 
   if (otherParticipants.length === 0) {
-    // This provides a clearer message during development if the participants array is empty.
     return <span className="text-xs text-slate-500 dark:text-slate-400">Loading participants...</span>;
   }
 
@@ -35,30 +33,14 @@ const ParticipantAvatarStack = ({ participants, maxVisible = 5 }) => {
     <TooltipProvider delayDuration={200}>
       <div className="flex items-center -space-x-2">
         {visibleParticipants.map(participant => {
-          if (!participant?._id) return null; // Add a safety check for valid participant object
+          if (!participant?._id) return null;
 
-          // --- THIS IS THE CORRECTED LOGIC ---
-          // It now precisely mirrors the working logic from ConversationItem.js.
-          // 1. It checks if the participant's role is 'coach'.
-          // 2. Only if they are a coach, it tries to use the coachProfilePicture.
-          // 3. In all other cases (not a coach, or a coach without a specific pic), it falls back to the general profilePicture.
           const avatarUrl =
             participant.role === 'coach' && participant.coachProfilePicture?.url
               ? participant.coachProfilePicture.url
               : participant.profilePicture?.url || '';
 
           const displayName = `${participant.firstName || ''} ${participant.lastName || ''}`.trim();
-
-          // This log will now clearly show the data for each participant.
-          // Check your browser console to verify that coaches have the `coachProfilePicture` object.
-          logger.debug('[ParticipantAvatarStack] Rendering participant avatar', {
-            participantId: participant._id,
-            name: displayName,
-            role: participant.role,
-            coachPicObject: participant.coachProfilePicture, // Should contain { url: '...' } for coaches
-            userPicObject: participant.profilePicture,
-            finalAvatarUrl: avatarUrl, // The URL that was chosen
-          });
 
           return (
             <Tooltip key={participant._id}>
@@ -87,7 +69,7 @@ const ParticipantAvatarStack = ({ participants, maxVisible = 5 }) => {
               </div>
             </TooltipTrigger>
             <TooltipContent>
-              <p>{overflowCount} +</p>
+              <p>{overflowCount} more</p>
             </TooltipContent>
           </Tooltip>
         )}
