@@ -10,6 +10,7 @@ import { Input } from "./ui/input.tsx";
 import { Alert, AlertDescription } from "./ui/alert.tsx";
 import { Checkbox } from "./ui/checkbox.tsx";
 import { Label } from "./ui/label.tsx";
+import logoWhite from '../assets/logo_white.svg';
 
 const Login = () => {
   const [formData, setFormData] = useState({ email: '', password: '' });
@@ -89,6 +90,10 @@ const handleSubmit = async (e) => {
 return (
     <div className="fixed inset-0 z-50 bg-background">
       <div className="absolute inset-0 bg-[linear-gradient(135deg,_#6e8efb_0%,_#a777e3_100%)] dark:bg-[linear-gradient(135deg,_#1d2b64_0%,_#48267d_100%)]" />
+      
+      <Link to="/" className="absolute top-8 left-8 z-20">
+        <img src={logoWhite} alt="Bondigoo Logo" className="h-10 w-auto" />
+      </Link>
       
     <div className="relative z-10 flex h-full w-full items-center justify-center p-4">
  

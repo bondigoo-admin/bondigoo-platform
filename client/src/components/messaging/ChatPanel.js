@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { MessageCircle, Loader2, AlertTriangle } from 'lucide-react';
+import { MessageCircle, Loader2, AlertTriangle, X, ChevronLeft as ChevronLeftIcon, ChevronRight as ChevronRightIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import ChatHeader from './ChatHeader';
 import MessageList from './MessageList';
@@ -14,6 +14,7 @@ import { sendMessage, markConversationAsRead, deleteConversation, deleteMessage 
 import { useMutation, useQueryClient } from 'react-query';
 import { useNotificationSocket } from '../../contexts/SocketContext';
 import { SOCKET_EVENTS } from '../../constants/socketEvents';
+import CustomVideoPlayer from '../player/CustomVideoPlayer.js';
 
 const conversationKeys = {
   all: (userId) => ['conversations', userId],
@@ -45,6 +46,11 @@ const ChatPanel = ({ activeConversationId, onConversationDeleted }) => {
   const [typingUsers, setTypingUsers] = useState({});
   const [isRecipientTyping, setIsRecipientTyping] = useState(false);
   const [typingIndicatorText, setTypingIndicatorText] = useState('');
+  const [viewerState, setViewerState] = useState({
+    isOpen: false,
+    mediaItems: [],
+    startIndex: 0
+  });
 
   const baseActiveConversation = conversationList?.find(c => c._id === activeConversationId);
 
@@ -105,6 +111,45 @@ const ChatPanel = ({ activeConversationId, onConversationDeleted }) => {
       participants: enrichedParticipants,
     };
   }, [baseActiveConversation, conversationList, messages]);
+
+   const handleOpenMediaViewer = useCallback((clickedMessageId) => {
+    const imageExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'heic', 'heif'];
+    const videoExtensions = ['mp4', 'mov', 'webm', 'ogg', 'quicktime'];
+
+    const mediaMessages = messages.filter(msg => {
+        if (msg.deletedUniversally || msg.deletedFor?.some(id => id.toString() === userId)) {
+            return false;
+        }
+        if (!Array.isArray(msg.attachment) || msg.attachment.length === 0) {
+            return false;
+        }
+        const attachment = msg.attachment[0];
+        const fileExt = (attachment.originalFilename?.split('.').pop() || attachment.format || '').toLowerCase();
+        return imageExtensions.includes(fileExt) || videoExtensions.includes(fileExt);
+    });
+
+    if (mediaMessages.length === 0) return;
+
+    const mediaItems = mediaMessages.map(msg => {
+        const attachment = msg.attachment[0];
+        const fileExt = (attachment.originalFilename?.split('.').pop() || attachment.format || '').toLowerCase();
+        return {
+            ...attachment,
+            _id: msg._id,
+            type: videoExtensions.includes(fileExt) ? 'video' : 'image',
+        };
+    });
+
+    const startIndex = mediaItems.findIndex(item => item._id === clickedMessageId);
+
+    if (startIndex === -1) return;
+
+    setViewerState({
+        isOpen: true,
+        mediaItems,
+        startIndex
+    });
+  }, [messages, userId]);
   
   const recipientUserId = activeConversation?.type === 'one-on-one' 
     ? activeConversation.otherParticipant?._id 
@@ -645,7 +690,7 @@ if (fetchError && messages.length === 0) {
     timestamp: new Date().toISOString(),
   });
 
-  return (
+return (
     <div className="flex h-full flex-col bg-background">
         <ChatHeader
             activeConversation={activeConversation}
@@ -662,11 +707,11 @@ if (fetchError && messages.length === 0) {
           activeConversation={activeConversation}
           currentUserId={userId}
           onDeleteMessage={handleDeleteMessage}
+          onOpenMediaViewer={handleOpenMediaViewer}
         />
        <div className="flex h-6 items-center px-4">
        {typingIndicatorText && <span className="text-sm italic text-muted-foreground">{typingIndicatorText}</span>}
        </div>
-      <div className="border-t border-border p-2 md:p-4">
         <MessageInput
           onSendMessage={handleSendMessage}
           conversationId={activeConversationId}
@@ -674,7 +719,74 @@ if (fetchError && messages.length === 0) {
           recipientUserId={recipientUserId}
           activeConversation={activeConversation}
         />
-      </div>
+
+      {viewerState.isOpen && viewerState.mediaItems.length > 0 && (
+        <div
+          className="fixed inset-0 z-[1300] flex items-center justify-center bg-black/90 p-4 backdrop-blur-sm"
+          onClick={() => setViewerState(prev => ({ ...prev, isOpen: false }))}
+        >
+          <div
+            className="relative flex h-full w-full max-w-7xl flex-col"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="relative flex flex-1 items-center justify-center min-h-0">
+              {(() => {
+                const currentMedia = viewerState.mediaItems[viewerState.startIndex];
+                if (!currentMedia) return null;
+
+                if (currentMedia.type === 'video') {
+                  return (
+                    <div className="flex h-full w-full max-w-full max-h-full items-center justify-center">
+                        <CustomVideoPlayer videoFile={currentMedia} />
+                    </div>
+                  );
+                }
+                return (
+                  <img
+                    src={currentMedia.url}
+                    alt={`${t('messaging:imagePreview')} ${viewerState.startIndex + 1}`}
+                    className="block max-h-full max-w-full rounded-sm object-contain shadow-2xl"
+                  />
+                );
+              })()}
+            </div>
+            <div className="flex shrink-0 items-center justify-center gap-4 p-4">
+              <button
+                className="flex h-12 w-12 cursor-pointer items-center justify-center rounded-full border border-white/20 bg-white/10 text-white transition-all hover:not-disabled:scale-105 hover:not-disabled:bg-white/20 disabled:cursor-not-allowed disabled:opacity-50"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setViewerState(prev => ({ ...prev, startIndex: (prev.startIndex - 1 + prev.mediaItems.length) % prev.mediaItems.length }));
+                }}
+                disabled={viewerState.mediaItems.length <= 1}
+                aria-label={t('common:previous')}
+              >
+                <ChevronLeftIcon size={24} />
+              </button>
+              <span className="min-w-[3rem] text-center text-base text-white/95">
+                {viewerState.startIndex + 1} / {viewerState.mediaItems.length}
+              </span>
+              <button
+                className="flex h-12 w-12 cursor-pointer items-center justify-center rounded-full border border-white/20 bg-white/10 text-white transition-all hover:not-disabled:scale-105 hover:not-disabled:bg-white/20 disabled:cursor-not-allowed disabled:opacity-50"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setViewerState(prev => ({ ...prev, startIndex: (prev.startIndex + 1) % prev.mediaItems.length }));
+                }}
+                disabled={viewerState.mediaItems.length <= 1}
+                aria-label={t('common:next')}
+              >
+                <ChevronRightIcon size={24} />
+              </button>
+              <button
+                  className="ml-4 flex h-12 w-12 cursor-pointer items-center justify-center rounded-full border border-white/20 bg-destructive/70 text-destructive-foreground transition-all hover:not-disabled:scale-105 hover:not-disabled:bg-destructive disabled:cursor-not-allowed disabled:opacity-50"
+                  onClick={() => setViewerState(prev => ({ ...prev, isOpen: false }))}
+                  aria-label={t('common:close')}
+                >
+                  <X size={24} />
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

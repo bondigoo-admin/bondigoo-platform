@@ -1,0 +1,380 @@
+[
+  {
+    "name": "Directive",
+    "description": "The coach leads the session, provides advice, and gives clear instructions and strategies.",
+    "translations": {
+      "de": {
+        "name": "Direktiv",
+        "description": "Der Coach leitet die Sitzung, gibt Ratschläge und klare Anweisungen sowie Strategien."
+      },
+      "fr": {
+        "name": "Directif",
+        "description": "Le coach dirige la session, donne des conseils et des instructions claires ainsi que des stratégies."
+      },
+      "it": {
+        "name": "Direttivo",
+        "description": "Il coach guida la sessione, fornisce consigli e dà istruzioni e strategie chiare."
+      }
+    }
+  },
+  {
+    "name": "Non-Directive",
+    "description": "The coach acts as a facilitator, helping the client to find their own solutions through questioning and reflection.",
+    "translations": {
+      "de": {
+        "name": "Nicht-Direktiv",
+        "description": "Der Coach agiert als Begleiter und hilft dir dabei, durch Fragen und Reflexion deine eigenen Lösungen zu finden."
+      },
+      "fr": {
+        "name": "Non-directif",
+        "description": "Le coach agit comme un facilitateur, t'aidant à trouver tes propres solutions par le questionnement et la réflexion."
+      },
+      "it": {
+        "name": "Non direttivo",
+        "description": "Il coach agisce come un facilitatore, aiutandoti a trovare le tue soluzioni attraverso domande e riflessioni."
+      }
+    }
+  },
+  {
+    "name": "Solution-Focused",
+    "description": "Concentrates on finding solutions in the present and exploring future hopes rather than focusing on past problems.",
+    "translations": {
+      "de": {
+        "name": "Lösungsorientiert",
+        "description": "Konzentriert sich darauf, Lösungen in der Gegenwart zu finden und Zukunftshoffnungen zu erkunden, anstatt sich auf vergangene Probleme zu fokussieren."
+      },
+      "fr": {
+        "name": "Orienté solution",
+        "description": "Se concentre sur la recherche de solutions dans le présent et l'exploration des espoirs futurs plutôt que sur les problèmes passés."
+      },
+      "it": {
+        "name": "Focalizzato sulla soluzione",
+        "description": "Si concentra sulla ricerca di soluzioni nel presente e sull'esplorazione delle speranze future, piuttosto che sui problemi passati."
+      }
+    }
+  },
+  {
+    "name": "Transformational",
+    "description": "Aims to produce fundamental changes in the client's perspective, beliefs, and behaviors.",
+    "translations": {
+      "de": {
+        "name": "Transformatorisch",
+        "description": "Zielt darauf ab, grundlegende Veränderungen in deiner Perspektive, deinen Überzeugungen und deinem Verhalten zu bewirken."
+      },
+      "fr": {
+        "name": "Transformationnel",
+        "description": "Vise à produire des changements fondamentaux dans ta perspective, tes croyances et tes comportements."
+      },
+      "it": {
+        "name": "Trasformazionale",
+        "description": "Mira a produrre cambiamenti fondamentali nella tua prospettiva, nelle tue convinzioni e nei tuoi comportamenti."
+      }
+    }
+  },
+  {
+    "name": "Systemic",
+    "description": "Views the client within the context of their various systems (family, work, social) and addresses the interplay between them.",
+    "translations": {
+      "de": {
+        "name": "Systemisch",
+        "description": "Betrachtet dich im Kontext deiner verschiedenen Systeme (Familie, Arbeit, Soziales) und thematisiert das Zusammenspiel zwischen ihnen."
+      },
+      "fr": {
+        "name": "Systémique",
+        "description": "Considère le client dans le contexte de ses différents systèmes (famille, travail, social) et aborde l'interaction entre eux."
+      },
+      "it": {
+        "name": "Sistemico",
+        "description": "Vede il cliente nel contesto dei suoi vari sistemi (famiglia, lavoro, sociale) e affronta l'interazione tra di essi."
+      }
+    }
+  },
+  {
+    "name": "Holistic",
+    "description": "Considers the whole person—mind, body, and spirit—to achieve balance and well-being.",
+    "translations": {
+      "de": {
+        "name": "Ganzheitlich",
+        "description": "Betrachtet den ganzen Menschen – Geist, Körper und Seele – um Gleichgewicht und Wohlbefinden zu erreichen."
+      },
+      "fr": {
+        "name": "Holistique",
+        "description": "Prend en compte la personne dans sa globalité – esprit, corps et âme – pour atteindre l'équilibre et le bien-être."
+      },
+      "it": {
+        "name": "Olistico",
+        "description": "Considera la persona nella sua interezza – mente, corpo e spirito – per raggiungere equilibrio e benessere."
+      }
+    }
+  },
+  {
+    "name": "Cognitive Behavioral Coaching (CBC)",
+    "description": "Uses cognitive and behavioral techniques to help clients change unhelpful thinking patterns and behaviors.",
+    "translations": {
+      "de": {
+        "name": "Kognitives Verhalten-Coaching (CBC)",
+        "description": "Nutzt kognitive und verhaltensbezogene Techniken, um dir zu helfen, hinderliche Denkmuster und Verhaltensweisen zu ändern."
+      },
+      "fr": {
+        "name": "Coaching cognitivo-comportemental (CCC)",
+        "description": "Utilise des techniques cognitives et comportementales pour aider les clients à changer les schémas de pensée et les comportements inutiles."
+      },
+      "it": {
+        "name": "Coaching cognitivo-comportamentale (CBC)",
+        "description": "Utilizza tecniche cognitive e comportamentali per aiutare i clienti a cambiare schemi di pensiero e comportamenti non utili."
+      }
+    }
+  },
+  {
+    "name": "Mindfulness-Based",
+    "description": "Integrates mindfulness practices to enhance self-awareness, presence, and emotional regulation.",
+    "translations": {
+      "de": {
+        "name": "Achtsamkeitsbasiert",
+        "description": "Integriert Achtsamkeitsübungen, um Selbstwahrnehmung, Präsenz und emotionale Regulierung zu verbessern."
+      },
+      "fr": {
+        "name": "Basé sur la pleine conscience",
+        "description": "Intègre des pratiques de pleine conscience pour améliorer la conscience de soi, la présence et la régulation émotionnelle."
+      },
+      "it": {
+        "name": "Basato sulla mindfulness",
+        "description": "Integra pratiche di mindfulness per migliorare l'autoconsapevolezza, la presenza e la regolazione emotiva."
+      }
+    }
+  },
+  {
+    "name": "Performance-Oriented",
+    "description": "Focuses on improving a specific skill or achieving a measurable performance goal.",
+    "translations": {
+      "de": {
+        "name": "Leistungsorientiert",
+        "description": "Konzentriert sich auf die Verbesserung einer bestimmten Fähigkeit oder das Erreichen eines messbaren Leistungsziels."
+      },
+      "fr": {
+        "name": "Orienté performance",
+        "description": "Se concentre sur l'amélioration d'une compétence spécifique ou l'atteinte d'un objectif de performance mesurable."
+      },
+      "it": {
+        "name": "Orientato alla performance",
+        "description": "Si concentra sul miglioramento di una competenza specifica o sul raggiungimento di un obiettivo di performance misurabile."
+      }
+    }
+  },
+  {
+    "name": "Values-Based",
+    "description": "Helps clients identify their core values and align their actions and goals with what is most important to them.",
+    "translations": {
+      "de": {
+        "name": "Wertebasiert",
+        "description": "Hilft dir dabei, deine Kernwerte zu identifizieren und deine Handlungen und Ziele an dem auszurichten, was dir am wichtigsten ist."
+      },
+      "fr": {
+        "name": "Basé sur les valeurs",
+        "description": "Aide les clients à identifier leurs valeurs fondamentales et à aligner leurs actions et objectifs sur ce qui est le plus important pour eux."
+      },
+      "it": {
+        "name": "Basato sui valori",
+        "description": "Aiuta i clienti a identificare i loro valori fondamentali e ad allineare le loro azioni e i loro obiettivi con ciò che è più importante per loro."
+      }
+    }
+  },
+  {
+    "name": "Strengths-Based",
+    "description": "Focuses on identifying and leveraging the client's inherent strengths to achieve their goals.",
+    "translations": {
+      "de": {
+        "name": "Stärkenbasiert",
+        "description": "Konzentriert sich darauf, deine angeborenen Stärken zu identifizieren und zu nutzen, um deine Ziele zu erreichen."
+      },
+      "fr": {
+        "name": "Basé sur les forces",
+        "description": "Se concentre sur l'identification et l'exploitation des forces inhérentes du client pour atteindre ses objectifs."
+      },
+      "it": {
+        "name": "Basato sui punti di forza",
+        "description": "Si concentra sull'identificazione e lo sfruttamento dei punti di forza intrinseci del cliente per raggiungere i suoi obiettivi."
+      }
+    }
+  },
+  {
+    "name": "Challenging",
+    "description": "The coach actively challenges the client's assumptions and comfort zones to provoke new insights and growth.",
+    "translations": {
+      "de": {
+        "name": "Herausfordernd",
+        "description": "Der Coach fordert aktiv deine Annahmen und Komfortzonen heraus, um neue Einsichten und Wachstum anzuregen."
+      },
+      "fr": {
+        "name": "Challengeant",
+        "description": "Le coach défie activement les suppositions et les zones de confort du client pour provoquer de nouvelles perspectives et une croissance."
+      },
+      "it": {
+        "name": "Sfidante",
+        "description": "Il coach sfida attivamente le supposizioni e le zone di comfort del cliente per provocare nuove intuizioni e crescita."
+      }
+    }
+  },
+  {
+    "name": "Leadership Coaching",
+    "description": "Focuses on developing leadership capabilities, enhancing decision-making, and improving interpersonal effectiveness in a professional context.",
+    "translations": {
+      "de": {
+        "name": "Führungskräfte-Coaching",
+        "description": "Fokussiert auf die Entwicklung von Führungskompetenzen, die Verbesserung der Entscheidungsfindung und der zwischenmenschlichen Wirksamkeit im beruflichen Kontext."
+      },
+      "fr": {
+        "name": "Coaching en leadership",
+        "description": "Se concentre sur le développement des capacités de leadership, l'amélioration de la prise de décision et l'efficacité interpersonnelle dans un contexte professionnel."
+      },
+      "it": {
+        "name": "Coaching per la leadership",
+        "description": "Si concentra sullo sviluppo delle capacità di leadership, sul potenziamento del processo decisionale e sul miglioramento dell'efficacia interpersonale in un contesto professionale."
+      }
+    }
+  },
+  {
+    "name": "Positive Psychology Coaching",
+    "description": "Applies principles of positive psychology to help clients build on their strengths, cultivate well-being, and flourish in life and work.",
+    "translations": {
+      "de": {
+        "name": "Coaching der Positiven Psychologie",
+        "description": "Wendet Prinzipien der positiven Psychologie an, um Klienten zu helfen, auf ihren Stärken aufzubauen, Wohlbefinden zu kultivieren und im Leben und Beruf aufzublühen."
+      },
+      "fr": {
+        "name": "Coaching en psychologie positive",
+        "description": "Applique les principes de la psychologie positive pour aider les clients à s'appuyer sur leurs forces, à cultiver le bien-être et à s'épanouir dans la vie et au travail."
+      },
+      "it": {
+        "name": "Coaching di psicologia positiva",
+        "description": "Applica i principi della psicologia positiva per aiutare i clienti a costruire sui propri punti di forza, coltivare il benessere e prosperare nella vita e nel lavoro."
+      }
+    }
+  },
+  {
+    "name": "Somatic Coaching",
+    "description": "Incorporates body awareness and physical sensations as a pathway to understanding and resolving personal and professional challenges.",
+    "translations": {
+      "de": {
+        "name": "Somatisches Coaching",
+        "description": "Bezieht Körperbewusstsein und körperliche Empfindungen als Weg zum Verständnis und zur Lösung persönlicher und beruflicher Herausforderungen mit ein."
+      },
+      "fr": {
+        "name": "Coaching somatique",
+        "description": "Incorpore la conscience corporelle et les sensations physiques comme une voie pour comprendre et résoudre les défis personnels et professionnels."
+      },
+      "it": {
+        "name": "Coaching somatico",
+        "description": "Incorpora la consapevolezza del corpo e le sensazioni fisiche come percorso per comprendere e risolvere le sfide personali e professionali."
+      }
+    }
+  },
+  {
+    "name": "Agile Coaching",
+    "description": "Utilizes principles from Agile methodologies to help individuals and teams improve collaboration, adaptability, and achieve goals in fast-paced environments.",
+    "translations": {
+      "de": {
+        "name": "Agiles Coaching",
+        "description": "Nutzt Prinzipien aus agilen Methoden, um Einzelpersonen und Teams zu helfen, die Zusammenarbeit und Anpassungsfähigkeit zu verbessern und Ziele in schnelllebigen Umgebungen zu erreichen."
+      },
+      "fr": {
+        "name": "Coaching Agile",
+        "description": "Utilise les principes des méthodologies Agile pour aider les individus et les équipes à améliorer la collaboration, l'adaptabilité et à atteindre des objectifs dans des environnements rapides."
+      },
+      "it": {
+        "name": "Coaching Agile",
+        "description": "Utilizza i principi delle metodologie agili per aiutare individui e team a migliorare la collaborazione, l'adattabilità e a raggiungere gli obiettivi in ambienti dinamici."
+      }
+    }
+  },
+  {
+    "name": "Narrative Coaching",
+    "description": "Works with the stories clients tell about themselves, helping them to reframe limiting narratives and open up new possibilities for the future.",
+    "translations": {
+      "de": {
+        "name": "Narratives Coaching",
+        "description": "Arbeitet mit den Geschichten, die du über dich selbst erzählst, und hilft dir, einschränkende Erzählungen neu zu formulieren und neue Möglichkeiten für die Zukunft zu eröffnen."
+      },
+      "fr": {
+        "name": "Coaching narratif",
+        "description": "Travaille avec les histoires que les clients racontent sur eux-mêmes, les aidant à recadrer les récits limitants et à ouvrir de nouvelles possibilités pour l'avenir."
+      },
+      "it": {
+        "name": "Coaching narrativo",
+        "description": "Lavora con le storie che i clienti raccontano di sé, aiutandoli a riformulare le narrazioni limitanti e ad aprire nuove possibilità per il futuro."
+      }
+    }
+  },
+   {
+    "name": "Facilitative",
+    "description": "Ideal for group settings, the coach guides the process and discussion, enabling the group to find collective insights and solutions.",
+    "translations": {
+      "de": {
+        "name": "Anleitend",
+        "description": "Ideal für Gruppen. Der Coach leitet den Prozess und die Diskussion, damit die Gruppe gemeinsam zu Erkenntnissen und Lösungen findet."
+      },
+      "fr": {
+        "name": "Facilitateur",
+        "description": "Idéal pour les groupes, le coach guide le processus et la discussion, permettant au groupe de trouver des idées et des solutions collectives."
+      },
+      "it": {
+        "name": "Facilitativo",
+        "description": "Ideale per contesti di gruppo, il coach guida il processo e la discussione, consentendo al gruppo di trovare spunti e soluzioni collettive."
+      }
+    }
+  },
+  {
+    "name": "Integrative",
+    "description": "Blends techniques from various coaching schools and psychological disciplines to create a tailored approach for each unique client.",
+    "translations": {
+      "de": {
+        "name": "Integrativ",
+        "description": "Kombiniert Techniken aus verschiedenen Coaching-Schulen und psychologischen Disziplinen, um für jeden Klienten einen massgeschneiderten Ansatz zu schaffen."
+      },
+      "fr": {
+        "name": "Intégratif",
+        "description": "Mélange des techniques de diverses écoles de coaching et disciplines psychologiques pour créer une approche sur mesure pour chaque client unique."
+      },
+      "it": {
+        "name": "Integrativo",
+        "description": "Mischia tecniche da varie scuole di coaching e discipline psicologiche per creare un approccio su misura per ogni singolo cliente."
+      }
+    }
+  },
+  {
+    "name": "Action-Oriented",
+    "description": "Focuses on creating clear, concrete, and immediate action steps to build momentum and achieve rapid progress towards a goal.",
+    "translations": {
+      "de": {
+        "name": "Handlungsorientiert",
+        "description": "Konzentriert sich auf das Erstellen klarer, konkreter und sofortiger Handlungsschritte, um schnell Dynamik aufzubauen und rasche Fortschritte zu erzielen."
+      },
+      "fr": {
+        "name": "Orienté action",
+        "description": "Se concentre sur la création d'étapes d'action claires, concrètes et immédiates pour créer une dynamique et progresser rapidement vers un objectif."
+      },
+      "it": {
+        "name": "Orientato all'azione",
+        "description": "Si concentra sulla creazione di passi d'azione chiari, concreti e immediati per creare slancio e ottenere rapidi progressi verso un obiettivo."
+      }
+    }
+  },
+  {
+    "name": "Sparring Partner",
+    "description": "Acts as a confidential sounding board and intellectual peer, challenging ideas and strategies at a high level, common in executive coaching.",
+    "translations": {
+      "de": {
+        "name": "Sparringspartner",
+        "description": "Fungiert als vertraulicher Resonanzboden und intellektueller Partner, der Ideen und Strategien auf hohem Niveau hinterfragt, üblich im Executive Coaching."
+      },
+      "fr": {
+        "name": "Sparring Partner",
+        "description": "Agit comme un confident et un pair intellectuel, remettant en question les idées et les stratégies à un haut niveau, courant dans le coaching de dirigeants."
+      },
+      "it": {
+        "name": "Sparring Partner",
+        "description": "Agisce come cassa di risonanza confidenziale e pari intellettuale, sfidando idee e strategie ad alto livello, comune nel coaching esecutivo."
+      }
+    }
+  }
+]

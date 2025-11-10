@@ -60,6 +60,13 @@ const FeedbackWidget = () => {
     const [dragStartOffset, setDragStartOffset] = useState({ x: 0, y: 0 });
     const [isPositionManagedByJS, setIsPositionManagedByJS] = useState(false);
 
+    const buttonRef = useRef(null);
+    const dragHappened = useRef(false);
+    const [buttonPosition, setButtonPosition] = useState({ x: 0, y: 0 });
+    const [isButtonDragging, setIsButtonDragging] = useState(false);
+    const [buttonDragStartOffset, setButtonDragStartOffset] = useState({ x: 0, y: 0 });
+    const [isButtonPositionManagedByJS, setIsButtonPositionManagedByJS] = useState(false);
+
     const submitTicketMutation = useSubmitSupportTicket();
 
     useEffect(() => {
@@ -98,6 +105,27 @@ const FeedbackWidget = () => {
         }
     }, [isPositionManagedByJS, position]);
 
+    useEffect(() => {
+    const handleMouseMove = (e) => {
+        if (!isButtonDragging || !buttonRef.current) return;
+        dragHappened.current = true;
+        const newX = e.clientX - buttonDragStartOffset.x;
+        const newY = e.clientY - buttonDragStartOffset.y;
+        setButtonPosition({ x: newX, y: newY });
+    };
+    const handleMouseUp = () => {
+        if (isButtonDragging) setIsButtonDragging(false);
+    };
+    if (isButtonDragging) {
+        document.addEventListener('mousemove', handleMouseMove);
+        document.addEventListener('mouseup', handleMouseUp);
+    }
+    return () => {
+        document.removeEventListener('mousemove', handleMouseMove);
+        document.removeEventListener('mouseup', handleMouseUp);
+    };
+}, [isButtonDragging, buttonDragStartOffset]);
+
     if (process.env.NODE_ENV === 'production') {
         return null;
     }
@@ -113,6 +141,23 @@ const FeedbackWidget = () => {
         setViewingAttachment(null);
     };
   
+    const handleButtonMouseDown = (e) => {
+    if (e.button !== 0 || !buttonRef.current) return;
+    dragHappened.current = false;
+    const buttonRect = buttonRef.current.getBoundingClientRect();
+    
+    const currentStartX = isButtonPositionManagedByJS ? buttonPosition.x : buttonRect.left;
+    const currentStartY = isButtonPositionManagedByJS ? buttonPosition.y : buttonRect.top;
+
+    if (!isButtonPositionManagedByJS) {
+        setButtonPosition({ x: currentStartX, y: currentStartY });
+        setIsButtonPositionManagedByJS(true);
+    }
+
+    setIsButtonDragging(true);
+    setButtonDragStartOffset({ x: e.clientX - currentStartX, y: e.clientY - currentStartY });
+    e.preventDefault();
+};
 
     const handleMouseDownOnTitle = (e) => {
         if (e.button !== 0 || !modalRef.current) return;
@@ -248,13 +293,24 @@ const FeedbackWidget = () => {
 
     const isActionDisabled = isUploading || isTakingScreenshot;
 
+    const buttonStyle = isButtonPositionManagedByJS
+        ? { top: buttonPosition.y, left: buttonPosition.x, bottom: 'auto', right: 'auto' }
+        : {};
+    const buttonClassName = `fixed h-14 w-14 rounded-full shadow-lg z-50 ${!isButtonPositionManagedByJS ? 'bottom-5 right-5' : ''}`;
+
     return (
         <>
             <Button
+                ref={buttonRef}
                 variant="default"
                 size="icon"
-                className="fixed bottom-5 right-5 h-14 w-14 rounded-full shadow-lg z-50"
-                onClick={() => setIsOpen(true)}
+                className={buttonClassName}
+                style={buttonStyle}
+                onMouseDown={handleButtonMouseDown}
+                onClick={() => {
+                    if (dragHappened.current) return;
+                    setIsOpen(true);
+                }}
             >
                 <Bug className="h-6 w-6" />
             </Button>

@@ -92,6 +92,16 @@ Comprehensive Logging: Implement detailed, contextual logging in all services an
 5.1. UX & Frontend Principles
 Optimistic UI for Instantaneous User Experience: The platform employs an Optimistic UI strategy, particularly for file uploads. The UI updates instantly upon user action, assuming success, while the actual work (e.g., image compression, transfer) is handled asynchronously in the background, eliminating blocking UI elements and providing immediate visual feedback.
 
+5.2. Defensive Frontend State Handling
+The application has demonstrated critical fragility when frontend components attempt to render data from API hooks (useQuery) without proper validation. A common error pattern is a component attempting to call .map() on a variable that is undefined because the API request is still loading, has failed, or returned an empty data set.
+Best Practice: All components that render lists from an API call must include a "guard clause" before the render/map logic. This clause must check for all non-renderable states:
+isLoading: The query is in flight.
+isError: The query has failed.
+!data: The query has succeeded but the data object is falsy (null or undefined).
+!Array.isArray(data.docs): The expected array is not actually an array.
+data.docs.length === 0: The array is empty.
+A component should only attempt to .map() over the data array if none of these conditions are met. In all other cases, it should return null, a loading spinner, or an empty/error state component. This prevents entire page crashes due to transient network conditions or empty database states.
+
 6. Deployment & Environment Strategy
 The platform utilizes a modern, Git-based, multi-environment deployment strategy to ensure stability, security, and a seamless development workflow. The strategy is built on the principle of isolating the live production environment from all development and testing activities.
 

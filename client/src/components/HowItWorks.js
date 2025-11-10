@@ -8,6 +8,7 @@ import {
   Users, Briefcase, PlayCircle, Calendar, GraduationCap, Clock,
   TrendingUp, ArrowRight
 } from 'lucide-react';
+import logoWhite from '../assets/logo_mark_transparent_white.svg';
 
 import { Button } from './ui/button.tsx';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card.tsx';
@@ -102,8 +103,13 @@ const HowItWorks = () => {
 
   logger.info('[HowItWorks] Rendering page with active userType:', userType);
 
-  return (
+return (
     <div className="bg-gradient-subtle text-foreground">
+      {!isLaunched && (
+        <Link to="/" className="absolute top-8 left-8 z-20">
+            <img src={logoWhite} alt="Bondigoo Logo" className="h-7 w-7" />
+        </Link>
+      )}
       <motion.section 
         className="relative text-center text-primary-foreground dark:text-foreground overflow-hidden bg-gradient-animated bg-size-400"
         variants={gradientAnimation}

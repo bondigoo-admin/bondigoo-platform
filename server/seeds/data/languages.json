@@ -1,0 +1,218 @@
+[
+  {
+    "name": "German",
+    "code": "de",
+    "translations": {
+      "de": { "name": "Deutsch" },
+      "fr": { "name": "Allemand" },
+      "it": { "name": "Tedesco" }
+    }
+  },
+  {
+    "name": "English",
+    "code": "en",
+    "translations": {
+      "de": { "name": "Englisch" },
+      "fr": { "name": "Anglais" },
+      "it": { "name": "Inglese" }
+    }
+  },
+  {
+    "name": "Swedish",
+    "code": "sv",
+    "translations": {
+      "de": { "name": "Schwedisch" },
+      "fr": { "name": "Suédois" },
+      "it": { "name": "Svedese" }
+    }
+  },
+  {
+    "name": "Arabic",
+    "code": "ar",
+    "translations": {
+      "de": { "name": "Arabisch" },
+      "fr": { "name": "Arabe" },
+      "it": { "name": "Arabo" }
+    }
+  },
+  {
+    "name": "Hindi",
+    "code": "hi",
+    "translations": {
+      "de": { "name": "Hindi" },
+      "fr": { "name": "Hindi" },
+      "it": { "name": "Hindi" }
+    }
+  },
+  {
+    "name": "Spanish",
+    "code": "es",
+    "translations": {
+      "de": { "name": "Spanisch" },
+      "fr": { "name": "Espagnol" },
+      "it": { "name": "Spagnolo" }
+    }
+  },
+  {
+    "name": "French",
+    "code": "fr",
+    "translations": {
+      "de": { "name": "Französisch" },
+      "fr": { "name": "Français" },
+      "it": { "name": "Francese" }
+    }
+  },
+  {
+    "name": "Italian",
+    "code": "it",
+    "translations": {
+      "de": { "name": "Italienisch" },
+      "fr": { "name": "Italien" },
+      "it": { "name": "Italiano" }
+    }
+  },
+  {
+    "name": "Portuguese",
+    "code": "pt",
+    "translations": {
+      "de": { "name": "Portugiesisch" },
+      "fr": { "name": "Portugais" },
+      "it": { "name": "Portoghese" }
+    }
+  },
+  {
+    "name": "Dutch",
+    "code": "nl",
+    "translations": {
+      "de": { "name": "Niederländisch" },
+      "fr": { "name": "Néerlandais" },
+      "it": { "name": "Olandese" }
+    }
+  },
+  {
+    "name": "Russian",
+    "code": "ru",
+    "translations": {
+      "de": { "name": "Russisch" },
+      "fr": { "name": "Russe" },
+      "it": { "name": "Russo" }
+    }
+  },
+  {
+    "name": "Chinese (Mandarin)",
+    "code": "zh",
+    "translations": {
+      "de": { "name": "Chinesisch (Mandarin)" },
+      "fr": { "name": "Chinois (Mandarin)" },
+      "it": { "name": "Cinese (Mandarino)" }
+    }
+  },
+  {
+    "name": "Japanese",
+    "code": "ja",
+    "translations": {
+      "de": { "name": "Japanisch" },
+      "fr": { "name": "Japonais" },
+      "it": { "name": "Giapponese" }
+    }
+  },
+  {
+    "name": "Korean",
+    "code": "ko",
+    "translations": {
+      "de": { "name": "Koreanisch" },
+      "fr": { "name": "Coréen" },
+      "it": { "name": "Coreano" }
+    }
+  },
+  {
+    "name": "Turkish",
+    "code": "tr",
+    "translations": {
+      "de": { "name": "Türkisch" },
+      "fr": { "name": "Turc" },
+      "it": { "name": "Turco" }
+    }
+  },
+  {
+    "name": "Polish",
+    "code": "pl",
+    "translations": {
+      "de": { "name": "Polnisch" },
+      "fr": { "name": "Polonais" },
+      "it": { "name": "Polacco" }
+    }
+  },
+  {
+    "name": "Norwegian",
+    "code": "no",
+    "translations": {
+      "de": { "name": "Norwegisch" },
+      "fr": { "name": "Norvégien" },
+      "it": { "name": "Norvegese" }
+    }
+  },
+  {
+    "name": "Danish",
+    "code": "da",
+    "translations": {
+      "de": { "name": "Dänisch" },
+      "fr": { "name": "Danois" },
+      "it": { "name": "Danese" }
+    }
+  },
+  {
+    "name": "Finnish",
+    "code": "fi",
+    "translations": {
+      "de": { "name": "Finnisch" },
+      "fr": { "name": "Finlandais" },
+      "it": { "name": "Finlandese" }
+    }
+  },
+  {
+    "name": "Greek",
+    "code": "el",
+    "translations": {
+      "de": { "name": "Griechisch" },
+      "fr": { "name": "Grec" },
+      "it": { "name": "Greco" }
+    }
+  },
+  {
+    "name": "Hebrew",
+    "code": "he",
+    "translations": {
+      "de": { "name": "Hebräisch" },
+      "fr": { "name": "Hébreu" },
+      "it": { "name": "Ebraico" }
+    }
+  },
+  {
+    "name": "Czech",
+    "code": "cs",
+    "translations": {
+      "de": { "name": "Tschechisch" },
+      "fr": { "name": "Tchèque" },
+      "it": { "name": "Ceco" }
+    }
+  },
+  {
+    "name": "Hungarian",
+    "code": "hu",
+    "translations": {
+      "de": { "name": "Ungarisch" },
+      "fr": { "name": "Hongrois" },
+      "it": { "name": "Ungherese" }
+    }
+  },
+  {
+    "name": "Romansh",
+    "code": "rm",
+    "translations": {
+      "de": { "name": "Rätoromanisch" },
+      "fr": { "name": "Romanche" },
+      "it": { "name": "Romancio" }
+    }
+  }
+]

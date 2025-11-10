@@ -5,14 +5,13 @@ import { cva } from "class-variance-authority"
 import { cn } from "../../lib/utils"
 
 const progressVariants = cva(
-  "h-full w-full flex-1 transition-all",
+  "h-full w-full flex-1",
   {
     variants: {
       variant: {
-        default: "bg-primary",
+        default: "bg-foreground",
         yellow: "bg-yellow-400",
         "on-dark": "bg-white",
-        completed: "bg-emerald-500",
       },
     },
     defaultVariants: {

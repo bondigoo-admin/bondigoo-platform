@@ -1,70 +1,87 @@
-ogle Maps JavaScript API has been loaded directly without loading=async. This can result in suboptimal performance. For best-practice loading patterns please see https://goo.gle/js-api-loading
+[DEBUG] [MessagingCenter] Group conversation selected. {"conversationId":"68e0f28a97155b05cd3a97f2","type":"group","recipientForApi":"68875188ba0945e66fc74310"}
+bundle.js:171765 [DEBUG] [ChatHeader] Unsubscribing from presence updates {"participantId":"688753702ec81f2dff4049ab"}
+bundle.js:171760 [SocketIO] <<< INCOMING EVENT: "ping" {"payload":[],"userId":"66d9cdcb0a7492a86482bd68","socketId":"gu4x90Ea2j8LB04sAAAD","timestamp":"2025-11-10T09:24:54.507Z"}
+bundle.js:171765 [DEBUG] [MessageInput] Emitted START_TYPING to user room {"senderUserId":"66d9cdcb0a7492a86482bd68","recipientUserId":"66f418d10a19ec0e4bbd377e","conversationId":"690310f97684d8dbfaf1ec63","socketId":"gu4x90Ea2j8LB04sAAAD","timestamp":"2025-11-10T09:24:56.015Z"}
+bundle.js:171760 [MessageInput] Attachment uploaded successfully {"userId":"66d9cdcb0a7492a86482bd68","publicId":"user_messages/66d9cdcb0a7492a86482bd68/1_qxekmo","timestamp":"2025-11-10T09:25:06.511Z"}
+bundle.js:171760 [MessageInput] Sending message to user {"userId":"66d9cdcb0a7492a86482bd68","recipientUserId":"66f418d10a19ec0e4bbd377e","contentType":"image","hasAttachment":true,"hasContent":false,"contentLength":0,"resourceType":"image","conversationId":"690310f97684d8dbfaf1ec63","timestamp":"2025-11-10T09:25:12.364Z"}
+bundle.js:171765 [DEBUG] [useMessages] Hook rendered for user {"userId":"66d9cdcb0a7492a86482bd68","conversationId":"690310f97684d8dbfaf1ec63","status":"success","messageCount":2,"hasNextPage":false,"isFetching":false,"isFetchingNextPage":false,"timestamp":"2025-11-10T09:25:12.365Z"}
+bundle.js:171760 [ChatPanel] Rendering chat panel {"conversationId":"690310f97684d8dbfaf1ec63","messageCount":2,"timestamp":"2025-11-10T09:25:12.365Z"}
+bundle.js:171760 [DIAGNOSTIC LOG] ChatHeader received activeConversation prop: {"_id":"690310f97684d8dbfaf1ec63","type":"one-on-one","participants":[{"_id":"66f418d10a19ec0e4bbd377e","firstName":"Test","lastName":"User 2","role":"client","status":"offline","profilePicture":{"publicId":"profile_picture_jgl5ga","url":"https://res.cloudinary.com/dzpjkn8eo/image/upload/v1753703993/profile_picture_jgl5ga.jpg"}},{"_id":"66d9cdcb0a7492a86482bd68","firstName":"Dominic","lastName":"Frei","role":"coach","status":"online"}],"otherParticipant":{"_id":"66f418d10a19ec0e4bbd377e","firstName":"Test","lastName":"User 2","role":"client","profilePicture":{"publicId":"profile_picture_jgl5ga","url":"https://res.cloudinary.com/dzpjkn8eo/image/upload/v1753703993/profile_picture_jgl5ga.jpg"},"coachProfilePicture":null,"status":"offline"},"lastMessage":{"_id":"690311157684d8dbfaf1ed32","content":"test 2","senderId":"66d9cdcb0a7492a86482bd68","contentType":"text","createdAt":"2025-10-30T07:17:41.980Z"},"updatedAt":"2025-11-10T09:16:11.925Z","unreadCount":0}
+bundle.js:171760 [MessageList] Rendering message list {"messageCount":2,"isLoading":false,"isFetchingMore":false,"hasNextPage":false,"timestamp":"2025-11-10T09:25:12.367Z"}
+bundle.js:171765 [DEBUG] [MessageItem] Rendering message {"messageId":"690310fc7684d8dbfaf1ec96","senderId":"66d9cdcb0a7492a86482bd68","senderRole":"coach","hasUserProfilePicture":false,"hasCoachProfilePicture":true,"contentType":"text","hasContent":true,"contentLength":4,"timestamp":"2025-11-10T09:25:12.367Z"}
+bundle.js:171765 [DEBUG] [MessageItem] Rendering content {"messageId":"690310fc7684d8dbfaf1ec96","contentType":"text","hasAttachment":false,"hasContent":true,"timestamp":"2025-11-10T09:25:12.367Z"}
+bundle.js:171760 [MessageInput] Flushed STOP_TYPING on cleanup {"userId":"66d9cdcb0a7492a86482bd68","recipientUserId":"66f418d10a19ec0e4bbd377e","conversationId":"690310f97684d8dbfaf1ec63","timestamp":"2025-11-10T09:25:12.371Z"}
+bundle.js:171760 [ChatPanel] Attempting optimistic message send for user {"userId":"66d9cdcb0a7492a86482bd68","recipientId":"66f418d10a19ec0e4bbd377e","conversationId":"690310f97684d8dbfaf1ec63","contentType":"image","timestamp":"2025-11-10T09:25:12.371Z"}
+bundle.js:171765 [DEBUG] [ChatPanel] Applied optimistic message update {"userId":"66d9cdcb0a7492a86482bd68","recipientId":"66f418d10a19ec0e4bbd377e","conversationId":"690310f97684d8dbfaf1ec63","messageId":"temp-1762766712372","pageCount":1,"timestamp":"2025-11-10T09:25:12.372Z"}
+bundle.js:171765 [DEBUG] [useMessages] Computed messages for user {"userId":"66d9cdcb0a7492a86482bd68","conversationId":"690310f97684d8dbfaf1ec63","messageCount":3,"firstMessageId":"690310fc7684d8dbfaf1ec96","lastMessageId":"temp-1762766712372","duration":"0.00ms","timestamp":"2025-11-10T09:25:12.373Z"}
+bundle.js:171765 [DEBUG] [MessageList] Scroll effect triggered {"messageCount":3,"isInitialLoad":false,"isNearBottom":true,"scrollTop":0,"scrollHeight":694,"clientHeight":694,"isLoading":false,"timestamp":"2025-11-10T09:25:12.378Z"}
+bundle.js:171765 [DEBUG] [useMessages] Message query data updated for user {"userId":"66d9cdcb0a7492a86482bd68","conversationId":"690310f97684d8dbfaf1ec63","pageCount":1,"lastPageMsgCount":3,"dataUpdatedAt":"2025-11-10T09:25:12.372Z","timestamp":"2025-11-10T09:25:12.379Z"}
+bundle.js:171755  [useMessages] Message list not found for scrollToBottom {"conversationId":"690310f97684d8dbfaf1ec63","userId":"66d9cdcb0a7492a86482bd68","timestamp":"2025-11-10T09:25:12.379Z"} Error Component Stack
+    at ChatPanel (src_components_messaging_MessagingCenter_js.74a8448b6932cfc39c1e.hot-update.js:71:3)
+    at div (<anonymous>)
+    at div (<anonymous>)
+    at ErrorBoundary (src_components_BookingDetailsModal_js.chunk.js:5423:5)
+    at MessagingCenter (src_components_messaging_MessagingCenter_js.chunk.js:2865:68)
+    at RenderedRoute (bundle.js:118060:5)
+    at Outlet (bundle.js:118707:26)
+    at ProtectedRoute (src_components_ProtectedRoute_js.chunk.js:119:69)
+    at RenderedRoute (bundle.js:118060:5)
+    at Routes (bundle.js:118794:5)
+    at Suspense (<anonymous>)
+    at main (<anonymous>)
+    at div (<anonymous>)
+    at AppContent (main.958d27be892cd62274ec.hot-update.js:412:69)
+    at LiveSessionProvider (bundle.js:148657:3)
+    at NotificationSocketProvider (bundle.js:149484:3)
+    at AppWithSocketProvider (main.958d27be892cd62274ec.hot-update.js:1348:69)
+    at AppWithSocketProviderWrapper (main.958d27be892cd62274ec.hot-update.js:1431:69)
+    at AuthProvider (bundle.js:148296:3)
+    at PaymentProvider (bundle.js:149272:3)
+    at Elements (bundle.js:15340:30)
+    at Suspense (<anonymous>)
+    at App (main.958d27be892cd62274ec.hot-update.js:1383:51)
+    at AuthProvider (bundle.js:148296:3)
+    at QueryClientProvider (bundle.js:113963:21)
+    at Router (bundle.js:118728:15)
+    at BrowserRouter (bundle.js:116628:5)
 overrideMethod @ hook.js:608
-logger.js:110 [PaymentStatusService] Initializing state maps... {"timestamp":"2025-11-08T06:46:48.623Z"}
-logger.js:110 [PaymentAPI] Initializing payment API service
-logger.js:110 [PaymentSocket] Setting up payment subscription: {"paymentId":"payment_status_update","connectionState":"disconnected","existingSubscriptions":[],"timestamp":"2025-11-08T06:46:48.627Z"}
-logger.js:116 [DEBUG] [PaymentSocket] Starting unique operation: {"operationKey":"subscribe:payment_status_update","timestamp":"2025-11-08T06:46:48.627Z"}
-hook.js:608  [PaymentSocket] No valid callbacks provided: {"paymentId":"payment_status_update","timestamp":"2025-11-08T06:46:48.627Z"}
-overrideMethod @ hook.js:608
-logger.js:110 [APP STARTUP] PaymentContext.js module loaded, stripePromise created. This should appear once on page load.
-index.js:12 >>> BATTLEDOME: React App JS bundle is executing. <<<
-index.js:13 >>> BATTLEDOME V2: React App JS bundle is executing as correct user. <
-logger.js:110 [LOG] index.js: SCRIPT EXECUTION STARTED.
-logger.js:110 [index.js] Process polyfill applied {"process":{"env":{"NODE_ENV":"production","REACT_APP_API_URL":"https://api.staging.bondigoo.ch","REACT_APP_API_BASE_URL":"http://localhost:5000/api","REACT_APP_FRONTEND_URL":"http://localhost:3000"}}}
-logger.js:110 [App] Initializing application {"environment":"production","apiUrl":"https://api.staging.bondigoo.ch","timestamp":"2025-11-08T06:46:48.720Z"}
-logger.js:110 [LOG] index.js: React root created.
-logger.js:110 [LOG] index.js: Calling root.render(). Application render begins now.
-logger.js:110 [App] Application mounted successfully {"timestamp":"2025-11-08T06:46:48.722Z"}
-logger.js:116 [DEBUG] [PaymentSocket] Operation completed successfully: {"operationKey":"subscribe:payment_status_update","timestamp":"2025-11-08T06:46:48.722Z"}
-i18next.js:202 i18next::backendConnector: loaded namespace footer for language en <!doctype html><html lang="en"><head><meta charset="utf-8"/><link rel="icon" href="/favicon.ico"/><meta name="viewport" content="width=device-width,initial-scale=1"/><meta name="theme-color" content="#000000"/><meta name="description" content="Web site created using create-react-app"/><link rel="apple-touch-icon" href="/logo192.png"/><link rel="manifest" href="/manifest.json"/><script src="https://maps.googleapis.com/maps/api/js?key=%REACT_APP_GOOGLE_MAPS_API_KEY%&libraries=places"></script><link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"><script src="https://upload-widget.cloudinary.com/global/all.js" type="text/javascript"></script><title>Bondigoo</title><script defer="defer" src="/static/js/main.b93fcd48.js"></script><link href="/static/css/main.266fd46e.css" rel="stylesheet"></head><body><noscript>You need to enable JavaScript to run this app.</noscript><div id="root"></div><script>"serviceWorker"in navigator&&window.addEventListener("load",function(){navigator.serviceWorker.register("/sw.js").then(function(e){console.log("ServiceWorker registration successful with scope: ",e.scope)},function(e){console.log("ServiceWorker registration failed: ",e)})})</script></body></html>
-i18next.js:202 i18next::backendConnector: loaded namespace footer for language de <!doctype html><html lang="en"><head><meta charset="utf-8"/><link rel="icon" href="/favicon.ico"/><meta name="viewport" content="width=device-width,initial-scale=1"/><meta name="theme-color" content="#000000"/><meta name="description" content="Web site created using create-react-app"/><link rel="apple-touch-icon" href="/logo192.png"/><link rel="manifest" href="/manifest.json"/><script src="https://maps.googleapis.com/maps/api/js?key=%REACT_APP_GOOGLE_MAPS_API_KEY%&libraries=places"></script><link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"><script src="https://upload-widget.cloudinary.com/global/all.js" type="text/javascript"></script><title>Bondigoo</title><script defer="defer" src="/static/js/main.b93fcd48.js"></script><link href="/static/css/main.266fd46e.css" rel="stylesheet"></head><body><noscript>You need to enable JavaScript to run this app.</noscript><div id="root"></div><script>"serviceWorker"in navigator&&window.addEventListener("load",function(){navigator.serviceWorker.register("/sw.js").then(function(e){console.log("ServiceWorker registration successful with scope: ",e.scope)},function(e){console.log("ServiceWorker registration failed: ",e)})})</script></body></html>
-i18next.js:202 i18next: languageChanged de
-i18next.js:202 i18next: initialized Object
-logger.js:110 [PaymentProvider] Initializing provider
-logger.js:116 [DEBUG] [AppContent] Rendering with live session state. {"incomingRequestCount":0,"incomingRequestsData":[]}
-logger.js:116 [DEBUG] [GlobalAnnouncementBanner] Component mounted or dependencies changed. {"isLoading":true}
-hook.js:608  [useConversations] Skipping socket listeners - Prerequisites missing {"hasSocket":false,"isConnected":false,"timestamp":"2025-11-08T06:46:48.818Z"}
-overrideMethod @ hook.js:608
-logger.js:110 [useGlobalSocketListener] Hook effect executed. {"hasSocket":false,"isConnected":false}
-hook.js:608  [useGlobalSocketListener] Skipping socket listeners - prerequisites missing {"hasToken":false,"hasSocket":false,"isConnected":false,"timestamp":"2025-11-08T06:46:48.820Z"}
-overrideMethod @ hook.js:608
-logger.js:110 [AppContent] Initializing application {"environment":"production","apiUrl":"https://api.staging.bondigoo.ch","userId":null,"timestamp":"2025-11-08T06:46:48.821Z"}
-logger.js:110 [NotificationSocketProvider] Effect triggered. {"hasToken":false}
-hook.js:608  [NotificationSocketProvider] Did not create socket. Credentials missing. {"hasToken":false}
-overrideMethod @ hook.js:608
-logger.js:116 [DEBUG] [NotificationSocketProvider] Socket connection effect skipped: socket is null.
-logger.js:110 [AppWithSocketProvider] Dependencies for socket provider changed. {"hasUser":false,"hasToken":false}
-logger.js:110 [AuthContext] Verifying authentication status...
-logger.js:110 [AuthContext] No token found. Setting application to public/unauthenticated state.
-logger.js:110 [App.js MOUNT] Top-level <Elements> provider is mounting. This should happen only once on app load.
-hook.js:608  [QueryClient] Retry attempt: {"failureCount":0,"error":"Network Error","timestamp":"2025-11-08T06:46:48.859Z"}
-overrideMethod @ hook.js:608
-logger.js:110 [PaymentContext] stripePromise resolved successfully. Stripe.js is loaded and ready. {"hasStripe":true,"timestamp":"2025-11-08T06:46:48.959Z"}
-logger.js:110 [PaymentContext] stripePromise resolved successfully {"hasStripe":true,"timestamp":"2025-11-08T06:46:48.959Z"}
-hook.js:608  TypeError: d.map is not a function
-    at J (Home.js:279:26)
-    at gs (react-dom.production.min.js:160:137)
-    at Io (react-dom.production.min.js:196:258)
-    at Pl (react-dom.production.min.js:291:88)
-    at bc (react-dom.production.min.js:279:389)
-    at vc (react-dom.production.min.js:279:320)
-    at fc (react-dom.production.min.js:279:180)
-    at ac (react-dom.production.min.js:270:88)
-    at ic (react-dom.production.min.js:267:429)
-    at k (scheduler.production.min.js:13:203)
-overrideMethod @ hook.js:608
-react-dom.production.min.js:282  Uncaught TypeError: d.map is not a function
-    at J (Home.js:279:26)
-    at gs (react-dom.production.min.js:160:137)
-    at Io (react-dom.production.min.js:196:258)
-    at Pl (react-dom.production.min.js:291:88)
-    at bc (react-dom.production.min.js:279:389)
-    at vc (react-dom.production.min.js:279:320)
-    at fc (react-dom.production.min.js:279:180)
-    at ac (react-dom.production.min.js:270:88)
-    at ic (react-dom.production.min.js:267:429)
-    at k (scheduler.production.min.js:13:203)
-(index):1 ServiceWorker registration successful with scope:  https://staging.bondigoo.ch/
-hook.js:608  Gcode: "ERR_NETWORK"config: {transitional: {…}, adapter: Array(3), transformRequest: Array(1), transformResponse: Array(1), timeout: 0, …}message: "Network Error"name: "AxiosError"request: XMLHttpRequest {onreadystatechange: null, readyState: 4, timeout: 0, withCredentials: true, upload: XMLHttpRequestUpload, …}stack: "AxiosError: Network Error\n    at g.onerror (https://staging.bondigoo.ch/static/js/main.b93fcd48.js:172:1076314)\n    at pt.request (https://staging.bondigoo.ch/static/js/main.b93fcd48.js:172:1084135)\n    at async Object.l (https://staging.bondigoo.ch/static/js/main.b93fcd48.js:2:108015)"[[Prototype]]: Error
-overrideMethod @ hook.js:608
-common.js:38  Uncaught (in promise) URIError: URI malformed
+warn @ bundle.js:171755
+(anonymous) @ bundle.js:151881
+(anonymous) @ bundle.js:151894
+commitHookEffectListMount @ bundle.js:103095
+commitPassiveMountOnFiber @ bundle.js:104588
+commitPassiveMountEffects_complete @ bundle.js:104560
+commitPassiveMountEffects_begin @ bundle.js:104550
+commitPassiveMountEffects @ bundle.js:104540
+flushPassiveEffectsImpl @ bundle.js:106423
+flushPassiveEffects @ bundle.js:106376
+commitRootImpl @ bundle.js:106335
+commitRoot @ bundle.js:106118
+performSyncWorkOnRoot @ bundle.js:105627
+flushSyncCallbacks @ bundle.js:93601
+(anonymous) @ bundle.js:105232
+bundle.js:171760 [messageAPI] Preparing to send message for user {"recipientUserId":"66f418d10a19ec0e4bbd377e","contentType":"image","hasContent":false,"hasAttachment":true,"conversationId":"690310f97684d8dbfaf1ec63","timestamp":"2025-11-10T09:25:12.384Z"}
+bundle.js:171765 [DEBUG] [MessageList] Scrolled to bottom {"prevScrollTop":0,"newScrollTop":694,"scrollHeight":694,"prevScrollHeight":694,"timestamp":"2025-11-10T09:25:12.390Z"}
+bundle.js:171760 [SocketIO] <<< INCOMING EVENT: "new_message" {"payload":[{"messageObject":{"_id":"6911af7824c713b20e0a8c73","conversationId":"690310f97684d8dbfaf1ec63","senderId":"66d9cdcb0a7492a86482bd68","content":null,"contentType":"image","attachment":[{"url":"https://res.cloudinary.com/dzpjkn8eo/image/private/s--txEHBr75--/v1762766702/user_messages/66d9cdcb0a7492a86482bd68/1_qxekmo.jpg","publicId":"user_messages/66d9cdcb0a7492a86482bd68/1_qxekmo","resourceType":"image","format":"jpg","originalFilename":"1.png","bytes":407837}],"createdAt":"2025-11-10T09:25:12.522Z","deliveryStatus":"sent","contextType":null,"contextId":null,"sender":{"_id":"66d9cdcb0a7492a86482bd68","firstName":"Dominic","lastName":"Frei","role":"coach","coachProfilePicture":{"publicId":"coaches/66d9cdcb0a7492a86482bd68/profile_hrnhbu","url":"https://res.cloudinary.com/dzpjkn8eo/image/upload/v1761286498/coaches/66d9cdcb0a7492a86482bd68/profile_hrnhbu.jpg"}}}}],"userId":"66d9cdcb0a7492a86482bd68","socketId":"gu4x90Ea2j8LB04sAAAD","timestamp":"2025-11-10T09:25:12.671Z"}
+bundle.js:171760 [useGlobalSocketListener] RAW NEW_MESSAGE event received. {"rawData":{"messageObject":{"_id":"6911af7824c713b20e0a8c73","conversationId":"690310f97684d8dbfaf1ec63","senderId":"66d9cdcb0a7492a86482bd68","content":null,"contentType":"image","attachment":[{"url":"https://res.cloudinary.com/dzpjkn8eo/image/private/s--txEHBr75--/v1762766702/user_messages/66d9cdcb0a7492a86482bd68/1_qxekmo.jpg","publicId":"user_messages/66d9cdcb0a7492a86482bd68/1_qxekmo","resourceType":"image","format":"jpg","originalFilename":"1.png","bytes":407837}],"createdAt":"2025-11-10T09:25:12.522Z","deliveryStatus":"sent","contextType":null,"contextId":null,"sender":{"_id":"66d9cdcb0a7492a86482bd68","firstName":"Dominic","lastName":"Frei","role":"coach","coachProfilePicture":{"publicId":"coaches/66d9cdcb0a7492a86482bd68/profile_hrnhbu","url":"https://res.cloudinary.com/dzpjkn8eo/image/upload/v1761286498/coaches/66d9cdcb0a7492a86482bd68/profile_hrnhbu.jpg"}}}}}
+bundle.js:171760 [useGlobalSocketListener] Received NEW_MESSAGE, invalidating queries. {"conversationId":"690310f97684d8dbfaf1ec63","messageId":"6911af7824c713b20e0a8c73","userId":"66d9cdcb0a7492a86482bd68","socketId":"gu4x90Ea2j8LB04sAAAD","timestamp":"2025-11-10T09:25:12.671Z"}
+bundle.js:171760 [useMessages] Fetching messages for user {"userId":"66d9cdcb0a7492a86482bd68","conversationId":"690310f97684d8dbfaf1ec63","pageParam":1,"timestamp":"2025-11-10T09:25:12.672Z"}
+bundle.js:171760 [messageAPI] Message sent successfully via API {"messageId":"6911af7824c713b20e0a8c73","conversationId":"690310f97684d8dbfaf1ec63","recipientUserId":"66f418d10a19ec0e4bbd377e","timestamp":"2025-11-10T09:25:12.674Z"}
+bundle.js:171760 [ChatPanel] Optimistic message send succeeded {"userId":"66d9cdcb0a7492a86482bd68","recipientId":"66f418d10a19ec0e4bbd377e","conversationId":"690310f97684d8dbfaf1ec63","messageId":"6911af7824c713b20e0a8c73","serverContent":null,"optimisticContent":null,"timestamp":"2025-11-10T09:25:12.674Z"}
+bundle.js:171765 [DEBUG] [ChatPanel] Updated messages with confirmed message {"messageId":"6911af7824c713b20e0a8c73","pageCount":1,"messageCount":3,"finalContent":null,"timestamp":"2025-11-10T09:25:12.675Z"}
+bundle.js:171760 [ConversationList] Rendering conversation list {"count":4}
+bundle.js:171760 [DIAGNOSTIC LOG] ConversationItem rendering with conversation prop (ID: 68e0f28a97155b05cd3a97f2): {"_id":"68e0f28a97155b05cd3a97f2","type":"group","name":"Group 8","groupAvatar":null,"participants":[{"_id":"68875188ba0945e66fc74310","firstName":"Test","lastName":"User 3","role":"client","status":"offline","profilePicture":{"publicId":"profile_ujztpe","url":"https://res.cloudinary.com/dzpjkn8eo/image/upload/v1760685312/profile_ujztpe.jpg"}},{"_id":"66f418d10a19ec0e4bbd377e","firstName":"Test","lastName":"User 2","role":"client","status":"offline","profilePicture":{"publicId":"profile_picture_jgl5ga","url":"https://res.cloudinary.com/dzpjkn8eo/image/upload/v1753703993/profile_picture_jgl5ga.jpg"}},{"_id":"66d9cdcb0a7492a86482bd68","firstName":"Dominic","lastName":"Frei","role":"coach","status":"online"}],"lastMessage":{"_id":"6911af2e24c713b20e0a8bdd","content":"undefined","senderId":"66d9cdcb0a7492a86482bd68","contentType":"image","createdAt":"2025-11-10T09:23:58.879Z"},"updatedAt":"2025-11-10T09:23:58.922Z","unreadCount":0}
+bundle.js:171765 [DEBUG] [ConversationItem] Rendering item {"conversationId":"68e0f28a97155b05cd3a97f2","type":"group","displayName":"Group 8","isSelected":false,"unreadCount":0,"timestamp":"2025-11-10T09:25:12.682Z"}
+bundle.js:171760 [DIAGNOSTIC LOG] ConversationItem rendering with conversation prop (ID: 6902475cfe2ed80377419753): {"_id":"6902475cfe2ed80377419753","type":"one-on-one","name":"Feedback: Test Aufgabe","subtext":"In program: Test Program 1","context":{"type":"program_assignment_submission","enrollmentId":"688753982ec81f2dff404a3f","lessonId":"686e144df686e31b1707932a","programId":"686e0a33f686e31b17078e35","programAuthorId":"66d9cdcb0a7492a86482bd68"},"participants":[{"_id":"66d9cdcb0a7492a86482bd68","firstName":"Dominic","lastName":"Frei","role":"coach","status":"online"},{"_id":"688753702ec81f2dff4049ab","firstName":"Test","lastName":"User 5","role":"client","status":"offline","profilePicture":{"publicId":"profile_picture_crxvgn","url":"https://res.cloudinary.com/dzpjkn8eo/image/upload/v1753702621/profile_picture_crxvgn.jpg"}}],"otherParticipant":{"_id":"688753702ec81f2dff4049ab","firstName":"Test","lastName":"User 5","role":"client","profilePicture":{"publicId":"profile_picture_crxvgn","url":"https://res.cloudinary.com/dzpjkn8eo/image/upload/v1753702621/profile_picture_crxvgn.jpg"},"coachProfilePicture":null,"status":"offline"},"lastMessage":{"_id":"690252b537a2585f83f111aa","content":"new test","senderId":"66d9cdcb0a7492a86482bd68","contentType":"text","createdAt":"2025-10-29T17:45:25.910Z"},"updatedAt":"2025-11-10T09:16:13.145Z","unreadCount":0}
+bundle.js:171760 [DIAGNOSTIC LOG] ConversationItem rendering with conversation prop (ID: 690310f97684d8dbfaf1ec63): {"_id":"690310f97684d8dbfaf1ec63","type":"one-on-one","participants":[{"_id":"66f418d10a19ec0e4bbd377e","firstName":"Test","lastName":"User 2","role":"client","status":"offline","profilePicture":{"publicId":"profile_picture_jgl5ga","url":"https://res.cloudinary.com/dzpjkn8eo/image/upload/v1753703993/profile_picture_jgl5ga.jpg"}},{"_id":"66d9cdcb0a7492a86482bd68","firstName":"Dominic","lastName":"Frei","role":"coach","status":"online"}],"otherParticipant":{"_id":"66f418d10a19ec0e4bbd377e","firstName":"Test","lastName":"User 2","role":"client","profilePicture":{"publicId":"profile_picture_jgl5ga","url":"https://res.cloudinary.com/dzpjkn8eo/image/upload/v1753703993/profile_picture_jgl5ga.jpg"},"coachProfilePicture":null,"status":"offline"},"lastMessage":{"_id":"690311157684d8dbfaf1ed32","content":"test 2","senderId":"66d9cdcb0a7492a86482bd68","contentType":"text","createdAt":"2025-10-30T07:17:41.980Z"},"updatedAt":"2025-11-10T09:16:11.925Z","unreadCount":0}
+bundle.js:171760 [DIAGNOSTIC LOG] ConversationItem rendering with conversation prop (ID: 690245fafe2ed8037741872b): {"_id":"690245fafe2ed8037741872b","type":"one-on-one","name":"Feedback: Test Aufgabe","subtext":"In program: Test Program 1","context":{"type":"program_assignment_submission","enrollmentId":"6874e36659c3f9d63593d5b4","lessonId":"686e144df686e31b1707932a","programId":"686e0a33f686e31b17078e35","programAuthorId":"66d9cdcb0a7492a86482bd68"},"participants":[{"_id":"66d9cdcb0a7492a86482bd68","firstName":"Dominic","lastName":"Frei","role":"coach","status":"online"},{"_id":"66f418d10a19ec0e4bbd377e","firstName":"Test","lastName":"User 2","role":"client","status":"offline","profilePicture":{"publicId":"profile_picture_jgl5ga","url":"https://res.cloudinary.com/dzpjkn8eo/image/upload/v1753703993/profile_picture_jgl5ga.jpg"}}],"otherParticipant":{"_id":"66f418d10a19ec0e4bbd377e","firstName":"Test","lastName":"User 2","role":"client","profilePicture":{"publicId":"profile_picture_jgl5ga","url":"https://res.cloudinary.com/dzpjkn8eo/image/upload/v1753703993/profile_picture_jgl5ga.jpg"},"coachProfilePicture":null,"status":"offline"},"lastMessage":{"_id":"690305b87ab761700a17878b","content":"Test mit Anhang","senderId":"66d9cdcb0a7492a86482bd68","contentType":"file","createdAt":"2025-10-30T06:29:12.999Z"},"updatedAt":"2025-11-10T09:16:11.381Z","unreadCount":0}
+bundle.js:171760 [ConversationList] Rendering with data {"count":4,"isLoading":false,"isFetching":true,"activeConversationId":"690310f97684d8dbfaf1ec63","timestamp":"2025-11-10T09:25:12.692Z"}
+bundle.js:171760 [SocketIO] <<< INCOMING EVENT: "messageSentConfirmation" {"payload":[{"messageObject":{"_id":"6911af7824c713b20e0a8c73","conversationId":"690310f97684d8dbfaf1ec63","senderId":"66d9cdcb0a7492a86482bd68","content":null,"contentType":"image","attachment":[{"url":"https://res.cloudinary.com/dzpjkn8eo/image/private/s--txEHBr75--/v1762766702/user_messages/66d9cdcb0a7492a86482bd68/1_qxekmo.jpg","publicId":"user_messages/66d9cdcb0a7492a86482bd68/1_qxekmo","resourceType":"image","format":"jpg","originalFilename":"1.png","bytes":407837}],"createdAt":"2025-11-10T09:25:12.522Z","deliveryStatus":"sent","contextType":null,"contextId":null,"sender":{"_id":"66d9cdcb0a7492a86482bd68","firstName":"Dominic","lastName":"Frei","role":"coach","coachProfilePicture":{"publicId":"coaches/66d9cdcb0a7492a86482bd68/profile_hrnhbu","url":"https://res.cloudinary.com/dzpjkn8eo/image/upload/v1761286498/coaches/66d9cdcb0a7492a86482bd68/profile_hrnhbu.jpg"}}},"tempId":null}],"userId":"66d9cdcb0a7492a86482bd68","socketId":"gu4x90Ea2j8LB04sAAAD","timestamp":"2025-11-10T09:25:12.697Z"}
+bundle.js:171760 [ChatPanel] RAW messageSentConfirmation event received. {"rawData":{"messageObject":{"_id":"6911af7824c713b20e0a8c73","conversationId":"690310f97684d8dbfaf1ec63","senderId":"66d9cdcb0a7492a86482bd68","content":null,"contentType":"image","attachment":[{"url":"https://res.cloudinary.com/dzpjkn8eo/image/private/s--txEHBr75--/v1762766702/user_messages/66d9cdcb0a7492a86482bd68/1_qxekmo.jpg","publicId":"user_messages/66d9cdcb0a7492a86482bd68/1_qxekmo","resourceType":"image","format":"jpg","originalFilename":"1.png","bytes":407837}],"createdAt":"2025-11-10T09:25:12.522Z","deliveryStatus":"sent","contextType":null,"contextId":null,"sender":{"_id":"66d9cdcb0a7492a86482bd68","firstName":"Dominic","lastName":"Frei","role":"coach","coachProfilePicture":{"publicId":"coaches/66d9cdcb0a7492a86482bd68/profile_hrnhbu","url":"https://res.cloudinary.com/dzpjkn8eo/image/upload/v1761286498/coaches/66d9cdcb0a7492a86482bd68/profile_hrnhbu.jpg"}}},"tempId":null},"activeConversationId":"690310f97684d8dbfaf1ec63"}
+bundle.js:171760 [ChatPanel] Received messageSentConfirmation {"tempId":null,"messageId":"6911af7824c713b20e0a8c73","conversationId":"690310f97684d8dbfaf1ec63","timestamp":"2025-11-10T09:25:12.698Z"}
+bundle.js:171760 [useMessages] Fetched messages {"userId":"66d9cdcb0a7492a86482bd68","conversationId":"690310f97684d8dbfaf1ec63","page":1,"messageCount":3,"totalMessages":3,"timestamp":"2025-11-10T09:25:12.845Z"}
+bundle.js:171760 [useConversations] Query succeeded {"queryKey":["conversations","66d9cdcb0a7492a86482bd68","list",{"page":1,"limit":20}],"count":4}
+bundle.js:171760 [ConversationItem] Unsubscribing from presence updates {"participantId":"66f418d10a19ec0e4bbd377e","timestamp":"2025-11-10T09:25:12.988Z"}
+bundle.js:171760 [ChatPanel] Removed socket listeners {"conversationId":"690310f97684d8dbfaf1ec63","timestamp":"2025-11-10T09:25:12.988Z"}
+bundle.js:171760 [ConversationItem] Subscribing to presence updates {"participantId":"66f418d10a19ec0e4bbd377e","timestamp":"2025-11-10T09:25:12.989Z"}
+bundle.js:171760 [ChatPanel] Attached socket listeners {"conversationId":"690310f97684d8dbfaf1ec63","timestamp":"2025-11-10T09:25:12.989Z"}

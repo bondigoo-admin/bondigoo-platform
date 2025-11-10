@@ -25,12 +25,6 @@ const ProgramPlayer = () => {
     };
   }, [user, queryClient]);
 
-  useEffect(() => {
-    if (programForProvider?.name) {
-        document.title = t('pageTitles:programPlayer', '{{programName}} - Bondigoo', { programName: programForProvider.name });
-    }
-}, [programForProvider, t]);
-
   const { data: enrollments, isLoading: isLoadingEnrollments } = useUserEnrollments(user?._id);
   const { data: publicProgramData, isLoading: isLoadingPublicProgram } = useProgramLandingPage(programId);
 
@@ -51,7 +45,18 @@ const ProgramPlayer = () => {
     isLoading: isLoadingContent,
     isError: isContentError
   } = useProgramContent(programId, canFetchContent);
-  
+
+  // MOVED THIS LINE UP
+  // It now has the data it needs (program, publicProgramData)
+  const programForProvider = program || publicProgramData;
+
+  // This useEffect can now safely access programForProvider
+  useEffect(() => {
+    if (programForProvider?.name) {
+        document.title = t('pageTitles:programPlayer', '{{programName}} - Bondigoo', { programName: programForProvider.name });
+    }
+  }, [programForProvider, t]);
+
   const isLoading = isLoadingEnrollments || isLoadingPublicProgram || (canFetchContent && isLoadingContent);
 
   if (isLoading) {
@@ -61,7 +66,7 @@ const ProgramPlayer = () => {
       </div>
     );
   }
-
+  
   const shouldCreatePreviewEnrollment = isOwner && !enrollment;
 
   const playerEnrollment = shouldCreatePreviewEnrollment
@@ -77,7 +82,8 @@ const ProgramPlayer = () => {
     return <Navigate to={`/programs/${programId}`} replace />;
   }
 
-  const programForProvider = program || publicProgramData;
+  // The variable is already defined, so we can remove the declaration from here.
+  // const programForProvider = program || publicProgramData;
 
   if (isContentError || !programForProvider) {
     return (

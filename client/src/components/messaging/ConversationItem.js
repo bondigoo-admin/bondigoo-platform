@@ -114,7 +114,7 @@ const { lastMessage, updatedAt, _id, unreadCount } = conversation;
     }
   };
 
-const getLastMessageSnippet = () => {
+  const getLastMessageSnippet = () => {
     if (!lastMessage) return isGroup ? t('messaging:groupCreated') : t('messaging:noMessagesYet');
 
     if (lastMessage.contentType === 'text') {
@@ -123,17 +123,14 @@ const getLastMessageSnippet = () => {
 
     const attachmentTypes = ['file', 'image', 'video', 'audio'];
     if (attachmentTypes.includes(lastMessage.contentType)) {
-      const attachmentText =
-        lastMessage.content ||
-        lastMessage.attachment?.originalFilename ||
-        t(`messaging:${lastMessage.contentType}Attachment`, {
-          defaultValue: lastMessage.contentType.charAt(0).toUpperCase() + lastMessage.contentType.slice(1),
-        });
+      // Defensively check if there is meaningful text content to display.
+      // This explicitly checks against the literal string "undefined" to fix the bug.
+      const hasMeaningfulContent = lastMessage.content && lastMessage.content !== 'undefined';
 
       return (
         <span className="inline-flex items-center gap-1.5">
           <Paperclip className="h-3.5 w-3.5 flex-shrink-0" />
-          <span>{attachmentText}</span>
+          {hasMeaningfulContent && <span>{lastMessage.content}</span>}
         </span>
       );
     }
@@ -235,6 +232,7 @@ ConversationItem.propTypes = {
     }),
     updatedAt: PropTypes.string.isRequired,
     unreadCount: PropTypes.number,
+    subtext: PropTypes.string, // Added for completeness as it's used in rendering
   }).isRequired,
   isSelected: PropTypes.bool.isRequired,
   onClick: PropTypes.func.isRequired,
