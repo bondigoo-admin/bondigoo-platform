@@ -52,19 +52,27 @@ const ConversationSchema = new mongoose.Schema({
       default: null,
     },
   }],
- encryptionKey: {
+  encryptionKey: {
     type: String,
     required: false,
     select: false,
   },
- context: {
-  type: { 
-    type: String, 
-    enum: ['support_ticket', 'program_assignment_submission'] 
+  description: {
+    type: String,
+    trim: true,
   },
-  id: { type: mongoose.Schema.Types.ObjectId },
-  enrollmentId: { type: mongoose.Schema.Types.ObjectId, ref: 'Enrollment' },
-  lessonId: { type: mongoose.Schema.Types.ObjectId, ref: 'Lesson' }
+  settings: {
+    allowMemberInvites: { type: Boolean, default: true },
+    allowMemberInfoEdit: { type: Boolean, default: true },
+  },
+  context: {
+    type: { 
+      type: String, 
+      enum: ['support_ticket', 'program_assignment_submission'] 
+    },
+    id: { type: mongoose.Schema.Types.ObjectId },
+    enrollmentId: { type: mongoose.Schema.Types.ObjectId, ref: 'Enrollment' },
+    lessonId: { type: mongoose.Schema.Types.ObjectId, ref: 'Lesson' }
   },
 }, {
   timestamps: true,

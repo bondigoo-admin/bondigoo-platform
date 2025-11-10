@@ -44,7 +44,9 @@ const formatConversationList = (conversations, currentUserId, coachProfilesMap) 
         participantCount: conv.participants?.length || 0,
       });
 
-return {
+    const currentUserMembership = conv.participants.find(p => p && p._id.toString() === currentUserId.toString());
+
+      return {
         _id: conv._id,
         type: conv.type,
         name: conv.name,
@@ -60,7 +62,8 @@ return {
           createdAt: conv.lastMessage.createdAt,
         } : null,
         updatedAt: conv.updatedAt,
-        unreadCount: unreadCountValue
+        unreadCount: unreadCountValue,
+        currentUserRole: currentUserMembership ? currentUserMembership.conversationRole : 'member',
       };
     } else {
       const otherParticipant = conv.participants.find(
@@ -103,24 +106,29 @@ return {
         ? conv.unreadCounts.get(currentUserId.toString()) || 0
         : conv.unreadCounts?.[currentUserId.toString()] || 0;
 
-return {
-        _id: conv._id,
-        type: 'one-on-one',
-        name: conv.name,
-        subtext: conv.subtext,
-        context: conv.context,
-        participants: conv.participants,
-        otherParticipant: participantData,
-        lastMessage: conv.lastMessage ? {
-          _id: conv.lastMessage._id,
-          content: conv.lastMessage.content?.substring(0, 50) + (conv.lastMessage.content?.length > 50 ? '...' : ''),
-          senderId: conv.lastMessage.senderId,
-          contentType: conv.lastMessage.contentType,
-          createdAt: conv.lastMessage.createdAt,
-        } : null,
-        updatedAt: conv.updatedAt,
-        unreadCount: unreadCountValue
-      };
+      const currentUserMembership = conv.participants.find(
+          p => p && p._id.toString() === currentUserId.toString()
+        );
+
+        return {
+          _id: conv._id,
+          type: 'one-on-one',
+          name: conv.name,
+          subtext: conv.subtext,
+          context: conv.context,
+          participants: conv.participants,
+          otherParticipant: participantData,
+          currentUserRole: currentUserMembership ? currentUserMembership.conversationRole : 'member',
+          lastMessage: conv.lastMessage ? {
+            _id: conv.lastMessage._id,
+            content: conv.lastMessage.content?.substring(0, 50) + (conv.lastMessage.content?.length > 50 ? '...' : ''),
+            senderId: conv.lastMessage.senderId,
+            contentType: conv.lastMessage.contentType,
+            createdAt: conv.lastMessage.createdAt,
+          } : null,
+          updatedAt: conv.updatedAt,
+          unreadCount: unreadCountValue
+        };
     }
   });
 };
@@ -286,13 +294,16 @@ const getUserConversations = async (userId, page = 1, limit = 20) => {
     logger.debug(`[MessageService] Step 4/5: Fetched ${allMembers.length} member documents for the ${allConversationIds.length} conversations.`);
 
     const membersByConversation = allMembers.reduce((acc, member) => {
-      const key = member.conversationId.toString();
-      if (!acc[key]) acc[key] = [];
-      if (member.userId) { 
-        acc[key].push(member.userId);
-      }
-      return acc;
-    }, {});
+    const key = member.conversationId.toString();
+    if (!acc[key]) acc[key] = [];
+    if (member.userId) {
+      acc[key].push({
+        ...member.userId,
+        conversationRole: member.role,
+      });
+    }
+    return acc;
+  }, {});
 
     conversations.forEach(conv => {
       conv.participants = membersByConversation[conv._id.toString()] || [];
@@ -503,7 +514,7 @@ const getMessagesForConversation = async (userId, conversationId, page, limit = 
   }
 };
 
-const createMessage = async (senderId, conversationId, content, contentType = 'text', attachment = null, contextType = null, contextId = null) => {
+const createMessage = async (senderId, conversationId, content, contentType = 'text', attachment = null, contextType = null, contextId = null, session = null) => {
   console.log('[MessageService] Attempting to create message for user', {
     senderId,
     conversationId,
@@ -559,7 +570,7 @@ const createMessage = async (senderId, conversationId, content, contentType = 't
       conversation.markModified('deletedFor');
     }
 
-if (Array.isArray(attachment) && attachment.length > 0 && contentType === 'text') {
+    if (Array.isArray(attachment) && attachment.length > 0 && contentType === 'text') {
         contentType = 'file';
     }
 
@@ -583,7 +594,7 @@ if (Array.isArray(attachment) && attachment.length > 0 && contentType === 'text'
       contextId: contextId || undefined,
     });
 
-    await message.save();
+    await message.save({ session });
     logger.debug('[MessageService] Message saved', { messageId: message._id, conversationId, senderId });
 
     conversation.lastMessage = message._id;
@@ -610,7 +621,7 @@ if (Array.isArray(attachment) && attachment.length > 0 && contentType === 'text'
 
     conversation.markModified('unreadCounts');
 
-    await conversation.save();
+    await conversation.save({ session });
     logger.debug('[MessageService] Conversation updated with new message and unread counts', { conversationId, messageId: message._id });
 
     const populatedMessage = await Message.findById(message._id)
@@ -659,7 +670,7 @@ if (Array.isArray(attachment) && attachment.length > 0 && contentType === 'text'
   }
 };
 
-const createGroupConversation = async ({ creatorId, memberIds, name, type, groupAvatar = null }) => {
+const createGroupConversation = async ({ creatorId, memberIds, name, type, groupAvatar = null, description = null }) => {
   const session = await mongoose.startSession();
   session.startTransaction();
   try {
@@ -679,12 +690,17 @@ const createGroupConversation = async ({ creatorId, memberIds, name, type, group
       name,
       groupAvatar,
       creator: creatorObjectId,
-      participants: [], // Do NOT populate the legacy participants array for new groups.
+      participants: [],
       encryptionKey: encryptedDEK,
       unreadCounts: initialUnreadCounts,
+      description,
+      settings: {
+        allowMemberInvites: true,
+        allowMemberInfoEdit: true,
+      },
     });
     await conversation.save({ session });
-    
+
     const creatorMembership = {
       conversationId: conversation._id,
       userId: creatorObjectId,
@@ -698,21 +714,21 @@ const createGroupConversation = async ({ creatorId, memberIds, name, type, group
     }));
 
     await ConversationMember.insertMany([creatorMembership, ...memberMemberships], { session });
-    
+
     await session.commitTransaction();
     session.endSession();
 
-    console.log('[MessageService] Group conversation created successfully', { 
-      conversationId: conversation._id, 
-      creatorId, 
+    console.log('[MessageService] Group conversation created successfully', {
+      conversationId: conversation._id,
+      creatorId,
       memberCount: memberIds.length,
       name,
-      type 
+      type
     });
 
     const populatedConversation = await Conversation.findById(conversation._id)
       .lean();
-      
+
     const members = await ConversationMember.find({ conversationId: conversation._id })
       .populate({
         path: 'userId',
@@ -809,7 +825,9 @@ const getConversationSummary = async (conversationId, forUserId) => {
       .populate({ path: 'userId', select: 'firstName lastName profilePicture status role' })
       .lean();
 
-    conversation.participants = members.map(m => m.userId).filter(Boolean);
+    conversation.participants = members
+  .map(member => member.userId ? { ...member.userId, conversationRole: member.role } : null)
+  .filter(Boolean);
 
     logger.debug('[MessageService] Raw conversation data for summary', { 
       conversationId, 
@@ -876,10 +894,6 @@ const getConversationById = async (conversationId, senderId = null) => {
   try {
     const conversation = await Conversation.findById(conversationId)
       .populate({
-        path: 'participants',
-        select: 'firstName lastName profilePicture status role',
-      })
-      .populate({
         path: 'lastMessage',
         select: 'content senderId contentType createdAt',
       })
@@ -889,6 +903,17 @@ const getConversationById = async (conversationId, senderId = null) => {
     if (!conversation) {
       throw new Error('Conversation not found.');
     }
+
+    const members = await ConversationMember.find({ conversationId: conversation._id })
+      .populate({ path: 'userId', select: 'firstName lastName profilePicture status role' })
+      .lean();
+
+    conversation.participants = members
+      .map(member => member.userId ? { ...member.userId, conversationRole: member.role } : null)
+      .filter(Boolean);
+
+    const currentUserMembership = members.find(m => m.userId?._id.toString() === senderId);
+    conversation.currentUserRole = currentUserMembership ? currentUserMembership.role : 'member';
 
     const isParticipant = conversation.participants.some(p => p._id.toString() === senderId);
     if (senderId && !isParticipant) {
@@ -1019,8 +1044,7 @@ const deleteMessage = async (userId, messageId) => {
   const messageObjectId = new mongoose.Types.ObjectId(messageId);
 
   try {
-    // Find the message
-    const message = await Message.findById(messageObjectId);
+    const message = await Message.findById(messageObjectId).select('conversationId senderId createdAt readBy deletedFor deletedUniversally content');
     if (!message) {
       logger.warn('[MessageService] Message not found', { messageId, userId });
       const error = new Error('Message not found.');
@@ -1028,7 +1052,6 @@ const deleteMessage = async (userId, messageId) => {
       throw error;
     }
 
-    // Validate sender
     if (!message.senderId.equals(userObjectId)) {
       logger.error('[MessageService] User not authorized to delete message', { messageId, userId });
       const error = new Error('User not authorized to delete this message.');
@@ -1036,14 +1059,7 @@ const deleteMessage = async (userId, messageId) => {
       throw error;
     }
 
-    // Check if already deleted for the sender
-    if (message.deletedFor.some(id => id.equals(userObjectId))) {
-      console.log('[MessageService] Message already deleted for sender', { messageId, userId });
-      return { status: 'deleted_for_sender' };
-    }
-
-    // Find the conversation
-    const conversation = await Conversation.findById(message.conversationId);
+    const conversation = await Conversation.findById(message.conversationId).select('participants lastMessage');
     if (!conversation) {
       logger.error('[MessageService] Conversation not found for message', { messageId, conversationId: message.conversationId, userId });
       const error = new Error('Conversation not found.');
@@ -1051,47 +1067,43 @@ const deleteMessage = async (userId, messageId) => {
       throw error;
     }
 
-    // Determine if message is read by any recipient
-    const recipientIds = conversation.participants.filter(id => !id.equals(userObjectId));
-    const isReadByAny = message.readBy.some(readId => recipientIds.some(recipientId => recipientId.equals(readId)));
+    if (message.deletedFor.some(id => id.equals(userObjectId))) {
+      console.log('[MessageService] Message already deleted for sender', { messageId, userId });
+      return { status: 'deleted_for_sender' };
+    }
+
+    const messageAgeMs = new Date().getTime() - message.createdAt.getTime();
+    const ONE_HOUR_MS = 3600 * 1000;
+    const canDeleteForEveryone = messageAgeMs < ONE_HOUR_MS;
 
     let updatedLastMessage = false;
-    if (!isReadByAny) {
-      // Delete for everyone
-      console.log('[MessageService] Deleting message for everyone', { messageId, userId });
-      message.deletedUniversally = true;
-      message.deletedFor = conversation.participants; // Add all participants to deletedFor
 
-      // Check if this was the last message
+    if (canDeleteForEveryone) {
+      console.log('[MessageService] Deleting message for everyone (within time window)', { messageId, userId });
+      message.deletedUniversally = true;
+      message.content = '[deleted_message_placeholder]';
+      message.deletedFor = conversation.participants;
+
       if (conversation.lastMessage && conversation.lastMessage.equals(messageObjectId)) {
-        logger.debug('[MessageService] Deleted message was last message, finding new last message', { messageId, conversationId: conversation._id });
         const newLastMessage = await Message.findOne({
           conversationId: conversation._id,
-          deletedFor: { $ne: conversation.participants[0] }, // At least not deleted for one participant
+          deletedUniversally: { $ne: true },
+          deletedFor: { $ne: userObjectId }
         })
           .sort({ createdAt: -1 })
-          .select('_id content senderId contentType createdAt')
+          .select('_id content senderId contentType createdAt deletedUniversally')
           .lean();
 
         conversation.lastMessage = newLastMessage ? newLastMessage._id : null;
         updatedLastMessage = true;
-        conversation.markModified('lastMessage');
         await conversation.save();
-        logger.debug('[MessageService] Updated last message', {
-          conversationId: conversation._id,
-          newLastMessageId: newLastMessage ? newLastMessage._id : 'null',
-        });
       }
-
       await message.save();
-      console.log('[MessageService] Message deleted for everyone successfully', { messageId, userId });
       return { status: 'deleted_for_everyone', updatedLastMessage };
     } else {
-      // Delete only for sender
-      console.log('[MessageService] Deleting message for sender only', { messageId, userId });
+      console.log('[MessageService] Deleting message for sender only (outside time window or read)', { messageId, userId });
       message.deletedFor.push(userObjectId);
       await message.save();
-      console.log('[MessageService] Message deleted for sender successfully', { messageId, userId });
       return { status: 'deleted_for_sender' };
     }
   } catch (error) {
@@ -1277,6 +1289,288 @@ const enrichConversationSummaryWithContext = async (conversations) => {
     return finalConversations;
 };
 
+const addMembersToGroup = async (conversationId, performingUserId, newMemberIds) => {
+  const session = await mongoose.startSession();
+  session.startTransaction();
+  try {
+    const convObjectId = new mongoose.Types.ObjectId(conversationId);
+    const performingUserObjectId = new mongoose.Types.ObjectId(performingUserId);
+    const newMemberObjectIds = newMemberIds.map(id => new mongoose.Types.ObjectId(id));
+
+    const conversation = await Conversation.findById(convObjectId).session(session);
+    if (!conversation || !['group', 'broadcast'].includes(conversation.type)) {
+      const error = new Error('Group conversation not found.');
+      error.statusCode = 404;
+      throw error;
+    }
+
+    const performingUserMembership = await ConversationMember.findOne({
+      conversationId: convObjectId,
+      userId: performingUserObjectId,
+    }).session(session);
+    if (!performingUserMembership) {
+      const error = new Error('Performing user is not a member of the group.');
+      error.statusCode = 403;
+      throw error;
+    }
+
+    const canAddMembers = performingUserMembership.role === 'admin' || conversation.settings.allowMemberInvites;
+    if (!canAddMembers) {
+      const error = new Error('Not authorized to add members to this group.');
+      error.statusCode = 403;
+      throw error;
+    }
+
+    const existingMembers = (await ConversationMember.find({ conversationId: convObjectId }).select('userId').lean().session(session)).map(m => m.userId.toString());
+    const usersToAdd = newMemberObjectIds.filter(id => !existingMembers.includes(id.toString()));
+
+    if (usersToAdd.length === 0) {
+      await session.commitTransaction();
+      return { success: true, addedCount: 0, message: 'All specified users are already members.' };
+    }
+
+    const memberDocs = usersToAdd.map(userId => ({
+      conversationId: convObjectId,
+      userId,
+      role: 'member',
+    }));
+    await ConversationMember.insertMany(memberDocs, { session });
+
+    conversation.updatedAt = new Date();
+    await conversation.save({ session });
+
+    await session.commitTransaction();
+    return { success: true, addedCount: usersToAdd.length };
+  } catch (error) {
+    await session.abortTransaction();
+    logger.error('[MessageService] Error adding members to group', { error: error.message, stack: error.stack });
+    throw error;
+  } finally {
+    session.endSession();
+  }
+};
+
+const removeMembersFromGroup = async (conversationId, performingUserId, memberIdToRemove) => {
+  const session = await mongoose.startSession();
+  session.startTransaction();
+  try {
+    const convObjectId = new mongoose.Types.ObjectId(conversationId);
+    const performingUserObjectId = new mongoose.Types.ObjectId(performingUserId);
+    const memberToRemoveObjectId = new mongoose.Types.ObjectId(memberIdToRemove);
+
+    const conversation = await Conversation.findById(convObjectId).session(session);
+    if (!conversation || !['group', 'broadcast'].includes(conversation.type)) {
+      const error = new Error('Group conversation not found.');
+      error.statusCode = 404;
+      throw error;
+    }
+
+    const performingUserMembership = await ConversationMember.findOne({
+      conversationId: convObjectId,
+      userId: performingUserObjectId,
+    }).session(session);
+    if (!performingUserMembership || performingUserMembership.role !== 'admin') {
+      const error = new Error('Only admins can remove members from this group.');
+      error.statusCode = 403;
+      throw error;
+    }
+
+    const memberToRemoveMembership = await ConversationMember.findOne({
+      conversationId: convObjectId,
+      userId: memberToRemoveObjectId,
+    }).session(session);
+
+    if (!memberToRemoveMembership) {
+      await session.commitTransaction();
+      return { success: true, message: 'Member not found in group.' };
+    }
+
+    if (memberToRemoveMembership.role === 'admin') {
+      const adminCount = await ConversationMember.countDocuments({ conversationId: convObjectId, role: 'admin' }).session(session);
+      if (adminCount <= 1) {
+        const error = new Error('Cannot remove the last admin from the group. Promote another member first.');
+        error.statusCode = 400;
+        throw error;
+      }
+    }
+
+    await ConversationMember.deleteOne({ _id: memberToRemoveMembership._id }, { session });
+
+    conversation.updatedAt = new Date();
+    await conversation.save({ session });
+
+    await session.commitTransaction();
+    return { success: true, removedMemberId: memberIdToRemove };
+  } catch (error) {
+    await session.abortTransaction();
+    logger.error('[MessageService] Error removing member from group', { error: error.message, stack: error.stack });
+    throw error;
+  } finally {
+    session.endSession();
+  }
+};
+
+const updateMemberRole = async (conversationId, performingUserId, targetUserId, newRole) => {
+    const convObjectId = new mongoose.Types.ObjectId(conversationId);
+    const performingUserObjectId = new mongoose.Types.ObjectId(performingUserId);
+    const targetUserObjectId = new mongoose.Types.ObjectId(targetUserId);
+
+    const performingUserMembership = await ConversationMember.findOne({ conversationId: convObjectId, userId: performingUserObjectId });
+
+    if (!performingUserMembership || performingUserMembership.role !== 'admin') {
+        const error = new Error('Only admins can change member roles.');
+        error.statusCode = 403;
+        throw error;
+    }
+
+    const targetUserMembership = await ConversationMember.findOne({ conversationId: convObjectId, userId: targetUserObjectId });
+    if (!targetUserMembership) {
+        const error = new Error('Target user is not a member of this group.');
+        error.statusCode = 404;
+        throw error;
+    }
+
+    if (targetUserMembership.role === newRole) {
+        return { success: true, message: 'Role is already set to the desired value.' };
+    }
+    
+    if (targetUserMembership.role === 'admin' && newRole === 'member') {
+        const adminCount = await ConversationMember.countDocuments({ conversationId: convObjectId, role: 'admin' });
+        if (adminCount <= 1) {
+            const error = new Error('Cannot demote the last admin of the group.');
+            error.statusCode = 400;
+            throw error;
+        }
+    }
+
+    targetUserMembership.role = newRole;
+    await targetUserMembership.save();
+
+    await Conversation.updateOne({ _id: convObjectId }, { $set: { updatedAt: new Date() } });
+
+    return { success: true, updatedMemberId: targetUserId, newRole };
+};
+
+const updateGroupInfo = async (conversationId, performingUserId, { name, groupAvatar, description }) => {
+    const convObjectId = new mongoose.Types.ObjectId(conversationId);
+    const performingUserObjectId = new mongoose.Types.ObjectId(performingUserId);
+
+    const conversation = await Conversation.findById(convObjectId);
+    if (!conversation || !['group', 'broadcast'].includes(conversation.type)) {
+      const error = new Error('Group conversation not found.');
+      error.statusCode = 404;
+      throw error;
+    }
+
+    const performingUserMembership = await ConversationMember.findOne({ conversationId: convObjectId, userId: performingUserObjectId });
+    if (!performingUserMembership) {
+        const error = new Error('User not authorized for this conversation.');
+        error.statusCode = 403;
+        throw error;
+    }
+
+    const canEditInfo = performingUserMembership.role === 'admin' || conversation.settings.allowMemberInfoEdit;
+    if (!canEditInfo) {
+        const error = new Error("Not authorized to edit this group's information.");
+        error.statusCode = 403;
+        throw error;
+    }
+
+    const updates = {};
+    if (name !== undefined) updates.name = name;
+    if (groupAvatar !== undefined) updates.groupAvatar = groupAvatar;
+    if (description !== undefined) updates.description = description;
+
+    if (Object.keys(updates).length === 0) {
+        return { success: true, message: 'No updates provided.' };
+    }
+
+    updates.updatedAt = new Date();
+    await Conversation.updateOne({ _id: convObjectId }, { $set: updates });
+
+    const updatedConversation = await Conversation.findById(convObjectId).lean();
+    return { success: true, conversation: updatedConversation };
+};
+
+const updateGroupSettings = async (conversationId, performingUserId, settingsUpdates) => {
+    const convObjectId = new mongoose.Types.ObjectId(conversationId);
+    const performingUserObjectId = new mongoose.Types.ObjectId(performingUserId);
+
+    const performingUserMembership = await ConversationMember.findOne({ conversationId: convObjectId, userId: performingUserObjectId });
+    if (!performingUserMembership || performingUserMembership.role !== 'admin') {
+        const error = new Error('Only admins can update group settings.');
+        error.statusCode = 403;
+        throw error;
+    }
+    
+    const updates = {};
+    if (settingsUpdates.allowMemberInvites !== undefined) updates['settings.allowMemberInvites'] = settingsUpdates.allowMemberInvites;
+    if (settingsUpdates.allowMemberInfoEdit !== undefined) updates['settings.allowMemberInfoEdit'] = settingsUpdates.allowMemberInfoEdit;
+
+    if (Object.keys(updates).length === 0) {
+        return { success: true, message: 'No settings updates provided.' };
+    }
+
+    updates.updatedAt = new Date();
+    await Conversation.updateOne({ _id: convObjectId }, { $set: updates });
+
+    const updatedConversation = await Conversation.findById(convObjectId).lean();
+    return { success: true, conversation: updatedConversation };
+};
+
+const leaveGroup = async (conversationId, userId) => {
+  const session = await mongoose.startSession();
+  session.startTransaction();
+  try {
+    const convObjectId = new mongoose.Types.ObjectId(conversationId);
+    const userObjectId = new mongoose.Types.ObjectId(userId);
+
+    const membership = await ConversationMember.findOne({
+      conversationId: convObjectId,
+      userId: userObjectId,
+    }).session(session);
+
+    if (!membership) {
+      await session.commitTransaction();
+      session.endSession();
+      return { success: true, message: 'User is not a member of the group.' };
+    }
+
+    if (membership.role === 'admin') {
+      const adminCount = await ConversationMember.countDocuments({ conversationId: convObjectId, role: 'admin' }).session(session);
+      if (adminCount <= 1) {
+        const error = new Error('Cannot leave the group as the last admin. Promote another member first.');
+        error.statusCode = 400;
+        throw error;
+      }
+    }
+
+    await ConversationMember.deleteOne({ _id: membership._id }, { session });
+
+    const user = await User.findById(userId).select('firstName lastName').lean();
+    const systemContent = `${user.firstName || 'A user'} ${user.lastName || ''} left the group.`;
+    
+    await createMessage(
+      userId,
+      convObjectId,
+      systemContent,
+      'system',
+      null, null, null,
+      session
+    );
+
+    await session.commitTransaction();
+    session.endSession();
+    return { success: true };
+  } catch (error) {
+    await session.abortTransaction();
+    session.endSession();
+    logger.error('[MessageService] Error leaving group', { error: error.message, stack: error.stack });
+    throw error;
+  }
+};
+
+
 module.exports = {
   createOrGetConversation,
   getUserConversations,
@@ -1291,4 +1585,10 @@ module.exports = {
   findOrCreateConversationForTicket,
   findOrCreateConversationForAssignment,
   enrichConversationSummaryWithContext,
+  addMembersToGroup,
+  removeMembersFromGroup,
+  updateMemberRole,
+  updateGroupInfo,
+  updateGroupSettings,
+  leaveGroup,
 };

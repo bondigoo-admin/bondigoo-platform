@@ -2,7 +2,7 @@ import React, { useEffect, useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useAuth } from '../../contexts/AuthContext';
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar.tsx";
-import { MoreVertical, Trash2, BookOpen  } from 'lucide-react';
+import { MoreVertical, Trash2, BookOpen, Users, Settings, UserPlus, Edit3, LogOut, Info  } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Button } from "../ui/button.tsx";
 import { useTranslation } from 'react-i18next';
@@ -25,36 +25,23 @@ import {
 } from "../ui/alert-dialog.tsx";
 import { logger } from '../../utils/logger';
 import ParticipantAvatarStack from './ParticipantAvatarStack';
+import GroupInfoModal from './GroupInfoModal';
+import EditGroupInfoModal from './EditGroupInfoModal';
+import AddMembersModal from './AddMembersModal';
+import ManageMembersModal from './ManageMembersModal';
+import GroupSettingsModal from './GroupSettingsModal';
 
-const ChatHeader = ({ activeConversation, onDeleteConversation, isDeleting }) => { 
+const ChatHeader = ({ activeConversation, onDeleteConversation, isDeleting, onOpenGroupInfo }) => {
   logger.info('[DIAGNOSTIC LOG] ChatHeader received activeConversation prop:', activeConversation);
   const { user } = useAuth();
   const { t } = useTranslation(['messaging', 'common']);
   const [presenceStatus, setPresenceStatus] = useState('offline');
   const [isConfirmDeleteDialogOpen, setIsConfirmDeleteDialogOpen] = useState(false);
+  const [activeModal, setActiveModal] = useState(null);
+  const [isLeaveConfirmOpen, setIsLeaveConfirmOpen] = useState(false);
   const { socket, isConnected } = useNotificationSocket();
   const deleteButtonRef = React.useRef(null);
 
-useEffect(() => {
-    return () => {
-      logger.debug('[ChatHeader] Cleaning up pointer events on unmount');
-      document.body.style.pointerEvents = 'auto';
-      const headerElement = document.querySelector('.chat-panel__header');
-      const messagingCenterElement = document.querySelector('.messaging-center');
-      if (headerElement) {
-        logger.debug('[ChatHeader] Restoring pointer events for header');
-        headerElement.style.pointerEvents = 'auto';
-      } else {
-        logger.warn('[ChatHeader] Header element not found during cleanup');
-      }
-      if (messagingCenterElement) {
-        logger.debug('[ChatHeader] Restoring pointer events for messaging center');
-        messagingCenterElement.style.pointerEvents = 'auto';
-      } else {
-        logger.warn('[ChatHeader] Messaging center element not found during cleanup');
-      }
-    };
-  }, []);
 
   useEffect(() => {
     if (!activeConversation) return;
@@ -93,8 +80,9 @@ useEffect(() => {
 
   const isGroup = activeConversation.type === 'group' || activeConversation.type === 'broadcast';
   const participant = isGroup ? null : activeConversation.otherParticipant;
-const displayName = isGroup ? activeConversation.name : `${participant?.firstName} ${participant?.lastName}`;
+  const displayName = isGroup ? activeConversation.name : `${participant?.firstName} ${participant?.lastName}`;
   const { context } = activeConversation;
+  const currentUserIsAdmin = activeConversation?.currentUserRole === 'admin';
   
   if (!isGroup && !participant) {
     logger.warn('[ChatHeader] Participant is undefined for one-on-one chat, skipping render', { activeConversationId: activeConversation._id, isDeleting });
@@ -128,6 +116,11 @@ const displayName = isGroup ? activeConversation.name : `${participant?.firstNam
     setIsConfirmDeleteDialogOpen(true);
   };
 
+  const handleLeaveGroup = () => {
+    logger.warn('[ChatHeader] Leave group action triggered, but no API call is implemented.', { conversationId: activeConversation._id });
+    setIsLeaveConfirmOpen(false);
+};
+
   const handleConfirmDelete = () => {
     logger.info('[ChatHeader] Confirmed delete conversation', { conversationId: activeConversation._id });
     setIsConfirmDeleteDialogOpen(false);
@@ -137,6 +130,12 @@ const displayName = isGroup ? activeConversation.name : `${participant?.firstNam
       logger.warn('[ChatHeader] onDeleteConversation prop is missing!');
     }
   };
+
+  const handleOpenModal = (modalName) => {
+    setTimeout(() => {
+        setActiveModal(modalName);
+    }, 150);
+};
   
   if (!isGroup) {
     const profilePictureUrl = participant.role === 'coach' && participant.coachProfilePicture?.url
@@ -163,8 +162,11 @@ const displayName = isGroup ? activeConversation.name : `${participant?.firstNam
   return (
     <>
       <div className="flex items-center justify-between p-3 border-b border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900">
-        <div className="flex items-center gap-3">
-        <div className="relative">
+      <div className="flex items-center gap-3">
+        <div 
+          className={`relative ${isGroup ? 'cursor-pointer' : ''}`}
+          onClick={isGroup ? () => handleOpenModal('edit') : undefined}
+        >
           <Avatar className="w-10 h-10">
             <AvatarImage 
               src={
@@ -183,12 +185,17 @@ const displayName = isGroup ? activeConversation.name : `${participant?.firstNam
           {!isGroup && <div className={`absolute bottom-0 right-0 w-3 h-3 rounded-full border-2 border-slate-50 dark:border-slate-900 ${getPresenceClass(presenceStatus)}`}></div>}
         </div>
         <div className="min-w-0">
-          <div className="font-semibold text-slate-900 dark:text-slate-50 truncate">
+          <div 
+            className={`font-semibold text-slate-900 dark:text-slate-50 truncate ${isGroup ? 'cursor-pointer' : ''}`}
+            onClick={isGroup ? () => handleOpenModal('edit') : undefined}
+          >
             {displayName}
           </div>
           <div className="text-xs text-slate-500 dark:text-slate-400">
             {isGroup ? (
-              <ParticipantAvatarStack participants={activeConversation.participants} />
+              <div className="cursor-pointer" onClick={() => handleOpenModal('manageMembers')}>
+                <ParticipantAvatarStack participants={activeConversation.participants} />
+              </div>
             ) : (
               getPresenceText(presenceStatus)
             )}
@@ -212,17 +219,47 @@ const displayName = isGroup ? activeConversation.name : `${participant?.firstNam
         </div>
       </div>
 
-        <div className="flex items-center">
+         <div className="flex items-center">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" size="icon" aria-label={t('common:moreOptions')}>
                 <MoreVertical size={20} />
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="bg-white dark:bg-slate-950">
+           <DropdownMenuContent align="end" className="bg-white dark:bg-slate-950">
+              {isGroup && (
+                <>
+                  <DropdownMenuItem className="cursor-pointer" onSelect={() => handleOpenModal('info')}>
+                    <Info size={16} className="mr-2" /> {t('messaging:groupInfo', 'Group Info')}
+                  </DropdownMenuItem>
+                  {(currentUserIsAdmin || activeConversation.settings?.allowMemberInfoEdit) && (
+                    <DropdownMenuItem className="cursor-pointer" onSelect={() => handleOpenModal('edit')}>
+                      <Edit3 size={16} className="mr-2" /> {t('messaging:editGroup', 'Edit Group')}
+                    </DropdownMenuItem>
+                  )}
+                  {(currentUserIsAdmin || activeConversation.settings?.allowMemberInvites) && (
+                    <DropdownMenuItem className="cursor-pointer" onSelect={() => handleOpenModal('addMembers')}>
+                      <UserPlus size={16} className="mr-2" /> {t('messaging:addMembers', 'Add Members')}
+                    </DropdownMenuItem>
+                  )}
+                  {currentUserIsAdmin && (
+                    <>
+                      <DropdownMenuItem className="cursor-pointer" onSelect={() => handleOpenModal('manageMembers')}>
+                        <Users size={16} className="mr-2" /> {t('messaging:manageMembers', 'Manage Members')}
+                      </DropdownMenuItem>
+                      <DropdownMenuItem className="cursor-pointer" onSelect={() => handleOpenModal('settings')}>
+                        <Settings size={16} className="mr-2" /> {t('messaging:groupSettings', 'Group Settings')}
+                      </DropdownMenuItem>
+                    </>
+                  )}
+                  <DropdownMenuItem className="cursor-pointer" onSelect={() => setIsLeaveConfirmOpen(true)}>
+                    <LogOut size={16} className="mr-2" /> {t('messaging:leaveGroup', 'Leave Group')}
+                  </DropdownMenuItem>
+                </>
+              )}
               <DropdownMenuItem
                 className="text-red-600 cursor-pointer dark:text-red-500 focus:bg-red-100 dark:focus:bg-red-900/20 focus:text-red-600 dark:focus:text-red-500"
-                onClick={handleDeleteClick}
+                onSelect={handleDeleteClick}
                 ref={deleteButtonRef}
               >
                 <Trash2 size={16} className="mr-2" /> {t('messaging:deleteChatAction', 'Delete Chat')}
@@ -233,34 +270,9 @@ const displayName = isGroup ? activeConversation.name : `${participant?.firstNam
       </div>
 
       <AlertDialog
-        open={isConfirmDeleteDialogOpen}
-        onOpenChange={(open) => {
-          setIsConfirmDeleteDialogOpen(open);
-          if (!open) {
-            deleteButtonRef.current?.focus();
-            document.body.style.pointerEvents = 'auto';
-            const rootElement = document.querySelector('#root');
-            if (rootElement) {
-              logger.debug('[ChatHeader] Restoring pointer events for root element');
-              rootElement.style.pointerEvents = 'auto';
-            }
-            const headerElement = document.querySelector('.chat-panel__header');
-            if (headerElement) {
-              logger.debug('[ChatHeader] Restoring pointer events for header in onOpenChange');
-              headerElement.style.pointerEvents = 'auto';
-            } else {
-              logger.warn('[ChatHeader] Header element not found in onOpenChange');
-            }
-            const messagingCenterElement = document.querySelector('.messaging-center');
-            if (messagingCenterElement) {
-              logger.debug('[ChatHeader] Restoring pointer events for messaging center in onOpenChange');
-              messagingCenterElement.style.pointerEvents = 'auto';
-            } else {
-              logger.warn('[ChatHeader] Messaging center element not found in onOpenChange');
-            }
-          }
-        }}
-      >
+          open={isConfirmDeleteDialogOpen}
+          onOpenChange={setIsConfirmDeleteDialogOpen}
+        >
         <AlertDialogContent className="bg-white dark:bg-slate-950">
           <AlertDialogHeader>
             <AlertDialogTitle>{t('messaging:deleteConfirmTitle', 'Delete this chat?')}</AlertDialogTitle>
@@ -279,7 +291,62 @@ const displayName = isGroup ? activeConversation.name : `${participant?.firstNam
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
-    </>
+    <GroupInfoModal
+      isOpen={activeModal === 'info'}
+      onClose={() => setActiveModal(null)}
+      conversation={activeConversation}
+      currentUserId={user?._id}
+      onOpenEdit={() => { setActiveModal(null); handleOpenModal('edit'); }}
+      onOpenAddMembers={() => { setActiveModal(null); handleOpenModal('addMembers'); }}
+      onOpenManageMembers={() => { setActiveModal(null); handleOpenModal('manageMembers'); }}
+      onOpenSettings={() => { setActiveModal(null); handleOpenModal('settings'); }}
+      onLeaveGroup={() => {
+        setActiveModal(null);
+        setIsLeaveConfirmOpen(true);
+      }}
+    />
+  <EditGroupInfoModal
+    isOpen={activeModal === 'edit'}
+    onClose={() => setActiveModal(null)}
+    conversation={activeConversation}
+  />
+  <AddMembersModal
+    isOpen={activeModal === 'addMembers'}
+    onClose={() => setActiveModal(null)}
+    conversation={activeConversation}
+  />
+  <ManageMembersModal
+    isOpen={activeModal === 'manageMembers'}
+    onClose={() => setActiveModal(null)}
+    conversation={activeConversation}
+    currentUserId={user?._id}
+  />
+  <GroupSettingsModal
+    isOpen={activeModal === 'settings'}
+    onClose={() => setActiveModal(null)}
+    conversation={activeConversation}
+  />
+
+  <AlertDialog open={isLeaveConfirmOpen} onOpenChange={setIsLeaveConfirmOpen}>
+    <AlertDialogContent className="bg-white dark:bg-slate-950">
+      <AlertDialogHeader>
+        <AlertDialogTitle>{t('messaging:leaveGroupConfirmTitle', 'Leave this group?')}</AlertDialogTitle>
+        <AlertDialogDescription>
+          {t('messaging:leaveGroupConfirmDesc', 'You will no longer receive messages from this group. You can only rejoin if an admin adds you back.')}
+        </AlertDialogDescription>
+      </AlertDialogHeader>
+      <AlertDialogFooter>
+        <AlertDialogCancel>{t('common:cancel', 'Cancel')}</AlertDialogCancel>
+        <AlertDialogAction
+          className="bg-red-600 hover:bg-red-700 dark:bg-red-600 dark:hover:bg-red-700 dark:text-slate-50"
+          onClick={handleLeaveGroup}
+        >
+          {t('messaging:leaveGroup', 'Leave Group')}
+        </AlertDialogAction>
+      </AlertDialogFooter>
+    </AlertDialogContent>
+  </AlertDialog>
+   </>
   );
 };
 
@@ -289,11 +356,13 @@ ChatHeader.propTypes = {
     type: PropTypes.string,
     name: PropTypes.string,
     subtext: PropTypes.string,
+    description: PropTypes.string,
     groupAvatar: PropTypes.shape({ url: PropTypes.string }),
     context: PropTypes.shape({
       type: PropTypes.string,
       programId: PropTypes.string,
       lessonId: PropTypes.string,
+      programAuthorId: PropTypes.string,
     }),
     participants: PropTypes.arrayOf(PropTypes.shape({
         _id: PropTypes.string.isRequired,
@@ -312,10 +381,14 @@ ChatHeader.propTypes = {
       coachProfilePicture: PropTypes.shape({ url: PropTypes.string }),
       status: PropTypes.string,
     }),
+    currentUserRole: PropTypes.string,
+    settings: PropTypes.shape({
+      allowMemberInvites: PropTypes.bool,
+      allowMemberInfoEdit: PropTypes.bool,
+    }),
   }),
   onDeleteConversation: PropTypes.func,
   isDeleting: PropTypes.bool,
-  conversationList: PropTypes.array,
 };
 
 export default ChatHeader;

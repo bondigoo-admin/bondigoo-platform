@@ -10,11 +10,27 @@ import { useConversations } from '../../hooks/useConversations';
 import { logger } from '../../utils/logger';
 import { toast } from 'react-hot-toast';
 import { useAuth } from '../../contexts/AuthContext';
-import { sendMessage, markConversationAsRead, deleteConversation, deleteMessage } from '../../services/messageAPI';
+import { sendMessage, markConversationAsRead, deleteConversation, deleteMessage, leaveGroup } from '../../services/messageAPI';
 import { useMutation, useQueryClient } from 'react-query';
 import { useNotificationSocket } from '../../contexts/SocketContext';
 import { SOCKET_EVENTS } from '../../constants/socketEvents';
 import CustomVideoPlayer from '../player/CustomVideoPlayer.js';
+import GroupInfoModal from './GroupInfoModal';
+import EditGroupInfoModal from './EditGroupInfoModal';
+import AddMembersModal from './AddMembersModal';
+import ManageMembersModal from './ManageMembersModal';
+import GroupSettingsModal from './GroupSettingsModal';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "../ui/alert-dialog.tsx";
+
 
 const conversationKeys = {
   all: (userId) => ['conversations', userId],
@@ -51,6 +67,41 @@ const ChatPanel = ({ activeConversationId, onConversationDeleted }) => {
     mediaItems: [],
     startIndex: 0
   });
+
+   const [modalState, setModalState] = useState({
+    info: false,
+    edit: false,
+    add: false,
+    manage: false,
+    settings: false,
+  });
+  const [isLeaveConfirmOpen, setIsLeaveConfirmOpen] = useState(false);
+
+  const handleModalOpen = (modal) => setModalState(prev => ({ ...prev, [modal]: true }));
+  const handleModalClose = (modal) => setModalState(prev => ({ ...prev, [modal]: false }));
+
+  const leaveGroupMutation = useMutation(() => leaveGroup(activeConversationId), {
+    onSuccess: () => {
+      toast.success(t('messaging:youLeftTheGroup'));
+      queryClient.invalidateQueries(conversationKeys.all(userId));
+      onConversationDeleted(activeConversationId);
+    },
+    onError: (error) => {
+      toast.error(error.message || t('common:errorGeneric'));
+    },
+    onSettled: () => {
+      setIsLeaveConfirmOpen(false);
+      handleModalClose('info');
+    }
+  });
+
+  const handleLeaveGroup = () => {
+    setIsLeaveConfirmOpen(true);
+  };
+
+  const confirmLeaveGroup = () => {
+    leaveGroupMutation.mutate();
+  };
 
   const baseActiveConversation = conversationList?.find(c => c._id === activeConversationId);
 
@@ -696,7 +747,7 @@ return (
             activeConversation={activeConversation}
             onDeleteConversation={handleDeleteConversation}
             isDeleting={deleteConversationMutation.isLoading}
-            conversationList={conversationList}
+            onOpenGroupInfo={() => handleModalOpen('info')}
         />
         <MessageList
           messages={messages}
@@ -719,6 +770,59 @@ return (
           recipientUserId={recipientUserId}
           activeConversation={activeConversation}
         />
+
+      {activeConversation?.type === 'group' && (
+        <>
+          <GroupInfoModal
+            isOpen={modalState.info}
+            onClose={() => handleModalClose('info')}
+            conversation={activeConversation}
+            currentUserId={userId}
+            onOpenEdit={() => handleModalOpen('edit')}
+            onOpenAddMembers={() => handleModalOpen('add')}
+            onOpenManageMembers={() => handleModalOpen('manage')}
+            onOpenSettings={() => handleModalOpen('settings')}
+            onLeaveGroup={handleLeaveGroup}
+          />
+          <EditGroupInfoModal
+            isOpen={modalState.edit}
+            onClose={() => handleModalClose('edit')}
+            conversation={activeConversation}
+          />
+          <AddMembersModal
+            isOpen={modalState.add}
+            onClose={() => handleModalClose('add')}
+            conversation={activeConversation}
+          />
+          <ManageMembersModal
+            isOpen={modalState.manage}
+            onClose={() => handleModalClose('manage')}
+            conversation={activeConversation}
+            currentUserId={userId}
+          />
+          <GroupSettingsModal
+            isOpen={modalState.settings}
+            onClose={() => handleModalClose('settings')}
+            conversation={activeConversation}
+          />
+        </>
+      )}
+
+      <AlertDialog open={isLeaveConfirmOpen} onOpenChange={setIsLeaveConfirmOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>{t('messaging:leaveGroupConfirmTitle')}</AlertDialogTitle>
+            <AlertDialogDescription>{t('messaging:leaveGroupConfirmDesc')}</AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>{t('common:cancel')}</AlertDialogCancel>
+            <AlertDialogAction className="bg-destructive hover:bg-destructive/90" onClick={confirmLeaveGroup} disabled={leaveGroupMutation.isLoading}>
+              {leaveGroupMutation.isLoading && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
+              {t('messaging:leaveGroup')}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
 
       {viewerState.isOpen && viewerState.mediaItems.length > 0 && (
         <div

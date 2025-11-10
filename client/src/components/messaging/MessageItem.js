@@ -101,7 +101,10 @@ const formatTimestamp = (timestamp) => {
   };
 
    const isGroup = conversationType ? (conversationType === 'group' || conversationType === 'broadcast') : (conversationParticipantCount > 2);
-  const showSenderName = false;
+   const showSenderName = isGroup && !isSent && showAvatar;
+  const messageAgeMs = new Date().getTime() - new Date(message.createdAt).getTime();
+  const ONE_HOUR_MS = 3600 * 1000;
+  const canDeleteForEveryone = isSent && messageAgeMs < ONE_HOUR_MS;
 
   if (message.contentType === 'system') {
     return (
@@ -160,10 +163,8 @@ const renderContent = () => {
       </p>
     );
 
-    // Handle messages WITH attachments.
     if (Array.isArray(attachments) && attachments.length > 0) {
         
-        // Handle MULTIPLE attachments (always as a file list)
         if (attachments.length > 1) {
             return (
                 <div className="flex flex-col">
@@ -185,7 +186,6 @@ const renderContent = () => {
             );
         }
 
-        // Handle a SINGLE attachment
         const attachment = attachments[0];
         const imageExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'heic', 'heif'];
         const videoExtensions = ['mp4', 'mov', 'webm', 'ogg', 'quicktime'];
@@ -225,7 +225,6 @@ const renderContent = () => {
           );
         }
 
-        // Fallback for any other single file type (PDF, DOCX, Audio, etc.).
         const fileDownloadUrl = `/api/messages/attachments/download?id=${encodeURIComponent(attachment.publicId)}`;
         const fileAttachmentClasses = `mt-1 flex w-full items-center gap-2.5 rounded-md border p-2 px-3 text-left transition-colors disabled:opacity-60 ${isSent ? 'border-white/20 bg-white/10 hover:bg-white/15' : 'border-gray-200 bg-black/5 hover:bg-black/10 dark:border-gray-700 dark:bg-white/5 dark:hover:bg-white/10'}`;
         const IconComponent = attachment.resourceType === 'audio' ? Mic : FileText;
@@ -258,12 +257,10 @@ const renderContent = () => {
         );
     }
 
-    // Handle messages WITHOUT attachments (text-only).
     if (contentType === 'text' && content) {
       return <p className="whitespace-pre-wrap">{content}</p>;
     }
     
-    // Fallback for invalid/empty messages.
     return null;
   };
 
@@ -328,7 +325,7 @@ const renderContent = () => {
               <DropdownMenuContent align="end" className="border-gray-200 bg-white shadow-lg dark:border-gray-800 dark:bg-gray-950">
                 <DropdownMenuItem className="relative flex cursor-pointer select-none items-center rounded-sm px-3 py-2 text-sm text-red-600 outline-none transition-colors hover:bg-red-50 focus:bg-red-50 dark:text-red-500 dark:hover:bg-red-900/50 dark:hover:text-red-400 dark:focus:bg-red-900/50 dark:focus:text-red-400" onClick={handleDeleteClick}>
                   <Trash2 size={16} className="mr-2" />
-                  {readStatus === 'sent' ? t('messaging:deleteForEveryone') : t('messaging:deleteForMe')}
+                  {canDeleteForEveryone ? t('messaging:deleteForEveryone', 'Delete for Everyone') : t('messaging:deleteForMe', 'Delete for Me')}
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
