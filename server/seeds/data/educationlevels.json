@@ -1,0 +1,1226 @@
+[
+  {
+    "name": "PhD (Doctor of Philosophy)",
+    "order": 10,
+    "translations": {
+      "de": { "name": "Doktorat (PhD)" },
+      "fr": { "name": "Doctorat (PhD)" },
+      "it": { "name": "Dottorato di ricerca (PhD)" }
+    }
+  },
+  {
+    "name": "Master's Degree",
+    "order": 20,
+    "translations": {
+      "de": { "name": "Master-Abschluss" },
+      "fr": { "name": "Master" },
+      "it": { "name": "Master" }
+    }
+  },
+  {
+    "name": "Bachelor's Degree",
+    "order": 30,
+    "translations": {
+      "de": { "name": "Bachelor-Abschluss" },
+      "fr": { "name": "Bachelor" },
+      "it": { "name": "Bachelor" }
+    }
+  },
+  {
+    "name": "Associate Degree",
+    "order": 40,
+    "translations": {
+      "de": { "name": "Höherer Fachschulabschluss (HF)" },
+      "fr": { "name": "Diplôme d'études supérieures (ES)" },
+      "it": { "name": "Diploma di scuola specializzata superiore (SSS)" }
+    }
+  },
+  {
+    "name": "Federal Diploma as Coach/Supervisor",
+    "order": 50,
+    "translations": {
+      "de": { "name": "Coach/Supervisor mit eidg. Diplom" },
+      "fr": { "name": "Coach/Superviseur avec diplôme fédéral" },
+      "it": { "name": "Coach/Supervisore con diploma federale" }
+    }
+  },
+  {
+    "name": "Federal Certificate as Corporate Mentor",
+    "order": 55,
+    "translations": {
+      "de": { "name": "Betrieblicher Mentor mit eidg. Fachausweis" },
+      "fr": { "name": "Mentor d'entreprise avec brevet fédéral" },
+      "it": { "name": "Mentore aziendale con attestato professionale federale" }
+    }
+  },
+  {
+    "name": "MAS (Master of Advanced Studies)",
+    "order": 60,
+    "translations": {
+      "de": { "name": "MAS (Master of Advanced Studies)" },
+      "fr": { "name": "MAS (Master of Advanced Studies)" },
+      "it": { "name": "MAS (Master of Advanced Studies)" }
+    }
+  },
+  {
+    "name": "DAS (Diploma of Advanced Studies)",
+    "order": 70,
+    "translations": {
+      "de": { "name": "DAS (Diploma of Advanced Studies)" },
+      "fr": { "name": "DAS (Diploma of Advanced Studies)" },
+      "it": { "name": "DAS (Diploma of Advanced Studies)" }
+    }
+  },
+  {
+    "name": "CAS (Certificate of Advanced Studies)",
+    "order": 80,
+    "translations": {
+      "de": { "name": "CAS (Certificate of Advanced Studies)" },
+      "fr": { "name": "CAS (Certificate of Advanced Studies)" },
+      "it": { "name": "CAS (Certificate of Advanced Studies)" }
+    }
+  },
+  {
+    "name": "ICF Master Certified Coach (MCC)",
+    "order": 90,
+    "translations": {
+      "de": { "name": "ICF Master Certified Coach (MCC)" },
+      "fr": { "name": "ICF Master Certified Coach (MCC)" },
+      "it": { "name": "ICF Master Certified Coach (MCC)" }
+    }
+  },
+  {
+    "name": "ICF Professional Certified Coach (PCC)",
+    "order": 100,
+    "translations": {
+      "de": { "name": "ICF Professional Certified Coach (PCC)" },
+      "fr": { "name": "ICF Professional Certified Coach (PCC)" },
+      "it": { "name": "ICF Professional Certified Coach (PCC)" }
+    }
+  },
+  {
+    "name": "ICF Associate Certified Coach (ACC)",
+    "order": 110,
+    "translations": {
+      "de": { "name": "ICF Associate Certified Coach (ACC)" },
+      "fr": { "name": "ICF Associate Certified Coach (ACC)" },
+      "it": { "name": "ICF Associate Certified Coach (ACC)" }
+    }
+  },
+  {
+    "name": "Coach BSO",
+    "order": 120,
+    "translations": {
+      "de": { "name": "Coach BSO" },
+      "fr": { "name": "Coach BSO" },
+      "it": { "name": "Coach BSO" }
+    }
+  },
+  {
+    "name": "Supervisor-Coach BSO",
+    "order": 125,
+    "translations": {
+      "de": { "name": "Supervisor-Coach BSO" },
+      "fr": { "name": "Superviseur-Coach BSO" },
+      "it": { "name": "Supervisore-Coach BSO" }
+    }
+  },
+  {
+    "name": "ECA Licensed Master Coach",
+    "order": 130,
+    "translations": {
+      "de": { "name": "ECA Licensed Master Coach" },
+      "fr": { "name": "ECA Licensed Master Coach" },
+      "it": { "name": "ECA Licensed Master Coach" }
+    }
+  },
+  {
+    "name": "ECA Licensed Coach",
+    "order": 140,
+    "translations": {
+      "de": { "name": "ECA Licensed Coach" },
+      "fr": { "name": "ECA Licensed Coach" },
+      "it": { "name": "ECA Licensed Coach" }
+    }
+  },
+  {
+    "name": "Vocational Diploma",
+    "order": 150,
+    "translations": {
+      "de": { "name": "Fähigkeitszeugnis (EFZ)" },
+      "fr": { "name": "Certificat fédéral de capacité (CFC)" },
+      "it": { "name": "Attestato federale di capacità (AFC)" }
+    }
+  },
+  {
+    "name": "High School Diploma / Matura",
+    "order": 160,
+    "translations": {
+      "de": { "name": "Matura / Abitur" },
+      "fr": { "name": "Matu / Baccalauréat" },
+      "it": { "name": "Maturità" }
+    }
+  },
+  {
+    "name": "M.Sc. in Psychology",
+    "order": 200,
+    "translations": {
+      "de": { "name": "M.Sc. in Psychologie" },
+      "fr": { "name": "M.Sc. en Psychologie" },
+      "it": { "name": "M.Sc. in Psicologia" }
+    }
+  },
+  {
+    "name": "M.Sc. in Work & Organisational Psychology",
+    "order": 205,
+    "translations": {
+      "de": { "name": "M.Sc. in Arbeits- & Organisationspsychologie" },
+      "fr": { "name": "M.Sc. en Psychologie du travail et des organisations" },
+      "it": { "name": "M.Sc. in Psicologia del lavoro e delle organizzazioni" }
+    }
+  },
+  {
+    "name": "M.A. in Business Administration",
+    "order": 210,
+    "translations": {
+      "de": { "name": "M.A. in Betriebswirtschaftslehre (BWL)" },
+      "fr": { "name": "M.A. en Gestion d'entreprise" },
+      "it": { "name": "M.A. in Economia aziendale" }
+    }
+  },
+  {
+    "name": "MBA (Master of Business Administration)",
+    "order": 215,
+    "translations": {
+      "de": { "name": "MBA (Master of Business Administration)" },
+      "fr": { "name": "MBA (Master of Business Administration)" },
+      "it": { "name": "MBA (Master of Business Administration)" }
+    }
+  },
+  {
+    "name": "M.A. in Human Resources Management",
+    "order": 220,
+    "translations": {
+      "de": { "name": "M.A. in Personalmanagement (HR)" },
+      "fr": { "name": "M.A. en Gestion des ressources humaines (RH)" },
+      "it": { "name": "M.A. in Gestione delle risorse umane (HR)" }
+    }
+  },
+  {
+    "name": "M.A. in Adult and Continuing Education",
+    "order": 225,
+    "translations": {
+      "de": { "name": "M.A. in Erwachsenen- und Weiterbildung" },
+      "fr": { "name": "M.A. en Formation des adultes et formation continue" },
+      "it": { "name": "M.A. in Formazione degli adulti e formazione continua" }
+    }
+  },
+  {
+    "name": "M.Sc. in Management, Technology and Economics",
+    "order": 230,
+    "translations": {
+      "de": { "name": "M.Sc. in Management, Technologie und Ökonomie" },
+      "fr": { "name": "M.Sc. en Management, technologie et économie" },
+      "it": { "name": "M.Sc. in Management, tecnologia ed economia" }
+    }
+  },
+  {
+    "name": "M.A. in Social Sciences",
+    "order": 235,
+    "translations": {
+      "de": { "name": "M.A. in Sozialwissenschaften" },
+      "fr": { "name": "M.A. en Sciences sociales" },
+      "it": { "name": "M.A. in Scienze sociali" }
+    }
+  },
+  {
+    "name": "M.A. in Communication Science",
+    "order": 240,
+    "translations": {
+      "de": { "name": "M.A. in Kommunikationswissenschaft" },
+      "fr": { "name": "M.A. en Sciences de la communication" },
+      "it": { "name": "M.A. in Scienze della comunicazione" }
+    }
+  },
+  {
+    "name": "Master of Law (MLaw)",
+    "order": 245,
+    "translations": {
+      "de": { "name": "Master of Law (MLaw)" },
+      "fr": { "name": "Master of Law (MLaw)" },
+      "it": { "name": "Master of Law (MLaw)" }
+    }
+  },
+  {
+    "name": "M.Sc. in Health Sciences",
+    "order": 250,
+    "translations": {
+      "de": { "name": "M.Sc. in Gesundheitswissenschaften" },
+      "fr": { "name": "M.Sc. en Sciences de la santé" },
+      "it": { "name": "M.Sc. in Scienze della salute" }
+    }
+  },
+  {
+    "name": "M.Sc. in Business Psychology (FH)",
+    "order": 255,
+    "translations": {
+      "de": { "name": "M.Sc. in Wirtschaftspsychologie (FH)" },
+      "fr": { "name": "M.Sc. en Psychologie d'entreprise (HES)" },
+      "it": { "name": "M.Sc. in Psicologia economica (SUP)" }
+    }
+  },
+  {
+    "name": "M.A. in Leadership",
+    "order": 260,
+    "translations": {
+      "de": { "name": "M.A. in Leadership / Führung" },
+      "fr": { "name": "M.A. en Leadership" },
+      "it": { "name": "M.A. in Leadership" }
+    }
+  },
+  {
+    "name": "M.Sc. in Neuroscience",
+    "order": 265,
+    "translations": {
+      "de": { "name": "M.Sc. in Neurowissenschaften" },
+      "fr": { "name": "M.Sc. en Neurosciences" },
+      "it": { "name": "M.Sc. in Neuroscienze" }
+    }
+  },
+  {
+    "name": "M.A. in Sociology",
+    "order": 270,
+    "translations": {
+      "de": { "name": "M.A. in Soziologie" },
+      "fr": { "name": "M.A. en Sociologie" },
+      "it": { "name": "M.A. in Sociologia" }
+    }
+  },
+  {
+    "name": "B.Sc. in Psychology",
+    "order": 300,
+    "translations": {
+      "de": { "name": "B.Sc. in Psychologie" },
+      "fr": { "name": "B.Sc. en Psychologie" },
+      "it": { "name": "B.Sc. in Psicologia" }
+    }
+  },
+  {
+    "name": "B.Sc. in Applied Psychology (FH)",
+    "order": 305,
+    "translations": {
+      "de": { "name": "B.Sc. in Angewandter Psychologie (FH)" },
+      "fr": { "name": "B.Sc. en Psychologie appliquée (HES)" },
+      "it": { "name": "B.Sc. in Psicologia applicata (SUP)" }
+    }
+  },
+  {
+    "name": "B.A. in Business Administration",
+    "order": 310,
+    "translations": {
+      "de": { "name": "B.A. in Betriebswirtschaftslehre (BWL)" },
+      "fr": { "name": "B.A. en Gestion d'entreprise" },
+      "it": { "name": "B.A. in Economia aziendale" }
+    }
+  },
+  {
+    "name": "B.Sc. in Business Information Technology (FH)",
+    "order": 315,
+    "translations": {
+      "de": { "name": "B.Sc. in Wirtschaftsinformatik (FH)" },
+      "fr": { "name": "B.Sc. en Informatique de gestion (HES)" },
+      "it": { "name": "B.Sc. in Informatica di gestione (SUP)" }
+    }
+  },
+  {
+    "name": "B.A. in Human Resources Management (FH)",
+    "order": 320,
+    "translations": {
+      "de": { "name": "B.A. in Personalmanagement (FH)" },
+      "fr": { "name": "B.A. en Gestion des ressources humaines (HES)" },
+      "it": { "name": "B.A. in Gestione delle risorse umane (SUP)" }
+    }
+  },
+  {
+    "name": "B.A. in Social Work (FH)",
+    "order": 325,
+    "translations": {
+      "de": { "name": "B.A. in Sozialer Arbeit (FH)" },
+      "fr": { "name": "B.A. en Travail social (HES)" },
+      "it": { "name": "B.A. in Lavoro sociale (SUP)" }
+    }
+  },
+  {
+    "name": "B.A. in Communication",
+    "order": 330,
+    "translations": {
+      "de": { "name": "B.A. in Kommunikation" },
+      "fr": { "name": "B.A. en Communication" },
+      "it": { "name": "B.A. in Comunicazione" }
+    }
+  },
+  {
+    "name": "B.Sc. in Economics",
+    "order": 335,
+    "translations": {
+      "de": { "name": "B.Sc. in Volkswirtschaftslehre (VWL)" },
+      "fr": { "name": "B.Sc. en Sciences économiques" },
+      "it": { "name": "B.Sc. in Economia politica" }
+    }
+  },
+  {
+    "name": "B.A. in Pedagogy / Education Science",
+    "order": 340,
+    "translations": {
+      "de": { "name": "B.A. in Pädagogik / Erziehungswissenschaft" },
+      "fr": { "name": "B.A. en Pédagogie / Sciences de l'éducation" },
+      "it": { "name": "B.A. in Pedagogia / Scienze dell'educazione" }
+    }
+  },
+  {
+    "name": "Bachelor of Law (BLaw)",
+    "order": 345,
+    "translations": {
+      "de": { "name": "Bachelor of Law (BLaw)" },
+      "fr": { "name": "Bachelor of Law (BLaw)" },
+      "it": { "name": "Bachelor of Law (BLaw)" }
+    }
+  },
+  {
+    "name": "B.Sc. in Nutrition and Dietetics (FH)",
+    "order": 350,
+    "translations": {
+      "de": { "name": "B.Sc. in Ernährung und Diätetik (FH)" },
+      "fr": { "name": "B.Sc. en Nutrition et diététique (HES)" },
+      "it": { "name": "B.Sc. in Nutrizione e dietetica (SUP)" }
+    }
+  },
+  {
+    "name": "B.A. in Philosophy",
+    "order": 355,
+    "translations": {
+      "de": { "name": "B.A. in Philosophie" },
+      "fr": { "name": "B.A. en Philosophie" },
+      "it": { "name": "B.A. in Filosofia" }
+    }
+  },
+  {
+    "name": "B.A. in International Relations",
+    "order": 360,
+    "translations": {
+      "de": { "name": "B.A. in Internationalen Beziehungen" },
+      "fr": { "name": "B.A. en Relations internationales" },
+      "it": { "name": "B.A. in Relazioni internazionali" }
+    }
+  },
+  {
+    "name": "B.Sc. in Engineering and Management",
+    "order": 365,
+    "translations": {
+      "de": { "name": "B.Sc. in Wirtschaftsingenieurwesen" },
+      "fr": { "name": "B.Sc. en Génie industriel et management" },
+      "it": { "name": "B.Sc. in Ingegneria gestionale" }
+    }
+  },
+  {
+    "name": "B.A. in Public Management & Economics",
+    "order": 370,
+    "translations": {
+      "de": { "name": "B.A. in Public Management & Economics" },
+      "fr": { "name": "B.A. en Gestion publique & Économie" },
+      "it": { "name": "B.A. in Public Management & Economics" }
+    }
+  },
+  {
+    "name": "Corporate Mentor with Federal Diploma",
+    "order": 405,
+    "translations": {
+      "de": { "name": "Betrieblicher Mentor mit eidg. Diplom" },
+      "fr": { "name": "Mentor d'entreprise avec diplôme fédéral" },
+      "it": { "name": "Mentore aziendale con diploma federale" }
+    }
+  },
+  {
+    "name": "Supervisor-Coach with Advanced Federal Diploma",
+    "order": 410,
+    "translations": {
+      "de": { "name": "Supervisor-Coach mit eidg. Diplom" },
+      "fr": { "name": "Superviseur-Coach avec diplôme fédéral" },
+      "it": { "name": "Supervisore-Coach con diploma federale" }
+    }
+  },
+  {
+    "name": "Organizational Consultant with Advanced Federal Diploma",
+    "order": 415,
+    "translations": {
+      "de": { "name": "Organisationsberater mit eidg. Diplom" },
+      "fr": { "name": "Conseiller en organisation avec diplôme fédéral" },
+      "it": { "name": "Consulente organizzativo con diploma federale" }
+    }
+  },
+  {
+    "name": "Head of Training with Advanced Federal Diploma",
+    "order": 420,
+    "translations": {
+      "de": { "name": "Ausbildungsleiter mit eidg. Diplom" },
+      "fr": { "name": "Responsable de formation avec diplôme fédéral" },
+      "it": { "name": "Responsabile della formazione con diploma federale" }
+    }
+  },
+  {
+    "name": "University Diplomas (CAS/DAS/MAS)",
+    "order": 425,
+    "translations": {
+      "de": { "name": "Hochschuldiplome (CAS/DAS/MAS)" },
+      "fr": { "name": "Diplômes universitaires (CAS/DAS/MAS)" },
+      "it": { "name": "Diplomi universitari (CAS/DAS/MAS)" }
+    }
+  },
+  {
+    "name": "CAS Coaching",
+    "order": 435,
+    "translations": {
+      "de": { "name": "CAS Coaching" },
+      "fr": { "name": "CAS Coaching" },
+      "it": { "name": "CAS Coaching" }
+    }
+  },
+  {
+    "name": "CAS Coaching in Organizations",
+    "order": 440,
+    "translations": {
+      "de": { "name": "CAS Coaching in Organisationen" },
+      "fr": { "name": "CAS Coaching en organisations" },
+      "it": { "name": "CAS Coaching nelle organizzazioni" }
+    }
+  },
+  {
+    "name": "CAS Systemic Coaching & Consulting",
+    "order": 445,
+    "translations": {
+      "de": { "name": "CAS Systemisches Coaching & Beratung" },
+      "fr": { "name": "CAS Coaching & conseil systémiques" },
+      "it": { "name": "CAS Coaching & consulenza sistemica" }
+    }
+  },
+  {
+    "name": "CAS Business Coaching",
+    "order": 450,
+    "translations": {
+      "de": { "name": "CAS Business Coaching" },
+      "fr": { "name": "CAS Business Coaching" },
+      "it": { "name": "CAS Business Coaching" }
+    }
+  },
+  {
+    "name": "CAS Leadership Coaching",
+    "order": 455,
+    "translations": {
+      "de": { "name": "CAS Leadership Coaching" },
+      "fr": { "name": "CAS Leadership Coaching" },
+      "it": { "name": "CAS Leadership Coaching" }
+    }
+  },
+  {
+    "name": "CAS Executive Coaching",
+    "order": 460,
+    "translations": {
+      "de": { "name": "CAS Executive Coaching" },
+      "fr": { "name": "CAS Executive Coaching" },
+      "it": { "name": "CAS Executive Coaching" }
+    }
+  },
+  {
+    "name": "CAS Team Coaching",
+    "order": 465,
+    "translations": {
+      "de": { "name": "CAS Team Coaching" },
+      "fr": { "name": "CAS Team Coaching" },
+      "it": { "name": "CAS Team Coaching" }
+    }
+  },
+  {
+    "name": "CAS Agile Coach",
+    "order": 470,
+    "translations": {
+      "de": { "name": "CAS Agile Coach" },
+      "fr": { "name": "CAS Agile Coach" },
+      "it": { "name": "CAS Agile Coach" }
+    }
+  },
+  {
+    "name": "CAS Career Coaching",
+    "order": 475,
+    "translations": {
+      "de": { "name": "CAS Laufbahn-Coaching" },
+      "fr": { "name": "CAS Coaching de carrière" },
+      "it": { "name": "CAS Career Coaching" }
+    }
+  },
+  {
+    "name": "CAS Sports Coaching / Sports Mental Training",
+    "order": 480,
+    "translations": {
+      "de": { "name": "CAS Sportcoaching / Sportmentaltraining" },
+      "fr": { "name": "CAS Coaching sportif / Préparation mentale sportive" },
+      "it": { "name": "CAS Coaching sportivo / Training mentale sportivo" }
+    }
+  },
+  {
+    "name": "CAS Health & Resource Coaching",
+    "order": 485,
+    "translations": {
+      "de": { "name": "CAS Gesundheits- & Ressourcen-Coaching" },
+      "fr": { "name": "CAS Coaching Santé & Ressources" },
+      "it": { "name": "CAS Coaching Salute & Risorse" }
+    }
+  },
+  {
+    "name": "CAS Coaching for Transformation",
+    "order": 490,
+    "translations": {
+      "de": { "name": "CAS Coaching für Transformation" },
+      "fr": { "name": "CAS Coaching pour la transformation" },
+      "it": { "name": "CAS Coaching per la trasformazione" }
+    }
+  },
+  {
+    "name": "CAS Conflict Management & Mediation",
+    "order": 495,
+    "translations": {
+      "de": { "name": "CAS Konfliktmanagement & Mediation" },
+      "fr": { "name": "CAS Gestion des conflits & médiation" },
+      "it": { "name": "CAS Gestione dei conflitti & mediazione" }
+    }
+  },
+  {
+    "name": "CAS Psychosocial Counseling",
+    "order": 500,
+    "translations": {
+      "de": { "name": "CAS Psychosoziale Beratung" },
+      "fr": { "name": "CAS Conseil psychosocial" },
+      "it": { "name": "CAS Consulenza psicosociale" }
+    }
+  },
+  {
+    "name": "CAS Resilience Training",
+    "order": 505,
+    "translations": {
+      "de": { "name": "CAS Resilienztraining" },
+      "fr": { "name": "CAS Entraînement à la résilience" },
+      "it": { "name": "CAS Training di resilienza" }
+    }
+  },
+  {
+    "name": "CAS Positive Psychology",
+    "order": 510,
+    "translations": {
+      "de": { "name": "CAS Positive Psychologie" },
+      "fr": { "name": "CAS Psychologie positive" },
+      "it": { "name": "CAS Psicologia positiva" }
+    }
+  },
+  {
+    "name": "DAS Coaching",
+    "order": 520,
+    "translations": {
+      "de": { "name": "DAS Coaching" },
+      "fr": { "name": "DAS Coaching" },
+      "it": { "name": "DAS Coaching" }
+    }
+  },
+  {
+    "name": "DAS Coaching & Supervision in Organizations",
+    "order": 525,
+    "translations": {
+      "de": { "name": "DAS Coaching & Supervision in Organisationen" },
+      "fr": { "name": "DAS Coaching & Supervision en organisations" },
+      "it": { "name": "DAS Coaching & Supervisione nelle organizzazioni" }
+    }
+  },
+  {
+    "name": "DAS Coaching & Organizational Consulting",
+    "order": 530,
+    "translations": {
+      "de": { "name": "DAS Coaching & Organisationsberatung" },
+      "fr": { "name": "DAS Coaching & Conseil en organisation" },
+      "it": { "name": "DAS Coaching & Consulenza organizzativa" }
+    }
+  },
+  {
+    "name": "DAS Systemic Coaching",
+    "order": 535,
+    "translations": {
+      "de": { "name": "DAS Systemisches Coaching" },
+      "fr": { "name": "DAS Coaching systémique" },
+      "it": { "name": "DAS Coaching sistemico" }
+    }
+  },
+  {
+    "name": "DAS Leadership and Coaching",
+    "order": 540,
+    "translations": {
+      "de": { "name": "DAS Leadership und Coaching" },
+      "fr": { "name": "DAS Leadership et Coaching" },
+      "it": { "name": "DAS Leadership e Coaching" }
+    }
+  },
+  {
+    "name": "DAS Psychological Counseling & Coaching",
+    "order": 545,
+    "translations": {
+      "de": { "name": "DAS Psychologische Beratung & Coaching" },
+      "fr": { "name": "DAS Conseil psychologique & Coaching" },
+      "it": { "name": "DAS Consulenza psicologica & Coaching" }
+    }
+  },
+  {
+    "name": "DAS Change Management, Organizational Development & Consulting",
+    "order": 550,
+    "translations": {
+      "de": { "name": "DAS Change Management, Organisationsentwicklung & Beratung" },
+      "fr": { "name": "DAS Gestion du changement, développement organisationnel & conseil" },
+      "it": { "name": "DAS Change Management, Sviluppo organizzativo & Consulenza" }
+    }
+  },
+  {
+    "name": "MAS Coaching, Supervision and Organizational Consulting",
+    "order": 560,
+    "translations": {
+      "de": { "name": "MAS Coaching, Supervision und Organisationsberatung" },
+      "fr": { "name": "MAS Coaching, Supervision et Conseil en organisation" },
+      "it": { "name": "MAS Coaching, Supervisione e Consulenza organizzativa" }
+    }
+  },
+  {
+    "name": "MAS Systemic Coaching",
+    "order": 565,
+    "translations": {
+      "de": { "name": "MAS Systemisches Coaching" },
+      "fr": { "name": "MAS Coaching systémique" },
+      "it": { "name": "MAS Coaching sistemico" }
+    }
+  },
+  {
+    "name": "MAS Leadership and Management",
+    "order": 570,
+    "translations": {
+      "de": { "name": "MAS Leadership und Management" },
+      "fr": { "name": "MAS Leadership et Management" },
+      "it": { "name": "MAS Leadership e Management" }
+    }
+  },
+  {
+    "name": "MAS Human Capital Management",
+    "order": 575,
+    "translations": {
+      "de": { "name": "MAS Human Capital Management" },
+      "fr": { "name": "MAS Human Capital Management" },
+      "it": { "name": "MAS Human Capital Management" }
+    }
+  },
+  {
+    "name": "MAS Professional, Academic and Career Counseling",
+    "order": 580,
+    "translations": {
+      "de": { "name": "MAS Berufs-, Studien- und Laufbahnberatung" },
+      "fr": { "name": "MAS Conseil en orientation professionnelle, universitaire et de carrière" },
+      "it": { "name": "MAS Orientamento professionale, accademico e di carriera" }
+    }
+  },
+  {
+    "name": "General & Systemic Coaching",
+    "order": 590,
+    "translations": {
+      "de": { "name": "Allgemeines & Systemisches Coaching" },
+      "fr": { "name": "Coaching général & systémique" },
+      "it": { "name": "Coaching generale & sistemico" }
+    }
+  },
+  {
+    "name": "Certified Coach SCA (Swiss Coaching Association)",
+    "order": 595,
+    "translations": {
+      "de": { "name": "Dipl. Coach SCA (Swiss Coaching Association)" },
+      "fr": { "name": "Coach diplômé SCA (Swiss Coaching Association)" },
+      "it": { "name": "Coach dipl. SCA (Swiss Coaching Association)" }
+    }
+  },
+  {
+    "name": "Master-Coach SCA",
+    "order": 600,
+    "translations": {
+      "de": { "name": "Master-Coach SCA" },
+      "fr": { "name": "Master-Coach SCA" },
+      "it": { "name": "Master-Coach SCA" }
+    }
+  },
+  {
+    "name": "Coach BSO (Association of Professionals for Coaching, Supervision and Organizational Consulting)",
+    "order": 605,
+    "translations": {
+      "de": { "name": "Coach BSO (Berufsverband für Coaching, Supervision und Organisationsberatung)" },
+      "fr": { "name": "Coach BSO (Association professionnelle pour le coaching, la supervision et le conseil en organisation)" },
+      "it": { "name": "Coach BSO (Associazione professionale di coaching, supervisione e consulenza organizzativa)" }
+    }
+  },
+  {
+    "name": "Certified Systemic Coach",
+    "order": 610,
+    "translations": {
+      "de": { "name": "Zertifizierter Systemischer Coach" },
+      "fr": { "name": "Coach systémique certifié" },
+      "it": { "name": "Coach sistemico certificato" }
+    }
+  },
+  {
+    "name": "Certified Integral Coach",
+    "order": 615,
+    "translations": {
+      "de": { "name": "Zertifizierter Integraler Coach" },
+      "fr": { "name": "Coach intégral certifié" },
+      "it": { "name": "Coach integrale certificato" }
+    }
+  },
+  {
+    "name": "Certified Solution-Focused Coach",
+    "order": 620,
+    "translations": {
+      "de": { "name": "Zertifizierter Lösungsorientierter Coach" },
+      "fr": { "name": "Coach certifié orienté solutions" },
+      "it": { "name": "Coach certificato orientato alla soluzione" }
+    }
+  },
+  {
+    "name": "Certified Coach (ICF - ACC/PCC/MCC)",
+    "order": 625,
+    "translations": {
+      "de": { "name": "Zertifizierter Coach (ICF - ACC/PCC/MCC)" },
+      "fr": { "name": "Coach certifié (ICF - ACC/PCC/MCC)" },
+      "it": { "name": "Coach certificato (ICF - ACC/PCC/MCC)" }
+    }
+  },
+  {
+    "name": "Certified Coach (ECA - European Coaching Association)",
+    "order": 630,
+    "translations": {
+      "de": { "name": "Zertifizierter Coach (ECA - European Coaching Association)" },
+      "fr": { "name": "Coach certifié (ECA - European Coaching Association)" },
+      "it": { "name": "Coach certificato (ECA - European Coaching Association)" }
+    }
+  },
+  {
+    "name": "Certified Coach (EMCC - European Mentoring & Coaching Council)",
+    "order": 635,
+    "translations": {
+      "de": { "name": "Zertifizierter Coach (EMCC - European Mentoring & Coaching Council)" },
+      "fr": { "name": "Coach certifié (EMCC - European Mentoring & Coaching Council)" },
+      "it": { "name": "Coach certificato (EMCC - European Mentoring & Coaching Council)" }
+    }
+  },
+  {
+    "name": "Business, Leadership & Team Coaching",
+    "order": 640,
+    "translations": {
+      "de": { "name": "Business-, Leadership- & Team-Coaching" },
+      "fr": { "name": "Coaching d'affaires, de leadership & d'équipe" },
+      "it": { "name": "Coaching aziendale, di leadership & di team" }
+    }
+  },
+  {
+    "name": "Certified Business Coach",
+    "order": 645,
+    "translations": {
+      "de": { "name": "Zertifizierter Business Coach" },
+      "fr": { "name": "Coach d'affaires certifié" },
+      "it": { "name": "Business Coach certificato" }
+    }
+  },
+  {
+    "name": "Certified Leadership Coach",
+    "order": 650,
+    "translations": {
+      "de": { "name": "Zertifizierter Leadership Coach" },
+      "fr": { "name": "Coach en leadership certifié" },
+      "it": { "name": "Leadership Coach certificato" }
+    }
+  },
+  {
+    "name": "Certified Executive Coach",
+    "order": 655,
+    "translations": {
+      "de": { "name": "Zertifizierter Executive Coach" },
+      "fr": { "name": "Coach de dirigeants certifié" },
+      "it": { "name": "Executive Coach certificato" }
+    }
+  },
+  {
+    "name": "Certified Team Coach",
+    "order": 660,
+    "translations": {
+      "de": { "name": "Zertifizierter Team Coach" },
+      "fr": { "name": "Coach d'équipe certifié" },
+      "it": { "name": "Team Coach certificato" }
+    }
+  },
+  {
+    "name": "Certified Conflict Coach / Mediator",
+    "order": 665,
+    "translations": {
+      "de": { "name": "Zertifizierter Konflikt-Coach / Mediator" },
+      "fr": { "name": "Coach en conflit / Médiateur certifié" },
+      "it": { "name": "Coach per conflitti / Mediatore certificato" }
+    }
+  },
+  {
+    "name": "Certified Organizational Developer",
+    "order": 670,
+    "translations": {
+      "de": { "name": "Zertifizierter Organisationsentwickler" },
+      "fr": { "name": "Développeur organisationnel certifié" },
+      "it": { "name": "Sviluppatore organizzativo certificato" }
+    }
+  },
+  {
+    "name": "Certified Change Manager",
+    "order": 675,
+    "translations": {
+      "de": { "name": "Zertifizierter Change Manager" },
+      "fr": { "name": "Manager du changement certifié" },
+      "it": { "name": "Change Manager certificato" }
+    }
+  },
+  {
+    "name": "Certified Agile Coach",
+    "order": 680,
+    "translations": {
+      "de": { "name": "Zertifizierter Agile Coach" },
+      "fr": { "name": "Coach Agile certifié" },
+      "it": { "name": "Agile Coach certificato" }
+    }
+  },
+  {
+    "name": "Certified Project Management Coach",
+    "order": 685,
+    "translations": {
+      "de": { "name": "Zertifizierter Projektmanagement-Coach" },
+      "fr": { "name": "Coach en gestion de projet certifié" },
+      "it": { "name": "Coach di gestione progetti certificato" }
+    }
+  },
+  {
+    "name": "Life, Mental & Personal Coaching",
+    "order": 690,
+    "translations": {
+      "de": { "name": "Life-, Mental- & Persönlichkeits-Coaching" },
+      "fr": { "name": "Coaching de vie, mental & personnel" },
+      "it": { "name": "Life, Mental & Personal Coaching" }
+    }
+  },
+  {
+    "name": "Certified Life Coach",
+    "order": 695,
+    "translations": {
+      "de": { "name": "Zertifizierter Life Coach" },
+      "fr": { "name": "Coach de vie certifié" },
+      "it": { "name": "Life Coach certificato" }
+    }
+  },
+  {
+    "name": "Certified Mental Coach",
+    "order": 700,
+    "translations": {
+      "de": { "name": "Zertifizierter Mental Coach" },
+      "fr": { "name": "Coach mental certifié" },
+      "it": { "name": "Mental Coach certificato" }
+    }
+  },
+  {
+    "name": "Certified Personal Coach",
+    "order": 705,
+    "translations": {
+      "de": { "name": "Zertifizierter Personal Coach" },
+      "fr": { "name": "Coach personnel certifié" },
+      "it": { "name": "Personal Coach certificato" }
+    }
+  },
+  {
+    "name": "Certified Resilience Coach",
+    "order": 710,
+    "translations": {
+      "de": { "name": "Zertifizierter Resilienz-Coach" },
+      "fr": { "name": "Coach en résilience certifié" },
+      "it": { "name": "Coach di resilienza certificato" }
+    }
+  },
+  {
+    "name": "Certified Wingwave Coach",
+    "order": 715,
+    "translations": {
+      "de": { "name": "Zertifizierter Wingwave Coach" },
+      "fr": { "name": "Coach certifié Wingwave" },
+      "it": { "name": "Coach certificato Wingwave" }
+    }
+  },
+  {
+    "name": "Certified Mindfulness Coach",
+    "order": 720,
+    "translations": {
+      "de": { "name": "Zertifizierter Achtsamkeits-Coach" },
+      "fr": { "name": "Coach en pleine conscience certifié" },
+      "it": { "name": "Coach di mindfulness certificato" }
+    }
+  },
+  {
+    "name": "Certified Personality Coach",
+    "order": 725,
+    "translations": {
+      "de": { "name": "Zertifizierter Persönlichkeits-Coach" },
+      "fr": { "name": "Coach en personnalité certifié" },
+      "it": { "name": "Coach della personalità certificato" }
+    }
+  },
+  {
+    "name": "Health & Wellness Coaching",
+    "order": 730,
+    "translations": {
+      "de": { "name": "Gesundheits- & Wellness-Coaching" },
+      "fr": { "name": "Coaching santé & bien-être" },
+      "it": { "name": "Coaching salute & benessere" }
+    }
+  },
+  {
+    "name": "Certified Health Coach",
+    "order": 735,
+    "translations": {
+      "de": { "name": "Zertifizierter Gesundheits-Coach" },
+      "fr": { "name": "Coach santé certifié" },
+      "it": { "name": "Health Coach certificato" }
+    }
+  },
+  {
+    "name": "Certified Nutrition Coach",
+    "order": 740,
+    "translations": {
+      "de": { "name": "Zertifizierter Ernährungs-Coach" },
+      "fr": { "name": "Coach en nutrition certifié" },
+      "it": { "name": "Coach nutrizionale certificato" }
+    }
+  },
+  {
+    "name": "Certified Fitness Coach",
+    "order": 745,
+    "translations": {
+      "de": { "name": "Zertifizierter Fitness-Coach" },
+      "fr": { "name": "Coach fitness certifié" },
+      "it": { "name": "Fitness Coach certificato" }
+    }
+  },
+  {
+    "name": "Certified Stress Management Coach / Burnout Counselor",
+    "order": 750,
+    "translations": {
+      "de": { "name": "Zertifizierter Stressmanagement-Coach / Burnout-Berater" },
+      "fr": { "name": "Coach certifié en gestion du stress / Conseiller en burnout" },
+      "it": { "name": "Coach certificato in gestione dello stress / Consulente per il burnout" }
+    }
+  },
+  {
+    "name": "Certified Relaxation Coach",
+    "order": 755,
+    "translations": {
+      "de": { "name": "Zertifizierter Entspannungs-Coach" },
+      "fr": { "name": "Coach en relaxation certifié" },
+      "it": { "name": "Coach di rilassamento certificato" }
+    }
+  },
+  {
+    "name": "Certified Mental Health Coach",
+    "order": 760,
+    "translations": {
+      "de": { "name": "Zertifizierter Mental Health Coach" },
+      "fr": { "name": "Coach en santé mentale certifié" },
+      "it": { "name": "Mental Health Coach certificato" }
+    }
+  },
+  {
+    "name": "Career & Development Coaching",
+    "order": 765,
+    "translations": {
+      "de": { "name": "Karriere- & Entwicklungs-Coaching" },
+      "fr": { "name": "Coaching de carrière & de développement" },
+      "it": { "name": "Coaching di carriera & sviluppo" }
+    }
+  },
+  {
+    "name": "Certified Career Coach",
+    "order": 770,
+    "translations": {
+      "de": { "name": "Zertifizierter Karriere-Coach" },
+      "fr": { "name": "Coach de carrière certifié" },
+      "it": { "name": "Career Coach certificato" }
+    }
+  },
+  {
+    "name": "Certified Job Coach",
+    "order": 775,
+    "translations": {
+      "de": { "name": "Zertifizierter Job Coach" },
+      "fr": { "name": "Job Coach certifié" },
+      "it": { "name": "Job Coach certificato" }
+    }
+  },
+  {
+    "name": "Certified Learning Coach",
+    "order": 780,
+    "translations": {
+      "de": { "name": "Zertifizierter Lern-Coach" },
+      "fr": { "name": "Coach d'apprentissage certifié" },
+      "it": { "name": "Coach dell'apprendimento certificato" }
+    }
+  },
+  {
+    "name": "Certified Potential Coach",
+    "order": 785,
+    "translations": {
+      "de": { "name": "Zertifizierter Potenzial-Coach" },
+      "fr": { "name": "Coach de potentiel certifié" },
+      "it": { "name": "Coach del potenziale certificato" }
+    }
+  },
+  {
+    "name": "Certified Application Coach",
+    "order": 790,
+    "translations": {
+      "de": { "name": "Zertifizierter Bewerbungs-Coach" },
+      "fr": { "name": "Coach en candidature certifié" },
+      "it": { "name": "Coach per candidature certificato" }
+    }
+  },
+  {
+    "name": "Specialized Niches",
+    "order": 795,
+    "translations": {
+      "de": { "name": "Spezialisierte Nischen" },
+      "fr": { "name": "Niches spécialisées" },
+      "it": { "name": "Nicchie specializzate" }
+    }
+  },
+  {
+    "name": "Certified Child and Youth Coach",
+    "order": 800,
+    "translations": {
+      "de": { "name": "Zertifizierter Kinder- und Jugend-Coach" },
+      "fr": { "name": "Coach pour enfants et jeunes certifié" },
+      "it": { "name": "Coach per bambini e giovani certificato" }
+    }
+  },
+  {
+    "name": "Certified Family Coach",
+    "order": 805,
+    "translations": {
+      "de": { "name": "Zertifizierter Familien-Coach" },
+      "fr": { "name": "Coach familial certifié" },
+      "it": { "name": "Coach familiare certificato" }
+    }
+  },
+  {
+    "name": "Certified Couples Coach",
+    "order": 810,
+    "translations": {
+      "de": { "name": "Zertifizierter Paar-Coach" },
+      "fr": { "name": "Coach de couple certifié" },
+      "it": { "name": "Coach di coppia certificato" }
+    }
+  },
+  {
+    "name": "Certified Hypnocoach / Certified Hypnotherapist",
+    "order": 815,
+    "translations": {
+      "de": { "name": "Zertifizierter Hypnocoach / Zertifizierter Hypnosetherapeut" },
+      "fr": { "name": "Hypnocoach certifié / Hypnothérapeute certifié" },
+      "it": { "name": "Ipnotista certificato / Ipnoterapeuta certificato" }
+    }
+  },
+  {
+    "name": "NLP Practitioner",
+    "order": 820,
+    "translations": {
+      "de": { "name": "NLP Practitioner" },
+      "fr": { "name": "Praticien PNL" },
+      "it": { "name": "Practitioner PNL" }
+    }
+  },
+  {
+    "name": "NLP Master",
+    "order": 825,
+    "translations": {
+      "de": { "name": "NLP Master" },
+      "fr": { "name": "Maître-Praticien PNL" },
+      "it": { "name": "Master Practitioner PNL" }
+    }
+  },
+  {
+    "name": "NLP Coach",
+    "order": 830,
+    "translations": {
+      "de": { "name": "NLP Coach" },
+      "fr": { "name": "Coach PNL" },
+      "it": { "name": "Coach PNL" }
+    }
+  },
+  {
+    "name": "Dipl. wertorientierter systemischer NLP-Coach",
+    "order": 832,
+    "translations": {
+      "de": { "name": "Dipl. wertorientierter systemischer NLP-Coach" },
+      "fr": { "name": "Coach PNL systémique et orienté valeurs diplômé" },
+      "it": { "name": "Coach PNL sistemico orientato ai valori diplomato" }
+    }
+  },
+  {
+    "name": "Certified Equine-Assisted Coach",
+    "order": 835,
+    "translations": {
+      "de": { "name": "Zertifizierter pferdegestützter Coach" },
+      "fr": { "name": "Coach certifié en coaching assisté par le cheval" },
+      "it": { "name": "Coach certificato assistito da cavalli" }
+    }
+  },
+  {
+    "name": "Certified Nature Coach / Outdoor Coach",
+    "order": 840,
+    "translations": {
+      "de": { "name": "Zertifizierter Natur-Coach / Outdoor-Coach" },
+      "fr": { "name": "Coach nature / Coach en plein air certifié" },
+      "it": { "name": "Coach naturalistico / Outdoor Coach certificato" }
+    }
+  },
+  {
+    "name": "Certified Highly Sensitive Person (HSP) Coach",
+    "order": 845,
+    "translations": {
+      "de": { "name": "Zertifizierter Coach für Hochsensible Personen (HSP)" },
+      "fr": { "name": "Coach certifié pour personnes hypersensibles (HSP)" },
+      "it": { "name": "Coach certificato per persone altamente sensibili (PAS)" }
+    }
+  },
+  {
+    "name": "Certified Sales Coach",
+    "order": 850,
+    "translations": {
+      "de": { "name": "Zertifizierter Verkaufs-Coach" },
+      "fr": { "name": "Coach de vente certifié" },
+      "it": { "name": "Coach di vendita certificato" }
+    }
+  },
+  {
+    "name": "Certified Public Speaking Coach / Rhetoric Coach",
+    "order": 855,
+    "translations": {
+      "de": { "name": "Zertifizierter Rhetorik-Coach / Coach für öffentliches Reden" },
+      "fr": { "name": "Coach en art oratoire / Coach en rhétorique certifié" },
+      "it": { "name": "Coach di public speaking / Coach di retorica certificato" }
+    }
+  }
+]

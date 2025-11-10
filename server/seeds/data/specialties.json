@@ -1,0 +1,394 @@
+[
+  {
+    "name": "Assertiveness Training",
+    "translations": {
+      "de": { "name": "Selbstsicherheitstraining" },
+      "fr": { "name": "Formation à l'affirmation de soi" },
+      "it": { "name": "Training di assertività" }
+    }
+  },
+  {
+    "name": "Burnout Prevention & Recovery",
+    "translations": {
+      "de": { "name": "Burnout-Prävention & Erholung" },
+      "fr": { "name": "Prévention et récupération du burn-out" },
+      "it": { "name": "Prevenzione e recupero dal burnout" }
+    }
+  },
+  {
+    "name": "Business Coaching",
+    "translations": {
+      "de": { "name": "Business-Coaching" },
+      "fr": { "name": "Coaching d'affaires" },
+      "it": { "name": "Business Coaching" }
+    }
+  },
+  {
+    "name": "Business Strategy",
+    "translations": {
+      "de": { "name": "Geschäftsstrategie" },
+      "fr": { "name": "Stratégie d'entreprise" },
+      "it": { "name": "Strategia aziendale" }
+    }
+  },
+  {
+    "name": "Career Development",
+    "translations": {
+      "de": { "name": "Karriereentwicklung" },
+      "fr": { "name": "Développement de carrière" },
+      "it": { "name": "Sviluppo di carriera" }
+    }
+  },
+  {
+    "name": "Career Transition",
+    "translations": {
+      "de": { "name": "Beruflicher Übergang" },
+      "fr": { "name": "Transition de carrière" },
+      "it": { "name": "Transizione di carriera" }
+    }
+  },
+  {
+    "name": "Change Management",
+    "translations": {
+      "de": { "name": "Veränderungsmanagement" },
+      "fr": { "name": "Gestion du changement" },
+      "it": { "name": "Gestione del cambiamento" }
+    }
+  },
+  {
+    "name": "Communication Skills",
+    "translations": {
+      "de": { "name": "Kommunikationsfähigkeiten" },
+      "fr": { "name": "Compétences en communication" },
+      "it": { "name": "Abilità comunicative" }
+    }
+  },
+  {
+    "name": "Confidence Building",
+    "translations": {
+      "de": { "name": "Stärkung des Selbstvertrauens" },
+      "fr": { "name": "Renforcement de la confiance en soi" },
+      "it": { "name": "Sviluppo dell'autostima" }
+    }
+  },
+  {
+    "name": "Conflict Resolution",
+    "translations": {
+      "de": { "name": "Konfliktlösung" },
+      "fr": { "name": "Résolution de conflits" },
+      "it": { "name": "Risoluzione dei conflitti" }
+    }
+  },
+  {
+    "name": "Creativity and Innovation",
+    "translations": {
+      "de": { "name": "Kreativität und Innovation" },
+      "fr": { "name": "Créativité et innovation" },
+      "it": { "name": "Creatività e innovazione" }
+    }
+  },
+  {
+    "name": "Cross-Cultural Coaching",
+    "translations": {
+      "de": { "name": "Interkulturelles Coaching" },
+      "fr": { "name": "Coaching interculturel" },
+      "it": { "name": "Coaching interculturale" }
+    }
+  },
+  {
+    "name": "Digital Transformation",
+    "translations": {
+      "de": { "name": "Digitale Transformation" },
+      "fr": { "name": "Transformation numérique" },
+      "it": { "name": "Trasformazione digitale" }
+    }
+  },
+  {
+    "name": "Diversity and Inclusion",
+    "translations": {
+      "de": { "name": "Vielfalt und Inklusion" },
+      "fr": { "name": "Diversité et inclusion" },
+      "it": { "name": "Diversità e inclusione" }
+    }
+  },
+  {
+    "name": "Emotional Intelligence",
+    "translations": {
+      "de": { "name": "Emotionale Intelligenz" },
+      "fr": { "name": "Intelligence émotionnelle" },
+      "it": { "name": "Intelligenza emotiva" }
+    }
+  },
+  {
+    "name": "Entrepreneurship",
+    "translations": {
+      "de": { "name": "Unternehmertum" },
+      "fr": { "name": "Entrepreneuriat" },
+      "it": { "name": "Imprenditorialità" }
+    }
+  },
+  {
+    "name": "Executive Coaching",
+    "translations": {
+      "de": { "name": "Führungskräfte-Coaching" },
+      "fr": { "name": "Coaching de dirigeants" },
+      "it": { "name": "Executive Coaching" }
+    }
+  },
+  {
+    "name": "Financial Coaching",
+    "translations": {
+      "de": { "name": "Finanzcoaching" },
+      "fr": { "name": "Coaching financier" },
+      "it": { "name": "Coaching finanziario" }
+    }
+  },
+  {
+    "name": "Fitness & Performance Coaching",
+    "translations": {
+      "de": { "name": "Fitness- & Leistungs-Coaching" },
+      "fr": { "name": "Coaching fitness et performance" },
+      "it": { "name": "Coaching per fitness e performance" }
+    }
+  },
+  {
+    "name": "Goal Setting",
+    "translations": {
+      "de": { "name": "Zielsetzung" },
+      "fr": { "name": "Définition d'objectifs" },
+      "it": { "name": "Definizione degli obiettivi" }
+    }
+  },
+  {
+    "name": "Habit Formation",
+    "translations": {
+      "de": { "name": "Gewohnheitsbildung" },
+      "fr": { "name": "Création d'habitudes" },
+      "it": { "name": "Formazione di abitudini" }
+    }
+  },
+  {
+    "name": "Health and Wellness",
+    "translations": {
+      "de": { "name": "Gesundheit und Wohlbefinden" },
+      "fr": { "name": "Santé et bien-être" },
+      "it": { "name": "Salute e benessere" }
+    }
+  },
+  {
+    "name": "High-Performance Teams",
+    "translations": {
+      "de": { "name": "Hochleistungsteams" },
+      "fr": { "name": "Équipes à haute performance" },
+      "it": { "name": "Team ad alte prestazioni" }
+    }
+  },
+  {
+    "name": "Interview Skills",
+    "translations": {
+      "de": { "name": "Bewerbungsgespräch-Training" },
+      "fr": { "name": "Compétences en entretien d'embauche" },
+      "it": { "name": "Tecniche di colloquio" }
+    }
+  },
+  {
+    "name": "Leadership Development",
+    "translations": {
+      "de": { "name": "Führungsentwicklung" },
+      "fr": { "name": "Développement du leadership" },
+      "it": { "name": "Sviluppo della leadership" }
+    }
+  },
+  {
+    "name": "Life Coaching",
+    "translations": {
+      "de": { "name": "Life-Coaching" },
+      "fr": { "name": "Coaching de vie" },
+      "it": { "name": "Life Coaching" }
+    }
+  },
+  {
+    "name": "Marketing Strategy",
+    "translations": {
+      "de": { "name": "Marketingstrategie" },
+      "fr": { "name": "Stratégie marketing" },
+      "it": { "name": "Strategia di marketing" }
+    }
+  },
+  {
+    "name": "Mindfulness and Meditation",
+    "translations": {
+      "de": { "name": "Achtsamkeit und Meditation" },
+      "fr": { "name": "Pleine conscience et méditation" },
+      "it": { "name": "Mindfulness e meditazione" }
+    }
+  },
+  {
+    "name": "Motivation and Engagement",
+    "translations": {
+      "de": { "name": "Motivation und Engagement" },
+      "fr": { "name": "Motivation et engagement" },
+      "it": { "name": "Motivazione e coinvolgimento" }
+    }
+  },
+  {
+    "name": "Negotiation Skills",
+    "translations": {
+      "de": { "name": "Verhandlungsgeschick" },
+      "fr": { "name": "Compétences en négociation" },
+      "it": { "name": "Abilità di negoziazione" }
+    }
+  },
+  {
+    "name": "Nutrition Coaching",
+    "translations": {
+      "de": { "name": "Ernährungsberatung" },
+      "fr": { "name": "Coaching en nutrition" },
+      "it": { "name": "Coaching nutrizionale" }
+    }
+  },
+  {
+    "name": "Organizational Development",
+    "translations": {
+      "de": { "name": "Organisationsentwicklung" },
+      "fr": { "name": "Développement organisationnel" },
+      "it": { "name": "Sviluppo organizzativo" }
+    }
+  },
+  {
+    "name": "Parenting Coaching",
+    "translations": {
+      "de": { "name": "Erziehungs-Coaching" },
+      "fr": { "name": "Coaching parental" },
+      "it": { "name": "Coaching genitoriale" }
+    }
+  },
+  {
+    "name": "Performance Coaching",
+    "translations": {
+      "de": { "name": "Performance-Coaching" },
+      "fr": { "name": "Coaching de performance" },
+      "it": { "name": "Performance Coaching" }
+    }
+  },
+  {
+    "name": "Personal Development",
+    "translations": {
+      "de": { "name": "Persönlichkeitsentwicklung" },
+      "fr": { "name": "Développement personnel" },
+      "it": { "name": "Sviluppo personale" }
+    }
+  },
+  {
+    "name": "Productivity Coaching",
+    "translations": {
+      "de": { "name": "Produktivitäts-Coaching" },
+      "fr": { "name": "Coaching en productivité" },
+      "it": { "name": "Coaching sulla produttività" }
+    }
+  },
+  {
+    "name": "Professional Networking",
+    "translations": {
+      "de": { "name": "Professionelles Netzwerken" },
+      "fr": { "name": "Réseautage professionnel" },
+      "it": { "name": "Networking professionale" }
+    }
+  },
+  {
+    "name": "Public Speaking",
+    "translations": {
+      "de": { "name": "Öffentliches Reden" },
+      "fr": { "name": "Prise de parole en public" },
+      "it": { "name": "Parlare in pubblico" }
+    }
+  },
+  {
+    "name": "Relationship Coaching",
+    "translations": {
+      "de": { "name": "Beziehungs-Coaching" },
+      "fr": { "name": "Coaching relationnel" },
+      "it": { "name": "Coaching relazionale" }
+    }
+  },
+  {
+    "name": "Resilience Training",
+    "translations": {
+      "de": { "name": "Resilienztraining" },
+      "fr": { "name": "Formation à la résilience" },
+      "it": { "name": "Training di resilienza" }
+    }
+  },
+  {
+    "name": "Retirement Planning",
+    "translations": {
+      "de": { "name": "Ruhestandsplanung" },
+      "fr": { "name": "Planification de la retraite" },
+      "it": { "name": "Pianificazione della pensione" }
+    }
+  },
+  {
+    "name": "Sales Coaching",
+    "translations": {
+      "de": { "name": "Vertriebs-Coaching" },
+      "fr": { "name": "Coaching commercial" },
+      "it": { "name": "Coaching sulle vendite" }
+    }
+  },
+  {
+    "name": "Startup Coaching",
+    "translations": {
+      "de": { "name": "Startup-Coaching" },
+      "fr": { "name": "Coaching pour startups" },
+      "it": { "name": "Coaching per startup" }
+    }
+  },
+  {
+    "name": "Strategic Planning",
+    "translations": {
+      "de": { "name": "Strategische Planung" },
+      "fr": { "name": "Planification stratégique" },
+      "it": { "name": "Pianificazione strategica" }
+    }
+  },
+  {
+    "name": "Stress Management",
+    "translations": {
+      "de": { "name": "Stressbewältigung" },
+      "fr": { "name": "Gestion du stress" },
+      "it": { "name": "Gestione dello stress" }
+    }
+  },
+  {
+    "name": "Succession Planning",
+    "translations": {
+      "de": { "name": "Nachfolgeplanung" },
+      "fr": { "name": "Planification de la relève" },
+      "it": { "name": "Pianificazione della successione" }
+    }
+  },
+  {
+    "name": "Team Management & Building",
+    "translations": {
+      "de": { "name": "Team-Management & -Building" },
+      "fr": { "name": "Gestion et constitution d'équipe" },
+      "it": { "name": "Gestione e costruzione del team" }
+    }
+  },
+  {
+    "name": "Time Management",
+    "translations": {
+      "de": { "name": "Zeitmanagement" },
+      "fr": { "name": "Gestion du temps" },
+      "it": { "name": "Gestione del tempo" }
+    }
+  },
+  {
+    "name": "Work-Life Balance",
+    "translations": {
+      "de": { "name": "Work-Life-Balance" },
+      "fr": { "name": "Équilibre vie pro-vie perso" },
+      "it": { "name": "Equilibrio vita-lavoro" }
+    }
+  }
+]

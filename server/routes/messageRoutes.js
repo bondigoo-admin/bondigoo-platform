@@ -60,6 +60,8 @@ router.get('/upload-signature', auth, (req, res) => {
 
 router.post('/attachments/secure-url', auth, messageController.getSecureAttachmentUrl);
 
+router.get('/attachments/download', auth, messageController.downloadAttachment);
+
 router.delete('/conversations/:conversationId', auth, messageController.deleteConversation);
 // Delete a specific message
 router.delete('/messages/:messageId', auth, messageController.deleteMessage);

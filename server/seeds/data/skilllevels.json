@@ -1,0 +1,156 @@
+[
+  {
+    "name": "All Levels",
+    "code": "all",
+    "level": 0,
+    "description": "Suitable for all, from beginners to experts.",
+    "icon": "LayoutGrid",
+    "color": "slate-500",
+    "translations": {
+      "de": {
+        "name": "Alle Stufen",
+        "description": "Für alle geeignet, vom Anfänger bis zum Profi."
+      },
+      "fr": {
+        "name": "Tous les niveaux",
+        "description": "Convient à tous, du débutant à l'expert."
+      },
+      "it": {
+        "name": "Tutti i livelli",
+        "description": "Adatto a tutti, dal principiante all'esperto."
+      }
+    }
+  },
+  {
+    "name": "Novice",
+    "code": "novice",
+    "level": 1,
+    "description": "Assumes no prior knowledge.",
+    "icon": "Circle",
+    "color": "gray-400",
+    "translations": {
+      "de": {
+        "name": "Neuling",
+        "description": "Setzt kein Vorwissen voraus."
+      },
+      "fr": {
+        "name": "Novice",
+        "description": "Ne suppose aucune connaissance préalable."
+      },
+      "it": {
+        "name": "Novizio",
+        "description": "Non richiede alcuna conoscenza preliminare."
+      }
+    }
+  },
+  {
+    "name": "Beginner",
+    "code": "beginner",
+    "level": 2,
+    "description": "Has basic knowledge and can perform simple tasks with guidance.",
+    "icon": "ChevronsRight",
+    "color": "sky-500",
+    "translations": {
+      "de": {
+        "name": "Anfänger",
+        "description": "Du hast Grundkenntnisse und kannst einfache Aufgaben mit Anleitung erledigen."
+      },
+      "fr": {
+        "name": "Débutant",
+        "description": "Tu as des connaissances de base et peux effectuer des tâches simples avec de l'aide."
+      },
+      "it": {
+        "name": "Principiante",
+        "description": "Hai conoscenze di base e puoi svolgere compiti semplici con una guida."
+      }
+    }
+  },
+  {
+    "name": "Intermediate",
+    "code": "intermediate",
+    "level": 3,
+    "description": "Can work independently on most tasks.",
+    "icon": "TrendingUp",
+    "color": "emerald-500",
+    "translations": {
+      "de": {
+        "name": "Fortgeschritten",
+        "description": "Du kannst die meisten Aufgaben selbstständig erledigen."
+      },
+      "fr": {
+        "name": "Intermédiaire",
+        "description": "Tu peux travailler de manière autonome sur la plupart des tâches."
+      },
+      "it": {
+        "name": "Intermedio",
+        "description": "Puoi lavorare in autonomia sulla maggior parte dei compiti."
+      }
+    }
+  },
+  {
+    "name": "Proficient",
+    "code": "proficient",
+    "level": 4,
+    "description": "Comfortable with complex tasks and can troubleshoot.",
+    "icon": "Award",
+    "color": "indigo-500",
+    "translations": {
+      "de": {
+        "name": "Geübt",
+        "description": "Du kommst gut mit komplexen Aufgaben zurecht und kannst Probleme lösen."
+      },
+      "fr": {
+        "name": "Compétent",
+        "description": "Tu es à l'aise avec les tâches complexes et sais résoudre les problèmes."
+      },
+      "it": {
+        "name": "Competente",
+        "description": "Sei a tuo agio con compiti complessi e sai risolvere i problemi."
+      }
+    }
+  },
+  {
+    "name": "Advanced",
+    "code": "advanced",
+    "level": 5,
+    "description": "Possesses deep knowledge and can teach or mentor others.",
+    "icon": "Star",
+    "color": "amber-500",
+    "translations": {
+      "de": {
+        "name": "Experte",
+        "description": "Du hast tiefes Wissen und kannst andere unterrichten oder anleiten."
+      },
+      "fr": {
+        "name": "Avancé",
+        "description": "Tu possèdes des connaissances approfondies et peux enseigner ou mentorer les autres."
+      },
+      "it": {
+        "name": "Avanzato",
+        "description": "Possiedi una conoscenza approfondita e puoi insegnare o fare da mentore ad altri."
+      }
+    }
+  },
+  {
+    "name": "Expert",
+    "code": "expert",
+    "level": 6,
+    "description": "Recognized as an authority and innovates.",
+    "icon": "Crown",
+    "color": "rose-600",
+    "translations": {
+      "de": {
+        "name": "Profi",
+        "description": "Du giltst als Autorität und bringst Neues ein."
+      },
+      "fr": {
+        "name": "Expert",
+        "description": "Tu es reconnu comme une autorité et tu innoves."
+      },
+      "it": {
+        "name": "Esperto",
+        "description": "Sei riconosciuto come un'autorità e porti innovazione."
+      }
+    }
+  }
+]

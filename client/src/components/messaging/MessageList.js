@@ -6,22 +6,29 @@ import { useAuth } from '../../contexts/AuthContext';
 import MessageItem from './MessageItem';
 import { logger } from '../../utils/logger';
 import { format, isToday, isYesterday } from 'date-fns';
+import { de, enUS } from 'date-fns/locale';
 import { debounce } from 'lodash';
 import { useTranslation } from 'react-i18next';
 
-const MessageList = ({ messages, isLoading, fetchNextPage, hasNextPage, isFetchingMore, activeConversationId, currentUserId, onDeleteMessage, activeConversation }) => {
+const MessageList = ({ messages, isLoading, fetchNextPage, hasNextPage, isFetchingMore, activeConversationId, currentUserId, onDeleteMessage, activeConversation, onOpenMediaViewer }) => {
   const { user } = useAuth();
-  const { t } = useTranslation(['messaging', 'common']);
+  const { t, i18n } = useTranslation(['messaging', 'common']);
   const listRef = useRef(null);
   const observerRef = useRef(null);
   const topSentinelRef = useRef(null);
-  const lastScrollHeightRef = useRef(0); // Track scrollHeight to maintain position
+  const lastScrollHeightRef = useRef(0); 
+
+  const dateLocales = {
+    de,
+    en: enUS,
+  };
+  const currentLocale = dateLocales[i18n.language] || enUS;
 
   const formatDateHeader = (date) => {
     const parsedDate = new Date(date);
     if (isToday(parsedDate)) return t('common:today');
     if (isYesterday(parsedDate)) return t('common:yesterday');
-    return format(parsedDate, 'd MMM, yyyy');
+    return format(parsedDate, 'd MMM, yyyy', { locale: currentLocale });
   };
 
   const groupedMessages = messages.reduce((acc, msg, index) => {
@@ -114,8 +121,8 @@ const MessageList = ({ messages, isLoading, fetchNextPage, hasNextPage, isFetchi
     };
   }, [observeCallback]);
 
-  return (
-    <div ref={listRef} className="chat-panel__message-list-container relative">
+   return (
+    <div ref={listRef} className="relative flex-1 overflow-y-auto p-4">
       {isLoading && messages.length === 0 && (
         <div className="absolute inset-0 z-10 flex items-center justify-center bg-background/70">
           <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
@@ -157,6 +164,7 @@ const MessageList = ({ messages, isLoading, fetchNextPage, hasNextPage, isFetchi
                   conversationType={conversationType}
                   currentUserId={currentUserId}
                   onDeleteMessage={onDeleteMessage}
+                  onOpenMediaViewer={onOpenMediaViewer}
               />
                 );
               })}
@@ -177,6 +185,7 @@ MessageList.propTypes = {
   activeConversation: PropTypes.object,
   currentUserId: PropTypes.string.isRequired,
   onDeleteMessage: PropTypes.func.isRequired,
+  onOpenMediaViewer: PropTypes.func.isRequired,
 };
 
 export default MessageList;

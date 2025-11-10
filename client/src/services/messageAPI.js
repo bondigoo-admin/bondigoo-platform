@@ -1,4 +1,4 @@
-import api from './api';
+import api, { fileApi } from './api';
 import { logger } from '../utils/logger';
 
 /**
@@ -377,5 +377,38 @@ export const getSecureAttachmentUrl = async (publicId) => {
       error: error.response?.data || error.message,
     });
     throw error.response?.data || new Error('Failed to fetch secure URL');
+  }
+};
+
+export const downloadMessageAttachment = async ({ publicId }) => {
+  logger.info('[messageAPI] Requesting attachment download', { publicId });
+  if (!publicId) {
+    logger.error('[messageAPI] publicId is required for downloadMessageAttachment');
+    throw new Error('Attachment public ID is required.');
+  }
+  try {
+    const response = await fileApi.get(`/api/messages/attachments/download`, {
+      params: { id: publicId },
+      responseType: 'blob',
+    });
+
+    const contentDisposition = response.headers['content-disposition'];
+    let filename = `attachment-${publicId}.pdf`;
+    if (contentDisposition) {
+      const filenameMatch = contentDisposition.match(/filename="(.+)"/);
+      if (filenameMatch && filenameMatch.length === 2) {
+        filename = filenameMatch[1];
+      }
+    }
+    
+    logger.debug('[messageAPI] Attachment download successful', { publicId, filename });
+    return { data: response.data, filename };
+  } catch (error) {
+    logger.error('[messageAPI] Error downloading attachment:', {
+      publicId,
+      error: error.response?.data || error.message,
+      status: error.response?.status,
+    });
+    throw error.response?.data || new Error('Failed to download attachment');
   }
 };
