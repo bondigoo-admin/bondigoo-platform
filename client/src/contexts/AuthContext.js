@@ -13,7 +13,7 @@ const AuthContext = createContext();
 const AuthProvider = ({ children }) => {
   const queryClient = useQueryClient();
   const [user, setUser] = useState(null);
-  const { t } = useTranslation(['availability']);
+  const { t, i18n } = useTranslation(['availability']);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [userRole, setUserRole] = useState(null);
   const [userEmail, setUserEmail] = useState(null);
@@ -97,8 +97,14 @@ const AuthProvider = ({ children }) => {
       setToken(storedToken);
 
       try {
-        const response = await api.get('/users/me');
+        const response = await api.get('/api/users/me');
         const userData = response.data;
+
+        if (userData.preferredLanguage && i18n.language !== userData.preferredLanguage) {
+          logger.info(`[AuthContext] User preference '${userData.preferredLanguage}' differs from current i18n lang '${i18n.language}'. Switching.`);
+          i18n.changeLanguage(userData.preferredLanguage);
+        }
+
         let finalUserData = { ...userData };
 
         if (userData.role === 'coach' && (userData.id || userData._id)) {
@@ -192,6 +198,11 @@ const AuthProvider = ({ children }) => {
 
       const response = await api.get('/api/users/me');
       let fullUserData = response.data;
+
+      if (fullUserData.preferredLanguage && i18n.language !== fullUserData.preferredLanguage) {
+        logger.info(`[AuthContext] User preference '${fullUserData.preferredLanguage}' found on login. Switching i18n language.`);
+        i18n.changeLanguage(fullUserData.preferredLanguage);
+      }
 
       const userToSet = {
         ...fullUserData,

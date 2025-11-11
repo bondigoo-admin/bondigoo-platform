@@ -1,19 +1,25 @@
-const supportedLanguages = ['en', 'de', 'fr'];
+const supportedLanguages = ['en', 'de', 'fr', 'it'];
 
 const languageMiddleware = (req, res, next) => {
-  const lang = req.query.lang || req.headers['accept-language'];
-  
-  if (lang) {
-    const language = lang.split(',')[0].trim().split('-')[0].toLowerCase();
-    if (supportedLanguages.includes(language)) {
-      req.language = language;
-    } else {
-      req.language = 'en'; // Default to English if not supported
-    }
-  } else {
-    req.language = 'en'; // Default to English if no language is specified
+  let language = 'de'; // Default language
+
+  // 1. Prioritize language from authenticated user's profile
+  if (req.user && req.user.preferredLanguage && supportedLanguages.includes(req.user.preferredLanguage)) {
+    language = req.user.preferredLanguage;
+    req.language = language;
+    return next();
   }
 
+  // 2. Fallback to query parameter or headers for anonymous users or users without a preference
+  const langHeader = req.query.lang || req.headers['accept-language'];
+  if (langHeader) {
+    const detectedLang = langHeader.split(',')[0].trim().split('-')[0].toLowerCase();
+    if (supportedLanguages.includes(detectedLang)) {
+      language = detectedLang;
+    }
+  }
+  
+  req.language = language;
   next();
 };
 

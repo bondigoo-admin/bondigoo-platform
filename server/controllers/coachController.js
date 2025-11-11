@@ -171,7 +171,9 @@ exports.getUploadSignature = (req, res) => {
 
 exports.searchListItems = async (req, res) => {
   try {
-    const { type, query, language } = req.query;
+    const { type, query } = req.query;
+    
+    const language = (req.query.language || 'en').split('-')[0].toLowerCase();
 
     if (!type) {
       return res.status(400).json({ message: 'List type is required' });
@@ -202,10 +204,7 @@ exports.searchListItems = async (req, res) => {
       : `translations.${language}.name`;
 
     if (query) {
-      // Find items where the original name matches the query
       const nameMatchPromise = Model.find({ name: { $regex: query, $options: 'i' } }).select('_id').lean();
-
-      // Find items where a translation matches the query (using the corrected path)
       const translationMatchPromise = Translation.find({
         listType: dbListType,
         [translationPath]: { $regex: query, $options: 'i' }
@@ -216,13 +215,11 @@ exports.searchListItems = async (req, res) => {
       const idsFromName = nameMatches.map(item => item._id.toString());
       const idsFromTranslation = translationMatches.map(t => t.key.split('_').pop());
 
-      // Combine and deduplicate all found IDs
       const uniqueIds = [...new Set([...idsFromName, ...idsFromTranslation])];
       
       items = await Model.find({ '_id': { $in: uniqueIds } }).lean();
 
     } else {
-      // If no query, fetch all items for the given type
       items = await Model.find({}).lean();
     }
     
@@ -230,13 +227,11 @@ exports.searchListItems = async (req, res) => {
       return res.json([]);
     }
 
-    // --- Translation Enrichment Step ---
     const itemIds = items.map(item => item._id.toString());
     const itemIdsSet = new Set(itemIds);
 
     const translations = await Translation.find({
       listType: dbListType,
-      // We only need to check for the existence of the language object now
       [`translations.${language}`]: { $exists: true, $ne: null }
     }).lean();
 
@@ -245,10 +240,9 @@ exports.searchListItems = async (req, res) => {
       const itemId = t.key.split('_').pop();
       if (itemIdsSet.has(itemId) && t.translations) {
         
-        // FIX #2: Extract the 'name' property from the translation object.
         const translatedName = isProgramCategory
-          ? t.translations.name?.[language] // This handles the unique structure of program categories
-          : t.translations[language]?.name; // This handles all other lists
+          ? t.translations.name?.[language]
+          : t.translations[language]?.name; 
         
         if (translatedName) {
             translationMap.set(itemId, translatedName);
@@ -259,7 +253,6 @@ exports.searchListItems = async (req, res) => {
     const resultsWithTranslations = items.map(item => {
       const itemIdStr = item._id.toString();
       const translatedName = translationMap.get(itemIdStr);
-      // The error-causing `.trim()` will now work because translatedName is a string.
       return {
         ...item,
         translation: translatedName && translatedName.trim() !== '' ? translatedName : null,
