@@ -1,87 +1,784 @@
-[DEBUG] [MessagingCenter] Group conversation selected. {"conversationId":"68e0f28a97155b05cd3a97f2","type":"group","recipientForApi":"68875188ba0945e66fc74310"}
-bundle.js:171765 [DEBUG] [ChatHeader] Unsubscribing from presence updates {"participantId":"688753702ec81f2dff4049ab"}
-bundle.js:171760 [SocketIO] <<< INCOMING EVENT: "ping" {"payload":[],"userId":"66d9cdcb0a7492a86482bd68","socketId":"gu4x90Ea2j8LB04sAAAD","timestamp":"2025-11-10T09:24:54.507Z"}
-bundle.js:171765 [DEBUG] [MessageInput] Emitted START_TYPING to user room {"senderUserId":"66d9cdcb0a7492a86482bd68","recipientUserId":"66f418d10a19ec0e4bbd377e","conversationId":"690310f97684d8dbfaf1ec63","socketId":"gu4x90Ea2j8LB04sAAAD","timestamp":"2025-11-10T09:24:56.015Z"}
-bundle.js:171760 [MessageInput] Attachment uploaded successfully {"userId":"66d9cdcb0a7492a86482bd68","publicId":"user_messages/66d9cdcb0a7492a86482bd68/1_qxekmo","timestamp":"2025-11-10T09:25:06.511Z"}
-bundle.js:171760 [MessageInput] Sending message to user {"userId":"66d9cdcb0a7492a86482bd68","recipientUserId":"66f418d10a19ec0e4bbd377e","contentType":"image","hasAttachment":true,"hasContent":false,"contentLength":0,"resourceType":"image","conversationId":"690310f97684d8dbfaf1ec63","timestamp":"2025-11-10T09:25:12.364Z"}
-bundle.js:171765 [DEBUG] [useMessages] Hook rendered for user {"userId":"66d9cdcb0a7492a86482bd68","conversationId":"690310f97684d8dbfaf1ec63","status":"success","messageCount":2,"hasNextPage":false,"isFetching":false,"isFetchingNextPage":false,"timestamp":"2025-11-10T09:25:12.365Z"}
-bundle.js:171760 [ChatPanel] Rendering chat panel {"conversationId":"690310f97684d8dbfaf1ec63","messageCount":2,"timestamp":"2025-11-10T09:25:12.365Z"}
-bundle.js:171760 [DIAGNOSTIC LOG] ChatHeader received activeConversation prop: {"_id":"690310f97684d8dbfaf1ec63","type":"one-on-one","participants":[{"_id":"66f418d10a19ec0e4bbd377e","firstName":"Test","lastName":"User 2","role":"client","status":"offline","profilePicture":{"publicId":"profile_picture_jgl5ga","url":"https://res.cloudinary.com/dzpjkn8eo/image/upload/v1753703993/profile_picture_jgl5ga.jpg"}},{"_id":"66d9cdcb0a7492a86482bd68","firstName":"Dominic","lastName":"Frei","role":"coach","status":"online"}],"otherParticipant":{"_id":"66f418d10a19ec0e4bbd377e","firstName":"Test","lastName":"User 2","role":"client","profilePicture":{"publicId":"profile_picture_jgl5ga","url":"https://res.cloudinary.com/dzpjkn8eo/image/upload/v1753703993/profile_picture_jgl5ga.jpg"},"coachProfilePicture":null,"status":"offline"},"lastMessage":{"_id":"690311157684d8dbfaf1ed32","content":"test 2","senderId":"66d9cdcb0a7492a86482bd68","contentType":"text","createdAt":"2025-10-30T07:17:41.980Z"},"updatedAt":"2025-11-10T09:16:11.925Z","unreadCount":0}
-bundle.js:171760 [MessageList] Rendering message list {"messageCount":2,"isLoading":false,"isFetchingMore":false,"hasNextPage":false,"timestamp":"2025-11-10T09:25:12.367Z"}
-bundle.js:171765 [DEBUG] [MessageItem] Rendering message {"messageId":"690310fc7684d8dbfaf1ec96","senderId":"66d9cdcb0a7492a86482bd68","senderRole":"coach","hasUserProfilePicture":false,"hasCoachProfilePicture":true,"contentType":"text","hasContent":true,"contentLength":4,"timestamp":"2025-11-10T09:25:12.367Z"}
-bundle.js:171765 [DEBUG] [MessageItem] Rendering content {"messageId":"690310fc7684d8dbfaf1ec96","contentType":"text","hasAttachment":false,"hasContent":true,"timestamp":"2025-11-10T09:25:12.367Z"}
-bundle.js:171760 [MessageInput] Flushed STOP_TYPING on cleanup {"userId":"66d9cdcb0a7492a86482bd68","recipientUserId":"66f418d10a19ec0e4bbd377e","conversationId":"690310f97684d8dbfaf1ec63","timestamp":"2025-11-10T09:25:12.371Z"}
-bundle.js:171760 [ChatPanel] Attempting optimistic message send for user {"userId":"66d9cdcb0a7492a86482bd68","recipientId":"66f418d10a19ec0e4bbd377e","conversationId":"690310f97684d8dbfaf1ec63","contentType":"image","timestamp":"2025-11-10T09:25:12.371Z"}
-bundle.js:171765 [DEBUG] [ChatPanel] Applied optimistic message update {"userId":"66d9cdcb0a7492a86482bd68","recipientId":"66f418d10a19ec0e4bbd377e","conversationId":"690310f97684d8dbfaf1ec63","messageId":"temp-1762766712372","pageCount":1,"timestamp":"2025-11-10T09:25:12.372Z"}
-bundle.js:171765 [DEBUG] [useMessages] Computed messages for user {"userId":"66d9cdcb0a7492a86482bd68","conversationId":"690310f97684d8dbfaf1ec63","messageCount":3,"firstMessageId":"690310fc7684d8dbfaf1ec96","lastMessageId":"temp-1762766712372","duration":"0.00ms","timestamp":"2025-11-10T09:25:12.373Z"}
-bundle.js:171765 [DEBUG] [MessageList] Scroll effect triggered {"messageCount":3,"isInitialLoad":false,"isNearBottom":true,"scrollTop":0,"scrollHeight":694,"clientHeight":694,"isLoading":false,"timestamp":"2025-11-10T09:25:12.378Z"}
-bundle.js:171765 [DEBUG] [useMessages] Message query data updated for user {"userId":"66d9cdcb0a7492a86482bd68","conversationId":"690310f97684d8dbfaf1ec63","pageCount":1,"lastPageMsgCount":3,"dataUpdatedAt":"2025-11-10T09:25:12.372Z","timestamp":"2025-11-10T09:25:12.379Z"}
-bundle.js:171755  [useMessages] Message list not found for scrollToBottom {"conversationId":"690310f97684d8dbfaf1ec63","userId":"66d9cdcb0a7492a86482bd68","timestamp":"2025-11-10T09:25:12.379Z"} Error Component Stack
-    at ChatPanel (src_components_messaging_MessagingCenter_js.74a8448b6932cfc39c1e.hot-update.js:71:3)
-    at div (<anonymous>)
-    at div (<anonymous>)
-    at ErrorBoundary (src_components_BookingDetailsModal_js.chunk.js:5423:5)
-    at MessagingCenter (src_components_messaging_MessagingCenter_js.chunk.js:2865:68)
-    at RenderedRoute (bundle.js:118060:5)
-    at Outlet (bundle.js:118707:26)
-    at ProtectedRoute (src_components_ProtectedRoute_js.chunk.js:119:69)
-    at RenderedRoute (bundle.js:118060:5)
-    at Routes (bundle.js:118794:5)
-    at Suspense (<anonymous>)
-    at main (<anonymous>)
-    at div (<anonymous>)
-    at AppContent (main.958d27be892cd62274ec.hot-update.js:412:69)
-    at LiveSessionProvider (bundle.js:148657:3)
-    at NotificationSocketProvider (bundle.js:149484:3)
-    at AppWithSocketProvider (main.958d27be892cd62274ec.hot-update.js:1348:69)
-    at AppWithSocketProviderWrapper (main.958d27be892cd62274ec.hot-update.js:1431:69)
-    at AuthProvider (bundle.js:148296:3)
-    at PaymentProvider (bundle.js:149272:3)
-    at Elements (bundle.js:15340:30)
-    at Suspense (<anonymous>)
-    at App (main.958d27be892cd62274ec.hot-update.js:1383:51)
-    at AuthProvider (bundle.js:148296:3)
-    at QueryClientProvider (bundle.js:113963:21)
-    at Router (bundle.js:118728:15)
-    at BrowserRouter (bundle.js:116628:5)
-overrideMethod @ hook.js:608
-warn @ bundle.js:171755
-(anonymous) @ bundle.js:151881
-(anonymous) @ bundle.js:151894
-commitHookEffectListMount @ bundle.js:103095
-commitPassiveMountOnFiber @ bundle.js:104588
-commitPassiveMountEffects_complete @ bundle.js:104560
-commitPassiveMountEffects_begin @ bundle.js:104550
-commitPassiveMountEffects @ bundle.js:104540
-flushPassiveEffectsImpl @ bundle.js:106423
-flushPassiveEffects @ bundle.js:106376
-commitRootImpl @ bundle.js:106335
-commitRoot @ bundle.js:106118
-performSyncWorkOnRoot @ bundle.js:105627
-flushSyncCallbacks @ bundle.js:93601
-(anonymous) @ bundle.js:105232
-bundle.js:171760 [messageAPI] Preparing to send message for user {"recipientUserId":"66f418d10a19ec0e4bbd377e","contentType":"image","hasContent":false,"hasAttachment":true,"conversationId":"690310f97684d8dbfaf1ec63","timestamp":"2025-11-10T09:25:12.384Z"}
-bundle.js:171765 [DEBUG] [MessageList] Scrolled to bottom {"prevScrollTop":0,"newScrollTop":694,"scrollHeight":694,"prevScrollHeight":694,"timestamp":"2025-11-10T09:25:12.390Z"}
-bundle.js:171760 [SocketIO] <<< INCOMING EVENT: "new_message" {"payload":[{"messageObject":{"_id":"6911af7824c713b20e0a8c73","conversationId":"690310f97684d8dbfaf1ec63","senderId":"66d9cdcb0a7492a86482bd68","content":null,"contentType":"image","attachment":[{"url":"https://res.cloudinary.com/dzpjkn8eo/image/private/s--txEHBr75--/v1762766702/user_messages/66d9cdcb0a7492a86482bd68/1_qxekmo.jpg","publicId":"user_messages/66d9cdcb0a7492a86482bd68/1_qxekmo","resourceType":"image","format":"jpg","originalFilename":"1.png","bytes":407837}],"createdAt":"2025-11-10T09:25:12.522Z","deliveryStatus":"sent","contextType":null,"contextId":null,"sender":{"_id":"66d9cdcb0a7492a86482bd68","firstName":"Dominic","lastName":"Frei","role":"coach","coachProfilePicture":{"publicId":"coaches/66d9cdcb0a7492a86482bd68/profile_hrnhbu","url":"https://res.cloudinary.com/dzpjkn8eo/image/upload/v1761286498/coaches/66d9cdcb0a7492a86482bd68/profile_hrnhbu.jpg"}}}}],"userId":"66d9cdcb0a7492a86482bd68","socketId":"gu4x90Ea2j8LB04sAAAD","timestamp":"2025-11-10T09:25:12.671Z"}
-bundle.js:171760 [useGlobalSocketListener] RAW NEW_MESSAGE event received. {"rawData":{"messageObject":{"_id":"6911af7824c713b20e0a8c73","conversationId":"690310f97684d8dbfaf1ec63","senderId":"66d9cdcb0a7492a86482bd68","content":null,"contentType":"image","attachment":[{"url":"https://res.cloudinary.com/dzpjkn8eo/image/private/s--txEHBr75--/v1762766702/user_messages/66d9cdcb0a7492a86482bd68/1_qxekmo.jpg","publicId":"user_messages/66d9cdcb0a7492a86482bd68/1_qxekmo","resourceType":"image","format":"jpg","originalFilename":"1.png","bytes":407837}],"createdAt":"2025-11-10T09:25:12.522Z","deliveryStatus":"sent","contextType":null,"contextId":null,"sender":{"_id":"66d9cdcb0a7492a86482bd68","firstName":"Dominic","lastName":"Frei","role":"coach","coachProfilePicture":{"publicId":"coaches/66d9cdcb0a7492a86482bd68/profile_hrnhbu","url":"https://res.cloudinary.com/dzpjkn8eo/image/upload/v1761286498/coaches/66d9cdcb0a7492a86482bd68/profile_hrnhbu.jpg"}}}}}
-bundle.js:171760 [useGlobalSocketListener] Received NEW_MESSAGE, invalidating queries. {"conversationId":"690310f97684d8dbfaf1ec63","messageId":"6911af7824c713b20e0a8c73","userId":"66d9cdcb0a7492a86482bd68","socketId":"gu4x90Ea2j8LB04sAAAD","timestamp":"2025-11-10T09:25:12.671Z"}
-bundle.js:171760 [useMessages] Fetching messages for user {"userId":"66d9cdcb0a7492a86482bd68","conversationId":"690310f97684d8dbfaf1ec63","pageParam":1,"timestamp":"2025-11-10T09:25:12.672Z"}
-bundle.js:171760 [messageAPI] Message sent successfully via API {"messageId":"6911af7824c713b20e0a8c73","conversationId":"690310f97684d8dbfaf1ec63","recipientUserId":"66f418d10a19ec0e4bbd377e","timestamp":"2025-11-10T09:25:12.674Z"}
-bundle.js:171760 [ChatPanel] Optimistic message send succeeded {"userId":"66d9cdcb0a7492a86482bd68","recipientId":"66f418d10a19ec0e4bbd377e","conversationId":"690310f97684d8dbfaf1ec63","messageId":"6911af7824c713b20e0a8c73","serverContent":null,"optimisticContent":null,"timestamp":"2025-11-10T09:25:12.674Z"}
-bundle.js:171765 [DEBUG] [ChatPanel] Updated messages with confirmed message {"messageId":"6911af7824c713b20e0a8c73","pageCount":1,"messageCount":3,"finalContent":null,"timestamp":"2025-11-10T09:25:12.675Z"}
-bundle.js:171760 [ConversationList] Rendering conversation list {"count":4}
-bundle.js:171760 [DIAGNOSTIC LOG] ConversationItem rendering with conversation prop (ID: 68e0f28a97155b05cd3a97f2): {"_id":"68e0f28a97155b05cd3a97f2","type":"group","name":"Group 8","groupAvatar":null,"participants":[{"_id":"68875188ba0945e66fc74310","firstName":"Test","lastName":"User 3","role":"client","status":"offline","profilePicture":{"publicId":"profile_ujztpe","url":"https://res.cloudinary.com/dzpjkn8eo/image/upload/v1760685312/profile_ujztpe.jpg"}},{"_id":"66f418d10a19ec0e4bbd377e","firstName":"Test","lastName":"User 2","role":"client","status":"offline","profilePicture":{"publicId":"profile_picture_jgl5ga","url":"https://res.cloudinary.com/dzpjkn8eo/image/upload/v1753703993/profile_picture_jgl5ga.jpg"}},{"_id":"66d9cdcb0a7492a86482bd68","firstName":"Dominic","lastName":"Frei","role":"coach","status":"online"}],"lastMessage":{"_id":"6911af2e24c713b20e0a8bdd","content":"undefined","senderId":"66d9cdcb0a7492a86482bd68","contentType":"image","createdAt":"2025-11-10T09:23:58.879Z"},"updatedAt":"2025-11-10T09:23:58.922Z","unreadCount":0}
-bundle.js:171765 [DEBUG] [ConversationItem] Rendering item {"conversationId":"68e0f28a97155b05cd3a97f2","type":"group","displayName":"Group 8","isSelected":false,"unreadCount":0,"timestamp":"2025-11-10T09:25:12.682Z"}
-bundle.js:171760 [DIAGNOSTIC LOG] ConversationItem rendering with conversation prop (ID: 6902475cfe2ed80377419753): {"_id":"6902475cfe2ed80377419753","type":"one-on-one","name":"Feedback: Test Aufgabe","subtext":"In program: Test Program 1","context":{"type":"program_assignment_submission","enrollmentId":"688753982ec81f2dff404a3f","lessonId":"686e144df686e31b1707932a","programId":"686e0a33f686e31b17078e35","programAuthorId":"66d9cdcb0a7492a86482bd68"},"participants":[{"_id":"66d9cdcb0a7492a86482bd68","firstName":"Dominic","lastName":"Frei","role":"coach","status":"online"},{"_id":"688753702ec81f2dff4049ab","firstName":"Test","lastName":"User 5","role":"client","status":"offline","profilePicture":{"publicId":"profile_picture_crxvgn","url":"https://res.cloudinary.com/dzpjkn8eo/image/upload/v1753702621/profile_picture_crxvgn.jpg"}}],"otherParticipant":{"_id":"688753702ec81f2dff4049ab","firstName":"Test","lastName":"User 5","role":"client","profilePicture":{"publicId":"profile_picture_crxvgn","url":"https://res.cloudinary.com/dzpjkn8eo/image/upload/v1753702621/profile_picture_crxvgn.jpg"},"coachProfilePicture":null,"status":"offline"},"lastMessage":{"_id":"690252b537a2585f83f111aa","content":"new test","senderId":"66d9cdcb0a7492a86482bd68","contentType":"text","createdAt":"2025-10-29T17:45:25.910Z"},"updatedAt":"2025-11-10T09:16:13.145Z","unreadCount":0}
-bundle.js:171760 [DIAGNOSTIC LOG] ConversationItem rendering with conversation prop (ID: 690310f97684d8dbfaf1ec63): {"_id":"690310f97684d8dbfaf1ec63","type":"one-on-one","participants":[{"_id":"66f418d10a19ec0e4bbd377e","firstName":"Test","lastName":"User 2","role":"client","status":"offline","profilePicture":{"publicId":"profile_picture_jgl5ga","url":"https://res.cloudinary.com/dzpjkn8eo/image/upload/v1753703993/profile_picture_jgl5ga.jpg"}},{"_id":"66d9cdcb0a7492a86482bd68","firstName":"Dominic","lastName":"Frei","role":"coach","status":"online"}],"otherParticipant":{"_id":"66f418d10a19ec0e4bbd377e","firstName":"Test","lastName":"User 2","role":"client","profilePicture":{"publicId":"profile_picture_jgl5ga","url":"https://res.cloudinary.com/dzpjkn8eo/image/upload/v1753703993/profile_picture_jgl5ga.jpg"},"coachProfilePicture":null,"status":"offline"},"lastMessage":{"_id":"690311157684d8dbfaf1ed32","content":"test 2","senderId":"66d9cdcb0a7492a86482bd68","contentType":"text","createdAt":"2025-10-30T07:17:41.980Z"},"updatedAt":"2025-11-10T09:16:11.925Z","unreadCount":0}
-bundle.js:171760 [DIAGNOSTIC LOG] ConversationItem rendering with conversation prop (ID: 690245fafe2ed8037741872b): {"_id":"690245fafe2ed8037741872b","type":"one-on-one","name":"Feedback: Test Aufgabe","subtext":"In program: Test Program 1","context":{"type":"program_assignment_submission","enrollmentId":"6874e36659c3f9d63593d5b4","lessonId":"686e144df686e31b1707932a","programId":"686e0a33f686e31b17078e35","programAuthorId":"66d9cdcb0a7492a86482bd68"},"participants":[{"_id":"66d9cdcb0a7492a86482bd68","firstName":"Dominic","lastName":"Frei","role":"coach","status":"online"},{"_id":"66f418d10a19ec0e4bbd377e","firstName":"Test","lastName":"User 2","role":"client","status":"offline","profilePicture":{"publicId":"profile_picture_jgl5ga","url":"https://res.cloudinary.com/dzpjkn8eo/image/upload/v1753703993/profile_picture_jgl5ga.jpg"}}],"otherParticipant":{"_id":"66f418d10a19ec0e4bbd377e","firstName":"Test","lastName":"User 2","role":"client","profilePicture":{"publicId":"profile_picture_jgl5ga","url":"https://res.cloudinary.com/dzpjkn8eo/image/upload/v1753703993/profile_picture_jgl5ga.jpg"},"coachProfilePicture":null,"status":"offline"},"lastMessage":{"_id":"690305b87ab761700a17878b","content":"Test mit Anhang","senderId":"66d9cdcb0a7492a86482bd68","contentType":"file","createdAt":"2025-10-30T06:29:12.999Z"},"updatedAt":"2025-11-10T09:16:11.381Z","unreadCount":0}
-bundle.js:171760 [ConversationList] Rendering with data {"count":4,"isLoading":false,"isFetching":true,"activeConversationId":"690310f97684d8dbfaf1ec63","timestamp":"2025-11-10T09:25:12.692Z"}
-bundle.js:171760 [SocketIO] <<< INCOMING EVENT: "messageSentConfirmation" {"payload":[{"messageObject":{"_id":"6911af7824c713b20e0a8c73","conversationId":"690310f97684d8dbfaf1ec63","senderId":"66d9cdcb0a7492a86482bd68","content":null,"contentType":"image","attachment":[{"url":"https://res.cloudinary.com/dzpjkn8eo/image/private/s--txEHBr75--/v1762766702/user_messages/66d9cdcb0a7492a86482bd68/1_qxekmo.jpg","publicId":"user_messages/66d9cdcb0a7492a86482bd68/1_qxekmo","resourceType":"image","format":"jpg","originalFilename":"1.png","bytes":407837}],"createdAt":"2025-11-10T09:25:12.522Z","deliveryStatus":"sent","contextType":null,"contextId":null,"sender":{"_id":"66d9cdcb0a7492a86482bd68","firstName":"Dominic","lastName":"Frei","role":"coach","coachProfilePicture":{"publicId":"coaches/66d9cdcb0a7492a86482bd68/profile_hrnhbu","url":"https://res.cloudinary.com/dzpjkn8eo/image/upload/v1761286498/coaches/66d9cdcb0a7492a86482bd68/profile_hrnhbu.jpg"}}},"tempId":null}],"userId":"66d9cdcb0a7492a86482bd68","socketId":"gu4x90Ea2j8LB04sAAAD","timestamp":"2025-11-10T09:25:12.697Z"}
-bundle.js:171760 [ChatPanel] RAW messageSentConfirmation event received. {"rawData":{"messageObject":{"_id":"6911af7824c713b20e0a8c73","conversationId":"690310f97684d8dbfaf1ec63","senderId":"66d9cdcb0a7492a86482bd68","content":null,"contentType":"image","attachment":[{"url":"https://res.cloudinary.com/dzpjkn8eo/image/private/s--txEHBr75--/v1762766702/user_messages/66d9cdcb0a7492a86482bd68/1_qxekmo.jpg","publicId":"user_messages/66d9cdcb0a7492a86482bd68/1_qxekmo","resourceType":"image","format":"jpg","originalFilename":"1.png","bytes":407837}],"createdAt":"2025-11-10T09:25:12.522Z","deliveryStatus":"sent","contextType":null,"contextId":null,"sender":{"_id":"66d9cdcb0a7492a86482bd68","firstName":"Dominic","lastName":"Frei","role":"coach","coachProfilePicture":{"publicId":"coaches/66d9cdcb0a7492a86482bd68/profile_hrnhbu","url":"https://res.cloudinary.com/dzpjkn8eo/image/upload/v1761286498/coaches/66d9cdcb0a7492a86482bd68/profile_hrnhbu.jpg"}}},"tempId":null},"activeConversationId":"690310f97684d8dbfaf1ec63"}
-bundle.js:171760 [ChatPanel] Received messageSentConfirmation {"tempId":null,"messageId":"6911af7824c713b20e0a8c73","conversationId":"690310f97684d8dbfaf1ec63","timestamp":"2025-11-10T09:25:12.698Z"}
-bundle.js:171760 [useMessages] Fetched messages {"userId":"66d9cdcb0a7492a86482bd68","conversationId":"690310f97684d8dbfaf1ec63","page":1,"messageCount":3,"totalMessages":3,"timestamp":"2025-11-10T09:25:12.845Z"}
-bundle.js:171760 [useConversations] Query succeeded {"queryKey":["conversations","66d9cdcb0a7492a86482bd68","list",{"page":1,"limit":20}],"count":4}
-bundle.js:171760 [ConversationItem] Unsubscribing from presence updates {"participantId":"66f418d10a19ec0e4bbd377e","timestamp":"2025-11-10T09:25:12.988Z"}
-bundle.js:171760 [ChatPanel] Removed socket listeners {"conversationId":"690310f97684d8dbfaf1ec63","timestamp":"2025-11-10T09:25:12.988Z"}
-bundle.js:171760 [ConversationItem] Subscribing to presence updates {"participantId":"66f418d10a19ec0e4bbd377e","timestamp":"2025-11-10T09:25:12.989Z"}
-bundle.js:171760 [ChatPanel] Attached socket listeners {"conversationId":"690310f97684d8dbfaf1ec63","timestamp":"2025-11-10T09:25:12.989Z"}
+[bookingController.createBooking] Function started {
+  requestBody: {
+    start: '2025-11-13T06:00:00.000Z',
+    end: '2025-11-13T06:30:00.000Z',
+    timezone: 'Europe/Zurich',
+    coach: '66d9cdcb0a7492a86482bd68',
+    user: '66f418d10a19ec0e4bbd377e',
+    sessionType: '66ec4ea477bec414bf2b8859',
+    title: 'Verfügbarkeit',
+    description: '',
+    location: '',
+    isOnline: false,
+    userIds: [],
+    availableForInstantBooking: true,
+    firmBookingThreshold: 24,
+    isAvailability: false,
+    status: 'confirmed',
+    bookingType: 'firm',
+    overtime: {
+      allowOvertime: false,
+      freeOvertimeDuration: 0,
+      paidOvertimeDuration: 0,
+      overtimeRate: 0
+    },
+    earlyBirdDeadline: null,
+    earlyBirdPrice: null,
+    isRecurring: false,
+    recurringPattern: 'none',
+    recurringEndDate: null,
+    language: null,
+    tags: [],
+    cancellationPolicy: null,
+    isPartOfPackage: false,
+    packageId: null,
+    certificationOffered: false,
+    certificationDetails: null,
+    sessionGoal: null,
+    clientNotes: null,
+    preparationRequired: null,
+    followUpTasks: null,
+    minAttendees: null,
+    maxAttendees: null,
+    sessionTopic: null,
+    prerequisites: null,
+    learningObjectives: null,
+    materialsProvided: null,
+    whatToBring: null,
+    skillLevel: null,
+    sessionImages: [],
+    courseMaterials: [],
+    type: 'FIRM',
+    payment: { required: true, status: 'pending' }
+  },
+  timestamp: '2025-11-11T19:10:35.297Z'
+}
+[bookingController.createBooking] Raw overtime input: {
+  overtime: {
+    allowOvertime: false,
+    freeOvertimeDuration: 0,
+    paidOvertimeDuration: 0,
+    overtimeRate: 0
+  },
+  overtimeType: 'object',
+  isObject: true,
+  hasOvertime: true,
+  overtimeFields: [
+    'allowOvertime',
+    'freeOvertimeDuration',
+    'paidOvertimeDuration',
+    'overtimeRate'
+  ],
+  timestamp: '2025-11-11T19:10:35.303Z'
+}
+[bookingController.createBooking] Received booking payload {
+  sessionType: '66ec4ea477bec414bf2b8859',
+  webinarSlots: undefined,
+  bookingId: 'new',
+  payloadKeys: [
+    'start',
+    'end',
+    'timezone',
+    'coach',
+    'user',
+    'sessionType',
+    'title',
+    'description',
+    'location',
+    'isOnline',
+    'userIds',
+    'availableForInstantBooking',
+    'firmBookingThreshold',
+    'isAvailability',
+    'status',
+    'bookingType',
+    'overtime',
+    'earlyBirdDeadline',
+    'earlyBirdPrice',
+    'isRecurring',
+    'recurringPattern',
+    'recurringEndDate',
+    'language',
+    'tags',
+    'cancellationPolicy',
+    'isPartOfPackage',
+    'packageId',
+    'certificationOffered',
+    'certificationDetails',
+    'sessionGoal',
+    'clientNotes',
+    'preparationRequired',
+    'followUpTasks',
+    'minAttendees',
+    'maxAttendees',
+    'sessionTopic',
+    'prerequisites',
+    'learningObjectives',
+    'materialsProvided',
+    'whatToBring',
+    'skillLevel',
+    'sessionImages',
+    'courseMaterials',
+    'type',
+    'payment'
+  ],
+  timestamp: '2025-11-11T19:10:35.330Z'
+}
+[bookingController.createBooking] Fetching sessionTypeDoc {
+  sessionTypeId: '66ec4ea477bec414bf2b8859',
+  timestamp: '2025-11-11T19:10:35.420Z'
+}
+[bookingController.createBooking] Found translation for session type {
+  sessionTypeId: new ObjectId('66ec4ea477bec414bf2b8859'),
+  language: 'de',
+  translatedName: 'Einzel',
+  timestamp: '2025-11-11T19:10:35.447Z'
+}
+[bookingController.createBooking] Determined initial status and payment requirement: {
+  determinedBookingType: 'FIRM',
+  initialBookingStatus: 'pending_payment',
+  paymentIsEffectivelyRequired: true,
+  initialPaymentStatusOnBooking: 'pending',
+  isAvailability: false,
+  statusFromRequestPassedIn: 'confirmed',
+  priceAmountUsedForDecision: 60,
+  timestamp: '2025-11-11T19:10:35.830Z'
+}
+info: [bookingController.createBooking] Setting title for booking from translated session type name (or overriding generic). {"finalBookingTitle":"Einzel","originalRequestedTitleFromFrontend":"Verfügbarkeit","sessionTypeId":"66ec4ea477bec414bf2b8859","timestamp":"2025-11-11T19:10:35.831Z","translatedSessionTypeName":"Einzel"}
+[bookingController.createBooking] Processing availability slot: {
+  originalSlotId: new ObjectId('691388f860639994f6bf3db3'),
+  bookingStart: '2025-11-13T06:00:00.000Z',
+  bookingEnd: '2025-11-13T06:30:00.000Z',
+  preservedSettings: { availableForInstantBooking: true, firmBookingThreshold: 24 },
+  timestamp: '2025-11-11T19:10:35.887Z'
+}
+[splitAvailabilitySlot] V3 START - Splitting availability slot {
+  originalSlotId: new ObjectId('691388f860639994f6bf3db3'),
+  originalSlotStart: 2025-11-13T05:30:00.000Z,
+  originalSlotEnd: 2025-11-13T17:00:00.000Z,
+  bookedStart: 2025-11-13T06:00:00.000Z,
+  bookedEnd: 2025-11-13T06:30:00.000Z,
+  originalOvertime: {
+    allowOvertime: false,
+    freeOvertimeDuration: 0,
+    paidOvertimeDuration: 0,
+    overtimeRate: 0,
+    _id: new ObjectId('691389c160639994f6bf51c0'),
+    id: '691389c160639994f6bf51c0'
+  },
+  originalAvailableForInstantBooking: true
+}
+[splitAvailabilitySlot] V3 PREPARING pre-booking slot. {
+  start: 2025-11-13T05:30:00.000Z,
+  end: 2025-11-13T06:00:00.000Z,
+  inheritedOvertime: {
+    allowOvertime: false,
+    freeOvertimeDuration: 0,
+    paidOvertimeDuration: 0,
+    overtimeRate: 0,
+    _id: new ObjectId('691389c160639994f6bf51c0')
+  },
+  inheritedInstantBooking: true
+}
+[splitAvailabilitySlot] V3 PREPARING post-booking slot. {
+  start: 2025-11-13T06:30:00.000Z,
+  end: 2025-11-13T17:00:00.000Z,
+  inheritedOvertime: {
+    allowOvertime: false,
+    freeOvertimeDuration: 0,
+    paidOvertimeDuration: 0,
+    overtimeRate: 0,
+    _id: new ObjectId('691389c160639994f6bf51c0')
+  },
+  inheritedInstantBooking: true
+}
+[splitAvailabilitySlot] V3 END - Created new slots { count: 2 }
+[bookingController.createBooking] Created new availability slots: {
+  count: 2,
+  slots: [
+    {
+      start: 2025-11-13T05:30:00.000Z,
+      end: 2025-11-13T06:00:00.000Z,
+      preservedSettings: [Object]
+    },
+    {
+      start: 2025-11-13T06:30:00.000Z,
+      end: 2025-11-13T17:00:00.000Z,
+      preservedSettings: [Object]
+    }
+  ],
+  timestamp: '2025-11-11T19:10:35.955Z'
+}
+[bookingController.createBooking] Applied overtime settings {
+  overtimeSettings: {
+    allowOvertime: true,
+    freeOvertimeDuration: 6,
+    paidOvertimeDuration: 45,
+    overtimeRate: 20
+  },
+  isAvailability: false,
+  hasOvertimeInput: true,
+  timestamp: '2025-11-11T19:10:35.956Z'
+}
+[bookingController.createBooking] Final authoritative priceDetails object before creating Booking model: {
+  "base": {
+    "amount": {
+      "amount": 60,
+      "currency": "CHF"
+    },
+    "currency": "CHF"
+  },
+  "final": {
+    "amount": {
+      "amount": 60,
+      "currency": "CHF"
+    },
+    "currency": "CHF"
+  },
+  "netAfterDiscount": 55.5,
+  "currency": "CHF",
+  "discounts": [],
+  "platformFee": {
+    "amount": 0,
+    "originalPercentage": 9.9,
+    "appliedPercentage": 0
+  },
+  "vat": {
+    "amount": 4.5,
+    "rate": 8.1,
+    "included": true
+  },
+  "estimatedStripeFee": 2.04,
+  "coachReceives": 53.46,
+  "_calculationDetails": {
+    "baseRateSource": "Session Type Rate",
+    "winningDiscount": null
+  }
+}
+[bookingController.createBooking] Authoritative priceDetails to be saved: {
+  bookingPrice: {
+    base: { amount: [Object], currency: 'CHF' },
+    final: { amount: [Object], currency: 'CHF' },
+    netAfterDiscount: 55.5,
+    currency: 'CHF',
+    discounts: [],
+    platformFee: { amount: 0, originalPercentage: 9.9, appliedPercentage: 0 },
+    vat: { amount: 4.5, rate: 8.1, included: true },
+    estimatedStripeFee: 2.04,
+    coachReceives: 53.46,
+    _calculationDetails: { baseRateSource: 'Session Type Rate', winningDiscount: null }
+  },
+  timestamp: '2025-11-11T19:10:35.958Z'
+}
+[bookingController.createBooking] booking.payment object BEFORE first save: {
+  "status": "pending",
+  "refunds": [],
+  "reminderSent": []
+}
+[bookingController.createBooking] Booking initialized with payment: {
+  bookingId: new ObjectId('69138a2ba26ec54877c97e5b'),
+  payment: { status: 'pending', refunds: [], reminderSent: [] },
+  sourcePayment: { required: true, status: 'pending' },
+  timestamp: '2025-11-11T19:10:35.991Z'
+}
+[bookingController.createBooking] Payment forced before save: {
+  bookingId: new ObjectId('69138a2ba26ec54877c97e5b'),
+  payment: { status: 'pending' },
+  sourcePayment: { required: true, status: 'pending' },
+  timestamp: '2025-11-11T19:10:35.993Z'
+}
+[bookingController.createBooking] Booking overtime settings before save: {
+  bookingId: new ObjectId('69138a2ba26ec54877c97e5b'),
+  overtime: {
+    allowOvertime: true,
+    freeOvertimeDuration: 6,
+    paidOvertimeDuration: 45,
+    overtimeRate: 20,
+    _id: new ObjectId('69138a2ba26ec54877c97e5c'),
+    id: '69138a2ba26ec54877c97e5c'
+  },
+  isAvailability: false,
+  timestamp: '2025-11-11T19:10:35.993Z'
+}
+[Booking Model] Booking saved successfully: 69138a2ba26ec54877c97e5b
+[bookingController.createBooking] booking.payment object FROM DB AFTER first save: {
+  "status": "pending"
+}
+[bookingController.createBooking] Booking saved with file metadata: {
+  bookingId: new ObjectId('69138a2ba26ec54877c97e5b'),
+  savedTitlePicture: [],
+  savedCourseMaterialsCount: 0,
+  firstSavedMaterial: null
+}
+[bookingController] Session link generated {
+  bookingId: new ObjectId('69138a2ba26ec54877c97e5b'),
+  sessionId: 'd2075ac97905da04944e490326a5685fead0463488d2357ca8607063c73a3a13',
+  token: '4680c7ac...',
+  timestamp: '2025-11-11T19:10:36.050Z'
+}
+[Booking Model] Booking saved successfully: 69138a2ba26ec54877c97e5b
+[bookingController.createBooking] Booking saved: {
+  bookingId: new ObjectId('69138a2ba26ec54877c97e5b'),
+  price: {
+    base: { amount: [Object], currency: 'CHF' },
+    final: { amount: [Object], currency: 'CHF' },
+    currency: 'CHF',
+    vat: { rate: 8.1, amount: 4.5, included: true },
+    platformFee: { amount: 0, percentage: 15 },
+    discounts: []
+  },
+  timestamp: '2025-11-11T19:10:36.077Z'
+}
+[bookingController.createBooking] Starting Session handling for booking {
+  bookingId: new ObjectId('69138a2ba26ec54877c97e5b'),
+  bookingStatus: 'pending_payment',
+  timestamp: '2025-11-11T19:10:36.078Z'
+}
+[bookingController.createBooking] Session.findOne completed {
+  bookingId: new ObjectId('69138a2ba26ec54877c97e5b'),
+  foundSession: false,
+  sessionDocId: undefined,
+  timestamp: '2025-11-11T19:10:36.104Z'
+}
+[bookingController.createBooking] Determined initial Session state for document: {
+  bookingStatus: 'pending_payment',
+  sessionInitialStateToSet: 'pending_payment'
+}
+[bookingController.createBooking] Creating new Session document {
+  bookingId: new ObjectId('69138a2ba26ec54877c97e5b'),
+  state: 'pending_payment',
+  bookingSessionLink: {
+    token: '4680c7ac459ca66530dd964a87e80ef29925ec6ae8d5aed382445cf69d20715c',
+    sessionId: 'd2075ac97905da04944e490326a5685fead0463488d2357ca8607063c73a3a13',
+    generatedAt: 2025-11-11T19:10:36.050Z,
+    expired: false
+  },
+  timestamp: '2025-11-11T19:10:36.105Z'
+}
+[bookingController.createBooking] Session save completed successfully {
+  sessionId: new ObjectId('69138a2ca26ec54877c97e61'),
+  bookingId: new ObjectId('69138a2ba26ec54877c97e5b'),
+  state: 'pending_payment',
+  sessionLink: undefined,
+  actualEndTime: 2025-11-13T06:35:00.000Z,
+  timestamp: '2025-11-11T19:10:36.132Z'
+}
+[bookingController.createBooking] Successfully created new Session document {
+  sessionId: new ObjectId('69138a2ca26ec54877c97e61'),
+  bookingId: new ObjectId('69138a2ba26ec54877c97e5b'),
+  state: 'pending_payment',
+  sessionLink: undefined,
+  actualEndTime: 2025-11-13T06:35:00.000Z,
+  timestamp: '2025-11-11T19:10:36.133Z'
+}
+[PaymentService.createPaymentIntent] 1. Received parameters for PI creation {
+  bookingId: '69138a2ba26ec54877c97e5b',
+  priceDetails: {
+    base: { amount: [Object], currency: 'CHF' },
+    final: { amount: [Object], currency: 'CHF' },
+    netAfterDiscount: 55.5,
+    currency: 'CHF',
+    discounts: [],
+    platformFee: { amount: 0, originalPercentage: 9.9, appliedPercentage: 0 },
+    vat: { amount: 4.5, rate: 8.1, included: true },
+    estimatedStripeFee: 2.04,
+    coachReceives: 53.46,
+    _calculationDetails: { baseRateSource: 'Session Type Rate', winningDiscount: null }
+  },
+  currencyArgument: 'CHF',
+  stripeCustomerIdArgument: 'cus_RUlp0o3z2WooA6',
+  userIdArgument: undefined,
+  coachStripeAccountIdArgument: 'acct_1QdFtkQjpPpOYbVB',
+  metadataArgumentKeys: [
+    'sessionType',
+    'coachId',
+    'userId',
+    'source',
+    'originalDecimalAmountFinal',
+    'originalDecimalAmountBase'
+  ],
+  timestamp: '2025-11-11T19:10:36.135Z'
+}
+[PaymentService:createPaymentIntent] Calculated amountInCents for Stripe API {
+  bookingId: '69138a2ba26ec54877c97e5b',
+  finalAmountFromPriceDetails: 60,
+  calculatedAmountInCents: 6000,
+  timestamp: '2025-11-11T19:10:36.137Z'
+}
+[PaymentService:createPaymentIntent] PRE-STRIPE-API-CALL: Preparing to call stripe.paymentIntents.create {
+  bookingId: '69138a2ba26ec54877c97e5b',
+  amountForStripe: 6000,
+  currencyForStripe: 'chf',
+  customerForStripe: 'cus_RUlp0o3z2WooA6',
+  applicationFeeForStripe: 450,
+  destinationForStripe: 'acct_1QdFtkQjpPpOYbVB',
+  metadataForStripe: {
+    bookingId: '69138a2ba26ec54877c97e5b',
+    platformFeeInCents: 0,
+    vatAmountInCents: 450,
+    sessionType: '1 on 1',
+    coachId: '66d9cdcb0a7492a86482bd68',
+    userId: '66f418d10a19ec0e4bbd377e',
+    source: 'bookingController.createBooking.userPayment',
+    originalDecimalAmountFinal: 60,
+    originalDecimalAmountBase: 60
+  },
+  idempotencyKey: '69138a2ba26ec54877c97e5b-1762888236138',
+  timestamp: '2025-11-11T19:10:36.138Z'
+}
+[PaymentService.createPaymentIntent] 2. FINAL PARAMS for stripe.paymentIntents.create: {
+  intentParameters: {
+    amount: 6000,
+    currency: 'chf',
+    customer: 'cus_RUlp0o3z2WooA6',
+    metadata: {
+      bookingId: '69138a2ba26ec54877c97e5b',
+      platformFeeInCents: 0,
+      vatAmountInCents: 450,
+      sessionType: '1 on 1',
+      coachId: '66d9cdcb0a7492a86482bd68',
+      userId: '66f418d10a19ec0e4bbd377e',
+      source: 'bookingController.createBooking.userPayment',
+      originalDecimalAmountFinal: 60,
+      originalDecimalAmountBase: 60
+    },
+    automatic_payment_methods: { enabled: true, allow_redirects: 'never' }
+  }
+}
+[PaymentService] Payment intent created successfully {
+  paymentIntentId: 'pi_3SSMxZHKNqVBSHKU0whCXnyA',
+  bookingId: '69138a2ba26ec54877c97e5b',
+  status: 'requires_payment_method',
+  amount: 60,
+  platformFeeInCents: 0,
+  vatAmountInCents: 450,
+  totalApplicationFeeInCents: 450,
+  stripeCustomerId: 'cus_RUlp0o3z2WooA6',
+  coachStripeAccountId: 'acct_1QdFtkQjpPpOYbVB',
+  idempotencyKey: '69138a2ba26ec54877c97e5b-1762888236138',
+  timestamp: '2025-11-11T19:10:36.648Z'
+}
+[bookingController.createBooking] Payment intent created: {
+  bookingId: new ObjectId('69138a2ba26ec54877c97e5b'),
+  paymentIntentId: 'pi_3SSMxZHKNqVBSHKU0whCXnyA',
+  clientSecret: '[REDACTED]',
+  amount: 60,
+  currency: 'chf',
+  timestamp: '2025-11-11T19:10:36.650Z'
+}
+[bookingController.createBooking] Payment saved: {
+  paymentId: new ObjectId('69138a2ca26ec54877c97e63'),
+  amount: {
+    base: 60,
+    platformFee: 0,
+    vat: { rate: 8.1, amount: 4.5, included: true },
+    total: 60,
+    currency: 'CHF',
+    refunded: 0
+  },
+  timestamp: '2025-11-11T19:10:36.678Z'
+}
+[bookingController.createBooking] Payment data after creation: {
+  bookingId: new ObjectId('69138a2ba26ec54877c97e5b'),
+  paymentId: new ObjectId('69138a2ca26ec54877c97e63'),
+  paymentStatus: 'pending',
+  paymentStripeClientSecret: 'pi_3SSMxZHKNqVBSHKU0whCXnyA_secret_ax6zue2K4IiaJFfUIv4l7QN4b',
+  bookingPaymentStatus: 'pending',
+  bookingPaymentStripeClientSecret: undefined,
+  bookingType: 'FIRM',
+  timestamp: '2025-11-11T19:10:36.680Z'
+}
+[bookingController.createBooking] Booking state before update: {
+  bookingId: new ObjectId('69138a2ba26ec54877c97e5b'),
+  payment: { reminderSent: [], status: 'pending', refunds: [] },
+  timestamp: '2025-11-11T19:10:36.707Z'
+}
+[bookingController.createBooking] booking.payment object FROM DB JUST BEFORE problematic findByIdAndUpdate: {
+  "status": "pending"
+}
+[bookingController.createBooking] Updated booking with payment details: {
+  bookingId: new ObjectId('69138a2ba26ec54877c97e5b'),
+  paymentStatus: 'pending',
+  hasClientSecret: true,
+  bookingType: 'FIRM',
+  timestamp: '2025-11-11T19:10:36.758Z'
+}
+[bookingController.createBooking] Payment intent created and linked: {
+  bookingId: new ObjectId('69138a2ba26ec54877c97e5b'),
+  paymentId: new ObjectId('69138a2ca26ec54877c97e63'),
+  paymentIntentId: 'pi_3SSMxZHKNqVBSHKU0whCXnyA',
+  amount: 60,
+  currency: 'chf',
+  stripeCustomerId: 'cus_RUlp0o3z2WooA6',
+  clientSecret: '[REDACTED]',
+  timestamp: '2025-11-11T19:10:36.759Z'
+}
+[bookingController.createBooking] Populated booking: {
+  bookingId: new ObjectId('69138a2ba26ec54877c97e5b'),
+  price: {
+    base: { amount: [Object], currency: 'CHF' },
+    final: { amount: [Object], currency: 'CHF' },
+    vat: { rate: 8.1, amount: 4.5, included: true },
+    platformFee: { amount: 0, percentage: 15 },
+    currency: 'CHF',
+    discounts: []
+  },
+  payment: { status: 'pending', total: 60 },
+  timestamp: '2025-11-11T19:10:36.844Z'
+}
+[bookingController.createBooking] Checking booking type for notification handling: {
+  bookingId: new ObjectId('69138a2ba26ec54877c97e5b'),
+  bookingType: 'FIRM',
+  paymentRequired: false,
+  timestamp: '2025-11-11T19:10:36.845Z'
+}
+[bookingController.createBooking] Skipping initial notifications for firm booking; awaiting payment confirmation: {
+  bookingId: new ObjectId('69138a2ba26ec54877c97e5b'),
+  paymentStatus: 'pending',
+  timestamp: '2025-11-11T19:10:36.846Z'
+}
+[bookingController.createBooking] Booking created successfully: {
+  bookingId: new ObjectId('69138a2ba26ec54877c97e5b'),
+  hasPaymentIntent: true,
+  priceStored: 60,
+  paymentTotal: 60,
+  timestamp: '2025-11-11T19:10:36.846Z'
+}
+POST /api/bookings 201 1586.001 ms - 4607
+GET /api/bookings/66d9cdcb0a7492a86482bd68/bookings?start=2025-11-09T23:00:00.000Z&end=2025-11-16T22:59:59.999Z 200 201.063 ms - 27454
+[PaymentController] Fetching payment methods: {
+  userId: '66f418d10a19ec0e4bbd377e',
+  authenticatedUserId: '66f418d10a19ec0e4bbd377e',
+  timestamp: '2025-11-11T19:10:37.258Z'
+}
+[UserModel] Updating user: 66d9cdcb0a7492a86482bd68
+[SocketService] Broadcasting status update for user 66d9cdcb0a7492a86482bd68 { status: 'offline' }
+[PaymentController] Payment methods retrieved: { count: 2, userId: '66f418d10a19ec0e4bbd377e' }
+GET /api/payments/methods/66f418d10a19ec0e4bbd377e 304 266.612 ms - -
+[PaymentController] Fetching payment methods: {
+  userId: '66f418d10a19ec0e4bbd377e',
+  authenticatedUserId: '66f418d10a19ec0e4bbd377e',
+  timestamp: '2025-11-11T19:10:37.529Z'
+}
+[PaymentController] Payment methods retrieved: { count: 2, userId: '66f418d10a19ec0e4bbd377e' }
+GET /api/payments/methods/66f418d10a19ec0e4bbd377e 304 392.815 ms - -
+[bookingRoutes] POST /api/bookings/69138a2ba26ec54877c97e5b/cancel-during-payment
+[cancelBookingByUserDuringPayment] Fetched booking object state BEFORE cancellation logic. {
+  bookingId: new ObjectId('69138a2ba26ec54877c97e5b'),
+  metadata: {
+    originalAvailability: new ObjectId('691388f860639994f6bf3db3'),
+    availabilitySettings: {
+      availableForInstantBooking: true,
+      firmBookingThreshold: 24,
+      recurringPattern: 'none'
+    }
+  },
+  fullBookingObject: {
+    payment: {
+      reminderSent: [],
+      status: 'pending',
+      paymentRecord: new ObjectId('69138a2ca26ec54877c97e63'),
+      stripe: [Object],
+      refunds: []
+    },
+    sessionLink: {
+      token: '4680c7ac459ca66530dd964a87e80ef29925ec6ae8d5aed382445cf69d20715c',
+      sessionId: 'd2075ac97905da04944e490326a5685fead0463488d2357ca8607063c73a3a13',
+      generatedAt: 2025-11-11T19:10:36.050Z,
+      expired: false
+    },
+    _id: new ObjectId('69138a2ba26ec54877c97e5b'),
+    coach: {
+      settings: [Object],
+      stripe: [Object],
+      billingDetails: [Object],
+      paymentPreferences: [Object],
+      moderation: [Object],
+      suspension: [Object],
+      ltv: [Object],
+      onboardingStatus: [Object],
+      termsAcceptance: [Object],
+      _id: new ObjectId('66d9cdcb0a7492a86482bd68'),
+      firstName: 'Dominic',
+      lastName: 'Frei',
+      email: 'test.coach2@example.com',
+      password: '$2a$10$jqGOzWaK7I7lrX4YK2Mu9.XV2eRnTqELRaQnPqjf99Hydnw6oe.LO',
+      role: 'coach',
+      preferredLanguage: 'de',
+      availabilityStatus: 'offline',
+      createdAt: 2024-09-05T15:27:07.420Z,
+      __v: 20,
+      status: 'offline',
+      achievements: [],
+      backgrounds: [Array],
+      bio: '',
+      interests: [],
+      isActive: true,
+      paymentMethods: [],
+      profileVisibility: 'public',
+      sessionHistory: [],
+      lastStatusUpdate: 2025-11-11T19:10:37.262Z,
+      coachingNeeds: [],
+      customGoals: [],
+      tokenVersion: 0,
+      blockedByCount: 0,
+      blockedUsers: [],
+      isEmailVerified: false,
+      trustScore: 100,
+      hasActiveDispute: false,
+      lastLogin: 2025-11-11T19:08:30.294Z,
+      totalEnrollments: 0,
+      totalSessions: 0,
+      location: 'Zürich',
+      occupation: 'Kaufmann',
+      phone: '+41786119931',
+      flags: [Array],
+      preferredLearningStyle: 'live',
+      primaryGoal: [Array],
+      salutation: 'mr'
+    },
+    user: {
+      profilePicture: [Object],
+      settings: [Object],
+      taxInfo: [Object],
+      stripe: [Object],
+      billingDetails: [Object],
+      paymentPreferences: [Object],
+      moderation: [Object],
+      suspension: [Object],
+      ltv: [Object],
+      onboardingStatus: [Object],
+      termsAcceptance: [Object],
+      _id: new ObjectId('66f418d10a19ec0e4bbd377e'),
+      firstName: 'Test',
+      lastName: 'User 2',
+      email: 'test.user2@example.com',
+      password: '$2a$10$BqYD2TyOvUF7GXQ3ePcixO3HnzsZCJRtrub0U29AcOaZkZzTvnQui',
+      role: 'client',
+      preferredLanguage: 'de',
+      isActive: true,
+      profileVisibility: 'public',
+      createdAt: 2024-09-25T14:06:09.833Z,
+      __v: 14,
+      status: 'online',
+      achievements: [],
+      bio: '',
+      interests: [Array],
+      paymentMethods: [],
+      backgrounds: [Array],
+      sessionHistory: [],
+      tokenVersion: 4,
+      phone: '+41786116666',
+      coachingNeeds: [],
+      customGoals: [],
+      lastStatusUpdate: 2025-11-11T19:10:15.636Z,
+      location: 'Zürich',
+      occupation: 'Kaufmann',
+      blockedUsers: [Array],
+      blockedByCount: 0,
+      isEmailVerified: false,
+      lastLogin: 2025-11-11T19:10:15.415Z,
+      trustScore: 100,
+      hasActiveDispute: false,
+      totalEnrollments: 0,
+      totalSessions: 0,
+      flags: [],
+      primaryGoal: [],
+      salutation: 'mr'
+    },
+    userIds: [],
+    isLiveSession: false,
+    sessionType: new ObjectId('66ec4ea477bec414bf2b8859'),
+    start: 2025-11-13T06:00:00.000Z,
+    end: 2025-11-13T06:30:00.000Z,
+    timezone: 'Europe/Zurich',
+    status: 'pending_payment',
+    price: {
+      base: [Object],
+      final: [Object],
+      vat: [Object],
+      platformFee: [Object],
+      currency: 'CHF',
+      discounts: []
+    },
+    disputeTicket: null,
+    overtime: {
+      allowOvertime: true,
+      freeOvertimeDuration: 6,
+      paidOvertimeDuration: 45,
+      overtimeRate: 20,
+      _id: new ObjectId('69138a2ba26ec54877c97e5c'),
+      id: '69138a2ba26ec54877c97e5c'
+    },
+    isAvailability: false,
+    availableForInstantBooking: true,
+    firmBookingThreshold: 24,
+    title: 'Einzel',
+    description: '',
+    location: '',
+    isOnline: false,
+    language: null,
+    tags: [],
+    cancellationPolicy: {
+      oneOnOne: [Object],
+      webinar: [Object],
+      lastUpdated: 2025-10-20T06:23:53.529Z,
+      policyPreset: 'custom'
+    },
+    sessionGoal: null,
+    clientNotes: null,
+    preparationRequired: null,
+    followUpTasks: null,
+    minAttendees: null,
+    maxAttendees: null,
+    sessionTopic: null,
+    prerequisites: null,
+    learningObjectives: null,
+    materialsProvided: null,
+    whatToBring: null,
+    skillLevel: null,
+    webinarSlots: [],
+    isPublic: true,
+    showInWebinarBrowser: true,
+    recurringPattern: 'none',
+    recurringEndDate: null,
+    earlyBirdDeadline: null,
+    earlyBirdPrice: null,
+    isPartOfPackage: false,
+    certificationOffered: false,
+    certificationDetails: null,
+    bookingType: 'firm',
+    reminderSent: [],
+    sessionImages: [],
+    courseMaterials: [],
+    metadata: {
+      originalAvailability: new ObjectId('691388f860639994f6bf3db3'),
+      availabilitySettings: [Object]
+    },
+    attendees: [],
+    suggestedTimes: [],
+    waitlist: [],
+    reminders: [],
+    rescheduleHistory: [],
+    rescheduleRequests: [],
+    createdAt: 2025-11-11T19:10:35.998Z,
+    updatedAt: 2025-11-11T19:10:36.733Z,
+    __v: 0,
+    recordings: Promise { [] },
+    duration: 30,
+    spotsRemaining: Infinity,
+    id: '69138a2ba26ec54877c97e5b'
+  }
+}
+[PaymentService] Retrieving payment intent: { paymentIntentId: 'pi_3SSMxZHKNqVBSHKU0whCXnyA' }
+[PaymentService] Payment intent retrieved: {
+  paymentIntentId: 'pi_3SSMxZHKNqVBSHKU0whCXnyA',
+  status: 'requires_payment_method'
+}
+[PaymentService] Processing cancellation for PaymentIntent { paymentIntentId: 'pi_3SSMxZHKNqVBSHKU0whCXnyA', reason: 'abandoned' }
+[PaymentService] Calling stripe.paymentIntents.cancel { paymentIntentId: 'pi_3SSMxZHKNqVBSHKU0whCXnyA', reason: 'abandoned' }
+[PaymentService] PaymentIntent cancelled successfully via Stripe SDK { paymentIntentId: 'pi_3SSMxZHKNqVBSHKU0whCXnyA', status: 'canceled' }
+[Booking Model] Booking saved successfully: 69138a2ba26ec54877c97e5b
+[Booking Model] Booking saved successfully: 69138a2fa26ec54877c97eab
+POST /api/bookings/69138a2ba26ec54877c97e5b/cancel-during-payment 200 710.835 ms - 60
+info: [Socket] Client disconnected {"reason":"client namespace disconnect","rooms":[],"socketId":"f1rDeDBBfqFP6liMAAAH","timestamp":"2025-11-11T19:10:43.279Z","userId":"66f418d10a19ec0e4bbd377e"}

@@ -6,6 +6,7 @@ const Program = require('../models/Program');
 const Discount = require('../models/Discount');
 const User = require('../models/User');
 const Booking = require('../models/Booking');
+const Coach = require('../models/Coach');
 const { DateTime } = require('luxon');
 const mongoose = require('mongoose');
 
@@ -139,7 +140,6 @@ async calculateSessionPrice({ coachId, sessionTypeId, startTime, endTime, timezo
           calculationLog.steps.push({ step: '2. Manual Code Offer Only', code: discountCode, result: finalPrice });
         }
       } else {
-        // ... (this entire 'else' block for standard pricing remains unchanged)
         if (!priceConfig) throw new PriceCalculationError('No price configuration available', 'INVALID_CONFIG');
 
         const durationMinutes = DateTime.fromISO(endTime).diff(DateTime.fromISO(startTime), 'minutes').minutes;
@@ -247,10 +247,30 @@ async calculateSessionPrice({ coachId, sessionTypeId, startTime, endTime, timezo
       calculationLog.steps.push({ step: '7. Tax Deconstruction', result: taxResult });
       
       const netAmountForFeeCalculation = taxResult.netAmount;
-      const platformFeeAmount = netAmountForFeeCalculation * (this.platformFeePercentage / 100);
+      
+      let finalPlatformFeePercentage = this.platformFeePercentage;
+      const coach = await Coach.findOne({ user: coachId }).select('settings.platformFeeOverride').lean();
+
+      if (coach?.settings?.platformFeeOverride) {
+          const override = coach.settings.platformFeeOverride;
+          const isExpired = override.effectiveUntil && new Date() > new Date(override.effectiveUntil);
+          if (!isExpired) {
+              const transactionType = 'SCHEDULED_SESSIONS';
+              const applies = override.appliesTo.includes('ALL') || override.appliesTo.includes(transactionType);
+              if (applies) {
+                  if (override.type === 'ZERO_FEE') {
+                      finalPlatformFeePercentage = 0;
+                  } else if (override.type === 'PERCENTAGE_DISCOUNT') {
+                      finalPlatformFeePercentage = this.platformFeePercentage * (1 - (override.discountPercentage / 100));
+                  }
+              }
+          }
+      }
+
+      const platformFeeAmount = netAmountForFeeCalculation * (finalPlatformFeePercentage / 100);
       const estimatedStripeFee = _estimateStripeFee(finalPrice, currency);
       const coachReceives = finalPrice - taxResult.taxAmount - platformFeeAmount - estimatedStripeFee;
-      calculationLog.steps.push({ step: '8. Platform Fee Calculation', platformFeeAmount, basis: netAmountForFeeCalculation });
+      calculationLog.steps.push({ step: '8. Platform Fee Calculation', platformFeeAmount, basis: netAmountForFeeCalculation, appliedRate: finalPlatformFeePercentage });
 
       const finalResult = {
         base: { amount: { amount: parseFloat(grossSessionPrice.toFixed(2)), currency }, currency },
@@ -260,7 +280,8 @@ async calculateSessionPrice({ coachId, sessionTypeId, startTime, endTime, timezo
         discounts: winningDiscount ? [winningDiscount] : [],
         platformFee: {
           amount: parseFloat(platformFeeAmount.toFixed(2)),
-          percentage: this.platformFeePercentage
+          originalPercentage: this.platformFeePercentage,
+          appliedPercentage: parseFloat(finalPlatformFeePercentage.toFixed(2))
         },
         vat: {
           amount: taxResult.taxAmount,
@@ -269,7 +290,7 @@ async calculateSessionPrice({ coachId, sessionTypeId, startTime, endTime, timezo
         },
         estimatedStripeFee: estimatedStripeFee,
         coachReceives: parseFloat(coachReceives.toFixed(2)),
-      _calculationDetails: { baseRateSource, winningDiscount }
+        _calculationDetails: { baseRateSource, winningDiscount }
       };
 
       calculationLog.result = finalResult;
@@ -309,18 +330,39 @@ async calculateProgramPrice({ programId, coachId, discountCode, userId }) {
         vatNumber: customer?.billingDetails?.vatNumber
     });
     
-    const netAmountForFeeCalculation = discountedInclusivePrice;
-    const platformFeeAmount = netAmountForFeeCalculation * (this.platformFeePercentage / 100);
+    const netAmountForFeeCalculation = taxResult.netAmount;
+    
+    let finalPlatformFeePercentage = this.platformFeePercentage;
+    const coach = await Coach.findOne({ user: coachId }).select('settings.platformFeeOverride').lean();
+    
+    if (coach?.settings?.platformFeeOverride) {
+        const override = coach.settings.platformFeeOverride;
+        const isExpired = override.effectiveUntil && new Date() > new Date(override.effectiveUntil);
+        if (!isExpired) {
+            const transactionType = 'PROGRAMS';
+            const applies = override.appliesTo.includes('ALL') || override.appliesTo.includes(transactionType);
+            if (applies) {
+                if (override.type === 'ZERO_FEE') {
+                    finalPlatformFeePercentage = 0;
+                } else if (override.type === 'PERCENTAGE_DISCOUNT') {
+                    finalPlatformFeePercentage = this.platformFeePercentage * (1 - (override.discountPercentage / 100));
+                }
+            }
+        }
+    }
+
+    const platformFeeAmount = netAmountForFeeCalculation * (finalPlatformFeePercentage / 100);
 
     return {
         base: { amount: { amount: parseFloat(startingPrice.toFixed(2)), currency }, currency },
         final: { amount: { amount: parseFloat(discountedInclusivePrice.toFixed(2)), currency }, currency },
-        netAfterDiscount: parseFloat((taxResult.netAmount ?? discountedInclusivePrice).toFixed(2)),
+        netAfterDiscount: parseFloat(netAmountForFeeCalculation.toFixed(2)),
         currency,
         discounts: appliedDiscount ? [appliedDiscount] : [],
         platformFee: {
           amount: parseFloat(platformFeeAmount.toFixed(2)),
-          percentage: this.platformFeePercentage
+          originalPercentage: this.platformFeePercentage,
+          appliedPercentage: parseFloat(finalPlatformFeePercentage.toFixed(2))
         },
         vat: {
           amount: taxResult.taxAmount,

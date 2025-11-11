@@ -615,8 +615,6 @@ const handlePaymentCancel = useCallback(async () => {
             force: true
         });
 
-        toast.success(t('bookings:bookingCancelled'), { id: toastId });
-
         setIsPaymentSectionVisible(false);
         setShouldKeepModalOpen(false);
         onClose({ 

@@ -151,7 +151,7 @@ const handlePaymentCancel = () => {
 
   const popupContent = (
     <motion.div
-      className="payment-overlay"
+      
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
@@ -173,7 +173,7 @@ const handlePaymentCancel = () => {
       }}
     >
       <motion.div
-        className="payment-flow-popup"
+        className="bg-card rounded-lg shadow-xl w-full max-w-lg"
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.9 }}

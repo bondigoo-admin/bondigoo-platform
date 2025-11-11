@@ -155,7 +155,23 @@ const TransactionDetail = ({ transaction }) => {
                             <div className="flex justify-between items-center text-muted-foreground/80">
                                 <span>
                                     {t('earnings.platformFee', 'Platform Fee')}
-                                    {rates.platformFee > 0 && <span className="ml-1.5 text-xs text-muted-foreground/80">({rates.platformFee}%)</span>}
+                                    {rates.platformFee?.appliedPercentage != null && (
+                                        <span className="ml-1.5 text-xs text-muted-foreground/80">
+                                            ({rates.platformFee.appliedPercentage.toFixed(2)}%)
+                                            {rates.platformFee.originalPercentage !== rates.platformFee.appliedPercentage && (
+                                                <TooltipProvider>
+                                                    <Tooltip>
+                                                        <TooltipTrigger asChild>
+                                                            <span className="ml-1 text-primary line-through">({rates.platformFee.originalPercentage}%)</span>
+                                                        </TooltipTrigger>
+                                                        <TooltipContent>
+                                                            <p>{t('earnings.specialRateApplied', 'A special rate was applied for this transaction.')}</p>
+                                                        </TooltipContent>
+                                                    </Tooltip>
+                                                </TooltipProvider>
+                                            )}
+                                        </span>
+                                    )}
                                 </span>
                                 <span>-{platformFee.toFixed(2)}</span>
                             </div>
