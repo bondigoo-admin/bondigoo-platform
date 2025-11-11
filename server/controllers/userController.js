@@ -978,7 +978,8 @@ exports.updateUserDetails = async (req, res) => {
             'phone',
             'billingDetails',
             'profileVisibility',
-            'settings'
+            'settings',
+            'preferredLanguage'
         ];
 
         allowedFields.forEach(field => {

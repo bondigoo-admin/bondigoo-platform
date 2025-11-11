@@ -11,9 +11,9 @@ import {
   LayoutDashboard, Users, LogOut, Sun, Moon,
   Menu, GraduationCap, Briefcase, TrendingUp,
   BookOpen, GitFork, LogIn, University, Circle, Check, CreditCard, Search, Link2, CalendarCheck2, Library,
-  Clock, UserPlus, HelpCircle,  Sparkles
+  Clock, UserPlus, HelpCircle,  Sparkles, Globe
 } from 'lucide-react';
-import { logoutUser } from '../services/userAPI';
+import { logoutUser, updateUserDetails } from '../services/userAPI';
 import { updateUserStatus } from '../services/statusAPI';
 import { emitEvent } from '../services/socketService';
 import { logger } from '../utils/logger';
@@ -369,9 +369,9 @@ IconLink.propTypes = {
 };
 
 const Header = () => {
-  const { t } = useTranslation(['common', 'header', 'availability', 'home']);
+  const { t, i18n } = useTranslation(['common', 'header', 'availability', 'home']);
   const location = useLocation();
-  const { user, isAuthenticated, userRole, userId, logout, updateUser } = useContext(AuthContext);
+  const { user, isAuthenticated, userRole, userId, logout, updateUserContext } = useContext(AuthContext);
   const { socket, isConnected: socketConnected } = useNotificationSocket();
   const { notifications, fetchNotifications } = useNotifications();
   const { conversations } = useConversations();
@@ -385,6 +385,51 @@ const Header = () => {
   const [isSignupModalOpen, setIsSignupModalOpen] = useState(false);
   const [isCoachModalOpen, setIsCoachModalOpen] = useState(false);
   const [isOverLightBg, setIsOverLightBg] = useState(false);
+
+  const handleLanguageChange = async (lang) => {
+    if (!lang || i18n.language === lang) return;
+    i18n.changeLanguage(lang);
+    if (isAuthenticated && user) {
+        try {
+            const updatedUser = await updateUserDetails({ preferredLanguage: lang });
+            if (updateUserContext) {
+                updateUserContext(updatedUser);
+            }
+        } catch (error) {
+            logger.error('Failed to update language preference:', error);
+        }
+    }
+  };
+
+  const languages = {
+    en: { name: 'English' },
+    de: { name: 'Deutsch' },
+    fr: { name: 'Français' },
+    it: { name: 'Italiano' },
+  };
+
+  const LanguageSwitcher = () => (
+    <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+            <Button variant="outline" className="w-full justify-center gap-2">
+                <Globe className="h-4 w-4" />
+                <span className="truncate">{languages[i18n.language]?.name || 'Language'}</span>
+            </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end" className="w-[var(--radix-dropdown-menu-trigger-width)]">
+            <DropdownMenuLabel>{t('header:language', 'Language')}</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            {Object.entries(languages).map(([code, { name }]) => (
+                <DropdownMenuItem key={code} onSelect={() => handleLanguageChange(code)} className="cursor-pointer">
+                    <div className="flex w-full items-center justify-between">
+                        <span>{name}</span>
+                        {i18n.language === code && <Check className="h-4 w-4" />}
+                    </div>
+                </DropdownMenuItem>
+            ))}
+        </DropdownMenuContent>
+    </DropdownMenu>
+  );
   
   const handleApplyCoachClick = () => {
     setIsSignupModalOpen(false);
@@ -499,13 +544,13 @@ const Header = () => {
     offline: { label: t('availability:offline'), textColor: 'text-slate-500', bgColor: 'bg-slate-500' },
   };
 
-  const handleStatusChange = async (newStatus) => {
+const handleStatusChange = async (newStatus) => {
     if (!user || currentStatus === newStatus) return;
     const previousStatus = currentStatus;
     setCurrentStatus(newStatus);
     try {
       await updateUserStatus(newStatus);
-      if(updateUser) updateUser({ ...user, status: newStatus });
+      if(updateUserContext) updateUserContext({ ...user, status: newStatus });
     } catch (error) {
       logger.error('Error updating status:', { error: error.message, userId: user._id });
       setCurrentStatus(previousStatus);
@@ -649,8 +694,8 @@ case 'coach':
         </div>
 
         <div className="mt-auto border-t p-4">
-          <div className="mb-4">
-           
+          <div className="mb-4 space-y-4">
+            <LanguageSwitcher />
             <div className="flex items-center justify-center rounded-lg bg-muted p-1">
               <Button onClick={() => setTheme('light')} variant="ghost" size="sm" className={cn("flex-1 justify-center gap-2", theme === 'light' && 'bg-background text-foreground shadow-sm')}><Sun className="h-4 w-4" />{t('header:light', 'Light')}</Button>
               <Button onClick={() => setTheme('dark')} variant="ghost" size="sm" className={cn("flex-1 justify-center gap-2", theme === 'dark' && 'bg-background text-foreground shadow-sm')}><Moon className="h-4 w-4" />{t('header:dark', 'Dark')}</Button>
@@ -763,10 +808,13 @@ if (!isLaunched) {
                                         </nav>
                                     </div>
                                     <div className="mt-auto border-t p-4">
-                                        <div className="flex items-center justify-center rounded-lg bg-muted p-1">
-                                            <Button onClick={() => setTheme('light')} variant="ghost" size="sm" className={cn("flex-1 justify-center gap-2", theme === 'light' && 'bg-background text-foreground shadow-sm')}><Sun className="h-4 w-4" />{t('header:light', 'Light')}</Button>
-                                            <Button onClick={() => setTheme('dark')} variant="ghost" size="sm" className={cn("flex-1 justify-center gap-2", theme === 'dark' && 'bg-background text-foreground shadow-sm')}><Moon className="h-4 w-4" />{t('header:dark', 'Dark')}</Button>
-                                            <Button onClick={() => setTheme('system')} variant="ghost" size="sm" className={cn("flex-1 justify-center gap-2", theme === 'system' && 'bg-background text-foreground shadow-sm')}><Settings className="h-4 w-4" />{t('header:system', 'System')}</Button>
+                                        <div className="space-y-4">
+                                            <LanguageSwitcher />
+                                            <div className="flex items-center justify-center rounded-lg bg-muted p-1">
+                                                <Button onClick={() => setTheme('light')} variant="ghost" size="sm" className={cn("flex-1 justify-center gap-2", theme === 'light' && 'bg-background text-foreground shadow-sm')}><Sun className="h-4 w-4" />{t('header:light', 'Light')}</Button>
+                                                <Button onClick={() => setTheme('dark')} variant="ghost" size="sm" className={cn("flex-1 justify-center gap-2", theme === 'dark' && 'bg-background text-foreground shadow-sm')}><Moon className="h-4 w-4" />{t('header:dark', 'Dark')}</Button>
+                                                <Button onClick={() => setTheme('system')} variant="ghost" size="sm" className={cn("flex-1 justify-center gap-2", theme === 'system' && 'bg-background text-foreground shadow-sm')}><Settings className="h-4 w-4" />{t('header:system', 'System')}</Button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
