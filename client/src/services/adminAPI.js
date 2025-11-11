@@ -495,3 +495,8 @@ export const getAdminLeads = async (params) => {
     });
     return response.data;
 };
+
+export const updateFeeOverride = async (userId, overrideData) => {
+    const { data } = await api.put(`/api/admin/users/${userId}/fee-override`, overrideData);
+    return data;
+};

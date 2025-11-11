@@ -11,7 +11,7 @@ import {
   LayoutDashboard, Users, LogOut, Sun, Moon,
   Menu, GraduationCap, Briefcase, TrendingUp,
   BookOpen, GitFork, LogIn, University, Circle, Check, CreditCard, Search, Link2, CalendarCheck2, Library,
-  Clock, UserPlus, HelpCircle,  Sparkles, Globe
+  Clock, UserPlus, HelpCircle,  Sparkles, Languages
 } from 'lucide-react';
 import { logoutUser, updateUserDetails } from '../services/userAPI';
 import { updateUserStatus } from '../services/statusAPI';
@@ -408,15 +408,15 @@ const Header = () => {
     it: { name: 'Italiano' },
   };
 
-  const LanguageSwitcher = () => (
+const LanguageSwitcher = () => (
     <DropdownMenu>
         <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="w-full justify-center gap-2">
-                <Globe className="h-4 w-4" />
-                <span className="truncate">{languages[i18n.language]?.name || 'Language'}</span>
+            <Button variant="ghost" size="icon" className="shrink-0">
+                <Languages className="h-4 w-4" />
+                <span className="sr-only">{t('header:language', 'Language')}</span>
             </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent align="end" className="w-[var(--radix-dropdown-menu-trigger-width)]">
+        <DropdownMenuContent align="end">
             <DropdownMenuLabel>{t('header:language', 'Language')}</DropdownMenuLabel>
             <DropdownMenuSeparator />
             {Object.entries(languages).map(([code, { name }]) => (
@@ -627,29 +627,32 @@ case 'coach':
           <nav className="flex flex-col gap-1">
             {isAuthenticated ? (
               <>
-                <div className="mb-2 flex flex-col space-y-1 rounded-lg border bg-muted/50 p-3">
-                  <p className="text-sm font-semibold leading-none">{user?.name || t('header:user', 'User')}</p>
-                  <p className="text-xs leading-none text-muted-foreground">{user?.email}</p>
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" className="mt-2 h-auto justify-start p-0 text-sm font-medium">
-                          <div className={cn('mr-2 h-2 w-2 rounded-full', statuses[currentStatus]?.bgColor)} />
-                          <span>{statuses[currentStatus]?.label}</span>
-                        </Button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent className="w-56">
-                        <DropdownMenuLabel>{t('availability:set_status', 'Set Status')}</DropdownMenuLabel>
-                        <DropdownMenuSeparator />
-                        {Object.entries(statuses).map(([statusKey, statusValue]) => (
-                          <DropdownMenuItem key={statusKey} onSelect={() => handleStatusChange(statusKey)} className="cursor-pointer">
-                            <div className="flex w-full items-center justify-between">
-                              <div className="flex items-center gap-2"><div className={cn('h-2 w-2 rounded-full', statusValue.bgColor)} /><span>{statusValue.label}</span></div>
-                              {currentStatus === statusKey && <Check className="h-4 w-4" />}
-                            </div>
-                          </DropdownMenuItem>
-                        ))}
-                      </DropdownMenuContent>
-                    </DropdownMenu>
+                <div className="mb-2 flex items-end justify-between rounded-lg border bg-muted/50 p-3">
+                    <div>
+                        <p className="text-sm font-semibold leading-none">{user?.name?.split(' ')[0] || t('header:user', 'User')}</p>
+                        <p className="text-xs leading-none text-muted-foreground">{user?.email}</p>
+                        <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                                <Button variant="ghost" className="mt-2 h-auto justify-start p-0 text-sm font-medium">
+                                    <div className={cn('mr-2 h-2 w-2 rounded-full', statuses[currentStatus]?.bgColor)} />
+                                    <span>{statuses[currentStatus]?.label}</span>
+                                </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent className="w-56">
+                                <DropdownMenuLabel>{t('availability:set_status', 'Set Status')}</DropdownMenuLabel>
+                                <DropdownMenuSeparator />
+                                {Object.entries(statuses).map(([statusKey, statusValue]) => (
+                                <DropdownMenuItem key={statusKey} onSelect={() => handleStatusChange(statusKey)} className="cursor-pointer">
+                                    <div className="flex w-full items-center justify-between">
+                                    <div className="flex items-center gap-2"><div className={cn('h-2 w-2 rounded-full', statusValue.bgColor)} /><span>{statusValue.label}</span></div>
+                                    {currentStatus === statusKey && <Check className="h-4 w-4" />}
+                                    </div>
+                                </DropdownMenuItem>
+                                ))}
+                            </DropdownMenuContent>
+                        </DropdownMenu>
+                    </div>
+                    <LanguageSwitcher />
                 </div>
                 
                 {renderPrimaryNavLinks(true, onLinkClick)}
@@ -694,8 +697,7 @@ case 'coach':
         </div>
 
         <div className="mt-auto border-t p-4">
-          <div className="mb-4 space-y-4">
-            <LanguageSwitcher />
+       <div className="mb-4">
             <div className="flex items-center justify-center rounded-lg bg-muted p-1">
               <Button onClick={() => setTheme('light')} variant="ghost" size="sm" className={cn("flex-1 justify-center gap-2", theme === 'light' && 'bg-background text-foreground shadow-sm')}><Sun className="h-4 w-4" />{t('header:light', 'Light')}</Button>
               <Button onClick={() => setTheme('dark')} variant="ghost" size="sm" className={cn("flex-1 justify-center gap-2", theme === 'dark' && 'bg-background text-foreground shadow-sm')}><Moon className="h-4 w-4" />{t('header:dark', 'Dark')}</Button>
@@ -808,14 +810,14 @@ if (!isLaunched) {
                                         </nav>
                                     </div>
                                     <div className="mt-auto border-t p-4">
-                                        <div className="space-y-4">
-                                            <LanguageSwitcher />
-                                            <div className="flex items-center justify-center rounded-lg bg-muted p-1">
-                                                <Button onClick={() => setTheme('light')} variant="ghost" size="sm" className={cn("flex-1 justify-center gap-2", theme === 'light' && 'bg-background text-foreground shadow-sm')}><Sun className="h-4 w-4" />{t('header:light', 'Light')}</Button>
-                                                <Button onClick={() => setTheme('dark')} variant="ghost" size="sm" className={cn("flex-1 justify-center gap-2", theme === 'dark' && 'bg-background text-foreground shadow-sm')}><Moon className="h-4 w-4" />{t('header:dark', 'Dark')}</Button>
-                                                <Button onClick={() => setTheme('system')} variant="ghost" size="sm" className={cn("flex-1 justify-center gap-2", theme === 'system' && 'bg-background text-foreground shadow-sm')}><Settings className="h-4 w-4" />{t('header:system', 'System')}</Button>
-                                            </div>
-                                        </div>
+                                        <div className="flex items-center gap-2">
+                                          <div className="flex flex-1 items-center justify-center rounded-lg bg-muted p-1">
+                                              <Button onClick={() => setTheme('light')} variant="ghost" size="sm" className={cn("flex-1 justify-center gap-2", theme === 'light' && 'bg-background text-foreground shadow-sm')}><Sun className="h-4 w-4" />{t('header:light', 'Light')}</Button>
+                                              <Button onClick={() => setTheme('dark')} variant="ghost" size="sm" className={cn("flex-1 justify-center gap-2", theme === 'dark' && 'bg-background text-foreground shadow-sm')}><Moon className="h-4 w-4" />{t('header:dark', 'Dark')}</Button>
+                                              <Button onClick={() => setTheme('system')} variant="ghost" size="sm" className={cn("flex-1 justify-center gap-2", theme === 'system' && 'bg-background text-foreground shadow-sm')}><Settings className="h-4 w-4" />{t('header:system', 'System')}</Button>
+                                          </div>
+                                          <LanguageSwitcher />
+                                      </div>
                                     </div>
                                 </div>
                             </SheetContent>

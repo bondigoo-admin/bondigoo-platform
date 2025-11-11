@@ -205,18 +205,15 @@ const coalesceAndRestoreAvailability = async (bookingToRestore, mongoSession) =>
 
   if (adjacentSlots.length > 0) {
     const beforeSlot = adjacentSlots.find(slot => new Date(slot.end).getTime() === new Date(start).getTime());
-    if (beforeSlot) {
-      mergedStart = beforeSlot.start;
-      slotsToDelete.push(beforeSlot._id);
-      propertiesToInherit = {
-          availableForInstantBooking: beforeSlot.availableForInstantBooking,
-          firmBookingThreshold: beforeSlot.firmBookingThreshold,
-          recurringPattern: beforeSlot.recurringPattern,
-          price: beforeSlot.price,
-          title: beforeSlot.title,
-      };
-      logger.debug('[coalesceAndRestoreAvailability] Merging with slot before', { beforeSlotId: beforeSlot._id, newMergedStart: mergedStart });
-    }
+   if (beforeSlot) {
+  mergedStart = beforeSlot.start;
+  slotsToDelete.push(beforeSlot._id);
+
+  propertiesToInherit.title = beforeSlot.title;
+  propertiesToInherit.price = beforeSlot.price;
+
+  logger.debug('[coalesceAndRestoreAvailability] Merging with slot before', { beforeSlotId: beforeSlot._id, newMergedStart: mergedStart });
+}
 
     const afterSlot = adjacentSlots.find(slot => new Date(slot.start).getTime() === new Date(end).getTime());
     if (afterSlot) {

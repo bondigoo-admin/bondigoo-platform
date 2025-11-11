@@ -1027,6 +1027,15 @@ if (appliedDiscountDetails && appliedDiscountDetails._id && targetUser) {
     return res.status(400).json({ message: 'The specified user is required to have payment details for this booking.' });
 }
 
+const coachStripeAccountId = coachDoc.settings?.paymentAndBilling?.stripe?.accountId;
+
+    if (paymentIsEffectivelyRequired && !coachStripeAccountId) {
+        logger.error('[bookingController.createBooking] Coach is not configured to receive payments.', { coachId: coach, coachUserId: coachDoc.user });
+        await session.abortTransaction();
+        session.endSession();
+        return res.status(400).json({ message: 'This coach is not currently set up to receive payments. Please contact them directly.' });
+    }
+
    if (!isAvailability && paymentIsEffectivelyRequired && stripeCustomerId && userDoc) {
       logger.info('[bookingController.createBooking] Conditions met for creating payment intent: not availability, has price, and has stripeCustomerId.', { userId: userDoc._id, stripeCustomerId });
       
@@ -1034,23 +1043,25 @@ if (appliedDiscountDetails && appliedDiscountDetails._id && targetUser) {
         bookingIdToLog: booking._id,
         priceDetails,
         stripeCustomerId,
+        coachStripeAccountId: coachStripeAccountId, 
         timestamp: new Date().toISOString()
       });
 
 const paymentIntent = await paymentService.createPaymentIntent({
-    bookingId: booking._id.toString(),
-    priceDetails: priceDetails,
-    currency: priceDetails.currency,
-    stripeCustomerId,
-    metadata: {
-      sessionType: sessionTypeDoc.name,
-      coachId: coach.toString(),
-      userId: targetUser.toString(),
-      source: 'bookingController.createBooking.userPayment',
-      originalDecimalAmountFinal: priceDetails.final.amount.amount,
-      originalDecimalAmountBase: priceDetails.base.amount.amount,
-    }
-  });
+          bookingId: booking._id.toString(),
+          priceDetails: priceDetails,
+          currency: priceDetails.currency,
+          stripeCustomerId,
+          coachStripeAccountId: coachStripeAccountId,
+          metadata: {
+            sessionType: sessionTypeDoc.name,
+            coachId: coach.toString(),
+            userId: targetUser.toString(),
+            source: 'bookingController.createBooking.userPayment',
+            originalDecimalAmountFinal: priceDetails.final.amount.amount,
+            originalDecimalAmountBase: priceDetails.base.amount.amount,
+          }
+      });
 
    console.log('[bookingController.createBooking] Payment intent created:', {
         bookingId: booking._id,
@@ -1063,27 +1074,28 @@ const paymentIntent = await paymentService.createPaymentIntent({
 
       const Payment = require('../models/Payment');
       const paymentDoc = new Payment({
-      booking: booking._id,
-      payer: targetUser,
-      recipient: coach,
-      amount: {
-        base: priceDetails.base.amount.amount,
-        platformFee: priceDetails.platformFee.amount,
-        vat: priceDetails.vat,
-        total: priceDetails.final.amount.amount,
-        currency: priceDetails.currency
-      },
-      status: 'pending',
-      priceSnapshot: priceDetails,
-      translationsSnapshot: req.body.translations || {},
-      discountApplied: priceDetails?._calculationDetails?.winningDiscount,
-      stripe: {
-        paymentIntentId: paymentIntent.id,
-        clientSecret: paymentIntent.client_secret,
-        chargeId: paymentIntent.latest_charge || null,
-        customerId: stripeCustomerId
-      }
-  });
+                booking: booking._id,
+                payer: targetUser,
+                recipient: coach,
+                coachStripeAccountId: coachStripeAccountId,
+                amount: {
+                  base: priceDetails.base.amount.amount,
+                  platformFee: priceDetails.platformFee.amount,
+                  vat: priceDetails.vat,
+                  total: priceDetails.final.amount.amount,
+                  currency: priceDetails.currency
+                },
+                status: 'pending',
+                priceSnapshot: priceDetails,
+                translationsSnapshot: req.body.translations || {},
+                discountApplied: priceDetails?._calculationDetails?.winningDiscount,
+                stripe: {
+                  paymentIntentId: paymentIntent.id,
+                  clientSecret: paymentIntent.client_secret,
+                  chargeId: paymentIntent.latest_charge || null,
+                  customerId: stripeCustomerId
+                }
+            });
 
       await paymentDoc.save({ session });
       console.log('[bookingController.createBooking] Payment saved:', {
@@ -6056,6 +6068,12 @@ exports.cancelBookingByUserDuringPayment = async (req, res) => {
     logger.info('[cancelBookingByUserDuringPayment] Initiating cancellation for pending booking.', { bookingId, userId });
 
     const booking = await Booking.findById(bookingId).populate('coach user sessionType').session(mongoSession);
+
+      console.log('[cancelBookingByUserDuringPayment] Fetched booking object state BEFORE cancellation logic.', { 
+      bookingId: booking._id,
+      metadata: booking.metadata, // This is the most important part
+      fullBookingObject: booking.toObject() // Log the entire object for full context
+    });
 
     if (!booking) {
       logger.warn('[cancelBookingByUserDuringPayment] Booking not found.', { bookingId });

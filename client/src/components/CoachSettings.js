@@ -20,6 +20,7 @@ import { Textarea } from './ui/textarea.tsx';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './ui/tooltip.tsx';
 import TaxInformationForm from './settings/TaxInformationForm';
 import InsuranceRecognitionSettings from './settings/InsuranceRecognitionSettings';
+import PlatformBenefits from './settings/PlatformBenefits';
 
 const defaultSettings = {
   professionalProfile: {
@@ -616,11 +617,14 @@ return (
          <SaveStatusIndicator />
       <div className="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8 space-y-12 text-slate-900 dark:text-slate-100">
 
-          <section>
+         <section>
           <h2 className="flex items-center text-2xl font-bold mb-6 text-slate-800 dark:text-slate-200">
               <Banknote className="mr-3 h-6 w-6" /> {t('coachSettings:taxAndBilling')}
           </h2>
-          <div className="bg-card rounded-lg border border-slate-200 dark:border-slate-800 shadow-sm">
+          <div className="bg-card rounded-lg border border-slate-200 dark:border-slate-800 shadow-sm space-y-6">
+             <div className="p-6">
+                <PlatformBenefits settings={settings} />
+             </div>
              <TaxInformationForm />
           </div>
       </section>

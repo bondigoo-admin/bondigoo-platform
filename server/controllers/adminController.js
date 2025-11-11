@@ -1397,18 +1397,26 @@ exports.getUserDetail = async (req, res) => {
     try {
         const { userId } = req.params;
         const user = await User.findById(userId).select('-password').lean();
+
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
         }
-        
+ 
         const userResponse = {
             ...user,
             warningCount: user.moderation?.warningsCount || 0
         };
 
+        if (user.role === 'coach') {
+            const coachProfile = await Coach.findOne({ user: userId }).lean();
+            if (coachProfile) {
+                userResponse.coachProfile = coachProfile;
+            }
+        }
+
         res.json(userResponse);
     } catch (error) {
-        logger.error('Error fetching user detail:', error);
+        logger.error('Error fetching user detail:', { error: error.message, stack: error.stack, userId: req.params.userId });
         res.status(500).json({ message: 'Server Error' });
     }
 };
@@ -1467,6 +1475,64 @@ exports.updateUserByAdmin = async (req, res) => {
         res.status(500).json({ message: 'Server Error' });
     }
 };
+
+exports.updateFeeOverride = async (req, res) => {
+        const { userId } = req.params;
+        const overrideData = req.body;
+        const adminUserId = req.user.id;
+    
+        try {
+            const coach = await Coach.findOne({ user: userId });
+            if (!coach) {
+                return res.status(404).json({ message: 'Coach profile not found for this user.' });
+            }
+    
+            const hasExistingOverride = !!coach.settings.platformFeeOverride;
+            const isRemovingOverride = !overrideData || Object.keys(overrideData).length === 0;
+    
+            if (isRemovingOverride) {
+                if (!hasExistingOverride) {
+                    return res.status(200).json({ message: 'No override to remove.' });
+                }
+                await Coach.updateOne({ user: userId }, { $unset: { 'settings.platformFeeOverride': '' } });
+                await AuditLog.create({
+                    adminUserId,
+                    targetUserId: userId,
+                    action: 'remove_fee_override',
+                    reason: overrideData?.adminNotes || 'Override removed by admin.',
+                });
+                return res.json({ success: true, message: 'Platform fee override removed successfully.' });
+            }
+    
+            const update = {
+                ...overrideData,
+                updatedBy: adminUserId,
+                updatedAt: new Date()
+            };
+    
+            await Coach.updateOne({ user: userId }, { $set: { 'settings.platformFeeOverride': update } });
+    
+            await AuditLog.create({
+                adminUserId,
+                targetUserId: userId,
+                action: hasExistingOverride ? 'update_fee_override' : 'create_fee_override',
+                reason: update.adminNotes,
+                metadata: { newOverride: update }
+            });
+    
+            const updatedCoach = await Coach.findOne({ user: userId }).lean();
+    
+            res.json({
+                success: true,
+                message: 'Platform fee override updated successfully.',
+                platformFeeOverride: updatedCoach.settings.platformFeeOverride
+            });
+    
+        } catch (error) {
+            logger.error('Error in updateFeeOverride:', { userId, adminUserId, error: error.message });
+            res.status(500).json({ message: 'Server error while updating fee override.' });
+        }
+    };
 
 exports.impersonateUser = async (req, res) => {
     const { userId } = req.params;

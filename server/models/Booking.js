@@ -546,6 +546,8 @@ const BookingSchema = new mongoose.Schema({
   rescheduleHistory: { type: [RescheduleHistoryEntrySchema], default: [] },
   rescheduleRequests: { type: [RescheduleRequestSchema], default: [] },
 
+  metadata: { type: mongoose.Schema.Types.Mixed },
+
   analytics: {
     bookingSource: String,
     conversionTime: Number,
