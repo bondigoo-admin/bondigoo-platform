@@ -6,6 +6,7 @@ import { toast } from 'react-hot-toast';
 import { logger } from '../../utils/logger';
 import { Button } from '../ui/button.tsx';
 import { Badge } from '../ui/badge.tsx';
+import { cn } from '../../lib/utils'; // Assuming you have a cn utility for classnames
 
 const SavedPaymentMethods = ({
   paymentMethods = [],
@@ -20,7 +21,7 @@ const SavedPaymentMethods = ({
 }) => {
   const { t } = useTranslation(['payments']);
   const [expandedMethod, setExpandedMethod] = useState(null);
-  const [isDeleting, setIsDeleting] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(null); // Track which method is being deleted
 
   const handleMethodClick = useCallback((methodId) => {
     if (disabled) return;
@@ -35,7 +36,7 @@ const SavedPaymentMethods = ({
     if (isDeleting) return;
 
     try {
-      setIsDeleting(true);
+      setIsDeleting(methodId);
       logger.info('[SavedPaymentMethods] Deleting payment method:', { methodId });
       
       await onDelete(methodId);
@@ -49,7 +50,7 @@ const SavedPaymentMethods = ({
       });
       toast.error(t('payments:errorDeletingPaymentMethod'));
     } finally {
-      setIsDeleting(false);
+      setIsDeleting(null);
     }
   };
 
@@ -60,7 +61,8 @@ const SavedPaymentMethods = ({
       logger.info('[SavedPaymentMethods] Setting default payment method:', { methodId });
       await onSetDefault(methodId);
       toast.success(t('payments:defaultMethodSet'));
-    } catch (error) {
+    } catch (error)
+      {
       logger.error('[SavedPaymentMethods] Error setting default method:', {
         methodId,
         error: error.message
@@ -69,8 +71,14 @@ const SavedPaymentMethods = ({
     }
   };
 
+  const itemVariants = {
+    hidden: { opacity: 0, y: -20 },
+    visible: { opacity: 1, y: 0 },
+    exit: { opacity: 0, scale: 0.95, transition: { duration: 0.15 } }
+  };
+
   return (
-    <div className={className}>
+    <div className={cn("w-full", className)}>
       <div className="flex items-center justify-between mb-4">
         <h3 className="text-lg font-semibold text-card-foreground">
           {t('payments:savedPaymentMethods')}
@@ -80,9 +88,9 @@ const SavedPaymentMethods = ({
           size="sm"
           onClick={onAddNew}
           disabled={disabled || isLoading}
-          className="text-primary"
+          className="text-primary gap-1"
         >
-          <Plus className="w-4 h-4 mr-1" />
+          <Plus className="w-4 h-4" />
           {t('payments:addNewCard')}
         </Button>
       </div>
@@ -93,24 +101,32 @@ const SavedPaymentMethods = ({
             <motion.div
               key={method.id}
               layout
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              className={`
-                p-3 rounded-lg border transition-all duration-150 ease-in-out group
-                ${selectedMethodId === method.id ? 'border-primary bg-primary/5 dark:bg-primary/10 ring-1 ring-primary' : 'border-input bg-card'}
-                ${disabled ? 'opacity-60 cursor-not-allowed' : 'hover:bg-muted/50 dark:hover:bg-muted/20 cursor-pointer'}
-              `}
+              variants={itemVariants}
+              initial="hidden"
+              animate="visible"
+              exit="exit"
               onClick={() => handleMethodClick(method.id)}
+              className={cn(`
+                p-4 rounded-lg border-2 transition-all duration-200 ease-in-out group
+                focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background`,
+                selectedMethodId === method.id 
+                  ? 'border-primary bg-primary/5 dark:bg-primary/10' 
+                  : 'border-input bg-transparent hover:border-primary/50 dark:hover:bg-accent/10',
+                disabled 
+                  ? 'opacity-50 cursor-not-allowed' 
+                  : 'cursor-pointer'
+              )}
+              tabIndex={disabled ? -1 : 0}
+              onKeyPress={(e) => !disabled && (e.key === 'Enter' || e.key === ' ') && handleMethodClick(method.id)}
             >
               <div className="flex items-center justify-between">
-                <div className="flex items-center space-x-3 min-w-0">
-                  <CreditCard className={`w-6 h-6 shrink-0 ${method.isDefault ? 'text-primary' : 'text-muted-foreground'}`} />
+                <div className="flex items-center space-x-4 min-w-0">
+                  <CreditCard className={cn('w-7 h-7 shrink-0', method.isDefault ? 'text-primary' : 'text-muted-foreground')} />
                   <div className="overflow-hidden">
-                    <p className="font-medium text-sm text-card-foreground truncate">
+                    <p className="font-medium text-card-foreground truncate">
                       {method.brand} •••• {method.last4}
                     </p>
-                    <p className="text-xs text-muted-foreground">
+                    <p className="text-sm text-muted-foreground">
                       {t('payments:expiresOn', {
                         date: `${String(method.expiryMonth).padStart(2, '0')}/${method.expiryYear}`
                       })}
@@ -124,15 +140,15 @@ const SavedPaymentMethods = ({
                       variant="ghost"
                       size="icon"
                       onClick={(e) => handleSetDefault(e, method.id)}
-                      className="h-8 w-8 text-muted-foreground hover:text-primary"
+                      className="h-9 w-9 text-muted-foreground hover:text-primary"
                       aria-label={t('payments:setAsDefault')}
                     >
-                      <Star className="w-4 h-4" />
+                      <Star className="w-5 h-5" />
                     </Button>
                   )}
                   {method.isDefault && (
-                    <div className="flex items-center justify-center h-8 w-8" aria-label={t('payments:defaultMethod')}>
-                      <Star className="w-4 h-4 text-primary" fill="currentColor" />
+                     <div className="flex items-center justify-center h-9 w-9" aria-label={t('payments:defaultMethod')}>
+                      <Star className="w-5 h-5 text-primary" fill="currentColor" />
                     </div>
                   )}
                   {!disabled && (
@@ -140,11 +156,11 @@ const SavedPaymentMethods = ({
                       variant="ghost"
                       size="icon"
                       onClick={(e) => handleDelete(e, method.id)}
-                      className="h-8 w-8 text-muted-foreground hover:text-destructive hover:bg-destructive/10"
-                      disabled={isDeleting}
+                      className="h-9 w-9 text-muted-foreground hover:text-destructive hover:bg-destructive/10"
+                      disabled={!!isDeleting}
                       aria-label={t('payments:deletePaymentMethod')}
                     >
-                      <Trash2 className="w-4 h-4" />
+                      {isDeleting === method.id ? <Loader2 className="w-4 h-4 animate-spin" /> : <Trash2 className="w-4 h-4" />}
                     </Button>
                   )}
                 </div>
@@ -154,20 +170,21 @@ const SavedPaymentMethods = ({
               {expandedMethod === method.id && (
                 <motion.div
                   initial={{ height: 0, opacity: 0, marginTop: 0 }}
-                  animate={{ height: 'auto', opacity: 1, marginTop: '0.75rem' }}
+                  animate={{ height: 'auto', opacity: 1, marginTop: '1rem' }}
                   exit={{ height: 0, opacity: 0, marginTop: 0 }}
                   className="overflow-hidden"
                 >
-                  <div className="pt-3 border-t border-border text-sm text-muted-foreground flex items-center gap-2">
+                  <div className="pt-3 border-t border-border/80 text-sm text-muted-foreground flex items-center gap-4">
                     {method.isDefault && (
                       <Badge variant="secondary">{t('payments:defaultMethod')}</Badge>
                     )}
-                    <span>
-                      {t('payments:lastUsed')}: {
+                    <span className="flex items-center gap-2">
+                      {t('payments:lastUsed')}: 
+                      <span className="font-medium text-foreground">{
                         method.lastUsed 
                           ? new Date(method.lastUsed).toLocaleDateString() 
                           : t('payments:never')
-                      }
+                      }</span>
                     </span>
                   </div>
                 </motion.div>
@@ -177,15 +194,20 @@ const SavedPaymentMethods = ({
           ))}
         </AnimatePresence>
 
-        {isLoading ? (
-          <div className="flex justify-center items-center p-4">
-            <Loader2 className="w-6 h-6 animate-spin text-muted-foreground" />
+        {isLoading && (
+          <div className="flex justify-center items-center p-6 space-x-2 text-muted-foreground">
+            <Loader2 className="w-5 h-5 animate-spin" />
+            <span>{t('payments:loadingMethods')}...</span>
           </div>
-        ) : paymentMethods.length === 0 ? (
-          <p className="text-center text-muted-foreground py-4 text-sm">
-            {t('payments:noSavedPaymentMethods')}
-          </p>
-        ) : null}
+        )}
+        
+        {!isLoading && paymentMethods.length === 0 && (
+          <div className="text-center text-muted-foreground py-10 px-4 border-2 border-dashed rounded-lg">
+            <CreditCard className="mx-auto h-10 w-10 text-muted-foreground/50 mb-2" />
+            <h4 className="font-semibold text-foreground mb-1">{t('payments:noSavedPaymentMethods')}</h4>
+            <p className="text-sm">{t('payments:noSavedMethodsMessage')}</p>
+          </div>
+        )}
       </div>
     </div>
   );

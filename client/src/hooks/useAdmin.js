@@ -537,3 +537,16 @@ export const useSubmitSupportTicket = () => {
       },
     });
 };
+
+export const useUpdateFeeOverride = () => {
+  const queryClient = useQueryClient();
+  return useMutation(
+    ({ userId, overrideData }) => adminAPI.updateFeeOverride(userId, overrideData),
+    {
+      onSuccess: (data, { userId }) => {
+        queryClient.invalidateQueries(['adminUserDetail', userId]);
+        queryClient.invalidateQueries('adminUsers');
+      },
+    }
+  );
+};

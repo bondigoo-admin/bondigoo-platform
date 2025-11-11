@@ -9,6 +9,7 @@ import { usePayment } from '../../../contexts/PaymentContext';
 import PaymentMethodForm from '../forms/PaymentMethodForm';
 import SavedPaymentMethodsManager from '../SavedPaymentMethodsManager';
 import PaymentStatusIndicator from '../status/PaymentStatusIndicator';
+import { Button } from '../../ui/button.tsx';
 import PriceBreakdown from '../breakdown/PriceBreakdown';
 import DeferredPaymentFlow from './DeferredPaymentFlow';
 import PaymentTimingForm from '../forms/PaymentTimingForm';
@@ -21,6 +22,9 @@ import paymentAPI from '../../../services/paymentAPI.js';
 import PaymentSocketService from '../../../services/PaymentSocketService';
 import PaymentErrorBoundary from '../PaymentErrorBoundary';
 import {PAYMENT_EVENTS} from '../../../constants/paymentSocketConstants';
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '../../ui/collapsible.jsx';
+import { Tag } from 'lucide-react';
+import { cn } from '../../../lib/utils';
 
 
 const MAX_INIT_ATTEMPTS = 3;
@@ -93,7 +97,7 @@ const PaymentFlow = ({
    isCancelling,
 }) => {
  
-  const { t } = useTranslation(['payments']);
+   const { t } = useTranslation(['payments', 'bookings', 'common']);
   const elements = useElements();
   const stripe = useStripe();
 
@@ -136,6 +140,28 @@ const PaymentFlow = ({
 
   const [isInitializing, setIsInitializing] = useState(true);
   const isStripeReady = useStripeReadiness();
+
+  const [isBreakdownOpen, setIsBreakdownOpen] = useState(false);
+
+  const getDiscountDisplayName = (discount, t) => {
+    if (!discount) return '';
+
+    if (discount.source === 'manual_code') {
+        return t('bookings:discountCodeApplied', { code: discount.code });
+    }
+
+    if (discount.isTimeBased) {
+        const daysOfWeekMap = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+        const translatedDays = discount.dayOfWeek.map(d => t(`common:${daysOfWeekMap[d]}`)).join(', ');
+        return t('bookings:timeBasedRateName', {
+        days: translatedDays,
+        start: discount.timeRange.start,
+        end: discount.timeRange.end
+        });
+    }
+
+    return discount.name || t('bookings:promoApplied', 'Promotion Applied');
+  };
 
     useEffect(() => {
     if (isStripeReady && clientSecret) {
@@ -806,7 +832,6 @@ const handleSavePaymentMethod = async (paymentMethod) => {
           key={`initializing-${bookingId}`}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          className="payment-initializing-container"
         >
           <div className="flex items-center justify-center p-6">
             <Loader2 className="h-8 w-8 animate-spin text-primary" />
@@ -824,7 +849,6 @@ const handleSavePaymentMethod = async (paymentMethod) => {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
-            className="payment-step-container"
           >
             <PaymentTimingForm
               onSelect={handleTimingSelection}
@@ -847,7 +871,6 @@ const handleSavePaymentMethod = async (paymentMethod) => {
               key={`method-${bookingId}`}
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              className="payment-method-container"
             >
                 <SavedPaymentMethodsManager
                   onSelect={handlePaymentMethodSelection}
@@ -857,7 +880,7 @@ const handleSavePaymentMethod = async (paymentMethod) => {
                   bookingId={bookingId}
                 />
                 <AnimatePresence>
-                  {!paymentState.selectedMethod?.id && (
+                 {!paymentState.selectedMethod?.id && (
                     <motion.div
                       initial={{ height: 0, opacity: 0 }}
                       animate={{ height: 'auto', opacity: 1 }}
@@ -883,14 +906,13 @@ const handleSavePaymentMethod = async (paymentMethod) => {
                 </AnimatePresence>
             </motion.div>
           );
-      case PAYMENT_STEPS.DEFERRED:
+        case PAYMENT_STEPS.DEFERRED:
         return (
           <motion.div
             key={`deferred-${bookingId}`}
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
-            className="payment-deferred-container"
           >
             <DeferredPaymentFlow
               bookingId={bookingId}
@@ -912,9 +934,9 @@ const handleSavePaymentMethod = async (paymentMethod) => {
             key={`processing-${bookingId}`}
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="payment-processing"
+            className="flex flex-col items-center justify-center text-center"
           >
-            <Loader2 className="payment-processing-spinner h-12 w-12" />
+            <Loader2 className="h-12 w-12 animate-spin text-primary" />
             <p className="text-muted-foreground mt-4">{t('payments:processingMessage')}</p>
           </motion.div>
         );
@@ -941,18 +963,18 @@ const handleSavePaymentMethod = async (paymentMethod) => {
     timestamp: new Date().toISOString()
   });
 
-  return (
+ return (
     <Card
-      className={`payment-flow ${
+      className={`w-full ${
         paymentState.visibilityState === VISIBILITY_STATES.VISIBLE ? 'opacity-100' : 'opacity-0'
-      } debug-border`}
-      data-state={paymentState.visibilityState}
-      data-flow-status={paymentState.flowState}
-      style={{ outline: '2px solid red' }}
+     }`}
+       data-state={paymentState.visibilityState}
+       data-flow-status={paymentState.flowState}
     >
- <CardHeader className="flex flex-col gap-1 p-4">
-      <div className="flex flex-row items-center justify-between">
-        <CardTitle className="text-lg font-semibold text-gray-800">
+
+<CardHeader className="p-4">
+    <div className="flex items-center justify-between gap-4">
+        <CardTitle className="text-lg font-semibold text-foreground">
           {paymentState.paymentStep === PAYMENT_STEPS.TIMING
             ? t('payments:selectTiming')
             : paymentState.paymentStep === PAYMENT_STEPS.DEFERRED
@@ -960,24 +982,8 @@ const handleSavePaymentMethod = async (paymentMethod) => {
             : t('payments:paymentDetails')}
         </CardTitle>
         {paymentState.flowState && <PaymentStatusIndicator status={paymentState.flowState} />}
-      </div>
-      {/* Use props as a fallback to prevent crashes if orchestratorState is incomplete */}
-      {((orchestratorState?.amount != null && orchestratorState?.currency) || (amount != null && currency)) && (
-        <div className="flex justify-end">
-          <span className="text-lg font-bold text-white bg-gradient-to-r from-blue-500 to-blue-600 px-3 py-1 rounded-full shadow-md">
-             {new Intl.NumberFormat('de-CH', {
-                  style: 'currency',
-                  currency: orchestratorState?.currency || currency,
-              }).format(
-                 
-                  (orchestratorState?.amount != null) 
-                    ? orchestratorState.amount / 100 
-                    : amount
-              )}
-          </span>
-        </div>
-      )}
-    </CardHeader>
+    </div>
+</CardHeader>
 
       <CardContent>
       <PaymentErrorBoundary 
@@ -1031,8 +1037,8 @@ const handleSavePaymentMethod = async (paymentMethod) => {
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
-              className="mb-4 debug-border"
               style={{ outline: '1px solid yellow' }}
+              className="mb-4"
             >
               <Alert variant="destructive">
                 <AlertTriangle className="h-4 w-4" />
@@ -1048,7 +1054,7 @@ const handleSavePaymentMethod = async (paymentMethod) => {
           )}
         </AnimatePresence>
          {!paymentState.clientSecret || isInitializing ? (
-          <div className="flex items-center justify-center p-6 debug-border" style={{ outline: '1px solid green' }}>
+          <div className="flex items-center justify-center p-6">
             <Loader2 className="h-8 w-8 animate-spin text-primary" />
             <p className="ml-2 text-muted-foreground">{t('payments:loadingStripe')}</p>
           </div>
@@ -1059,82 +1065,132 @@ const handleSavePaymentMethod = async (paymentMethod) => {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
-              className="payment-step-content debug-border"
+              className="payment-step-content"
               style={{ outline: 'none' }}
             >
               {renderPaymentStep()}
-              <div className="debug-text" style={{ color: 'red', fontSize: '12px' }}>
-
-              </div>
+             
             </motion.div>
           </AnimatePresence>
         )}
         </PaymentErrorBoundary>
       </CardContent>
 
-     <CardFooter className="flex justify-between">
-        {paymentState.paymentStep !== PAYMENT_STEPS.PROCESSING && (
-          <>
-          <button
-              onClick={handlePaymentCancel}
-              disabled={paymentState.isProcessing || isCancelling}
-              className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              {paymentState.selectedMethod ? t('payments:goBack', 'Go Back') : t('common:cancel')}
-            </button>
+<CardFooter className="flex flex-col items-stretch gap-4 pt-4">
+    {paymentState.paymentStep !== PAYMENT_STEPS.PROCESSING && (
+        <>
+            {priceDetails && paymentState.paymentStep === PAYMENT_STEPS.METHOD && (
+                <Card>
+                    <CardContent className="space-y-4 p-4">
+                        <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-2 font-medium">
+                                <CreditCard className="h-5 w-5 text-muted-foreground" />
+                                <span>{t('bookings:total')}</span>
+                            </div>
+                            <Button variant="ghost" size="sm" onClick={() => setIsBreakdownOpen(p => !p)} className="group h-auto px-2 py-1 text-base">
+                                {priceDetails._calculationDetails?.winningDiscount && (
+                                  <span className="mr-2 font-semibold text-muted-foreground line-through">
+                                      {priceDetails.base?.amount?.amount?.toFixed(2)}
+                                  </span>
+                                )}
+                               <span className="font-semibold">
+                                {priceDetails.final?.amount?.amount?.toFixed(2)} {priceDetails.currency}
+                               </span>
+                                <ChevronDown size={18} className="ml-2 text-muted-foreground transition-transform duration-200 group-data-[state=open]:rotate-180" />
+                            </Button>
+                        </div>
 
-            {paymentState.paymentStep === PAYMENT_STEPS.METHOD && (
-              <>
-                <button
-                  onClick={() => {
-                    logger.info('[PaymentFlow.CardFooterButton] "Pay Now" button clicked.', {
-                      paymentFlowBookingId: bookingId,
-                      selectedMethod: paymentState.selectedMethod ? { id: paymentState.selectedMethod.id } : null,
-                      cardComplete: paymentState.cardComplete,
-                      canTriggerSubmitRef: !!triggerSubmitRef.current,
-                      timestamp: new Date().toISOString()
-                  });
-                    if (paymentState.selectedMethod) {
-                      handlePaymentSubmit(paymentState.selectedMethod);
-                    } else if (paymentState.cardComplete && triggerSubmitRef.current) {
-                      triggerSubmitRef.current();
-                    } else {
-                      logger.warn('[PaymentFlow] Pay Now clicked but no valid action', {
-                        bookingId,
-                        cardComplete: paymentState.cardComplete,
-                        hasTrigger: !!triggerSubmitRef.current,
-                        timestamp: new Date().toISOString(),
-                      });
-                    }
-                  }}
-                  disabled={paymentState.isProcessing || (!paymentState.selectedMethod && !paymentState.cardComplete)}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-md transition-all duration-200 ${
-                    paymentState.selectedMethod || paymentState.cardComplete
-                      ? 'bg-primary text-primary-foreground hover:bg-primary/90 shadow-lg transform hover:-translate-y-0.5'
-                      : 'bg-gray-200 text-gray-500 cursor-not-allowed'
-                  } disabled:opacity-50 disabled:cursor-not-allowed`}
-                >
-                  {paymentState.isProcessing ? (
-                    <Loader2 className="h-4 w-4 animate-spin" />
-                  ) : (
-                    <CreditCard className="h-4 w-4" />
-                  )}
-                  {t('payments:payNow', {
-                    amount: new Intl.NumberFormat('de-CH', {
-                      style: 'currency',
-                      currency: orchestratorState?.currency || currency,
-                    }).format(orchestratorState?.amount || amount),
-                  })}
-                </button>
-              </>
+                        <Collapsible open={isBreakdownOpen} onOpenChange={setIsBreakdownOpen}>
+                            <CollapsibleContent className="space-y-3 border-t pt-3">
+                                <div className="space-y-1.5 text-sm">
+                                  <div className="flex items-center justify-between">
+                                    <span className="text-muted-foreground">{t('bookings:listPrice')}</span>
+                                    <span>{priceDetails.base?.amount?.amount?.toFixed(2)} {priceDetails.currency}</span>
+                                  </div>
+
+                                  {priceDetails._calculationDetails?.winningDiscount && (
+                                    <div className="flex items-center justify-between text-green-600 dark:text-green-500">
+                                      <span className="font-medium flex items-center gap-2">
+                                        <Tag size={16} />
+                                        {getDiscountDisplayName(priceDetails._calculationDetails.winningDiscount, t)}
+                                      </span>
+                                      <span className="font-medium">- {priceDetails._calculationDetails.winningDiscount.amountDeducted?.toFixed(2)} {priceDetails.currency}</span>
+                                    </div>
+                                  )}
+
+                                  <div className="mt-2 flex items-center justify-between border-t pt-2">
+                                    <span className="text-muted-foreground">{t('common:subtotal')}</span>
+                                    <span className="font-semibold">{priceDetails.final?.amount?.amount?.toFixed(2)} {priceDetails.currency}</span>
+                                  </div>
+                                  
+                                  <div className="flex items-center justify-between">
+                                     <span className="pl-4 text-muted-foreground">{t('payments:vatIncluded')} ({Number(priceDetails.vat?.rate).toFixed(1)}%)</span>
+                                     <span className="text-muted-foreground">{priceDetails.vat?.amount?.toFixed(2)} {priceDetails.currency}</span>
+                                  </div>
+                                </div>
+
+                                <div className="mt-3 flex items-center justify-between border-t pt-3">
+                                  <span className="text-base font-semibold text-foreground">{t('bookings:total')}</span>
+                                  <span className="text-base font-semibold text-foreground">{priceDetails.final?.amount?.amount?.toFixed(2)} {priceDetails.currency}</span>
+                                </div>
+                            </CollapsibleContent>
+                        </Collapsible>
+                    </CardContent>
+                </Card>
             )}
-          </>
-        )}
-      </CardFooter>
+
+            <div className="flex w-full flex-col-reverse gap-2 sm:flex-row sm:items-center sm:justify-between">
+                <Button
+                    variant="ghost"
+                    onClick={handlePaymentCancel}
+                    disabled={paymentState.isProcessing || isCancelling}
+                    className="w-full sm:w-auto"
+                >
+                    {paymentState.selectedMethod ? t('payments:goBack', 'Go Back') : t('common:cancel')}
+                </Button>
+
+                {paymentState.paymentStep === PAYMENT_STEPS.METHOD && (
+                <Button
+                    onClick={() => {
+                        logger.info('[PaymentFlow.CardFooterButton] "Pay Now" button clicked.', {
+                        paymentFlowBookingId: bookingId,
+                        selectedMethod: paymentState.selectedMethod ? { id: paymentState.selectedMethod.id } : null,
+                        cardComplete: paymentState.cardComplete,
+                        canTriggerSubmitRef: !!triggerSubmitRef.current,
+                        timestamp: new Date().toISOString()
+                    });
+                        if (paymentState.selectedMethod) {
+                        handlePaymentSubmit(paymentState.selectedMethod);
+                        } else if (paymentState.cardComplete && triggerSubmitRef.current) {
+                        triggerSubmitRef.current();
+                        } else {
+                        logger.warn('[PaymentFlow] Pay Now clicked but no valid action', {
+                            bookingId,
+                            cardComplete: paymentState.cardComplete,
+                            hasTrigger: !!triggerSubmitRef.current,
+                            timestamp: new Date().toISOString(),
+                        });
+                        }
+                    }}
+                    disabled={paymentState.isProcessing || (!paymentState.selectedMethod && !paymentState.cardComplete)}
+                    className="w-full sm:w-auto"
+                    >
+                    {paymentState.isProcessing ? (
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    ) : (
+                        <CreditCard className="mr-2 h-4 w-4" />
+                    )}
+                    {t('payments:confirmPayment', 'Confirm Payment')}
+                    </Button>
+                )}
+            </div>
+        </>
+    )}
+</CardFooter>
 
       {paymentState.paymentStep === PAYMENT_STEPS.PROCESSING && (
-        <div className="absolute inset-0 bg-white/50 backdrop-blur-sm flex items-center justify-center">
-          <div className="p-4 rounded-lg bg-white shadow-lg text-center debug-border" style={{ outline: '1px solid purple' }}>
+       <div className="absolute inset-0 bg-background/50 backdrop-blur-sm flex items-center justify-center">
+          <div className="p-4 rounded-lg bg-card shadow-lg text-center">
             <Loader2 className="h-8 w-8 animate-spin mx-auto mb-2 text-primary" />
             <p className="text-sm text-muted-foreground">{t('payments:processingMessage')}</p>
           </div>

@@ -268,18 +268,6 @@ async createPaymentIntent({
     };
 
     console.log('[PaymentService.createPaymentIntent] 2. FINAL PARAMS for stripe.paymentIntents.create:', { intentParameters });
-
-    if (coachStripeAccountId) {
-      intentParameters.transfer_data = {
-        destination: coachStripeAccountId,
-      };
-      if (totalApplicationFeeInCents > 0) {
-        intentParameters.application_fee_amount = totalApplicationFeeInCents;
-      }
-    } else {
-      logger.error('[PaymentService] CRITICAL: Attempting to create a charge for a coach without a Stripe Account ID.', { bookingId });
-      throw new Error('Coach Stripe Account ID is missing for a Connect transaction.');
-    }
     
     const paymentIntent = await this.stripe.paymentIntents.create(
       intentParameters, 
@@ -1217,11 +1205,6 @@ async createChargeForCompletedSession(liveSession, finalCostBreakdown, dbSession
   if (!client?.stripe?.customerId) {
     throw new Error('Client Stripe Customer ID is missing.');
   }
-
-  const coachProfile = await Coach.findOne({ user: liveSession.coach }).select('settings.paymentAndBilling.stripe.accountId').session(dbSession);
-  if (!coachProfile?.settings?.paymentAndBilling?.stripe?.accountId) {
-    throw new Error(`Coach for live session ${liveSession._id} is missing a Stripe Account ID.`);
-  }
   
   const setupIntents = await stripe.setupIntents.list({ customer: client.stripe.customerId });
   const successfulSetup = setupIntents.data.find(si => si.metadata.liveSessionId === liveSession._id.toString() && si.status === 'succeeded');
@@ -1235,7 +1218,6 @@ async createChargeForCompletedSession(liveSession, finalCostBreakdown, dbSession
     booking: liveSession.booking,
     payer: liveSession.client,
     recipient: liveSession.coach,
-    coachStripeAccountId: coachProfile.settings.paymentAndBilling.stripe.accountId,
     type: 'live_session_charge',
     status: 'pending',
     priceSnapshot: finalCostBreakdown,

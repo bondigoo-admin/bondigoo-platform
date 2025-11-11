@@ -568,7 +568,7 @@ const ManageAvailabilityModal = ({ isOpen, onClose, onSave, onDelete, availabili
                         key={dateStr}
                         type="button"
                         variant={isSelected ? 'default' : 'outline'}
-                        className="h-auto flex-col p-2 shrink-0 w-12"
+                        className="gap-1 h-auto flex-col p-2 shrink-0 w-12"
                         onClick={() => handleDateSelection(date)}
                       >
                         <span className="text-xs font-medium">{moment(date).format('ddd')}</span>
@@ -910,12 +910,12 @@ const ManageAvailabilityModal = ({ isOpen, onClose, onSave, onDelete, availabili
               {t('common:cancel')}
             </Button>
             {isEditMode && (
-              <Button type="button" variant="destructive" onClick={handleDelete}>
+              <Button type="button" variant="delete-outline" onClick={handleDelete}>
                 <Trash2 className="mr-2 h-4 w-4" />
                 {t('common:delete')}
               </Button>
             )}
-            <Button type="submit" form="availability-form" disabled={isSubmitting}>
+            <Button type="submit" form="availability-form" className="gap-0" disabled={isSubmitting}>
               {isSubmitting ? <Loader className="mr-2 h-4 w-4 animate-spin" /> : <Save className="mr-2 h-4 w-4" />}
               {isSubmitting ? t('common:saving') : t('common:save')}
             </Button>

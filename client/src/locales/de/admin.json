@@ -530,6 +530,7 @@
   "userManagement.selectRole": "Rolle auswählen",
   "userManagement.actions.changeRoleConfirm": "Rolle ändern",
   "userManagement.actions.resetPassword": "Passwort zurücksetzen",
+  "userManagement.actions.setFeeOverride": "Individuelle Gebühren festlegen",
   "userManagement.resetPasswordConfirmTitle": "Passwortzurücksetzung bestätigen",
   "userManagement.resetPasswordConfirmDesc": "Dies sendet einen Link zum Zurücksetzen des Passworts an die E-Mail des Benutzers. Geben Sie einen Grund für diese Aktion an.",
   "userManagement.passwordResetReason": "Grund",
@@ -1008,5 +1009,47 @@
   "notifications.report_actioned.title": "Danke für deine Meldung",
   "notifications.report_actioned.message": "Wir haben Maßnahmen aufgrund deiner Meldung ergriffen. Deine Mithilfe trägt dazu bei, unsere Community sicher zu halten.",
   "notifications.report_dismissed.title": "Update zu deiner Meldung",
-  "notifications.report_dismissed.message": "Nach Überprüfung haben wir festgestellt, dass der gemeldete Inhalt nicht gegen unsere Community-Richtlinien verstößt. Wir schätzen dennoch, dass du dir die Zeit genommen hast, uns zu helfen."
+  "notifications.report_dismissed.message": "Nach Überprüfung haben wir festgestellt, dass der gemeldete Inhalt nicht gegen unsere Community-Richtlinien verstößt. Wir schätzen dennoch, dass du dir die Zeit genommen hast, uns zu helfen.",
+  "userManagement": {
+      "actions": {
+        "feeOverrideSuccess": "Plattformgebühren-Ausnahme erfolgreich gespeichert.",
+        "feeOverrideRemoveSuccess": "Plattformgebühren-Ausnahme erfolgreich entfernt."
+      },
+      "feeOverride": {
+        "title": "Plattformgebühren-Ausnahme festlegen",
+        "description": "Gewähren Sie Sonderkonditionen für Plattformgebühren für",
+        "type": "Art",
+        "discount": "Rabatt %",
+        "appliesTo": "Gilt für",
+        "expires": "Läuft ab am",
+        "noExpiry": "Kein Ablaufdatum",
+        "notes": "Admin-Notizen",
+        "notesPlaceholder": "Grund für diese Ausnahme...",
+        "removeOverride": "Ausnahme entfernen",
+        "panelTitle": "Status der Plattformgebühr",
+        "panelDescription": "Verwalten Sie die Sonderkonditionen für diesen Coach.",
+        "removeConfirmTitle": "Ausnahme wirklich entfernen?",
+        "removeConfirmDesc": "Dadurch werden die Standard-Plattformgebühren für alle zukünftigen Transaktionen dieses Coaches wiederhergestellt. Diese Aktion kann nicht rückgängig gemacht werden.",
+        "noActiveOverride": "Für diesen Coach ist derzeit keine Ausnahme der Plattformgebühr aktiv.",
+        "addOverride": "Ausnahme hinzufügen",
+        "expiredInfo": "Eine frühere Gebührenausnahme für diesen Coach ist abgelaufen.",
+        "activeOverrideTitle": "Aktive Plattformgebühren-Ausnahme",
+        "types": {
+          "zero": "Keine Gebühr (0%)",
+          "discount": "Prozentualer Rabatt"
+        },
+        "status": {
+        "zeroFee": "Gebührenfrei-Status",
+        "discount": "{{percentage}}% Gebührenrabatt",
+        "expired": "Ausnahme abgelaufen",
+        "expiredOverride": "Abgelaufene Gebührenausnahme"
+      },
+        "scopes": {
+          "all": "Alle Transaktionen",
+          "scheduled_sessions": "Geplante Sitzungen",
+          "live_sessions": "Live-Sitzungen",
+          "programs": "Programme"
+        }
+      }
+    }
 }

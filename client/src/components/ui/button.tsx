@@ -5,7 +5,7 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "../../lib/utils" 
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50 gap-2 [&_svg]:size-5",
+  "inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50  [&_svg]:size-5",
   {
     variants: {
       variant: {
@@ -41,6 +41,8 @@ const buttonVariants = cva(
           "bg-yellow-600 text-white hover:bg-yellow-600/90 dark:bg-yellow-700 dark:text-yellow-50 dark:hover:bg-yellow-700/90",
         info:
           "bg-blue-600 text-white hover:bg-blue-600/90 dark:bg-blue-700 dark:text-blue-50 dark:hover:bg-blue-700/90",
+        submit:
+        "inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50  [&_svg]:size-5",
         subtle:
           "bg-slate-100 text-slate-900 hover:bg-slate-200 dark:bg-slate-700 dark:text-slate-100 dark:hover:bg-slate-600",
         delete:

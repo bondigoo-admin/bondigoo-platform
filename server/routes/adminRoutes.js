@@ -24,6 +24,7 @@ router.patch('/dashboard-preferences', auth, checkRole('admin'), adminController
 router.get('/users', auth, checkRole('admin'), adminController.getUsers);
 router.get('/users/:userId', auth, checkRole('admin'), adminController.getUserDetail);
 router.patch('/users/:userId', auth, checkRole('admin'), adminController.updateUserByAdmin);
+router.put('/users/:userId/fee-override', auth, checkRole('admin'), adminController.updateFeeOverride);
 router.post('/users/:userId/remove-warning', auth, checkRole('admin'), adminController.removeUserWarning);
 router.post('/users/:userId/impersonate', auth, checkRole('admin'), adminController.impersonateUser);
 router.post('/users/:userId/reset-password', auth, checkRole('admin'), adminController.requestPasswordResetByAdmin);

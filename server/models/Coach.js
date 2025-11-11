@@ -296,6 +296,43 @@ const CoachSchema = new mongoose.Schema({
       }]
     },
 
+    platformFeeOverride: {
+      type: {
+        type: String,
+        enum: ['ZERO_FEE', 'PERCENTAGE_DISCOUNT'],
+        required: true
+      },
+      discountPercentage: {
+        type: Number,
+        min: 0,
+        max: 100,
+        required: function() { return this.type === 'PERCENTAGE_DISCOUNT'; }
+      },
+      appliesTo: {
+        type: [String],
+        enum: ['ALL', 'SCHEDULED_SESSIONS', 'LIVE_SESSIONS', 'PROGRAMS'],
+        required: true,
+        default: ['ALL']
+      },
+      effectiveUntil: {
+        type: Date,
+        default: null
+      },
+      adminNotes: {
+        type: String,
+        trim: true
+      },
+      updatedBy: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
+      },
+      updatedAt: {
+        type: Date,
+        default: Date.now
+      }
+    },
+
     insuranceRecognition: {
       isRecognized: { type: Boolean, default: false, index: true },
       registries: [{
