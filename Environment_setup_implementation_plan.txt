@@ -1,4 +1,4 @@
-mplementation Plan: From Development to Production
+implementation Plan: From Development to Production
 Phase 0: Pre-Flight & Codebase Preparation
 Before creating any new infrastructure, we must prepare our codebase and repository.
 Step 1: Solidify Git Branching Strategy
@@ -255,6 +255,66 @@ PR to staging: Open a PR from develop into staging. Merge it.
 Verify staging: Go to https://staging.bondigoo.ch. Confirm the change is there. Perform a key user action (e.g., create a booking) to ensure it works against the staging database and Stripe Test Mode.
 PR to main: Open a final PR from staging into main. Merge it.
 Verify prod: Go to https://www.bondigoo.ch. Confirm the change is live on the pre-launch site.
+
+Recommended Next Steps: Configuration for Deployed Environments
+Here is the step-by-step plan to configure your webhooks for the Development and Staging environments. The same process will apply to Production when you are ready.
+Phase 1: Configure Webhook Endpoints in the Stripe Dashboard
+You will create a separate webhook endpoint in Stripe for each of your environments. This ensures that events from test payments in Staging go only to your Staging API, and live production events go only to your Production API.
+Step 1. Log in to your Stripe Dashboard.
+Step 2. Ensure you are in "Test mode". There is a toggle at the top right of the dashboard. Your Development and Staging environments should only use Test mode.
+Step 3. Navigate to the Webhooks section.
+Click on Developers in the top-right menu.
+In the left sidebar, click on Webhooks.
+Step 4. Create the Webhook Endpoint for your development Environment.
+Click the + Add endpoint button.
+In the Endpoint URL field, enter the full URL to your development backend's webhook handler. Based on your environemnt_setup.txt and server.js files, this is:
+https://api.dev.bondigoo.ch/api/payments/webhook
+For the Events to listen to, click + Select events. You should only select the specific events your application handles to reduce unnecessary traffic. Based on your paymentController.js, these are:
+payment_intent.succeeded
+payment_intent.payment_failed
+payment_intent.amount_capturable_updated
+charge.refunded
+account.updated
+transfer.created
+transfer.updated
+transfer.paid
+Click Add events.
+Click Add endpoint.
+Step 5. Create the Webhook Endpoint for your staging Environment.
+Click the + Add endpoint button again.
+In the Endpoint URL field, enter your staging URL:
+https://api.staging.bondigoo.ch/api/payments/webhook
+Select the exact same list of events as you did for the development environment.
+Click Add endpoint.
+Phase 2: Secure Your Endpoints with Signing Secrets
+For each endpoint you just created, Stripe generates a unique "signing secret." This is how your backend verifies that a webhook request is genuinely from Stripe and not a malicious actor.
+Step 1. Reveal the Signing Secret for the development Endpoint.
+On the Webhooks page in Stripe, click on the URL you just created (https://api.dev.bondigoo.ch/...).
+Under the Signing secret section, click the Click to reveal button.
+Copy this secret. It will start with whsec_....
+Step 2. Add the Secret to your development Environment in Render.
+Go to your Render.com dashboard.
+Navigate to the Environment Group for your development environment (bondigoo-dev-env as per your docs).
+Add a new Environment Variable.
+Key: STRIPE_WEBHOOK_SECRET
+Value: Paste the signing secret you just copied from Stripe.
+Save the changes. This will likely trigger a new deployment for your bondigoo-api-dev and bondigoo-worker-dev services, which is what you want.
+Step 3. Reveal and Add the Secret for the staging Endpoint.
+Go back to the Stripe Webhooks page and click on your staging URL (https://api.staging.bondigoo.ch/...).
+Reveal and copy its unique Signing secret.
+Go to your bondigoo-staging-env Environment Group in Render.
+Add the exact same environment variable key (STRIPE_WEBHOOK_SECRET) but with the new value you copied for the staging endpoint.
+Save the changes to trigger a deployment.
+Phase 3: Verification and Testing
+You no longer need to run any stripe commands in your local terminal.
+Deploy the latest version of your code to the develop branch.
+Once the Render deployment is complete, go to your dev.bondigoo.ch frontend.
+Perform an action that triggers a payment (e.g., enroll in a program, book a session) using one of Stripe's test card numbers.
+Check for Success:
+In the Stripe Dashboard: Go to the Developers > Webhooks section. Click on your api.dev.bondigoo.ch endpoint. You should see a new event with a 200 OK status, indicating Stripe successfully sent the event and your server acknowledged it.
+In your Render Logs: Look at the logs for the bondigoo-api-dev service. You should see the log entries from your paymentController.js webhookHandler, such as [PaymentController:Webhook] Stripe event constructed successfully....
+Repeat this entire testing process for your staging environment by pushing your code to the staging branch and using the staging.bondigoo.ch frontend.
+
 Step 10: Pre-Launch Final Checklist
 
 [ ] **Infrastructure Hardening (Go-Live Requirement):**
@@ -265,7 +325,7 @@ Step 10: Pre-Launch Final Checklist
 [ ] **Configuration Finalization:**
     [ ] All Production environment variables (`bondigoo-prod-env`) are set and double-checked.
     [ ] Stripe keys in `bondigoo-prod-env` are switched from Test Mode (`sk_test_...`) to **Live Mode (`sk_live_...`)**.
-    [ ] `REACT_APP_STRIPE_PKEY` in Vercel Production is set to the **Live Publishable Key (`pk_live_...`)**.
+    [ ] `REACT_APP_STRIPE_PUBLISHABLE_KEY` in Vercel Production is set to the **Live Publishable Key (`pk_live_...`)**.
     [ ] `REACT_APP_LAUNCHED` is `false` in Vercel Production settings.
 
 [ ] **Data & DNS:**

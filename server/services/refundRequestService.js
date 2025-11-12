@@ -76,6 +76,7 @@ async createRefundRequest({ client, bookingId, reason, requestedAmount, currency
                 { path: 'payment', populate: { path: 'paymentRecord' }}
             ]
         });
+
         if (!ticket || ticket.booking.coach._id.toString() !== coachId.toString()) throw new Error("Ticket not found or access denied.");
         if (ticket.status !== 'awaiting_coach_response') throw new Error("This request is no longer awaiting a response.");
 
@@ -89,40 +90,36 @@ async createRefundRequest({ client, bookingId, reason, requestedAmount, currency
         }
 
         if (decision === 'approve') {
-            const session = await mongoose.startSession();
-            session.startTransaction();
-            try {
-                const paymentRecord = ticket.booking.payment.paymentRecord;
-                const maxRefundable = paymentRecord.amount.total - (paymentRecord.amount.refunded || 0);
-                const isFullRefund = approvedAmount >= maxRefundable;
-
-                ticket.status = isFullRefund ? 'closed' : 'resolved_by_coach';
-                ticket.resolution = {
-                    ...ticket.resolution,
-                    action: 'refund_approved',
-                    resolvedBy: new mongoose.Types.ObjectId(coachId),
-                    resolvedAt: new Date(),
-                    finalRefundAmount: approvedAmount
-                };
-                await ticket.save({ session });
-                
-                await AdminFinancialService.processRefund({
-                    paymentId: ticket.payment,
-                    amount: approvedAmount,
-                    reason: `Coach approved refund. Message: ${clientMessage || 'No comment provided.'}`,
-                    policyType: 'standard',
-                    initiatorId: coachId,
-                    bookingContext: ticket.booking
-                }, { session });
-
-                await session.commitTransaction();
-            } catch (error) {
-                await session.abortTransaction();
-                logger.error(`[RefundRequestService] Transaction failed for ticket ${ticketId} approval.`, { error: error.message, stack: error.stack });
-                throw error;
-            } finally {
-                session.endSession();
+            const paymentRecord = ticket.booking.payment.paymentRecord;
+            if (!paymentRecord) {
+                throw new Error("Could not find the associated payment record for this booking.");
             }
+            
+            await paymentService.processRefund({
+                paymentIntentId: paymentRecord.stripe.paymentIntentId,
+                amount: approvedAmount,
+                currency: paymentRecord.amount.currency,
+                reason: `Coach approved refund. Message: ${clientMessage || 'No comment provided.'}`,
+                metadata: {
+                    initiatorId: coachId.toString(),
+                    policyType: 'standard',
+                    ticketId: ticketId.toString()
+                }
+            });
+
+            const maxRefundable = paymentRecord.amount.total - (paymentRecord.amount.refunded || 0);
+            const isFullRefund = approvedAmount >= maxRefundable;
+
+            ticket.status = isFullRefund ? 'closed' : 'resolved_by_coach';
+            ticket.resolution = {
+                ...ticket.resolution,
+                action: 'refund_approved',
+                resolvedBy: new mongoose.Types.ObjectId(coachId),
+                resolvedAt: new Date(),
+                finalRefundAmount: approvedAmount
+            };
+            await ticket.save();
+
         } else { // Decline
             ticket.status = 'escalated_to_admin';
             await ticket.save();

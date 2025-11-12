@@ -19,10 +19,10 @@ i18next
 
 class SettlementAdviceService {
     _generateStatementDescription(paymentRecord, t) {
-        if (paymentRecord.liveSession) return t('earnings.clientPaymentForLiveSession', 'Client Payment for Live Session');
-        if (paymentRecord.program?.title) return t('earnings.clientPaymentForProgram', 'Client Payment for Program: {{title}}', { title: paymentRecord.program.title });
-        if (paymentRecord.booking?.title) return t('earnings.clientPaymentForSession', 'Client Payment for Session: {{title}}', { title: paymentRecord.booking.title });
-        return t('earnings.clientPaymentForService', 'Client Payment for Coaching Service');
+        if (paymentRecord.liveSession) return t('earnings.clientPaymentForLiveSession', 'Kundenzahlung für Live-Sitzung');
+        if (paymentRecord.program?.title) return t('earnings.clientPaymentForProgram', 'Kundenzahlung für Programm: {{title}}', { title: paymentRecord.program.title });
+        if (paymentRecord.booking?.title) return t('earnings.clientPaymentForSession', 'Kundenzahlung für Lektion: {{title}}', { title: paymentRecord.booking.title });
+        return t('earnings.clientPaymentForService', 'Kundenzahlung für Coaching-Dienstleistung');
     }
     
     _generateHeader(doc, t) {
@@ -30,7 +30,7 @@ class SettlementAdviceService {
         doc.moveDown(1.5);
     }
     
-    _generatePartyDetails(doc, payment, t) {
+   _generatePartyDetails(doc, payment, t) {
         const coach = payment.recipient;
         const client = payment.payer;
         
@@ -39,7 +39,7 @@ class SettlementAdviceService {
            .text(`${coach.firstName} ${coach.lastName}`)
            .text(coach.email);
         
-        doc.font('Helvetica-Bold').fontSize(9).text(t('client', 'Client').toUpperCase(), 350, doc.y - 42);
+        doc.font('Helvetica-Bold').fontSize(9).text(t('common:client', 'Kunde').toUpperCase(), 350, doc.y - 42);
         doc.font('Helvetica').fontSize(10)
            .text(`${client.firstName} ${client.lastName}`, 350)
            .text(client.email, 350);
@@ -47,15 +47,15 @@ class SettlementAdviceService {
         doc.moveDown(2);
     }
 
-   _generateMetaInfo(doc, payment, t) {
-        const locale = t('common:dateFormatLocale', { ns: 'common', defaultValue: 'en-US' });
+_generateMetaInfo(doc, payment, t) {
+        const locale = t('common:dateFormatLocale', { ns: 'common', defaultValue: 'de-DE' });
         const issueDate = new Date(payment.createdAt).toLocaleDateString(locale);
         const serviceDate = new Date(payment.liveSession?.startTime || payment.booking?.start || payment.program?.createdAt || payment.createdAt).toLocaleDateString(locale);
 
         doc.font('Helvetica').fontSize(10)
            .text(`${t('earnings.statementFor', 'Auszug für')}: ${payment._id.toString()}`, { align: 'right' })
-           .text(`${t('earnings.dateOfIssue', 'Date of Issue')}: ${issueDate}`, { align: 'right' })
-           .text(`${t('earnings.dateOfService', 'Date of Service')}: ${serviceDate}`, { align: 'right' });
+           .text(`${t('earnings.dateOfIssue', 'Ausstellungsdatum')}: ${issueDate}`, { align: 'right' })
+           .text(`${t('earnings.dateOfService', 'Datum der Dienstleistung')}: ${serviceDate}`, { align: 'right' });
 
         doc.moveDown(2);
     }
@@ -92,7 +92,7 @@ class SettlementAdviceService {
         const processingFee = feeTransaction?.amount.value || 0;
         const netEarning = grossAmount - platformFee - vatWithheld - processingFee;
 
-        const finalFilename = `${t('earnings.statement', 'Statement')}-${payment._id.toString().slice(-8)}.pdf`;
+        const finalFilename = `${t('earnings.statement', 'Auszug')}-${payment._id.toString().slice(-8)}.pdf`;
         const doc = new PDFDocument({ size: 'A4', margin: 50 });
 
         const brandColor = '#1F2937';
@@ -105,10 +105,10 @@ class SettlementAdviceService {
         this._generatePartyDetails(doc, payment, t);
         this._generateMetaInfo(doc, payment, t);
 
-        const tableTop = doc.y;
+       const tableTop = doc.y;
         doc.font(boldFont).fillColor(lightGrey).fontSize(10)
-           .text(t('earnings.description', 'Description').toUpperCase(), pageMargins.left, tableTop, { width: 380 })
-           .text(t('earnings.amount', 'Amount').toUpperCase(), 0, tableTop, { align: 'right' });
+           .text(t('earnings.description', 'Beschreibung').toUpperCase(), pageMargins.left, tableTop, { width: 380 })
+           .text(t('earnings.amount', 'Betrag').toUpperCase(), 0, tableTop, { align: 'right' });
 
         doc.moveTo(pageMargins.left, doc.y + 5).lineTo(doc.page.width - pageMargins.right, doc.y + 5).strokeColor('#E5E7EB').stroke();
         doc.moveDown(1.5);
@@ -118,15 +118,15 @@ class SettlementAdviceService {
         doc.moveDown(1.5);
         
         const platformFeeText = platformFeePercent 
-            ? t('payments:platformFeeWithPercent', { ns: 'payments', defaultValue: 'Platform Fee ({{percentage}}%)', percentage: platformFeePercent })
-            : t('earnings.platformFee', 'Platform Fee');
+            ? t('payments:platformFeeWithPercent', { ns: 'payments', defaultValue: 'Plattformgebühr ({{percentage}}%)', percentage: platformFeePercent })
+            : t('earnings.platformFee', 'Plattformgebühr');
         doc.font(regularFont).text(platformFeeText, pageMargins.left, doc.y, { width: 380 });
         doc.text(`-${platformFee.toFixed(2)}`, 0, doc.y - 12, { align: 'right' });
         doc.moveDown(1.2);
         
-        const vatWithheldText = vatRate
-            ? `${t('earnings.vatWithheld', 'VAT Withheld')} (${vatRate}%)`
-            : t('earnings.vatWithheld', 'VAT Withheld');
+         const vatWithheldText = vatRate
+            ? `${t('earnings.vatWithheld', 'Einbehaltene Mehrwertsteuer')} (${vatRate}%)`
+            : t('earnings.vatWithheld', 'Einbehaltene Mehrwertsteuer');
         doc.font(regularFont).text(vatWithheldText, pageMargins.left, doc.y, { width: 380 });
         doc.text(`-${vatWithheld.toFixed(2)}`, 0, doc.y - 12, { align: 'right' });
         doc.moveDown(1.2);
@@ -141,11 +141,11 @@ class SettlementAdviceService {
         doc.moveDown(1);
         
         const totalY = doc.y;
-        doc.font(boldFont).fontSize(14).text(`${t('earnings.payout', 'Payout')}:`, 350, totalY, { width: 100, align: 'left' });
+        doc.font(boldFont).fontSize(14).text(`${t('earnings.payout', 'Auszahlung')}:`, 350, totalY, { width: 100, align: 'left' });
         doc.text(`${netEarning.toFixed(2)} ${currency}`, 0, totalY, { align: 'right' });
         doc.moveDown(3);
 
-        const disclaimerText = t('earnings.settlementAdviceDisclaimer', 'This document is a settlement advice for your records. It is not a tax invoice. A formal, tax-compliant B2B self-billed invoice will be generated and made available to you upon the successful completion of the payout for this transaction.');
+         const disclaimerText = t('earnings.settlementAdviceDisclaimer', 'Dieses Dokument ist eine Abrechnung für Ihre Unterlagen. Es handelt sich nicht um eine Steuerrechnung. Eine formelle, steuerkonforme B2B-Gutschriftsrechnung wird erstellt und Ihnen nach erfolgreichem Abschluss der Auszahlung für diese Transaktion zur Verfügung gestellt.');
         doc.font(regularFont).fontSize(8).fillColor(lightGrey).text(
             disclaimerText,
             pageMargins.left,

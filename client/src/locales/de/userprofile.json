@@ -187,6 +187,6 @@
   "deleteAccount": "Konto löschen",
   "deleteDescription": "Nach dem Löschen kann Ihr Konto nicht wiederhergestellt werden. Alle Ihre Daten werden dauerhaft entfernt.",
   "confirmDeleteTitle": "Bestätigung zum Löschen des Kontos",
-  "confirmDeleteDescription": "Dies ist eine unumkehrbare Aktion. Um fortzufahren, geben Sie bitte Ihre E-Mail-Adresse ein und klicken Sie auf 'Bestätigungs-E-Mail senden'.",
+  "confirmDeleteDescription": "Dies ist eine unwiederruflich Aktion. Um fortzufahren, geben Sie bitte Ihre E-Mail-Adresse ein und klicken Sie auf 'Bestätigungs-E-Mail senden'.",
   "sendConfirmationEmail": "Bestätigungs-E-Mail senden"
 }

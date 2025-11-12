@@ -182,7 +182,7 @@ const completeCurrentLesson = useCallback(() => {
 
   }, [currentLesson, enrollment, queryClient, t]);
 
-  const completeCurrentSubItem = useCallback((fileId) => {
+const completeCurrentSubItem = useCallback((fileId) => {
     logger.info(`[CONTEXT_TRACE] 1. ENTERING 'completeCurrentSubItem' (Optimistic) for file: ${fileId}`);
     if (!currentLesson || !enrollment || !fileId || enrollment.isPreview) {
       logger.warn(`[CONTEXT_TRACE] 2. ABORTED: Missing data or in preview mode.`);
@@ -191,8 +191,7 @@ const completeCurrentLesson = useCallback(() => {
     
     const originalEnrollment = enrollment;
     
-    // Create the optimistic state
-    const lessonDetailIndex = enrollment.progress.lessonDetails.findIndex(ld => ld.lesson.equals(currentLesson._id));
+    const lessonDetailIndex = enrollment.progress.lessonDetails.findIndex(ld => ld.lesson === currentLesson._id);
     const newLessonDetails = JSON.parse(JSON.stringify(enrollment.progress.lessonDetails));
     let isLessonNowComplete = false;
 

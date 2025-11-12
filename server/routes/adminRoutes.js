@@ -176,6 +176,10 @@ router.get('/settings/notifications/templates', adminNotificationController.getN
 router.put('/settings/notifications/templates/:id', adminNotificationController.updateNotificationTemplate);
 router.post('/settings/notifications/reset', adminNotificationController.resetToDefaults);
 
+// SECTION 4A: ASSET RECONCILIATION
+router.get('/orphaned-assets', auth, checkRole('admin'), adminController.getOrphanedAssets);
+router.post('/orphaned-assets/delete', auth, checkRole('admin'), adminController.deleteOrphanedAssets);
+
 // --- WILDCARD LIST MANAGEMENT ROUTES (MUST BE LAST) ---
 router.get('/:listType', auth, checkRole('admin'), adminController.getListItems);
 router.post('/:listType', auth, checkRole('admin'), adminController.addListItem);

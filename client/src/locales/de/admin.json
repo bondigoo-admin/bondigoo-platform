@@ -550,7 +550,7 @@
   "userManagement.actions.impersonateConfirm": "Imitieren",
   "userManagement.actions.delete": "Benutzer löschen",
   "userManagement.deleteConfirmTitle": "Benutzer dauerhaft löschen?",
-  "userManagement.deleteConfirmDesc": "Diese Aktion ist unumkehrbar. Alle Benutzerdaten, einschliesslich Sitzungen und Finanzunterlagen, werden zur dauerhaften Löschung in die Warteschlange gestellt. Um fortzufahren, geben Sie den vollständigen Namen des Benutzers ein:",
+  "userManagement.deleteConfirmDesc": "Diese Aktion ist unwiederruflich. Alle Benutzerdaten, einschliesslich Sitzungen und Finanzunterlagen, werden zur dauerhaften Löschung in die Warteschlange gestellt. Um fortzufahren, geben Sie den vollständigen Namen des Benutzers ein:",
   "userManagement.deleteConfirmationLabel": "Namen bestätigen",
   "userManagement.actions.deleteConfirm": "Dauerhaft löschen",
   "userManagement.actions.error": "Aktion fehlgeschlagen: ",
@@ -1051,5 +1051,29 @@
           "programs": "Programme"
         }
       }
-    }
+    },
+    "platform.assetCleanup": "Asset-Bereinigung",
+  "platform.assetCleanupTitle": "Asset-Bereinigungskonsole",
+  "platform.assetCleanupDesc": "Überprüfen Sie Assets, die als potenziell verwaist identifiziert wurden. Wählen Sie Assets aus und löschen Sie sie, um Speicherplatz freizugeben.",
+  "platform.filterResourceType": "Nach Ressourcentyp filtern",
+  "platform.allTypes": "Alle Ressourcentypen",
+  "platform.image": "Bild",
+  "platform.video": "Video",
+  "platform.raw": "Rohdatei",
+  "platform.filterAssetType": "Nach Asset-Typ filtern",
+  "platform.allAssetTypes": "Alle Asset-Typen",
+  "platform.deleteSelected": "Ausgewählte löschen ({{count}})",
+  "platform.table.preview": "Vorschau",
+  "platform.table.publicId": "Public ID",
+  "platform.table.assetType": "Asset-Typ",
+  "platform.table.folder": "Ordner",
+  "platform.table.size": "Grösse",
+  "platform.table.format": "Format",
+  "platform.table.created": "Erstellt",
+  "platform.table.discovered": "Entdeckt",
+  "platform.noOrphans": "Keine ausstehenden verwaisten Assets gefunden.",
+  "platform.confirmDeletionTitle": "Dauerhaftes Löschen bestätigen",
+  "platform.confirmDeletionDesc": "Sie sind dabei, {{count}} Assets dauerhaft zu löschen. Diese Aktion ist unwiederruflich. Sind Sie sicher?",
+  "platform.itemsPerPage": "Elemente pro Seite",
+  "platform.perPage": "pro Seite"
 }
