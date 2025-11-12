@@ -182,6 +182,7 @@
   "image_upload_partial_add_toast": "Es konnten nur {{count}} Bilder hinzugefügt werden, um das Maximum von {{max}} nicht zu überschreiten.",
   "filter_sort": "Filter",
   "showing_programs": "Programme werden angezeigt",
+  "card_enrolled_tooltip": "Du hast dieses Programm gekauft.",
   "filters_button": "Filter",
   "sort_by_placeholder": "Sortieren nach: Neueste",
   "sort_newest": "Neueste",

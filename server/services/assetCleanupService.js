@@ -21,7 +21,7 @@ const queueAssetDeletion = async (publicIds, resourceType = 'auto', isPrivate = 
     const validIds = idsToDelete.filter(id => id);
     if (validIds.length === 0) return;
 
-    const job = await assetCleanupQueue.add('delete-cloudinary-assets', {
+     const job = await assetCleanupQueue().add('delete-cloudinary-assets', {
       publicIds: validIds,
       resourceType,
       type,

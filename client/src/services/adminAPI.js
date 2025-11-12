@@ -500,3 +500,13 @@ export const updateFeeOverride = async (userId, overrideData) => {
     const { data } = await api.put(`/api/admin/users/${userId}/fee-override`, overrideData);
     return data;
 };
+
+export const getOrphanedAssets = async (params) => {
+    const { data } = await api.get('/api/admin/orphaned-assets', { params });
+    return data;
+};
+
+export const deleteOrphanedAssets = async (payload) => {
+    const { data } = await api.post('/api/admin/orphaned-assets/delete', payload);
+    return data;
+};

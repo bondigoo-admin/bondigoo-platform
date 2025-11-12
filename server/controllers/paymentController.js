@@ -1068,11 +1068,42 @@ if (paymentIntentSucceeded.metadata && paymentIntentSucceeded.metadata.type === 
         }
         break;
 
-     case 'charge.refunded':
-        const charge = event.data.object;
-        logger.info(`[Webhook] Received 'charge.refunded' for charge ${charge.id}. Processing refunds.`);
-        for (const refund of charge.refunds.data) {
-          await paymentService.handleRefundCompletion(refund);
+      case 'charge.refunded':
+          const charge = event.data.object;
+          console.log(`[Webhook] Received 'charge.refunded' for charge ${charge.id}. No action taken, handled by refund.* events.`);
+          break;
+
+        case 'refund.created':
+        const refund = event.data.object;
+        if (refund.status === 'succeeded') {
+            const logContext = { stripeRefundId: refund.id, paymentIntentId: refund.payment_intent };
+            console.log(`[Webhook] Processing 'refund.created' for succeeded refund.`, logContext);
+
+            try {
+                const payment = await Payment.findOne({ 'stripe.paymentIntentId': refund.payment_intent })
+                    .populate('payer recipient');
+
+                if (!payment) {
+                    logger.error('[Webhook] CRITICAL: Payment record not found for refund event. Manual intervention required.', logContext);
+                    return res.json({ received: true, status: 'error_not_found' });
+                }
+                
+                await AdminFinancialService.processRefund({
+                    payment: payment,
+                    stripeRefund: refund,
+                    reason: refund.metadata.internal_reason || refund.reason || 'No reason provided',
+                    policyType: refund.metadata.policyType || 'standard',
+                    initiatorId: refund.metadata.initiatorId || 'unknown_webhook'
+                });
+
+            } catch (error) {
+                if (error.message.startsWith('Duplicate refund event')) {
+                    logger.warn(`[Webhook] Idempotency check caught duplicate refund event.`, { ...logContext, message: error.message });
+                    return res.json({ received: true, status: 'processed_idempotently' });
+                }
+                logger.error('[Webhook] CRITICAL: Failure in AdminFinancialService during refund processing.', { ...logContext, error: error.message, stack: error.stack });
+                return res.status(500).json({ received: true, status: 'processing_error' });
+            }
         }
         break;
 
@@ -1154,10 +1185,10 @@ const handlePaymentSuccess = async (paymentRecord, paymentIntentSucceeded) => {
         console.log(`[Idempotency Check] LiveSession ${logContext.liveSessionId} is already completed. Skipping post-payment actions.`, logContext);
         return;
     }
-  } else if (paymentRecord.booking) {
-    const bookingToCheck = await Booking.findById(logContext.bookingId).select('status').lean();
-    if (bookingToCheck && ['confirmed', 'completed', 'scheduled'].includes(bookingToCheck.status)) {
-      console.log(`[Idempotency Check] Booking ${logContext.bookingId} is already confirmed/completed. Skipping post-payment actions.`, logContext);
+} else if (paymentRecord.booking) {
+    const bookingToCheck = await Booking.findById(logContext.bookingId).select('status payment.status').lean();
+    if (bookingToCheck && bookingToCheck.payment?.status === 'completed') {
+      console.log(`[Idempotency Check] Payment for Booking ${logContext.bookingId} is already completed. Skipping post-payment actions.`, logContext);
       return;
     }
   }
@@ -1269,8 +1300,10 @@ const handlePaymentSuccess = async (paymentRecord, paymentIntentSucceeded) => {
               if (booking.status === 'pending_minimum_attendees' && confirmedCount >= (booking.minAttendees || 1) ) {
                 booking.status = 'scheduled';
               }
-            } else {
-              booking.status = 'confirmed';
+           } else {
+              if (booking.status !== 'confirmed') {
+                booking.status = 'confirmed';
+              }
             }
             await Session.updateOne({ bookingId }, { $set: { state: 'confirmed', lastUpdated: new Date() } });
             console.log('[handlePaymentSuccess] V-FINAL - Session state updated to confirmed.', { bookingId });
@@ -2795,6 +2828,7 @@ const respondToRefundRequest = async (req, res) => {
 const initiateCoachRefund = async (req, res) => {
     const { paymentId, amount, reason } = req.body;
     const coachId = req.user._id;
+    const logContext = { paymentId, coachId, requestedAmount: amount };
 
     try {
         const payment = await Payment.findById(paymentId);
@@ -2804,21 +2838,33 @@ const initiateCoachRefund = async (req, res) => {
         if (payment.recipient.toString() !== coachId.toString()) {
             return res.status(403).json({ success: false, message: 'You are not authorized to refund this payment.' });
         }
-        const booking = await Booking.findById(payment.booking).populate('user coach sessionType');
+        
+        const maxRefundable = payment.amount.total - (payment.amount.refunded || 0);
+        const requestedAmountFloat = parseFloat(amount);
+        if (isNaN(requestedAmountFloat) || requestedAmountFloat <= 0 || requestedAmountFloat > maxRefundable) {
+            logger.warn(`[paymentController.initiateCoachRefund] Refund amount exceeds max refundable or is invalid.`, { ...logContext, maxRefundable });
+            return res.status(400).json({ success: false, message: `Invalid refund amount. Maximum refundable is ${maxRefundable.toFixed(2)}.` });
+        }
 
-        const result = await AdminFinancialService.processRefund({
-            paymentId,
-            amount: parseFloat(amount),
+        console.log(`[paymentController.initiateCoachRefund] Validation passed. Initiating refund via paymentService.`, logContext);
+
+        await paymentService.processRefund({
+            paymentIntentId: payment.stripe.paymentIntentId,
+            amount: requestedAmountFloat,
+            currency: payment.amount.currency,
             reason: reason || 'Refund issued by coach.',
-            policyType: 'standard',
-            initiatorId: coachId,
-            bookingContext: booking
+            metadata: {
+                initiatorId: coachId.toString(),
+                policyType: 'standard'
+            }
         });
 
-        res.status(200).json({ success: true, message: 'Refund initiated successfully.', data: result });
+        res.status(202).json({ success: true, message: 'Refund has been initiated and is being processed.' });
+
     } catch (error) {
-        logger.error('[paymentController.initiateCoachRefund] Failed to initiate coach refund.', { error: error.message, paymentId, coachId });
-        res.status(500).json({ success: false, message: error.message });
+        logger.error('[paymentController.initiateCoachRefund] Failed to initiate refund with Stripe.', { ...logContext, error: error.message });
+        const errorMessage = error.original?.message || 'Failed to initiate refund.';
+        res.status(500).json({ success: false, message: errorMessage });
     }
 };
 

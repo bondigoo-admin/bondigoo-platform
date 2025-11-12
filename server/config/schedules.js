@@ -1,5 +1,3 @@
-// server/config/schedules.js
-
 const environment = process.env.NODE_ENV || 'development';
 
 const schedules = {

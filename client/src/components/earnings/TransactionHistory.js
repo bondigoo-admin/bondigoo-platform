@@ -210,7 +210,7 @@ const TransactionDetail = ({ transaction }) => {
                         <TooltipProvider>
                             {transaction.b2bDocument?.type === 'invoice' && <Tooltip><TooltipTrigger asChild><Button variant="outline" size="sm" onClick={() => b2bDocMutation.mutate({ invoiceId: transaction.b2bDocument._id })} disabled={b2bDocMutation.isLoading}><FileSignature className="h-4 w-4 mr-2"/>{t('earnings.b2bInvoice', 'B2B Invoice')}</Button></TooltipTrigger><TooltipContent><p>{t('earnings.downloadB2BInvoice', 'Download B2B Invoice')}</p></TooltipContent></Tooltip>}
                             {transaction.b2bDocument?.type === 'credit_note' && <Tooltip><TooltipTrigger asChild><Button variant="outline" size="sm" onClick={() => b2bDocMutation.mutate({ invoiceId: transaction.b2bDocument._id })} disabled={b2bDocMutation.isLoading}><FileMinus className="h-4 w-4 mr-2"/>{t('earnings.creditNote', 'Credit Note')}</Button></TooltipTrigger><TooltipContent><p>{t('earnings.downloadB2BCreditNote', 'Download B2B Credit Note')}</p></TooltipContent></Tooltip>}
-                            <Tooltip><TooltipTrigger asChild><Button variant="outline" size="sm" onClick={() => adviceMutation.mutate({ paymentId: transaction._id, language: i18n.language })} disabled={adviceMutation.isLoading}>{adviceMutation.isLoading ? <Loader2 className="h-4 w-4 mr-2 animate-spin"/> : <FileText className="h-4 w-4 mr-2" />}{t('earnings.statement', 'Statement')}</Button></TooltipTrigger><TooltipContent><p>{t('earnings.downloadStatement', 'Download Earning Statement')}</p></TooltipContent></Tooltip>
+                            <Tooltip><TooltipTrigger asChild><Button variant="outline" size="sm" onClick={() => adviceMutation.mutate({ paymentId: transaction._id })} disabled={adviceMutation.isLoading}>{adviceMutation.isLoading ? <Loader2 className="h-4 w-4 mr-2 animate-spin"/> : <FileText className="h-4 w-4 mr-2" />}{t('earnings.statement', 'Statement')}</Button></TooltipTrigger><TooltipContent><p>{t('earnings.downloadStatement', 'Download Earning Statement')}</p></TooltipContent></Tooltip>
                             {isRefundable && <Tooltip><TooltipTrigger asChild><CoachRefundModal payment={transaction} maxRefundable={maxRefundable}><Button variant="outline" size="sm"><Undo2 className="h-4 w-4 mr-2" />{t('earnings.issueRefund', 'Refund')}</Button></CoachRefundModal></TooltipTrigger><TooltipContent><p>{t('earnings.issueRefund', 'Issue Refund')}</p></TooltipContent></Tooltip>}
                         </TooltipProvider>
                     </div>
@@ -238,6 +238,36 @@ const TransactionRow = ({ transaction, isExpanded, onToggle }) => {
     if (!calculated) return null;
     const { gross, finalPayout } = calculated;
 
+   const isFullyRefunded = transaction.status === 'refunded';
+    const isPartiallyRefunded = transaction.status === 'partially_refunded';
+    const isDisputed = transaction.status === 'disputed';
+
+    const PayoutDisplay = () => {
+        if (isFullyRefunded) {
+            return <p className="font-semibold text-muted-foreground">{finalPayout.toFixed(2)} {amount.currency}</p>;
+        }
+        if (isPartiallyRefunded) {
+             return <p className="font-semibold text-amber-600 dark:text-amber-500">{finalPayout.toFixed(2)} {amount.currency}</p>;
+        }
+        if (isDisputed) {
+            return <p className="font-semibold text-destructive">{finalPayout.toFixed(2)} {amount.currency}</p>;
+        }
+        return <p className="font-semibold text-green-600 dark:text-green-500">{finalPayout.toFixed(2)} {amount.currency}</p>;
+    };
+    
+    const PayoutDisplayDesktop = () => {
+        if (isFullyRefunded) {
+             return <span className="font-semibold text-base text-muted-foreground">{finalPayout.toFixed(2)}</span>;
+        }
+        if (isPartiallyRefunded) {
+             return <span className="font-semibold text-base text-amber-600 dark:text-amber-500">{finalPayout.toFixed(2)}</span>;
+        }
+        if (isDisputed) {
+            return <span className="font-semibold text-base text-destructive">{finalPayout.toFixed(2)}</span>;
+        }
+        return <span className="font-semibold text-base text-green-600 dark:text-green-500">{finalPayout.toFixed(2)}</span>;
+    }
+
     return (
         <React.Fragment>
             <TableRow
@@ -246,14 +276,14 @@ const TransactionRow = ({ transaction, isExpanded, onToggle }) => {
                 data-state={isExpanded ? 'open' : 'closed'}
             >
                 {/* Mobile View Cell */}
-                <TableCell colSpan={5} className="p-4 md:hidden">
+                <TableCell colSpan={6} className="p-4 md:hidden">
                     <div className="flex justify-between items-center gap-3">
                         <div className="flex-1 overflow-hidden">
                             <p className="font-medium truncate">{transaction.booking?.title || transaction.program?.title || 'Coaching Service'}</p>
                             <p className="text-sm text-muted-foreground">{format(new Date(transaction.createdAt), 'PP', { locale })}</p>
                         </div>
                         <div className="text-right shrink-0">
-                            <p className="font-semibold text-green-600 dark:text-green-500">{finalPayout.toFixed(2)} {amount.currency}</p>
+                            <PayoutDisplay />
                             <Badge variant="outline" className="mt-1 font-normal">{t(`financials.statuses.${transaction.status}`, transaction.status)}</Badge>
                         </div>
                         <ChevronDown className={`ml-1 h-5 w-5 shrink-0 transition-transform duration-200 text-muted-foreground ${isExpanded ? 'rotate-180' : ''}`} />
@@ -265,16 +295,25 @@ const TransactionRow = ({ transaction, isExpanded, onToggle }) => {
                     <div className="font-medium">{transaction.booking?.title || transaction.program?.title || 'Coaching Service'}</div>
                     <div className="text-sm text-muted-foreground">{format(new Date(transaction.createdAt), 'P', { locale })}</div>
                 </TableCell>
+                <TableCell className="hidden md:table-cell">
+                     {(isFullyRefunded || isPartiallyRefunded || isDisputed) && (
+                        <Badge variant={isDisputed || isFullyRefunded ? 'destructive' : 'secondary'} className="font-normal">
+                            {t(`financials.statuses.${transaction.status}`, transaction.status)}
+                        </Badge>
+                    )}
+                </TableCell>
                 <TableCell className="hidden md:table-cell text-muted-foreground">{transaction.payer?.firstName || 'N/A'} {transaction.payer?.lastName || ''}</TableCell>
                 <TableCell className="hidden md:table-cell text-right">{gross.toFixed(2)}</TableCell>
-                <TableCell className="hidden md:table-cell text-right font-semibold text-base text-green-600 dark:text-green-500">{finalPayout.toFixed(2)}</TableCell>
+                <TableCell className="hidden md:table-cell text-right">
+                    <PayoutDisplayDesktop />
+                </TableCell>
                 <TableCell className="hidden md:table-cell text-right pr-4">
                     <ChevronDown className={`h-4 w-4 transition-transform duration-200 ${isExpanded ? 'rotate-180' : ''}`} />
                 </TableCell>
             </TableRow>
             {isExpanded && (
                 <TableRow className="border-b-0 bg-muted/20 dark:bg-black/20" data-state={isExpanded ? 'open' : 'closed'}>
-                    <TableCell colSpan={5} className="p-0">
+                    <TableCell colSpan={6} className="p-0">
                         <TransactionDetail transaction={transaction} />
                     </TableCell>
                 </TableRow>
@@ -315,21 +354,22 @@ export const TransactionHistory = () => {
                             <TableHeader className="hidden md:table-header-group bg-muted/50">
                                 <TableRow>
                                     <TableHead className="w-[35%]">{t('earnings.description', 'Description')}</TableHead>
-                                    <TableHead className="w-[25%]">{t('earnings.client', 'Client')}</TableHead>
-                                    <TableHead className="w-[15%] text-right">{t('earnings.grossSale', 'Gross Sale')}</TableHead>
+                                    <TableHead className="w-[15%]">{t('earnings.status', 'Status')}</TableHead>
+                                    <TableHead className="w-[20%]">{t('earnings.client', 'Client')}</TableHead>
+                                    <TableHead className="w-[10%] text-right">{t('earnings.grossSale', 'Gross Sale')}</TableHead>
                                     <TableHead className="w-[15%] text-right font-semibold">{t('earnings.payout', 'Payout')}</TableHead>
-                                    <TableHead className="w-[10%] text-right pr-4"><span className="sr-only">Expand</span></TableHead>
+                                    <TableHead className="w-[5%] text-right pr-4"><span className="sr-only">Expand</span></TableHead>
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
-                                {isLoading ? (
+                                 {isLoading ? (
                                     Array.from({ length: 5 }).map((_, i) => (
-                                        <TableRow key={i}><TableCell colSpan={5}><Skeleton className="h-16 w-full rounded-md" /></TableCell></TableRow>
+                                        <TableRow key={i}><TableCell colSpan={6}><Skeleton className="h-16 w-full rounded-md" /></TableCell></TableRow>
                                     ))
                                 ) : isError ? (
-                                    <TableRow><TableCell colSpan={5} className="text-center h-24 text-destructive"><AlertCircle className="inline-block mr-2 h-5 w-5"/> {t('common:error_generic', 'An error occurred.')}</TableCell></TableRow>
+                                    <TableRow><TableCell colSpan={6} className="text-center h-24 text-destructive"><AlertCircle className="inline-block mr-2 h-5 w-5"/> {t('common:error_generic', 'An error occurred.')}</TableCell></TableRow>
                                 ) : transactions.length === 0 ? (
-                                    <TableRow><TableCell colSpan={5} className="text-center h-24 text-muted-foreground">{t('earnings.noTransactions', 'No transactions found.')}</TableCell></TableRow>
+                                    <TableRow><TableCell colSpan={6} className="text-center h-24 text-muted-foreground">{t('earnings.noTransactions', 'No transactions found.')}</TableCell></TableRow>
                                 ) : (
                                     transactions.map(transaction => (
                                         <TransactionRow 

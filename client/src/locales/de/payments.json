@@ -20,6 +20,7 @@
   "addMethod": "Neue Zahlungsmethodode hinzufügen",
   "addMethodTitle": "Neue Zahlungsmethode hinzufügen",
   "addMethodDesc": "Deine neue Zahlungsmethode wird sicher gespeichert.",
+  "confirmPayment": "Zahlung bestätigen",
   "status": {
     "processing": "Wird verarbeitet",
     "completed": "Abgeschlossen",

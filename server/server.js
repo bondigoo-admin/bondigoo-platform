@@ -67,8 +67,6 @@ app.use((req, res, next) => {
   next();
 });
 
-
-
 const allowedOrigins = process.env.CORS_ORIGIN ? process.env.CORS_ORIGIN.split(',') : [];
 
 if (process.env.NODE_ENV === 'development' && allowedOrigins.length === 0) {
