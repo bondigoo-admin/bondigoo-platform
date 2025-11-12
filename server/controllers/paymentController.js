@@ -1185,10 +1185,10 @@ const handlePaymentSuccess = async (paymentRecord, paymentIntentSucceeded) => {
         console.log(`[Idempotency Check] LiveSession ${logContext.liveSessionId} is already completed. Skipping post-payment actions.`, logContext);
         return;
     }
-  } else if (paymentRecord.booking) {
-    const bookingToCheck = await Booking.findById(logContext.bookingId).select('status').lean();
-    if (bookingToCheck && ['confirmed', 'completed', 'scheduled'].includes(bookingToCheck.status)) {
-      console.log(`[Idempotency Check] Booking ${logContext.bookingId} is already confirmed/completed. Skipping post-payment actions.`, logContext);
+} else if (paymentRecord.booking) {
+    const bookingToCheck = await Booking.findById(logContext.bookingId).select('status payment.status').lean();
+    if (bookingToCheck && bookingToCheck.payment?.status === 'completed') {
+      console.log(`[Idempotency Check] Payment for Booking ${logContext.bookingId} is already completed. Skipping post-payment actions.`, logContext);
       return;
     }
   }
@@ -1300,8 +1300,10 @@ const handlePaymentSuccess = async (paymentRecord, paymentIntentSucceeded) => {
               if (booking.status === 'pending_minimum_attendees' && confirmedCount >= (booking.minAttendees || 1) ) {
                 booking.status = 'scheduled';
               }
-            } else {
-              booking.status = 'confirmed';
+           } else {
+              if (booking.status !== 'confirmed') {
+                booking.status = 'confirmed';
+              }
             }
             await Session.updateOne({ bookingId }, { $set: { state: 'confirmed', lastUpdated: new Date() } });
             console.log('[handlePaymentSuccess] V-FINAL - Session state updated to confirmed.', { bookingId });

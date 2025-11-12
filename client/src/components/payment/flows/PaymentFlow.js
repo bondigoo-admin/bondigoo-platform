@@ -25,7 +25,7 @@ import {PAYMENT_EVENTS} from '../../../constants/paymentSocketConstants';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '../../ui/collapsible.jsx';
 import { Tag } from 'lucide-react';
 import { cn } from '../../../lib/utils';
-
+import { useAuth } from '../../../contexts/AuthContext';
 
 const MAX_INIT_ATTEMPTS = 3;
 const RETRY_DELAY = 1000;
@@ -120,10 +120,7 @@ const PaymentFlow = ({
     }
   }, [elements, clientSecret, bookingId]);
 
-  const [user] = useState(() => {
-    const stored = localStorage.getItem('user');
-    return stored ? JSON.parse(stored) : null;
-  });
+  const { user } = useAuth();
 
   const [paymentState, setPaymentState] = useState({
     selectedMethod: null,
@@ -876,7 +873,7 @@ const handleSavePaymentMethod = async (paymentMethod) => {
                   onSelect={handlePaymentMethodSelection}
                   selectedMethodId={paymentState.selectedMethod?.id}
                   disabled={paymentState.isProcessing}
-                  userId={user?.id}
+                  userId={user?._id}
                   bookingId={bookingId}
                 />
                 <AnimatePresence>
@@ -962,6 +959,8 @@ const handleSavePaymentMethod = async (paymentMethod) => {
     },
     timestamp: new Date().toISOString()
   });
+
+  const isReadyToRender = isStripeReady && (paymentState.clientSecret || clientSecret);
 
  return (
     <Card
@@ -1053,7 +1052,7 @@ const handleSavePaymentMethod = async (paymentMethod) => {
             </motion.div>
           )}
         </AnimatePresence>
-         {!paymentState.clientSecret || isInitializing ? (
+         {!isReadyToRender ? (
           <div className="flex items-center justify-center p-6">
             <Loader2 className="h-8 w-8 animate-spin text-primary" />
             <p className="ml-2 text-muted-foreground">{t('payments:loadingStripe')}</p>

@@ -1,786 +1,1018 @@
-[NotificationItemContent.handleActionWithState] Opening BDM for PAY_NOW with this existingBooking prop: {"notificationId":"6914b9a517e678434634cbd9","bookingIdForModal":"6914b99017e678434634beb7","bookingDataPropForModal":{"payment":{"status":"pending","refunds":[],"reminderSent":[]},"sessionLink":{"token":"1a7b9474f568e0164706c615989b1cda5a5ea0de29564840582abe2966f8ebd4","sessionId":"33d7ec171acb6ba749a54f51113921cf7b509868b07a38e06e3be6ea5d669485","generatedAt":"2025-11-12T16:45:04.545Z","expired":false},"_id":"6914b99017e678434634beb7","coach":{"_id":"66d9cdcb0a7492a86482bd68","firstName":"Dominic","lastName":"Frei","email":"test.coach2@example.com"},"user":{"_id":"66f418d10a19ec0e4bbd377e","firstName":"Test","lastName":"User 2","email":"test.user2@example.com","profilePicture":{"publicId":"profile_picture_jgl5ga","url":"https://res.cloudinary.com/dzpjkn8eo/image/upload/v1753703993/profile_picture_jgl5ga.jpg"}},"userIds":[],"isLiveSession":false,"sessionType":"66ec4ea477bec414bf2b8859","start":"2025-11-13T06:00:00.000Z","end":"2025-11-13T06:45:00.000Z","timezone":"Europe/Zurich","status":"confirmed","price":{"base":{"amount":{"amount":90,"currency":"CHF"},"currency":"CHF"},"final":{"amount":{"amount":90,"currency":"CHF"},"currency":"CHF"},"vat":{"rate":8.1,"amount":6.74,"included":true},"platformFee":{"amount":0,"percentage":15},"currency":"CHF","discounts":[]},"disputeTicket":null,"overtime":{"allowOvertime":true,"freeOvertimeDuration":6,"paidOvertimeDuration":45,"overtimeRate":20,"_id":"6914b99017e678434634beb8","id":"6914b99017e678434634beb8"},"isAvailability":false,"availableForInstantBooking":true,"firmBookingThreshold":24,"title":"Einzel","description":"","location":"","isOnline":false,"language":null,"tags":[],"cancellationPolicy":{"oneOnOne":{"tiers":[{"hoursBefore":72,"refundPercentage":100},{"hoursBefore":24,"refundPercentage":50}],"minimumNoticeHoursClientCancellation":24,"additionalNotes":"Policy migrated from previous numeric setting.","rescheduling":{"allowClientInitiatedRescheduleHoursBefore":48,"clientRescheduleApprovalMode":"coach_approval_if_late"}},"webinar":{"tiers":[{"hoursBefore":72,"refundPercentage":100},{"hoursBefore":24,"refundPercentage":50}],"minimumNoticeHoursClientCancellation":24,"additionalNotes":"Default webinar policy."},"lastUpdated":"2025-10-20T06:23:53.529Z","policyPreset":"custom"},"sessionGoal":null,"clientNotes":null,"preparationRequired":null,"followUpTasks":null,"minAttendees":null,"maxAttendees":null,"sessionTopic":null,"prerequisites":null,"learningObjectives":null,"materialsProvided":null,"whatToBring":null,"skillLevel":null,"webinarSlots":[],"isPublic":true,"showInWebinarBrowser":true,"recurringPattern":"none","recurringEndDate":null,"earlyBirdDeadline":null,"earlyBirdPrice":null,"isPartOfPackage":false,"certificationOffered":false,"certificationDetails":null,"bookingType":"request","reminderSent":[],"sessionImages":[],"courseMaterials":[],"metadata":{"originalAvailability":"6914b98717e678434634be39","availabilitySettings":{"availableForInstantBooking":true,"firmBookingThreshold":24,"recurringPattern":"none"}},"attendees":[],"suggestedTimes":[],"waitlist":[],"reminders":[],"rescheduleHistory":[],"rescheduleRequests":[],"createdAt":"2025-11-12T16:45:04.495Z","updatedAt":"2025-11-12T16:45:24.900Z","__v":0,"recordings":{},"duration":45,"spotsRemaining":null,"id":"6914b99017e678434634beb7"},"modalInitialAction":"pay_now","timestamp":"2025-11-12T16:47:37.677Z"}
-bundle.js:172424 [DEBUG] [BDM Render] BookingDetailsModal rendering. Count: 1. Reason: Initial Render
-bundle.js:172424 [DEBUG] [BDM isClientOfBooking Check] {"isClient":true,"loggedInUserId":"66f418d10a19ec0e4bbd377e","derivedBookingUserId":"66f418d10a19ec0e4bbd377e","bookingUserRefAtStart":{"_id":"66f418d10a19ec0e4bbd377e","firstName":"Test","lastName":"User 2","email":"test.user2@example.com","profilePicture":{"publicId":"profile_picture_jgl5ga","url":"https://res.cloudinary.com/dzpjkn8eo/image/upload/v1753703993/profile_picture_jgl5ga.jpg"}},"isWebinarTypeCheck":false,"attendeesCount":0}
-bundle.js:172414  [applicablePriceInfo] Bailing early: No currentDisplayBooking or not a webinar type. {"isWebinarType":false,"hasCurrentDisplayBooking":true} Error Component Stack
-    at BookingDetailsModal (src_components_BookingDetailsModal_js.chunk.js:660:3)
-    at NotificationItemContent (src_components_NotificationItemContent_js.chunk.js:199:3)
-    at div (<anonymous>)
-    at MotionComponent (bundle.js:44553:59)
-    at NotificationItem (src_components_NotificationCenter_js-src_services_ReviewAPI_js-node_modules_lucide-react_dist-f2e835.chunk.js:954:3)
-    at ErrorBoundary (src_components_BookingDetailsModal_js.chunk.js:5423:5)
-    at div (<anonymous>)
-    at div (<anonymous>)
-    at _c9 (bundle.js:146045:3)
-    at div (<anonymous>)
-    at _c (bundle.js:145989:3)
-    at NotificationCenterInner (src_components_NotificationCenter_js-src_services_ReviewAPI_js-node_modules_lucide-react_dist-f2e835.chunk.js:480:3)
-    at SocketProvider (bundle.js:149933:3)
-    at NotificationCenter (src_components_NotificationCenter_js-src_services_ReviewAPI_js-node_modules_lucide-react_dist-f2e835.chunk.js:859:3)
-    at RenderedRoute (bundle.js:118201:5)
-    at Outlet (bundle.js:118848:26)
-    at ProtectedRoute (src_components_ProtectedRoute_js.chunk.js:119:69)
-    at RenderedRoute (bundle.js:118201:5)
-    at Routes (bundle.js:118935:5)
-    at Suspense (<anonymous>)
-    at main (<anonymous>)
-    at div (<anonymous>)
-    at AppContent (bundle.js:137964:69)
-    at LiveSessionProvider (bundle.js:149011:3)
-    at NotificationSocketProvider (bundle.js:149838:3)
-    at AppWithSocketProvider (bundle.js:138900:69)
-    at AppWithSocketProviderWrapper (bundle.js:138983:69)
-    at AuthProvider (bundle.js:148641:3)
-    at PaymentProvider (bundle.js:149626:3)
-    at Elements (bundle.js:15340:30)
-    at Suspense (<anonymous>)
-    at App (bundle.js:138935:51)
-    at AuthProvider (bundle.js:148641:3)
-    at QueryClientProvider (bundle.js:114104:21)
-    at Router (bundle.js:118869:15)
-    at BrowserRouter (bundle.js:116769:5)
-overrideMethod @ hook.js:608
-warn @ bundle.js:172414
-(anonymous) @ src_components_BookingDetailsModal_js.chunk.js:1330
-mountMemo @ bundle.js:97421
-useMemo @ bundle.js:97806
-useMemo @ bundle.js:123096
-BookingDetailsModal @ src_components_BookingDetailsModal_js.chunk.js:1327
-renderWithHooks @ bundle.js:96649
-mountIndeterminateComponent @ bundle.js:100621
-beginWork @ bundle.js:101924
-beginWork$1 @ bundle.js:106883
-performUnitOfWork @ bundle.js:106153
-workLoopSync @ bundle.js:106076
-renderRootSync @ bundle.js:106049
-performSyncWorkOnRoot @ bundle.js:105741
-flushSyncCallbacks @ bundle.js:93742
-(anonymous) @ bundle.js:105373
-bundle.js:172424 [DEBUG] [BDM canClientCancelThisBooking] Evaluating eligibility. {"isClientOfBookingResult":true,"hasCurrentDisplayBooking":true,"hasUser":true,"bookingStatus":"confirmed"}
-bundle.js:172424 [DEBUG] [BDM canClientCancelThisBooking] Conditions met. Client can cancel this booking. {"bookingId":"6914b99017e678434634beb7"}
-bundle.js:54858 i18next::translator: missingKey de bookings bookingDetailsDescription View details and manage your booking.
-bundle.js:83255  Warning: BookingDetailsModal: Support for defaultProps will be removed from function components in a future major release. Use JavaScript default parameters instead. Error Component Stack
-    at BookingDetailsModal (src_components_BookingDetailsModal_js.chunk.js:660:3)
-    at NotificationItemContent (src_components_NotificationItemContent_js.chunk.js:199:3)
-    at div (<anonymous>)
-    at MotionComponent (bundle.js:44553:59)
-    at NotificationItem (src_components_NotificationCenter_js-src_services_ReviewAPI_js-node_modules_lucide-react_dist-f2e835.chunk.js:954:3)
-    at ErrorBoundary (src_components_BookingDetailsModal_js.chunk.js:5423:5)
-    at div (<anonymous>)
-    at div (<anonymous>)
-    at _c9 (bundle.js:146045:3)
-    at div (<anonymous>)
-    at _c (bundle.js:145989:3)
-    at NotificationCenterInner (src_components_NotificationCenter_js-src_services_ReviewAPI_js-node_modules_lucide-react_dist-f2e835.chunk.js:480:3)
-    at SocketProvider (bundle.js:149933:3)
-    at NotificationCenter (src_components_NotificationCenter_js-src_services_ReviewAPI_js-node_modules_lucide-react_dist-f2e835.chunk.js:859:3)
-    at RenderedRoute (bundle.js:118201:5)
-    at Outlet (bundle.js:118848:26)
-    at ProtectedRoute (src_components_ProtectedRoute_js.chunk.js:119:69)
-    at RenderedRoute (bundle.js:118201:5)
-    at Routes (bundle.js:118935:5)
-    at Suspense (<anonymous>)
-    at main (<anonymous>)
-    at div (<anonymous>)
-    at AppContent (bundle.js:137964:69)
-    at LiveSessionProvider (bundle.js:149011:3)
-    at NotificationSocketProvider (bundle.js:149838:3)
-    at AppWithSocketProvider (bundle.js:138900:69)
-    at AppWithSocketProviderWrapper (bundle.js:138983:69)
-    at AuthProvider (bundle.js:148641:3)
-    at PaymentProvider (bundle.js:149626:3)
-    at Elements (bundle.js:15340:30)
-    at Suspense (<anonymous>)
-    at App (bundle.js:138935:51)
-    at AuthProvider (bundle.js:148641:3)
-    at QueryClientProvider (bundle.js:114104:21)
-    at Router (bundle.js:118869:15)
-    at BrowserRouter (bundle.js:116769:5)
-overrideMethod @ hook.js:608
-printWarning @ bundle.js:83255
-error @ bundle.js:83232
-validateFunctionComponentInDev @ bundle.js:100722
-mountIndeterminateComponent @ bundle.js:100691
-beginWork @ bundle.js:101924
-beginWork$1 @ bundle.js:106883
-performUnitOfWork @ bundle.js:106153
-workLoopSync @ bundle.js:106076
-renderRootSync @ bundle.js:106049
-performSyncWorkOnRoot @ bundle.js:105741
-flushSyncCallbacks @ bundle.js:93742
-(anonymous) @ bundle.js:105373
-bundle.js:172419 [BookingDetailsModal] Mounted. Checking for onSave prop. {"bookingId":"6914b99017e678434634beb7","hasOnSave":false,"source":"notification"}
-bundle.js:172424 [DEBUG] [BDM Perf] publicBookingSummary object reference changed.
-bundle.js:172424 [DEBUG] [BDM Perf] fetchedBookingDocument object reference changed.
-bundle.js:172424 [DEBUG] [BDM Perf] bookingData object reference changed.
-bundle.js:172419 [sessionAPI] Fetching session recordings {"bookingId":"6914b99017e678434634beb7"}
-bundle.js:172414  [BookingDetailsModal] Dialog overlay not found for pointer events toggle {"bookingId":"6914b99017e678434634beb7","timestamp":"2025-11-12T16:47:37.722Z"} Error Component Stack
-    at BookingDetailsModal (src_components_BookingDetailsModal_js.chunk.js:660:3)
-    at NotificationItemContent (src_components_NotificationItemContent_js.chunk.js:199:3)
-    at div (<anonymous>)
-    at MotionComponent (bundle.js:44553:59)
-    at NotificationItem (src_components_NotificationCenter_js-src_services_ReviewAPI_js-node_modules_lucide-react_dist-f2e835.chunk.js:954:3)
-    at ErrorBoundary (src_components_BookingDetailsModal_js.chunk.js:5423:5)
-    at div (<anonymous>)
-    at div (<anonymous>)
-    at _c9 (bundle.js:146045:3)
-    at div (<anonymous>)
-    at _c (bundle.js:145989:3)
-    at NotificationCenterInner (src_components_NotificationCenter_js-src_services_ReviewAPI_js-node_modules_lucide-react_dist-f2e835.chunk.js:480:3)
-    at SocketProvider (bundle.js:149933:3)
-    at NotificationCenter (src_components_NotificationCenter_js-src_services_ReviewAPI_js-node_modules_lucide-react_dist-f2e835.chunk.js:859:3)
-    at RenderedRoute (bundle.js:118201:5)
-    at Outlet (bundle.js:118848:26)
-    at ProtectedRoute (src_components_ProtectedRoute_js.chunk.js:119:69)
-    at RenderedRoute (bundle.js:118201:5)
-    at Routes (bundle.js:118935:5)
-    at Suspense (<anonymous>)
-    at main (<anonymous>)
-    at div (<anonymous>)
-    at AppContent (bundle.js:137964:69)
-    at LiveSessionProvider (bundle.js:149011:3)
-    at NotificationSocketProvider (bundle.js:149838:3)
-    at AppWithSocketProvider (bundle.js:138900:69)
-    at AppWithSocketProviderWrapper (bundle.js:138983:69)
-    at AuthProvider (bundle.js:148641:3)
-    at PaymentProvider (bundle.js:149626:3)
-    at Elements (bundle.js:15340:30)
-    at Suspense (<anonymous>)
-    at App (bundle.js:138935:51)
-    at AuthProvider (bundle.js:148641:3)
-    at QueryClientProvider (bundle.js:114104:21)
-    at Router (bundle.js:118869:15)
-    at BrowserRouter (bundle.js:116769:5)
-overrideMethod @ hook.js:608
-warn @ bundle.js:172414
-(anonymous) @ src_components_BookingDetailsModal_js.chunk.js:1591
-commitHookEffectListMount @ bundle.js:103236
-commitPassiveMountOnFiber @ bundle.js:104729
-commitPassiveMountEffects_complete @ bundle.js:104701
-commitPassiveMountEffects_begin @ bundle.js:104691
-commitPassiveMountEffects @ bundle.js:104681
-flushPassiveEffectsImpl @ bundle.js:106564
-flushPassiveEffects @ bundle.js:106517
-commitRootImpl @ bundle.js:106476
-commitRoot @ bundle.js:106259
-performSyncWorkOnRoot @ bundle.js:105768
-flushSyncCallbacks @ bundle.js:93742
-(anonymous) @ bundle.js:105373
-bundle.js:172419 [BookingDetailsModal] No clientSecret found on booking. Creating new PaymentIntent. {"bookingId":"6914b99017e678434634beb7"}
-bundle.js:172419 [PaymentOrchestrator] Registering cleanup: {"flowId":"6914b99017e678434634beb7","cleanupId":"cleanup-6914b99017e678434634beb7-1762966057735","existingCleanups":[],"metadata":{"source":"booking_details_modal","reason":"component_unmount","preserveState":false,"force":false,"metadata":{}},"timestamp":"2025-11-12T16:47:37.735Z"}
-bundle.js:172419 [PaymentOrchestrator] Handling cleanup request: {"flowId":"6914b99017e678434634beb7","cleanupId":"cleanup-6914b99017e678434634beb7-1762966057735","source":"booking_details_modal","reason":"component_unmount","preserveState":false,"force":false,"timestamp":"2025-11-12T16:47:37.735Z"}
-bundle.js:172419 [PaymentOrchestrator] Checking cleanup permission: {"flowId":"6914b99017e678434634beb7","source":"booking_details_modal","timestamp":"2025-11-12T16:47:37.736Z"}
-bundle.js:172419 [PaymentOrchestrator] Publishing cleanup state update: {"flowId":"6914b99017e678434634beb7","cleanupId":"cleanup-6914b99017e678434634beb7-1762966057735","timestamp":"2025-11-12T16:47:37.736Z"}
-bundle.js:172414  [PaymentStatusService] Attempted to publish before state ready: {"flowId":"6914b99017e678434634beb7","timestamp":"2025-11-12T16:47:37.736Z"}
-overrideMethod @ hook.js:608
-warn @ bundle.js:172414
-_publishStateUpdate @ bundle.js:163864
-handleCleanup @ bundle.js:157654
-(anonymous) @ src_components_BookingDetailsModal_js.chunk.js:1543
-safelyCallDestroy @ bundle.js:103057
-commitHookEffectListUnmount @ bundle.js:103195
-invokePassiveEffectUnmountInDEV @ bundle.js:104971
-invokeEffectsInDev @ bundle.js:106822
-commitDoubleInvokeEffectsInDEV @ bundle.js:106801
-flushPassiveEffectsImpl @ bundle.js:106578
-flushPassiveEffects @ bundle.js:106517
-commitRootImpl @ bundle.js:106476
-commitRoot @ bundle.js:106259
-performSyncWorkOnRoot @ bundle.js:105768
-flushSyncCallbacks @ bundle.js:93742
-(anonymous) @ bundle.js:105373
-bundle.js:4666  Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}. Error Component Stack
-    at DescriptionWarning (bundle.js:4657:3)
-    at bundle.js:4549:5
-    at bundle.js:4487:56
-    at Presence (bundle.js:5084:5)
-    at bundle.js:4468:62
-    at div (<anonymous>)
-    at bundle.js:8543:7
-    at bundle.js:8508:7
-    at bundle.js:8208:7
-    at bundle.js:8002:16
-    at Presence (bundle.js:5084:5)
-    at Provider (bundle.js:4207:9)
-    at DialogPortal (bundle.js:4402:5)
-    at DialogPortal (bundle.js:146491:3)
-    at bundle.js:146527:3
-    at Provider (bundle.js:4207:9)
-    at Dialog (bundle.js:4346:5)
-    at BookingDetailsModal (src_components_BookingDetailsModal_js.chunk.js:660:3)
-    at NotificationItemContent (src_components_NotificationItemContent_js.chunk.js:199:3)
-    at div (<anonymous>)
-    at MotionComponent (bundle.js:44553:59)
-    at NotificationItem (src_components_NotificationCenter_js-src_services_ReviewAPI_js-node_modules_lucide-react_dist-f2e835.chunk.js:954:3)
-    at ErrorBoundary (src_components_BookingDetailsModal_js.chunk.js:5423:5)
-    at div (<anonymous>)
-    at div (<anonymous>)
-    at _c9 (bundle.js:146045:3)
-    at div (<anonymous>)
-    at _c (bundle.js:145989:3)
-    at NotificationCenterInner (src_components_NotificationCenter_js-src_services_ReviewAPI_js-node_modules_lucide-react_dist-f2e835.chunk.js:480:3)
-    at SocketProvider (bundle.js:149933:3)
-    at NotificationCenter (src_components_NotificationCenter_js-src_services_ReviewAPI_js-node_modules_lucide-react_dist-f2e835.chunk.js:859:3)
-    at RenderedRoute (bundle.js:118201:5)
-    at Outlet (bundle.js:118848:26)
-    at ProtectedRoute (src_components_ProtectedRoute_js.chunk.js:119:69)
-    at RenderedRoute (bundle.js:118201:5)
-    at Routes (bundle.js:118935:5)
-    at Suspense (<anonymous>)
-    at main (<anonymous>)
-    at div (<anonymous>)
-    at AppContent (bundle.js:137964:69)
-    at LiveSessionProvider (bundle.js:149011:3)
-    at NotificationSocketProvider (bundle.js:149838:3)
-    at AppWithSocketProvider (bundle.js:138900:69)
-    at AppWithSocketProviderWrapper (bundle.js:138983:69)
-    at AuthProvider (bundle.js:148641:3)
-    at PaymentProvider (bundle.js:149626:3)
-    at Elements (bundle.js:15340:30)
-    at Suspense (<anonymous>)
-    at App (bundle.js:138935:51)
-    at AuthProvider (bundle.js:148641:3)
-    at QueryClientProvider (bundle.js:114104:21)
-    at Router (bundle.js:118869:15)
-    at BrowserRouter (bundle.js:116769:5)
-overrideMethod @ hook.js:608
-(anonymous) @ bundle.js:4666
-commitHookEffectListMount @ bundle.js:103236
-commitPassiveMountOnFiber @ bundle.js:104729
-commitPassiveMountEffects_complete @ bundle.js:104701
-commitPassiveMountEffects_begin @ bundle.js:104691
-commitPassiveMountEffects @ bundle.js:104681
-flushPassiveEffectsImpl @ bundle.js:106564
-flushPassiveEffects @ bundle.js:106517
-commitRootImpl @ bundle.js:106476
-commitRoot @ bundle.js:106259
-performSyncWorkOnRoot @ bundle.js:105768
-flushSyncCallbacks @ bundle.js:93742
-(anonymous) @ bundle.js:105373
-bundle.js:4666  Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
-overrideMethod @ hook.js:608
-(anonymous) @ bundle.js:4666
-commitHookEffectListMount @ bundle.js:103236
-invokePassiveEffectMountInDEV @ bundle.js:104925
-invokeEffectsInDev @ bundle.js:106822
-commitDoubleInvokeEffectsInDEV @ bundle.js:106805
-flushPassiveEffectsImpl @ bundle.js:106578
-flushPassiveEffects @ bundle.js:106517
-commitRootImpl @ bundle.js:106476
-commitRoot @ bundle.js:106259
-performSyncWorkOnRoot @ bundle.js:105768
-flushSyncCallbacks @ bundle.js:93742
-(anonymous) @ bundle.js:105373
-bundle.js:172419 [PaymentAPI] Creating payment intent - configuration: {"bookingId":"6914b99017e678434634beb7","timeoutDuration":15000,"hasSocket":false,"timestamp":"2025-11-12T16:47:37.848Z"}
-bundle.js:172414  [PaymentAPI] Socket not connected, attempting to reconnect {"bookingId":"6914b99017e678434634beb7"}
-overrideMethod @ hook.js:608
-warn @ bundle.js:172414
-(anonymous) @ bundle.js:169256
-(anonymous) @ bundle.js:168862
-_ensureUniqueIntent @ bundle.js:168866
-createPaymentIntent @ bundle.js:169254
-(anonymous) @ src_components_BookingDetailsModal_js.chunk.js:2494
-await in (anonymous)
-(anonymous) @ src_components_BookingDetailsModal_js.chunk.js:2577
-commitHookEffectListMount @ bundle.js:103236
-commitPassiveMountOnFiber @ bundle.js:104729
-commitPassiveMountEffects_complete @ bundle.js:104701
-commitPassiveMountEffects_begin @ bundle.js:104691
-commitPassiveMountEffects @ bundle.js:104681
-flushPassiveEffectsImpl @ bundle.js:106564
-flushPassiveEffects @ bundle.js:106517
-commitRootImpl @ bundle.js:106476
-commitRoot @ bundle.js:106259
-performSyncWorkOnRoot @ bundle.js:105768
-flushSyncCallbacks @ bundle.js:93742
-(anonymous) @ bundle.js:105373
-bundle.js:172424 [DEBUG] [BDM Render] BookingDetailsModal rendering. Count: 2. Reason: Internal state or context update
-bundle.js:54858 i18next::translator: missingKey de bookings bookingDetailsDescription View details and manage your booking.
-bundle.js:172419 [sessionAPI] Session recordings fetched successfully {"bookingId":"6914b99017e678434634beb7","recordingCount":0}
-bundle.js:172419 [BookingDetailsModal] Session recordings loaded {"actualBookingId":"6914b99017e678434634beb7","recordingCount":0}
-bundle.js:172424 [DEBUG] [MenuAnnouncementBadge] Render cancelled: No unseen announcements. {"totalFetched":0,"seenInSession":0}
-bundle.js:172424 [DEBUG] [BDM Perf Debug] Prop changes detected: {"onClose":{"from":"ref A","to":"ref B","note":"Reference changed"},"onSuggest":{"from":"ref A","to":"ref B","note":"Reference changed"}}
-bundle.js:172424 [DEBUG] [BDM Render] BookingDetailsModal rendering. Count: 4. Reason: Props changed: onClose, onSuggest
-bundle.js:54858 i18next::translator: missingKey de bookings bookingDetailsDescription View details and manage your booking.
-bundle.js:172424 [DEBUG] [BDM Render] BookingDetailsModal rendering. Count: 6. Reason: Internal state or context update
-bundle.js:54858 i18next::translator: missingKey de bookings bookingDetailsDescription View details and manage your booking.
-bundle.js:172419 [PaymentOrchestrator] No flow to cleanup: {"flowId":"6914b99017e678434634beb7","cleanupId":"cleanup-6914b99017e678434634beb7-1762966057735","timestamp":"2025-11-12T16:47:38.074Z"}
-bundle.js:172419 [PaymentOrchestrator] Cleanup completed: {"flowId":"6914b99017e678434634beb7","cleanupId":"cleanup-6914b99017e678434634beb7-1762966057735","result":true,"timestamp":"2025-11-12T16:47:38.074Z"}
-bundle.js:172424 [DEBUG] [BDM Render] BookingDetailsModal rendering. Count: 8. Reason: Internal state or context update
-bundle.js:54858 i18next::translator: missingKey de bookings bookingDetailsDescription View details and manage your booking.
-bundle.js:172414  [PaymentSocket] Connection health check failed: {"error":"Ping timeout","socketId":"smjVBwsVpVOzqHmPAAAX","timeoutMs":2000,"timestamp":"2025-11-12T16:47:40.099Z"}
-overrideMethod @ hook.js:608
-warn @ bundle.js:172414
-_checkConnectionHealth @ bundle.js:161338
-await in _checkConnectionHealth
-(anonymous) @ bundle.js:160526
-__webpack_modules__../node_modules/@socket.io/component-emitter/lib/esm/index.js.Emitter.emit @ bundle.js:14906
-onconnect @ bundle.js:125826
-onpacket @ bundle.js:125723
-__webpack_modules__../node_modules/@socket.io/component-emitter/lib/esm/index.js.Emitter.emit @ bundle.js:14906
-(anonymous) @ bundle.js:125060
-Promise.then
-(anonymous) @ bundle.js:36376
-ondecoded @ bundle.js:125059
-__webpack_modules__../node_modules/@socket.io/component-emitter/lib/esm/index.js.Emitter.emit @ bundle.js:14906
-add @ bundle.js:126433
-ondata @ bundle.js:125047
-__webpack_modules__../node_modules/@socket.io/component-emitter/lib/esm/index.js.Emitter.emit @ bundle.js:14906
-_onPacket @ bundle.js:36698
-__webpack_modules__../node_modules/@socket.io/component-emitter/lib/esm/index.js.Emitter.emit @ bundle.js:14906
-onPacket @ bundle.js:37257
-onData @ bundle.js:37249
-ws.onmessage @ bundle.js:37889
-bundle.js:172419 [PaymentSocket] Connected successfully: {"socketId":"smjVBwsVpVOzqHmPAAAX","connectionId":"conn-1762966057849","attempt":1,"timestamp":"2025-11-12T16:47:40.100Z"}
-bundle.js:172419 [PaymentAPI] Creating payment intent: {"bookingId":"6914b99017e678434634beb7","price":{"base":{"amount":{"amount":90,"currency":"CHF"},"currency":"CHF"},"final":{"amount":{"amount":90,"currency":"CHF"},"currency":"CHF"},"vat":{"rate":8.1,"amount":6.74,"included":true},"platformFee":{"amount":0,"percentage":15},"currency":"CHF","discounts":[]},"hasMetadata":true,"timestamp":"2025-11-12T16:47:40.101Z"}
-bundle.js:172424 [DEBUG] [PaymentAPI] Attempting operation: {"attempt":1,"maxAttempts":3,"context":{},"timestamp":"2025-11-12T16:47:40.101Z"}
-bundle.js:172424 [DEBUG] [PaymentAPI] Normalizing payment intent response: {"hasData":true,"responseKeys":["success","clientSecret","paymentIntent"],"timestamp":"2025-11-12T16:47:41.007Z"}
-bundle.js:172419 [PaymentAPI] Successfully normalized payment intent response: {"paymentIntentId":"pi_3SShCoHKNqVBSHKU0rOFDQg0","amount":9000,"currency":"chf","timestamp":"2025-11-12T16:47:41.007Z"}
-bundle.js:172419 [PaymentAPI] Payment intent created successfully: {"bookingId":"6914b99017e678434634beb7","paymentIntentId":"pi_3SShCoHKNqVBSHKU0rOFDQg0","hasClientSecret":true,"timestamp":"2025-11-12T16:47:41.008Z"}
-bundle.js:169348 [PaymentAPI] Payment intent created: {bookingId: '6914b99017e678434634beb7', paymentIntentId: 'pi_3SShCoHKNqVBSHKU0rOFDQg0'}
-bundle.js:172419 [PaymentAPI] Starting payment status monitoring: {"paymentIntentId":"pi_3SShCoHKNqVBSHKU0rOFDQg0","bookingId":"6914b99017e678434634beb7","timestamp":"2025-11-12T16:47:41.008Z"}
-bundle.js:172419 [PaymentAPI] Payment monitoring started: {"paymentIntentId":"pi_3SShCoHKNqVBSHKU0rOFDQg0","bookingId":"6914b99017e678434634beb7","timestamp":"2025-11-12T16:47:41.008Z"}
-bundle.js:172419 [PaymentOrchestrator] Flow ID creation details: {"bookingId":"6914b99017e678434634beb7","isPreConfirmation":false,"existingLock":false,"existingQueue":false,"timestamp":"2025-11-12T16:47:41.008Z"}
-bundle.js:172419 [PaymentOrchestrator] Creating new flow: {"flowId":"6914b99017e678434634beb7","bookingId":"6914b99017e678434634beb7","timestamp":"2025-11-12T16:47:41.008Z"}
-bundle.js:172419 [PaymentOrchestrator] Starting initialization sequence: {"config":{"flowId":"6914b99017e678434634beb7","bookingId":"6914b99017e678434634beb7","amount":9000,"currency":"CHF","timing":{"id":"immediate","label":"Pay Now"},"metadata":{"bookingType":"unknown","sessionType":"unknown","duration":45,"priceStructure":{"base":{"amount":{"amount":90,"currency":"CHF"},"currency":"CHF"},"final":{"amount":{"amount":90,"currency":"CHF"},"currency":"CHF"},"vat":{"rate":8.1,"amount":6.74,"included":true},"platformFee":{"amount":0,"percentage":15},"currency":"CHF","discounts":[]},"confirmationId":"6914b99017e678434634beb7","preserveOnUnmount":true,"flowState":"post_booking","isPreBooking":false,"modalState":"payment_active","paymentStep":"method","clientSecret":"pi_3SShCoHKNqVBSHKU0rOFDQg0_secret_gZqQ01ts13sGokibVTauR1eIc"}},"existingFlows":["6914b99017e678434634beb7"],"timestamp":"2025-11-12T16:47:41.009Z"}
-bundle.js:172419 [Orchestrator - LOG A] ==> Initializing flow. Received bookingId (stable ID): 6914b99017e678434634beb7, flowId (transient ID): 6914b99017e678434634beb7
-bundle.js:172419 [PaymentOrchestrator] Using existing flow: {"flowId":"6914b99017e678434634beb7","status":"initializing","timestamp":"2025-11-12T16:47:41.009Z"}
-bundle.js:172419 [PaymentOrchestrator] Ensuring flow state synchronization: {"flowId":"6914b99017e678434634beb7","bookingId":"6914b99017e678434634beb7","targetId":"6914b99017e678434634beb7","timestamp":"2025-11-12T16:47:41.009Z"}
-bundle.js:172419 [PaymentStatusService] State requested for unknown payment: {"bookingId":"6914b99017e678434634beb7","timestamp":"2025-11-12T16:47:41.009Z"}
-bundle.js:172419 [PaymentOrchestrator] Creating missing status state: {"targetId":"6914b99017e678434634beb7","flowId":"6914b99017e678434634beb7","timestamp":"2025-11-12T16:47:41.009Z"}
-bundle.js:172419 [PaymentStatusService] Initializing flow state: {"flowId":"6914b99017e678434634beb7","hasInitialState":true,"options":{},"timestamp":"2025-11-12T16:47:41.009Z"}
-bundle.js:172419 [PaymentStatusService] Initialized paymentStates for flow {"flowId":"6914b99017e678434634beb7","state":{"status":"initializing","version":1,"createdAt":"2025-11-12T16:47:41.010Z","lastUpdated":"2025-11-12T16:47:41.010Z","updates":[],"metadata":{}},"timestamp":"2025-11-12T16:47:41.010Z"}
-bundle.js:172419 [PaymentStatusService] Initialized flowStates for flow {"flowId":"6914b99017e678434634beb7","state":{"status":"initializing","version":1,"createdAt":"2025-11-12T16:47:41.010Z","lastUpdated":"2025-11-12T16:47:41.010Z","transitions":[]},"timestamp":"2025-11-12T16:47:41.010Z"}
-bundle.js:172419 [PaymentStatusService] Initialized stateVersions for flow {"flowId":"6914b99017e678434634beb7","version":1,"timestamp":"2025-11-12T16:47:41.010Z"}
-bundle.js:172419 [PaymentStatusService] State maps ensured {"flowId":"6914b99017e678434634beb7","mapSizes":{"paymentStates":1,"flowStates":1,"stateVersions":1},"paymentState":{"status":"initializing","version":1,"createdAt":"2025-11-12T16:47:41.010Z","lastUpdated":"2025-11-12T16:47:41.010Z","updates":[],"metadata":{}},"flowState":{"status":"initializing","version":1,"createdAt":"2025-11-12T16:47:41.010Z","lastUpdated":"2025-11-12T16:47:41.010Z","transitions":[]},"timestamp":"2025-11-12T16:47:41.010Z"}
-bundle.js:172419 [PaymentStatusService] Flow state initialized: {"flowId":"6914b99017e678434634beb7","state":"initializing","timestamp":"2025-11-12T16:47:41.010Z"}
-bundle.js:172419 [PaymentOrchestrator] Updating orchestrator state from status service: {"flowId":"6914b99017e678434634beb7","targetId":"6914b99017e678434634beb7","fromStatus":"initializing","toStatus":"initializing","timestamp":"2025-11-12T16:47:41.010Z"}
-bundle.js:172419 [PaymentOrchestrator] Flow state synchronization completed: {"flowId":"6914b99017e678434634beb7","bookingId":"6914b99017e678434634beb7","status":"initializing","timestamp":"2025-11-12T16:47:41.010Z"}
-bundle.js:172424 [DEBUG] [BDM Render] BookingDetailsModal rendering. Count: 10. Reason: Internal state or context update
-bundle.js:54858 i18next::translator: missingKey de bookings bookingDetailsDescription View details and manage your booking.
-bundle.js:119424  Warning: Failed prop type: The prop `onCancel` is marked as required in `PaymentPopup`, but its value is `undefined`.
-    at PaymentPopup (http://localhost:3000/static/js/src_components_payment_PaymentPopup_js.chunk.js:42:3)
-    at BookingDetailsModal (http://localhost:3000/static/js/src_components_BookingDetailsModal_js.chunk.js:660:3)
-    at NotificationItemContent (http://localhost:3000/static/js/src_components_NotificationItemContent_js.chunk.js:199:3)
-    at div
-    at MotionComponent (http://localhost:3000/static/js/bundle.js:44553:59)
-    at NotificationItem (http://localhost:3000/static/js/src_components_NotificationCenter_js-src_services_ReviewAPI_js-node_modules_lucide-react_dist-f2e835.chunk.js:954:3)
-    at ErrorBoundary (http://localhost:3000/static/js/src_components_BookingDetailsModal_js.chunk.js:5423:5)
-    at div
-    at div
-    at _c9 (http://localhost:3000/static/js/bundle.js:146045:3)
-    at div
-    at _c (http://localhost:3000/static/js/bundle.js:145989:3)
-    at NotificationCenterInner (http://localhost:3000/static/js/src_components_NotificationCenter_js-src_services_ReviewAPI_js-node_modules_lucide-react_dist-f2e835.chunk.js:480:3)
-    at SocketProvider (http://localhost:3000/static/js/bundle.js:149933:3)
-    at NotificationCenter (http://localhost:3000/static/js/src_components_NotificationCenter_js-src_services_ReviewAPI_js-node_modules_lucide-react_dist-f2e835.chunk.js:859:3)
-    at RenderedRoute (http://localhost:3000/static/js/bundle.js:118201:5)
-    at Outlet (http://localhost:3000/static/js/bundle.js:118848:26)
-    at ProtectedRoute (http://localhost:3000/static/js/src_components_ProtectedRoute_js.chunk.js:119:69)
-    at RenderedRoute (http://localhost:3000/static/js/bundle.js:118201:5)
-    at Routes (http://localhost:3000/static/js/bundle.js:118935:5)
-    at Suspense
-    at main
-    at div
-    at AppContent (http://localhost:3000/static/js/bundle.js:137964:69)
-    at LiveSessionProvider (http://localhost:3000/static/js/bundle.js:149011:3)
-    at NotificationSocketProvider (http://localhost:3000/static/js/bundle.js:149838:3)
-    at AppWithSocketProvider (http://localhost:3000/static/js/bundle.js:138900:69)
-    at AppWithSocketProviderWrapper (http://localhost:3000/static/js/bundle.js:138983:69)
-    at AuthProvider (http://localhost:3000/static/js/bundle.js:148641:3)
-    at PaymentProvider (http://localhost:3000/static/js/bundle.js:149626:3)
-    at Elements (http://localhost:3000/static/js/bundle.js:15340:30)
-    at Suspense
-    at App (http://localhost:3000/static/js/bundle.js:138935:51)
-    at AuthProvider (http://localhost:3000/static/js/bundle.js:148641:3)
-    at QueryClientProvider (http://localhost:3000/static/js/bundle.js:114104:21)
-    at Router (http://localhost:3000/static/js/bundle.js:118869:15)
-    at BrowserRouter (http://localhost:3000/static/js/bundle.js:116769:5)
-overrideMethod @ hook.js:608
-printWarning @ bundle.js:119424
-error @ bundle.js:119401
-checkPropTypes @ bundle.js:119886
-validatePropTypes @ bundle.js:120350
-jsxWithValidation @ bundle.js:120463
-BookingDetailsModal @ src_components_BookingDetailsModal_js.chunk.js:5235
-renderWithHooks @ bundle.js:96649
-updateFunctionComponent @ bundle.js:100217
-beginWork @ bundle.js:101936
-beginWork$1 @ bundle.js:106883
-performUnitOfWork @ bundle.js:106153
-workLoopSync @ bundle.js:106076
-renderRootSync @ bundle.js:106049
-performConcurrentWorkOnRoot @ bundle.js:105444
-workLoop @ bundle.js:124361
-flushWork @ bundle.js:124339
-performWorkUntilDeadline @ bundle.js:124576
-bundle.js:172419 [PaymentPopup] Component rendered {"bookingId":"6914b99017e678434634beb7","isOpen":true,"timestamp":"2025-11-12T16:47:41.033Z"}
-bundle.js:172419 [PaymentPopup] Rendering with portal {"bookingId":"6914b99017e678434634beb7","isOpen":true,"portalContainerExists":true,"timestamp":"2025-11-12T16:47:41.033Z"}
-bundle.js:172419 [PaymentOrchestrator] Checking flow protection: {"flowId":"6914b99017e678434634beb7","status":"initializing","isProtected":true,"timestamp":"2025-11-12T16:47:41.041Z"}
-bundle.js:172419 [PaymentOrchestrator] Blocking cleanup - protected state: {"flowId":"6914b99017e678434634beb7","state":"initializing","timestamp":"2025-11-12T16:47:41.042Z"}
-bundle.js:172419 [PaymentOrchestrator] Cleanup blocked: {"flowId":"6914b99017e678434634beb7","cleanupId":"cleanup-6914b99017e678434634beb7-1762966061041","source":"booking_details_modal","currentState":"initializing","timestamp":"2025-11-12T16:47:41.042Z"}
-bundle.js:4666  Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}. Error Component Stack
-    at DescriptionWarning (bundle.js:4657:3)
-    at bundle.js:4549:5
-    at bundle.js:4513:56
-    at Presence (bundle.js:5084:5)
-    at bundle.js:4468:62
-    at div (<anonymous>)
-    at bundle.js:8543:7
-    at bundle.js:8508:7
-    at bundle.js:8208:7
-    at bundle.js:8002:16
-    at Presence (bundle.js:5084:5)
-    at Provider (bundle.js:4207:9)
-    at DialogPortal (bundle.js:4402:5)
-    at DialogPortal (bundle.js:146491:3)
-    at bundle.js:146527:3
-    at Provider (bundle.js:4207:9)
-    at Dialog (bundle.js:4346:5)
-    at BookingDetailsModal (src_components_BookingDetailsModal_js.chunk.js:660:3)
-    at NotificationItemContent (src_components_NotificationItemContent_js.chunk.js:199:3)
-    at div (<anonymous>)
-    at MotionComponent (bundle.js:44553:59)
-    at NotificationItem (src_components_NotificationCenter_js-src_services_ReviewAPI_js-node_modules_lucide-react_dist-f2e835.chunk.js:954:3)
-    at ErrorBoundary (src_components_BookingDetailsModal_js.chunk.js:5423:5)
-    at div (<anonymous>)
-    at div (<anonymous>)
-    at _c9 (bundle.js:146045:3)
-    at div (<anonymous>)
-    at _c (bundle.js:145989:3)
-    at NotificationCenterInner (src_components_NotificationCenter_js-src_services_ReviewAPI_js-node_modules_lucide-react_dist-f2e835.chunk.js:480:3)
-    at SocketProvider (bundle.js:149933:3)
-    at NotificationCenter (src_components_NotificationCenter_js-src_services_ReviewAPI_js-node_modules_lucide-react_dist-f2e835.chunk.js:859:3)
-    at RenderedRoute (bundle.js:118201:5)
-    at Outlet (bundle.js:118848:26)
-    at ProtectedRoute (src_components_ProtectedRoute_js.chunk.js:119:69)
-    at RenderedRoute (bundle.js:118201:5)
-    at Routes (bundle.js:118935:5)
-    at Suspense (<anonymous>)
-    at main (<anonymous>)
-    at div (<anonymous>)
-    at AppContent (bundle.js:137964:69)
-    at LiveSessionProvider (bundle.js:149011:3)
-    at NotificationSocketProvider (bundle.js:149838:3)
-    at AppWithSocketProvider (bundle.js:138900:69)
-    at AppWithSocketProviderWrapper (bundle.js:138983:69)
-    at AuthProvider (bundle.js:148641:3)
-    at PaymentProvider (bundle.js:149626:3)
-    at Elements (bundle.js:15340:30)
-    at Suspense (<anonymous>)
-    at App (bundle.js:138935:51)
-    at AuthProvider (bundle.js:148641:3)
-    at QueryClientProvider (bundle.js:114104:21)
-    at Router (bundle.js:118869:15)
-    at BrowserRouter (bundle.js:116769:5)
-overrideMethod @ hook.js:608
-(anonymous) @ bundle.js:4666
-commitHookEffectListMount @ bundle.js:103236
-commitPassiveMountOnFiber @ bundle.js:104729
-commitPassiveMountEffects_complete @ bundle.js:104701
-commitPassiveMountEffects_begin @ bundle.js:104691
-commitPassiveMountEffects @ bundle.js:104681
-flushPassiveEffectsImpl @ bundle.js:106564
-flushPassiveEffects @ bundle.js:106517
-performSyncWorkOnRoot @ bundle.js:105734
-flushSyncCallbacks @ bundle.js:93742
-commitRootImpl @ bundle.js:106496
-commitRoot @ bundle.js:106259
-finishConcurrentRender @ bundle.js:105656
-performConcurrentWorkOnRoot @ bundle.js:105507
-workLoop @ bundle.js:124361
-flushWork @ bundle.js:124339
-performWorkUntilDeadline @ bundle.js:124576
-bundle.js:172419 [PaymentPopup] Mounting with isOpen {"bookingId":"6914b99017e678434634beb7","isOpen":true,"timestamp":"2025-11-12T16:47:41.066Z"}
-bundle.js:172419 [PaymentPopup] Attempting to subscribe to state. {"bookingId":"6914b99017e678434634beb7","timestamp":"2025-11-12T16:47:41.066Z"}
-bundle.js:172419 [PaymentOrchestrator] Setting up state subscription: {"requestedId":"6914b99017e678434634beb7","resolvedId":"6914b99017e678434634beb7","hasCallback":true,"timestamp":"2025-11-12T16:47:41.066Z"}
-bundle.js:172419 [PaymentPopup] SUCCESS: State update received from Orchestrator. {"bookingId":"6914b99017e678434634beb7","receivedStateId":"6914b99017e678434634beb7","status":"initializing","timestamp":"2025-11-12T16:47:41.067Z"}
-bundle.js:172419 [PaymentStatusService] Setting up state subscription: {"flowId":"6914b99017e678434634beb7","hasExistingState":true,"hasStateManager":true,"timestamp":"2025-11-12T16:47:41.067Z"}
-bundle.js:172419 [PaymentStatusService] Subscription request: {"flowId":"6914b99017e678434634beb7","stateExists":true,"stateDetails":{"status":"initializing","version":1,"createdAt":"2025-11-12T16:47:41.010Z","lastUpdated":"2025-11-12T16:47:41.010Z","updates":[],"metadata":{"recovery":true}},"timestamp":"2025-11-12T16:47:41.067Z"}
-bundle.js:172424 [DEBUG] [PaymentStatusService] No pending initialization: {"bookingId":"6914b99017e678434634beb7","timestamp":"2025-11-12T16:47:41.067Z"}
-bundle.js:172424 [DEBUG] [PaymentPopup] State updated {"bookingId":"6914b99017e678434634beb7","paymentStep":"method","modalState":"payment_active","isLoading":true,"orchestratorStateKeys":[],"timestamp":"2025-11-12T16:47:41.068Z"}
-bundle.js:172419 [PaymentPopup] Unmounting with isOpen {"bookingId":"6914b99017e678434634beb7","isOpen":true,"timestamp":"2025-11-12T16:47:41.069Z"}
-bundle.js:4666  Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
-overrideMethod @ hook.js:608
-(anonymous) @ bundle.js:4666
-commitHookEffectListMount @ bundle.js:103236
-invokePassiveEffectMountInDEV @ bundle.js:104925
-invokeEffectsInDev @ bundle.js:106822
-commitDoubleInvokeEffectsInDEV @ bundle.js:106805
-flushPassiveEffectsImpl @ bundle.js:106578
-flushPassiveEffects @ bundle.js:106517
-performSyncWorkOnRoot @ bundle.js:105734
-flushSyncCallbacks @ bundle.js:93742
-commitRootImpl @ bundle.js:106496
-commitRoot @ bundle.js:106259
-finishConcurrentRender @ bundle.js:105656
-performConcurrentWorkOnRoot @ bundle.js:105507
-workLoop @ bundle.js:124361
-flushWork @ bundle.js:124339
-performWorkUntilDeadline @ bundle.js:124576
-bundle.js:172419 [PaymentStatusService] Preparing subscription: {"flowId":"6914b99017e678434634beb7","currentState":{"status":"initializing"},"timestamp":"2025-11-12T16:47:41.077Z"}
-bundle.js:172419 [StateSubscriptionManager] New subscription request: {"flowId":"6914b99017e678434634beb7","hasCallback":true,"options":{"emitCurrent":true,"initialState":{"status":"initializing","version":1,"createdAt":"2025-11-12T16:47:41.010Z","lastUpdated":"2025-11-12T16:47:41.010Z","updates":[],"metadata":{"recovery":true}}},"existingSubscribers":0,"timestamp":"2025-11-12T16:47:41.077Z"}
-bundle.js:172419 [PaymentPopup] Rendering PaymentFlow with props: {"bookingId":"6914b99017e678434634beb7","amount":90,"currency":"CHF","hasClientSecret":false,"timestamp":"2025-11-12T16:47:41.090Z"}
-bundle.js:172419 [PaymentFlow] Rendering with state and props: {"bookingId":"6914b99017e678434634beb7","amount":90,"currency":"CHF","orchestratorState":{"status":"initializing","keys":["id","bookingId","status","createdAt","lastUpdated","metadata","version","updates","clientSecret","flowId","lastUpdate"]},"paymentState":{"flowState":"initial"},"timestamp":"2025-11-12T16:47:41.092Z"}
-bundle.js:172424 [DEBUG] [PaymentStatusIndicator] Rendering status: {"status":"initial","showLabel":true,"showDescription":false,"size":"default","timestamp":"2025-11-12T16:47:41.093Z"}
-bundle.js:172419 [PaymentFlow MOUNT] Component has mounted. Checking for Stripe/Elements.
-bundle.js:172419 [PaymentFlow MOUNT] SUCCESS: `stripe` and `elements` instances are available immediately.
-bundle.js:172419 [PaymentFlow] Stripe and Elements are ready {"hasStripe":true,"hasElements":true,"timestamp":"2025-11-12T16:47:41.098Z"}
-bundle.js:172419 [PaymentFlow] Subscribing to PaymentOrchestrator state {"bookingId":"6914b99017e678434634beb7","timestamp":"2025-11-12T16:47:41.098Z"}
-bundle.js:172419 [PaymentFlow] Received state update from Orchestrator {"bookingId":"6914b99017e678434634beb7","state":{"status":"initializing"},"timestamp":"2025-11-12T16:47:41.099Z"}
-bundle.js:172419 [PaymentFlow.OrchestratorSubscription] Received state update. {"paymentFlowBookingId":"6914b99017e678434634beb7","newStateFromOrchestrator":{"flowStatus":"initializing","hasClientSecret":false,"clientSecretProvided":"NOT_PROVIDED_IN_THIS_UPDATE"},"timestamp":"2025-11-12T16:47:41.099Z"}
-bundle.js:172419 [PaymentFlow] Setting up socket subscription {"bookingId":"6914b99017e678434634beb7","timestamp":"2025-11-12T16:47:41.099Z"}
-bundle.js:172424 [DEBUG] [PaymentDataService] Normalizing price data: {"input":{"base":{"amount":{"amount":90,"currency":"CHF"},"currency":"CHF"},"final":{"amount":{"amount":90,"currency":"CHF"},"currency":"CHF"},"currency":"CHF","vat":{"rate":8.1,"amount":6.74,"included":true},"platformFee":{"amount":0,"percentage":15},"discounts":[]},"inputType":"object","hasNestedStructure":true,"timestamp":"2025-11-12T16:47:41.100Z"}
-bundle.js:172419 [PaymentDataService] Formatting price for payment: {"normalizedAmount":90,"currency":"CHF","hasVat":true,"hasPlatformFee":false,"timestamp":"2025-11-12T16:47:41.100Z"}
-bundle.js:172419 [PaymentFlow] Unsubscribing from PaymentOrchestrator state {"bookingId":"6914b99017e678434634beb7","timestamp":"2025-11-12T16:47:41.101Z"}
-bundle.js:172419 [PaymentFlow] Cleaning up socket subscription in PaymentFlow {"bookingId":"6914b99017e678434634beb7","timestamp":"2025-11-12T16:47:41.101Z"}
-bundle.js:172424 [DEBUG] [PaymentFlow] No-op unsubscribe called for socket {"bookingId":"6914b99017e678434634beb7","timestamp":"2025-11-12T16:47:41.101Z"}
-bundle.js:172414  [PaymentSocket] Existing connection invalid, forcing reconnect: {"socketId":"smjVBwsVpVOzqHmPAAAX","timestamp":"2025-11-12T16:47:43.104Z"}
-overrideMethod @ hook.js:608
-warn @ bundle.js:172414
-ensureConnection @ bundle.js:160463
-await in ensureConnection
-setupAsyncOperations @ src_components_payment_PaymentPopup_js.chunk.js:1266
-(anonymous) @ src_components_payment_PaymentPopup_js.chunk.js:1321
-commitHookEffectListMount @ bundle.js:103236
-commitPassiveMountOnFiber @ bundle.js:104729
-commitPassiveMountEffects_complete @ bundle.js:104701
-commitPassiveMountEffects_begin @ bundle.js:104691
-commitPassiveMountEffects @ bundle.js:104681
-flushPassiveEffectsImpl @ bundle.js:106564
-flushPassiveEffects @ bundle.js:106517
-performSyncWorkOnRoot @ bundle.js:105734
-flushSyncCallbacks @ bundle.js:93742
-commitRootImpl @ bundle.js:106496
-commitRoot @ bundle.js:106259
-finishConcurrentRender @ bundle.js:105656
-performConcurrentWorkOnRoot @ bundle.js:105507
-workLoop @ bundle.js:124361
-flushWork @ bundle.js:124339
-performWorkUntilDeadline @ bundle.js:124576
-bundle.js:172419 [PaymentSocket] Connection in progress: {"connectionId":"conn-1762966061101","attempts":0,"promise":true,"timestamp":"2025-11-12T16:47:43.106Z"}
-bundle.js:172419 [PaymentAPI] Getting payment status - START: {"bookingId":"6914b99017e678434634beb7","hasBookingId":true,"type":"string","timestamp":"2025-11-12T16:47:44.010Z"}
-bundle.js:172419 [PaymentAPI] Payment status response received: {"bookingId":"6914b99017e678434634beb7","responseKeys":["status","bookingId","timestamp"],"hasStatus":true,"hasPaymentIntentId":false,"timestamp":"2025-11-12T16:47:44.124Z"}
-bundle.js:172419 [PaymentFlow] Socket connection ensured for PaymentFlow {"bookingId":"6914b99017e678434634beb7","connected":true,"timestamp":"2025-11-12T16:47:45.112Z"}
-bundle.js:172424 [DEBUG] [PaymentSocket] Starting unique operation: {"operationKey":"subscribe:flow:6914b99017e678434634beb7","timestamp":"2025-11-12T16:47:45.113Z"}
-bundle.js:172419 [PaymentSocket] Ensuring reliable connection: {"maxAttempts":3,"timeout":5000,"context":{"operation":"flow_subscription","flowId":"6914b99017e678434634beb7"},"currentState":{"state":"connected","attempts":0,"isConnecting":false,"hasSocket":true,"isSocketConnected":true,"timestamp":"2025-11-12T16:47:45.113Z"},"timestamp":"2025-11-12T16:47:45.113Z"}
-bundle.js:172419 [PaymentSocket] Operation already in progress: {"operationKey":"subscribe:flow:6914b99017e678434634beb7","timestamp":"2025-11-12T16:47:45.114Z"}
-bundle.js:172419 [SocketIO] <<< INCOMING EVENT: "ping" {"payload":[],"userId":"66f418d10a19ec0e4bbd377e","socketId":"q31dC9XIoTZH327LAAAV","timestamp":"2025-11-12T16:47:46.004Z"}
-bundle.js:172424 [DEBUG] [BDM Render] BookingDetailsModal rendering. Count: 12. Reason: Internal state or context update
-bundle.js:54858 i18next::translator: missingKey de bookings bookingDetailsDescription View details and manage your booking.
-bundle.js:172419 [PaymentSocket] Connection established successfully: {"attempt":1,"context":{"operation":"flow_subscription","flowId":"6914b99017e678434634beb7"},"socketId":"Mar_RHItRcvybRchAAAb","timestamp":"2025-11-12T16:47:51.138Z"}
-bundle.js:172419 [PaymentSocket] Restoring persistent callbacks: {"flowId":"6914b99017e678434634beb7","persistentCount":0,"timestamp":"2025-11-12T16:47:51.138Z"}
-bundle.js:172424 [DEBUG] [PaymentSocket] Event name normalized: {"original":"payment_status_update","normalized":"payment_status_update","isKnownEvent":true,"timestamp":"2025-11-12T16:47:51.139Z"}
-bundle.js:172424 [DEBUG] [PaymentSocket] Setting subscription state: {"flowId":"6914b99017e678434634beb7-1762966071139","state":{"flowId":"6914b99017e678434634beb7","eventName":"flow:6914b99017e678434634beb7","callbacks":{},"active":true,"startedAt":"2025-11-12T16:47:51.139Z"},"timestamp":"2025-11-12T16:47:51.139Z"}
-bundle.js:172419 [PaymentSocket] Attempting room join: {"roomId":"6914b99017e678434634beb7","attempt":1,"wasConnected":true,"socketId":"Mar_RHItRcvybRchAAAb","timestamp":"2025-11-12T16:47:51.140Z"}
-bundle.js:172419 [PaymentSocket] Room joined successfully: {"roomId":"6914b99017e678434634beb7","attempt":1,"socketId":"Mar_RHItRcvybRchAAAb","timestamp":"2025-11-12T16:47:51.141Z"}
-bundle.js:172424 [DEBUG] [PaymentSocket] Registering flow event callback: {"flowId":"6914b99017e678434634beb7","event":"payment_status_update","timestamp":"2025-11-12T16:47:51.141Z"}
-bundle.js:172424 [DEBUG] [PaymentSocket] Operation completed successfully: {"operationKey":"subscribe:flow:6914b99017e678434634beb7","timestamp":"2025-11-12T16:47:51.141Z"}
-bundle.js:172419 [useNotifications] Fetching with params: {"excludeTrash":true,"status":"all"}
-bundle.js:172419 [FRONTEND-API] Making fetch request to URL: "/api/notifications?excludeTrash=true&status=all&category=&limit=50&offset=0"
-bundle.js:172424 [DEBUG] [NotificationItemContent] renderActions called: {"notificationId":"6914b9a517e678434634cbe8","type":"booking_confirmed","isCoachUser":false,"bookingStatus":"confirmed","notificationStatus":"active","isActionedLocal":true}
-bundle.js:172424 [DEBUG] [BDM Render] BookingDetailsModal rendering. Count: 14. Reason: Props changed: onClose, onSuggest
-bundle.js:54858 i18next::translator: missingKey de bookings bookingDetailsDescription View details and manage your booking.
-bundle.js:172424 [DEBUG] [BDM Render] BookingDetailsModal rendering. Count: 16. Reason: Props changed: onClose, onSuggest, existingBooking
-bundle.js:54858 i18next::translator: missingKey de bookings bookingDetailsDescription View details and manage your booking.
-
-debug: [auth] Decoded token: {"user":{"id":"66f418d10a19ec0e4bbd377e","role":"client","version":4},"iat":1762965939,"exp":1763052339} {"timestamp":"2025-11-12T16:47:37.728Z"}
-info: [auth] User authenticated: 66f418d10a19ec0e4bbd377e {"timestamp":"2025-11-12T16:47:37.757Z"}
-info: [recordingController.getSessionRecordings] Request received {"bookingId":"6914b99017e678434634beb7","timestamp":"2025-11-12T16:47:37.757Z","userId":"66f418d10a19ec0e4bbd377e"}
-GET /api/sessions/6914b99017e678434634beb7/recordings 200 54.795 ms - 32
-GET /api/bookings/public-summary/6914b99017e678434634beb7 200 161.090 ms - 3281
-info: [Socket] Authentication successful {"socketId":"smjVBwsVpVOzqHmPAAAX","timestamp":"2025-11-12T16:47:38.075Z","userId":"66f418d10a19ec0e4bbd377e"}
-[PaymentController] Creating payment intent {
-  entityId: '6914b99017e678434634beb7',
-  type: 'booking',
-  userId: '66f418d10a19ec0e4bbd377e',
-  timestamp: '2025-11-12T16:47:40.149Z'
+[bookingController.createBooking] Function started {
+  requestBody: {
+    start: '2025-11-13T07:45:00.000Z',
+    end: '2025-11-13T09:15:00.000Z',
+    timezone: 'Europe/Zurich',
+    coach: '66d9cdcb0a7492a86482bd68',
+    user: '66f418d10a19ec0e4bbd377e',
+    sessionType: '66ec4ea477bec414bf2b8859',
+    title: 'Einzel',
+    description: '',
+    location: '',
+    isOnline: false,
+    userIds: [],
+    availableForInstantBooking: true,
+    firmBookingThreshold: 24,
+    isAvailability: false,
+    status: 'requested',
+    bookingType: 'request',
+    overtime: {
+      allowOvertime: false,
+      freeOvertimeDuration: 0,
+      paidOvertimeDuration: 0,
+      overtimeRate: 0
+    },
+    earlyBirdDeadline: null,
+    earlyBirdPrice: null,
+    isRecurring: false,
+    recurringPattern: 'none',
+    recurringEndDate: null,
+    language: null,
+    tags: [],
+    cancellationPolicy: null,
+    isPartOfPackage: false,
+    packageId: null,
+    certificationOffered: false,
+    certificationDetails: null,
+    sessionGoal: null,
+    clientNotes: null,
+    preparationRequired: null,
+    followUpTasks: null,
+    minAttendees: null,
+    maxAttendees: null,
+    sessionTopic: null,
+    prerequisites: null,
+    learningObjectives: null,
+    materialsProvided: null,
+    whatToBring: null,
+    skillLevel: null,
+    sessionImages: [],
+    courseMaterials: [],
+    type: 'REQUEST',
+    payment: null
+  },
+  timestamp: '2025-11-12T17:12:04.025Z'
 }
-[PaymentController] Extracting amount from: {
-  priceData: { amount: { amount: 90, currency: 'CHF' }, currency: 'CHF' },
-  type: 'object',
-  hasAmount: true,
-  defaultCurrency: 'CHF'
+[bookingController.createBooking] Raw overtime input: {
+  overtime: {
+    allowOvertime: false,
+    freeOvertimeDuration: 0,
+    paidOvertimeDuration: 0,
+    overtimeRate: 0
+  },
+  overtimeType: 'object',
+  isObject: true,
+  hasOvertime: true,
+  overtimeFields: [
+    'allowOvertime',
+    'freeOvertimeDuration',
+    'paidOvertimeDuration',
+    'overtimeRate'
+  ],
+  timestamp: '2025-11-12T17:12:04.028Z'
 }
-[PaymentController] Extracting amount from: {
-  priceData: { amount: { amount: 90, currency: 'CHF' }, currency: 'CHF' },
-  type: 'object',
-  hasAmount: true,
-  defaultCurrency: 'CHF'
+[bookingController.createBooking] Received booking payload {
+  sessionType: '66ec4ea477bec414bf2b8859',
+  webinarSlots: undefined,
+  bookingId: 'new',
+  payloadKeys: [
+    'start',
+    'end',
+    'timezone',
+    'coach',
+    'user',
+    'sessionType',
+    'title',
+    'description',
+    'location',
+    'isOnline',
+    'userIds',
+    'availableForInstantBooking',
+    'firmBookingThreshold',
+    'isAvailability',
+    'status',
+    'bookingType',
+    'overtime',
+    'earlyBirdDeadline',
+    'earlyBirdPrice',
+    'isRecurring',
+    'recurringPattern',
+    'recurringEndDate',
+    'language',
+    'tags',
+    'cancellationPolicy',
+    'isPartOfPackage',
+    'packageId',
+    'certificationOffered',
+    'certificationDetails',
+    'sessionGoal',
+    'clientNotes',
+    'preparationRequired',
+    'followUpTasks',
+    'minAttendees',
+    'maxAttendees',
+    'sessionTopic',
+    'prerequisites',
+    'learningObjectives',
+    'materialsProvided',
+    'whatToBring',
+    'skillLevel',
+    'sessionImages',
+    'courseMaterials',
+    'type',
+    'payment'
+  ],
+  timestamp: '2025-11-12T17:12:04.055Z'
 }
-[PaymentController] Amount conversion: { original: 90, rounded: 90, cents: 9000 }
-[PaymentController] Amount conversion: { original: 0, rounded: 0, cents: 0 }
-[PaymentController] Amount conversion: { original: 6.74, rounded: 6.74, cents: 674 }
-[PaymentController] Amount conversion: { original: 90, rounded: 90, cents: 9000 }
-[PaymentService.createPaymentIntent] 1. Received parameters for PI creation {
-  bookingId: '6914b99017e678434634beb7',
-  priceDetails: {
+[bookingController.createBooking] Fetching sessionTypeDoc {
+  sessionTypeId: '66ec4ea477bec414bf2b8859',
+  timestamp: '2025-11-12T17:12:04.161Z'
+}
+[bookingController.createBooking] Found translation for session type {
+  sessionTypeId: new ObjectId('66ec4ea477bec414bf2b8859'),
+  language: 'de',
+  translatedName: 'Einzel',
+  timestamp: '2025-11-12T17:12:04.186Z'
+}
+debug: [PricingService] Finding applicable time rate: {"dayOfWeek":4,"ratesCount":2,"sessionTypeId":"66ec4ea477bec414bf2b8859","timeString":"08:45","timestamp":"2025-11-12T17:12:04.243Z"}
+[bookingController.createBooking] Determined initial status and payment requirement: {
+  determinedBookingType: 'REQUEST',
+  initialBookingStatus: 'requested',
+  paymentIsEffectivelyRequired: false,
+  initialPaymentStatusOnBooking: 'not_applicable',
+  isAvailability: false,
+  statusFromRequestPassedIn: 'requested',
+  priceAmountUsedForDecision: 180,
+  timestamp: '2025-11-12T17:12:04.587Z'
+}
+[bookingController.createBooking] Processing availability slot: {
+  originalSlotId: new ObjectId('6914b99717e678434634bf1a'),
+  bookingStart: '2025-11-13T07:45:00.000Z',
+  bookingEnd: '2025-11-13T09:15:00.000Z',
+  preservedSettings: { availableForInstantBooking: true, firmBookingThreshold: 24 },
+  timestamp: '2025-11-12T17:12:04.680Z'
+}
+[splitAvailabilitySlot] V3 START - Splitting availability slot {
+  originalSlotId: new ObjectId('6914b99717e678434634bf1a'),
+  originalSlotStart: 2025-11-13T07:45:00.000Z,
+  originalSlotEnd: 2025-11-13T17:00:00.000Z,
+  bookedStart: 2025-11-13T07:45:00.000Z,
+  bookedEnd: 2025-11-13T09:15:00.000Z,
+  originalOvertime: {
+    allowOvertime: false,
+    freeOvertimeDuration: 0,
+    paidOvertimeDuration: 0,
+    overtimeRate: 0,
+    _id: new ObjectId('691397aea26ec54877c99140'),
+    id: '691397aea26ec54877c99140'
+  },
+  originalAvailableForInstantBooking: true
+}
+[splitAvailabilitySlot] V3 PREPARING post-booking slot. {
+  start: 2025-11-13T09:15:00.000Z,
+  end: 2025-11-13T17:00:00.000Z,
+  inheritedOvertime: {
+    allowOvertime: false,
+    freeOvertimeDuration: 0,
+    paidOvertimeDuration: 0,
+    overtimeRate: 0,
+    _id: new ObjectId('691397aea26ec54877c99140')
+  },
+  inheritedInstantBooking: true
+}
+[splitAvailabilitySlot] V3 END - Created new slots { count: 1 }
+[bookingController.createBooking] Created new availability slots: {
+  count: 1,
+  slots: [
+    {
+      start: 2025-11-13T09:15:00.000Z,
+      end: 2025-11-13T17:00:00.000Z,
+      preservedSettings: [Object]
+    }
+  ],
+  timestamp: '2025-11-12T17:12:04.759Z'
+}
+[bookingController.createBooking] Applied overtime settings {
+  overtimeSettings: {
+    allowOvertime: true,
+    freeOvertimeDuration: 6,
+    paidOvertimeDuration: 45,
+    overtimeRate: 20
+  },
+  isAvailability: false,
+  hasOvertimeInput: true,
+  timestamp: '2025-11-12T17:12:04.760Z'
+}
+[bookingController.createBooking] Final authoritative priceDetails object before creating Booking model: {
+  "base": {
+    "amount": {
+      "amount": 180,
+      "currency": "CHF"
+    },
+    "currency": "CHF"
+  },
+  "final": {
+    "amount": {
+      "amount": 180,
+      "currency": "CHF"
+    },
+    "currency": "CHF"
+  },
+  "netAfterDiscount": 166.51,
+  "currency": "CHF",
+  "discounts": [],
+  "platformFee": {
+    "amount": 0,
+    "originalPercentage": 9.9,
+    "appliedPercentage": 0
+  },
+  "vat": {
+    "amount": 13.49,
+    "rate": 8.1,
+    "included": true
+  },
+  "estimatedStripeFee": 5.52,
+  "coachReceives": 160.99,
+  "_calculationDetails": {
+    "baseRateSource": "Session Type Rate",
+    "winningDiscount": null
+  }
+}
+[bookingController.createBooking] Authoritative priceDetails to be saved: {
+  bookingPrice: {
     base: { amount: [Object], currency: 'CHF' },
     final: { amount: [Object], currency: 'CHF' },
-    vat: { rate: 8.1, amount: 6.74, included: true },
+    netAfterDiscount: 166.51,
+    currency: 'CHF',
+    discounts: [],
+    platformFee: { amount: 0, originalPercentage: 9.9, appliedPercentage: 0 },
+    vat: { amount: 13.49, rate: 8.1, included: true },
+    estimatedStripeFee: 5.52,
+    coachReceives: 160.99,
+    _calculationDetails: { baseRateSource: 'Session Type Rate', winningDiscount: null }
+  },
+  timestamp: '2025-11-12T17:12:04.763Z'
+}
+[bookingController.createBooking] booking.payment object BEFORE first save: {}
+[bookingController.createBooking] Booking initialized with payment: {
+  bookingId: new ObjectId('6914bfe417e678434635142b'),
+  payment: {},
+  sourcePayment: null,
+  timestamp: '2025-11-12T17:12:04.793Z'
+}
+[bookingController.createBooking] Payment forced before save: {
+  bookingId: new ObjectId('6914bfe417e678434635142b'),
+  payment: { status: 'pending' },
+  sourcePayment: null,
+  timestamp: '2025-11-12T17:12:04.794Z'
+}
+[bookingController.createBooking] Booking overtime settings before save: {
+  bookingId: new ObjectId('6914bfe417e678434635142b'),
+  overtime: {
+    allowOvertime: true,
+    freeOvertimeDuration: 6,
+    paidOvertimeDuration: 45,
+    overtimeRate: 20,
+    _id: new ObjectId('6914bfe417e678434635142c'),
+    id: '6914bfe417e678434635142c'
+  },
+  isAvailability: false,
+  timestamp: '2025-11-12T17:12:04.794Z'
+}
+[Booking Model] Booking saved successfully: 6914bfe417e678434635142b
+[bookingController.createBooking] booking.payment object FROM DB AFTER first save: {
+  "status": "pending"
+}
+[bookingController.createBooking] Booking saved with file metadata: {
+  bookingId: new ObjectId('6914bfe417e678434635142b'),
+  savedTitlePicture: [],
+  savedCourseMaterialsCount: 0,
+  firstSavedMaterial: null
+}
+[bookingController] Session link generated {
+  bookingId: new ObjectId('6914bfe417e678434635142b'),
+  sessionId: '0742ee77ac1cc516d5fc1847e892b5aaaa9397f32c106a8a22be2d3e81d9647d',
+  token: '1fb89f56...',
+  timestamp: '2025-11-12T17:12:04.852Z'
+}
+[Booking Model] Booking saved successfully: 6914bfe417e678434635142b
+[bookingController.createBooking] Booking saved: {
+  bookingId: new ObjectId('6914bfe417e678434635142b'),
+  price: {
+    base: { amount: [Object], currency: 'CHF' },
+    final: { amount: [Object], currency: 'CHF' },
+    currency: 'CHF',
+    vat: { rate: 8.1, amount: 13.49, included: true },
+    platformFee: { amount: 0, percentage: 15 },
+    discounts: []
+  },
+  timestamp: '2025-11-12T17:12:04.877Z'
+}
+[bookingController.createBooking] Starting Session handling for booking {
+  bookingId: new ObjectId('6914bfe417e678434635142b'),
+  bookingStatus: 'requested',
+  timestamp: '2025-11-12T17:12:04.878Z'
+}
+[bookingController.createBooking] Session.findOne completed {
+  bookingId: new ObjectId('6914bfe417e678434635142b'),
+  foundSession: false,
+  sessionDocId: undefined,
+  timestamp: '2025-11-12T17:12:04.903Z'
+}
+[bookingController.createBooking] Determined initial Session state for document: { bookingStatus: 'requested', sessionInitialStateToSet: 'requested' }
+[bookingController.createBooking] Creating new Session document {
+  bookingId: new ObjectId('6914bfe417e678434635142b'),
+  state: 'requested',
+  bookingSessionLink: {
+    token: '1fb89f56eb9b4625c208856bd3152a075912750fb8018cc2287aa9f4807670a7',
+    sessionId: '0742ee77ac1cc516d5fc1847e892b5aaaa9397f32c106a8a22be2d3e81d9647d',
+    generatedAt: 2025-11-12T17:12:04.852Z,
+    expired: false
+  },
+  timestamp: '2025-11-12T17:12:04.904Z'
+}
+[bookingController.createBooking] Session save completed successfully {
+  sessionId: new ObjectId('6914bfe417e6784346351431'),
+  bookingId: new ObjectId('6914bfe417e678434635142b'),
+  state: 'requested',
+  sessionLink: undefined,
+  actualEndTime: 2025-11-13T09:20:00.000Z,
+  timestamp: '2025-11-12T17:12:04.942Z'
+}
+[bookingController.createBooking] Successfully created new Session document {
+  sessionId: new ObjectId('6914bfe417e6784346351431'),
+  bookingId: new ObjectId('6914bfe417e678434635142b'),
+  state: 'requested',
+  sessionLink: undefined,
+  actualEndTime: 2025-11-13T09:20:00.000Z,
+  timestamp: '2025-11-12T17:12:04.943Z'
+}
+[bookingController.createBooking] Populated booking: {
+  bookingId: new ObjectId('6914bfe417e678434635142b'),
+  price: {
+    base: { amount: [Object], currency: 'CHF' },
+    final: { amount: [Object], currency: 'CHF' },
+    vat: { rate: 8.1, amount: 13.49, included: true },
     platformFee: { amount: 0, percentage: 15 },
     currency: 'CHF',
     discounts: []
   },
-  currencyArgument: 'chf',
-  stripeCustomerIdArgument: 'cus_RUlp0o3z2WooA6',
-  userIdArgument: '66f418d10a19ec0e4bbd377e',
-  coachStripeAccountIdArgument: 'acct_1QdFtkQjpPpOYbVB',
-  metadataArgumentKeys: [
-    'bookingId',
-    'coachId',
-    'userId',
-    'sessionType',
-    'vatAmount',
-    'vatRate',
-    'platformFee',
-    'originalAmount',
-    'customerIpAddress'
-  ],
-  timestamp: '2025-11-12T16:47:40.285Z'
+  payment: { status: 'pending', total: undefined },
+  timestamp: '2025-11-12T17:12:05.054Z'
 }
-[PaymentService:createPaymentIntent] Calculated amountInCents for Stripe API {
-  bookingId: '6914b99017e678434634beb7',
-  finalAmountFromPriceDetails: 90,
-  calculatedAmountInCents: 9000,
-  timestamp: '2025-11-12T16:47:40.287Z'
+[bookingController.createBooking] Checking booking type for notification handling: {
+  bookingId: new ObjectId('6914bfe417e678434635142b'),
+  bookingType: 'REQUEST',
+  paymentRequired: false,
+  timestamp: '2025-11-12T17:12:05.055Z'
 }
-[PaymentService:createPaymentIntent] PRE-STRIPE-API-CALL: Preparing to call stripe.paymentIntents.create {
-  bookingId: '6914b99017e678434634beb7',
-  amountForStripe: 9000,
-  currencyForStripe: 'chf',
-  customerForStripe: 'cus_RUlp0o3z2WooA6',
-  applicationFeeForStripe: 674,
-  destinationForStripe: 'acct_1QdFtkQjpPpOYbVB',
-  metadataForStripe: {
-    bookingId: '6914b99017e678434634beb7',
-    platformFeeInCents: 0,
-    vatAmountInCents: 674,
-    coachId: '66d9cdcb0a7492a86482bd68',
-    userId: '66f418d10a19ec0e4bbd377e',
-    sessionType: undefined,
-    vatAmount: 674,
-    vatRate: 8.1,
-    platformFee: 0,
-    originalAmount: 9000,
-    customerIpAddress: '::1'
+[sendBookingNotifications] Sending notifications for booking: new ObjectId('6914bfe417e678434635142b')
+[BookingNotificationMapper] Processing notifications for booking: {
+  bookingId: new ObjectId('6914bfe417e678434635142b'),
+  status: 'requested',
+  bookingType: 'request',
+  coach: {
+    _id: new ObjectId('66d9cdcb0a7492a86482bd68'),
+    firstName: 'Dominic',
+    lastName: 'Frei',
+    email: 'test.coach2@example.com'
   },
-  idempotencyKey: '6914b99017e678434634beb7-1762966060288',
-  timestamp: '2025-11-12T16:47:40.288Z'
+  client: {
+    stripe: { customerId: 'cus_RUlp0o3z2WooA6' },
+    _id: new ObjectId('66f418d10a19ec0e4bbd377e'),
+    firstName: 'Test',
+    lastName: 'User 2',
+    email: 'test.user2@example.com'
+  },
+  sessionType: new ObjectId('66ec4ea477bec414bf2b8859'),
+  start: 2025-11-13T07:45:00.000Z,
+  timestamp: '2025-11-12T17:12:05.056Z'
 }
-[PaymentService.createPaymentIntent] 2. FINAL PARAMS for stripe.paymentIntents.create: {
-  intentParameters: {
-    amount: 9000,
-    currency: 'chf',
-    customer: 'cus_RUlp0o3z2WooA6',
-    metadata: {
-      bookingId: '6914b99017e678434634beb7',
-      platformFeeInCents: 0,
-      vatAmountInCents: 674,
-      coachId: '66d9cdcb0a7492a86482bd68',
-      userId: '66f418d10a19ec0e4bbd377e',
-      sessionType: undefined,
-      vatAmount: 674,
-      vatRate: 8.1,
-      platformFee: 0,
-      originalAmount: 9000,
-      customerIpAddress: '::1'
+[BookingNotificationMapper] Generated notifications: {
+  bookingId: new ObjectId('6914bfe417e678434635142b'),
+  status: 'requested',
+  notificationType: 'booking_request',
+  count: 1,
+  recipients: [
+    {
+      type: 'booking_request',
+      recipient: '66d9cdcb0a7492a86482bd68',
+      recipientType: 'coach',
+      status: 'active',
+      channels: [Array]
+    }
+  ]
+}
+[sendBookingNotifications] Notification configs: [
+  {
+    "recipient": "66d9cdcb0a7492a86482bd68",
+    "priority": "high",
+    "category": "booking",
+    "channels": [
+      "in_app",
+      "email"
+    ],
+    "requiresAction": true,
+    "actions": [
+      "approve",
+      "decline",
+      "suggest"
+    ],
+    "metadata": {
+      "actionRequired": true,
+      "responseTimeout": 86400000,
+      "bookingId": "6914bfe417e678434635142b",
+      "sessionType": "66ec4ea477bec414bf2b8859",
+      "startTime": "2025-11-13T07:45:00.000Z",
+      "endTime": "2025-11-13T09:15:00.000Z",
+      "bookingType": "request"
     },
-    automatic_payment_methods: { enabled: true, allow_redirects: 'never' }
+    "type": "booking_request",
+    "recipientType": "coach",
+    "status": "active"
+  }
+]
+[sendBookingNotifications] Notification config before sending: {
+  config: '{\n' +
+    '  "recipient": "66d9cdcb0a7492a86482bd68",\n' +
+    '  "priority": "high",\n' +
+    '  "category": "booking",\n' +
+    '  "channels": [\n' +
+    '    "in_app",\n' +
+    '    "email"\n' +
+    '  ],\n' +
+    '  "requiresAction": true,\n' +
+    '  "actions": [\n' +
+    '    "approve",\n' +
+    '    "decline",\n' +
+    '    "suggest"\n' +
+    '  ],\n' +
+    '  "metadata": {\n' +
+    '    "actionRequired": true,\n' +
+    '    "responseTimeout": 86400000,\n' +
+    '    "bookingId": "6914bfe417e678434635142b",\n' +
+    '    "sessionType": "66ec4ea477bec414bf2b8859",\n' +
+    '    "startTime": "2025-11-13T07:45:00.000Z",\n' +
+    '    "endTime": "2025-11-13T09:15:00.000Z",\n' +
+    '    "bookingType": "request"\n' +
+    '  },\n' +
+    '  "type": "booking_request",\n' +
+    '  "recipientType": "coach",\n' +
+    '  "status": "active"\n' +
+    '}',
+  timestamp: '2025-11-12T17:12:05.060Z'
+}
+[DATA TRACE | Notif Service] generateNotificationContent received config: {
+  "recipient": "66d9cdcb0a7492a86482bd68",
+  "priority": "high",
+  "category": "booking",
+  "channels": [
+    "in_app",
+    "email"
+  ],
+  "requiresAction": true,
+  "actions": [
+    "approve",
+    "decline",
+    "suggest"
+  ],
+  "metadata": {
+    "actionRequired": true,
+    "responseTimeout": 86400000,
+    "bookingId": "6914bfe417e678434635142b",
+    "sessionType": "66ec4ea477bec414bf2b8859",
+    "startTime": "2025-11-13T07:45:00.000Z",
+    "endTime": "2025-11-13T09:15:00.000Z",
+    "bookingType": "request"
+  },
+  "type": "booking_request",
+  "recipientType": "coach",
+  "status": "active"
+}
+[NotificationModel] Pre-validate hook: {
+  type: 'booking_request',
+  category: 'booking',
+  metadata: {
+    bookingId: new ObjectId('6914bfe417e678434635142b'),
+    liveSessionId: null,
+    sessionId: undefined,
+    reviewId: undefined,
+    programId: undefined,
+    lessonId: undefined,
+    additionalData: {
+      auditId: undefined,
+      actionRequired: true,
+      responseTimeout: 86400000,
+      bookingId: new ObjectId('6914bfe417e678434635142b'),
+      sessionType: new ObjectId('66ec4ea477bec414bf2b8859'),
+      startTime: 2025-11-13T07:45:00.000Z,
+      endTime: 2025-11-13T09:15:00.000Z,
+      bookingType: 'request',
+      status: 'requested',
+      requiresAction: true,
+      validActions: undefined
+    }
   }
 }
-[PaymentService] Payment intent created successfully {
-  paymentIntentId: 'pi_3SShCoHKNqVBSHKU0rOFDQg0',
-  bookingId: '6914b99017e678434634beb7',
-  status: 'requires_payment_method',
-  amount: 90,
-  platformFeeInCents: 0,
-  vatAmountInCents: 674,
-  totalApplicationFeeInCents: 674,
-  stripeCustomerId: 'cus_RUlp0o3z2WooA6',
-  coachStripeAccountId: 'acct_1QdFtkQjpPpOYbVB',
-  idempotencyKey: '6914b99017e678434634beb7-1762966060288',
-  timestamp: '2025-11-12T16:47:40.947Z'
+[NotificationModel] Processing new notification: new ObjectId('6914bfe517e6784346351438')
+[SocketNotificationService] Emitting booking notification: {
+  notificationId: new ObjectId('6914bfe517e6784346351438'),
+  type: 'booking_request',
+  recipients: 1,
+  bookingId: new ObjectId('6914bfe417e678434635142b')
 }
-[Booking Model] Booking saved successfully: 6914b99017e678434634beb7
-info: POST /api/payments/create-intent {"duration":"903ms","status":200,"timestamp":"2025-11-12T16:47:41.006Z","userId":"66f418d10a19ec0e4bbd377e"}
-POST /api/payments/create-intent 200 900.460 ms - 178
-[[[SERVER-ENTRY-POINT]]] Webhook request received at server entry. {
-  method: 'POST',
-  url: '/api/payments/webhook',
-  headers: {
-    host: 'localhost:5000',
-    'user-agent': 'Stripe/1.0 (+https://stripe.com/docs/webhooks)',
-    'content-length': '2595',
-    accept: '*/*; q=0.5, application/xml',
-    'cache-control': 'no-cache',
-    'content-type': 'application/json; charset=utf-8',
-    'stripe-signature': 't=1762966058,v1=29b6586f7490f039f0f830a597352b71f2740b4bf0a008912d58194ff3db1b75,v0=1cbe2bdfb270674f8270bfcbf9034ee2540000de4d11aeeffa5ed516dc6156bf',
-    'accept-encoding': 'gzip'
+[UnifiedNotificationService] Sending email notification: { type: 'booking_request', recipientType: 'coach', hasRecipient: true }
+[UnifiedNotificationService] Email notification details: {
+  recipientEmail: 'test.coach2@example.com',
+  senderName: 'Test User 2',
+  type: 'booking_request',
+  start: 2025-11-13T07:45:00.000Z,
+  end: 2025-11-13T09:15:00.000Z
+}
+Email sent to test.coach2@example.com
+Subject: New Booking Request
+Body:
+    You have a new booking request from Test User 2 for Thu Nov 13 2025 08:45:00 GMT+0100 (Mitteleuropäische Normalzeit) at Thu Nov 13 2025 10:15:00 GMT+0100 (Mitteleuropäische Normalzeit).
+
+    Please log in to your dashboard to approve or reject this request.
+
+info: [UnifiedNotificationService] Notification sent successfully: {"bookingId":"6914bfe417e678434635142b","recipient":"66d9cdcb0a7492a86482bd68","timestamp":"2025-11-12T17:12:06.146Z","type":"booking_request"}
+[sendBookingNotifications] Notification sent successfully for config: {
+  "recipient": "66d9cdcb0a7492a86482bd68",
+  "priority": "high",
+  "category": "booking",
+  "channels": [
+    "in_app",
+    "email"
+  ],
+  "requiresAction": true,
+  "actions": [
+    "approve",
+    "decline",
+    "suggest"
+  ],
+  "metadata": {
+    "actionRequired": true,
+    "responseTimeout": 86400000,
+    "bookingId": "6914bfe417e678434635142b",
+    "sessionType": "66ec4ea477bec414bf2b8859",
+    "startTime": "2025-11-13T07:45:00.000Z",
+    "endTime": "2025-11-13T09:15:00.000Z",
+    "bookingType": "request"
   },
-  ip: '::1'
+  "type": "booking_request",
+  "recipientType": "coach",
+  "status": "active"
 }
-[PaymentController:Webhook] RAW REQUEST RECEIVED Top of webhookHandler. Headers: {
-  "host": "localhost:5000",
-  "user-agent": "Stripe/1.0 (+https://stripe.com/docs/webhooks)",
-  "content-length": "2595",
-  "accept": "*/*; q=0.5, application/xml",
-  "cache-control": "no-cache",
-  "content-type": "application/json; charset=utf-8",
-  "stripe-signature": "t=1762966058,v1=29b6586f7490f039f0f830a597352b71f2740b4bf0a008912d58194ff3db1b75,v0=1cbe2bdfb270674f8270bfcbf9034ee2540000de4d11aeeffa5ed516dc6156bf",
-  "accept-encoding": "gzip"
+[sendBookingNotifications] All notifications processed for booking: new ObjectId('6914bfe417e678434635142b')
+[bookingController.createBooking] Booking created successfully: {
+  bookingId: new ObjectId('6914bfe417e678434635142b'),
+  hasPaymentIntent: false,
+  priceStored: 180,
+  paymentTotal: undefined,
+  timestamp: '2025-11-12T17:12:06.148Z'
 }
-[Webhook] Received a request from Stripe.
-[PaymentController:Webhook] Stripe signature from header: t=1762966058,v1=29b6586f7490f039f0f830a597352b71f2740b4bf0a008912d58194ff3db1b75,v0=1cbe2bdfb270674f8270bfcbf9034ee2540000de4d11aeeffa5ed516dc6156bf
-[PaymentController:Webhook] STRIPE_WEBHOOK_SECRET used: SET
-[PaymentController:Webhook] Stripe event constructed successfully. Event Type: payment_intent.created Event ID: evt_3SShCoHKNqVBSHKU02mBbTP6
-[PaymentController:Webhook] Processing event: {
-  type: 'payment_intent.created',
-  id: 'evt_3SShCoHKNqVBSHKU02mBbTP6',
-  apiVersion: '2024-11-20.acacia',
-  timestamp: '2025-11-12T16:47:41.155Z'
+POST /api/bookings 201 2152.710 ms - 3130
+GET /api/bookings/66d9cdcb0a7492a86482bd68/bookings?start=2025-11-09T23:00:00.000Z&end=2025-11-16T22:59:59.999Z 200 234.160 ms - 92174
+
+COACH accpets:
+
+[bookingRoutes] POST /api/bookings/6914bfe417e678434635142b/accept
+[acceptBooking] Accepting booking: {
+  bookingId: '6914bfe417e678434635142b',
+  hasMessage: false,
+  userId: '66d9cdcb0a7492a86482bd68'
 }
-[PaymentController:Webhook] Unhandled event type: payment_intent.created
-[Webhook Logging] Successfully processed and logged event: payment_intent.created (evt_3SShCoHKNqVBSHKU02mBbTP6)
-[PaymentController] Fetching payment status: {
-  paymentIntentId: '6914b99017e678434634beb7',
+[acceptBooking] Found original notification: new ObjectId('6914bfe517e6784346351438')
+[acceptBooking] Saving booking with status: confirmed
+[Booking Model] Booking saved successfully: 6914bfe417e678434635142b
+[acceptBooking] Updated Session: {
+  sessionId: new ObjectId('6914bfe417e6784346351431'),
+  bookingId: new ObjectId('6914bfe417e678434635142b'),
+  state: 'confirmed',
+  sessionLink: undefined,
+  timestamp: '2025-11-12T17:13:51.155Z'
+}
+[sendBookingNotifications] Sending notifications for booking: new ObjectId('6914bfe417e678434635142b')
+[BookingNotificationMapper] Processing notifications for booking: {
+  bookingId: new ObjectId('6914bfe417e678434635142b'),
+  status: 'confirmed',
+  bookingType: 'request',
+  coach: {
+    _id: new ObjectId('66d9cdcb0a7492a86482bd68'),
+    firstName: 'Dominic',
+    lastName: 'Frei',
+    email: 'test.coach2@example.com'
+  },
+  client: {
+    _id: new ObjectId('66f418d10a19ec0e4bbd377e'),
+    firstName: 'Test',
+    lastName: 'User 2',
+    email: 'test.user2@example.com'
+  },
+  sessionType: new ObjectId('66ec4ea477bec414bf2b8859'),
+  start: 2025-11-13T07:45:00.000Z,
+  timestamp: '2025-11-12T17:13:51.156Z'
+}
+[BookingNotificationMapper] Generated notifications: {
+  bookingId: new ObjectId('6914bfe417e678434635142b'),
+  status: 'confirmed',
+  notificationType: 'booking_confirmed',
+  count: 2,
+  recipients: [
+    {
+      type: 'booking_confirmed',
+      recipient: '66f418d10a19ec0e4bbd377e',
+      recipientType: 'client',
+      status: 'active',
+      channels: [Array]
+    },
+    {
+      type: 'booking_confirmed',
+      recipient: '66d9cdcb0a7492a86482bd68',
+      recipientType: 'coach',
+      status: 'active',
+      channels: [Array]
+    }
+  ]
+}
+[sendBookingNotifications] Notification configs: [
+  {
+    "recipient": "66f418d10a19ec0e4bbd377e",
+    "priority": "medium",
+    "category": "booking",
+    "channels": [
+      "in_app",
+      "email"
+    ],
+    "requiresAction": true,
+    "actions": [
+      "view",
+      "reschedule",
+      "cancel"
+    ],
+    "type": "booking_confirmed",
+    "recipientType": "client",
+    "status": "active",
+    "metadata": {
+      "bookingId": "6914bfe417e678434635142b",
+      "sessionType": "66ec4ea477bec414bf2b8859",
+      "startTime": "2025-11-13T07:45:00.000Z",
+      "endTime": "2025-11-13T09:15:00.000Z",
+      "bookingType": "request"
+    }
+  },
+  {
+    "recipient": "66d9cdcb0a7492a86482bd68",
+    "priority": "low",
+    "category": "booking",
+    "channels": [
+      "in_app"
+    ],
+    "requiresAction": false,
+    "actions": [
+      "view"
+    ],
+    "type": "booking_confirmed",
+    "recipientType": "coach",
+    "status": "active",
+    "metadata": {
+      "bookingId": "6914bfe417e678434635142b",
+      "sessionType": "66ec4ea477bec414bf2b8859",
+      "startTime": "2025-11-13T07:45:00.000Z",
+      "endTime": "2025-11-13T09:15:00.000Z",
+      "bookingType": "request"
+    }
+  }
+]
+[sendBookingNotifications] Notification config before sending: {
+  config: '{\n' +
+    '  "recipient": "66f418d10a19ec0e4bbd377e",\n' +
+    '  "priority": "medium",\n' +
+    '  "category": "booking",\n' +
+    '  "channels": [\n' +
+    '    "in_app",\n' +
+    '    "email"\n' +
+    '  ],\n' +
+    '  "requiresAction": true,\n' +
+    '  "actions": [\n' +
+    '    "view",\n' +
+    '    "reschedule",\n' +
+    '    "cancel"\n' +
+    '  ],\n' +
+    '  "type": "booking_confirmed",\n' +
+    '  "recipientType": "client",\n' +
+    '  "status": "active",\n' +
+    '  "metadata": {\n' +
+    '    "bookingId": "6914bfe417e678434635142b",\n' +
+    '    "sessionType": "66ec4ea477bec414bf2b8859",\n' +
+    '    "startTime": "2025-11-13T07:45:00.000Z",\n' +
+    '    "endTime": "2025-11-13T09:15:00.000Z",\n' +
+    '    "bookingType": "request"\n' +
+    '  }\n' +
+    '}',
+  timestamp: '2025-11-12T17:13:51.161Z'
+}
+debug: [UnifiedNotificationService] Populated booking data: {"hasCoach":true,"hasSessionType":true,"hasUser":true,"id":"6914bfe417e678434635142b","status":"confirmed","timestamp":"2025-11-12T17:13:51.187Z"}
+[DATA TRACE | Notif Service] generateNotificationContent received config: {
+  "recipient": "66f418d10a19ec0e4bbd377e",
+  "priority": "medium",
+  "category": "booking",
+  "channels": [
+    "in_app",
+    "email"
+  ],
+  "requiresAction": true,
+  "actions": [
+    "view",
+    "reschedule",
+    "cancel"
+  ],
+  "type": "booking_confirmed",
+  "recipientType": "client",
+  "status": "active",
+  "metadata": {
+    "bookingId": "6914bfe417e678434635142b",
+    "sessionType": "66ec4ea477bec414bf2b8859",
+    "startTime": "2025-11-13T07:45:00.000Z",
+    "endTime": "2025-11-13T09:15:00.000Z",
+    "bookingType": "request"
+  }
+}
+[NotificationModel] Pre-validate hook: {
+  type: 'booking_confirmed',
+  category: 'booking',
+  metadata: {
+    bookingId: new ObjectId('6914bfe417e678434635142b'),
+    liveSessionId: null,
+    sessionId: undefined,
+    reviewId: undefined,
+    programId: undefined,
+    lessonId: undefined,
+    additionalData: {
+      auditId: undefined,
+      bookingId: new ObjectId('6914bfe417e678434635142b'),
+      sessionType: new ObjectId('66ec4ea477bec414bf2b8859'),
+      startTime: 2025-11-13T07:45:00.000Z,
+      endTime: 2025-11-13T09:15:00.000Z,
+      bookingType: 'request',
+      status: 'confirmed',
+      requiresAction: true,
+      validActions: [Array]
+    }
+  }
+}
+[NotificationModel] Processing new notification: new ObjectId('6914c04f17e67843463521ad')
+[SocketNotificationService] Emitting booking notification: {
+  notificationId: new ObjectId('6914c04f17e67843463521ad'),
+  type: 'booking_confirmed',
+  recipients: 1,
+  bookingId: new ObjectId('6914bfe417e678434635142b')
+}
+[UnifiedNotificationService] Sending email notification: {
+  type: 'booking_confirmed',
+  recipientType: 'client',
+  hasRecipient: false
+}
+[UnifiedNotificationService] Email notification details: {
+  recipientEmail: 'test.user2@example.com',
+  senderName: 'Dominic Frei',
+  type: 'booking_confirmed',
+  start: 2025-11-13T07:45:00.000Z,
+  end: 2025-11-13T09:15:00.000Z
+}
+Email sent to test.user2@example.com
+Subject: Booking Confirmation
+Body:
+    Your booking with Dominic Frei has been confirmed for Thu Nov 13 2025 08:45:00 GMT+0100 (Mitteleuropäische Normalzeit) at Thu Nov 13 2025 10:15:00 GMT+0100 (Mitteleuropäische Normalzeit).
+
+    Thank you for using our platform!
+
+[sendBookingNotifications] Notification sent successfully for config: {
+  "recipient": "66f418d10a19ec0e4bbd377e",
+  "priority": "medium",
+  "category": "booking",
+  "channels": [
+    "in_app",
+    "email"
+  ],
+  "requiresAction": true,
+  "actions": [
+    "view",
+    "reschedule",
+    "cancel"
+  ],
+  "type": "booking_confirmed",
+  "recipientType": "client",
+  "status": "active",
+  "metadata": {
+    "bookingId": "6914bfe417e678434635142b",
+    "sessionType": "66ec4ea477bec414bf2b8859",
+    "startTime": "2025-11-13T07:45:00.000Z",
+    "endTime": "2025-11-13T09:15:00.000Z",
+    "bookingType": "request"
+  }
+}
+[sendBookingNotifications] Notification config before sending: {
+  config: '{\n' +
+    '  "recipient": "66d9cdcb0a7492a86482bd68",\n' +
+    '  "priority": "low",\n' +
+    '  "category": "booking",\n' +
+    '  "channels": [\n' +
+    '    "in_app"\n' +
+    '  ],\n' +
+    '  "requiresAction": false,\n' +
+    '  "actions": [\n' +
+    '    "view"\n' +
+    '  ],\n' +
+    '  "type": "booking_confirmed",\n' +
+    '  "recipientType": "coach",\n' +
+    '  "status": "active",\n' +
+    '  "metadata": {\n' +
+    '    "bookingId": "6914bfe417e678434635142b",\n' +
+    '    "sessionType": "66ec4ea477bec414bf2b8859",\n' +
+    '    "startTime": "2025-11-13T07:45:00.000Z",\n' +
+    '    "endTime": "2025-11-13T09:15:00.000Z",\n' +
+    '    "bookingType": "request"\n' +
+    '  }\n' +
+    '}',
+  timestamp: '2025-11-12T17:13:52.240Z'
+}
+[DATA TRACE | Notif Service] generateNotificationContent received config: {
+  "recipient": "66d9cdcb0a7492a86482bd68",
+  "priority": "low",
+  "category": "booking",
+  "channels": [
+    "in_app"
+  ],
+  "requiresAction": false,
+  "actions": [
+    "view"
+  ],
+  "type": "booking_confirmed",
+  "recipientType": "coach",
+  "status": "active",
+  "metadata": {
+    "bookingId": "6914bfe417e678434635142b",
+    "sessionType": "66ec4ea477bec414bf2b8859",
+    "startTime": "2025-11-13T07:45:00.000Z",
+    "endTime": "2025-11-13T09:15:00.000Z",
+    "bookingType": "request"
+  }
+}
+[NotificationModel] Pre-validate hook: {
+  type: 'booking_confirmed',
+  category: 'booking',
+  metadata: {
+    bookingId: new ObjectId('6914bfe417e678434635142b'),
+    liveSessionId: null,
+    sessionId: undefined,
+    reviewId: undefined,
+    programId: undefined,
+    lessonId: undefined,
+    additionalData: {
+      auditId: undefined,
+      bookingId: new ObjectId('6914bfe417e678434635142b'),
+      sessionType: new ObjectId('66ec4ea477bec414bf2b8859'),
+      startTime: 2025-11-13T07:45:00.000Z,
+      endTime: 2025-11-13T09:15:00.000Z,
+      bookingType: 'request',
+      status: 'confirmed',
+      requiresAction: false,
+      validActions: undefined
+    }
+  }
+}
+[NotificationModel] Processing new notification: new ObjectId('6914c05017e67843463521b0')
+[SocketNotificationService] Emitting booking notification: {
+  notificationId: new ObjectId('6914c05017e67843463521b0'),
+  type: 'booking_confirmed',
+  recipients: 1,
+  bookingId: new ObjectId('6914bfe417e678434635142b')
+}
+[sendBookingNotifications] Notification sent successfully for config: {
+  "recipient": "66d9cdcb0a7492a86482bd68",
+  "priority": "low",
+  "category": "booking",
+  "channels": [
+    "in_app"
+  ],
+  "requiresAction": false,
+  "actions": [
+    "view"
+  ],
+  "type": "booking_confirmed",
+  "recipientType": "coach",
+  "status": "active",
+  "metadata": {
+    "bookingId": "6914bfe417e678434635142b",
+    "sessionType": "66ec4ea477bec414bf2b8859",
+    "startTime": "2025-11-13T07:45:00.000Z",
+    "endTime": "2025-11-13T09:15:00.000Z",
+    "bookingType": "request"
+  }
+}
+[sendBookingNotifications] All notifications processed for booking: new ObjectId('6914bfe417e678434635142b')
+[acceptBooking] Marking original notification as archived: {
+  notificationId: new ObjectId('6914bfe517e6784346351438'),
+  previousStatus: 'active',
+  actionResult: 'confirmed'
+}
+[NotificationModel] Pre-validate hook: {
+  type: 'booking_request',
+  category: 'booking',
+  metadata: {
+    bookingId: new ObjectId('6914bfe417e678434635142b'),
+    liveSessionId: null,
+    additionalData: {
+      actionRequired: true,
+      responseTimeout: 86400000,
+      bookingId: new ObjectId('6914bfe417e678434635142b'),
+      sessionType: new ObjectId('66ec4ea477bec414bf2b8859'),
+      startTime: 2025-11-13T07:45:00.000Z,
+      endTime: 2025-11-13T09:15:00.000Z,
+      bookingType: 'request',
+      status: 'requested',
+      requiresAction: true
+    }
+  }
+}
+[SocketNotificationService] Emitting notification action: {
+  notificationId: new ObjectId('6914bfe517e6784346351438'),
+  action: 'accept',
+  affectedUsers: 1
+}
+[acceptBooking] Booking accepted successfully: new ObjectId('6914bfe417e678434635142b')
+[SocketService] Booking status update emitted: {
+  bookingId: new ObjectId('6914bfe417e678434635142b'),
+  status: 'confirmed',
+  recipients: 2
+}
+POST /api/bookings/6914bfe417e678434635142b/accept 200 1414.127 ms - 3634
+[NotificationRoutes] CORRECT GET / HANDLER | Forwarding to notificationController.getNotifications. Query: {
+  excludeTrash: 'true',
+  status: 'all',
+  category: '',
+  limit: '50',
+  offset: '0'
+}
+--- [BACKEND-CONTROLLER] GET NOTIFICATIONS (Efficient Version) ---
+[Efficient] Fetching notifications for user: 66d9cdcb0a7492a86482bd68 with params: {
+  excludeTrash: 'true',
+  status: 'all',
+  category: '',
+  limit: '50',
+  offset: '0'
+}
+[Efficient] Final Mongoose Query: {"recipient":"66d9cdcb0a7492a86482bd68","status":{"$ne":"trash"}}
+PUT /api/notifications/6914bfe517e6784346351438/read 200 54.991 ms - 1202
+[Efficient] Query complete. Found 50 notifications.
+GET /api/notifications?excludeTrash=true&status=all&category=&limit=50&offset=0 200 220.669 ms - 133234
+[UserModel] Updating user: 66f418d10a19ec0e4bbd377e
+[SocketService] Broadcasting status update for user 66f418d10a19ec0e4bbd377e { status: 'offline' }
+ 
+
+ NEW LOGS:
+
+ GET /api/sessions/6914bfe417e678434635142b/recordings 200 117.163 ms - 32
+GET /api/bookings/public-summary/6914bfe417e678434635142b 200 158.961 ms - 3464
+[PaymentController] Fetching payment methods: {
   userId: '66f418d10a19ec0e4bbd377e',
-  timestamp: '2025-11-12T16:47:44.040Z'
+  authenticatedUserId: '66f418d10a19ec0e4bbd377e',
+  timestamp: '2025-11-12T17:24:52.951Z'
+}
+[PaymentController] Payment methods retrieved: { count: 2, userId: '66f418d10a19ec0e4bbd377e' }
+GET /api/payments/methods/66f418d10a19ec0e4bbd377e 200 276.704 ms - 262
+[PaymentController] Fetching payment methods: {
+  userId: '66f418d10a19ec0e4bbd377e',
+  authenticatedUserId: '66f418d10a19ec0e4bbd377e',
+  timestamp: '2025-11-12T17:24:53.233Z'
+}
+[PaymentController] Payment methods retrieved: { count: 2, userId: '66f418d10a19ec0e4bbd377e' }
+GET /api/payments/methods/66f418d10a19ec0e4bbd377e 304 284.755 ms - -
+[PaymentController] Fetching payment status: {
+  paymentIntentId: '6914bfe417e678434635142b',
+  userId: '66f418d10a19ec0e4bbd377e',
+  timestamp: '2025-11-12T17:25:00.989Z'
 }
 [PaymentController] Payment not yet initialized for booking: {
-  bookingId: new ObjectId('6914b99017e678434634beb7'),
+  bookingId: new ObjectId('6914bfe417e678434635142b'),
   status: 'confirmed',
-  timestamp: '2025-11-12T16:47:44.121Z'
+  timestamp: '2025-11-12T17:25:01.068Z'
 }
-[PaymentController] Fetching payment status: {
-  paymentIntentId: '6914b99017e678434634beb7',
+[PaymentController:confirmPayment] Request received. {
+  paymentIntentId: 'pi_3SShmIHKNqVBSHKU18rgrTBz',
+  hasPaymentMethodId: true,
   userId: '66f418d10a19ec0e4bbd377e',
-  timestamp: '2025-11-12T16:47:47.047Z'
+  timestamp: '2025-11-12T17:25:01.101Z'
 }
-[PaymentController] Payment not yet initialized for booking: {
-  bookingId: new ObjectId('6914b99017e678434634beb7'),
-  status: 'confirmed',
-  timestamp: '2025-11-12T16:47:47.132Z'
+[PaymentService] Confirming payment intent: {
+  paymentIntentId: 'pi_3SShmIHKNqVBSHKU18rgrTBz',
+  paymentMethodId: 'pm_1SBIwWHKNqVBSHKU8InvHDXZ'
 }
-[PaymentController] Fetching payment status: {
-  paymentIntentId: '6914b99017e678434634beb7',
-  userId: '66f418d10a19ec0e4bbd377e',
-  timestamp: '2025-11-12T16:47:50.079Z'
-}
-[PaymentController] Payment not yet initialized for booking: {
-  bookingId: new ObjectId('6914b99017e678434634beb7'),
-  status: 'confirmed',
-  timestamp: '2025-11-12T16:47:50.153Z'
-}
-[PaymentController] Fetching payment status: {
-  paymentIntentId: '6914b99017e678434634beb7',
-  userId: '66f418d10a19ec0e4bbd377e',
-  timestamp: '2025-11-12T16:47:53.048Z'
-}
-[PaymentController] Payment not yet initialized for booking: {
-  bookingId: new ObjectId('6914b99017e678434634beb7'),
-  status: 'confirmed',
-  timestamp: '2025-11-12T16:47:53.126Z'
-}
+[PaymentService] Payment intent confirmed: { paymentIntentId: 'pi_3SShmIHKNqVBSHKU18rgrTBz', status: 'succeeded' }
+POST /api/payments/confirm 200 1082.582 ms - 147
+GET /api/bookings/6914bfe417e678434635142b 200 160.093 ms - 3464
 [NotificationRoutes] CORRECT GET / HANDLER | Forwarding to notificationController.getNotifications. Query: {
   excludeTrash: 'true',
   status: 'all',
@@ -797,61 +1029,964 @@ POST /api/payments/create-intent 200 900.460 ms - 178
   offset: '0'
 }
 [Efficient] Final Mongoose Query: {"recipient":"66f418d10a19ec0e4bbd377e","status":{"$ne":"trash"}}
+[[[SERVER-ENTRY-POINT]]] Webhook request received at server entry. {
+  method: 'POST',
+  url: '/api/payments/webhook',
+  headers: {
+    host: 'localhost:5000',
+    'user-agent': 'Stripe/1.0 (+https://stripe.com/docs/webhooks)',
+    'content-length': '2689',
+    accept: '*/*; q=0.5, application/xml',
+    'cache-control': 'no-cache',
+    'content-type': 'application/json; charset=utf-8',
+    'stripe-signature': 't=1762968299,v1=37c5066e254483f61dd30a602fc66553b82113bd1efac8b9bb304904b52c12ea,v0=beaa3b16e8edd4fb25b1ff8840715f6f1a639f6a4b0a88d45683e58b589b8ed1',
+    'accept-encoding': 'gzip'
+  },
+  ip: '::1'
+}
+[PaymentController:Webhook] RAW REQUEST RECEIVED Top of webhookHandler. Headers: {
+  "host": "localhost:5000",
+  "user-agent": "Stripe/1.0 (+https://stripe.com/docs/webhooks)",
+  "content-length": "2689",
+  "accept": "*/*; q=0.5, application/xml",
+  "cache-control": "no-cache",
+  "content-type": "application/json; charset=utf-8",
+  "stripe-signature": "t=1762968299,v1=37c5066e254483f61dd30a602fc66553b82113bd1efac8b9bb304904b52c12ea,v0=beaa3b16e8edd4fb25b1ff8840715f6f1a639f6a4b0a88d45683e58b589b8ed1",
+  "accept-encoding": "gzip"
+}
+[Webhook] Received a request from Stripe.
+[PaymentController:Webhook] Stripe signature from header: t=1762968299,v1=37c5066e254483f61dd30a602fc66553b82113bd1efac8b9bb304904b52c12ea,v0=beaa3b16e8edd4fb25b1ff8840715f6f1a639f6a4b0a88d45683e58b589b8ed1
+[PaymentController:Webhook] STRIPE_WEBHOOK_SECRET used: SET
+[PaymentController:Webhook] Stripe event constructed successfully. Event Type: payment_intent.succeeded Event ID: evt_3SShmIHKNqVBSHKU1jAeN8Jo
+[PaymentController:Webhook] Processing event: {
+  type: 'payment_intent.succeeded',
+  id: 'evt_3SShmIHKNqVBSHKU1jAeN8Jo',
+  apiVersion: '2024-11-20.acacia',
+  timestamp: '2025-11-12T17:25:02.379Z'
+}
+[Webhook] Processing 'payment_intent.succeeded' event. { paymentIntentId: 'pi_3SShmIHKNqVBSHKU18rgrTBz' }
+[PaymentController:Webhook] Entered payment_intent.succeeded case. Event ID: evt_3SShmIHKNqVBSHKU1jAeN8Jo PaymentIntent ID: pi_3SShmIHKNqVBSHKU18rgrTBz
+[[[WEBHOOK-CASE-MATCH]]] Entered switch case: payment_intent.succeeded. { paymentIntentId: 'pi_3SShmIHKNqVBSHKU18rgrTBz' }
+[Webhook] Processing standard/live_session PI.succeeded {
+  paymentIntentId: 'pi_3SShmIHKNqVBSHKU18rgrTBz',
+  metadata: {
+    vatAmount: '1349',
+    vatAmountInCents: '1349',
+    userId: '66f418d10a19ec0e4bbd377e',
+    coachId: '66d9cdcb0a7492a86482bd68',
+    originalAmount: '18000',
+    customerIpAddress: '::1',
+    vatRate: '8.1',
+    bookingId: '6914bfe417e678434635142b',
+    platformFeeInCents: '0',
+    platformFee: '0'
+  },
+  timestamp: '2025-11-12T17:25:02.380Z'
+}
+[Webhook] Payment record 6914c2c49eedaac4c25a0698 updated. Status: completed, Type: charge. { paymentIntentId: 'pi_3SShmIHKNqVBSHKU18rgrTBz' }
+[handlePaymentSuccess] V-FINAL - Received successful payment event. {
+  paymentId: '6914c2c49eedaac4c25a0698',
+  bookingId: '6914bfe417e678434635142b',
+  liveSessionId: undefined,
+  programId: undefined,
+  paymentIntentId: 'pi_3SShmIHKNqVBSHKU18rgrTBz',
+  chargeId: 'ch_3SShmIHKNqVBSHKU14ykec1J'
+}
+[[[SERVER-ENTRY-POINT]]] Webhook request received at server entry. {
+  method: 'POST',
+  url: '/api/payments/webhook',
+  headers: {
+    host: 'localhost:5000',
+    'user-agent': 'Stripe/1.0 (+https://stripe.com/docs/webhooks)',
+    'content-length': '4250',
+    accept: '*/*; q=0.5, application/xml',
+    'cache-control': 'no-cache',
+    'content-type': 'application/json; charset=utf-8',
+    'stripe-signature': 't=1762968300,v1=0e784babec10f11752bc2eaa2d3bced6ae50fa317dad070e3c5e26d49622c80a,v0=88bc81e10838253f862376de9851890a0fb7da1c398c028db5e87da2d1a18b68',
+    'accept-encoding': 'gzip'
+  },
+  ip: '::1'
+}
+[PaymentController:Webhook] RAW REQUEST RECEIVED Top of webhookHandler. Headers: {
+  "host": "localhost:5000",
+  "user-agent": "Stripe/1.0 (+https://stripe.com/docs/webhooks)",
+  "content-length": "4250",
+  "accept": "*/*; q=0.5, application/xml",
+  "cache-control": "no-cache",
+  "content-type": "application/json; charset=utf-8",
+  "stripe-signature": "t=1762968300,v1=0e784babec10f11752bc2eaa2d3bced6ae50fa317dad070e3c5e26d49622c80a,v0=88bc81e10838253f862376de9851890a0fb7da1c398c028db5e87da2d1a18b68",
+  "accept-encoding": "gzip"
+}
+[Webhook] Received a request from Stripe.
+[PaymentController:Webhook] Stripe signature from header: t=1762968300,v1=0e784babec10f11752bc2eaa2d3bced6ae50fa317dad070e3c5e26d49622c80a,v0=88bc81e10838253f862376de9851890a0fb7da1c398c028db5e87da2d1a18b68
+[PaymentController:Webhook] STRIPE_WEBHOOK_SECRET used: SET
+[PaymentController:Webhook] Stripe event constructed successfully. Event Type: charge.succeeded Event ID: evt_3SShmIHKNqVBSHKU132okw3d
+[PaymentController:Webhook] Processing event: {
+  type: 'charge.succeeded',
+  id: 'evt_3SShmIHKNqVBSHKU132okw3d',
+  apiVersion: '2024-11-20.acacia',
+  timestamp: '2025-11-12T17:25:02.510Z'
+}
+[PaymentController:Webhook] Unhandled event type: charge.succeeded
+[Webhook Logging] Successfully processed and logged event: charge.succeeded (evt_3SShmIHKNqVBSHKU132okw3d)
 [Efficient] Query complete. Found 50 notifications.
-GET /api/notifications?excludeTrash=true&status=all&category=&limit=50&offset=0 200 244.326 ms - 185116
-[PaymentController] Fetching payment status: {
-  paymentIntentId: '6914b99017e678434634beb7',
-  userId: '66f418d10a19ec0e4bbd377e',
-  timestamp: '2025-11-12T16:47:56.042Z'
+GET /api/notifications?excludeTrash=true&status=all&category=&limit=50&offset=0 200 253.566 ms - 185604
+[handlePaymentSuccess] V-FINAL - Session state updated to confirmed. {
+  bookingId: {
+    payment: {
+      status: 'pending',
+      refunds: [],
+      reminderSent: [],
+      paymentRecord: new ObjectId('6914c2c49eedaac4c25a0698'),
+      stripe: [Object]
+    },
+    sessionLink: {
+      token: '1fb89f56eb9b4625c208856bd3152a075912750fb8018cc2287aa9f4807670a7',
+      sessionId: '0742ee77ac1cc516d5fc1847e892b5aaaa9397f32c106a8a22be2d3e81d9647d',
+      generatedAt: 2025-11-12T17:12:04.852Z,
+      expired: false
+    },
+    _id: new ObjectId('6914bfe417e678434635142b'),
+    coach: {
+      settings: [Object],
+      stripe: [Object],
+      billingDetails: [Object],
+      paymentPreferences: [Object],
+      moderation: [Object],
+      suspension: [Object],
+      ltv: [Object],
+      onboardingStatus: [Object],
+      termsAcceptance: [Object],
+      _id: new ObjectId('66d9cdcb0a7492a86482bd68'),
+      firstName: 'Dominic',
+      lastName: 'Frei',
+      email: 'test.coach2@example.com',
+      password: '$2a$10$jqGOzWaK7I7lrX4YK2Mu9.XV2eRnTqELRaQnPqjf99Hydnw6oe.LO',
+      role: 'coach',
+      preferredLanguage: 'de',
+      availabilityStatus: 'offline',
+      createdAt: 2024-09-05T15:27:07.420Z,
+      __v: 20,
+      status: 'offline',
+      achievements: [],
+      backgrounds: [Array],
+      bio: '',
+      interests: [],
+      isActive: true,
+      paymentMethods: [],
+      profileVisibility: 'public',
+      sessionHistory: [],
+      lastStatusUpdate: 2025-11-12T17:15:01.077Z,
+      coachingNeeds: [],
+      customGoals: [],
+      tokenVersion: 0,
+      blockedByCount: 0,
+      blockedUsers: [],
+      isEmailVerified: false,
+      trustScore: 100,
+      hasActiveDispute: false,
+      lastLogin: 2025-11-12T17:13:36.632Z,
+      totalEnrollments: 0,
+      totalSessions: 0,
+      location: 'Zürich',
+      occupation: 'Kaufmann',
+      phone: '+41786119931',
+      flags: [Array],
+      preferredLearningStyle: 'live',
+      primaryGoal: [Array],
+      salutation: 'mr'
+    },
+    user: {
+      profilePicture: [Object],
+      settings: [Object],
+      taxInfo: [Object],
+      stripe: [Object],
+      billingDetails: [Object],
+      paymentPreferences: [Object],
+      moderation: [Object],
+      suspension: [Object],
+      ltv: [Object],
+      onboardingStatus: [Object],
+      termsAcceptance: [Object],
+      _id: new ObjectId('66f418d10a19ec0e4bbd377e'),
+      firstName: 'Test',
+      lastName: 'User 2',
+      email: 'test.user2@example.com',
+      password: '$2a$10$BqYD2TyOvUF7GXQ3ePcixO3HnzsZCJRtrub0U29AcOaZkZzTvnQui',
+      role: 'client',
+      preferredLanguage: 'de',
+      isActive: true,
+      profileVisibility: 'public',
+      createdAt: 2024-09-25T14:06:09.833Z,
+      __v: 14,
+      status: 'online',
+      achievements: [],
+      bio: '',
+      interests: [Array],
+      paymentMethods: [],
+      backgrounds: [Array],
+      sessionHistory: [],
+      tokenVersion: 4,
+      phone: '+41786116666',
+      coachingNeeds: [],
+      customGoals: [],
+      lastStatusUpdate: 2025-11-12T17:24:38.531Z,
+      location: 'Zürich',
+      occupation: 'Kaufmann',
+      blockedUsers: [Array],
+      blockedByCount: 0,
+      isEmailVerified: false,
+      lastLogin: 2025-11-12T17:24:38.301Z,
+      trustScore: 100,
+      hasActiveDispute: false,
+      totalEnrollments: 0,
+      totalSessions: 0,
+      flags: [],
+      primaryGoal: [],
+      salutation: 'mr'
+    },
+    userIds: [],
+    isLiveSession: false,
+    sessionType: new ObjectId('66ec4ea477bec414bf2b8859'),
+    start: 2025-11-13T07:45:00.000Z,
+    end: 2025-11-13T09:15:00.000Z,
+    timezone: 'Europe/Zurich',
+    status: 'confirmed',
+    price: {
+      base: [Object],
+      final: [Object],
+      vat: [Object],
+      platformFee: [Object],
+      currency: 'CHF',
+      discounts: []
+    },
+    disputeTicket: null,
+    overtime: {
+      allowOvertime: true,
+      freeOvertimeDuration: 6,
+      paidOvertimeDuration: 45,
+      overtimeRate: 20,
+      _id: new ObjectId('6914bfe417e678434635142c'),
+      id: '6914bfe417e678434635142c'
+    },
+    isAvailability: false,
+    availableForInstantBooking: true,
+    firmBookingThreshold: 24,
+    title: 'Einzel',
+    description: '',
+    location: '',
+    isOnline: false,
+    language: null,
+    tags: [],
+    cancellationPolicy: {
+      oneOnOne: [Object],
+      webinar: [Object],
+      lastUpdated: 2025-10-20T06:23:53.529Z,
+      policyPreset: 'custom'
+    },
+    sessionGoal: null,
+    clientNotes: null,
+    preparationRequired: null,
+    followUpTasks: null,
+    minAttendees: null,
+    maxAttendees: null,
+    sessionTopic: null,
+    prerequisites: null,
+    learningObjectives: null,
+    materialsProvided: null,
+    whatToBring: null,
+    skillLevel: null,
+    webinarSlots: [],
+    isPublic: true,
+    showInWebinarBrowser: true,
+    recurringPattern: 'none',
+    recurringEndDate: null,
+    earlyBirdDeadline: null,
+    earlyBirdPrice: null,
+    isPartOfPackage: false,
+    certificationOffered: false,
+    certificationDetails: null,
+    bookingType: 'request',
+    reminderSent: [],
+    sessionImages: [],
+    courseMaterials: [],
+    metadata: {
+      originalAvailability: new ObjectId('6914b99717e678434634bf1a'),
+      availabilitySettings: [Object]
+    },
+    attendees: [],
+    suggestedTimes: [],
+    waitlist: [],
+    reminders: [],
+    rescheduleHistory: [],
+    rescheduleRequests: [],
+    createdAt: 2025-11-12T17:12:04.797Z,
+    updatedAt: 2025-11-12T17:24:20.487Z,
+    __v: 0,
+    recordings: Promise { [] },
+    duration: 90,
+    spotsRemaining: Infinity,
+    id: '6914bfe417e678434635142b'
+  }
 }
-[PaymentController] Payment not yet initialized for booking: {
-  bookingId: new ObjectId('6914b99017e678434634beb7'),
-  status: 'confirmed',
-  timestamp: '2025-11-12T16:47:56.113Z'
+[Booking Model] Booking saved successfully: 6914bfe417e678434635142b
+[handlePaymentSuccess] V-FINAL - Booking status updated. {
+  bookingId: new ObjectId('6914bfe417e678434635142b'),
+  newStatus: 'confirmed'
 }
-[PaymentController] Fetching payment status: {
-  paymentIntentId: '6914b99017e678434634beb7',
-  userId: '66f418d10a19ec0e4bbd377e',
-  timestamp: '2025-11-12T16:47:59.038Z'
+[handlePaymentSuccess] V-FINAL - 'charge' transaction ensured. {
+  paymentId: '6914c2c49eedaac4c25a0698',
+  bookingId: '6914bfe417e678434635142b',
+  liveSessionId: undefined,
+  programId: undefined,
+  paymentIntentId: 'pi_3SShmIHKNqVBSHKU18rgrTBz',
+  chargeId: 'ch_3SShmIHKNqVBSHKU14ykec1J'
 }
-[PaymentController] Payment not yet initialized for booking: {
-  bookingId: new ObjectId('6914b99017e678434634beb7'),
-  status: 'confirmed',
-  timestamp: '2025-11-12T16:47:59.119Z'
+[InvoiceService] Starting detailed invoice creation. {
+  paymentId: new ObjectId('6914c2c49eedaac4c25a0698'),
+  bookingId: new ObjectId('6914bfe417e678434635142b'),
+  programId: undefined
 }
-[PaymentController] Fetching payment status: {
-  paymentIntentId: '6914b99017e678434634beb7',
-  userId: '66f418d10a19ec0e4bbd377e',
-  timestamp: '2025-11-12T16:48:02.047Z'
+[[[SERVER-ENTRY-POINT]]] Webhook request received at server entry. {
+  method: 'POST',
+  url: '/api/payments/webhook',
+  headers: {
+    host: 'localhost:5000',
+    'user-agent': 'Stripe/1.0 (+https://stripe.com/docs/webhooks)',
+    'content-length': '4390',
+    accept: '*/*; q=0.5, application/xml',
+    'cache-control': 'no-cache',
+    'content-type': 'application/json; charset=utf-8',
+    'stripe-signature': 't=1762968301,v1=ac953c89af3e65433513959625511e5a947d0623bfb06dbcbe6424f33d40dbfc,v0=b165bfb1762fd805b0e66cb58f00cca7d85c26ab3e5214c1396506423aaac854',
+    'accept-encoding': 'gzip'
+  },
+  ip: '::1'
 }
-[PaymentController] Payment not yet initialized for booking: {
-  bookingId: new ObjectId('6914b99017e678434634beb7'),
-  status: 'confirmed',
-  timestamp: '2025-11-12T16:48:02.151Z'
+[PaymentController:Webhook] RAW REQUEST RECEIVED Top of webhookHandler. Headers: {
+  "host": "localhost:5000",
+  "user-agent": "Stripe/1.0 (+https://stripe.com/docs/webhooks)",
+  "content-length": "4390",
+  "accept": "*/*; q=0.5, application/xml",
+  "cache-control": "no-cache",
+  "content-type": "application/json; charset=utf-8",
+  "stripe-signature": "t=1762968301,v1=ac953c89af3e65433513959625511e5a947d0623bfb06dbcbe6424f33d40dbfc,v0=b165bfb1762fd805b0e66cb58f00cca7d85c26ab3e5214c1396506423aaac854",
+  "accept-encoding": "gzip"
 }
-[PaymentController] Fetching payment status: {
-  paymentIntentId: '6914b99017e678434634beb7',
-  userId: '66f418d10a19ec0e4bbd377e',
-  timestamp: '2025-11-12T16:48:05.040Z'
+[Webhook] Received a request from Stripe.
+[PaymentController:Webhook] Stripe signature from header: t=1762968301,v1=ac953c89af3e65433513959625511e5a947d0623bfb06dbcbe6424f33d40dbfc,v0=b165bfb1762fd805b0e66cb58f00cca7d85c26ab3e5214c1396506423aaac854
+[PaymentController:Webhook] STRIPE_WEBHOOK_SECRET used: SET
+[PaymentController:Webhook] Stripe event constructed successfully. Event Type: invoice.created Event ID: evt_1SShmzHKNqVBSHKU4UKTxwWT
+[PaymentController:Webhook] Processing event: {
+  type: 'invoice.created',
+  id: 'evt_1SShmzHKNqVBSHKU4UKTxwWT',
+  apiVersion: '2024-11-20.acacia',
+  timestamp: '2025-11-12T17:25:04.077Z'
 }
-[PaymentController] Payment not yet initialized for booking: {
-  bookingId: new ObjectId('6914b99017e678434634beb7'),
-  status: 'confirmed',
-  timestamp: '2025-11-12T16:48:05.110Z'
+[PaymentController:Webhook] Unhandled event type: invoice.created
+[Webhook Logging] Successfully processed and logged event: invoice.created (evt_1SShmzHKNqVBSHKU4UKTxwWT)
+[[[SERVER-ENTRY-POINT]]] Webhook request received at server entry. {
+  method: 'POST',
+  url: '/api/payments/webhook',
+  headers: {
+    host: 'localhost:5000',
+    'user-agent': 'Stripe/1.0 (+https://stripe.com/docs/webhooks)',
+    'content-length': '8453',
+    accept: '*/*; q=0.5, application/xml',
+    'cache-control': 'no-cache',
+    'content-type': 'application/json; charset=utf-8',
+    'stripe-signature': 't=1762968302,v1=927dab1177bc240c5ffdf5a5f7f4df5b053ae16ff82b07284a53a198a666e7aa,v0=63daf00d24f1c2a0e7b822423b69b7faafc9beaecaa11579c47c0e63ca9aad11',
+    'accept-encoding': 'gzip'
+  },
+  ip: '::1'
 }
-debug: [auth] Decoded token: {"user":{"id":"66f418d10a19ec0e4bbd377e","role":"client","version":4},"iat":1762965939,"exp":1763052339} {"timestamp":"2025-11-12T16:48:08.013Z"}
-info: [auth] User authenticated: 66f418d10a19ec0e4bbd377e {"timestamp":"2025-11-12T16:48:08.039Z"}
-[PaymentController] Fetching payment status: {
-  paymentIntentId: '6914b99017e678434634beb7',
-  userId: '66f418d10a19ec0e4bbd377e',
-  timestamp: '2025-11-12T16:48:08.039Z'
+[PaymentController:Webhook] RAW REQUEST RECEIVED Top of webhookHandler. Headers: {
+  "host": "localhost:5000",
+  "user-agent": "Stripe/1.0 (+https://stripe.com/docs/webhooks)",
+  "content-length": "8453",
+  "accept": "*/*; q=0.5, application/xml",
+  "cache-control": "no-cache",
+  "content-type": "application/json; charset=utf-8",
+  "stripe-signature": "t=1762968302,v1=927dab1177bc240c5ffdf5a5f7f4df5b053ae16ff82b07284a53a198a666e7aa,v0=63daf00d24f1c2a0e7b822423b69b7faafc9beaecaa11579c47c0e63ca9aad11",
+  "accept-encoding": "gzip"
 }
-[PaymentController] Payment not yet initialized for booking: {
-  bookingId: new ObjectId('6914b99017e678434634beb7'),
-  status: 'confirmed',
-  timestamp: '2025-11-12T16:48:08.135Z'
+[Webhook] Received a request from Stripe.
+[PaymentController:Webhook] Stripe signature from header: t=1762968302,v1=927dab1177bc240c5ffdf5a5f7f4df5b053ae16ff82b07284a53a198a666e7aa,v0=63daf00d24f1c2a0e7b822423b69b7faafc9beaecaa11579c47c0e63ca9aad11
+[PaymentController:Webhook] STRIPE_WEBHOOK_SECRET used: SET
+[PaymentController:Webhook] Stripe event constructed successfully. Event Type: invoice.updated Event ID: evt_1SShn0HKNqVBSHKUr0kuoZ5f
+[PaymentController:Webhook] Processing event: {
+  type: 'invoice.updated',
+  id: 'evt_1SShn0HKNqVBSHKUr0kuoZ5f',
+  apiVersion: '2024-11-20.acacia',
+  timestamp: '2025-11-12T17:25:04.672Z'
 }
-info: [default_disconnect_v1] Disconnect detected on DEFAULT namespace. {"event":"default_disconnect_v1","reason":"transport close","socketId":"Mar_RHItRcvybRchAAAb","timestamp":"2025-11-12T16:48:09.764Z","userId":"66f418d10a19ec0e4bbd377e"}
-info: [Socket] Client disconnected {"reason":"transport close","rooms":[],"socketId":"Mar_RHItRcvybRchAAAb","timestamp":"2025-11-12T16:48:09.765Z","userId":"66f418d10a19ec0e4bbd377e"}
-[UserModel] Updating user: 66f418d10a19ec0e4bbd377e
-[SocketService] Broadcasting status update for user 66f418d10a19ec0e4bbd377e { status: 'offline' }
+[PaymentController:Webhook] Unhandled event type: invoice.updated
+[[[SERVER-ENTRY-POINT]]] Webhook request received at server entry. {
+  method: 'POST',
+  url: '/api/payments/webhook',
+  headers: {
+    host: 'localhost:5000',
+    'user-agent': 'Stripe/1.0 (+https://stripe.com/docs/webhooks)',
+    'content-length': '1953',
+    accept: '*/*; q=0.5, application/xml',
+    'cache-control': 'no-cache',
+    'content-type': 'application/json; charset=utf-8',
+    'stripe-signature': 't=1762968302,v1=f8862ba270ea2ea8ddf01f8302692a4c8957d2e9400387264792f5c8749a99df,v0=b7cb5bb7d7438ec106b0b27be7eeb2d528273985b3a00201f0ae3531c099695c',
+    'accept-encoding': 'gzip'
+  },
+  ip: '::1'
+}
+[PaymentController:Webhook] RAW REQUEST RECEIVED Top of webhookHandler. Headers: {
+  "host": "localhost:5000",
+  "user-agent": "Stripe/1.0 (+https://stripe.com/docs/webhooks)",
+  "content-length": "1953",
+  "accept": "*/*; q=0.5, application/xml",
+  "cache-control": "no-cache",
+  "content-type": "application/json; charset=utf-8",
+  "stripe-signature": "t=1762968302,v1=f8862ba270ea2ea8ddf01f8302692a4c8957d2e9400387264792f5c8749a99df,v0=b7cb5bb7d7438ec106b0b27be7eeb2d528273985b3a00201f0ae3531c099695c",
+  "accept-encoding": "gzip"
+}
+[Webhook] Received a request from Stripe.
+[PaymentController:Webhook] Stripe signature from header: t=1762968302,v1=f8862ba270ea2ea8ddf01f8302692a4c8957d2e9400387264792f5c8749a99df,v0=b7cb5bb7d7438ec106b0b27be7eeb2d528273985b3a00201f0ae3531c099695c
+[PaymentController:Webhook] STRIPE_WEBHOOK_SECRET used: SET
+[PaymentController:Webhook] Stripe event constructed successfully. Event Type: invoiceitem.created Event ID: evt_1SShn0HKNqVBSHKUZqXbtk6u
+[PaymentController:Webhook] Processing event: {
+  type: 'invoiceitem.created',
+  id: 'evt_1SShn0HKNqVBSHKUZqXbtk6u',
+  apiVersion: '2024-11-20.acacia',
+  timestamp: '2025-11-12T17:25:04.685Z'
+}
+[PaymentController:Webhook] Unhandled event type: invoiceitem.created
+[Webhook Logging] Successfully processed and logged event: invoice.updated (evt_1SShn0HKNqVBSHKUr0kuoZ5f)
+[Webhook Logging] Successfully processed and logged event: invoiceitem.created (evt_1SShn0HKNqVBSHKUZqXbtk6u)
+[[[SERVER-ENTRY-POINT]]] Webhook request received at server entry. {
+  method: 'POST',
+  url: '/api/payments/webhook',
+  headers: {
+    host: 'localhost:5000',
+    'user-agent': 'Stripe/1.0 (+https://stripe.com/docs/webhooks)',
+    'content-length': '2442',
+    accept: '*/*; q=0.5, application/xml',
+    'cache-control': 'no-cache',
+    'content-type': 'application/json; charset=utf-8',
+    'stripe-signature': 't=1762968303,v1=ce7fff2df3af59224b3c463272abcfe7e0610e023e689b1fe0ded03dd2fbb673,v0=257adf100e8f4b463f5c7d9edd2412d26e415249dca762486e947b23b5d3ab20',
+    'accept-encoding': 'gzip'
+  },
+  ip: '::1'
+}
+[PaymentController:Webhook] RAW REQUEST RECEIVED Top of webhookHandler. Headers: {
+  "host": "localhost:5000",
+  "user-agent": "Stripe/1.0 (+https://stripe.com/docs/webhooks)",
+  "content-length": "2442",
+  "accept": "*/*; q=0.5, application/xml",
+  "cache-control": "no-cache",
+  "content-type": "application/json; charset=utf-8",
+  "stripe-signature": "t=1762968303,v1=ce7fff2df3af59224b3c463272abcfe7e0610e023e689b1fe0ded03dd2fbb673,v0=257adf100e8f4b463f5c7d9edd2412d26e415249dca762486e947b23b5d3ab20",
+  "accept-encoding": "gzip"
+}
+[Webhook] Received a request from Stripe.
+[PaymentController:Webhook] Stripe signature from header: t=1762968303,v1=ce7fff2df3af59224b3c463272abcfe7e0610e023e689b1fe0ded03dd2fbb673,v0=257adf100e8f4b463f5c7d9edd2412d26e415249dca762486e947b23b5d3ab20
+[PaymentController:Webhook] STRIPE_WEBHOOK_SECRET used: SET
+[PaymentController:Webhook] Stripe event constructed successfully. Event Type: payment.created Event ID: evt_1SShn1QjpPpOYbVByvf415Ei
+[PaymentController:Webhook] Processing event: {
+  type: 'payment.created',
+  id: 'evt_1SShn1QjpPpOYbVByvf415Ei',
+  apiVersion: '2024-11-20.acacia',
+  timestamp: '2025-11-12T17:25:05.606Z'
+}
+[PaymentController:Webhook] Unhandled event type: payment.created
+[Webhook Logging] Successfully processed and logged event: payment.created (evt_1SShn1QjpPpOYbVByvf415Ei)
+[[[SERVER-ENTRY-POINT]]] Webhook request received at server entry. {
+  method: 'POST',
+  url: '/api/payments/webhook',
+  headers: {
+    host: 'localhost:5000',
+    'user-agent': 'Stripe/1.0 (+https://stripe.com/docs/webhooks)',
+    'content-length': '1093',
+    accept: '*/*; q=0.5, application/xml',
+    'cache-control': 'no-cache',
+    'content-type': 'application/json; charset=utf-8',
+    'stripe-signature': 't=1762968303,v1=cdfe2287cb55e91289643f90f38e7797de99bf94fecba3eaa4f90462e2c78909,v0=5de5dd1ede6c0a91508f3fa0ca1daa58f54a3141e9bd611ff9aa2d81edd7e560',
+    'accept-encoding': 'gzip'
+  },
+  ip: '::1'
+}
+[PaymentController:Webhook] RAW REQUEST RECEIVED Top of webhookHandler. Headers: {
+  "host": "localhost:5000",
+  "user-agent": "Stripe/1.0 (+https://stripe.com/docs/webhooks)",
+  "content-length": "1093",
+  "accept": "*/*; q=0.5, application/xml",
+  "cache-control": "no-cache",
+  "content-type": "application/json; charset=utf-8",
+  "stripe-signature": "t=1762968303,v1=cdfe2287cb55e91289643f90f38e7797de99bf94fecba3eaa4f90462e2c78909,v0=5de5dd1ede6c0a91508f3fa0ca1daa58f54a3141e9bd611ff9aa2d81edd7e560",
+  "accept-encoding": "gzip"
+}
+[Webhook] Received a request from Stripe.
+[PaymentController:Webhook] Stripe signature from header: t=1762968303,v1=cdfe2287cb55e91289643f90f38e7797de99bf94fecba3eaa4f90462e2c78909,v0=5de5dd1ede6c0a91508f3fa0ca1daa58f54a3141e9bd611ff9aa2d81edd7e560
+[PaymentController:Webhook] STRIPE_WEBHOOK_SECRET used: SET
+[PaymentController:Webhook] Stripe event constructed successfully. Event Type: transfer.created Event ID: evt_3SShmIHKNqVBSHKU1qU9nJTq
+[PaymentController:Webhook] Processing event: {
+  type: 'transfer.created',
+  id: 'evt_3SShmIHKNqVBSHKU1qU9nJTq',
+  apiVersion: '2024-11-20.acacia',
+  timestamp: '2025-11-12T17:25:05.787Z'
+}
+[Webhook] Received 'transfer.created' for transfer tr_3SShmIHKNqVBSHKU1GOBwA9p, but status is 'undefined'. Final confirmation will be on 'paid' status. No action taken.
+[Webhook Logging] Successfully processed and logged event: transfer.created (evt_3SShmIHKNqVBSHKU1qU9nJTq)
+[[[SERVER-ENTRY-POINT]]] Webhook request received at server entry. {
+  method: 'POST',
+  url: '/api/payments/webhook',
+  headers: {
+    host: 'localhost:5000',
+    'user-agent': 'Stripe/1.0 (+https://stripe.com/docs/webhooks)',
+    'content-length': '2172',
+    accept: '*/*; q=0.5, application/xml',
+    'cache-control': 'no-cache',
+    'content-type': 'application/json; charset=utf-8',
+    'stripe-signature': 't=1762968303,v1=b46e197de5b60d84b75bfced29151517cb8fc379c6e782904ceeb04d1a3bd9bd,v0=e8f5fae1f721d95d3fd95f94bc4d4856ee0f7681fc20d7c0b8a8510e9da13969',
+    'accept-encoding': 'gzip'
+  },
+  ip: '::1'
+}
+[PaymentController:Webhook] RAW REQUEST RECEIVED Top of webhookHandler. Headers: {
+  "host": "localhost:5000",
+  "user-agent": "Stripe/1.0 (+https://stripe.com/docs/webhooks)",
+  "content-length": "2172",
+  "accept": "*/*; q=0.5, application/xml",
+  "cache-control": "no-cache",
+  "content-type": "application/json; charset=utf-8",
+  "stripe-signature": "t=1762968303,v1=b46e197de5b60d84b75bfced29151517cb8fc379c6e782904ceeb04d1a3bd9bd,v0=e8f5fae1f721d95d3fd95f94bc4d4856ee0f7681fc20d7c0b8a8510e9da13969",
+  "accept-encoding": "gzip"
+}
+[Webhook] Received a request from Stripe.
+[PaymentController:Webhook] Stripe signature from header: t=1762968303,v1=b46e197de5b60d84b75bfced29151517cb8fc379c6e782904ceeb04d1a3bd9bd,v0=e8f5fae1f721d95d3fd95f94bc4d4856ee0f7681fc20d7c0b8a8510e9da13969
+[PaymentController:Webhook] STRIPE_WEBHOOK_SECRET used: SET
+[PaymentController:Webhook] Stripe event constructed successfully. Event Type: payment_intent.created Event ID: evt_3SShn0HKNqVBSHKU0zc2Iy3z
+[PaymentController:Webhook] Processing event: {
+  type: 'payment_intent.created',
+  id: 'evt_3SShn0HKNqVBSHKU0zc2Iy3z',
+  apiVersion: '2024-11-20.acacia',
+  timestamp: '2025-11-12T17:25:06.026Z'
+}
+[PaymentController:Webhook] Unhandled event type: payment_intent.created
+[Webhook Logging] Successfully processed and logged event: payment_intent.created (evt_3SShn0HKNqVBSHKU0zc2Iy3z)
+[[[SERVER-ENTRY-POINT]]] Webhook request received at server entry. {
+  method: 'POST',
+  url: '/api/payments/webhook',
+  headers: {
+    host: 'localhost:5000',
+    'user-agent': 'Stripe/1.0 (+https://stripe.com/docs/webhooks)',
+    'content-length': '8872',
+    accept: '*/*; q=0.5, application/xml',
+    'cache-control': 'no-cache',
+    'content-type': 'application/json; charset=utf-8',
+    'stripe-signature': 't=1762968303,v1=8cc6bffc1f11cdb03bfccb05295f4db25faa1b5359eb8e6737d55db624ce0e85,v0=35314f4467ba847b76c4027129f81bab4f853cd180dd0511c764ee61418c5859',
+    'accept-encoding': 'gzip'
+  },
+  ip: '::1'
+}
+[PaymentController:Webhook] RAW REQUEST RECEIVED Top of webhookHandler. Headers: {
+  "host": "localhost:5000",
+  "user-agent": "Stripe/1.0 (+https://stripe.com/docs/webhooks)",
+  "content-length": "8872",
+  "accept": "*/*; q=0.5, application/xml",
+  "cache-control": "no-cache",
+  "content-type": "application/json; charset=utf-8",
+  "stripe-signature": "t=1762968303,v1=8cc6bffc1f11cdb03bfccb05295f4db25faa1b5359eb8e6737d55db624ce0e85,v0=35314f4467ba847b76c4027129f81bab4f853cd180dd0511c764ee61418c5859",
+  "accept-encoding": "gzip"
+}
+[Webhook] Received a request from Stripe.
+[PaymentController:Webhook] Stripe signature from header: t=1762968303,v1=8cc6bffc1f11cdb03bfccb05295f4db25faa1b5359eb8e6737d55db624ce0e85,v0=35314f4467ba847b76c4027129f81bab4f853cd180dd0511c764ee61418c5859
+[PaymentController:Webhook] STRIPE_WEBHOOK_SECRET used: SET
+[PaymentController:Webhook] Stripe event constructed successfully. Event Type: invoice.updated Event ID: evt_1SShn1HKNqVBSHKUoUB3xJDD
+[PaymentController:Webhook] Processing event: {
+  type: 'invoice.updated',
+  id: 'evt_1SShn1HKNqVBSHKUoUB3xJDD',
+  apiVersion: '2024-11-20.acacia',
+  timestamp: '2025-11-12T17:25:06.276Z'
+}
+[PaymentController:Webhook] Unhandled event type: invoice.updated
+[Webhook Logging] Successfully processed and logged event: invoice.updated (evt_1SShn1HKNqVBSHKUoUB3xJDD)
+[[[SERVER-ENTRY-POINT]]] Webhook request received at server entry. {
+  method: 'POST',
+  url: '/api/payments/webhook',
+  headers: {
+    host: 'localhost:5000',
+    'user-agent': 'Stripe/1.0 (+https://stripe.com/docs/webhooks)',
+    'content-length': '8488',
+    accept: '*/*; q=0.5, application/xml',
+    'cache-control': 'no-cache',
+    'content-type': 'application/json; charset=utf-8',
+    'stripe-signature': 't=1762968303,v1=d0ec74330285a305e1e28ba80e54da667149933719094f8a692b1b50640dd41e,v0=b24c65f27867559978a3e0d6aaa751e7ff2f2e1825bd73ca193a8960fe7320a7',
+    'accept-encoding': 'gzip'
+  },
+  ip: '::1'
+}
+[PaymentController:Webhook] RAW REQUEST RECEIVED Top of webhookHandler. Headers: {
+  "host": "localhost:5000",
+  "user-agent": "Stripe/1.0 (+https://stripe.com/docs/webhooks)",
+  "content-length": "8488",
+  "accept": "*/*; q=0.5, application/xml",
+  "cache-control": "no-cache",
+  "content-type": "application/json; charset=utf-8",
+  "stripe-signature": "t=1762968303,v1=d0ec74330285a305e1e28ba80e54da667149933719094f8a692b1b50640dd41e,v0=b24c65f27867559978a3e0d6aaa751e7ff2f2e1825bd73ca193a8960fe7320a7",
+  "accept-encoding": "gzip"
+}
+[Webhook] Received a request from Stripe.
+[PaymentController:Webhook] Stripe signature from header: t=1762968303,v1=d0ec74330285a305e1e28ba80e54da667149933719094f8a692b1b50640dd41e,v0=b24c65f27867559978a3e0d6aaa751e7ff2f2e1825bd73ca193a8960fe7320a7
+[PaymentController:Webhook] STRIPE_WEBHOOK_SECRET used: SET
+[PaymentController:Webhook] Stripe event constructed successfully. Event Type: invoice.finalized Event ID: evt_1SShn1HKNqVBSHKUCaQ3yIK4
+[PaymentController:Webhook] Processing event: {
+  type: 'invoice.finalized',
+  id: 'evt_1SShn1HKNqVBSHKUCaQ3yIK4',
+  apiVersion: '2024-11-20.acacia',
+  timestamp: '2025-11-12T17:25:06.350Z'
+}
+[PaymentController:Webhook] Unhandled event type: invoice.finalized
+[Webhook Logging] Successfully processed and logged event: invoice.finalized (evt_1SShn1HKNqVBSHKUCaQ3yIK4)
+[[[SERVER-ENTRY-POINT]]] Webhook request received at server entry. {
+  method: 'POST',
+  url: '/api/payments/webhook',
+  headers: {
+    host: 'localhost:5000',
+    'user-agent': 'Stripe/1.0 (+https://stripe.com/docs/webhooks)',
+    'content-length': '1156',
+    accept: '*/*; q=0.5, application/xml',
+    'cache-control': 'no-cache',
+    'content-type': 'application/json; charset=utf-8',
+    'stripe-signature': 't=1762968305,v1=339ecd04ebc3d1ec6251cc9bae9979a98fadce37b5912302a87e8384243942df,v0=bc3033e304b4a15b2fcc23bb7f4aeca9db59200a5323d5c071312973ae2fdc99',
+    'accept-encoding': 'gzip'
+  },
+  ip: '::1'
+}
+[PaymentController:Webhook] RAW REQUEST RECEIVED Top of webhookHandler. Headers: {
+  "host": "localhost:5000",
+  "user-agent": "Stripe/1.0 (+https://stripe.com/docs/webhooks)",
+  "content-length": "1156",
+  "accept": "*/*; q=0.5, application/xml",
+  "cache-control": "no-cache",
+  "content-type": "application/json; charset=utf-8",
+  "stripe-signature": "t=1762968305,v1=339ecd04ebc3d1ec6251cc9bae9979a98fadce37b5912302a87e8384243942df,v0=bc3033e304b4a15b2fcc23bb7f4aeca9db59200a5323d5c071312973ae2fdc99",
+  "accept-encoding": "gzip"
+}
+[Webhook] Received a request from Stripe.
+[PaymentController:Webhook] Stripe signature from header: t=1762968305,v1=339ecd04ebc3d1ec6251cc9bae9979a98fadce37b5912302a87e8384243942df,v0=bc3033e304b4a15b2fcc23bb7f4aeca9db59200a5323d5c071312973ae2fdc99
+[PaymentController:Webhook] STRIPE_WEBHOOK_SECRET used: SET
+[PaymentController:Webhook] Stripe event constructed successfully. Event Type: application_fee.created Event ID: evt_1SShn2HKNqVBSHKU4NylTbtk
+[PaymentController:Webhook] Processing event: {
+  type: 'application_fee.created',
+  id: 'evt_1SShn2HKNqVBSHKU4NylTbtk',
+  apiVersion: '2024-11-20.acacia',
+  timestamp: '2025-11-12T17:25:07.496Z'
+}
+[PaymentController:Webhook] Unhandled event type: application_fee.created
+[Webhook Logging] Successfully processed and logged event: application_fee.created (evt_1SShn2HKNqVBSHKU4NylTbtk)
+[[[SERVER-ENTRY-POINT]]] Webhook request received at server entry. {
+  method: 'POST',
+  url: '/api/payments/webhook',
+  headers: {
+    host: 'localhost:5000',
+    'user-agent': 'Stripe/1.0 (+https://stripe.com/docs/webhooks)',
+    'content-length': '4587',
+    accept: '*/*; q=0.5, application/xml',
+    'cache-control': 'no-cache',
+    'content-type': 'application/json; charset=utf-8',
+    'stripe-signature': 't=1762968305,v1=8194c891025fedb69ea8edcf70192a16280906b56092e29a8826c621d53383ec,v0=61b33d53931b9ebd6cd64e146c45fed8f8c97026989eb5ec6f58c50cf5caa9ba',
+    'accept-encoding': 'gzip'
+  },
+  ip: '::1'
+}
+[PaymentController:Webhook] RAW REQUEST RECEIVED Top of webhookHandler. Headers: {
+  "host": "localhost:5000",
+  "user-agent": "Stripe/1.0 (+https://stripe.com/docs/webhooks)",
+  "content-length": "4587",
+  "accept": "*/*; q=0.5, application/xml",
+  "cache-control": "no-cache",
+  "content-type": "application/json; charset=utf-8",
+  "stripe-signature": "t=1762968305,v1=8194c891025fedb69ea8edcf70192a16280906b56092e29a8826c621d53383ec,v0=61b33d53931b9ebd6cd64e146c45fed8f8c97026989eb5ec6f58c50cf5caa9ba",
+  "accept-encoding": "gzip"
+}
+[Webhook] Received a request from Stripe.
+[PaymentController:Webhook] Stripe signature from header: t=1762968305,v1=8194c891025fedb69ea8edcf70192a16280906b56092e29a8826c621d53383ec,v0=61b33d53931b9ebd6cd64e146c45fed8f8c97026989eb5ec6f58c50cf5caa9ba
+[PaymentController:Webhook] STRIPE_WEBHOOK_SECRET used: SET
+[PaymentController:Webhook] Stripe event constructed successfully. Event Type: charge.updated Event ID: evt_3SShmIHKNqVBSHKU1KdUw3P8
+[PaymentController:Webhook] Processing event: {
+  type: 'charge.updated',
+  id: 'evt_3SShmIHKNqVBSHKU1KdUw3P8',
+  apiVersion: '2024-11-20.acacia',
+  timestamp: '2025-11-12T17:25:07.758Z'
+}
+[PaymentController:Webhook] Unhandled event type: charge.updated
+[Webhook Logging] Successfully processed and logged event: charge.updated (evt_3SShmIHKNqVBSHKU1KdUw3P8)
+[InvoiceService] Successfully created and stored detailed invoice reference for payment 6914c2c49eedaac4c25a0698. {
+  invoiceId: new ObjectId('6914c2f39eedaac4c25a0c78'),
+  stripeInvoiceId: 'in_1SShmzHKNqVBSHKUIZrJNGOo',
+  amount: 180
+}
+[handlePaymentSuccess] V-FINAL - Client invoice generation initiated. {
+  paymentId: '6914c2c49eedaac4c25a0698',
+  bookingId: '6914bfe417e678434635142b',
+  liveSessionId: undefined,
+  programId: undefined,
+  paymentIntentId: 'pi_3SShmIHKNqVBSHKU18rgrTBz',
+  chargeId: 'ch_3SShmIHKNqVBSHKU14ykec1J'
+}
+[DATA TRACE | Notif Service] generateNotificationContent received config: {
+  "type": "booking_confirmed",
+  "recipient": "66f418d10a19ec0e4bbd377e",
+  "metadata": {
+    "bookingId": "6914bfe417e678434635142b",
+    "coachName": "Dominic Frei",
+    "webinarTitle": "Einzel",
+    "amount": 180,
+    "currency": "CHF",
+    "otherPartyName": "Dominic Frei"
+  },
+  "channels": [
+    "in_app",
+    "email"
+  ]
+}
+[NotificationModel] Pre-validate hook: {
+  type: 'booking_confirmed',
+  category: 'booking',
+  metadata: {
+    bookingId: new ObjectId('6914bfe417e678434635142b'),
+    liveSessionId: null,
+    sessionId: undefined,
+    reviewId: undefined,
+    programId: undefined,
+    lessonId: undefined,
+    additionalData: {
+      auditId: undefined,
+      bookingId: new ObjectId('6914bfe417e678434635142b'),
+      coachName: 'Dominic Frei',
+      webinarTitle: 'Einzel',
+      amount: 180,
+      currency: 'CHF',
+      otherPartyName: 'Dominic Frei',
+      startTime: 2025-11-13T07:45:00.000Z,
+      endTime: 2025-11-13T09:15:00.000Z,
+      bookingType: 'request',
+      status: 'confirmed',
+      requiresAction: undefined,
+      validActions: undefined
+    }
+  }
+}
+[NotificationModel] Processing new notification: new ObjectId('6914c2f49eedaac4c25a0c7c')
+[SocketNotificationService] Emitting booking notification: {
+  notificationId: new ObjectId('6914c2f49eedaac4c25a0c7c'),
+  type: 'booking_confirmed',
+  recipients: 1,
+  bookingId: new ObjectId('6914bfe417e678434635142b')
+}
+[UnifiedNotificationService] Sending email notification: {
+  type: 'booking_confirmed',
+  recipientType: undefined,
+  hasRecipient: false
+}
+[UnifiedNotificationService] Email notification details: {
+  recipientEmail: 'test.user2@example.com',
+  senderName: 'Dominic Frei',
+  type: 'booking_confirmed',
+  start: 2025-11-13T07:45:00.000Z,
+  end: 2025-11-13T09:15:00.000Z
+}
+[[[SERVER-ENTRY-POINT]]] Webhook request received at server entry. {
+  method: 'POST',
+  url: '/api/payments/webhook',
+  headers: {
+    host: 'localhost:5000',
+    'user-agent': 'Stripe/1.0 (+https://stripe.com/docs/webhooks)',
+    'content-length': '2335',
+    accept: '*/*; q=0.5, application/xml',
+    'cache-control': 'no-cache',
+    'content-type': 'application/json; charset=utf-8',
+    'stripe-signature': 't=1762968305,v1=08123f26b3fb9e1bd7af5066c121dc06105de62c01cc0a10e0e0ffe3e42e000d,v0=7d5982bdd2edc4797fa9e7fa381de977fc64eb09bddbafc78e53ebfee0e0443c',
+    'accept-encoding': 'gzip'
+  },
+  ip: '::1'
+}
+[PaymentController:Webhook] RAW REQUEST RECEIVED Top of webhookHandler. Headers: {
+  "host": "localhost:5000",
+  "user-agent": "Stripe/1.0 (+https://stripe.com/docs/webhooks)",
+  "content-length": "2335",
+  "accept": "*/*; q=0.5, application/xml",
+  "cache-control": "no-cache",
+  "content-type": "application/json; charset=utf-8",
+  "stripe-signature": "t=1762968305,v1=08123f26b3fb9e1bd7af5066c121dc06105de62c01cc0a10e0e0ffe3e42e000d,v0=7d5982bdd2edc4797fa9e7fa381de977fc64eb09bddbafc78e53ebfee0e0443c",
+  "accept-encoding": "gzip"
+}
+[Webhook] Received a request from Stripe.
+[PaymentController:Webhook] Stripe signature from header: t=1762968305,v1=08123f26b3fb9e1bd7af5066c121dc06105de62c01cc0a10e0e0ffe3e42e000d,v0=7d5982bdd2edc4797fa9e7fa381de977fc64eb09bddbafc78e53ebfee0e0443c
+[PaymentController:Webhook] STRIPE_WEBHOOK_SECRET used: SET
+[PaymentController:Webhook] Stripe event constructed successfully. Event Type: payment_intent.canceled Event ID: evt_3SShn0HKNqVBSHKU0StBoRMr
+[PaymentController:Webhook] Processing event: {
+  type: 'payment_intent.canceled',
+  id: 'evt_3SShn0HKNqVBSHKU0StBoRMr',
+  apiVersion: '2024-11-20.acacia',
+  timestamp: '2025-11-12T17:25:08.272Z'
+}
+[PaymentController:Webhook] Unhandled event type: payment_intent.canceled
+[Webhook Logging] Successfully processed and logged event: payment_intent.canceled (evt_3SShn0HKNqVBSHKU0StBoRMr)
+[[[SERVER-ENTRY-POINT]]] Webhook request received at server entry. {
+  method: 'POST',
+  url: '/api/payments/webhook',
+  headers: {
+    host: 'localhost:5000',
+    'user-agent': 'Stripe/1.0 (+https://stripe.com/docs/webhooks)',
+    'content-length': '8696',
+    accept: '*/*; q=0.5, application/xml',
+    'cache-control': 'no-cache',
+    'content-type': 'application/json; charset=utf-8',
+    'stripe-signature': 't=1762968305,v1=d8899eb192121bbc0759d390a7713d0712795805835b1987d072bd6cce2d893e,v0=e293090fa163841863d05f86fd250b9a8d137c405f477bddcc353dfd2464b5f8',
+    'accept-encoding': 'gzip'
+  },
+  ip: '::1'
+}
+[PaymentController:Webhook] RAW REQUEST RECEIVED Top of webhookHandler. Headers: {
+  "host": "localhost:5000",
+  "user-agent": "Stripe/1.0 (+https://stripe.com/docs/webhooks)",
+  "content-length": "8696",
+  "accept": "*/*; q=0.5, application/xml",
+  "cache-control": "no-cache",
+  "content-type": "application/json; charset=utf-8",
+  "stripe-signature": "t=1762968305,v1=d8899eb192121bbc0759d390a7713d0712795805835b1987d072bd6cce2d893e,v0=e293090fa163841863d05f86fd250b9a8d137c405f477bddcc353dfd2464b5f8",
+  "accept-encoding": "gzip"
+}
+[Webhook] Received a request from Stripe.
+[PaymentController:Webhook] Stripe signature from header: t=1762968305,v1=d8899eb192121bbc0759d390a7713d0712795805835b1987d072bd6cce2d893e,v0=e293090fa163841863d05f86fd250b9a8d137c405f477bddcc353dfd2464b5f8
+[PaymentController:Webhook] STRIPE_WEBHOOK_SECRET used: SET
+[PaymentController:Webhook] Stripe event constructed successfully. Event Type: invoice.updated Event ID: evt_1SShn3HKNqVBSHKUWfzVWHnc
+[PaymentController:Webhook] Processing event: {
+  type: 'invoice.updated',
+  id: 'evt_1SShn3HKNqVBSHKUWfzVWHnc',
+  apiVersion: '2024-11-20.acacia',
+  timestamp: '2025-11-12T17:25:08.452Z'
+}
+[PaymentController:Webhook] Unhandled event type: invoice.updated
+[Webhook Logging] Successfully processed and logged event: invoice.updated (evt_1SShn3HKNqVBSHKUWfzVWHnc)
+[[[SERVER-ENTRY-POINT]]] Webhook request received at server entry. {
+  method: 'POST',
+  url: '/api/payments/webhook',
+  headers: {
+    host: 'localhost:5000',
+    'user-agent': 'Stripe/1.0 (+https://stripe.com/docs/webhooks)',
+    'content-length': '8462',
+    accept: '*/*; q=0.5, application/xml',
+    'cache-control': 'no-cache',
+    'content-type': 'application/json; charset=utf-8',
+    'stripe-signature': 't=1762968306,v1=b6b3b4215ce6c81bab52c1746e7abd8a7efcbb05f273499e1a6719106fb477be,v0=4e8688436280d73128e0d434407e2815f4618164892866156433fc92bb59c120',
+    'accept-encoding': 'gzip'
+  },
+  ip: '::1'
+}
+[PaymentController:Webhook] RAW REQUEST RECEIVED Top of webhookHandler. Headers: {
+  "host": "localhost:5000",
+  "user-agent": "Stripe/1.0 (+https://stripe.com/docs/webhooks)",
+  "content-length": "8462",
+  "accept": "*/*; q=0.5, application/xml",
+  "cache-control": "no-cache",
+  "content-type": "application/json; charset=utf-8",
+  "stripe-signature": "t=1762968306,v1=b6b3b4215ce6c81bab52c1746e7abd8a7efcbb05f273499e1a6719106fb477be,v0=4e8688436280d73128e0d434407e2815f4618164892866156433fc92bb59c120",
+  "accept-encoding": "gzip"
+}
+[Webhook] Received a request from Stripe.
+[PaymentController:Webhook] Stripe signature from header: t=1762968306,v1=b6b3b4215ce6c81bab52c1746e7abd8a7efcbb05f273499e1a6719106fb477be,v0=4e8688436280d73128e0d434407e2815f4618164892866156433fc92bb59c120
+[PaymentController:Webhook] STRIPE_WEBHOOK_SECRET used: SET
+[PaymentController:Webhook] Stripe event constructed successfully. Event Type: invoice.paid Event ID: evt_1SShn4HKNqVBSHKUD2xQNAF9
+[PaymentController:Webhook] Processing event: {
+  type: 'invoice.paid',
+  id: 'evt_1SShn4HKNqVBSHKUD2xQNAF9',
+  apiVersion: '2024-11-20.acacia',
+  timestamp: '2025-11-12T17:25:08.566Z'
+}
+[PaymentController:Webhook] Unhandled event type: invoice.paid
+[Webhook Logging] Successfully processed and logged event: invoice.paid (evt_1SShn4HKNqVBSHKUD2xQNAF9)
+Email sent to test.user2@example.com
+Subject: Booking Confirmation
+Body:
+    Your booking with Dominic Frei has been confirmed for Thu Nov 13 2025 08:45:00 GMT+0100 (Mitteleuropäische Normalzeit) at Thu Nov 13 2025 10:15:00 GMT+0100 (Mitteleuropäische Normalzeit).
+
+    Thank you for using our platform!
+
+info: [UnifiedNotificationService] Notification sent successfully: {"bookingId":"6914bfe417e678434635142b","recipient":"66f418d10a19ec0e4bbd377e","timestamp":"2025-11-12T17:25:09.118Z","type":"booking_confirmed"}
+debug: [UnifiedNotificationService] Populated booking data: {"hasCoach":true,"hasSessionType":true,"hasUser":true,"id":"6914bfe417e678434635142b","status":"confirmed","timestamp":"2025-11-12T17:25:09.149Z"}
+[DATA TRACE | Notif Service] generateNotificationContent received config: {
+  "type": "booking_confirmed",
+  "recipient": "66d9cdcb0a7492a86482bd68",
+  "metadata": {
+    "bookingId": "6914bfe417e678434635142b",
+    "attendeeName": "Test User 2",
+    "webinarTitle": "Einzel",
+    "otherPartyName": "Test User 2"
+  },
+  "channels": [
+    "in_app",
+    "email"
+  ]
+}
+[NotificationModel] Pre-validate hook: {
+  type: 'booking_confirmed',
+  category: 'booking',
+  metadata: {
+    bookingId: new ObjectId('6914bfe417e678434635142b'),
+    liveSessionId: null,
+    sessionId: undefined,
+    reviewId: undefined,
+    programId: undefined,
+    lessonId: undefined,
+    additionalData: {
+      auditId: undefined,
+      bookingId: new ObjectId('6914bfe417e678434635142b'),
+      attendeeName: 'Test User 2',
+      webinarTitle: 'Einzel',
+      otherPartyName: 'Test User 2',
+      startTime: 2025-11-13T07:45:00.000Z,
+      endTime: 2025-11-13T09:15:00.000Z,
+      bookingType: 'request',
+      status: 'confirmed',
+      requiresAction: undefined,
+      validActions: undefined
+    }
+  }
+}
+[NotificationModel] Processing new notification: new ObjectId('6914c2f59eedaac4c25a0c85')
+[SocketNotificationService] Emitting booking notification: {
+  notificationId: new ObjectId('6914c2f59eedaac4c25a0c85'),
+  type: 'booking_confirmed',
+  recipients: 1,
+  bookingId: new ObjectId('6914bfe417e678434635142b')
+}
+[UnifiedNotificationService] Sending email notification: {
+  type: 'booking_confirmed',
+  recipientType: undefined,
+  hasRecipient: false
+}
+[UnifiedNotificationService] Email notification details: {
+  recipientEmail: 'test.coach2@example.com',
+  senderName: 'Test User 2',
+  type: 'booking_confirmed',
+  start: 2025-11-13T07:45:00.000Z,
+  end: 2025-11-13T09:15:00.000Z
+}
+Email sent to test.coach2@example.com
+Subject: Booking Confirmation
+Body:
+    Your booking with Test User 2 has been confirmed for Thu Nov 13 2025 08:45:00 GMT+0100 (Mitteleuropäische Normalzeit) at Thu Nov 13 2025 10:15:00 GMT+0100 (Mitteleuropäische Normalzeit).
+
+    Thank you for using our platform!
+
+[handlePaymentSuccess] V-FINAL - Notifications sent. Processing complete. {
+  paymentId: '6914c2c49eedaac4c25a0698',
+  bookingId: '6914bfe417e678434635142b',
+  liveSessionId: undefined,
+  programId: undefined,
+  paymentIntentId: 'pi_3SShmIHKNqVBSHKU18rgrTBz',
+  chargeId: 'ch_3SShmIHKNqVBSHKU14ykec1J'
+}
+[SocketService] Full booking update emitted: {
+  event: 'booking_update',
+  bookingId: new ObjectId('6914bfe417e678434635142b'),
+  recipients: 2
+}

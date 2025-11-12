@@ -140,13 +140,19 @@ const handlePaymentCancel = () => {
     return;
   }
   
-  logger.info('[PaymentPopup] Payment flow cancelled by user, calling onCancel prop.', {
+  logger.info('[PaymentPopup] Payment flow cancelled by user, calling onCancel or onClose prop.', {
     bookingId,
     paymentStep,
     modalState,
+    onCancelIsFunction: typeof onCancel === 'function',
     timestamp: new Date().toISOString(),
   });
-  onCancel();
+
+  if (typeof onCancel === 'function') {
+    onCancel();
+  } else {
+    onClose();
+  }
 };
 
   const popupContent = (
