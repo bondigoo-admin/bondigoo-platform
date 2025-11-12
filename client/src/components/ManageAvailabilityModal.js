@@ -905,17 +905,17 @@ const ManageAvailabilityModal = ({ isOpen, onClose, onSave, onDelete, availabili
             </form>
         </div>
 
-        <DialogFooter className="flex-shrink-0">
-            <Button type="button" variant="outline" onClick={onClose}>
+         <DialogFooter className="flex-shrink-0 flex flex-col space-y-2 md:flex-row md:space-y-0 md:space-x-2">
+            <Button type="button" variant="outline" onClick={onClose} className="w-full md:w-auto md:mr-auto">
               {t('common:cancel')}
             </Button>
             {isEditMode && (
-              <Button type="button" variant="delete-outline" onClick={handleDelete}>
+              <Button type="button" variant="delete-outline" onClick={handleDelete} className="w-full md:w-auto">
                 <Trash2 className="mr-2 h-4 w-4" />
                 {t('common:delete')}
               </Button>
             )}
-            <Button type="submit" form="availability-form" className="gap-0" disabled={isSubmitting}>
+            <Button type="submit" form="availability-form" className="gap-0 w-full md:w-auto" disabled={isSubmitting}>
               {isSubmitting ? <Loader className="mr-2 h-4 w-4 animate-spin" /> : <Save className="mr-2 h-4 w-4" />}
               {isSubmitting ? t('common:saving') : t('common:save')}
             </Button>

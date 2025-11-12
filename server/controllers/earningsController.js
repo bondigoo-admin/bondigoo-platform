@@ -12,7 +12,12 @@ exports.getDashboardStats = async (req, res) => {
         thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
         
         const pipeline = [
-            { $match: { recipient: coachObjectId, status: 'completed' } },
+            { 
+                $match: { 
+                    recipient: coachObjectId, 
+                    status: { $in: ['completed', 'succeeded', 'refunded', 'partially_refunded'] } 
+                } 
+            },
             {
               $lookup: {
                 from: 'transactions',
@@ -26,6 +31,7 @@ exports.getDashboardStats = async (req, res) => {
             {
                 $addFields: {
                     gross_val: { $ifNull: ['$amount.total', 0] },
+                    refunded_val: { $ifNull: ['$amount.refunded', 0] },
                     fee_val: { $ifNull: ['$amount.platformFee', 0] },
                     vat_val: { $ifNull: ['$amount.vat.amount', 0] },
                     stripe_fee_val: { $ifNull: [{ $first: '$feeTransaction.amount.value' }, 0] }
@@ -34,20 +40,25 @@ exports.getDashboardStats = async (req, res) => {
              {
                 $project: {
                     createdAt: 1,
-                    gross: '$gross_val',
-                    net: { $subtract: ['$gross_val', { $add: ['$fee_val', '$vat_val', '$stripe_fee_val'] }] }
+                    effectiveGross: { $subtract: ['$gross_val', '$refunded_val'] },
+                    effectiveNet: {
+                         $subtract: [
+                            { $subtract: ['$gross_val', '$refunded_val'] },
+                            { $add: ['$fee_val', '$vat_val', '$stripe_fee_val'] }
+                        ]
+                    }
                 }
             },
             {
                 $group: {
                     _id: null,
-                    allTimeGross: { $sum: '$gross' },
-                    allTimeNet: { $sum: '$net' },
+                    allTimeGross: { $sum: '$effectiveGross' },
+                    allTimeNet: { $sum: '$effectiveNet' },
                     last30DaysGross: {
-                        $sum: { $cond: [{ $gte: ['$createdAt', thirtyDaysAgo] }, '$gross', 0] }
+                        $sum: { $cond: [{ $gte: ['$createdAt', thirtyDaysAgo] }, '$effectiveGross', 0] }
                     },
                     last30DaysNet: {
-                        $sum: { $cond: [{ $gte: ['$createdAt', thirtyDaysAgo] }, '$net', 0] }
+                        $sum: { $cond: [{ $gte: ['$createdAt', thirtyDaysAgo] }, '$effectiveNet', 0] }
                     }
                 }
             }
@@ -69,7 +80,7 @@ exports.getTransactions = async (req, res) => {
         const page = parseInt(req.query.page) || 1;
         const limit = parseInt(req.query.limit) || 10;
 
-        const matchStage = { recipient: coachId, status: 'completed' };
+        const matchStage = { recipient: coachId, status: { $in: ['completed', 'succeeded', 'refunded', 'partially_refunded', 'disputed'] } };
         
         const totalDocs = await Payment.countDocuments(matchStage);
 
@@ -250,11 +261,10 @@ exports.downloadTransactionStatement = async (req, res) => {
     const logContext = { paymentId: req.params.paymentId, coachId: req.user._id };
     
     try {
-        const lang = req.query.lang || 'en';
-        logger.info('[earningsController] Request to generate statement PDF received.', { ...logContext, lang });
+        logger.info('[earningsController] Request to generate statement PDF received.', { ...logContext });
 
         const payment = await Payment.findOne({ _id: req.params.paymentId, recipient: req.user._id })
-            .populate('recipient', 'firstName lastName email')
+            .populate('recipient', 'firstName lastName email preferredLanguage')
             .populate('booking', 'title')
             .populate('program', 'title');
 
@@ -262,7 +272,8 @@ exports.downloadTransactionStatement = async (req, res) => {
             logger.warn('[earningsController] Payment not found or access denied for statement generation.', logContext);
             return res.status(404).json({ message: 'Transaction statement data not found.' });
         }
-
+        
+        const lang = payment.recipient.preferredLanguage || 'de';
         const { pdfBuffer, filename } = await settlementAdviceService.generatePdf(payment, lang);
         
         res.setHeader('Content-Type', 'application/pdf');

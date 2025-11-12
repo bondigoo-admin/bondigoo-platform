@@ -1,0 +1,365 @@
+{
+  "presets": [
+    {
+      "name": "group_avatars",
+      "unsigned": false,
+      "overwrite": true,
+      "use_filename": false,
+      "unique_filename": false,
+      "use_filename_as_display_name": true,
+      "use_asset_folder_as_public_id_prefix": false,
+      "type": "private",
+      "tags": [
+        "group avatar"
+      ]
+    },
+    {
+      "name": "feedback_attachments_preset",
+      "unsigned": false,
+      "overwrite": true,
+      "use_filename": false,
+      "unique_filename": false,
+      "use_filename_as_display_name": true,
+      "use_asset_folder_as_public_id_prefix": false,
+      "type": "private",
+      "tags": [
+        "feedback"
+      ],
+      "transformation": [
+        {
+          "quality": "auto",
+          "width": 2048,
+          "height": 2048,
+          "crop": "limit"
+        }
+      ]
+    },
+    {
+      "name": "coach_applications",
+      "unsigned": false,
+      "overwrite": true,
+      "use_filename": false,
+      "unique_filename": false,
+      "use_filename_as_display_name": true,
+      "use_asset_folder_as_public_id_prefix": false,
+      "type": "private",
+      "transformation": [
+        {
+          "quality": "auto",
+          "width": 2048,
+          "height": 2048,
+          "crop": "limit"
+        }
+      ]
+    },
+    {
+      "name": "assignment_submissions",
+      "unsigned": false,
+      "overwrite": true,
+      "use_filename": false,
+      "unique_filename": false,
+      "use_filename_as_display_name": true,
+      "use_asset_folder_as_public_id_prefix": false,
+      "type": "private",
+      "tags": [
+        "assignment_submissions"
+      ],
+      "transformation": [
+        {
+          "quality": "auto",
+          "width": 2048,
+          "height": 2048,
+          "crop": "limit"
+        }
+      ],
+      "access_control": "[{\"access_type\":\"anonymous\"}]"
+    },
+    {
+      "name": "private_lesson_content",
+      "unsigned": false,
+      "eager_async": true,
+      "overwrite": true,
+      "use_filename": true,
+      "unique_filename": true,
+      "use_filename_as_display_name": true,
+      "use_asset_folder_as_public_id_prefix": false,
+      "type": "private",
+      "eager": [
+        [
+          {
+            "quality": "auto",
+            "width": 1920,
+            "height": 1920,
+            "crop": "limit"
+          }
+        ]
+      ],
+      "access_control": "[{\"access_type\":\"anonymous\"}]"
+    },
+    {
+      "name": "program_images",
+      "unsigned": false,
+      "overwrite": true,
+      "use_filename": false,
+      "unique_filename": false,
+      "use_filename_as_display_name": true,
+      "use_asset_folder_as_public_id_prefix": false,
+      "type": "private",
+      "transformation": [
+        {
+          "quality": "auto",
+          "width": 1920,
+          "height": 1920,
+          "crop": "limit"
+        }
+      ],
+      "access_control": "[{\"access_type\":\"anonymous\"}]"
+    },
+    {
+      "name": "insurance_verification_docs",
+      "unsigned": false,
+      "overwrite": true,
+      "use_filename": false,
+      "unique_filename": false,
+      "use_filename_as_display_name": true,
+      "use_asset_folder_as_public_id_prefix": false,
+      "type": "private",
+      "tags": [
+        "verification_document"
+      ],
+      "transformation": [
+        {
+          "quality": "auto",
+          "width": 2048,
+          "height": 2048,
+          "crop": "limit"
+        }
+      ],
+      "access_control": "[{\"access_type\":\"anonymous\"}]"
+    },
+    {
+      "name": "pdf_presentation_sync",
+      "unsigned": false,
+      "overwrite": true,
+      "use_filename": false,
+      "unique_filename": false,
+      "use_filename_as_display_name": true,
+      "use_asset_folder_as_public_id_prefix": false,
+      "type": "private",
+      "transformation": [
+        {
+          "quality": "auto",
+          "width": 1920,
+          "height": 1920,
+          "crop": "limit"
+        }
+      ],
+      "eager": [],
+      "access_control": "[{\"access_type\":\"anonymous\"}]"
+    },
+    {
+      "name": "message_attachments",
+      "unsigned": false,
+      "overwrite": true,
+      "use_filename": true,
+      "unique_filename": true,
+      "use_filename_as_display_name": false,
+      "use_asset_folder_as_public_id_prefix": false,
+      "type": "private"
+    },
+    {
+      "name": "user_profile_pictures",
+      "unsigned": true,
+      "overwrite": false,
+      "use_filename": true,
+      "unique_filename": true,
+      "use_filename_as_display_name": true,
+      "use_asset_folder_as_public_id_prefix": false,
+      "type": "upload",
+      "asset_folder": "coach_profile_pictures"
+    },
+    {
+      "name": "coach_profile_pictures",
+      "unsigned": true,
+      "overwrite": false,
+      "use_filename": true,
+      "unique_filename": true,
+      "use_filename_as_display_name": true,
+      "use_asset_folder_as_public_id_prefix": false,
+      "type": "upload",
+      "asset_folder": "coach_profile_pictures"
+    },
+    {
+      "name": "coach_videos",
+      "unsigned": false,
+      "eager_async": true,
+      "overwrite": true,
+      "use_filename": true,
+      "unique_filename": true,
+      "use_filename_as_display_name": true,
+      "use_asset_folder_as_public_id_prefix": false,
+      "type": "private",
+      "eager": [
+        [
+          {
+            "quality": "auto",
+            "width": 1920,
+            "height": 1920,
+            "crop": "limit"
+          }
+        ]
+      ],
+      "asset_folder": "coach_introductions"
+    },
+    {
+      "name": "ml_default",
+      "unsigned": false,
+      "overwrite": true,
+      "use_filename": true,
+      "unique_filename": true
+    }
+  ],
+  "transformations": [
+    {
+      "name": "f_auto,q_auto,w_1920,h_1920,c_limit"
+    },
+    {
+      "name": "f_jpg,so_1.0"
+    },
+    {
+      "name": "so_0.00/eo_4.66/"
+    },
+    {
+      "name": "so_0.00/eo_4.28/"
+    },
+    {
+      "name": "c_fill,h_56,w_600/fl_sprite,fps_0.5/jpg"
+    },
+    {
+      "name": "c_fill,h_56,w_600/fl_sprite,fps_0.5/vtt"
+    },
+    {
+      "name": "c_fill,h_56,w_600/f_jpg/fl_sprite,fps_0.5/"
+    },
+    {
+      "name": "so_4.95/eo_7.73/"
+    },
+    {
+      "name": "so_2.26/eo_7.73/"
+    },
+    {
+      "name": "so_3.20/eo_7.73/"
+    },
+    {
+      "name": "w_600,h_56,c_fill/fl_sprite,fps_0.5/jpg"
+    },
+    {
+      "name": "so_4.88/eo_7.73/"
+    },
+    {
+      "name": "so_2.10/eo_5.56/"
+    },
+    {
+      "name": "so_3.53/eo_5.60/"
+    },
+    {
+      "name": "so_1/jpg"
+    },
+    {
+      "name": "/gif"
+    },
+    {
+      "name": "f_auto,fl_animated,q_auto/gif"
+    },
+    {
+      "name": "/mp3"
+    },
+    {
+      "name": "pg_5/png"
+    },
+    {
+      "name": "pg_4/png"
+    },
+    {
+      "name": "pg_3/png"
+    },
+    {
+      "name": "pg_2/png"
+    },
+    {
+      "name": "pg_1/png"
+    },
+    {
+      "name": "pg_all/png"
+    },
+    {
+      "name": "f_png,pg_all"
+    },
+    {
+      "name": "pg_all/c_scale,w_auto:breakpoints:json/png"
+    },
+    {
+      "name": "f_jpg/"
+    },
+    {
+      "name": "fl_sprite/jpg"
+    },
+    {
+      "name": "f_webm,vc_vp9/"
+    },
+    {
+      "name": "fl_sprite/vtt"
+    },
+    {
+      "name": "c_limit,h_400,w_600/jpg"
+    },
+    {
+      "name": "/mp4"
+    },
+    {
+      "name": "t_pdf_thumbnail/pdf"
+    },
+    {
+      "name": "t_pdf_thumbnail/"
+    },
+    {
+      "name": "t_pdf_thumbnail"
+    },
+    {
+      "name": "f_jpg,pg_1/"
+    },
+    {
+      "name": "pg_1/jpg"
+    },
+    {
+      "name": "/pdf"
+    },
+    {
+      "name": "/jpg"
+    },
+    {
+      "name": "/"
+    },
+    {
+      "name": "f_auto"
+    },
+    {
+      "name": "q_auto"
+    },
+    {
+      "name": "c_limit,h_720,w_1280"
+    },
+    {
+      "name": "ac_none,c_crop,g_south,h_100,w_160"
+    },
+    {
+      "name": "ac_none,c_pad,h_300,w_300"
+    },
+    {
+      "name": "t_media_lib_thumb/jpg"
+    },
+    {
+      "name": "t_media_lib_thumb"
+    }
+  ]
+}

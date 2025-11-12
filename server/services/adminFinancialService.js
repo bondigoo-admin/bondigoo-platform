@@ -3,230 +3,204 @@ const Transaction = require('../models/Transaction');
 const Booking = require('../models/Booking');
 const paymentService = require('./paymentService');
 const invoiceService = require('./invoiceService');
+const Coach = require('../models/Coach'); 
 const unifiedNotificationService = require('./unifiedNotificationService');
 const { NotificationTypes } = require('../utils/notificationHelpers');
 const { logger } = require('../utils/logger');
 const coachInvoiceService = require('./coachInvoiceService');
+const mongoose = require('mongoose');
 
 class AdminFinancialService {
   /**
-   * The single, authoritative function for processing any refund on the platform.
+   * The single, authoritative function for PROCESSING a confirmed refund event.
+   * This is now called EXCLUSIVELY BY THE WEBHOOK HANDLER.
    * @param {object} params - The refund parameters.
-   * @param {string} params.paymentId - The internal ID of the Payment record.
-   * @param {number} params.amount - The decimal amount to refund to the customer.
+   * @param {object} params.payment - The Mongoose Payment document.
+   * @param {object} params.stripeRefund - The successful Stripe Refund object (`re_...`).
    * @param {string} params.reason - The reason for the refund.
    * @param {'standard'|'platform_fault'|'goodwill'} params.policyType - The financial policy to apply.
-   * @param {string} params.initiatorId - The ID of the user (admin, coach) initiating the refund.
-   * @param {object} params.bookingContext - The populated Mongoose booking document.
-   * @param {object} [options] - Optional parameters.
-   * @param {mongoose.ClientSession} [options.session] - Mongoose session for transactional operations.
+   * @param {string} params.initiatorId - The ID of the user (admin, coach) who initiated the refund.
    */
-  async processRefund({ paymentId, amount, reason, policyType, initiatorId, bookingContext }, options = {}) {
-    const session = options.session;
-    const logContext = { paymentId, amount, policyType, initiatorId, hasSession: !!session };
-    console.log('[AdminFinancialService] Starting refund process.', logContext);
+async processRefund({ payment, stripeRefund, reason, policyType, initiatorId }) {
+    const logContext = { paymentId: payment._id, stripeRefundId: stripeRefund.id, policyType, initiatorId };
     console.log(`[AdminFinancialService] ==> processRefund START`, logContext);
 
-    const payment = await Payment.findById(paymentId).populate('payer recipient').session(session);
-    if (!payment) {
-      throw new Error('Payment record not found.');
-    }
-    
-    const associatedBooking = bookingContext || await Booking.findById(payment.booking).populate('user coach sessionType').session(session);
-
-    const totalRefunded = payment.amount.refunded || 0;
-    const maxRefundable = payment.amount.total - totalRefunded;
-    if (amount <= 0 || amount > (maxRefundable + 0.001)) { // Add tolerance for float issues
-      throw new Error(`Invalid refund amount. Max refundable is ${maxRefundable}.`);
-    }
-
-    const sanitizedReason = `Platform Refund: ${reason}`.substring(0, 500);
-    const stripeRefund = await paymentService.processRefund({
-      paymentIntentId: payment.stripe.paymentIntentId,
-      amount,
-      currency: payment.amount.currency,
-      reason: sanitizedReason,
-    });
-
-    if (stripeRefund.status !== 'succeeded') {
-      throw new Error(`Stripe refund failed with status: ${stripeRefund.status}`);
-    }
-
+    const session = await mongoose.startSession();
     try {
-        await invoiceService.generateStripeCreditNoteForRefund(payment, stripeRefund, amount, reason, session);
-    } catch (creditNoteError) {
-        logger.error(`Non-fatal error during Credit Note generation for payment ${payment._id}`, { error: creditNoteError.message });
-    }
+      let finalPaymentState;
+      let finalAssociatedBooking;
 
-    const irrecoverableStripeFee = (await Transaction.findOne({ payment: payment._id, type: 'fee' }).session(session))?.amount.value || 0;
-    const vatAmount = payment.amount.vat?.amount || 0;
-    const netEarning = payment.amount.total - payment.amount.platformFee - vatAmount - irrecoverableStripeFee;
-
-    const refundedPortion = amount / payment.amount.total;
-    let coachDebitAmount = 0;
-
-    switch (policyType) {
-      case 'platform_fault':
-        coachDebitAmount = amount * (netEarning / payment.amount.total);
-        break;
-      case 'goodwill':
-        coachDebitAmount = 0;
-        break;
-      case 'standard':
-      default:
-        coachDebitAmount = (netEarning * refundedPortion) + (irrecoverableStripeFee * refundedPortion);
-        break;
-    }
-    coachDebitAmount = parseFloat(coachDebitAmount.toFixed(2));
-    console.log(`[AdminFinancialService] Calculated Debit for Coach ${payment.recipient._id}: ${coachDebitAmount.toFixed(2)} CHF`, logContext);
-
-    const platformFeeForfeited = payment.amount.platformFee * refundedPortion;
-    const vatReclaimed = (payment.amount.vat?.amount || 0) * refundedPortion;
-    const stripeFeeLost = irrecoverableStripeFee * refundedPortion;
-    
-    await Transaction.create([{
-      payment: payment._id,
-      booking: associatedBooking?._id,
-      type: 'refund',
-      status: 'completed',
-      amount: { value: -amount, currency: payment.amount.currency },
-      stripe: { refundId: stripeRefund.id, chargeId: stripeRefund.charge },
-      description: `Refund initiated by ${initiatorId}. Reason: ${reason}`,
-      metadata: { 
-          refundPolicy: policyType, 
-          coachDebitAmount: -coachDebitAmount,
-          platformFeeForfeited: parseFloat(platformFeeForfeited.toFixed(2)),
-          vatReclaimed: parseFloat(vatReclaimed.toFixed(2)),
-          stripeFeeLost: parseFloat(stripeFeeLost.toFixed(2))
-      }
-    }], { session });
-
-    const originalRefundedAmount = payment.amount.refunded || 0;
-    payment.amount.refunded = originalRefundedAmount + amount;
-    console.log(`[AdminFinancialService] DATA INTEGRITY UPDATE: Payment ${payment._id} refunded field updated from ${originalRefundedAmount} to ${payment.amount.refunded}.`, logContext);
-
-     if (payment.payoutStatus === 'pending') {
-        console.log(`[AdminFinancialService] Handling PRE-PAYOUT case. Payout status: 'pending'.`, logContext);
-        if (payment.amount.total - payment.amount.refunded < 0.01) {
-            payment.payoutStatus = 'not_applicable';
-            console.log(`[AdminFinancialService] Payment ${payment._id} fully refunded pre-payout. Status set to not_applicable.`, logContext);
+      await session.withTransaction(async () => {
+        const paymentInTransaction = await Payment.findById(payment._id).populate('payer recipient').session(session);
+        if (!paymentInTransaction) {
+            throw new Error('Payment record not found within transaction.');
         }
-    } else if (payment.payoutStatus === 'submitted' || payment.payoutStatus === 'paid_out') {
-        console.log(`[AdminFinancialService] Handling POST-PAYOUT case. Payout status: '${payment.payoutStatus}'.`, logContext);
+
+        if (paymentInTransaction.refunds.some(r => r.stripeRefundId === stripeRefund.id)) {
+            logger.warn(`[AdminFinancialService] Refund ${stripeRefund.id} has already been processed. Idempotency check passed.`, logContext);
+            throw new Error(`Duplicate refund event: ${stripeRefund.id}`);
+        }
+
+        const amount = stripeRefund.amount / 100;
+        const associatedBooking = await Booking.findById(paymentInTransaction.booking).populate('user coach sessionType').session(session);
+
+        const totalPreviouslyRefunded = paymentInTransaction.amount.refunded || 0;
+        const maxRefundable = paymentInTransaction.amount.total - totalPreviouslyRefunded;
+        if (amount > (maxRefundable + 0.001)) {
+          throw new Error(`Invalid refund amount ${amount}. Max refundable is ${maxRefundable}.`);
+        }
+
+        try {
+            await invoiceService.generateStripeCreditNoteForRefund(paymentInTransaction, stripeRefund, amount, reason, session);
+        } catch (creditNoteError) {
+            logger.error(`Non-fatal error during B2C Credit Note generation for payment ${paymentInTransaction._id}`, { error: creditNoteError.message });
+        }
+
+        const irrecoverableStripeFee = (await Transaction.findOne({ payment: paymentInTransaction._id, type: 'fee' }).session(session))?.amount.value || 0;
+        const vatAmount = paymentInTransaction.amount.vat?.amount || 0;
+        const netEarning = paymentInTransaction.amount.total - paymentInTransaction.amount.platformFee - vatAmount - irrecoverableStripeFee;
+        const refundedPortion = paymentInTransaction.amount.total > 0 ? (amount / paymentInTransaction.amount.total) : 0;
+        let coachDebitAmount = 0;
+
+        switch (policyType) {
+          case 'platform_fault':
+            coachDebitAmount = netEarning * refundedPortion;
+            break;
+          case 'goodwill':
+            coachDebitAmount = 0;
+            break;
+          case 'standard':
+          default:
+            coachDebitAmount = (netEarning * refundedPortion) + (irrecoverableStripeFee * refundedPortion);
+            break;
+        }
+        coachDebitAmount = parseFloat(coachDebitAmount.toFixed(2));
         
-        let transferIdToReverse = payment.stripeTransferId;
-        const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+        await Transaction.create([{
+          payment: paymentInTransaction._id,
+          booking: associatedBooking?._id,
+          type: 'refund',
+          status: 'completed',
+          amount: { value: -amount, currency: paymentInTransaction.amount.currency },
+          stripe: { refundId: stripeRefund.id, chargeId: stripeRefund.charge },
+          description: `Refund initiated by ${initiatorId}. Reason: ${reason}`,
+          metadata: { 
+              refundPolicy: policyType, 
+              coachDebitAmount: -coachDebitAmount,
+              platformFeeForfeited: parseFloat((paymentInTransaction.amount.platformFee * refundedPortion).toFixed(2)),
+              vatReclaimed: parseFloat(((paymentInTransaction.amount.vat?.amount || 0) * refundedPortion).toFixed(2)),
+              stripeFeeLost: parseFloat((irrecoverableStripeFee * refundedPortion).toFixed(2))
+          }
+        }], { session });
 
-        if (coachDebitAmount > 0) {
-            try {
-                if (!transferIdToReverse && payment.stripe.chargeId) {
-                    const transfers = await stripe.transfers.list({ source_transaction: payment.stripe.chargeId, limit: 1 });
-                    if (transfers.data.length > 0) {
-                        transferIdToReverse = transfers.data[0].id;
-                        payment.stripeTransferId = transferIdToReverse;
-                    }
-                }
+        paymentInTransaction.amount.refunded = totalPreviouslyRefunded + amount;
 
-                if (transferIdToReverse) {
-                    const originalTransfer = await stripe.transfers.retrieve(transferIdToReverse);
-                    const maxReversibleAmountCents = originalTransfer.amount - originalTransfer.amount_reversed;
-
-                    if (maxReversibleAmountCents >= 50) {
-                        const reversalAmountCents = Math.min(Math.round(coachDebitAmount * 100), maxReversibleAmountCents);
-                        console.log(`[AdminFinancialService] Attempting Stripe Transfer Reversal for ${reversalAmountCents / 100} CHF on Transfer ID: ${transferIdToReverse}`, logContext);
-                        
-                        await stripe.transfers.createReversal(
-                            transferIdToReverse,
-                            {
-                                amount: reversalAmountCents,
-                                description: `Partial reversal for refund on payment ${payment._id}. Full debit is ${coachDebitAmount} CHF.`,
-                                metadata: {
-                                    internalPaymentId: payment._id.toString(),
-                                    bookingId: associatedBooking?._id.toString(),
-                                    refundInitiatorId: initiatorId
-                                }
-                            }
-                        );
-                        console.log(`[AdminFinancialService] SUCCESS: Created Stripe Transfer Reversal.`, { ...logContext, amount: reversalAmountCents / 100 });
-                    } else {
-                        logger.warn(`[AdminFinancialService] No reversible amount remaining on transfer. Skipping reversal.`, { ...logContext, transferId: transferIdToReverse });
-                    }
-                } else {
-                    logger.warn(`[AdminFinancialService] No Stripe Transfer found to reverse.`, logContext);
-                }
-            } catch (stripeError) {
-                logger.error(`[AdminFinancialService] Non-fatal error during Stripe Transfer Reversal attempt. Internal debit will proceed.`, { ...logContext, error: stripeError.message });
+        if (paymentInTransaction.payoutStatus === 'pending') {
+            if (paymentInTransaction.amount.total - paymentInTransaction.amount.refunded < 0.01) {
+                paymentInTransaction.payoutStatus = 'not_applicable';
             }
-
-            const adjustment = new Payment({
-                booking: associatedBooking?._id,
-                type: 'adjustment',
-                recipient: payment.recipient._id,
-                payer: initiatorId,
-                status: 'pending_deduction',
-                amount: { total: -coachDebitAmount, currency: payment.amount.currency },
-                metadata: {
-                    originalPaymentId: payment._id,
-                    reason: `Post-payout refund deduction for payment ${payment._id}. Policy: ${policyType}.`
+        } else if (paymentInTransaction.payoutStatus === 'submitted' || paymentInTransaction.payoutStatus === 'paid_out') {
+            if (coachDebitAmount > 0) {
+                 console.log('[AdminFinancialService] Preparing to create negative adjustment payment.', {
+                    paymentId: paymentInTransaction._id,
+                    payoutStatus: paymentInTransaction.payoutStatus,
+                    coachDebitAmount: coachDebitAmount,
+                    logForStripeId: {
+                        paymentInTransaction_id: paymentInTransaction._id,
+                        coachStripeAccountId_on_payment: paymentInTransaction.coachStripeAccountId,
+                        recipient_id_on_payment: paymentInTransaction.recipient?._id,
+                        recipient_is_object: typeof paymentInTransaction.recipient === 'object'
+                    }
+                });
+                
+                const coachUser = paymentInTransaction.recipient;
+                if (!coachUser || !coachUser._id) {
+                    throw new Error(`Cannot create adjustment: Recipient (Coach User) is not populated on payment ${paymentInTransaction._id}.`);
                 }
-            });
-            await adjustment.save({ session });
-            console.log(`[AdminFinancialService] Created internal negative adjustment payment record for full calculated debit.`, { ...logContext, adjustmentId: adjustment._id, amount: -coachDebitAmount });
-        }
-    }
 
-    const newTotalRefunded = payment.amount.refunded || 0;
-    payment.status = (payment.amount.total - newTotalRefunded < 0.01) ? 'refunded' : 'partially_refunded';
-    payment.refunds.push({
-        amount: amount,
-        currency: payment.amount.currency,
-        reason,
-        status: 'succeeded',
-        stripeRefundId: stripeRefund.id,
-        processedBy: initiatorId,
-        processedAt: new Date()
-    });
-   if (payment.payoutStatus === 'submitted' || payment.payoutStatus === 'paid_out') {
-            if (payment.payoutStatus === 'submitted' || payment.payoutStatus === 'paid_out') {
-      try {
-          await coachInvoiceService.generateCreditNoteForRefund(payment, amount, reason, session);
-      } catch (b2bCreditNoteError) {
-          logger.error(`Non-fatal: Failed to generate B2B self-billed credit note for payment ${payment._id}. Refund will still be processed.`, { 
-              ...logContext, 
-              error: b2bCreditNoteError.message 
-          });
+                const coachProfile = await Coach.findOne({ user: coachUser._id }).select('settings.paymentAndBilling.stripe.accountId').session(session).lean();
+                const definitiveCoachStripeId = coachProfile?.settings?.paymentAndBilling?.stripe?.accountId;
+
+                if (!definitiveCoachStripeId) {
+                    logger.error(`[AdminFinancialService] CRITICAL FAILURE: Cannot find Stripe Account ID for coach during adjustment creation.`, { coachUserId: coachUser._id });
+                    throw new Error(`Could not find Stripe Account ID for coach ${coachUser._id}. Cannot create adjustment payment.`);
+                }
+
+                const payerId = mongoose.Types.ObjectId.isValid(initiatorId) ? initiatorId : process.env.PLATFORM_USER_ID;
+
+                const adjustment = new Payment({
+                    booking: paymentInTransaction.booking,
+                    coachStripeAccountId: definitiveCoachStripeId,
+                    type: 'adjustment',
+                    recipient: paymentInTransaction.recipient._id,
+                    payer: payerId,
+                    status: 'pending_deduction',
+                    amount: { total: -coachDebitAmount, currency: paymentInTransaction.amount.currency },
+                    metadata: {
+                        originalPaymentId: paymentInTransaction._id.toString(),
+                        reason: `Post-payout refund deduction for payment ${paymentInTransaction._id}. Policy: ${policyType}.`
+                    }
+                });
+                await adjustment.save({ session });
+            }
+        }
+
+        const newTotalRefunded = paymentInTransaction.amount.refunded || 0;
+        paymentInTransaction.status = (paymentInTransaction.amount.total - newTotalRefunded < 0.01) ? 'refunded' : 'partially_refunded';
+        paymentInTransaction.refunds.push({
+            amount: amount,
+            currency: paymentInTransaction.amount.currency,
+            reason,
+            status: 'succeeded',
+            stripeRefundId: stripeRefund.id,
+            processedBy: initiatorId,
+            processedAt: new Date()
+        });
+        if (paymentInTransaction.payoutStatus === 'submitted' || paymentInTransaction.payoutStatus === 'paid_out') {
+          try {
+              await coachInvoiceService.generateCreditNoteForRefund(paymentInTransaction, amount, reason, session);
+          } catch (b2bCreditNoteError) {
+              logger.error(`Non-fatal: Failed to generate B2B self-billed credit note for payment ${paymentInTransaction._id}.`, { ...logContext, error: b2bCreditNoteError.message });
+          }
+        }
+        await paymentInTransaction.save({ session });
+        finalPaymentState = paymentInTransaction.toObject();
+        finalAssociatedBooking = associatedBooking ? associatedBooking.toObject() : null;
+      });
+
+      await unifiedNotificationService.sendNotification({
+          type: NotificationTypes.REFUND_PROCESSED_COACH,
+          recipient: finalPaymentState.recipient._id,
+          metadata: {
+              bookingId: finalAssociatedBooking?._id,
+              paymentId: finalPaymentState._id,
+              refundAmount: stripeRefund.amount / 100,
+              currency: finalPaymentState.amount.currency,
+          }
+      }, finalAssociatedBooking);
+
+      await unifiedNotificationService.sendNotification({
+          type: NotificationTypes.REFUND_PROCESSED_CLIENT,
+          recipient: finalPaymentState.payer._id,
+          metadata: {
+              bookingId: finalAssociatedBooking?._id,
+              paymentId: finalPaymentState._id,
+              refundAmount: stripeRefund.amount / 100,
+              currency: finalPaymentState.amount.currency,
+          }
+      }, finalAssociatedBooking);
+
+      console.log('[AdminFinancialService] Confirmed refund process completed successfully.', logContext);
+      return { payment: finalPaymentState, stripeRefund };
+    } catch (error) {
+      if (error.message.startsWith('Duplicate refund event')) {
+        return;
       }
+      logger.error('[AdminFinancialService] CRITICAL: DB transaction failed during confirmed refund processing.', { ...logContext, error: error.message, stack: error.stack });
+      throw new Error('Database update failed for a confirmed refund.');
+    } finally {
+      session.endSession();
     }
-        }
-    await payment.save({ session });
-
-    await unifiedNotificationService.sendNotification({
-        type: NotificationTypes.REFUND_PROCESSED_COACH,
-        recipient: payment.recipient._id,
-        metadata: {
-            bookingId: associatedBooking?._id,
-            paymentId: payment._id,
-            refundAmount: amount,
-            currency: payment.amount.currency,
-            coachDebitAmount: coachDebitAmount,
-            isPostPayout: payment.payoutStatus === 'paid_out' || payment.payoutStatus === 'submitted',
-        }
-    }, associatedBooking);
-
-    await unifiedNotificationService.sendNotification({
-        type: NotificationTypes.REFUND_PROCESSED_CLIENT,
-        recipient: payment.payer._id,
-        metadata: {
-            bookingId: associatedBooking?._id,
-            paymentId: payment._id,
-            refundAmount: amount,
-            currency: payment.amount.currency,
-        }
-    }, associatedBooking);
-
-    console.log('[AdminFinancialService] Refund process completed successfully.', logContext);
-    console.log(`[AdminFinancialService] ==> processRefund END | Payment status: ${payment.status}`, logContext);
-    return { payment, stripeRefund };
   }
 }
 

@@ -550,3 +550,18 @@ export const useUpdateFeeOverride = () => {
     }
   );
 };
+
+export const useAdminOrphanedAssets = (filters) => {
+    return useQuery(['adminOrphanedAssets', filters], () => adminAPI.getOrphanedAssets(filters), {
+        keepPreviousData: true,
+    });
+};
+
+export const useDeleteOrphanedAssets = () => {
+    const queryClient = useQueryClient();
+    return useMutation(adminAPI.deleteOrphanedAssets, {
+        onSuccess: () => {
+            queryClient.invalidateQueries('adminOrphanedAssets');
+        },
+    });
+};

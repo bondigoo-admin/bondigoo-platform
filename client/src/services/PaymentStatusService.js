@@ -507,7 +507,8 @@ async initializeFlowState(flowId, initialState = {}, options = {}) {
     lastUpdated: new Date().toISOString(),
     updates: [],
     metadata: {},
-    ...initialState
+    ...initialState,
+    clientSecret: initialState.clientSecret || initialState.metadata?.clientSecret || null,
   };
 
   // Atomic state initialization

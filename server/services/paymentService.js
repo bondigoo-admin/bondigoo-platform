@@ -363,13 +363,14 @@ async createPaymentIntent({
    * @param {number} params.amount - Amount to refund (optional)
    * @param {string} params.reason - Reason for refund
    */
-  async processRefund({ paymentIntentId, amount, currency, reason }) { // Added currency here
+async processRefund({ paymentIntentId, amount, currency, reason, metadata = {} }) {
   try {
     console.log('[PaymentService:processRefund] Processing refund:', {
       paymentIntentId,
       amountDecimal: amount,
       currency,
-      reason
+      reason,
+      metadata
     });
 
     const originalPaymentIntent = await this.stripe.paymentIntents.retrieve(paymentIntentId);
@@ -378,20 +379,19 @@ async createPaymentIntent({
       throw new Error('Original payment intent not found.');
     }
     
-    // Use the currency from the original PI if not provided or if it differs, log warning
     const effectiveCurrency = currency ? currency.toLowerCase() : originalPaymentIntent.currency.toLowerCase();
     if (currency && currency.toLowerCase() !== originalPaymentIntent.currency.toLowerCase()) {
         logger.warn(`[PaymentService:processRefund] Provided refund currency (${currency}) differs from PI currency (${originalPaymentIntent.currency}). Using PI currency.`, { paymentIntentId });
     }
 
-
     const sanitizedReason = reason ? String(reason).substring(0, 500) : 'requested_by_customer';
 
     const refundParams = {
       payment_intent: paymentIntentId,
-      reason: 'requested_by_customer', // Use a standard reason for the API
+      reason: 'requested_by_customer',
       metadata: {
-        internal_reason: sanitizedReason // Store our detailed reason in metadata
+        internal_reason: sanitizedReason,
+        ...metadata
       }
     };
 
@@ -411,20 +411,9 @@ async createPaymentIntent({
          });
          throw new Error(`Refund amount ${amount} ${effectiveCurrency.toUpperCase()} exceeds refundable amount ${(currentlyRefundable / (zeroDecimalCurrencies.includes(effectiveCurrency) ? 1 : 100) ).toFixed(2)} ${effectiveCurrency.toUpperCase()}.`);
        }
-      if (amountToRefundCents > 0) { // Only add amount if it's a partial refund and > 0
+      if (amountToRefundCents > 0) {
           refundParams.amount = amountToRefundCents;
       } else if (amount === 0 && amountToRefundCents === 0) {
-          // If a $0 refund is explicitly requested, Stripe might not allow it or it might mean "release auth".
-          // For a $0 refund to client, we typically wouldn't call Stripe. This path assumes a positive refund amount usually.
-          // If the intent is to log a $0 refund without calling Stripe, this function might need adjustment.
-          // For now, if amount is 0, we don't set refundParams.amount, implying full refund if Stripe is called.
-          // But if amount is 0, we probably shouldn't call Stripe.
-          // The controller should ideally not call this service if calculated refund is 0.
-          // However, if it does, this ensures we don't send `amount: 0` to Stripe unless that's explicitly allowed.
-          // Stripe's API might error on `amount: 0`. A full refund is done by omitting `amount`.
-          // For now, if amount is 0, this means we won't set `refundParams.amount`, and Stripe will attempt full refund.
-          // This might be undesired if it's a "no refund due" cancellation.
-          // The bookingController should ensure this is only called if GrossRefundToClient > 0.
           logger.warn('[PaymentService:processRefund] Received request to refund $0. Stripe will attempt full refund if amount param is omitted. Ensure this is intended.', { paymentIntentId });
       }
     }
@@ -692,23 +681,23 @@ async handleRefundCompletion(stripeRefund, options = {}) {
       chargeId: stripeRefund.charge,
       initiatorId,
     };
-    paymentFlowLogger.info('[PaymentService] Handling refund completion.', logContext);
+    console.log('[PaymentService] Handling refund completion.', logContext);
 
     const payment = await Payment.findOne({ 'stripe.paymentIntentId': stripeRefund.payment_intent });
     if (!payment) {
-      paymentFlowLogger.error('[PaymentService] Payment record not found for refund completion.', logContext);
+      logger.error('[PaymentService] Payment record not found for refund completion.', logContext);
       return;
     }
     logContext.paymentId = payment._id.toString();
 
     if (payment.refunds && payment.refunds.some(r => r.stripeRefundId === stripeRefund.id)) {
-      paymentFlowLogger.info('[PaymentService] Refund already recorded (idempotency).', logContext);
+      console.log('[PaymentService] Refund already recorded (idempotency).', logContext);
       return payment;
     }
 
     const booking = await Booking.findById(payment.booking);
     if (!booking) {
-      paymentFlowLogger.error('[PaymentService] Booking not found for refunded payment.', logContext);
+      logger.error('[PaymentService] Booking not found for refunded payment.', logContext);
     }
     
     const amountRefundedToClient = stripeRefund.amount / 100;
@@ -736,12 +725,12 @@ async handleRefundCompletion(stripeRefund, options = {}) {
     });
 
     await payment.save();
-    paymentFlowLogger.info('[PaymentService] Payment document updated for refund.', { ...logContext, newStatus: payment.status });
+    console.log('[PaymentService] Payment document updated for refund.', { ...logContext, newStatus: payment.status });
 
     if (booking && booking.payment.status !== payment.status) {
         booking.payment.status = payment.status;
         await booking.save();
-        paymentFlowLogger.info('[PaymentService] Booking payment status updated.', { ...logContext, bookingId: booking._id });
+        console.log('[PaymentService] Booking payment status updated.', { ...logContext, bookingId: booking._id });
     }
 
     await Transaction.create({
@@ -759,7 +748,7 @@ async handleRefundCompletion(stripeRefund, options = {}) {
       },
       notes: `Refund processed. Reason: ${stripeRefund.metadata?.internal_reason || 'N/A'}.`
     });
-    paymentFlowLogger.info('[PaymentService] Refund transaction created.', logContext);
+    console.log('[PaymentService] Refund transaction created.', logContext);
     
     return payment;
   }
@@ -1189,7 +1178,7 @@ async cancelAuthorizedPayment(paymentIntentId, reason = 'abandoned') {
  */
 async createChargeForCompletedSession(liveSession, finalCostBreakdown, dbSession) {
   const logContext = { liveSessionId: liveSession._id, finalGrossAmount: finalCostBreakdown.final.amount.amount };
-  logger.info('[PaymentService] Creating FINAL STANDARD charge for completed session.', logContext);
+  console.log('[PaymentService] Creating FINAL STANDARD charge for completed session.', logContext);
 
   const finalAmount = finalCostBreakdown.final.amount.amount;
   const currency = finalCostBreakdown.currency.toLowerCase();
@@ -1262,7 +1251,7 @@ async createChargeForCompletedSession(liveSession, finalCostBreakdown, dbSession
     },
   });
   await paymentRecord.save({ session: dbSession });
-  logger.info('[PaymentService] Created pending payment record for live session charge.', { paymentId: paymentRecord._id });
+  console.log('[PaymentService] Created pending payment record for live session charge.', { paymentId: paymentRecord._id });
 
   const paymentIntent = await this.stripe.paymentIntents.create({
     amount: amountInCents,

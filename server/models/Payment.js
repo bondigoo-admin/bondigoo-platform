@@ -10,8 +10,8 @@ const PaymentSchema = new mongoose.Schema({
   booking: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Booking',
-      required: function() {
-      return !this.program;
+    required: function() {
+      return !this.program && this.type !== 'adjustment';
     }
   },
    program: {
@@ -55,9 +55,11 @@ const PaymentSchema = new mongoose.Schema({
     required: true
   },
 
-  coachStripeAccountId: {
+coachStripeAccountId: {
     type: String,
-    required: true,
+    required: function() {
+      return this.type !== 'adjustment';
+    },
     index: true
   },
 

@@ -47,6 +47,8 @@ const paymentController = require('./paymentController');
 const cacheService = require('../services/cacheService');
 const systemHealthService = require('../services/systemHealthService');
 const { getSocketService } = require('../services/socketService');
+const OrphanedAsset = require('../models/OrphanedAsset');
+const assetCleanupService = require('../services/assetCleanupService');
 
 const listTypes = [
   'specialties',
@@ -3876,5 +3878,117 @@ exports.getLeads = async (req, res) => {
     } catch (err) {
         logger.error('[adminController.getLeads] Error fetching leads', { error: err.message, stack: err.stack });
         res.status(500).send('Server Error');
+    }
+};
+
+exports.getOrphanedAssets = async (req, res) => {
+    const logContext = { function: 'getOrphanedAssets', query: req.query, userId: req.user?._id };
+    logger.info(`[adminController] START: ${logContext.function}`, logContext);
+    try {
+        const page = parseInt(req.query.page, 10) || 1;
+        const limit = parseInt(req.query.limit, 10) || 15;
+        const { resourceType, assetType, sortField = 'discoveredAt', sortOrder = 'desc' } = req.query;
+
+        const filter = { status: 'pending_review' };
+        if (resourceType) filter.resourceType = resourceType;
+        if (assetType) filter.assetType = assetType;
+
+        const sort = { [sortField]: sortOrder === 'asc' ? 1 : -1 };
+
+        logger.info(`[adminController] Querying OrphanedAsset collection`, { ...logContext, filter, sort, page, limit });
+
+        const count = await OrphanedAsset.countDocuments(filter);
+        const assets = await OrphanedAsset.find(filter)
+            .sort(sort)
+            .limit(limit)
+            .skip((page - 1) * limit)
+            .lean();
+
+        const assetsWithSignedUrls = assets.map(asset => {
+            let signedUrl = null;
+            if (asset.resourceType === 'image' || asset.resourceType === 'video') {
+                try {
+                    signedUrl = cloudinary.url(asset.publicId, {
+                        resource_type: asset.resourceType,
+                        type: 'private',
+                        sign_url: true,
+                        expires_at: Math.floor(Date.now() / 1000) + 3600
+                    });
+                } catch (e) {
+                    logger.error('[adminController.getOrphanedAssets] Failed to sign URL for asset.', { publicId: asset.publicId, error: e.message });
+                }
+            }
+            return { ...asset, signedUrl };
+        });
+
+        logger.info(`[adminController] SUCCESS: ${logContext.function}. Found ${assets.length} of ${count} total assets.`, logContext);
+
+        res.json({
+            assets: assetsWithSignedUrls,
+            totalPages: Math.ceil(count / limit),
+            currentPage: page,
+            totalAssets: count,
+        });
+    } catch (error) {
+        logger.error(`[adminController] CRITICAL ERROR: ${logContext.function}`, { ...logContext, error: error.message, stack: error.stack });
+        res.status(500).json({ message: 'Server Error' });
+    }
+};
+
+exports.deleteOrphanedAssets = async (req, res) => {
+    const { orphanedAssetIds } = req.body;
+    if (!orphanedAssetIds || !Array.isArray(orphanedAssetIds) || orphanedAssetIds.length === 0) {
+        return res.status(400).json({ message: 'An array of orphanedAssetIds is required.' });
+    }
+
+    const session = await mongoose.startSession();
+    session.startTransaction();
+
+    try {
+        const assetsToDelete = await OrphanedAsset.find({
+            _id: { $in: orphanedAssetIds },
+            status: 'pending_review'
+        }).session(session);
+
+        if (assetsToDelete.length === 0) {
+            await session.abortTransaction();
+            session.endSession();
+            return res.status(404).json({ message: 'No assets found pending review for the given IDs.' });
+        }
+
+        const groupedByResourceType = assetsToDelete.reduce((acc, asset) => {
+            if (!acc[asset.resourceType]) {
+                acc[asset.resourceType] = [];
+            }
+            acc[asset.resourceType].push(asset.publicId);
+            return acc;
+        }, {});
+
+        for (const resourceType in groupedByResourceType) {
+            const publicIds = groupedByResourceType[resourceType];
+            // Assuming assetCleanupService is correctly imported and available
+            // This reuses your existing reliable worker as per the plan
+            await assetCleanupService.queueAssetDeletion(publicIds, resourceType);
+        }
+
+        const idsToUpdate = assetsToDelete.map(asset => asset._id);
+        await OrphanedAsset.updateMany(
+            { _id: { $in: idsToUpdate } },
+            { $set: { status: 'deletion_queued' } },
+            { session }
+        );
+
+        await session.commitTransaction();
+        session.endSession();
+
+        res.json({ success: true, message: `${assetsToDelete.length} assets have been queued for deletion.` });
+
+    } catch (error) {
+        if (session.inTransaction()) {
+            await session.abortTransaction();
+        }
+        session.endSession();
+        logger.error('[adminController.deleteOrphanedAssets] Error queuing assets for deletion', { error: error.message, stack: error.stack });
+        res.status(500).json({ message: 'Server Error' });
     }
 };

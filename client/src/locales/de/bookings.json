@@ -37,6 +37,7 @@
   "status.scheduled": "Geplant",
   "status.pending_payment": "Zahlung ausstehend",
   "paymentStatus.required": "Zahlung ausstehend",
+  "paymentStatus.refunded": "Rückerstattet",
   "bookOneOnOne": "Einzeltermin buchen",
   "selectDate": "Datum wählen",
   "selectStartTime": "Startzeit wählen",
