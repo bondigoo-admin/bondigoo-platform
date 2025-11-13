@@ -342,7 +342,6 @@ const handleConfirmSettings = useCallback(() => {
           localStream.getTracks().forEach((track) => track.stop());
         }
   
-        setLocalStream(previewStream);
         setSelectedVideoDevice(pendingVideoDevice);
         setSelectedAudioDevice(pendingAudioDevice);
   
@@ -367,7 +366,7 @@ const handleConfirmSettings = useCallback(() => {
   
         onClose();
     }
-  }, [pendingVideoDevice, pendingAudioDevice, backgroundSettings, localStream, setLocalStream, 
+  }, [pendingVideoDevice, pendingAudioDevice, backgroundSettings, localStream,
     setSelectedVideoDevice, setSelectedAudioDevice, onSettingsChange, onClose, isVideoEnabled, isAudioEnabled, previewStream]);
 
 useEffect(() => {

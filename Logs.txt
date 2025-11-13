@@ -1,164 +1,814 @@
-[DEBUG] [NotificationItemContent] renderActions called: {"notificationId":"6914c04f17e67843463521ad","type":"booking_confirmed","isCoachUser":false,"bookingStatus":"confirmed","notificationStatus":"active","isActionedLocal":false}
-bundle.js:54808 i18next::translator: missingKey de userdashboard widgets.announcements Announcements
-bundle.js:172371 [NotificationItemContent] Notification details: {"notificationId":"6914c04f17e67843463521ad","type":"booking_confirmed","userRole":"client","bookingId":"6914bfe417e678434635142b","timestamp":"2025-11-13T09:43:19.194Z"}
-bundle.js:172371 [NotificationItemContent] showBookingModal changed {"notificationId":"6914c04f17e67843463521ad","bookingId":"6914bfe417e678434635142b","showBookingModal":false,"timestamp":"2025-11-13T09:43:19.195Z"}
-bundle.js:172371 [NotificationItemContent] Cleaned up payment_completed listener {"notificationId":"6914c04f17e67843463521ad","timestamp":"2025-11-13T09:43:19.196Z"}
-bundle.js:172371 [CoachList] Checking user's country for Insurance Filter. Found country: 'CH'
-bundle.js:172376 [DEBUG] [CoachList useMemo] Recalculating apiFilters. Current filters state: {"specialties":[],"languages":[],"priceRange":[null,null],"minRating":0,"educationLevels":[],"coachingStyles":[],"skills":[],"liveSessionAvailable":false,"isInsuranceRecognized":false,"liveSessionPriceRange":[null,null],"searchTerm":"","sortBy":"popularity_desc"}
-bundle.js:172376 [DEBUG] [CoachList] Final API filter parameters being generated: {"sortBy":"popularity_desc","lang":"de"}
-bundle.js:172371 [FilterSidebar] Rendering with isSwissUser=true.
-bundle.js:172371 [CoachList Mount] Syncing initial state from URL params.
-bundle.js:172371 [CoachList useQuery] Firing coaches query with key: ["coaches",1,12,{"sortBy":"popularity_desc","lang":"de"}]
-bundle.js:172371 [CoachList] Constructed URLSearchParams for API request: "page=1&limit=12&sortBy=popularity_desc&lang=de"
-bundle.js:172371 [searchAPI] Searching coaches with params: "page=1&limit=12&sortBy=popularity_desc&lang=de"
-bundle.js:172371 [CoachList useQuery] Found 10 coaches. Starting data enrichment.
-bundle.js:172376 [DEBUG] [statusAPI] Fetching status for userId: 66d9cdcb0a7492a86482bd68
-bundle.js:172371 [priceAPI.getPriceConfiguration] Fetching configuration: {"userId":"66d9cdcb0a7492a86482bd68"}
-bundle.js:172376 [DEBUG] [statusAPI] Fetching status for userId: 66fbe443af6e5fe3198d22eb
-bundle.js:172376 [DEBUG] [statusAPI] Fetching status for userId: 66fbea16bb1aa6e7e257e726
-bundle.js:172376 [DEBUG] [statusAPI] Fetching status for userId: 66fceae8aa08bb09188eeb7d
-bundle.js:172376 [DEBUG] [statusAPI] Fetching status for userId: 66fcec87aa08bb09188eebf3
-bundle.js:172376 [DEBUG] [statusAPI] Fetching status for userId: 66fced13aa08bb09188eec6a
-bundle.js:172376 [DEBUG] [statusAPI] Fetching status for userId: 6704338e1edbda2b46c20d45
-bundle.js:172376 [DEBUG] [statusAPI] Fetching status for userId: 68f882b4881a2188cc1a4fd2
-bundle.js:172376 [DEBUG] [statusAPI] Fetching status for userId: 68f9c1f39f92f1d33a64878f
-bundle.js:172376 [DEBUG] [statusAPI] Fetching status for userId: 68f9e2b36b9a3d6feb992ffa
-bundle.js:172371 [CoachList] Enriched Coach Data for Rendering: [{"_id":"66d9cdcb0a7492a86482bd6a","user":{"_id":"66d9cdcb0a7492a86482bd68","firstName":"Dominic","lastName":"Frei","email":"test.coach2@example.com","status":"online"},"specialties":[{"_id":"66e2bff9616218a1d7678fb0","name":"Creativity and Innovation","order":0,"__v":0},{"_id":"66e2bff9616218a1d7678fac","name":"Public Speaking","order":0,"__v":0},{"_id":"66e2bff9616218a1d7678fba","name":"Parenting Coaching","order":0,"__v":0},{"_id":"66e2bff9616218a1d7678fa8","name":"Change Management","order":0,"__v":0},{"_id":"66e2bff9616218a1d7678fc0","name":"Cross-Cultural Coaching","order":0,"__v":0}],"languages":[{"language":{"_id":"66e4153848cdfa73ee74db5e","name":"German","code":"de","__v":0},"strength":"native","_id":"68db91bb8b4d50b892874f39"},{"language":{"_id":"66e4154f48cdfa73ee74db68","name":"English","code":"en","__v":0},"strength":"basic","_id":"68db91bb8b4d50b892874f3a"}],"methodologies":[],"bio":[{"id":"d3c5dc47-043c-43c7-b60f-ae9e13ec2722","title":"adfdsaf","content":"adfdsafdsafd","_id":"68dbad805499ce9e2115c13c"}],"settings":{"professionalProfile":{"specialties":[],"expertise":[],"hourlyRate":0,"currency":"USD","showTestimonials":true,"showReviews":true},"availabilityManagement":{"vacationMode":false,"vacationStart":null,"vacationEnd":null,"bufferTime":15},"sessionManagement":{"sessionTypes":[],"maxSessionsPerDay":5,"maxSessionsPerWeek":25,"overtime":{"allowOvertime":true,"freeOvertimeDuration":6,"paidOvertimeDuration":45,"overtimeRate":20},"durationRules":{"minDuration":30,"maxDuration":120,"defaultDuration":60,"durationStep":15,"allowCustomDuration":true}},"liveSession":{"enableAutoCooldown":false,"cooldownDurationMinutes":5},"clientManagement":{"clientCapacity":20,"waitingListEnabled":false,"waitingListCapacity":10},"paymentAndBilling":{"isVatRegistered":true,"vatNumber":"CHE-123.364.364","stripe":{"accountId":"acct_1QdFtkQjpPpOYbVB","accountType":"express","accountStatus":{"status":"active","detailsSubmitted":true,"chargesEnabled":true,"payoutsEnabled":true,"requirementsProvided":["individual.verification.document"],"requirementsPending":[],"requirementsDue":["individual.verification.document"],"requirementsErrors":[{"code":"verification_failed_keyed_identity","reason":"The person's keyed-in identity information could not be verified. Correct any errors or upload a document that matches the identity fields (e.g., name and date of birth) entered.","resolveBy":null,"_id":"690ddfbb5c639235d048f3fd"}],"lastChecked":"2025-11-07T12:02:03.217Z"},"payoutSettings":{"schedule":{"interval":"weekly","weeklyAnchor":1},"defaultCurrency":"CHF","minimumPayout":{"amount":50,"currency":"CHF"}},"capabilities":{"cardPayments":"inactive","transfers":"inactive","sepaDebit":"inactive"},"businessProfile":{"mcc":"8299"}},"paymentMethods":[]},"insuranceRecognition":{"isRecognized":true,"registries":[{"verificationDocument":{"publicId":"coaches/66d9cdcb0a7492a86482bd68/verification/gm90yb8gcdgn60wtepx3.pdf","filename":"Business Invoice Transport.pdf"},"name":"Visana","therapistId":"1567168","status":"verified","expiryDate":"2025-10-19T22:00:00.000Z","submittedAt":"2025-10-19T10:43:19.412Z","lastReviewedAt":"2025-10-19T10:56:02.232Z"},{"verificationDocument":{"publicId":"coaches/66d9cdcb0a7492a86482bd68/verification/z4pbxw425qqwwov2sdvl.pdf","filename":"Nomadik__187025422.pdf"},"name":"ASCA","therapistId":"TEST-1568","status":"verified","expiryDate":"2025-10-19T22:00:00.000Z","submittedAt":"2025-10-19T10:59:36.377Z","lastReviewedAt":"2025-10-19T11:10:06.274Z"},{"verificationDocument":{"publicId":"coaches/66d9cdcb0a7492a86482bd68/verification/prrk5klkuinttd1lrpvv.pdf","filename":"Nomadik__187025422.pdf"},"name":"EGK","therapistId":"46685","status":"verified","submittedAt":"2025-10-20T06:25:17.126Z","expiryDate":"2025-10-20T22:00:00.000Z","lastReviewedAt":"2025-10-20T06:34:56.112Z"},{"verificationDocument":{"publicId":"coaches/66d9cdcb0a7492a86482bd68/verification/k92nmytwre6czgf6seeg.pdf","filename":"Transport_Cost_Bolivia.pdf"},"name":"SNE","therapistId":"SNE-1536","status":"rejected","adminNotes":"Dokument macht keinen Sinn.","rejectionReasonKey":"doc_illegible","submittedAt":"2025-10-20T06:25:22.107Z","lastReviewedAt":"2025-10-20T06:36:43.764Z"},{"verificationDocument":{"publicId":"coaches/66d9cdcb0a7492a86482bd68/verification/qnlluenlv0gunkbczaqp.pdf","filename":"Galaxus_Kaufbeleg_122812537.pdf"},"name":"EMR","therapistId":"EMR-46/8846","status":"verified","submittedAt":"2025-10-20T06:25:26.115Z","expiryDate":"2025-10-20T22:00:00.000Z","lastReviewedAt":"2025-10-20T08:31:40.245Z"}]},"marketingAndGrowth":{"featuredCoach":false,"referralProgramEnabled":false,"referralReward":10},"analyticsDashboard":{"displayMetrics":[],"customReports":[]},"privacySettings":{"calendarVisibility":"connectedOnly","showFullCalendar":false,"bookingPrivacy":"connectedOnly","requireApprovalNonConnected":false,"profilePrivacy":{"pricing":"registered_users"},"availabilityNotifications":"all","notificatio
-bundle.js:172376 [DEBUG] [CoachCard] Coach ID: 66d9cdcb0a7492a86482bd68, isInsuranceRecognized: true
-bundle.js:172376 [DEBUG] [CoachCard] Coach ID: 66fbe443af6e5fe3198d22eb, isInsuranceRecognized: undefined
-bundle.js:172376 [DEBUG] [CoachCard] Coach ID: 66fbea16bb1aa6e7e257e726, isInsuranceRecognized: undefined
-bundle.js:172376 [DEBUG] [CoachCard] Coach ID: 66fceae8aa08bb09188eeb7d, isInsuranceRecognized: undefined
-bundle.js:172376 [DEBUG] [CoachCard] Coach ID: 66fcec87aa08bb09188eebf3, isInsuranceRecognized: undefined
-bundle.js:172376 [DEBUG] [CoachCard] Coach ID: 66fced13aa08bb09188eec6a, isInsuranceRecognized: undefined
-bundle.js:172376 [DEBUG] [CoachCard] Coach ID: 6704338e1edbda2b46c20d45, isInsuranceRecognized: undefined
-bundle.js:172376 [DEBUG] [CoachCard] Coach ID: 68f882b4881a2188cc1a4fd2, isInsuranceRecognized: false
-bundle.js:172376 [DEBUG] [CoachCard] Coach ID: 68f9c1f39f92f1d33a64878f, isInsuranceRecognized: false
-bundle.js:172376 [DEBUG] [CoachCard] Coach ID: 68f9e2b36b9a3d6feb992ffa, isInsuranceRecognized: false
-bundle.js:172376 [DEBUG] [DIAGNOSTIC] LiveSessionClientRequestModal RENDER {"isOpen":true,"coachProp":{"_id":"66d9cdcb0a7492a86482bd6a","user":{"_id":"66d9cdcb0a7492a86482bd68","firstName":"Dominic","lastName":"Frei","email":"test.coach2@example.com","status":"online"},"specialties":[{"_id":"66e2bff9616218a1d7678fb0","name":"Creativity and Innovation","order":0,"__v":0},{"_id":"66e2bff9616218a1d7678fac","name":"Public Speaking","order":0,"__v":0},{"_id":"66e2bff9616218a1d7678fba","name":"Parenting Coaching","order":0,"__v":0},{"_id":"66e2bff9616218a1d7678fa8","name":"Change Management","order":0,"__v":0},{"_id":"66e2bff9616218a1d7678fc0","name":"Cross-Cultural Coaching","order":0,"__v":0}],"languages":[{"language":{"_id":"66e4153848cdfa73ee74db5e","name":"German","code":"de","__v":0},"strength":"native","_id":"68db91bb8b4d50b892874f39"},{"language":{"_id":"66e4154f48cdfa73ee74db68","name":"English","code":"en","__v":0},"strength":"basic","_id":"68db91bb8b4d50b892874f3a"}],"methodologies":[],"bio":[{"id":"d3c5dc47-043c-43c7-b60f-ae9e13ec2722","title":"adfdsaf","content":"adfdsafdsafd","_id":"68dbad805499ce9e2115c13c"}],"settings":{"professionalProfile":{"specialties":[],"expertise":[],"hourlyRate":0,"currency":"USD","showTestimonials":true,"showReviews":true},"availabilityManagement":{"vacationMode":false,"vacationStart":null,"vacationEnd":null,"bufferTime":15},"sessionManagement":{"sessionTypes":[],"maxSessionsPerDay":5,"maxSessionsPerWeek":25,"overtime":{"allowOvertime":true,"freeOvertimeDuration":6,"paidOvertimeDuration":45,"overtimeRate":20},"durationRules":{"minDuration":30,"maxDuration":120,"defaultDuration":60,"durationStep":15,"allowCustomDuration":true}},"liveSession":{"enableAutoCooldown":false,"cooldownDurationMinutes":5},"clientManagement":{"clientCapacity":20,"waitingListEnabled":false,"waitingListCapacity":10},"paymentAndBilling":{"isVatRegistered":true,"vatNumber":"CHE-123.364.364","stripe":{"accountId":"acct_1QdFtkQjpPpOYbVB","accountType":"express","accountStatus":{"status":"active","detailsSubmitted":true,"chargesEnabled":true,"payoutsEnabled":true,"requirementsProvided":["individual.verification.document"],"requirementsPending":[],"requirementsDue":["individual.verification.document"],"requirementsErrors":[{"code":"verification_failed_keyed_identity","reason":"The person's keyed-in identity information could not be verified. Correct any errors or upload a document that matches the identity fields (e.g., name and date of birth) entered.","resolveBy":null,"_id":"690ddfbb5c639235d048f3fd"}],"lastChecked":"2025-11-07T12:02:03.217Z"},"payoutSettings":{"schedule":{"interval":"weekly","weeklyAnchor":1},"defaultCurrency":"CHF","minimumPayout":{"amount":50,"currency":"CHF"}},"capabilities":{"cardPayments":"inactive","transfers":"inactive","sepaDebit":"inactive"},"businessProfile":{"mcc":"8299"}},"paymentMethods":[]},"insuranceRecognition":{"isRecognized":true,"registries":[{"verificationDocument":{"publicId":"coaches/66d9cdcb0a7492a86482bd68/verification/gm90yb8gcdgn60wtepx3.pdf","filename":"Business Invoice Transport.pdf"},"name":"Visana","therapistId":"1567168","status":"verified","expiryDate":"2025-10-19T22:00:00.000Z","submittedAt":"2025-10-19T10:43:19.412Z","lastReviewedAt":"2025-10-19T10:56:02.232Z"},{"verificationDocument":{"publicId":"coaches/66d9cdcb0a7492a86482bd68/verification/z4pbxw425qqwwov2sdvl.pdf","filename":"Nomadik__187025422.pdf"},"name":"ASCA","therapistId":"TEST-1568","status":"verified","expiryDate":"2025-10-19T22:00:00.000Z","submittedAt":"2025-10-19T10:59:36.377Z","lastReviewedAt":"2025-10-19T11:10:06.274Z"},{"verificationDocument":{"publicId":"coaches/66d9cdcb0a7492a86482bd68/verification/prrk5klkuinttd1lrpvv.pdf","filename":"Nomadik__187025422.pdf"},"name":"EGK","therapistId":"46685","status":"verified","submittedAt":"2025-10-20T06:25:17.126Z","expiryDate":"2025-10-20T22:00:00.000Z","lastReviewedAt":"2025-10-20T06:34:56.112Z"},{"verificationDocument":{"publicId":"coaches/66d9cdcb0a7492a86482bd68/verification/k92nmytwre6czgf6seeg.pdf","filename":"Transport_Cost_Bolivia.pdf"},"name":"SNE","therapistId":"SNE-1536","status":"rejected","adminNotes":"Dokument macht keinen Sinn.","rejectionReasonKey":"doc_illegible","submittedAt":"2025-10-20T06:25:22.107Z","lastReviewedAt":"2025-10-20T06:36:43.764Z"},{"verificationDocument":{"publicId":"coaches/66d9cdcb0a7492a86482bd68/verification/qnlluenlv0gunkbczaqp.pdf","filename":"Galaxus_Kaufbeleg_122812537.pdf"},"name":"EMR","therapistId":"EMR-46/8846","status":"verified","submittedAt":"2025-10-20T06:25:26.115Z","expiryDate":"2025-10-20T22:00:00.000Z","lastReviewedAt":"2025-10-20T08:31:40.245Z"}]},"marketingAndGrowth":{"featuredCoach":false,"referralProgramEnabled":false,"referralReward":10},"analyticsDashboard":{"displayMetrics":[],"customReports":[]},"privacySettings":{"calendarVisibility":"connectedOnly","showFullCalendar":false,"bookingPrivacy":"connectedOnly","requireApprovalNonConnected":false,"profilePrivacy":{"pricing":"registered_users"},"availabilityNoti
-bundle.js:172376 [DEBUG] [LiveSessionWaitingRoom] RENDER. Props received - Status: 'null', SkipDeviceCheck: true
-bundle.js:172376 [DEBUG] [ScaConfirmationModalWrapper] Render skipped: No clientSecret or isOpen is false.
-bundle.js:172376 [DEBUG] [DIAGNOSTIC] LiveSessionClientRequestModal useEffect[isOpen] {"coachPropOnOpen":{"_id":"66d9cdcb0a7492a86482bd6a","user":{"_id":"66d9cdcb0a7492a86482bd68","firstName":"Dominic","lastName":"Frei","email":"test.coach2@example.com","status":"online"},"specialties":[{"_id":"66e2bff9616218a1d7678fb0","name":"Creativity and Innovation","order":0,"__v":0},{"_id":"66e2bff9616218a1d7678fac","name":"Public Speaking","order":0,"__v":0},{"_id":"66e2bff9616218a1d7678fba","name":"Parenting Coaching","order":0,"__v":0},{"_id":"66e2bff9616218a1d7678fa8","name":"Change Management","order":0,"__v":0},{"_id":"66e2bff9616218a1d7678fc0","name":"Cross-Cultural Coaching","order":0,"__v":0}],"languages":[{"language":{"_id":"66e4153848cdfa73ee74db5e","name":"German","code":"de","__v":0},"strength":"native","_id":"68db91bb8b4d50b892874f39"},{"language":{"_id":"66e4154f48cdfa73ee74db68","name":"English","code":"en","__v":0},"strength":"basic","_id":"68db91bb8b4d50b892874f3a"}],"methodologies":[],"bio":[{"id":"d3c5dc47-043c-43c7-b60f-ae9e13ec2722","title":"adfdsaf","content":"adfdsafdsafd","_id":"68dbad805499ce9e2115c13c"}],"settings":{"professionalProfile":{"specialties":[],"expertise":[],"hourlyRate":0,"currency":"USD","showTestimonials":true,"showReviews":true},"availabilityManagement":{"vacationMode":false,"vacationStart":null,"vacationEnd":null,"bufferTime":15},"sessionManagement":{"sessionTypes":[],"maxSessionsPerDay":5,"maxSessionsPerWeek":25,"overtime":{"allowOvertime":true,"freeOvertimeDuration":6,"paidOvertimeDuration":45,"overtimeRate":20},"durationRules":{"minDuration":30,"maxDuration":120,"defaultDuration":60,"durationStep":15,"allowCustomDuration":true}},"liveSession":{"enableAutoCooldown":false,"cooldownDurationMinutes":5},"clientManagement":{"clientCapacity":20,"waitingListEnabled":false,"waitingListCapacity":10},"paymentAndBilling":{"isVatRegistered":true,"vatNumber":"CHE-123.364.364","stripe":{"accountId":"acct_1QdFtkQjpPpOYbVB","accountType":"express","accountStatus":{"status":"active","detailsSubmitted":true,"chargesEnabled":true,"payoutsEnabled":true,"requirementsProvided":["individual.verification.document"],"requirementsPending":[],"requirementsDue":["individual.verification.document"],"requirementsErrors":[{"code":"verification_failed_keyed_identity","reason":"The person's keyed-in identity information could not be verified. Correct any errors or upload a document that matches the identity fields (e.g., name and date of birth) entered.","resolveBy":null,"_id":"690ddfbb5c639235d048f3fd"}],"lastChecked":"2025-11-07T12:02:03.217Z"},"payoutSettings":{"schedule":{"interval":"weekly","weeklyAnchor":1},"defaultCurrency":"CHF","minimumPayout":{"amount":50,"currency":"CHF"}},"capabilities":{"cardPayments":"inactive","transfers":"inactive","sepaDebit":"inactive"},"businessProfile":{"mcc":"8299"}},"paymentMethods":[]},"insuranceRecognition":{"isRecognized":true,"registries":[{"verificationDocument":{"publicId":"coaches/66d9cdcb0a7492a86482bd68/verification/gm90yb8gcdgn60wtepx3.pdf","filename":"Business Invoice Transport.pdf"},"name":"Visana","therapistId":"1567168","status":"verified","expiryDate":"2025-10-19T22:00:00.000Z","submittedAt":"2025-10-19T10:43:19.412Z","lastReviewedAt":"2025-10-19T10:56:02.232Z"},{"verificationDocument":{"publicId":"coaches/66d9cdcb0a7492a86482bd68/verification/z4pbxw425qqwwov2sdvl.pdf","filename":"Nomadik__187025422.pdf"},"name":"ASCA","therapistId":"TEST-1568","status":"verified","expiryDate":"2025-10-19T22:00:00.000Z","submittedAt":"2025-10-19T10:59:36.377Z","lastReviewedAt":"2025-10-19T11:10:06.274Z"},{"verificationDocument":{"publicId":"coaches/66d9cdcb0a7492a86482bd68/verification/prrk5klkuinttd1lrpvv.pdf","filename":"Nomadik__187025422.pdf"},"name":"EGK","therapistId":"46685","status":"verified","submittedAt":"2025-10-20T06:25:17.126Z","expiryDate":"2025-10-20T22:00:00.000Z","lastReviewedAt":"2025-10-20T06:34:56.112Z"},{"verificationDocument":{"publicId":"coaches/66d9cdcb0a7492a86482bd68/verification/k92nmytwre6czgf6seeg.pdf","filename":"Transport_Cost_Bolivia.pdf"},"name":"SNE","therapistId":"SNE-1536","status":"rejected","adminNotes":"Dokument macht keinen Sinn.","rejectionReasonKey":"doc_illegible","submittedAt":"2025-10-20T06:25:22.107Z","lastReviewedAt":"2025-10-20T06:36:43.764Z"},{"verificationDocument":{"publicId":"coaches/66d9cdcb0a7492a86482bd68/verification/qnlluenlv0gunkbczaqp.pdf","filename":"Galaxus_Kaufbeleg_122812537.pdf"},"name":"EMR","therapistId":"EMR-46/8846","status":"verified","submittedAt":"2025-10-20T06:25:26.115Z","expiryDate":"2025-10-20T22:00:00.000Z","lastReviewedAt":"2025-10-20T08:31:40.245Z"}]},"marketingAndGrowth":{"featuredCoach":false,"referralProgramEnabled":false,"referralReward":10},"analyticsDashboard":{"displayMetrics":[],"customReports":[]},"privacySettings":{"calendarVisibility":"connectedOnly","showFullCalendar":false,"bookingPrivacy":"connectedOnly","requireApprovalNonConnected":false,"profilePrivacy":{"pricing":"registered_users"},"availabilityN
-bundle.js:172376 [DEBUG] [DIAGNOSTIC] handleSendRequest: PRE-CHECK {"coachPropInsideHandler":{"_id":"66d9cdcb0a7492a86482bd6a","user":{"_id":"66d9cdcb0a7492a86482bd68","firstName":"Dominic","lastName":"Frei","email":"test.coach2@example.com","status":"online"},"specialties":[{"_id":"66e2bff9616218a1d7678fb0","name":"Creativity and Innovation","order":0,"__v":0},{"_id":"66e2bff9616218a1d7678fac","name":"Public Speaking","order":0,"__v":0},{"_id":"66e2bff9616218a1d7678fba","name":"Parenting Coaching","order":0,"__v":0},{"_id":"66e2bff9616218a1d7678fa8","name":"Change Management","order":0,"__v":0},{"_id":"66e2bff9616218a1d7678fc0","name":"Cross-Cultural Coaching","order":0,"__v":0}],"languages":[{"language":{"_id":"66e4153848cdfa73ee74db5e","name":"German","code":"de","__v":0},"strength":"native","_id":"68db91bb8b4d50b892874f39"},{"language":{"_id":"66e4154f48cdfa73ee74db68","name":"English","code":"en","__v":0},"strength":"basic","_id":"68db91bb8b4d50b892874f3a"}],"methodologies":[],"bio":[{"id":"d3c5dc47-043c-43c7-b60f-ae9e13ec2722","title":"adfdsaf","content":"adfdsafdsafd","_id":"68dbad805499ce9e2115c13c"}],"settings":{"professionalProfile":{"specialties":[],"expertise":[],"hourlyRate":0,"currency":"USD","showTestimonials":true,"showReviews":true},"availabilityManagement":{"vacationMode":false,"vacationStart":null,"vacationEnd":null,"bufferTime":15},"sessionManagement":{"sessionTypes":[],"maxSessionsPerDay":5,"maxSessionsPerWeek":25,"overtime":{"allowOvertime":true,"freeOvertimeDuration":6,"paidOvertimeDuration":45,"overtimeRate":20},"durationRules":{"minDuration":30,"maxDuration":120,"defaultDuration":60,"durationStep":15,"allowCustomDuration":true}},"liveSession":{"enableAutoCooldown":false,"cooldownDurationMinutes":5},"clientManagement":{"clientCapacity":20,"waitingListEnabled":false,"waitingListCapacity":10},"paymentAndBilling":{"isVatRegistered":true,"vatNumber":"CHE-123.364.364","stripe":{"accountId":"acct_1QdFtkQjpPpOYbVB","accountType":"express","accountStatus":{"status":"active","detailsSubmitted":true,"chargesEnabled":true,"payoutsEnabled":true,"requirementsProvided":["individual.verification.document"],"requirementsPending":[],"requirementsDue":["individual.verification.document"],"requirementsErrors":[{"code":"verification_failed_keyed_identity","reason":"The person's keyed-in identity information could not be verified. Correct any errors or upload a document that matches the identity fields (e.g., name and date of birth) entered.","resolveBy":null,"_id":"690ddfbb5c639235d048f3fd"}],"lastChecked":"2025-11-07T12:02:03.217Z"},"payoutSettings":{"schedule":{"interval":"weekly","weeklyAnchor":1},"defaultCurrency":"CHF","minimumPayout":{"amount":50,"currency":"CHF"}},"capabilities":{"cardPayments":"inactive","transfers":"inactive","sepaDebit":"inactive"},"businessProfile":{"mcc":"8299"}},"paymentMethods":[]},"insuranceRecognition":{"isRecognized":true,"registries":[{"verificationDocument":{"publicId":"coaches/66d9cdcb0a7492a86482bd68/verification/gm90yb8gcdgn60wtepx3.pdf","filename":"Business Invoice Transport.pdf"},"name":"Visana","therapistId":"1567168","status":"verified","expiryDate":"2025-10-19T22:00:00.000Z","submittedAt":"2025-10-19T10:43:19.412Z","lastReviewedAt":"2025-10-19T10:56:02.232Z"},{"verificationDocument":{"publicId":"coaches/66d9cdcb0a7492a86482bd68/verification/z4pbxw425qqwwov2sdvl.pdf","filename":"Nomadik__187025422.pdf"},"name":"ASCA","therapistId":"TEST-1568","status":"verified","expiryDate":"2025-10-19T22:00:00.000Z","submittedAt":"2025-10-19T10:59:36.377Z","lastReviewedAt":"2025-10-19T11:10:06.274Z"},{"verificationDocument":{"publicId":"coaches/66d9cdcb0a7492a86482bd68/verification/prrk5klkuinttd1lrpvv.pdf","filename":"Nomadik__187025422.pdf"},"name":"EGK","therapistId":"46685","status":"verified","submittedAt":"2025-10-20T06:25:17.126Z","expiryDate":"2025-10-20T22:00:00.000Z","lastReviewedAt":"2025-10-20T06:34:56.112Z"},{"verificationDocument":{"publicId":"coaches/66d9cdcb0a7492a86482bd68/verification/k92nmytwre6czgf6seeg.pdf","filename":"Transport_Cost_Bolivia.pdf"},"name":"SNE","therapistId":"SNE-1536","status":"rejected","adminNotes":"Dokument macht keinen Sinn.","rejectionReasonKey":"doc_illegible","submittedAt":"2025-10-20T06:25:22.107Z","lastReviewedAt":"2025-10-20T06:36:43.764Z"},{"verificationDocument":{"publicId":"coaches/66d9cdcb0a7492a86482bd68/verification/qnlluenlv0gunkbczaqp.pdf","filename":"Galaxus_Kaufbeleg_122812537.pdf"},"name":"EMR","therapistId":"EMR-46/8846","status":"verified","submittedAt":"2025-10-20T06:25:26.115Z","expiryDate":"2025-10-20T22:00:00.000Z","lastReviewedAt":"2025-10-20T08:31:40.245Z"}]},"marketingAndGrowth":{"featuredCoach":false,"referralProgramEnabled":false,"referralReward":10},"analyticsDashboard":{"displayMetrics":[],"customReports":[]},"privacySettings":{"calendarVisibility":"connectedOnly","showFullCalendar":false,"bookingPrivacy":"connectedOnly","requireApprovalNonConnected":false,"profilePrivacy":{"pricing":"registered_users"},"availabilityNotifications
-bundle.js:172376 [DEBUG] [DIAGNOSTIC] handleSendRequest: PAYLOAD READY {"payload":{"coachId":"66d9cdcb0a7492a86482bd68"}}
-bundle.js:172376 [DEBUG] [LiveSessionWaitingRoom] RENDER. Props received - Status: 'pending', SkipDeviceCheck: true
-bundle.js:172371 [useLiveSessionManager] Live session request initiated. SessionID: 6915a83aee3ebd991d7215a0
-bundle.js:172371 [SocketIO] <<< INCOMING EVENT: "live_session_accepted" {"payload":[{"basePerMinuteRate":{"amount":10,"currency":"CHF"},"effectivePerMinuteRate":{"amount":10,"currency":"CHF"},"discountApplied":null,"sessionLink":{"expired":false},"_id":"6915a83aee3ebd991d7215a0","client":{"profilePicture":{"publicId":"profile_picture_jgl5ga","url":"https://res.cloudinary.com/dzpjkn8eo/image/upload/v1753703993/profile_picture_jgl5ga.jpg"},"settings":{"notificationPreferences":{"pushNotifications":false,"email":true,"sms":false,"inApp":true},"privacySettings":{"showLocation":true,"showOccupation":true,"showEmail":false,"showPhone":false},"dateFormat":"","timeFormat":"24h","currency":"CHF","language":"de","timeZone":""},"taxInfo":{"billingAddress":{"country":"CH","postalCode":"8001"}},"stripe":{"customerId":"cus_RUlp0o3z2WooA6"},"billingDetails":{"address":{"street":"1 Bahnhofplatz","city":"Zürich","postalCode":"8001","country":"CH","state":"ZH"},"name":"test user 2","accountType":"personal","companyName":""},"paymentPreferences":{"autoPayEnabled":false,"defaultCurrency":"CHF","invoiceDelivery":"both","savePaymentMethods":true},"moderation":{"warningsCount":0},"suspension":{"isSuspended":false},"ltv":{"amount":0,"currency":"CHF"},"onboardingStatus":{"completed":false,"lastStep":"welcome"},"termsAcceptance":{"version":"1.0.0-migration","acceptedAt":"2025-10-21T10:42:44.416Z","ipAddress":"system_migration"},"_id":"66f418d10a19ec0e4bbd377e","firstName":"Test","lastName":"User 2","email":"test.user2@example.com","password":"$2a$10$BqYD2TyOvUF7GXQ3ePcixO3HnzsZCJRtrub0U29AcOaZkZzTvnQui","role":"client","preferredLanguage":"de","isActive":true,"profileVisibility":"public","createdAt":"2024-09-25T14:06:09.833Z","__v":15,"status":"online","achievements":[],"bio":"","interests":["Leben","Quality","Test"],"paymentMethods":[],"backgrounds":[{"url":"https://res.cloudinary.com/dzpjkn8eo/image/upload/v1755019734/users/66f418d10a19ec0e4bbd377e/backgrounds/ukpqdjvencvhdjoo1udv.jpg","publicId":"users/66f418d10a19ec0e4bbd377e/backgrounds/ukpqdjvencvhdjoo1udv","uploadedAt":"2025-08-12T17:28:55.596Z","_id":"689b79d71c80d972ec33d6be"}],"sessionHistory":[],"tokenVersion":4,"phone":"+41786116666","coachingNeeds":[],"customGoals":[],"lastStatusUpdate":"2025-11-13T09:43:17.572Z","location":"Zürich","occupation":"Kaufmann","blockedUsers":[{"user":"66fbea16bb1aa6e7e257e726","_id":"68c403891a3e5066a36741f3","createdAt":"2025-09-12T11:27:05.561Z"}],"blockedByCount":0,"isEmailVerified":false,"lastLogin":"2025-11-13T09:43:17.380Z","trustScore":100,"hasActiveDispute":false,"totalEnrollments":0,"totalSessions":0,"flags":[],"primaryGoal":[],"salutation":"mr","dashboardPreferences":[{"key":"dashboardAnnouncements","enabled":true,"_id":"69157e5fee3ebd991d708f77"},{"key":"upcomingSchedule","enabled":true,"_id":"69157e5fee3ebd991d708f78"},{"key":"actionCenter","enabled":true,"_id":"69157e5fee3ebd991d708f79"},{"key":"myCoach","enabled":true,"_id":"69157e5fee3ebd991d708f7a"},{"key":"continueLearning","enabled":true,"_id":"69157e5fee3ebd991d708f7b"}]},"coach":{"settings":{"notificationPreferences":{"email":true,"inApp":true,"pushNotifications":false,"sms":false},"privacySettings":{"showEmail":false,"showLocation":true,"showOccupation":true,"showPhone":false},"currency":"CHF","dateFormat":"","language":"de","timeFormat":"24h","timeZone":""},"stripe":{"customerId":"cus_Swt04zF5JadPD8"},"billingDetails":{"address":{"street":"Bergstrasse 10","city":"Stäfa","postalCode":"8712","country":"CH","state":"Zürich"},"name":"Dominic Frei","accountType":"business"},"paymentPreferences":{"autoPayEnabled":false,"defaultCurrency":"CHF","invoiceDelivery":"both","savePaymentMethods":true},"moderation":{"warningsCount":0},"suspension":{"isSuspended":false},"ltv":{"amount":0,"currency":"CHF"},"onboardingStatus":{"completed":true,"lastStep":"completed"},"termsAcceptance":{"version":"1.0.0-migration","acceptedAt":"2025-10-21T10:42:44.416Z","ipAddress":"system_migration"},"_id":"66d9cdcb0a7492a86482bd68","firstName":"Dominic","lastName":"Frei","email":"test.coach2@example.com","password":"$2a$10$jqGOzWaK7I7lrX4YK2Mu9.XV2eRnTqELRaQnPqjf99Hydnw6oe.LO","role":"coach","preferredLanguage":"de","availabilityStatus":"offline","createdAt":"2024-09-05T15:27:07.420Z","__v":20,"status":"online","achievements":[],"backgrounds":[{"url":"https://res.cloudinary.com/dzpjkn8eo/image/upload/v1742981722/users/66d9cdcb0a7492a86482bd68/backgrounds/lutims4p5dgm8m8fp3lw.jpg","publicId":"users/66d9cdcb0a7492a86482bd68/backgrounds/lutims4p5dgm8m8fp3lw","uploadedAt":"2025-03-26T09:35:25.389Z","_id":"67e3ca5dc8bd52e0d2a0f01d"}],"bio":"","interests":[],"isActive":true,"paymentMethods":[],"profileVisibility":"public","sessionHistory":[],"lastStatusUpdate":"2025-11-13T08:30:54.651Z","coachingNeeds":[],"customGoals":[],"tokenVersion":0,"blockedByCount":0,"blockedUsers":[],"isEmailVerified":false,"trustScore":100,"hasActiveDispute":false,"lastLogin":"2025-11-13T06:40:53.904Z","totalEnrollments":0,"totalSessions":0,"location":"Zürich","occupation":"Kaufmann","phone":"+41786119931","flags":[{"flaggedBy":"68875188ba0945e66fc74310","reason":"inappropriate_profile","details":"tests asdfadsfdfdsafds","status":"resolved_warning","_id":"68ef688b09be352f14aaa3be","createdAt":"2025-10-15T09:25:31.201Z","resolvedAt":"2025-10-16T05:50:40.299Z","resolvedBy":"66e14ffc23926b28138a89f8"},{"flaggedBy":"66f418d10a19ec0e4bbd377e","reason":"violence","details":"Der Coach hat mich geschlagen.","status":"resolved_dismissed","_id":"68f0aab9ee20d58baf7e79f6","createdAt":"2025-10-16T08:20:09.182Z","resolvedAt":"2025-10-16T08:38:57.250Z","resolvedBy":"66e14ffc23926b28138a89f8"}],"preferredLearningStyle":"live","primaryGoal":["one_on_one"],"salutation":"mr"},"status":"accepted","durationInSeconds":0,"paymentRecords":[],"participants":[],"presentParticipants":[],"createdAt":"2025-11-13T09:43:22.451Z","updatedAt":"2025-11-13T09:43:25.554Z","__v":0,"booking":"6915a83dee3ebd991d7215da"}],"userId":"66f418d10a19ec0e4bbd377e","socketId":"V-o-FW9dzNocnTj1AABb","timestamp":"2025-11-13T09:43:25.604Z"}
-bundle.js:172371 [useLiveSessionManager] << Received 'live_session_accepted' event for session 6915a83aee3ebd991d7215a0. Hook is currently tracking session ID via ref: 6915a83aee3ebd991d7215a0
-bundle.js:172371 [useLiveSessionManager] SUCCESS: IDs match! Setting status to 'accepted'.
-bundle.js:172376 [DEBUG] [LiveSessionWaitingRoom] RENDER. Props received - Status: 'accepted', SkipDeviceCheck: true
-bundle.js:172371 [LSRoom-EFFECT] Status is 'accepted'. STARTING authorization flow for session: 6915a83aee3ebd991d7215a0
-bundle.js:172376 [DEBUG] [LSRoom-EFFECT] STEP 1: Set isAuthorizing=true.
-bundle.js:172376 [DEBUG] [LSRoom-EFFECT] STEP 2: API call successful. Received response. {"response":{"clientSecret":"seti_1SSx3oHKNqVBSHKUKsg8OAGV_secret_TPmdUuOIDeO3L7AAWzqp6mhDhWfeeCd","setupIntentId":"seti_1SSx3oHKNqVBSHKUKsg8OAGV"}}
-bundle.js:172376 [DEBUG] [LSRoom-EFFECT] STEP 3: Client secret is valid.
-bundle.js:172376 [DEBUG] [LSRoom-EFFECT] STEP 4: Set clientSecret and showAuthModal=true.
-bundle.js:172376 [DEBUG] [LSRoom-EFFECT] FINALLY BLOCK: Set isAuthorizing=false.
-bundle.js:172371 [PaymentAPI] Fetching payment methods: {"userId":"66f418d10a19ec0e4bbd377e","timestamp":"2025-11-13T09:43:26.071Z"}
-bundle.js:172376 [DEBUG] [ScaConfirmationModal] Waiting for Stripe/Elements. {"clientSecret":"seti_1SSx3oHKNqVBSHKUKsg8OAGV_secret_TPmdUuOIDeO3L7AAWzqp6mhDhWfeeCd"}
-bundle.js:172376 [DEBUG] [ScaConfirmationModal] Stripe and Elements ready. {"clientSecret":"seti_1SSx3oHKNqVBSHKUKsg8OAGV_secret_TPmdUuOIDeO3L7AAWzqp6mhDhWfeeCd"}
-bundle.js:172376 [DEBUG] [ScaConfirmationModal] Saved method selected {"methodId":"pm_1Qh8fuHKNqVBSHKUFONghKOx"}
-bundle.js:172371 [ScaConfirmationModal] CORRECT PATH: Attempting stripe.confirmCardSetup (Saved Method) {"clientSecret":"seti_1SSx3oHKNqVBSHKUKsg8OAGV_secret_TPmdUuOIDeO3L7AAWzqp6mhDhWfeeCd","paymentMethodId":"pm_1Qh8fuHKNqVBSHKUFONghKOx"}
+[PaymentController] Payment methods retrieved: { count: 2, userId: '66f418d10a19ec0e4bbd377e' }
+GET /api/payments/methods/66f418d10a19ec0e4bbd377e 304 277.580 ms - -
+[PaymentController] Fetching payment methods: {
+  userId: '66f418d10a19ec0e4bbd377e',
+  authenticatedUserId: '66f418d10a19ec0e4bbd377e',
+  timestamp: '2025-11-13T10:15:37.060Z'
+}
+[PaymentController] Payment methods retrieved: { count: 2, userId: '66f418d10a19ec0e4bbd377e' }
+GET /api/payments/methods/66f418d10a19ec0e4bbd377e 304 282.763 ms - -
+[[[SERVER-ENTRY-POINT]]] Webhook request received at server entry. {
+  method: 'POST',
+  url: '/api/payments/webhook',
+  headers: {
+    host: 'localhost:5000',
+    'user-agent': 'Stripe/1.0 (+https://stripe.com/docs/webhooks)',
+    'content-length': '1614',
+    accept: '*/*; q=0.5, application/xml',
+    'cache-control': 'no-cache',
+    'content-type': 'application/json; charset=utf-8',
+    'stripe-signature': 't=1763028942,v1=d9f2fb71e70da4e67478ee4fae5e7cfa6534e67a2d8f83bbfcf531dd136a0768,v0=fdf0bf00f62c47fd07920baace4d2145d6e09dffb4e32ed80168ee8f38896405',
+    'accept-encoding': 'gzip'
+  },
+  ip: '::1'
+}
+[PaymentController:Webhook] RAW REQUEST RECEIVED Top of webhookHandler. Headers: {
+  "host": "localhost:5000",
+  "user-agent": "Stripe/1.0 (+https://stripe.com/docs/webhooks)",
+  "content-length": "1614",
+  "accept": "*/*; q=0.5, application/xml",
+  "cache-control": "no-cache",
+  "content-type": "application/json; charset=utf-8",
+  "stripe-signature": "t=1763028942,v1=d9f2fb71e70da4e67478ee4fae5e7cfa6534e67a2d8f83bbfcf531dd136a0768,v0=fdf0bf00f62c47fd07920baace4d2145d6e09dffb4e32ed80168ee8f38896405",
+  "accept-encoding": "gzip"
+}
+[Webhook] Received a request from Stripe.
+[PaymentController:Webhook] Stripe signature from header: t=1763028942,v1=d9f2fb71e70da4e67478ee4fae5e7cfa6534e67a2d8f83bbfcf531dd136a0768,v0=fdf0bf00f62c47fd07920baace4d2145d6e09dffb4e32ed80168ee8f38896405
+[PaymentController:Webhook] STRIPE_WEBHOOK_SECRET used: SET
+[PaymentController:Webhook] Stripe event constructed successfully. Event Type: setup_intent.succeeded Event ID: evt_1SSxZ4HKNqVBSHKUjVUA4vdp
+[PaymentController:Webhook] Processing event: {
+  type: 'setup_intent.succeeded',
+  id: 'evt_1SSxZ4HKNqVBSHKUjVUA4vdp',
+  apiVersion: '2024-11-20.acacia',
+  timestamp: '2025-11-13T10:15:44.717Z'
+}
+[PaymentController:Webhook] Unhandled event type: setup_intent.succeeded
+[Webhook Logging] Successfully processed and logged event: setup_intent.succeeded (evt_1SSxZ4HKNqVBSHKUjVUA4vdp)
+POST /api/livesessions/6915afc3ee3ebd991d726344/start 200 418.921 ms - 932
+GET /api/livesessions/validate/78edb6ee527fcd9c792c4234f0ed94950d66d7c4a7766cfcfba63cb1b56d8f95/f2c47e6dbece02d76978ce5cc80fe49583a77e6295fe84b996a1becadc4cf899 200 67.635 ms - 386
+GET /api/livesessions/validate/78edb6ee527fcd9c792c4234f0ed94950d66d7c4a7766cfcfba63cb1b56d8f95/f2c47e6dbece02d76978ce5cc80fe49583a77e6295fe84b996a1becadc4cf899 200 61.580 ms - 386
+GET /api/users/backgrounds 304 42.576 ms - -
+GET /api/livesessions/validate/78edb6ee527fcd9c792c4234f0ed94950d66d7c4a7766cfcfba63cb1b56d8f95/f2c47e6dbece02d76978ce5cc80fe49583a77e6295fe84b996a1becadc4cf899 304 72.487 ms - -
+GET /api/livesessions/validate/78edb6ee527fcd9c792c4234f0ed94950d66d7c4a7766cfcfba63cb1b56d8f95/f2c47e6dbece02d76978ce5cc80fe49583a77e6295fe84b996a1becadc4cf899 304 77.513 ms - -
+GET /api/users/backgrounds 304 39.079 ms - -
+GET /api/users/backgrounds 304 52.676 ms - -
+GET /api/users/backgrounds 304 50.420 ms - -
+GET /api/users/backgrounds 304 45.693 ms - -
+GET /api/users/backgrounds 304 41.117 ms - -
+GET /api/users/backgrounds 304 41.576 ms - -
+GET /api/users/backgrounds 304 46.792 ms - -
+info: [VideoSocket] Socket still connected {"rooms":["AsMvX6SUG6m1xTooAAB7","session:78edb6ee527fcd9c792c4234f0ed94950d66d7c4a7766cfcfba63cb1b56d8f95"],"socketId":"AsMvX6SUG6m1xTooAAB7","timestamp":"2025-11-13T10:15:58.022Z","transport":"websocket"}
+debug: [auth] Decoded token: {"user":{"id":"66f418d10a19ec0e4bbd377e","role":"client","version":4},"iat":1763028540,"exp":1763114940} {"timestamp":"2025-11-13T10:16:07.817Z"}
+info: [auth] User authenticated: 66f418d10a19ec0e4bbd377e {"timestamp":"2025-11-13T10:16:07.841Z"}
+debug: [TaxService] Received deconstruction request {"currency":"CHF","customerLocation":{},"timestamp":"2025-11-13T10:16:07.880Z","totalAmount":3.1666666666666665,"vatNumber":null}
+warn: [TaxService] Customer country not provided. Falling back to default Swiss VAT deconstruction. {"timestamp":"2025-11-13T10:16:07.881Z"}
+[PaymentService] Creating FINAL STANDARD charge for completed session. {
+  liveSessionId: new ObjectId('6915afc3ee3ebd991d726344'),
+  finalGrossAmount: 3.17
+}
+[PaymentService] Created pending payment record for live session charge. { paymentId: new ObjectId('6915afe8ee3ebd991d726443') }
+POST /api/livesessions/6915afc3ee3ebd991d726344/end 200 1291.616 ms - 1509
+warn: [SocketConfig] << RCVD peer-disconnected from user 66d9cdcb0a7492a86482bd68 regarding peer AsMvX6SUG6m1xTooAAB7 in session 78edb6ee527fcd9c792c4234f0ed94950d66d7c4a7766cfcfba63cb1b56d8f95 {"timestamp":"2025-11-13T10:16:09.115Z"}
+warn: [SocketConfig] << RCVD peer-disconnected from user 66f418d10a19ec0e4bbd377e regarding peer pURWuTUaADSG36U_AAB5 in session 78edb6ee527fcd9c792c4234f0ed94950d66d7c4a7766cfcfba63cb1b56d8f95 {"timestamp":"2025-11-13T10:16:09.121Z"}
+warn: [SocketConfig] Peer-disconnected event for an invalid or non-active session ignored. {"sessionId":"78edb6ee527fcd9c792c4234f0ed94950d66d7c4a7766cfcfba63cb1b56d8f95","timestamp":"2025-11-13T10:16:09.135Z"}
+warn: [SocketConfig] Peer-disconnected event for an invalid or non-active session ignored. {"sessionId":"78edb6ee527fcd9c792c4234f0ed94950d66d7c4a7766cfcfba63cb1b56d8f95","timestamp":"2025-11-13T10:16:09.143Z"}
+[[[SERVER-ENTRY-POINT]]] Webhook request received at server entry. {
+  method: 'POST',
+  url: '/api/payments/webhook',
+  headers: {
+    host: 'localhost:5000',
+    'user-agent': 'Stripe/1.0 (+https://stripe.com/docs/webhooks)',
+    'content-length': '3940',
+    accept: '*/*; q=0.5, application/xml',
+    'cache-control': 'no-cache',
+    'content-type': 'application/json; charset=utf-8',
+    'stripe-signature': 't=1763028967,v1=a968bfced52bd5a3b0339f37bf0c16b2362b1974aa611aaaa3849a71cb0f8c9a,v0=fa929496d1ef2d238d175398c02494aabffc62d94a1b73590afe30fbfa5a4867',
+    'accept-encoding': 'gzip'
+  },
+  ip: '::1'
+}
+[PaymentController:Webhook] RAW REQUEST RECEIVED Top of webhookHandler. Headers: {
+  "host": "localhost:5000",
+  "user-agent": "Stripe/1.0 (+https://stripe.com/docs/webhooks)",
+  "content-length": "3940",
+  "accept": "*/*; q=0.5, application/xml",
+  "cache-control": "no-cache",
+  "content-type": "application/json; charset=utf-8",
+  "stripe-signature": "t=1763028967,v1=a968bfced52bd5a3b0339f37bf0c16b2362b1974aa611aaaa3849a71cb0f8c9a,v0=fa929496d1ef2d238d175398c02494aabffc62d94a1b73590afe30fbfa5a4867",
+  "accept-encoding": "gzip"
+}
+[Webhook] Received a request from Stripe.
+[PaymentController:Webhook] Stripe signature from header: t=1763028967,v1=a968bfced52bd5a3b0339f37bf0c16b2362b1974aa611aaaa3849a71cb0f8c9a,v0=fa929496d1ef2d238d175398c02494aabffc62d94a1b73590afe30fbfa5a4867
+[PaymentController:Webhook] STRIPE_WEBHOOK_SECRET used: SET
+[PaymentController:Webhook] Stripe event constructed successfully. Event Type: charge.succeeded Event ID: evt_3SSxZSHKNqVBSHKU1kUv1PUJ
+[PaymentController:Webhook] Processing event: {
+  type: 'charge.succeeded',
+  id: 'evt_3SSxZSHKNqVBSHKU1kUv1PUJ',
+  apiVersion: '2024-11-20.acacia',
+  timestamp: '2025-11-13T10:16:09.310Z'
+}
+[PaymentController:Webhook] Unhandled event type: charge.succeeded
+[Webhook Logging] Successfully processed and logged event: charge.succeeded (evt_3SSxZSHKNqVBSHKU1kUv1PUJ)
+[[[SERVER-ENTRY-POINT]]] Webhook request received at server entry. {
+  method: 'POST',
+  url: '/api/payments/webhook',
+  headers: {
+    host: 'localhost:5000',
+    'user-agent': 'Stripe/1.0 (+https://stripe.com/docs/webhooks)',
+    'content-length': '2548',
+    accept: '*/*; q=0.5, application/xml',
+    'cache-control': 'no-cache',
+    'content-type': 'application/json; charset=utf-8',
+    'stripe-signature': 't=1763028967,v1=cb39feb8f3bbd27da35647cd33fe319ac42cca3b3de57b9dd6350026641df1b9,v0=38600af690187e6a4c9724aa9e807f11239ceedbaf33acf1ff059ba327f58071',
+    'accept-encoding': 'gzip'
+  },
+  ip: '::1'
+}
+[PaymentController:Webhook] RAW REQUEST RECEIVED Top of webhookHandler. Headers: {
+  "host": "localhost:5000",
+  "user-agent": "Stripe/1.0 (+https://stripe.com/docs/webhooks)",
+  "content-length": "2548",
+  "accept": "*/*; q=0.5, application/xml",
+  "cache-control": "no-cache",
+  "content-type": "application/json; charset=utf-8",
+  "stripe-signature": "t=1763028967,v1=cb39feb8f3bbd27da35647cd33fe319ac42cca3b3de57b9dd6350026641df1b9,v0=38600af690187e6a4c9724aa9e807f11239ceedbaf33acf1ff059ba327f58071",
+  "accept-encoding": "gzip"
+}
+[Webhook] Received a request from Stripe.
+[PaymentController:Webhook] Stripe signature from header: t=1763028967,v1=cb39feb8f3bbd27da35647cd33fe319ac42cca3b3de57b9dd6350026641df1b9,v0=38600af690187e6a4c9724aa9e807f11239ceedbaf33acf1ff059ba327f58071
+[PaymentController:Webhook] STRIPE_WEBHOOK_SECRET used: SET
+[PaymentController:Webhook] Stripe event constructed successfully. Event Type: payment_intent.succeeded Event ID: evt_3SSxZSHKNqVBSHKU1hfFeAzE
+[PaymentController:Webhook] Processing event: {
+  type: 'payment_intent.succeeded',
+  id: 'evt_3SSxZSHKNqVBSHKU1hfFeAzE',
+  apiVersion: '2024-11-20.acacia',
+  timestamp: '2025-11-13T10:16:09.397Z'
+}
+[Webhook] Processing 'payment_intent.succeeded' event. { paymentIntentId: 'pi_3SSxZSHKNqVBSHKU1Yb0VNzv' }
+[PaymentController:Webhook] Entered payment_intent.succeeded case. Event ID: evt_3SSxZSHKNqVBSHKU1hfFeAzE PaymentIntent ID: pi_3SSxZSHKNqVBSHKU1Yb0VNzv
+[[[WEBHOOK-CASE-MATCH]]] Entered switch case: payment_intent.succeeded. { paymentIntentId: 'pi_3SSxZSHKNqVBSHKU1Yb0VNzv' }
+[Webhook] Processing standard/live_session PI.succeeded {
+  paymentIntentId: 'pi_3SSxZSHKNqVBSHKU1Yb0VNzv',
+  metadata: {
+    type: 'live_session_charge',
+    liveSessionId: '6915afc3ee3ebd991d726344',
+    bookingId: '6915afc8ee3ebd991d726381',
+    paymentId: '6915afe8ee3ebd991d726443'
+  },
+  timestamp: '2025-11-13T10:16:09.398Z'
+}
+[Webhook] Payment record 6915afe8ee3ebd991d726443 updated. Status: completed, Type: live_session_charge. { paymentIntentId: 'pi_3SSxZSHKNqVBSHKU1Yb0VNzv' }
+[handlePaymentSuccess] V-FINAL - Received successful payment event. {
+  paymentId: '6915afe8ee3ebd991d726443',
+  bookingId: '6915afc8ee3ebd991d726381',
+  liveSessionId: '6915afc3ee3ebd991d726344',
+  programId: undefined,
+  paymentIntentId: 'pi_3SSxZSHKNqVBSHKU1Yb0VNzv',
+  chargeId: 'ch_3SSxZSHKNqVBSHKU1KHpaSys'
+}
+[[[SERVER-ENTRY-POINT]]] Webhook request received at server entry. {
+  method: 'POST',
+  url: '/api/payments/webhook',
+  headers: {
+    host: 'localhost:5000',
+    'user-agent': 'Stripe/1.0 (+https://stripe.com/docs/webhooks)',
+    'content-length': '2508',
+    accept: '*/*; q=0.5, application/xml',
+    'cache-control': 'no-cache',
+    'content-type': 'application/json; charset=utf-8',
+    'stripe-signature': 't=1763028967,v1=369afcfbcba563e6fa4fda1d5e202e5c794c9b14d138f68a775689dd59f8b303,v0=fd1f26719e744e4f2009a99f9a2e56fd97dc620cbfd5fbd2c943e525d2cc6f02',
+    'accept-encoding': 'gzip'
+  },
+  ip: '::1'
+}
+[PaymentController:Webhook] RAW REQUEST RECEIVED Top of webhookHandler. Headers: {
+  "host": "localhost:5000",
+  "user-agent": "Stripe/1.0 (+https://stripe.com/docs/webhooks)",
+  "content-length": "2508",
+  "accept": "*/*; q=0.5, application/xml",
+  "cache-control": "no-cache",
+  "content-type": "application/json; charset=utf-8",
+  "stripe-signature": "t=1763028967,v1=369afcfbcba563e6fa4fda1d5e202e5c794c9b14d138f68a775689dd59f8b303,v0=fd1f26719e744e4f2009a99f9a2e56fd97dc620cbfd5fbd2c943e525d2cc6f02",
+  "accept-encoding": "gzip"
+}
+[Webhook] Received a request from Stripe.
+[PaymentController:Webhook] Stripe signature from header: t=1763028967,v1=369afcfbcba563e6fa4fda1d5e202e5c794c9b14d138f68a775689dd59f8b303,v0=fd1f26719e744e4f2009a99f9a2e56fd97dc620cbfd5fbd2c943e525d2cc6f02
+[PaymentController:Webhook] STRIPE_WEBHOOK_SECRET used: SET
+[PaymentController:Webhook] Stripe event constructed successfully. Event Type: payment_intent.created Event ID: evt_3SSxZSHKNqVBSHKU1AWWpKpL
+[PaymentController:Webhook] Processing event: {
+  type: 'payment_intent.created',
+  id: 'evt_3SSxZSHKNqVBSHKU1AWWpKpL',
+  apiVersion: '2024-11-20.acacia',
+  timestamp: '2025-11-13T10:16:09.522Z'
+}
+[PaymentController:Webhook] Unhandled event type: payment_intent.created
+[Webhook Logging] Successfully processed and logged event: payment_intent.created (evt_3SSxZSHKNqVBSHKU1AWWpKpL)
+[handlePaymentSuccess] V-FINAL - LiveSession state updated to completed. {
+  liveSessionId: {
+    basePerMinuteRate: { amount: 10, currency: 'CHF' },
+    effectivePerMinuteRate: { amount: 10, currency: 'CHF' },
+    discountApplied: null,
+    finalCost: { grossAmount: 3.17, currency: 'CHF' },
+    sessionLink: {
+      sessionId: '78edb6ee527fcd9c792c4234f0ed94950d66d7c4a7766cfcfba63cb1b56d8f95',
+      token: 'f2c47e6dbece02d76978ce5cc80fe49583a77e6295fe84b996a1becadc4cf899',
+      generatedAt: 2025-11-13T10:15:45.363Z,
+      expired: false
+    },
+    _id: new ObjectId('6915afc3ee3ebd991d726344'),
+    client: new ObjectId('66f418d10a19ec0e4bbd377e'),
+    coach: new ObjectId('66d9cdcb0a7492a86482bd68'),
+    status: 'pending_settlement',
+    durationInSeconds: 19,
+    paymentRecords: [],
+    participants: [ [Object], [Object] ],
+    presentParticipants: [ [Object], [Object], [Object], [Object] ],
+    createdAt: 2025-11-13T10:15:31.289Z,
+    updatedAt: 2025-11-13T10:16:09.082Z,
+    __v: 0,
+    booking: new ObjectId('6915afc8ee3ebd991d726381'),
+    startTime: 2025-11-13T10:15:48.148Z,
+    endTime: 2025-11-13T10:16:07.862Z
+  }
+}
+[Booking Model] Booking saved successfully: 6915afc8ee3ebd991d726381
+[handlePaymentSuccess] V-FINAL - Booking status updated. {
+  bookingId: new ObjectId('6915afc8ee3ebd991d726381'),
+  newStatus: 'completed'
+}
+[handlePaymentSuccess] V-FINAL - 'charge' transaction ensured. {
+  paymentId: '6915afe8ee3ebd991d726443',
+  bookingId: '6915afc8ee3ebd991d726381',
+  liveSessionId: '6915afc3ee3ebd991d726344',
+  programId: undefined,
+  paymentIntentId: 'pi_3SSxZSHKNqVBSHKU1Yb0VNzv',
+  chargeId: 'ch_3SSxZSHKNqVBSHKU1KHpaSys'
+}
+[InvoiceService] Starting detailed invoice creation. {
+  paymentId: new ObjectId('6915afe8ee3ebd991d726443'),
+  bookingId: new ObjectId('6915afc8ee3ebd991d726381'),
+  programId: undefined
+}
+[[[SERVER-ENTRY-POINT]]] Webhook request received at server entry. {
+  method: 'POST',
+  url: '/api/payments/webhook',
+  headers: {
+    host: 'localhost:5000',
+    'user-agent': 'Stripe/1.0 (+https://stripe.com/docs/webhooks)',
+    'content-length': '4386',
+    accept: '*/*; q=0.5, application/xml',
+    'cache-control': 'no-cache',
+    'content-type': 'application/json; charset=utf-8',
+    'stripe-signature': 't=1763028968,v1=34d3a11ba8a436b4f11433a37458153efbf09aec93df5ed67020247764b8d2ed,v0=bc47bd39d039acb875e8eb4feec3008e266032265b3ba7575ff455389b79f1b1',
+    'accept-encoding': 'gzip'
+  },
+  ip: '::1'
+}
+[PaymentController:Webhook] RAW REQUEST RECEIVED Top of webhookHandler. Headers: {
+  "host": "localhost:5000",
+  "user-agent": "Stripe/1.0 (+https://stripe.com/docs/webhooks)",
+  "content-length": "4386",
+  "accept": "*/*; q=0.5, application/xml",
+  "cache-control": "no-cache",
+  "content-type": "application/json; charset=utf-8",
+  "stripe-signature": "t=1763028968,v1=34d3a11ba8a436b4f11433a37458153efbf09aec93df5ed67020247764b8d2ed,v0=bc47bd39d039acb875e8eb4feec3008e266032265b3ba7575ff455389b79f1b1",
+  "accept-encoding": "gzip"
+}
+[Webhook] Received a request from Stripe.
+[PaymentController:Webhook] Stripe signature from header: t=1763028968,v1=34d3a11ba8a436b4f11433a37458153efbf09aec93df5ed67020247764b8d2ed,v0=bc47bd39d039acb875e8eb4feec3008e266032265b3ba7575ff455389b79f1b1
+[PaymentController:Webhook] STRIPE_WEBHOOK_SECRET used: SET
+[PaymentController:Webhook] Stripe event constructed successfully. Event Type: invoice.created Event ID: evt_1SSxZUHKNqVBSHKUajfKo13V
+[PaymentController:Webhook] Processing event: {
+  type: 'invoice.created',
+  id: 'evt_1SSxZUHKNqVBSHKUajfKo13V',
+  apiVersion: '2024-11-20.acacia',
+  timestamp: '2025-11-13T10:16:10.979Z'
+}
+[PaymentController:Webhook] Unhandled event type: invoice.created
+[Webhook Logging] Successfully processed and logged event: invoice.created (evt_1SSxZUHKNqVBSHKUajfKo13V)
+[ReviewController.getCoachReviews] UNIVERSAL QUERY for coachId: 66d9cdcb0a7492a86482bd68
+[ReviewController.getCoachReviews] Executing DB Query: Review.find({"isPrivate":false,"isVisible":true,"$or":[{"rateeId":"66d9cdcb0a7492a86482bd68"},{"ratee":"66d9cdcb0a7492a86482bd68","rateeModel":"User"}]})
+[ReviewController.getCoachReviews] DB Query Result: Found 9 review(s).
+GET /api/reviews/coach/66d9cdcb0a7492a86482bd68 304 44.935 ms - -
+[[[SERVER-ENTRY-POINT]]] Webhook request received at server entry. {
+  method: 'POST',
+  url: '/api/payments/webhook',
+  headers: {
+    host: 'localhost:5000',
+    'user-agent': 'Stripe/1.0 (+https://stripe.com/docs/webhooks)',
+    'content-length': '8403',
+    accept: '*/*; q=0.5, application/xml',
+    'cache-control': 'no-cache',
+    'content-type': 'application/json; charset=utf-8',
+    'stripe-signature': 't=1763028969,v1=a49d0199a9e3ec4a40d45cf17fa327884a7021a035f7a5d5eb2bf7597985213d,v0=e7565e14779e092394810d72630b72bca394fa248cd15fbc6155c09e22b84293',
+    'accept-encoding': 'gzip'
+  },
+  ip: '::1'
+}
+[PaymentController:Webhook] RAW REQUEST RECEIVED Top of webhookHandler. Headers: {
+  "host": "localhost:5000",
+  "user-agent": "Stripe/1.0 (+https://stripe.com/docs/webhooks)",
+  "content-length": "8403",
+  "accept": "*/*; q=0.5, application/xml",
+  "cache-control": "no-cache",
+  "content-type": "application/json; charset=utf-8",
+  "stripe-signature": "t=1763028969,v1=a49d0199a9e3ec4a40d45cf17fa327884a7021a035f7a5d5eb2bf7597985213d,v0=e7565e14779e092394810d72630b72bca394fa248cd15fbc6155c09e22b84293",
+  "accept-encoding": "gzip"
+}
+[Webhook] Received a request from Stripe.
+[PaymentController:Webhook] Stripe signature from header: t=1763028969,v1=a49d0199a9e3ec4a40d45cf17fa327884a7021a035f7a5d5eb2bf7597985213d,v0=e7565e14779e092394810d72630b72bca394fa248cd15fbc6155c09e22b84293
+[PaymentController:Webhook] STRIPE_WEBHOOK_SECRET used: SET
+[PaymentController:Webhook] Stripe event constructed successfully. Event Type: invoice.updated Event ID: evt_1SSxZVHKNqVBSHKUs8q9IhqX
+[PaymentController:Webhook] Processing event: {
+  type: 'invoice.updated',
+  id: 'evt_1SSxZVHKNqVBSHKUs8q9IhqX',
+  apiVersion: '2024-11-20.acacia',
+  timestamp: '2025-11-13T10:16:11.404Z'
+}
+[PaymentController:Webhook] Unhandled event type: invoice.updated
+[ReviewController.getCoachReviews] UNIVERSAL QUERY for coachId: 66d9cdcb0a7492a86482bd68
+[ReviewController.getCoachReviews] Executing DB Query: Review.find({"isPrivate":false,"isVisible":true,"$or":[{"rateeId":"66d9cdcb0a7492a86482bd68"},{"ratee":"66d9cdcb0a7492a86482bd68","rateeModel":"User"}]})
+[Webhook Logging] Successfully processed and logged event: invoice.updated (evt_1SSxZVHKNqVBSHKUs8q9IhqX)
+[[[SERVER-ENTRY-POINT]]] Webhook request received at server entry. {
+  method: 'POST',
+  url: '/api/payments/webhook',
+  headers: {
+    host: 'localhost:5000',
+    'user-agent': 'Stripe/1.0 (+https://stripe.com/docs/webhooks)',
+    'content-length': '1937',
+    accept: '*/*; q=0.5, application/xml',
+    'cache-control': 'no-cache',
+    'content-type': 'application/json; charset=utf-8',
+    'stripe-signature': 't=1763028969,v1=b61e8782889de34bf91c909c2597b2111756a83698e51c4c1db3f5f0519d7b3d,v0=89b67039dfd96d46370f183106cdc019cc906e6d7d7c50aba83d7f891150c310',
+    'accept-encoding': 'gzip'
+  },
+  ip: '::1'
+}
+[PaymentController:Webhook] RAW REQUEST RECEIVED Top of webhookHandler. Headers: {
+  "host": "localhost:5000",
+  "user-agent": "Stripe/1.0 (+https://stripe.com/docs/webhooks)",
+  "content-length": "1937",
+  "accept": "*/*; q=0.5, application/xml",
+  "cache-control": "no-cache",
+  "content-type": "application/json; charset=utf-8",
+  "stripe-signature": "t=1763028969,v1=b61e8782889de34bf91c909c2597b2111756a83698e51c4c1db3f5f0519d7b3d,v0=89b67039dfd96d46370f183106cdc019cc906e6d7d7c50aba83d7f891150c310",
+  "accept-encoding": "gzip"
+}
+[Webhook] Received a request from Stripe.
+[PaymentController:Webhook] Stripe signature from header: t=1763028969,v1=b61e8782889de34bf91c909c2597b2111756a83698e51c4c1db3f5f0519d7b3d,v0=89b67039dfd96d46370f183106cdc019cc906e6d7d7c50aba83d7f891150c310
+[PaymentController:Webhook] STRIPE_WEBHOOK_SECRET used: SET
+[PaymentController:Webhook] Stripe event constructed successfully. Event Type: invoiceitem.created Event ID: evt_1SSxZVHKNqVBSHKUJgU7P6K3
+[PaymentController:Webhook] Processing event: {
+  type: 'invoiceitem.created',
+  id: 'evt_1SSxZVHKNqVBSHKUJgU7P6K3',
+  apiVersion: '2024-11-20.acacia',
+  timestamp: '2025-11-13T10:16:11.433Z'
+}
+[PaymentController:Webhook] Unhandled event type: invoiceitem.created
+[ReviewController.getCoachReviews] DB Query Result: Found 9 review(s).
+GET /api/reviews/coach/66d9cdcb0a7492a86482bd68 304 40.558 ms - -
+[Webhook Logging] Successfully processed and logged event: invoiceitem.created (evt_1SSxZVHKNqVBSHKUJgU7P6K3)
+[[[SERVER-ENTRY-POINT]]] Webhook request received at server entry. {
+  method: 'POST',
+  url: '/api/payments/webhook',
+  headers: {
+    host: 'localhost:5000',
+    'user-agent': 'Stripe/1.0 (+https://stripe.com/docs/webhooks)',
+    'content-length': '4147',
+    accept: '*/*; q=0.5, application/xml',
+    'cache-control': 'no-cache',
+    'content-type': 'application/json; charset=utf-8',
+    'stripe-signature': 't=1763028969,v1=e82b1dd2f8fe1b0c1c0868932dc05410b87bc97d528cdab4066286345c7c13eb,v0=9828d1ce3ea7a21f55abcff28dc075d3d4253e34f37099387663e03bd28e7c2e',
+    'accept-encoding': 'gzip'
+  },
+  ip: '::1'
+}
+[PaymentController:Webhook] RAW REQUEST RECEIVED Top of webhookHandler. Headers: {
+  "host": "localhost:5000",
+  "user-agent": "Stripe/1.0 (+https://stripe.com/docs/webhooks)",
+  "content-length": "4147",
+  "accept": "*/*; q=0.5, application/xml",
+  "cache-control": "no-cache",
+  "content-type": "application/json; charset=utf-8",
+  "stripe-signature": "t=1763028969,v1=e82b1dd2f8fe1b0c1c0868932dc05410b87bc97d528cdab4066286345c7c13eb,v0=9828d1ce3ea7a21f55abcff28dc075d3d4253e34f37099387663e03bd28e7c2e",
+  "accept-encoding": "gzip"
+}
+[Webhook] Received a request from Stripe.
+[PaymentController:Webhook] Stripe signature from header: t=1763028969,v1=e82b1dd2f8fe1b0c1c0868932dc05410b87bc97d528cdab4066286345c7c13eb,v0=9828d1ce3ea7a21f55abcff28dc075d3d4253e34f37099387663e03bd28e7c2e
+[PaymentController:Webhook] STRIPE_WEBHOOK_SECRET used: SET
+[PaymentController:Webhook] Stripe event constructed successfully. Event Type: charge.updated Event ID: evt_3SSxZSHKNqVBSHKU1jDINQ2e
+[PaymentController:Webhook] Processing event: {
+  type: 'charge.updated',
+  id: 'evt_3SSxZSHKNqVBSHKU1jDINQ2e',
+  apiVersion: '2024-11-20.acacia',
+  timestamp: '2025-11-13T10:16:11.728Z'
+}
+[PaymentController:Webhook] Unhandled event type: charge.updated
+[Webhook Logging] Successfully processed and logged event: charge.updated (evt_3SSxZSHKNqVBSHKU1jDINQ2e)
+[[[SERVER-ENTRY-POINT]]] Webhook request received at server entry. {
+  method: 'POST',
+  url: '/api/payments/webhook',
+  headers: {
+    host: 'localhost:5000',
+    'user-agent': 'Stripe/1.0 (+https://stripe.com/docs/webhooks)',
+    'content-length': '2170',
+    accept: '*/*; q=0.5, application/xml',
+    'cache-control': 'no-cache',
+    'content-type': 'application/json; charset=utf-8',
+    'stripe-signature': 't=1763028970,v1=9db241d3f22f0e707210cc0ea098385c66187b7ccd62b7e9933cb6146b917f15,v0=cf486b4231dffbac7a0eda9b4fb9929e4d9fd7f739e20ba169681de46d57642d',
+    'accept-encoding': 'gzip'
+  },
+  ip: '::1'
+}
+[PaymentController:Webhook] RAW REQUEST RECEIVED Top of webhookHandler. Headers: {
+  "host": "localhost:5000",
+  "user-agent": "Stripe/1.0 (+https://stripe.com/docs/webhooks)",
+  "content-length": "2170",
+  "accept": "*/*; q=0.5, application/xml",
+  "cache-control": "no-cache",
+  "content-type": "application/json; charset=utf-8",
+  "stripe-signature": "t=1763028970,v1=9db241d3f22f0e707210cc0ea098385c66187b7ccd62b7e9933cb6146b917f15,v0=cf486b4231dffbac7a0eda9b4fb9929e4d9fd7f739e20ba169681de46d57642d",
+  "accept-encoding": "gzip"
+}
+[Webhook] Received a request from Stripe.
+[PaymentController:Webhook] Stripe signature from header: t=1763028970,v1=9db241d3f22f0e707210cc0ea098385c66187b7ccd62b7e9933cb6146b917f15,v0=cf486b4231dffbac7a0eda9b4fb9929e4d9fd7f739e20ba169681de46d57642d
+[PaymentController:Webhook] STRIPE_WEBHOOK_SECRET used: SET
+[PaymentController:Webhook] Stripe event constructed successfully. Event Type: payment_intent.created Event ID: evt_3SSxZVHKNqVBSHKU1defkFVS
+[PaymentController:Webhook] Processing event: {
+  type: 'payment_intent.created',
+  id: 'evt_3SSxZVHKNqVBSHKU1defkFVS',
+  apiVersion: '2024-11-20.acacia',
+  timestamp: '2025-11-13T10:16:12.619Z'
+}
+[PaymentController:Webhook] Unhandled event type: payment_intent.created
+[Webhook Logging] Successfully processed and logged event: payment_intent.created (evt_3SSxZVHKNqVBSHKU1defkFVS)
+[[[SERVER-ENTRY-POINT]]] Webhook request received at server entry. {
+  method: 'POST',
+  url: '/api/payments/webhook',
+  headers: {
+    host: 'localhost:5000',
+    'user-agent': 'Stripe/1.0 (+https://stripe.com/docs/webhooks)',
+    'content-length': '8816',
+    accept: '*/*; q=0.5, application/xml',
+    'cache-control': 'no-cache',
+    'content-type': 'application/json; charset=utf-8',
+    'stripe-signature': 't=1763028970,v1=c2e0c182dea81c5bdcedd028c29240c7ebf5c735a6de6aa80cb3e4b482105f9d,v0=b22e68a59f6dfe4ee19851add72166666f6c3d5e6a4bf6f5613d5873ae82833f',
+    'accept-encoding': 'gzip'
+  },
+  ip: '::1'
+}
+[PaymentController:Webhook] RAW REQUEST RECEIVED Top of webhookHandler. Headers: {
+  "host": "localhost:5000",
+  "user-agent": "Stripe/1.0 (+https://stripe.com/docs/webhooks)",
+  "content-length": "8816",
+  "accept": "*/*; q=0.5, application/xml",
+  "cache-control": "no-cache",
+  "content-type": "application/json; charset=utf-8",
+  "stripe-signature": "t=1763028970,v1=c2e0c182dea81c5bdcedd028c29240c7ebf5c735a6de6aa80cb3e4b482105f9d,v0=b22e68a59f6dfe4ee19851add72166666f6c3d5e6a4bf6f5613d5873ae82833f",
+  "accept-encoding": "gzip"
+}
+[Webhook] Received a request from Stripe.
+[PaymentController:Webhook] Stripe signature from header: t=1763028970,v1=c2e0c182dea81c5bdcedd028c29240c7ebf5c735a6de6aa80cb3e4b482105f9d,v0=b22e68a59f6dfe4ee19851add72166666f6c3d5e6a4bf6f5613d5873ae82833f
+[PaymentController:Webhook] STRIPE_WEBHOOK_SECRET used: SET
+[PaymentController:Webhook] Stripe event constructed successfully. Event Type: invoice.updated Event ID: evt_1SSxZWHKNqVBSHKU7ECu0RAZ
+[PaymentController:Webhook] Processing event: {
+  type: 'invoice.updated',
+  id: 'evt_1SSxZWHKNqVBSHKU7ECu0RAZ',
+  apiVersion: '2024-11-20.acacia',
+  timestamp: '2025-11-13T10:16:12.871Z'
+}
+[PaymentController:Webhook] Unhandled event type: invoice.updated
+[Webhook Logging] Successfully processed and logged event: invoice.updated (evt_1SSxZWHKNqVBSHKU7ECu0RAZ)
+[[[SERVER-ENTRY-POINT]]] Webhook request received at server entry. {
+  method: 'POST',
+  url: '/api/payments/webhook',
+  headers: {
+    host: 'localhost:5000',
+    'user-agent': 'Stripe/1.0 (+https://stripe.com/docs/webhooks)',
+    'content-length': '8432',
+    accept: '*/*; q=0.5, application/xml',
+    'cache-control': 'no-cache',
+    'content-type': 'application/json; charset=utf-8',
+    'stripe-signature': 't=1763028970,v1=60ba898da07f7060a9ec41648907455882be0ae83c2fe6ea811e99990681cfac,v0=535b87f7eda58df76b8e2a8e84e99e21e170ba9394a4f7717ace9f2d4678657c',
+    'accept-encoding': 'gzip'
+  },
+  ip: '::1'
+}
+[PaymentController:Webhook] RAW REQUEST RECEIVED Top of webhookHandler. Headers: {
+  "host": "localhost:5000",
+  "user-agent": "Stripe/1.0 (+https://stripe.com/docs/webhooks)",
+  "content-length": "8432",
+  "accept": "*/*; q=0.5, application/xml",
+  "cache-control": "no-cache",
+  "content-type": "application/json; charset=utf-8",
+  "stripe-signature": "t=1763028970,v1=60ba898da07f7060a9ec41648907455882be0ae83c2fe6ea811e99990681cfac,v0=535b87f7eda58df76b8e2a8e84e99e21e170ba9394a4f7717ace9f2d4678657c",
+  "accept-encoding": "gzip"
+}
+[Webhook] Received a request from Stripe.
+[PaymentController:Webhook] Stripe signature from header: t=1763028970,v1=60ba898da07f7060a9ec41648907455882be0ae83c2fe6ea811e99990681cfac,v0=535b87f7eda58df76b8e2a8e84e99e21e170ba9394a4f7717ace9f2d4678657c
+[PaymentController:Webhook] STRIPE_WEBHOOK_SECRET used: SET
+[PaymentController:Webhook] Stripe event constructed successfully. Event Type: invoice.finalized Event ID: evt_1SSxZWHKNqVBSHKURrkWmIqt
+[PaymentController:Webhook] Processing event: {
+  type: 'invoice.finalized',
+  id: 'evt_1SSxZWHKNqVBSHKURrkWmIqt',
+  apiVersion: '2024-11-20.acacia',
+  timestamp: '2025-11-13T10:16:12.934Z'
+}
+[PaymentController:Webhook] Unhandled event type: invoice.finalized
+[Webhook Logging] Successfully processed and logged event: invoice.finalized (evt_1SSxZWHKNqVBSHKURrkWmIqt)
+[InvoiceService] Successfully created and stored detailed invoice reference for payment 6915afe8ee3ebd991d726443. {
+  invoiceId: new ObjectId('6915afeeee3ebd991d7264af'),
+  stripeInvoiceId: 'in_1SSxZUHKNqVBSHKU4II74NvO',
+  amount: 3.17
+}
+[handlePaymentSuccess] V-FINAL - Client invoice generation initiated. {
+  paymentId: '6915afe8ee3ebd991d726443',
+  bookingId: '6915afc8ee3ebd991d726381',
+  liveSessionId: '6915afc3ee3ebd991d726344',
+  programId: undefined,
+  paymentIntentId: 'pi_3SSxZSHKNqVBSHKU1Yb0VNzv',
+  chargeId: 'ch_3SSxZSHKNqVBSHKU1KHpaSys'
+}
+[DATA TRACE | Notif Service] generateNotificationContent received config: {
+  "type": "live_session_receipt_client",
+  "recipient": "66f418d10a19ec0e4bbd377e",
+  "metadata": {
+    "bookingId": "6915afc8ee3ebd991d726381",
+    "coachName": "Dominic Frei",
+    "webinarTitle": "Live Session with Dominic",
+    "amount": 3.17,
+    "currency": "CHF",
+    "otherPartyName": "Dominic Frei"
+  },
+  "channels": [
+    "in_app",
+    "email"
+  ]
+}
+[NotificationModel] Pre-validate hook: {
+  type: 'live_session_receipt_client',
+  category: 'payment',
+  metadata: {
+    bookingId: new ObjectId('6915afc8ee3ebd991d726381'),
+    liveSessionId: null,
+    sessionId: undefined,
+    reviewId: undefined,
+    programId: undefined,
+    lessonId: undefined,
+    additionalData: {
+      auditId: undefined,
+      bookingId: new ObjectId('6915afc8ee3ebd991d726381'),
+      coachName: 'Dominic Frei',
+      webinarTitle: 'Live Session with Dominic',
+      amount: 3.17,
+      currency: 'CHF',
+      otherPartyName: 'Dominic Frei',
+      startTime: 2025-11-13T10:15:36.156Z,
+      endTime: 2025-11-13T11:15:36.156Z,
+      bookingType: 'request',
+      status: 'completed',
+      requiresAction: undefined,
+      validActions: undefined
+    }
+  }
+}
+[NotificationModel] Processing new notification: new ObjectId('6915afeeee3ebd991d7264bb')
+[SocketNotificationService] Emitting booking notification: {
+  notificationId: new ObjectId('6915afeeee3ebd991d7264bb'),
+  type: 'live_session_receipt_client',
+  recipients: 1,
+  bookingId: new ObjectId('6915afc8ee3ebd991d726381')
+}
+[UnifiedNotificationService] Sending email notification: {
+  type: 'live_session_receipt_client',
+  recipientType: undefined,
+  hasRecipient: false
+}
+[UnifiedNotificationService] Email notification details: {
+  recipientEmail: 'test.user2@example.com',
+  senderName: 'Dominic Frei',
+  type: 'live_session_receipt_client',
+  start: 2025-11-13T10:15:36.156Z,
+  end: 2025-11-13T11:15:36.156Z
+}
+[DATA TRACE | Notif Service] generateNotificationContent received config: {
+  "type": "live_session_earnings_coach",
+  "recipient": "66d9cdcb0a7492a86482bd68",
+  "metadata": {
+    "bookingId": "6915afc8ee3ebd991d726381",
+    "attendeeName": "Test User 2",
+    "webinarTitle": "Live Session with Dominic",
+    "otherPartyName": "Test User 2"
+  },
+  "channels": [
+    "in_app",
+    "email"
+  ]
+}
+[NotificationModel] Pre-validate hook: {
+  type: 'live_session_earnings_coach',
+  category: 'payment',
+  metadata: {
+    bookingId: new ObjectId('6915afc8ee3ebd991d726381'),
+    liveSessionId: null,
+    sessionId: undefined,
+    reviewId: undefined,
+    programId: undefined,
+    lessonId: undefined,
+    additionalData: {
+      auditId: undefined,
+      bookingId: new ObjectId('6915afc8ee3ebd991d726381'),
+      attendeeName: 'Test User 2',
+      webinarTitle: 'Live Session with Dominic',
+      otherPartyName: 'Test User 2',
+      startTime: 2025-11-13T10:15:36.156Z,
+      endTime: 2025-11-13T11:15:36.156Z,
+      bookingType: 'request',
+      status: 'completed',
+      requiresAction: undefined,
+      validActions: undefined
+    }
+  }
+}
+[NotificationModel] Processing new notification: new ObjectId('6915afeeee3ebd991d7264be')
+[SocketNotificationService] Emitting booking notification: {
+  notificationId: new ObjectId('6915afeeee3ebd991d7264be'),
+  type: 'live_session_earnings_coach',
+  recipients: 1,
+  bookingId: new ObjectId('6915afc8ee3ebd991d726381')
+}
+[UnifiedNotificationService] Sending email notification: {
+  type: 'live_session_earnings_coach',
+  recipientType: undefined,
+  hasRecipient: false
+}
+[UnifiedNotificationService] Email notification details: {
+  recipientEmail: 'test.coach2@example.com',
+  senderName: 'Test User 2',
+  type: 'live_session_earnings_coach',
+  start: 2025-11-13T10:15:36.156Z,
+  end: 2025-11-13T11:15:36.156Z
+}
+[handlePaymentSuccess] V-FINAL - Notifications sent. Processing complete. {
+  paymentId: '6915afe8ee3ebd991d726443',
+  bookingId: '6915afc8ee3ebd991d726381',
+  liveSessionId: '6915afc3ee3ebd991d726344',
+  programId: undefined,
+  paymentIntentId: 'pi_3SSxZSHKNqVBSHKU1Yb0VNzv',
+  chargeId: 'ch_3SSxZSHKNqVBSHKU1KHpaSys'
+}
+[SocketService] Full booking update emitted: {
+  event: 'booking_update',
+  bookingId: new ObjectId('6915afc8ee3ebd991d726381'),
+  recipients: 2
+}
+[[[SERVER-ENTRY-POINT]]] Webhook request received at server entry. {
+  method: 'POST',
+  url: '/api/payments/webhook',
+  headers: {
+    host: 'localhost:5000',
+    'user-agent': 'Stripe/1.0 (+https://stripe.com/docs/webhooks)',
+    'content-length': '2333',
+    accept: '*/*; q=0.5, application/xml',
+    'cache-control': 'no-cache',
+    'content-type': 'application/json; charset=utf-8',
+    'stripe-signature': 't=1763028972,v1=7c6c9d79372c84cc5853d3293fd6e62c92997c5d9136f10f6032b7eeb6dff565,v0=b334ebaab401e4fce271893a4e97009e5367067a4736a2f50ed3d1cca9142f5e',
+    'accept-encoding': 'gzip'
+  },
+  ip: '::1'
+}
+[PaymentController:Webhook] RAW REQUEST RECEIVED Top of webhookHandler. Headers: {
+  "host": "localhost:5000",
+  "user-agent": "Stripe/1.0 (+https://stripe.com/docs/webhooks)",
+  "content-length": "2333",
+  "accept": "*/*; q=0.5, application/xml",
+  "cache-control": "no-cache",
+  "content-type": "application/json; charset=utf-8",
+  "stripe-signature": "t=1763028972,v1=7c6c9d79372c84cc5853d3293fd6e62c92997c5d9136f10f6032b7eeb6dff565,v0=b334ebaab401e4fce271893a4e97009e5367067a4736a2f50ed3d1cca9142f5e",
+  "accept-encoding": "gzip"
+}
+[Webhook] Received a request from Stripe.
+[PaymentController:Webhook] Stripe signature from header: t=1763028972,v1=7c6c9d79372c84cc5853d3293fd6e62c92997c5d9136f10f6032b7eeb6dff565,v0=b334ebaab401e4fce271893a4e97009e5367067a4736a2f50ed3d1cca9142f5e
+[PaymentController:Webhook] STRIPE_WEBHOOK_SECRET used: SET
+[PaymentController:Webhook] Stripe event constructed successfully. Event Type: payment_intent.canceled Event ID: evt_3SSxZVHKNqVBSHKU1toAiwEL
+[PaymentController:Webhook] Processing event: {
+  type: 'payment_intent.canceled',
+  id: 'evt_3SSxZVHKNqVBSHKU1toAiwEL',
+  apiVersion: '2024-11-20.acacia',
+  timestamp: '2025-11-13T10:16:14.611Z'
+}
+[PaymentController:Webhook] Unhandled event type: payment_intent.canceled
+[Webhook Logging] Successfully processed and logged event: payment_intent.canceled (evt_3SSxZVHKNqVBSHKU1toAiwEL)
+[[[SERVER-ENTRY-POINT]]] Webhook request received at server entry. {
+  method: 'POST',
+  url: '/api/payments/webhook',
+  headers: {
+    host: 'localhost:5000',
+    'user-agent': 'Stripe/1.0 (+https://stripe.com/docs/webhooks)',
+    'content-length': '8640',
+    accept: '*/*; q=0.5, application/xml',
+    'cache-control': 'no-cache',
+    'content-type': 'application/json; charset=utf-8',
+    'stripe-signature': 't=1763028972,v1=2d00e177944459bfd0bd81a9d8899b7555886ab8ac76e189eb8aeed46070e204,v0=06919ba026467a49126ccb8144e2e0e81c5434e78d018e0ff7fd1dd16c1460e4',
+    'accept-encoding': 'gzip'
+  },
+  ip: '::1'
+}
+[PaymentController:Webhook] RAW REQUEST RECEIVED Top of webhookHandler. Headers: {
+  "host": "localhost:5000",
+  "user-agent": "Stripe/1.0 (+https://stripe.com/docs/webhooks)",
+  "content-length": "8640",
+  "accept": "*/*; q=0.5, application/xml",
+  "cache-control": "no-cache",
+  "content-type": "application/json; charset=utf-8",
+  "stripe-signature": "t=1763028972,v1=2d00e177944459bfd0bd81a9d8899b7555886ab8ac76e189eb8aeed46070e204,v0=06919ba026467a49126ccb8144e2e0e81c5434e78d018e0ff7fd1dd16c1460e4",
+  "accept-encoding": "gzip"
+}
+[Webhook] Received a request from Stripe.
+[PaymentController:Webhook] Stripe signature from header: t=1763028972,v1=2d00e177944459bfd0bd81a9d8899b7555886ab8ac76e189eb8aeed46070e204,v0=06919ba026467a49126ccb8144e2e0e81c5434e78d018e0ff7fd1dd16c1460e4
+[PaymentController:Webhook] STRIPE_WEBHOOK_SECRET used: SET
+[PaymentController:Webhook] Stripe event constructed successfully. Event Type: invoice.updated Event ID: evt_1SSxZYHKNqVBSHKU89jfILnG
+[PaymentController:Webhook] Processing event: {
+  type: 'invoice.updated',
+  id: 'evt_1SSxZYHKNqVBSHKU89jfILnG',
+  apiVersion: '2024-11-20.acacia',
+  timestamp: '2025-11-13T10:16:14.772Z'
+}
+[PaymentController:Webhook] Unhandled event type: invoice.updated
+[Webhook Logging] Successfully processed and logged event: invoice.updated (evt_1SSxZYHKNqVBSHKU89jfILnG)
+[[[SERVER-ENTRY-POINT]]] Webhook request received at server entry. {
+  method: 'POST',
+  url: '/api/payments/webhook',
+  headers: {
+    host: 'localhost:5000',
+    'user-agent': 'Stripe/1.0 (+https://stripe.com/docs/webhooks)',
+    'content-length': '8406',
+    accept: '*/*; q=0.5, application/xml',
+    'cache-control': 'no-cache',
+    'content-type': 'application/json; charset=utf-8',
+    'stripe-signature': 't=1763028972,v1=812c6fd46b7137926af6f438f7db837a54872dc8bb4cecb6c98ae5ce3d54041c,v0=94a6dc16e60c45b3079b0275367572e3fb7ae40ad9bb2a022a9da23b05ee7b9d',
+    'accept-encoding': 'gzip'
+  },
+  ip: '::1'
+}
+[PaymentController:Webhook] RAW REQUEST RECEIVED Top of webhookHandler. Headers: {
+  "host": "localhost:5000",
+  "user-agent": "Stripe/1.0 (+https://stripe.com/docs/webhooks)",
+  "content-length": "8406",
+  "accept": "*/*; q=0.5, application/xml",
+  "cache-control": "no-cache",
+  "content-type": "application/json; charset=utf-8",
+  "stripe-signature": "t=1763028972,v1=812c6fd46b7137926af6f438f7db837a54872dc8bb4cecb6c98ae5ce3d54041c,v0=94a6dc16e60c45b3079b0275367572e3fb7ae40ad9bb2a022a9da23b05ee7b9d",
+  "accept-encoding": "gzip"
+}
+[Webhook] Received a request from Stripe.
+[PaymentController:Webhook] Stripe signature from header: t=1763028972,v1=812c6fd46b7137926af6f438f7db837a54872dc8bb4cecb6c98ae5ce3d54041c,v0=94a6dc16e60c45b3079b0275367572e3fb7ae40ad9bb2a022a9da23b05ee7b9d
+[PaymentController:Webhook] STRIPE_WEBHOOK_SECRET used: SET
+[PaymentController:Webhook] Stripe event constructed successfully. Event Type: invoice.paid Event ID: evt_1SSxZYHKNqVBSHKUmcNv5MgZ
+[PaymentController:Webhook] Processing event: {
+  type: 'invoice.paid',
+  id: 'evt_1SSxZYHKNqVBSHKUmcNv5MgZ',
+  apiVersion: '2024-11-20.acacia',
+  timestamp: '2025-11-13T10:16:14.855Z'
+}
+[PaymentController:Webhook] Unhandled event type: invoice.paid
+[Webhook Logging] Successfully processed and logged event: invoice.paid (evt_1SSxZYHKNqVBSHKUmcNv5MgZ)
+
+
+[DEBUG] [ScaConfirmationModal] Saved method selected {"methodId":"pm_1Qh8fuHKNqVBSHKUFONghKOx"}
+bundle.js:172371 [ScaConfirmationModal] CORRECT PATH: Attempting stripe.confirmCardSetup (Saved Method) {"clientSecret":"seti_1SSxYwHKNqVBSHKURNiAinIJ_secret_TPn9DXzByMTV59wCbH0GFjvnADBln2q","paymentMethodId":"pm_1Qh8fuHKNqVBSHKUFONghKOx"}
 bundle.js:172371 [ScaConfirmationModal] Stripe confirmation successful (status: succeeded). Notifying parent component.
-bundle.js:172371 [LiveSessionWaitingRoom] Auth successful via ScaConfirmationModal. Starting session: 6915a83aee3ebd991d7215a0 {"paymentIntentId":"seti_1SSx3oHKNqVBSHKUKsg8OAGV"}
-bundle.js:172371 [SocketIO] <<< INCOMING EVENT: "session_authorized_and_ready" {"payload":[{"session":{"basePerMinuteRate":{"amount":10,"currency":"CHF"},"effectivePerMinuteRate":{"amount":10,"currency":"CHF"},"discountApplied":null,"sessionLink":{"sessionId":"e807a9bfaa031120b48384f08da90aa2665d284dea0126c190e1069c6561f1ad","token":"3ea42ca1d491ed4409d9dadc613f882b8bfca0513b37b961d10faa732e02c35f","generatedAt":"2025-11-13T09:43:29.571Z","expired":false},"_id":"6915a83aee3ebd991d7215a0","client":"66f418d10a19ec0e4bbd377e","coach":"66d9cdcb0a7492a86482bd68","status":"handshake_pending","durationInSeconds":0,"paymentRecords":[],"participants":[],"presentParticipants":[],"createdAt":"2025-11-13T09:43:22.451Z","updatedAt":"2025-11-13T09:43:29.595Z","__v":0,"booking":"6915a83dee3ebd991d7215da"},"sessionUrl":"/live-session/e807a9bfaa031120b48384f08da90aa2665d284dea0126c190e1069c6561f1ad/3ea42ca1d491ed4409d9dadc613f882b8bfca0513b37b961d10faa732e02c35f"}],"userId":"66f418d10a19ec0e4bbd377e","socketId":"V-o-FW9dzNocnTj1AABb","timestamp":"2025-11-13T09:43:29.654Z"}
-bundle.js:172371 [useLiveSessionManager] << INCOMING 'session_authorized_and_ready'. {"currentUser":{"id":"66f418d10a19ec0e4bbd377e","role":"client"},"hookState":{"trackedSessionId":"6915a83aee3ebd991d7215a0"},"eventPayload":{"sessionUrl":"/live-session/e807a9bfaa031120b48384f08da90aa2665d284dea0126c190e1069c6561f1ad/3ea42ca1d491ed4409d9dadc613f882b8bfca0513b37b961d10faa732e02c35f","sessionId":"6915a83aee3ebd991d7215a0","clientId":"66f418d10a19ec0e4bbd377e","coachId":"66d9cdcb0a7492a86482bd68"}}
-bundle.js:172371 [useLiveSessionManager] CLIENT: Session ID match successful. Navigating to: /live-session/e807a9bfaa031120b48384f08da90aa2665d284dea0126c190e1069c6561f1ad/3ea42ca1d491ed4409d9dadc613f882b8bfca0513b37b961d10faa732e02c35f
-bundle.js:172371 [LiveSessionWaitingRoom] Received sessionUrl from backend: "/live-session/e807a9bfaa031120b48384f08da90aa2665d284dea0126c190e1069c6561f1ad/3ea42ca1d491ed4409d9dadc613f882b8bfca0513b37b961d10faa732e02c35f". Navigating now.
-bundle.js:172371 [BackgroundEffectUtility] TensorFlow.js initialized
+bundle.js:172371 [LiveSessionWaitingRoom] Auth successful via ScaConfirmationModal. Starting session: 6915afc3ee3ebd991d726344 {"paymentIntentId":"seti_1SSxYwHKNqVBSHKURNiAinIJ"}
+bundle.js:172371 [SocketIO] <<< INCOMING EVENT: "session_authorized_and_ready" {"payload":[{"session":{"basePerMinuteRate":{"amount":10,"currency":"CHF"},"effectivePerMinuteRate":{"amount":10,"currency":"CHF"},"discountApplied":null,"sessionLink":{"sessionId":"78edb6ee527fcd9c792c4234f0ed94950d66d7c4a7766cfcfba63cb1b56d8f95","token":"f2c47e6dbece02d76978ce5cc80fe49583a77e6295fe84b996a1becadc4cf899","generatedAt":"2025-11-13T10:15:45.363Z","expired":false},"_id":"6915afc3ee3ebd991d726344","client":"66f418d10a19ec0e4bbd377e","coach":"66d9cdcb0a7492a86482bd68","status":"handshake_pending","durationInSeconds":0,"paymentRecords":[],"participants":[],"presentParticipants":[],"createdAt":"2025-11-13T10:15:31.289Z","updatedAt":"2025-11-13T10:15:45.382Z","__v":0,"booking":"6915afc8ee3ebd991d726381"},"sessionUrl":"/live-session/78edb6ee527fcd9c792c4234f0ed94950d66d7c4a7766cfcfba63cb1b56d8f95/f2c47e6dbece02d76978ce5cc80fe49583a77e6295fe84b996a1becadc4cf899"}],"userId":"66f418d10a19ec0e4bbd377e","socketId":"SUGl_ApF_5bRUWS1AABz","timestamp":"2025-11-13T10:15:45.443Z"}
+bundle.js:172371 [useLiveSessionManager] << INCOMING 'session_authorized_and_ready'. {"currentUser":{"id":"66f418d10a19ec0e4bbd377e","role":"client"},"hookState":{"trackedSessionId":"6915afc3ee3ebd991d726344"},"eventPayload":{"sessionUrl":"/live-session/78edb6ee527fcd9c792c4234f0ed94950d66d7c4a7766cfcfba63cb1b56d8f95/f2c47e6dbece02d76978ce5cc80fe49583a77e6295fe84b996a1becadc4cf899","sessionId":"6915afc3ee3ebd991d726344","clientId":"66f418d10a19ec0e4bbd377e","coachId":"66d9cdcb0a7492a86482bd68"}}
+bundle.js:172371 [useLiveSessionManager] CLIENT: Session ID match successful. Navigating to: /live-session/78edb6ee527fcd9c792c4234f0ed94950d66d7c4a7766cfcfba63cb1b56d8f95/f2c47e6dbece02d76978ce5cc80fe49583a77e6295fe84b996a1becadc4cf899
+bundle.js:172371 [LiveSessionWaitingRoom] Received sessionUrl from backend: "/live-session/78edb6ee527fcd9c792c4234f0ed94950d66d7c4a7766cfcfba63cb1b56d8f95/f2c47e6dbece02d76978ce5cc80fe49583a77e6295fe84b996a1becadc4cf899". Navigating now.
 bundle.js:172371 [LSI-RENDER-CONTENT] Evaluating render for flowStatus: 'validating'
 bundle.js:172376 [DEBUG] [LSRoom-EFFECT] Cleanup: isMounted set to false.
-bundle.js:172371 [LSI-EFFECT-VALIDATE] Component mounted. Validating link. {"linkId":"e807a9bfaa031120b48384f08da90aa2665d284dea0126c190e1069c6561f1ad","hasToken":true}
+bundle.js:172371 [LSI-EFFECT-VALIDATE] Component mounted. Validating link. {"linkId":"78edb6ee527fcd9c792c4234f0ed94950d66d7c4a7766cfcfba63cb1b56d8f95","hasToken":true}
 bundle.js:172371 [LiveSessionInterface] Unmounting. Resetting outgoing live session request state.
 bundle.js:172371 [useLiveSessionManager] Resetting outgoing live session request state.
-bundle.js:172371 [LSI-EFFECT-VALIDATE] < RCVD successful validation. {"session":{"_id":"6915a83aee3ebd991d7215a0","booking":{"_id":"6915a83dee3ebd991d7215da","recordings":{},"duration":0,"spotsRemaining":null},"client":{"_id":"66f418d10a19ec0e4bbd377e","firstName":"Test","lastName":"User 2","role":"client"},"coach":{"_id":"66d9cdcb0a7492a86482bd68","firstName":"Dominic","lastName":"Frei","role":"coach"}}}
+bundle.js:172371 [LSI-EFFECT-VALIDATE] < RCVD successful validation. {"session":{"_id":"6915afc3ee3ebd991d726344","booking":{"_id":"6915afc8ee3ebd991d726381","recordings":{},"duration":0,"spotsRemaining":null},"client":{"_id":"66f418d10a19ec0e4bbd377e","firstName":"Test","lastName":"User 2","role":"client"},"coach":{"_id":"66d9cdcb0a7492a86482bd68","firstName":"Dominic","lastName":"Frei","role":"coach"}}}
 bundle.js:172371 [LSI-RENDER-CONTENT] Evaluating render for flowStatus: 'device_check'
-bundle.js:172371 [LSDC-fn71o] Component mounted. Initializing devices.
-bundle.js:172371 [LSDC-fn71o] Canvases initialized.
-bundle.js:172371 [SocketIO] <<< INCOMING EVENT: "ping" {"payload":[],"userId":"66f418d10a19ec0e4bbd377e","socketId":"V-o-FW9dzNocnTj1AABb","timestamp":"2025-11-13T09:43:30.958Z"}
-bundle.js:172371 [LSDC-fn71o] Updating stream for devices {"videoDeviceId":"0937c4138be4092c0f0422769187a9adf0941cea90d25e454ef74114937f6fa8","audioDeviceId":"default"}
-bundle.js:172371 [LSDC-fn71o] Successfully acquired new media stream {"streamId":"3c09504c-69e1-4a90-b4f0-f5470d574155"}
-bundle.js:172371 [LSDC-fn71o] Initializing background effect processor.
-bundle.js:172371 [BackgroundProcessor] Creating new worker {"timestamp":1763027011634}
-bundle.js:172371 [BackgroundEffectUtility] Canvas contexts successfully initialized {"hiddenCanvasReady":true,"outputCanvasReady":true}
-bundle.js:172371 [BackgroundProcessor] Initialized with original stream {"streamId":"3c09504c-69e1-4a90-b4f0-f5470d574155","videoTracks":[{"enabled":true,"readyState":"live"}],"audioTracks":[{"enabled":true,"readyState":"live"}]}
-bundle.js:172371 [BackgroundProcessor] Worker ready
-bundle.js:172371 [BackgroundEffectUtility] BodyPix model loaded successfully
-bundle.js:172371 [BackgroundEffectUtility] Canvas dimensions updated {"width":640,"height":480,"mode":"none"}
-bundle.js:172371 [BackgroundEffectUtility] setupBackgroundEffect completed {"streamId":"3c09504c-69e1-4a90-b4f0-f5470d574155","backgroundSettings":{"mode":"none","customBackground":null,"blurLevel":10},"processedStreamId":"3c09504c-69e1-4a90-b4f0-f5470d574155","videoReady":true}
-bundle.js:172371 [LSDC-fn71o] Cleaning up background effect in useEffect.
-bundle.js:172371 [BackgroundProcessor] Web Worker terminated
+bundle.js:172371 [LSDC-goq8d] Component mounted. Initializing devices.
+bundle.js:172371 [LSDC-goq8d] Canvases initialized.
+bundle.js:172371 [LSDC-goq8d] Updating stream for devices {"videoDeviceId":"0937c4138be4092c0f0422769187a9adf0941cea90d25e454ef74114937f6fa8","audioDeviceId":"default"}
+bundle.js:172371 [LSDC-goq8d] Successfully acquired new media stream {"streamId":"6850ee89-620f-4ff4-851d-16187ba480c8"}
 bundle.js:172371 [LSI-HANDLER] Device check ready. Receiving stream and config.
-bundle.js:172371 [LSI-EFFECT-SOCKET] Attempt #1: CREATING new socket instance.
+bundle.js:172371 [LSI-SOCKET-EFFECT] Effect triggered. Starting connection process. {"hasMediaConfig":true,"hasUser":true}
+bundle.js:172371 [LSI-SOCKET-EFFECT] Attempting to connect (Attempt 1/3).
 bundle.js:172371 [LSI-RENDER-CONTENT] Evaluating render for flowStatus: 'connecting'
-bundle.js:172366  [LSI-EFFECT-SOCKET] Attempt #1 failed: Connection timed out. Retrying...
-overrideMethod @ hook.js:608
-warn @ bundle.js:172366
-handleFailure @ src_components_LiveSessionInterface_js-src_services_ReviewAPI_js.chunk.js:766
-(anonymous) @ src_components_LiveSessionInterface_js-src_services_ReviewAPI_js.chunk.js:777
-setTimeout
-(anonymous) @ src_components_LiveSessionInterface_js-src_services_ReviewAPI_js.chunk.js:774
-commitHookEffectListMount @ bundle.js:103186
-commitPassiveMountOnFiber @ bundle.js:104679
-commitPassiveMountEffects_complete @ bundle.js:104651
-commitPassiveMountEffects_begin @ bundle.js:104641
-commitPassiveMountEffects @ bundle.js:104631
-flushPassiveEffectsImpl @ bundle.js:106514
-flushPassiveEffects @ bundle.js:106467
-commitRootImpl @ bundle.js:106426
-commitRoot @ bundle.js:106209
-performSyncWorkOnRoot @ bundle.js:105718
-flushSyncCallbacks @ bundle.js:93692
-(anonymous) @ bundle.js:105323
-bundle.js:172366  [LSI-EFFECT-SOCKET] CLEANUP for attempt #1: Disconnecting socket. {} Error Component Stack
-    at LiveSessionInterface (src_components_LiveSessionInterface_js-src_services_ReviewAPI_js.chunk.js:619:66)
-    at RenderedRoute (bundle.js:118151:5)
-    at Outlet (bundle.js:118798:26)
-    at ProtectedRoute (src_components_ProtectedRoute_js.chunk.js:119:69)
-    at RenderedRoute (bundle.js:118151:5)
-    at Routes (bundle.js:118885:5)
-    at Suspense (<anonymous>)
-    at main (<anonymous>)
-    at div (<anonymous>)
-    at AppContent (bundle.js:137914:69)
-    at LiveSessionProvider (bundle.js:148961:3)
-    at NotificationSocketProvider (bundle.js:149788:3)
-    at AppWithSocketProvider (bundle.js:138850:69)
-    at AppWithSocketProviderWrapper (bundle.js:138933:69)
-    at AuthProvider (bundle.js:148591:3)
-    at PaymentProvider (bundle.js:149576:3)
-    at Elements (bundle.js:15340:30)
-    at Suspense (<anonymous>)
-    at App (bundle.js:138885:51)
-    at AuthProvider (bundle.js:148591:3)
-    at QueryClientProvider (bundle.js:114054:21)
-    at Router (bundle.js:118819:15)
-    at BrowserRouter (bundle.js:116719:5)
-overrideMethod @ hook.js:608
-warn @ bundle.js:172366
-(anonymous) @ src_components_LiveSessionInterface_js-src_services_ReviewAPI_js.chunk.js:810
-safelyCallDestroy @ bundle.js:103007
-commitHookEffectListUnmount @ bundle.js:103145
-commitPassiveUnmountOnFiber @ bundle.js:104767
-commitPassiveUnmountEffects_complete @ bundle.js:104747
-commitPassiveUnmountEffects_begin @ bundle.js:104738
-commitPassiveUnmountEffects @ bundle.js:104692
-flushPassiveEffectsImpl @ bundle.js:106513
-flushPassiveEffects @ bundle.js:106467
-(anonymous) @ bundle.js:106282
-workLoop @ bundle.js:124311
-flushWork @ bundle.js:124289
-performWorkUntilDeadline @ bundle.js:124526
-bundle.js:172371 [LSI-EFFECT-SOCKET] Attempt #2: CREATING new socket instance.
-bundle.js:172371 [LSI-EFFECT-SOCKET] Attempt #2 connected successfully. {"socketId":"_MiTscOAC92J-79mAABf"}
+bundle.js:172371 [LSI-SOCKET-EFFECT] Connection successful on attempt 1. {"socketId":"AsMvX6SUG6m1xTooAAB7"}
 bundle.js:172371 [LSI-RENDER-CONTENT] Evaluating render for flowStatus: 'in_call'
-bundle.js:172371 [useLiveSessionCall] Hook initialized {"sessionId":"e807a9bfaa031120b48384f08da90aa2665d284dea0126c190e1069c6561f1ad","hasToken":true,"socketPassedIn":{"id":"_MiTscOAC92J-79mAABf","connected":true}}
-bundle.js:172371 [VideoSettings] Using provided localStream {"streamId":"c19097fc-2067-49c4-96df-1186661afbe3"}
-bundle.js:172371 [VideoSettings] Synced pending states with current settings {"videoDeviceId":"c5ecd5f89f97f7fcf6d995a2b66d51be257db2cacb3612abe6296195233f1b82","audioDeviceId":"default","backgroundSettings":{"mode":"none","customBackground":null,"blurLevel":10}}
+bundle.js:172371 [useLiveSessionCall] Hook initialized {"sessionId":"78edb6ee527fcd9c792c4234f0ed94950d66d7c4a7766cfcfba63cb1b56d8f95","hasToken":true,"socketPassedIn":{"id":"AsMvX6SUG6m1xTooAAB7","connected":true}}
+bundle.js:172371 [VideoSettings] Using provided localStream {"streamId":"42c63f56-f3ad-4828-81d6-b3490d80aab4"}
+bundle.js:172371 [VideoSettings] Synced pending states with current settings {"videoDeviceId":"c5ecd5f89f97f7fcf6d995a2b66d51be257db2cacb3612abe6296195233f1b82","audioDeviceId":"communications","backgroundSettings":{"mode":"none","customBackground":null,"blurLevel":10}}
 bundle.js:172366  [VideoSettings] Skipping processor init - resources not ready {"isVideoReady":false,"hasStream":true,"hasVideo":true,"hasCanvas":true,"hasOutputCanvas":true} Error Component Stack
     at VideoSettings (src_components_VideoSettings_js-src_components_ui_alert_tsx-src_utils_mediaUtils_js.chunk.js:58:3)
     at div (<anonymous>)
     at div (<anonymous>)
-    at LiveSessionCallUI (src_components_LiveSessionInterface_js-src_services_ReviewAPI_js.chunk.js:1137:3)
-    at LiveSessionInterface (src_components_LiveSessionInterface_js-src_services_ReviewAPI_js.chunk.js:619:66)
+    at LiveSessionCallUI (src_components_LiveSessionInterface_js-src_services_ReviewAPI_js.chunk.js:1140:3)
+    at LiveSessionInterface (src_components_LiveSessionInterface_js-src_services_ReviewAPI_js.c00beb16b23cf1208b9c.hot-update.js:407:66)
     at RenderedRoute (bundle.js:118151:5)
     at Outlet (bundle.js:118798:26)
     at ProtectedRoute (src_components_ProtectedRoute_js.chunk.js:119:69)
@@ -204,8 +854,8 @@ bundle.js:172366  [VideoSettings] No processor available to update settings Erro
     at VideoSettings (src_components_VideoSettings_js-src_components_ui_alert_tsx-src_utils_mediaUtils_js.chunk.js:58:3)
     at div (<anonymous>)
     at div (<anonymous>)
-    at LiveSessionCallUI (src_components_LiveSessionInterface_js-src_services_ReviewAPI_js.chunk.js:1137:3)
-    at LiveSessionInterface (src_components_LiveSessionInterface_js-src_services_ReviewAPI_js.chunk.js:619:66)
+    at LiveSessionCallUI (src_components_LiveSessionInterface_js-src_services_ReviewAPI_js.chunk.js:1140:3)
+    at LiveSessionInterface (src_components_LiveSessionInterface_js-src_services_ReviewAPI_js.c00beb16b23cf1208b9c.hot-update.js:407:66)
     at RenderedRoute (bundle.js:118151:5)
     at Outlet (bundle.js:118798:26)
     at ProtectedRoute (src_components_ProtectedRoute_js.chunk.js:119:69)
@@ -247,831 +897,48 @@ performConcurrentWorkOnRoot @ bundle.js:105457
 workLoop @ bundle.js:124311
 flushWork @ bundle.js:124289
 performWorkUntilDeadline @ bundle.js:124526
-bundle.js:172371 [useLSC-EFFECT] Conditions met. Emitting 'join-live-session-handshake' for session e807a9bfaa031120b48384f08da90aa2665d284dea0126c190e1069c6561f1ad
-bundle.js:172371 [useLiveSessionCall] Cleaning up hook. {"sessionId":"e807a9bfaa031120b48384f08da90aa2665d284dea0126c190e1069c6561f1ad"}
-bundle.js:172371 [useLiveSessionCall] Cleaning up all peer connections. {"sessionId":"e807a9bfaa031120b48384f08da90aa2665d284dea0126c190e1069c6561f1ad"}
+bundle.js:172371 [useLSC-EFFECT] Conditions met. Emitting 'join-live-session-handshake' for session 78edb6ee527fcd9c792c4234f0ed94950d66d7c4a7766cfcfba63cb1b56d8f95
+bundle.js:172371 [useLiveSessionCall] Cleaning up hook. {"sessionId":"78edb6ee527fcd9c792c4234f0ed94950d66d7c4a7766cfcfba63cb1b56d8f95"}
+bundle.js:172371 [useLiveSessionCall] Cleaning up all peer connections. {"sessionId":"78edb6ee527fcd9c792c4234f0ed94950d66d7c4a7766cfcfba63cb1b56d8f95"}
 bundle.js:172371 [useLiveSessionCall] << RCVD session-participants list. Creating initiator peers. {"count":1}
-bundle.js:172371 [useLiveSessionCall] Creating peer connection for hoELNu9xFKG_ZSm7AABd {"initiator":true}
+bundle.js:172371 [useLiveSessionCall] Creating peer connection for pURWuTUaADSG36U_AAB5 {"initiator":true}
+bundle.js:172371 [useLiveSessionCall] << RCVD 'session-ready'. The call can now begin. {"data":{"linkId":"78edb6ee527fcd9c792c4234f0ed94950d66d7c4a7766cfcfba63cb1b56d8f95","startTime":"2025-11-13T10:15:48.148Z"}}
 bundle.js:172371 [VideoSettings] Video is ready {"videoWidth":1280,"videoHeight":720}
-bundle.js:172371 [useLiveSessionCall] << RCVD 'session-ready'. The call can now begin. {"data":{"linkId":"e807a9bfaa031120b48384f08da90aa2665d284dea0126c190e1069c6561f1ad","startTime":"2025-11-13T09:43:32.583Z"}}
+bundle.js:172371 [BackgroundProcessor] Creating new worker {"timestamp":1763028953155}
 bundle.js:172371 [VideoSettings] Canvas dimensions dynamically set {"width":1280,"height":720}
+bundle.js:172371 [BackgroundEffectUtility] Canvas contexts successfully initialized {"hiddenCanvasReady":true,"outputCanvasReady":true}
 bundle.js:172376 [DEBUG] [BackgroundEffect] Stream changed {"hasStream":true}
-bundle.js:172371 [VideoSettings] Background processor initialized {"streamId":"c19097fc-2067-49c4-96df-1186661afbe3","mode":"none"}
-bundle.js:172371 [SocketIO] <<< INCOMING EVENT: "job_queue_update" {"payload":[],"userId":"66f418d10a19ec0e4bbd377e","socketId":"V-o-FW9dzNocnTj1AABb","timestamp":"2025-11-13T09:44:00.047Z"}
-bundle.js:172371 [useLiveSessionCall] > PEER SIGNAL GENERATED. Emitting 'signal' to server for peer hoELNu9xFKG_ZSm7AABd. {"type":"offer"}
-bundle.js:172371 [useLiveSessionCall] << RCVD signal from peer hoELNu9xFKG_ZSm7AABd {"type":"answer"}
-bundle.js:172371 [useLiveSessionCall] << RCVD stream from peer hoELNu9xFKG_ZSm7AABd {"streamId":"b37be2ca-c3d2-4ebe-9ff2-2a765198d3d6"}
+bundle.js:172371 [BackgroundProcessor] Initialized with original stream {"streamId":"42c63f56-f3ad-4828-81d6-b3490d80aab4","videoTracks":[{"enabled":true,"readyState":"live"}],"audioTracks":[{"enabled":true,"readyState":"live"}]}
+bundle.js:172371 [BackgroundProcessor] Worker ready
+bundle.js:172371 [BackgroundEffectUtility] Canvas dimensions updated {"width":1280,"height":720,"mode":"none"}
+bundle.js:172371 [BackgroundEffectUtility] setupBackgroundEffect completed {"streamId":"42c63f56-f3ad-4828-81d6-b3490d80aab4","backgroundSettings":{"mode":"none","customBackground":null,"blurLevel":10},"processedStreamId":"42c63f56-f3ad-4828-81d6-b3490d80aab4","videoReady":true}
+bundle.js:172371 [VideoSettings] Background processor initialized {"streamId":"42c63f56-f3ad-4828-81d6-b3490d80aab4","mode":"none"}
+bundle.js:172371 [useLiveSessionCall] > PEER SIGNAL GENERATED. Emitting 'signal' to server for peer pURWuTUaADSG36U_AAB5. {"type":"offer"}
+bundle.js:172371 [useLiveSessionCall] << RCVD signal from peer pURWuTUaADSG36U_AAB5 {"type":"answer"}
+bundle.js:172371 [useLiveSessionCall] << RCVD stream from peer pURWuTUaADSG36U_AAB5 {"streamId":"32cd805a-7ea8-4ee3-aeff-cd537904816c"}
+bundle.js:172371 [SocketIO] <<< INCOMING EVENT: "job_queue_update" {"payload":[],"userId":"66f418d10a19ec0e4bbd377e","socketId":"SUGl_ApF_5bRUWS1AABz","timestamp":"2025-11-13T10:16:00.068Z"}
 bundle.js:172371 [useLiveSessionCall] Audio toggled {"enabled":false}
+bundle.js:172371 [useLiveSessionCall] Video toggled {"enabled":false}
+bundle.js:172371 [SocketIO] <<< INCOMING EVENT: "live_session_ended" {"payload":[{"sessionId":"6915afc3ee3ebd991d726344","status":"pending_settlement","finalCost":{"grossAmount":3.17,"currency":"CHF"},"durationInSeconds":19}],"userId":"66f418d10a19ec0e4bbd377e","socketId":"SUGl_ApF_5bRUWS1AABz","timestamp":"2025-11-13T10:16:09.107Z"}
+bundle.js:172371 [LSI-RENDER-CONTENT] Evaluating render for flowStatus: 'completed'
+bundle.js:172371 [BackgroundProcessor] Web Worker terminated
+bundle.js:172371 [VideoSettings] Processor cleaned up on unmount or dependency change
+bundle.js:172366  [useLiveSessionCall] Peer connection closed for pURWuTUaADSG36U_AAB5. Notifying server.
+overrideMethod @ hook.js:608
+warn @ bundle.js:172366
+(anonymous) @ src_components_LiveSessionInterface_js-src_services_ReviewAPI_js.chunk.js:3341
+emit @ bundle.js:38638
+(anonymous) @ vendors-node_modules_tensorflow-models_body-pix_dist_body-pix_esm_js-node_modules_tensorflow_-6a5c28.chunk.js:95869
+bundle.js:54808 i18next::translator: missingKey de userdashboard widgets.announcements Announcements
+bundle.js:172371 [LiveSessionInterface] Stopping active stream on unmount.
+bundle.js:172371 [LSI-SOCKET-EFFECT] Cleanup: Disconnecting socket. {"socketId":"AsMvX6SUG6m1xTooAAB7"}
+bundle.js:172371 [NotificationItemContent] Notification details: {"notificationId":"6914c04f17e67843463521ad","type":"booking_confirmed","userRole":"client","bookingId":"6914bfe417e678434635142b","timestamp":"2025-11-13T10:16:13.752Z"}
+bundle.js:172371 [NotificationItemContent] showBookingModal changed {"notificationId":"6914c04f17e67843463521ad","bookingId":"6914bfe417e678434635142b","showBookingModal":false,"timestamp":"2025-11-13T10:16:13.752Z"}
+bundle.js:172371 [SocketIO] <<< INCOMING EVENT: "notification" {"payload":[{"recipient":"66f418d10a19ec0e4bbd377e","type":"live_session_receipt_client","priority":"medium","content":{"title":"notifications:live_session_receipt_client_title","message":"notifications:live_session_receipt_client_message","data":{"liveSessionId":"6915afc8ee3ebd991d726381","coachName":"Dominic Frei","finalCost":"N/A","currency":"CHF","status":"completed","validActions":["view_receipt","book_again"]}},"status":"active","category":"payment","channels":["in_app","email"],"metadata":{"bookingId":"6915afc8ee3ebd991d726381","liveSessionId":null,"additionalData":{"bookingId":"6915afc8ee3ebd991d726381","coachName":"Dominic Frei","webinarTitle":"Live Session with Dominic","amount":3.17,"currency":"CHF","otherPartyName":"Dominic Frei","startTime":"2025-11-13T10:15:36.156Z","endTime":"2025-11-13T11:15:36.156Z","bookingType":"request","status":"completed"}},"delivery":{"attempts":0,"maxAttempts":3,"statuses":[]},"isRead":false,"deliveryAttempts":0,"_id":"6915afeeee3ebd991d7264bb","actions":[],"createdAt":"2025-11-13T10:16:14.495Z","updatedAt":"2025-11-13T10:16:14.495Z","__v":0,"booking":{"payment":{"status":"completed","reminderSent":[],"refunds":[]},"sessionLink":{"expired":false,"generatedAt":"2025-11-13T10:15:45.363Z","sessionId":"78edb6ee527fcd9c792c4234f0ed94950d66d7c4a7766cfcfba63cb1b56d8f95","token":"f2c47e6dbece02d76978ce5cc80fe49583a77e6295fe84b996a1becadc4cf899"},"_id":"6915afc8ee3ebd991d726381","coach":"{\n  settings: {\n    notificationPreferences: { email: true, inApp: true, pushNotifications: false, sms: false },\n    privacySettings: {\n      showEmail: false,\n      showLocation: true,\n      showOccupation: true,\n      showPhone: false\n    },\n    currency: 'CHF',\n    dateFormat: '',\n    language: 'de',\n    timeFormat: '24h',\n    timeZone: ''\n  },\n  stripe: { customerId: 'cus_Swt04zF5JadPD8' },\n  billingDetails: {\n    address: {\n      street: 'Bergstrasse 10',\n      city: 'Stäfa',\n      postalCode: '8712',\n      country: 'CH',\n      state: 'Zürich'\n    },\n    name: 'Dominic Frei',\n    accountType: 'business'\n  },\n  paymentPreferences: {\n    autoPayEnabled: false,\n    defaultCurrency: 'CHF',\n    invoiceDelivery: 'both',\n    savePaymentMethods: true\n  },\n  moderation: { warningsCount: 0 },\n  suspension: { isSuspended: false },\n  ltv: { amount: 0, currency: 'CHF' },\n  onboardingStatus: { completed: true, lastStep: 'completed' },\n  termsAcceptance: {\n    version: '1.0.0-migration',\n    acceptedAt: 2025-10-21T10:42:44.416Z,\n    ipAddress: 'system_migration'\n  },\n  _id: new ObjectId('66d9cdcb0a7492a86482bd68'),\n  firstName: 'Dominic',\n  lastName: 'Frei',\n  email: 'test.coach2@example.com',\n  password: '$2a$10$jqGOzWaK7I7lrX4YK2Mu9.XV2eRnTqELRaQnPqjf99Hydnw6oe.LO',\n  role: 'coach',\n  preferredLanguage: 'de',\n  availabilityStatus: 'offline',\n  createdAt: 2024-09-05T15:27:07.420Z,\n  __v: 20,\n  status: 'online',\n  achievements: [],\n  backgrounds: [\n    {\n      url: 'https://res.cloudinary.com/dzpjkn8eo/image/upload/v1742981722/users/66d9cdcb0a7492a86482bd68/backgrounds/lutims4p5dgm8m8fp3lw.jpg',\n      publicId: 'users/66d9cdcb0a7492a86482bd68/backgrounds/lutims4p5dgm8m8fp3lw',\n      uploadedAt: 2025-03-26T09:35:25.389Z,\n      _id: new ObjectId('67e3ca5dc8bd52e0d2a0f01d')\n    }\n  ],\n  bio: '',\n  interests: [],\n  isActive: true,\n  paymentMethods: [],\n  profileVisibility: 'public',\n  sessionHistory: [],\n  lastStatusUpdate: 2025-11-13T10:06:31.887Z,\n  coachingNeeds: [],\n  customGoals: [],\n  tokenVersion: 0,\n  blockedByCount: 0,\n  blockedUsers: [],\n  isEmailVerified: false,\n  trustScore: 100,\n  hasActiveDispute: false,\n  lastLogin: 2025-11-13T06:40:53.904Z,\n  totalEnrollments: 0,\n  totalSessions: 0,\n  location: 'Zürich',\n  occupation: 'Kaufmann',\n  phone: '+41786119931',\n  flags: [\n    {\n      flaggedBy: new ObjectId('68875188ba0945e66fc74310'),\n      reason: 'inappropriate_profile',\n      details: 'tests asdfadsfdfdsafds',\n      status: 'resolved_warning',\n      _id: new ObjectId('68ef688b09be352f14aaa3be'),\n      createdAt: 2025-10-15T09:25:31.201Z,\n      resolvedAt: 2025-10-16T05:50:40.299Z,\n      resolvedBy: new ObjectId('66e14ffc23926b28138a89f8')\n    },\n    {\n      flaggedBy: new ObjectId('66f418d10a19ec0e4bbd377e'),\n      reason: 'violence',\n      details: 'Der Coach hat mich geschlagen.',\n      status: 'resolved_dismissed',\n      _id: new ObjectId('68f0aab9ee20d58baf7e79f6'),\n      createdAt: 2025-10-16T08:20:09.182Z,\n      resolvedAt: 2025-10-16T08:38:57.250Z,\n      resolvedBy: new ObjectId('66e14ffc23926b28138a89f8')\n    }\n  ],\n  preferredLearningStyle: 'live',\n  primaryGoal: [ 'one_on_one' ],\n  salutation: 'mr'\n}","user":"{\n  profilePicture: {\n    publicId: 'profile_picture_jgl5ga',\n    url: 'https://res.cloudinary.com/dzpjkn8eo/image/upload/v1753703993/profile_picture_jgl5ga.jpg'\n  },\n  settings: {\n    notificationPreferences: { pushNotifications: false, email: true, sms: false, inApp: true },\n    privacySettings: {\n      showLocation: true,\n      showOccupation: true,\n      showEmail: false,\n      showPhone: false\n    },\n    dateFormat: '',\n    timeFormat: '24h',\n    currency: 'CHF',\n    language: 'de',\n    timeZone: ''\n  },\n  taxInfo: { billingAddress: { country: 'CH', postalCode: '8001' } },\n  stripe: { customerId: 'cus_RUlp0o3z2WooA6' },\n  billingDetails: {\n    address: {\n      street: '1 Bahnhofplatz',\n      city: 'Zürich',\n      postalCode: '8001',\n      country: 'CH',\n      state: 'ZH'\n    },\n    name: 'test user 2',\n    accountType: 'personal',\n    companyName: ''\n  },\n  paymentPreferences: {\n    autoPayEnabled: false,\n    defaultCurrency: 'CHF',\n    invoiceDelivery: 'both',\n    savePaymentMethods: true\n  },\n  moderation: { warningsCount: 0 },\n  suspension: { isSuspended: false },\n  ltv: { amount: 0, currency: 'CHF' },\n  onboardingStatus: { completed: false, lastStep: 'welcome' },\n  termsAcceptance: {\n    version: '1.0.0-migration',\n    acceptedAt: 2025-10-21T10:42:44.416Z,\n    ipAddress: 'system_migration'\n  },\n  _id: new ObjectId('66f418d10a19ec0e4bbd377e'),\n  firstName: 'Test',\n  lastName: 'User 2',\n  email: 'test.user2@example.com',\n  password: '$2a$10$BqYD2TyOvUF7GXQ3ePcixO3HnzsZCJRtrub0U29AcOaZkZzTvnQui',\n  role: 'client',\n  preferredLanguage: 'de',\n  isActive: true,\n  profileVisibility: 'public',\n  createdAt: 2024-09-25T14:06:09.833Z,\n  __v: 15,\n  status: 'online',\n  achievements: [],\n  bio: '',\n  interests: [ 'Leben', 'Quality', 'Test' ],\n  paymentMethods: [],\n  backgrounds: [\n    {\n      url: 'https://res.cloudinary.com/dzpjkn8eo/image/upload/v1755019734/users/66f418d10a19ec0e4bbd377e/backgrounds/ukpqdjvencvhdjoo1udv.jpg',\n      publicId: 'users/66f418d10a19ec0e4bbd377e/backgrounds/ukpqdjvencvhdjoo1udv',\n      uploadedAt: 2025-08-12T17:28:55.596Z,\n      _id: new ObjectId('689b79d71c80d972ec33d6be')\n    }\n  ],\n  sessionHistory: [],\n  tokenVersion: 4,\n  phone: '+41786116666',\n  coachingNeeds: [],\n  customGoals: [],\n  lastStatusUpdate: 2025-11-13T10:09:00.922Z,\n  location: 'Zürich',\n  occupation: 'Kaufmann',\n  blockedUsers: [\n    {\n      user: new ObjectId('66fbea16bb1aa6e7e257e726'),\n      _id: new ObjectId('68c403891a3e5066a36741f3'),\n      createdAt: 2025-09-12T11:27:05.561Z\n    }\n  ],\n  blockedByCount: 0,\n  isEmailVerified: false,\n  lastLogin: 2025-11-13T10:09:00.726Z,\n  trustScore: 100,\n  hasActiveDispute: false,\n  totalEnrollments: 0,\n  totalSessions: 0,\n  flags: [],\n  primaryGoal: [],\n  salutation: 'mr',\n  dashboardPreferences: [\n    {\n      key: 'dashboardAnnouncements',\n      enabled: true,\n      _id: new ObjectId('69157e5fee3ebd991d708f77')\n    },\n    {\n      key: 'upcomingSchedule',\n      enabled: true,\n      _id: new ObjectId('69157e5fee3ebd991d708f78')\n    },\n    {\n      key: 'actionCenter',\n      enabled: true,\n      _id: new ObjectId('69157e5fee3ebd991d708f79')\n    },\n    {\n      key: 'myCoach',\n      enabled: true,\n      _id: new ObjectId('69157e5fee3ebd991d708f7a')\n    },\n    {\n      key: 'continueLearning',\n      enabled: true,\n      _id: new ObjectId('69157e5fee3ebd991d708f7b')\n    }\n  ]\n}","userIds":[],"isLiveSession":true,"sessionType":"66ec54ee4a8965b22af33fd1","start":"2025-11-13T10:15:36.156Z","end":"2025-11-13T11:15:36.156Z","timezone":"UTC","status":"completed","price":{"base":{"amount":{"amount":10,"currency":"CHF"},"currency":"CHF"},"final":{"amount":{"amount":10,"currency":"CHF"},"currency":"CHF"},"vat":{"rate":8.1,"included":true},"platformFee":{"percentage":15},"currency":"CHF","discounts":[]},"disputeTicket":null,"overtime":{"allowOvertime":false,"freeOvertimeDuration":0,"paidOvertimeDuration":0,"overtimeRate":0,"_id":"6915afc8ee3ebd991d726380","id":"6915afc8ee3ebd991d726380"},"isAvailability":false,"availableForInstantBooking":false,"firmBookingThreshold":24,"title":"Live Session with Dominic","isOnline":false,"tags":[],"isPublic":true,"showInWebinarBrowser":true,"recurringPattern":"none","earlyBirdDeadline":null,"earlyBirdPrice":null,"bookingType":"request","reminderSent":[],"webinarSlots":[],"attendees":[],"suggestedTimes":[],"waitlist":[],"reminders":[],"sessionImages":[],"courseMaterials":[],"rescheduleHistory":[],"rescheduleRequests":[],"createdAt":"2025-11-13T10:15:36.163Z","updatedAt":"2025-11-13T10:16:09.582Z","__v":0,"recordings":{},"duration":60,"spotsRemaining":null,"id":"6915afc8ee3ebd991d726381"},"timestamp":"2025-11-13T10:16:14.519Z"}],"userId":"66f418d10a19ec0e4bbd377e","socketId":"SUGl_ApF_5bRUWS1AABz","timestamp":"2025-11-13T10:16:14.520Z"}
+bundle.js:172371 [SocketIO] <<< INCOMING EVENT: "invalidate_notifications" {"payload":[null],"userId":"66f418d10a19ec0e4bbd377e","socketId":"SUGl_ApF_5bRUWS1AABz","timestamp":"2025-11-13T10:16:14.533Z"}
+bundle.js:172371 [SocketIO] <<< INCOMING EVENT: "booking_update" {"payload":[{"bookingId":"6915afc8ee3ebd991d726381","bookingData":{"payment":{"status":"completed","reminderSent":[],"refunds":[]},"sessionLink":{"expired":false,"generatedAt":"2025-11-13T10:15:45.363Z","sessionId":"78edb6ee527fcd9c792c4234f0ed94950d66d7c4a7766cfcfba63cb1b56d8f95","token":"f2c47e6dbece02d76978ce5cc80fe49583a77e6295fe84b996a1becadc4cf899"},"_id":"6915afc8ee3ebd991d726381","coach":{"settings":{"notificationPreferences":{"email":true,"inApp":true,"pushNotifications":false,"sms":false},"privacySettings":{"showEmail":false,"showLocation":true,"showOccupation":true,"showPhone":false},"currency":"CHF","dateFormat":"","language":"de","timeFormat":"24h","timeZone":""},"stripe":{"customerId":"cus_Swt04zF5JadPD8"},"billingDetails":{"address":{"street":"Bergstrasse 10","city":"Stäfa","postalCode":"8712","country":"CH","state":"Zürich"},"name":"Dominic Frei","accountType":"business"},"paymentPreferences":{"autoPayEnabled":false,"defaultCurrency":"CHF","invoiceDelivery":"both","savePaymentMethods":true},"moderation":{"warningsCount":0},"suspension":{"isSuspended":false},"ltv":{"amount":0,"currency":"CHF"},"onboardingStatus":{"completed":true,"lastStep":"completed"},"termsAcceptance":{"version":"1.0.0-migration","acceptedAt":"2025-10-21T10:42:44.416Z","ipAddress":"system_migration"},"_id":"66d9cdcb0a7492a86482bd68","firstName":"Dominic","lastName":"Frei","email":"test.coach2@example.com","password":"$2a$10$jqGOzWaK7I7lrX4YK2Mu9.XV2eRnTqELRaQnPqjf99Hydnw6oe.LO","role":"coach","preferredLanguage":"de","availabilityStatus":"offline","createdAt":"2024-09-05T15:27:07.420Z","__v":20,"status":"online","achievements":[],"backgrounds":[{"url":"https://res.cloudinary.com/dzpjkn8eo/image/upload/v1742981722/users/66d9cdcb0a7492a86482bd68/backgrounds/lutims4p5dgm8m8fp3lw.jpg","publicId":"users/66d9cdcb0a7492a86482bd68/backgrounds/lutims4p5dgm8m8fp3lw","uploadedAt":"2025-03-26T09:35:25.389Z","_id":"67e3ca5dc8bd52e0d2a0f01d"}],"bio":"","interests":[],"isActive":true,"paymentMethods":[],"profileVisibility":"public","sessionHistory":[],"lastStatusUpdate":"2025-11-13T10:06:31.887Z","coachingNeeds":[],"customGoals":[],"tokenVersion":0,"blockedByCount":0,"blockedUsers":[],"isEmailVerified":false,"trustScore":100,"hasActiveDispute":false,"lastLogin":"2025-11-13T06:40:53.904Z","totalEnrollments":0,"totalSessions":0,"location":"Zürich","occupation":"Kaufmann","phone":"+41786119931","flags":[{"flaggedBy":"68875188ba0945e66fc74310","reason":"inappropriate_profile","details":"tests asdfadsfdfdsafds","status":"resolved_warning","_id":"68ef688b09be352f14aaa3be","createdAt":"2025-10-15T09:25:31.201Z","resolvedAt":"2025-10-16T05:50:40.299Z","resolvedBy":"66e14ffc23926b28138a89f8"},{"flaggedBy":"66f418d10a19ec0e4bbd377e","reason":"violence","details":"Der Coach hat mich geschlagen.","status":"resolved_dismissed","_id":"68f0aab9ee20d58baf7e79f6","createdAt":"2025-10-16T08:20:09.182Z","resolvedAt":"2025-10-16T08:38:57.250Z","resolvedBy":"66e14ffc23926b28138a89f8"}],"preferredLearningStyle":"live","primaryGoal":["one_on_one"],"salutation":"mr"},"user":{"profilePicture":{"publicId":"profile_picture_jgl5ga","url":"https://res.cloudinary.com/dzpjkn8eo/image/upload/v1753703993/profile_picture_jgl5ga.jpg"},"settings":{"notificationPreferences":{"pushNotifications":false,"email":true,"sms":false,"inApp":true},"privacySettings":{"showLocation":true,"showOccupation":true,"showEmail":false,"showPhone":false},"dateFormat":"","timeFormat":"24h","currency":"CHF","language":"de","timeZone":""},"taxInfo":{"billingAddress":{"country":"CH","postalCode":"8001"}},"stripe":{"customerId":"cus_RUlp0o3z2WooA6"},"billingDetails":{"address":{"street":"1 Bahnhofplatz","city":"Zürich","postalCode":"8001","country":"CH","state":"ZH"},"name":"test user 2","accountType":"personal","companyName":""},"paymentPreferences":{"autoPayEnabled":false,"defaultCurrency":"CHF","invoiceDelivery":"both","savePaymentMethods":true},"moderation":{"warningsCount":0},"suspension":{"isSuspended":false},"ltv":{"amount":0,"currency":"CHF"},"onboardingStatus":{"completed":false,"lastStep":"welcome"},"termsAcceptance":{"version":"1.0.0-migration","acceptedAt":"2025-10-21T10:42:44.416Z","ipAddress":"system_migration"},"_id":"66f418d10a19ec0e4bbd377e","firstName":"Test","lastName":"User 2","email":"test.user2@example.com","password":"$2a$10$BqYD2TyOvUF7GXQ3ePcixO3HnzsZCJRtrub0U29AcOaZkZzTvnQui","role":"client","preferredLanguage":"de","isActive":true,"profileVisibility":"public","createdAt":"2024-09-25T14:06:09.833Z","__v":15,"status":"online","achievements":[],"bio":"","interests":["Leben","Quality","Test"],"paymentMethods":[],"backgrounds":[{"url":"https://res.cloudinary.com/dzpjkn8eo/image/upload/v1755019734/users/66f418d10a19ec0e4bbd377e/backgrounds/ukpqdjvencvhdjoo1udv.jpg","publicId":"users/66f418d10a19ec0e4bbd377e/backgrounds/ukpqdjvencvhdjoo1udv","uploadedAt":"2025-08-12T17:28:55.596Z","_id":"689b79d71c80d972ec33d6be"}],"sessionHistory":[],"tokenVersion":4,"phone":"+41786116666","coachingNeeds":[],"customGoals":[],"lastStatusUpdate":"2025-11-13T10:09:00.922Z","location":"Zürich","occupation":"Kaufmann","blockedUsers":[{"user":"66fbea16bb1aa6e7e257e726","_id":"68c403891a3e5066a36741f3","createdAt":"2025-09-12T11:27:05.561Z"}],"blockedByCount":0,"isEmailVerified":false,"lastLogin":"2025-11-13T10:09:00.726Z","trustScore":100,"hasActiveDispute":false,"totalEnrollments":0,"totalSessions":0,"flags":[],"primaryGoal":[],"salutation":"mr","dashboardPreferences":[{"key":"dashboardAnnouncements","enabled":true,"_id":"69157e5fee3ebd991d708f77"},{"key":"upcomingSchedule","enabled":true,"_id":"69157e5fee3ebd991d708f78"},{"key":"actionCenter","enabled":true,"_id":"69157e5fee3ebd991d708f79"},{"key":"myCoach","enabled":true,"_id":"69157e5fee3ebd991d708f7a"},{"key":"continueLearning","enabled":true,"_id":"69157e5fee3ebd991d708f7b"}]},"userIds":[],"isLiveSession":true,"sessionType":"66ec54ee4a8965b22af33fd1","start":"2025-11-13T10:15:36.156Z","end":"2025-11-13T11:15:36.156Z","timezone":"UTC","status":"completed","price":{"base":{"amount":{"amount":10,"currency":"CHF"},"currency":"CHF"},"final":{"amount":{"amount":10,"currency":"CHF"},"currency":"CHF"},"vat":{"rate":8.1,"included":true},"platformFee":{"percentage":15},"currency":"CHF","discounts":[]},"disputeTicket":null,"overtime":{"allowOvertime":false,"freeOvertimeDuration":0,"paidOvertimeDuration":0,"overtimeRate":0,"_id":"6915afc8ee3ebd991d726380","id":"6915afc8ee3ebd991d726380"},"isAvailability":false,"availableForInstantBooking":false,"firmBookingThreshold":24,"title":"Live Session with Dominic","isOnline":false,"tags":[],"isPublic":true,"showInWebinarBrowser":true,"recurringPattern":"none","earlyBirdDeadline":null,"earlyBirdPrice":null,"bookingType":"request","reminderSent":[],"webinarSlots":[],"attendees":[],"suggestedTimes":[],"waitlist":[],"reminders":[],"sessionImages":[],"courseMaterials":[],"rescheduleHistory":[],"rescheduleRequests":[],"createdAt":"2025-11-13T10:15:36.163Z","updatedAt":"2025-11-13T10:16:09.582Z","__v":0,"recordings":{},"duration":60,"spotsRemaining":null,"id":"6915afc8ee3ebd991d726381"},"timestamp":"2025-11-13T10:16:14.577Z"}],"userId":"66f418d10a19ec0e4bbd377e","socketId":"SUGl_ApF_5bRUWS1AABz","timestamp":"2025-11-13T10:16:14.578Z"}
+bundle.js:172371 [useGlobalSocketListener] Received BOOKING_UPDATE, updating cache. {"bookingId":"6915afc8ee3ebd991d726381","newStatus":"completed"}
 bundle.js:172376 [DEBUG] [MenuAnnouncementBadge] Render cancelled: No unseen announcements. {"totalFetched":0,"seenInSession":0}
-
-[PaymentController:Webhook] RAW REQUEST RECEIVED Top of webhookHandler. Headers: {
-  "host": "localhost:5000",
-  "user-agent": "Stripe/1.0 (+https://stripe.com/docs/webhooks)",
-  "content-length": "1590",
-  "accept": "*/*; q=0.5, application/xml",
-  "cache-control": "no-cache",
-  "content-type": "application/json; charset=utf-8",
-  "stripe-signature": "t=1763027004,v1=cbf014508217fbaed079dbc64c6033655bf5fea6ca59d33e64d1bcee8c7fb430,v0=ef8487189a54d708ceeca46f0ee3c7d4986acd26f0f407b789186f34147fc948",
-  "accept-encoding": "gzip"
-}
-[Webhook] Received a request from Stripe.
-[PaymentController:Webhook] Stripe signature from header: t=1763027004,v1=cbf014508217fbaed079dbc64c6033655bf5fea6ca59d33e64d1bcee8c7fb430,v0=ef8487189a54d708ceeca46f0ee3c7d4986acd26f0f407b789186f34147fc948
-[PaymentController:Webhook] STRIPE_WEBHOOK_SECRET used: SET
-[PaymentController:Webhook] Stripe event constructed successfully. Event Type: setup_intent.created Event ID: evt_1SSx3oHKNqVBSHKU4YlEUSnU
-[PaymentController:Webhook] Processing event: {
-  type: 'setup_intent.created',
-  id: 'evt_1SSx3oHKNqVBSHKU4YlEUSnU',
-  apiVersion: '2024-11-20.acacia',
-  timestamp: '2025-11-13T09:43:26.204Z'
-}
-[PaymentController:Webhook] Unhandled event type: setup_intent.created
-[Webhook Logging] Successfully processed and logged event: setup_intent.created (evt_1SSx3oHKNqVBSHKU4YlEUSnU)
-info: POST /api/payments/webhook {"duration":"27ms","status":200,"timestamp":"2025-11-13T09:43:26.229Z"}
-[PaymentController] Payment methods retrieved: { count: 2, userId: '66f418d10a19ec0e4bbd377e' }
-GET /api/payments/methods/66f418d10a19ec0e4bbd377e 200 268.055 ms - 262
-[PaymentController] Fetching payment methods: {
-  userId: '66f418d10a19ec0e4bbd377e',
-  authenticatedUserId: '66f418d10a19ec0e4bbd377e',
-  timestamp: '2025-11-13T09:43:26.370Z'
-}
-[PaymentController] Payment methods retrieved: { count: 2, userId: '66f418d10a19ec0e4bbd377e' }
-GET /api/payments/methods/66f418d10a19ec0e4bbd377e 304 330.983 ms - -
-[[[SERVER-ENTRY-POINT]]] Webhook request received at server entry. {
-  method: 'POST',
-  url: '/api/payments/webhook',
-  headers: {
-    host: 'localhost:5000',
-    'user-agent': 'Stripe/1.0 (+https://stripe.com/docs/webhooks)',
-    'content-length': '1614',
-    accept: '*/*; q=0.5, application/xml',
-    'cache-control': 'no-cache',
-    'content-type': 'application/json; charset=utf-8',
-    'stripe-signature': 't=1763027007,v1=947838922c3f112d3980623a82ef3872398ca1a7161f4069496bbee8015b64ad,v0=8159947d7c6fa3599485f3ec3a66aa2d36332c14cef57d23dd6da5525347ec75',
-    'accept-encoding': 'gzip'
-  },
-  ip: '::1'
-}
-[PaymentController:Webhook] RAW REQUEST RECEIVED Top of webhookHandler. Headers: {
-  "host": "localhost:5000",
-  "user-agent": "Stripe/1.0 (+https://stripe.com/docs/webhooks)",
-  "content-length": "1614",
-  "accept": "*/*; q=0.5, application/xml",
-  "cache-control": "no-cache",
-  "content-type": "application/json; charset=utf-8",
-  "stripe-signature": "t=1763027007,v1=947838922c3f112d3980623a82ef3872398ca1a7161f4069496bbee8015b64ad,v0=8159947d7c6fa3599485f3ec3a66aa2d36332c14cef57d23dd6da5525347ec75",
-  "accept-encoding": "gzip"
-}
-[Webhook] Received a request from Stripe.
-[PaymentController:Webhook] Stripe signature from header: t=1763027007,v1=947838922c3f112d3980623a82ef3872398ca1a7161f4069496bbee8015b64ad,v0=8159947d7c6fa3599485f3ec3a66aa2d36332c14cef57d23dd6da5525347ec75
-[PaymentController:Webhook] STRIPE_WEBHOOK_SECRET used: SET
-[PaymentController:Webhook] Stripe event constructed successfully. Event Type: setup_intent.succeeded Event ID: evt_1SSx3qHKNqVBSHKUdNyMZ8uZ
-[PaymentController:Webhook] Processing event: {
-  type: 'setup_intent.succeeded',
-  id: 'evt_1SSx3qHKNqVBSHKUdNyMZ8uZ',
-  apiVersion: '2024-11-20.acacia',
-  timestamp: '2025-11-13T09:43:28.933Z'
-}
-[PaymentController:Webhook] Unhandled event type: setup_intent.succeeded
-[Webhook Logging] Successfully processed and logged event: setup_intent.succeeded (evt_1SSx3qHKNqVBSHKUdNyMZ8uZ)
-POST /api/livesessions/6915a83aee3ebd991d7215a0/start 200 396.060 ms - 932
-GET /api/livesessions/validate/e807a9bfaa031120b48384f08da90aa2665d284dea0126c190e1069c6561f1ad/3ea42ca1d491ed4409d9dadc613f882b8bfca0513b37b961d10faa732e02c35f 200 78.718 ms - 386
-GET /api/users/backgrounds 304 42.490 ms - -
-GET /api/livesessions/validate/e807a9bfaa031120b48384f08da90aa2665d284dea0126c190e1069c6561f1ad/3ea42ca1d491ed4409d9dadc613f882b8bfca0513b37b961d10faa732e02c35f 304 63.321 ms - -
-GET /api/livesessions/validate/e807a9bfaa031120b48384f08da90aa2665d284dea0126c190e1069c6561f1ad/3ea42ca1d491ed4409d9dadc613f882b8bfca0513b37b961d10faa732e02c35f 200 60.515 ms - 386
-GET /api/users/backgrounds 200 39.384 ms - 324
-GET /api/users/backgrounds 304 39.555 ms - -
-GET /api/livesessions/validate/e807a9bfaa031120b48384f08da90aa2665d284dea0126c190e1069c6561f1ad/3ea42ca1d491ed4409d9dadc613f882b8bfca0513b37b961d10faa732e02c35f 304 70.816 ms - -
-GET /api/users/backgrounds 304 39.100 ms - -
-GET /api/users/backgrounds 304 70.939 ms - -
-GET /api/users/backgrounds 304 42.633 ms - -
-info: [VideoSocket] Socket still connected {"rooms":["hoELNu9xFKG_ZSm7AABd","session:e807a9bfaa031120b48384f08da90aa2665d284dea0126c190e1069c6561f1ad"],"socketId":"hoELNu9xFKG_ZSm7AABd","timestamp":"2025-11-13T09:43:52.476Z","transport":"websocket"}
-debug: [auth] Decoded token: {"user":{"id":"66f418d10a19ec0e4bbd377e","role":"client","version":4},"iat":1763026997,"exp":1763113397} {"timestamp":"2025-11-13T09:43:58.960Z"}
-info: [auth] User authenticated: 66f418d10a19ec0e4bbd377e {"timestamp":"2025-11-13T09:43:58.989Z"}
-GET /api/users/backgrounds 304 48.878 ms - -
-GET /api/users/backgrounds 304 46.513 ms - -
-info: [VideoSocket] Socket still connected {"rooms":["hoELNu9xFKG_ZSm7AABd","session:e807a9bfaa031120b48384f08da90aa2665d284dea0126c190e1069c6561f1ad"],"socketId":"hoELNu9xFKG_ZSm7AABd","timestamp":"2025-11-13T09:44:22.528Z","transport":"websocket"}
-[NotificationRoutes] CORRECT GET / HANDLER | Forwarding to notificationController.getNotifications. Query: {
-  excludeTrash: 'true',
-  status: 'all',
-  category: '',
-  limit: '50',
-  offset: '0'
-}
---- [BACKEND-CONTROLLER] GET NOTIFICATIONS (Efficient Version) ---
-[Efficient] Fetching notifications for user: 66f418d10a19ec0e4bbd377e with params: {
-  excludeTrash: 'true',
-  status: 'all',
-  category: '',
-  limit: '50',
-  offset: '0'
-}
-[Efficient] Final Mongoose Query: {"recipient":"66f418d10a19ec0e4bbd377e","status":{"$ne":"trash"}}
-[Efficient] Query complete. Found 50 notifications.
-GET /api/notifications?excludeTrash=true&status=all&category=&limit=50&offset=0 200 222.300 ms - 174326
-warn: [TaxService] Customer country not provided. Falling back to default Swiss VAT deconstruction. {"timestamp":"2025-11-13T09:44:28.641Z"}
-[PaymentService] Creating FINAL STANDARD charge for completed session. {
-  liveSessionId: new ObjectId('6915a83aee3ebd991d7215a0'),
-  finalGrossAmount: 9.33
-}
-[PaymentService] Created pending payment record for live session charge. { paymentId: new ObjectId('6915a87dee3ebd991d7216cc') }
-POST /api/livesessions/6915a83aee3ebd991d7215a0/end 200 1286.690 ms - 1509
-warn: [SocketConfig] << RCVD peer-disconnected from user 66d9cdcb0a7492a86482bd68 regarding peer _MiTscOAC92J-79mAABf in session e807a9bfaa031120b48384f08da90aa2665d284dea0126c190e1069c6561f1ad {"timestamp":"2025-11-13T09:44:29.879Z"}
-warn: [SocketConfig] << RCVD peer-disconnected from user 66f418d10a19ec0e4bbd377e regarding peer hoELNu9xFKG_ZSm7AABd in session e807a9bfaa031120b48384f08da90aa2665d284dea0126c190e1069c6561f1ad {"timestamp":"2025-11-13T09:44:29.890Z"}
-warn: [SocketConfig] Peer-disconnected event for an invalid or non-active session ignored. {"sessionId":"e807a9bfaa031120b48384f08da90aa2665d284dea0126c190e1069c6561f1ad","timestamp":"2025-11-13T09:44:29.902Z"}
-warn: [SocketConfig] Peer-disconnected event for an invalid or non-active session ignored. {"sessionId":"e807a9bfaa031120b48384f08da90aa2665d284dea0126c190e1069c6561f1ad","timestamp":"2025-11-13T09:44:29.909Z"}
-[[[SERVER-ENTRY-POINT]]] Webhook request received at server entry. {
-  method: 'POST',
-  url: '/api/payments/webhook',
-  headers: {
-    host: 'localhost:5000',
-    'user-agent': 'Stripe/1.0 (+https://stripe.com/docs/webhooks)',
-    'content-length': '3940',
-    accept: '*/*; q=0.5, application/xml',
-    'cache-control': 'no-cache',
-    'content-type': 'application/json; charset=utf-8',
-    'stripe-signature': 't=1763027068,v1=749866a7775a452b1bb6ccb3ee08a5a1d4796ba9a765a834d4b326f71e4a336b,v0=06ea318566fc4818ad41794df2ab801f78747a6f8d346e29c2baf4df277f4054',
-    'accept-encoding': 'gzip'
-  },
-  ip: '::1'
-}
-[PaymentController:Webhook] RAW REQUEST RECEIVED Top of webhookHandler. Headers: {
-  "host": "localhost:5000",
-  "user-agent": "Stripe/1.0 (+https://stripe.com/docs/webhooks)",
-  "content-length": "3940",
-  "accept": "*/*; q=0.5, application/xml",
-  "cache-control": "no-cache",
-  "content-type": "application/json; charset=utf-8",
-  "stripe-signature": "t=1763027068,v1=749866a7775a452b1bb6ccb3ee08a5a1d4796ba9a765a834d4b326f71e4a336b,v0=06ea318566fc4818ad41794df2ab801f78747a6f8d346e29c2baf4df277f4054",
-  "accept-encoding": "gzip"
-}
-[Webhook] Received a request from Stripe.
-[PaymentController:Webhook] Stripe signature from header: t=1763027068,v1=749866a7775a452b1bb6ccb3ee08a5a1d4796ba9a765a834d4b326f71e4a336b,v0=06ea318566fc4818ad41794df2ab801f78747a6f8d346e29c2baf4df277f4054
-[PaymentController:Webhook] STRIPE_WEBHOOK_SECRET used: SET
-[PaymentController:Webhook] Stripe event constructed successfully. Event Type: charge.succeeded Event ID: evt_3SSx4pHKNqVBSHKU05QShdn2
-[PaymentController:Webhook] Processing event: {
-  type: 'charge.succeeded',
-  id: 'evt_3SSx4pHKNqVBSHKU05QShdn2',
-  apiVersion: '2024-11-20.acacia',
-  timestamp: '2025-11-13T09:44:30.062Z'
-}
-[PaymentController:Webhook] Unhandled event type: charge.succeeded
-[Webhook Logging] Successfully processed and logged event: charge.succeeded (evt_3SSx4pHKNqVBSHKU05QShdn2)
-info: POST /api/payments/webhook {"duration":"36ms","status":200,"timestamp":"2025-11-13T09:44:30.089Z"}
-[[[SERVER-ENTRY-POINT]]] Webhook request received at server entry. {
-  method: 'POST',
-  url: '/api/payments/webhook',
-  headers: {
-    host: 'localhost:5000',
-    'user-agent': 'Stripe/1.0 (+https://stripe.com/docs/webhooks)',
-    'content-length': '2548',
-    accept: '*/*; q=0.5, application/xml',
-    'cache-control': 'no-cache',
-    'content-type': 'application/json; charset=utf-8',
-    'stripe-signature': 't=1763027068,v1=360743457cb4fa4c3644f021a6e11c2154e1a7000a3f6c7994efc14c73ec451f,v0=92c56831f5ff51c1e554b43caa8d137ea3a0a20fd2080438da0816b17de01bca',
-    'accept-encoding': 'gzip'
-  },
-  ip: '::1'
-}
-[PaymentController:Webhook] RAW REQUEST RECEIVED Top of webhookHandler. Headers: {
-  "host": "localhost:5000",
-  "user-agent": "Stripe/1.0 (+https://stripe.com/docs/webhooks)",
-  "content-length": "2548",
-  "accept": "*/*; q=0.5, application/xml",
-  "cache-control": "no-cache",
-  "content-type": "application/json; charset=utf-8",
-  "stripe-signature": "t=1763027068,v1=360743457cb4fa4c3644f021a6e11c2154e1a7000a3f6c7994efc14c73ec451f,v0=92c56831f5ff51c1e554b43caa8d137ea3a0a20fd2080438da0816b17de01bca",
-  "accept-encoding": "gzip"
-}
-[Webhook] Received a request from Stripe.
-[PaymentController:Webhook] Stripe signature from header: t=1763027068,v1=360743457cb4fa4c3644f021a6e11c2154e1a7000a3f6c7994efc14c73ec451f,v0=92c56831f5ff51c1e554b43caa8d137ea3a0a20fd2080438da0816b17de01bca
-[PaymentController:Webhook] STRIPE_WEBHOOK_SECRET used: SET
-[PaymentController:Webhook] Stripe event constructed successfully. Event Type: payment_intent.succeeded Event ID: evt_3SSx4pHKNqVBSHKU0Ji3GIED
-[PaymentController:Webhook] Processing event: {
-  type: 'payment_intent.succeeded',
-  id: 'evt_3SSx4pHKNqVBSHKU0Ji3GIED',
-  apiVersion: '2024-11-20.acacia',
-  timestamp: '2025-11-13T09:44:30.121Z'
-}
-[Webhook] Processing 'payment_intent.succeeded' event. { paymentIntentId: 'pi_3SSx4pHKNqVBSHKU0rFMKgOH' }
-[PaymentController:Webhook] Entered payment_intent.succeeded case. Event ID: evt_3SSx4pHKNqVBSHKU0Ji3GIED PaymentIntent ID: pi_3SSx4pHKNqVBSHKU0rFMKgOH
-[[[WEBHOOK-CASE-MATCH]]] Entered switch case: payment_intent.succeeded. { paymentIntentId: 'pi_3SSx4pHKNqVBSHKU0rFMKgOH' }
-[Webhook] Processing standard/live_session PI.succeeded {
-  paymentIntentId: 'pi_3SSx4pHKNqVBSHKU0rFMKgOH',
-  metadata: {
-    type: 'live_session_charge',
-    liveSessionId: '6915a83aee3ebd991d7215a0',
-    bookingId: '6915a83dee3ebd991d7215da',
-    paymentId: '6915a87dee3ebd991d7216cc'
-  },
-  timestamp: '2025-11-13T09:44:30.122Z'
-}
-[[[SERVER-ENTRY-POINT]]] Webhook request received at server entry. {
-  method: 'POST',
-  url: '/api/payments/webhook',
-  headers: {
-    host: 'localhost:5000',
-    'user-agent': 'Stripe/1.0 (+https://stripe.com/docs/webhooks)',
-    'content-length': '2508',
-    accept: '*/*; q=0.5, application/xml',
-    'cache-control': 'no-cache',
-    'content-type': 'application/json; charset=utf-8',
-    'stripe-signature': 't=1763027068,v1=22ad65dee95909c5c58ae00f4ac542611792ac80ad485edc40028ec824f19784,v0=b82a73d5dcf2ca25c261082eb42b01545c5c2b73bc7c882fcc2f48b404e807a4',
-    'accept-encoding': 'gzip'
-  },
-  ip: '::1'
-}
-[PaymentController:Webhook] RAW REQUEST RECEIVED Top of webhookHandler. Headers: {
-  "host": "localhost:5000",
-  "user-agent": "Stripe/1.0 (+https://stripe.com/docs/webhooks)",
-  "content-length": "2508",
-  "accept": "*/*; q=0.5, application/xml",
-  "cache-control": "no-cache",
-  "content-type": "application/json; charset=utf-8",
-  "stripe-signature": "t=1763027068,v1=22ad65dee95909c5c58ae00f4ac542611792ac80ad485edc40028ec824f19784,v0=b82a73d5dcf2ca25c261082eb42b01545c5c2b73bc7c882fcc2f48b404e807a4",
-  "accept-encoding": "gzip"
-}
-[Webhook] Received a request from Stripe.
-[PaymentController:Webhook] Stripe signature from header: t=1763027068,v1=22ad65dee95909c5c58ae00f4ac542611792ac80ad485edc40028ec824f19784,v0=b82a73d5dcf2ca25c261082eb42b01545c5c2b73bc7c882fcc2f48b404e807a4
-[PaymentController:Webhook] STRIPE_WEBHOOK_SECRET used: SET
-[PaymentController:Webhook] Stripe event constructed successfully. Event Type: payment_intent.created Event ID: evt_3SSx4pHKNqVBSHKU0HsyiZGJ
-[PaymentController:Webhook] Processing event: {
-  type: 'payment_intent.created',
-  id: 'evt_3SSx4pHKNqVBSHKU0HsyiZGJ',
-  apiVersion: '2024-11-20.acacia',
-  timestamp: '2025-11-13T09:44:30.206Z'
-}
-[PaymentController:Webhook] Unhandled event type: payment_intent.created
-[Webhook] Payment record 6915a87dee3ebd991d7216cc updated. Status: completed, Type: live_session_charge. { paymentIntentId: 'pi_3SSx4pHKNqVBSHKU0rFMKgOH' }
-[handlePaymentSuccess] V-FINAL - Received successful payment event. {
-  paymentId: '6915a87dee3ebd991d7216cc',
-  bookingId: '6915a83dee3ebd991d7215da',
-  liveSessionId: '6915a83aee3ebd991d7215a0',
-  programId: undefined,
-  paymentIntentId: 'pi_3SSx4pHKNqVBSHKU0rFMKgOH',
-  chargeId: 'ch_3SSx4pHKNqVBSHKU04ECE1Ly'
-}
-[Webhook Logging] Successfully processed and logged event: payment_intent.created (evt_3SSx4pHKNqVBSHKU0HsyiZGJ)
-[handlePaymentSuccess] V-FINAL - LiveSession state updated to completed. {
-  liveSessionId: {
-    basePerMinuteRate: { amount: 10, currency: 'CHF' },
-    effectivePerMinuteRate: { amount: 10, currency: 'CHF' },
-    discountApplied: null,
-    finalCost: { grossAmount: 9.33, currency: 'CHF' },
-    sessionLink: {
-      sessionId: 'e807a9bfaa031120b48384f08da90aa2665d284dea0126c190e1069c6561f1ad',
-      token: '3ea42ca1d491ed4409d9dadc613f882b8bfca0513b37b961d10faa732e02c35f',
-      generatedAt: 2025-11-13T09:43:29.571Z,
-      expired: false
-    },
-    _id: new ObjectId('6915a83aee3ebd991d7215a0'),
-    client: new ObjectId('66f418d10a19ec0e4bbd377e'),
-    coach: new ObjectId('66d9cdcb0a7492a86482bd68'),
-    status: 'pending_settlement',
-    durationInSeconds: 56,
-    paymentRecords: [],
-    participants: [ [Object], [Object] ],
-    presentParticipants: [ [Object], [Object], [Object], [Object] ],
-    createdAt: 2025-11-13T09:43:22.451Z,
-    updatedAt: 2025-11-13T09:44:29.848Z,
-    __v: 0,
-    booking: new ObjectId('6915a83dee3ebd991d7215da'),
-    startTime: 2025-11-13T09:43:32.583Z,
-    endTime: 2025-11-13T09:44:28.622Z
-  }
-}
-[Booking Model] Booking saved successfully: 6915a83dee3ebd991d7215da
-[handlePaymentSuccess] V-FINAL - Booking status updated. {
-  bookingId: new ObjectId('6915a83dee3ebd991d7215da'),
-  newStatus: 'completed'
-}
-[handlePaymentSuccess] V-FINAL - 'charge' transaction ensured. {
-  paymentId: '6915a87dee3ebd991d7216cc',
-  bookingId: '6915a83dee3ebd991d7215da',
-  liveSessionId: '6915a83aee3ebd991d7215a0',
-  programId: undefined,
-  paymentIntentId: 'pi_3SSx4pHKNqVBSHKU0rFMKgOH',
-  chargeId: 'ch_3SSx4pHKNqVBSHKU04ECE1Ly'
-}
-[InvoiceService] Starting detailed invoice creation. {
-  paymentId: new ObjectId('6915a87dee3ebd991d7216cc'),
-  bookingId: new ObjectId('6915a83dee3ebd991d7215da'),
-  programId: undefined
-}
-[[[SERVER-ENTRY-POINT]]] Webhook request received at server entry. {
-  method: 'POST',
-  url: '/api/payments/webhook',
-  headers: {
-    host: 'localhost:5000',
-    'user-agent': 'Stripe/1.0 (+https://stripe.com/docs/webhooks)',
-    'content-length': '4386',
-    accept: '*/*; q=0.5, application/xml',
-    'cache-control': 'no-cache',
-    'content-type': 'application/json; charset=utf-8',
-    'stripe-signature': 't=1763027069,v1=18130d6f2a24e7fd89f446089da2485c2e3e031b99ed946eb1a2b8f7f4c1c359,v0=fb6df47a5bb9d02a379c2e982201791c6bf60abaeec536f1c28e9f19aab399cb',
-    'accept-encoding': 'gzip'
-  },
-  ip: '::1'
-}
-[PaymentController:Webhook] RAW REQUEST RECEIVED Top of webhookHandler. Headers: {
-  "host": "localhost:5000",
-  "user-agent": "Stripe/1.0 (+https://stripe.com/docs/webhooks)",
-  "content-length": "4386",
-  "accept": "*/*; q=0.5, application/xml",
-  "cache-control": "no-cache",
-  "content-type": "application/json; charset=utf-8",
-  "stripe-signature": "t=1763027069,v1=18130d6f2a24e7fd89f446089da2485c2e3e031b99ed946eb1a2b8f7f4c1c359,v0=fb6df47a5bb9d02a379c2e982201791c6bf60abaeec536f1c28e9f19aab399cb",
-  "accept-encoding": "gzip"
-}
-[Webhook] Received a request from Stripe.
-[PaymentController:Webhook] Stripe signature from header: t=1763027069,v1=18130d6f2a24e7fd89f446089da2485c2e3e031b99ed946eb1a2b8f7f4c1c359,v0=fb6df47a5bb9d02a379c2e982201791c6bf60abaeec536f1c28e9f19aab399cb
-[PaymentController:Webhook] STRIPE_WEBHOOK_SECRET used: SET
-[PaymentController:Webhook] Stripe event constructed successfully. Event Type: invoice.created Event ID: evt_1SSx4rHKNqVBSHKUtIRimoxN
-[PaymentController:Webhook] Processing event: {
-  type: 'invoice.created',
-  id: 'evt_1SSx4rHKNqVBSHKUtIRimoxN',
-  apiVersion: '2024-11-20.acacia',
-  timestamp: '2025-11-13T09:44:31.656Z'
-}
-[PaymentController:Webhook] Unhandled event type: invoice.created
-[Webhook Logging] Successfully processed and logged event: invoice.created (evt_1SSx4rHKNqVBSHKUtIRimoxN)
-[[[SERVER-ENTRY-POINT]]] Webhook request received at server entry. {
-  method: 'POST',
-  url: '/api/payments/webhook',
-  headers: {
-    host: 'localhost:5000',
-    'user-agent': 'Stripe/1.0 (+https://stripe.com/docs/webhooks)',
-    'content-length': '8403',
-    accept: '*/*; q=0.5, application/xml',
-    'cache-control': 'no-cache',
-    'content-type': 'application/json; charset=utf-8',
-    'stripe-signature': 't=1763027070,v1=ca1737bc66702f6100ed2ebae8c6531e8863f3976a3a885ef2cc92ee1d1a24ed,v0=beb3401e567ee1c3c6ed3c2801d81e88e50709688df6b4edf858517ca52e5f86',
-    'accept-encoding': 'gzip'
-  },
-  ip: '::1'
-}
-[PaymentController:Webhook] RAW REQUEST RECEIVED Top of webhookHandler. Headers: {
-  "host": "localhost:5000",
-  "user-agent": "Stripe/1.0 (+https://stripe.com/docs/webhooks)",
-  "content-length": "8403",
-  "accept": "*/*; q=0.5, application/xml",
-  "cache-control": "no-cache",
-  "content-type": "application/json; charset=utf-8",
-  "stripe-signature": "t=1763027070,v1=ca1737bc66702f6100ed2ebae8c6531e8863f3976a3a885ef2cc92ee1d1a24ed,v0=beb3401e567ee1c3c6ed3c2801d81e88e50709688df6b4edf858517ca52e5f86",
-  "accept-encoding": "gzip"
-}
-[Webhook] Received a request from Stripe.
-[PaymentController:Webhook] Stripe signature from header: t=1763027070,v1=ca1737bc66702f6100ed2ebae8c6531e8863f3976a3a885ef2cc92ee1d1a24ed,v0=beb3401e567ee1c3c6ed3c2801d81e88e50709688df6b4edf858517ca52e5f86
-[PaymentController:Webhook] STRIPE_WEBHOOK_SECRET used: SET
-[PaymentController:Webhook] Stripe event constructed successfully. Event Type: invoice.updated Event ID: evt_1SSx4sHKNqVBSHKUcWJ6zzEU
-[PaymentController:Webhook] Processing event: {
-  type: 'invoice.updated',
-  id: 'evt_1SSx4sHKNqVBSHKUcWJ6zzEU',
-  apiVersion: '2024-11-20.acacia',
-  timestamp: '2025-11-13T09:44:32.165Z'
-}
-[PaymentController:Webhook] Unhandled event type: invoice.updated
-[[[SERVER-ENTRY-POINT]]] Webhook request received at server entry. {
-  method: 'POST',
-  url: '/api/payments/webhook',
-  headers: {
-    host: 'localhost:5000',
-    'user-agent': 'Stripe/1.0 (+https://stripe.com/docs/webhooks)',
-    'content-length': '1937',
-    accept: '*/*; q=0.5, application/xml',
-    'cache-control': 'no-cache',
-    'content-type': 'application/json; charset=utf-8',
-    'stripe-signature': 't=1763027070,v1=3d686c76736f82a34576253ec0e212c788c7723777bcdb7efb69a661359038c5,v0=a8374d40a56d669f9d73e9726b7badaf86a264a9485fa652ffee21424c183292',
-    'accept-encoding': 'gzip'
-  },
-  ip: '::1'
-}
-[PaymentController:Webhook] RAW REQUEST RECEIVED Top of webhookHandler. Headers: {
-  "host": "localhost:5000",
-  "user-agent": "Stripe/1.0 (+https://stripe.com/docs/webhooks)",
-  "content-length": "1937",
-  "accept": "*/*; q=0.5, application/xml",
-  "cache-control": "no-cache",
-  "content-type": "application/json; charset=utf-8",
-  "stripe-signature": "t=1763027070,v1=3d686c76736f82a34576253ec0e212c788c7723777bcdb7efb69a661359038c5,v0=a8374d40a56d669f9d73e9726b7badaf86a264a9485fa652ffee21424c183292",
-  "accept-encoding": "gzip"
-}
-[Webhook] Received a request from Stripe.
-[PaymentController:Webhook] Stripe signature from header: t=1763027070,v1=3d686c76736f82a34576253ec0e212c788c7723777bcdb7efb69a661359038c5,v0=a8374d40a56d669f9d73e9726b7badaf86a264a9485fa652ffee21424c183292
-[PaymentController:Webhook] STRIPE_WEBHOOK_SECRET used: SET
-[PaymentController:Webhook] Stripe event constructed successfully. Event Type: invoiceitem.created Event ID: evt_1SSx4sHKNqVBSHKUdQaqkpun
-[PaymentController:Webhook] Processing event: {
-  type: 'invoiceitem.created',
-  id: 'evt_1SSx4sHKNqVBSHKUdQaqkpun',
-  apiVersion: '2024-11-20.acacia',
-  timestamp: '2025-11-13T09:44:32.196Z'
-}
-[PaymentController:Webhook] Unhandled event type: invoiceitem.created
-[Webhook Logging] Successfully processed and logged event: invoice.updated (evt_1SSx4sHKNqVBSHKUcWJ6zzEU)
-[Webhook Logging] Successfully processed and logged event: invoiceitem.created (evt_1SSx4sHKNqVBSHKUdQaqkpun)
-[[[SERVER-ENTRY-POINT]]] Webhook request received at server entry. {
-  method: 'POST',
-  url: '/api/payments/webhook',
-  headers: {
-    host: 'localhost:5000',
-    'user-agent': 'Stripe/1.0 (+https://stripe.com/docs/webhooks)',
-    'content-length': '4147',
-    accept: '*/*; q=0.5, application/xml',
-    'cache-control': 'no-cache',
-    'content-type': 'application/json; charset=utf-8',
-    'stripe-signature': 't=1763027070,v1=d1071886931dbc8974ad02f637c1f4566b0bc831936a4dbf95b14ab5ae3debb8,v0=b38f001a6ce679a68438bc9d5292e94d64caf515604e03dc30b3efce780d8051',
-    'accept-encoding': 'gzip'
-  },
-  ip: '::1'
-}
-[PaymentController:Webhook] RAW REQUEST RECEIVED Top of webhookHandler. Headers: {
-  "host": "localhost:5000",
-  "user-agent": "Stripe/1.0 (+https://stripe.com/docs/webhooks)",
-  "content-length": "4147",
-  "accept": "*/*; q=0.5, application/xml",
-  "cache-control": "no-cache",
-  "content-type": "application/json; charset=utf-8",
-  "stripe-signature": "t=1763027070,v1=d1071886931dbc8974ad02f637c1f4566b0bc831936a4dbf95b14ab5ae3debb8,v0=b38f001a6ce679a68438bc9d5292e94d64caf515604e03dc30b3efce780d8051",
-  "accept-encoding": "gzip"
-}
-[Webhook] Received a request from Stripe.
-[PaymentController:Webhook] Stripe signature from header: t=1763027070,v1=d1071886931dbc8974ad02f637c1f4566b0bc831936a4dbf95b14ab5ae3debb8,v0=b38f001a6ce679a68438bc9d5292e94d64caf515604e03dc30b3efce780d8051
-[PaymentController:Webhook] STRIPE_WEBHOOK_SECRET used: SET
-[PaymentController:Webhook] Stripe event constructed successfully. Event Type: charge.updated Event ID: evt_3SSx4pHKNqVBSHKU0BjdPlLR
-[PaymentController:Webhook] Processing event: {
-  type: 'charge.updated',
-  id: 'evt_3SSx4pHKNqVBSHKU0BjdPlLR',
-  apiVersion: '2024-11-20.acacia',
-  timestamp: '2025-11-13T09:44:32.544Z'
-}
-[PaymentController:Webhook] Unhandled event type: charge.updated
-[Webhook Logging] Successfully processed and logged event: charge.updated (evt_3SSx4pHKNqVBSHKU0BjdPlLR)
-[[[SERVER-ENTRY-POINT]]] Webhook request received at server entry. {
-  method: 'POST',
-  url: '/api/payments/webhook',
-  headers: {
-    host: 'localhost:5000',
-    'user-agent': 'Stripe/1.0 (+https://stripe.com/docs/webhooks)',
-    'content-length': '2170',
-    accept: '*/*; q=0.5, application/xml',
-    'cache-control': 'no-cache',
-    'content-type': 'application/json; charset=utf-8',
-    'stripe-signature': 't=1763027071,v1=9e0e048f45f19d4adc74a7c5937afa325410e2e685988e338b437accf42cec0b,v0=69dbaf9384ae7517e6ab184f243ed2f8a9ba67a18d2a6473f3dd35a72e20236d',
-    'accept-encoding': 'gzip'
-  },
-  ip: '::1'
-}
-[PaymentController:Webhook] RAW REQUEST RECEIVED Top of webhookHandler. Headers: {
-  "host": "localhost:5000",
-  "user-agent": "Stripe/1.0 (+https://stripe.com/docs/webhooks)",
-  "content-length": "2170",
-  "accept": "*/*; q=0.5, application/xml",
-  "cache-control": "no-cache",
-  "content-type": "application/json; charset=utf-8",
-  "stripe-signature": "t=1763027071,v1=9e0e048f45f19d4adc74a7c5937afa325410e2e685988e338b437accf42cec0b,v0=69dbaf9384ae7517e6ab184f243ed2f8a9ba67a18d2a6473f3dd35a72e20236d",
-  "accept-encoding": "gzip"
-}
-[Webhook] Received a request from Stripe.
-[PaymentController:Webhook] Stripe signature from header: t=1763027071,v1=9e0e048f45f19d4adc74a7c5937afa325410e2e685988e338b437accf42cec0b,v0=69dbaf9384ae7517e6ab184f243ed2f8a9ba67a18d2a6473f3dd35a72e20236d
-[PaymentController:Webhook] STRIPE_WEBHOOK_SECRET used: SET
-[PaymentController:Webhook] Stripe event constructed successfully. Event Type: payment_intent.created Event ID: evt_3SSx4sHKNqVBSHKU1V8ARaFC
-[PaymentController:Webhook] Processing event: {
-  type: 'payment_intent.created',
-  id: 'evt_3SSx4sHKNqVBSHKU1V8ARaFC',
-  apiVersion: '2024-11-20.acacia',
-  timestamp: '2025-11-13T09:44:33.494Z'
-}
-[PaymentController:Webhook] Unhandled event type: payment_intent.created
-[Webhook Logging] Successfully processed and logged event: payment_intent.created (evt_3SSx4sHKNqVBSHKU1V8ARaFC)
-[[[SERVER-ENTRY-POINT]]] Webhook request received at server entry. {
-  method: 'POST',
-  url: '/api/payments/webhook',
-  headers: {
-    host: 'localhost:5000',
-    'user-agent': 'Stripe/1.0 (+https://stripe.com/docs/webhooks)',
-    'content-length': '8816',
-    accept: '*/*; q=0.5, application/xml',
-    'cache-control': 'no-cache',
-    'content-type': 'application/json; charset=utf-8',
-    'stripe-signature': 't=1763027071,v1=071dcd1d75985d3a498594dba740f08358067fc5aa3d992d6409ca56ed2aa059,v0=bd817ca21c388e8f4b4e1b59461f74faf401fb3682bb18ca16469e7d997b508b',
-    'accept-encoding': 'gzip'
-  },
-  ip: '::1'
-}
-[PaymentController:Webhook] RAW REQUEST RECEIVED Top of webhookHandler. Headers: {
-  "host": "localhost:5000",
-  "user-agent": "Stripe/1.0 (+https://stripe.com/docs/webhooks)",
-  "content-length": "8816",
-  "accept": "*/*; q=0.5, application/xml",
-  "cache-control": "no-cache",
-  "content-type": "application/json; charset=utf-8",
-  "stripe-signature": "t=1763027071,v1=071dcd1d75985d3a498594dba740f08358067fc5aa3d992d6409ca56ed2aa059,v0=bd817ca21c388e8f4b4e1b59461f74faf401fb3682bb18ca16469e7d997b508b",
-  "accept-encoding": "gzip"
-}
-[Webhook] Received a request from Stripe.
-[PaymentController:Webhook] Stripe signature from header: t=1763027071,v1=071dcd1d75985d3a498594dba740f08358067fc5aa3d992d6409ca56ed2aa059,v0=bd817ca21c388e8f4b4e1b59461f74faf401fb3682bb18ca16469e7d997b508b
-[PaymentController:Webhook] STRIPE_WEBHOOK_SECRET used: SET
-[PaymentController:Webhook] Stripe event constructed successfully. Event Type: invoice.updated Event ID: evt_1SSx4tHKNqVBSHKU8QINsYWX
-[PaymentController:Webhook] Processing event: {
-  type: 'invoice.updated',
-  id: 'evt_1SSx4tHKNqVBSHKU8QINsYWX',
-  apiVersion: '2024-11-20.acacia',
-  timestamp: '2025-11-13T09:44:33.700Z'
-}
-[PaymentController:Webhook] Unhandled event type: invoice.updated
-[Webhook Logging] Successfully processed and logged event: invoice.updated (evt_1SSx4tHKNqVBSHKU8QINsYWX)
-[[[SERVER-ENTRY-POINT]]] Webhook request received at server entry. {
-  method: 'POST',
-  url: '/api/payments/webhook',
-  headers: {
-    host: 'localhost:5000',
-    'user-agent': 'Stripe/1.0 (+https://stripe.com/docs/webhooks)',
-    'content-length': '8432',
-    accept: '*/*; q=0.5, application/xml',
-    'cache-control': 'no-cache',
-    'content-type': 'application/json; charset=utf-8',
-    'stripe-signature': 't=1763027071,v1=3a57824cf238eda703c99addc8d1e91bbe40407774e7b56b1e84ddf5162e8087,v0=70b5a48ea519ddcd86478681c901b7527e40437ba03fc23d65fd90fbcce422c8',
-    'accept-encoding': 'gzip'
-  },
-  ip: '::1'
-}
-[PaymentController:Webhook] RAW REQUEST RECEIVED Top of webhookHandler. Headers: {
-  "host": "localhost:5000",
-  "user-agent": "Stripe/1.0 (+https://stripe.com/docs/webhooks)",
-  "content-length": "8432",
-  "accept": "*/*; q=0.5, application/xml",
-  "cache-control": "no-cache",
-  "content-type": "application/json; charset=utf-8",
-  "stripe-signature": "t=1763027071,v1=3a57824cf238eda703c99addc8d1e91bbe40407774e7b56b1e84ddf5162e8087,v0=70b5a48ea519ddcd86478681c901b7527e40437ba03fc23d65fd90fbcce422c8",
-  "accept-encoding": "gzip"
-}
-[Webhook] Received a request from Stripe.
-[PaymentController:Webhook] Stripe signature from header: t=1763027071,v1=3a57824cf238eda703c99addc8d1e91bbe40407774e7b56b1e84ddf5162e8087,v0=70b5a48ea519ddcd86478681c901b7527e40437ba03fc23d65fd90fbcce422c8
-[PaymentController:Webhook] STRIPE_WEBHOOK_SECRET used: SET
-[PaymentController:Webhook] Stripe event constructed successfully. Event Type: invoice.finalized Event ID: evt_1SSx4tHKNqVBSHKUeWTPjQkq
-[PaymentController:Webhook] Processing event: {
-  type: 'invoice.finalized',
-  id: 'evt_1SSx4tHKNqVBSHKUeWTPjQkq',
-  apiVersion: '2024-11-20.acacia',
-  timestamp: '2025-11-13T09:44:33.808Z'
-}
-[PaymentController:Webhook] Unhandled event type: invoice.finalized
-[Webhook Logging] Successfully processed and logged event: invoice.finalized (evt_1SSx4tHKNqVBSHKUeWTPjQkq)
-[InvoiceService] Successfully created and stored detailed invoice reference for payment 6915a87dee3ebd991d7216cc. {
-  invoiceId: new ObjectId('6915a883ee3ebd991d721732'),
-  stripeInvoiceId: 'in_1SSx4rHKNqVBSHKUMtJ7TzKx',
-  amount: 9.33
-}
-[handlePaymentSuccess] V-FINAL - Client invoice generation initiated. {
-  paymentId: '6915a87dee3ebd991d7216cc',
-  bookingId: '6915a83dee3ebd991d7215da',
-  liveSessionId: '6915a83aee3ebd991d7215a0',
-  programId: undefined,
-  paymentIntentId: 'pi_3SSx4pHKNqVBSHKU0rFMKgOH',
-  chargeId: 'ch_3SSx4pHKNqVBSHKU04ECE1Ly'
-}
-[DATA TRACE | Notif Service] generateNotificationContent received config: {
-  "type": "live_session_receipt_client",
-  "recipient": "66f418d10a19ec0e4bbd377e",
-  "metadata": {
-    "bookingId": "6915a83dee3ebd991d7215da",
-    "coachName": "Dominic Frei",
-    "webinarTitle": "Live Session with Dominic",
-    "amount": 9.33,
-    "currency": "CHF",
-    "otherPartyName": "Dominic Frei"
-  },
-  "channels": [
-    "in_app",
-    "email"
-  ]
-}
-[NotificationModel] Pre-validate hook: {
-  type: 'live_session_receipt_client',
-  category: 'payment',
-  metadata: {
-    bookingId: new ObjectId('6915a83dee3ebd991d7215da'),
-    liveSessionId: null,
-    sessionId: undefined,
-    reviewId: undefined,
-    programId: undefined,
-    lessonId: undefined,
-    additionalData: {
-      auditId: undefined,
-      bookingId: new ObjectId('6915a83dee3ebd991d7215da'),
-      coachName: 'Dominic Frei',
-      webinarTitle: 'Live Session with Dominic',
-      amount: 9.33,
-      currency: 'CHF',
-      otherPartyName: 'Dominic Frei',
-      startTime: 2025-11-13T09:43:25.498Z,
-      endTime: 2025-11-13T10:43:25.498Z,
-      bookingType: 'request',
-      status: 'completed',
-      requiresAction: undefined,
-      validActions: undefined
-    }
-  }
-}
-[NotificationModel] Processing new notification: new ObjectId('6915a883ee3ebd991d72173e')
-[SocketNotificationService] Emitting booking notification: {
-  notificationId: new ObjectId('6915a883ee3ebd991d72173e'),
-  type: 'live_session_receipt_client',
-  recipients: 1,
-  bookingId: new ObjectId('6915a83dee3ebd991d7215da')
-}
-[UnifiedNotificationService] Sending email notification: {
-  type: 'live_session_receipt_client',
-  recipientType: undefined,
-  hasRecipient: false
-}
-[UnifiedNotificationService] Email notification details: {
-  recipientEmail: 'test.user2@example.com',
-  senderName: 'Dominic Frei',
-  type: 'live_session_receipt_client',
-  start: 2025-11-13T09:43:25.498Z,
-  end: 2025-11-13T10:43:25.498Z
-}
-[DATA TRACE | Notif Service] generateNotificationContent received config: {
-  "type": "live_session_earnings_coach",
-  "recipient": "66d9cdcb0a7492a86482bd68",
-  "metadata": {
-    "bookingId": "6915a83dee3ebd991d7215da",
-    "attendeeName": "Test User 2",
-    "webinarTitle": "Live Session with Dominic",
-    "otherPartyName": "Test User 2"
-  },
-  "channels": [
-    "in_app",
-    "email"
-  ]
-}
-[NotificationModel] Pre-validate hook: {
-  type: 'live_session_earnings_coach',
-  category: 'payment',
-  metadata: {
-    bookingId: new ObjectId('6915a83dee3ebd991d7215da'),
-    liveSessionId: null,
-    sessionId: undefined,
-    reviewId: undefined,
-    programId: undefined,
-    lessonId: undefined,
-    additionalData: {
-      auditId: undefined,
-      bookingId: new ObjectId('6915a83dee3ebd991d7215da'),
-      attendeeName: 'Test User 2',
-      webinarTitle: 'Live Session with Dominic',
-      otherPartyName: 'Test User 2',
-      startTime: 2025-11-13T09:43:25.498Z,
-      endTime: 2025-11-13T10:43:25.498Z,
-      bookingType: 'request',
-      status: 'completed',
-      requiresAction: undefined,
-      validActions: undefined
-    }
-  }
-}
-[NotificationModel] Processing new notification: new ObjectId('6915a883ee3ebd991d721741')
-[SocketNotificationService] Emitting booking notification: {
-  notificationId: new ObjectId('6915a883ee3ebd991d721741'),
-  type: 'live_session_earnings_coach',
-  recipients: 1,
-  bookingId: new ObjectId('6915a83dee3ebd991d7215da')
-}
-[UnifiedNotificationService] Sending email notification: {
-  type: 'live_session_earnings_coach',
-  recipientType: undefined,
-  hasRecipient: false
-}
-[UnifiedNotificationService] Email notification details: {
-  recipientEmail: 'test.coach2@example.com',
-  senderName: 'Test User 2',
-  type: 'live_session_earnings_coach',
-  start: 2025-11-13T09:43:25.498Z,
-  end: 2025-11-13T10:43:25.498Z
-}
-[handlePaymentSuccess] V-FINAL - Notifications sent. Processing complete. {
-  paymentId: '6915a87dee3ebd991d7216cc',
-  bookingId: '6915a83dee3ebd991d7215da',
-  liveSessionId: '6915a83aee3ebd991d7215a0',
-  programId: undefined,
-  paymentIntentId: 'pi_3SSx4pHKNqVBSHKU0rFMKgOH',
-  chargeId: 'ch_3SSx4pHKNqVBSHKU04ECE1Ly'
-}
-[SocketService] Full booking update emitted: {
-  event: 'booking_update',
-  bookingId: new ObjectId('6915a83dee3ebd991d7215da'),
-  recipients: 2
-}
-[[[SERVER-ENTRY-POINT]]] Webhook request received at server entry. {
-  method: 'POST',
-  url: '/api/payments/webhook',
-  headers: {
-    host: 'localhost:5000',
-    'user-agent': 'Stripe/1.0 (+https://stripe.com/docs/webhooks)',
-    'content-length': '2333',
-    accept: '*/*; q=0.5, application/xml',
-    'cache-control': 'no-cache',
-    'content-type': 'application/json; charset=utf-8',
-    'stripe-signature': 't=1763027073,v1=8546acfcdefeab5626624ebc62564ef4340fcf1a5d0ba682237f658a95e39314,v0=58683d383a7efd2917261ab29084bec505e5a727b037ec6beed5008e33b3dfd9',
-    'accept-encoding': 'gzip'
-  },
-  ip: '::1'
-}
-[PaymentController:Webhook] RAW REQUEST RECEIVED Top of webhookHandler. Headers: {
-  "host": "localhost:5000",
-  "user-agent": "Stripe/1.0 (+https://stripe.com/docs/webhooks)",
-  "content-length": "2333",
-  "accept": "*/*; q=0.5, application/xml",
-  "cache-control": "no-cache",
-  "content-type": "application/json; charset=utf-8",
-  "stripe-signature": "t=1763027073,v1=8546acfcdefeab5626624ebc62564ef4340fcf1a5d0ba682237f658a95e39314,v0=58683d383a7efd2917261ab29084bec505e5a727b037ec6beed5008e33b3dfd9",
-  "accept-encoding": "gzip"
-}
-[Webhook] Received a request from Stripe.
-[PaymentController:Webhook] Stripe signature from header: t=1763027073,v1=8546acfcdefeab5626624ebc62564ef4340fcf1a5d0ba682237f658a95e39314,v0=58683d383a7efd2917261ab29084bec505e5a727b037ec6beed5008e33b3dfd9
-[PaymentController:Webhook] STRIPE_WEBHOOK_SECRET used: SET
-[PaymentController:Webhook] Stripe event constructed successfully. Event Type: payment_intent.canceled Event ID: evt_3SSx4sHKNqVBSHKU1Vcmg5ld
-[PaymentController:Webhook] Processing event: {
-  type: 'payment_intent.canceled',
-  id: 'evt_3SSx4sHKNqVBSHKU1Vcmg5ld',
-  apiVersion: '2024-11-20.acacia',
-  timestamp: '2025-11-13T09:44:35.737Z'
-}
-[PaymentController:Webhook] Unhandled event type: payment_intent.canceled
-[Webhook Logging] Successfully processed and logged event: payment_intent.canceled (evt_3SSx4sHKNqVBSHKU1Vcmg5ld)
-[[[SERVER-ENTRY-POINT]]] Webhook request received at server entry. {
-  method: 'POST',
-  url: '/api/payments/webhook',
-  headers: {
-    host: 'localhost:5000',
-    'user-agent': 'Stripe/1.0 (+https://stripe.com/docs/webhooks)',
-    'content-length': '8646',
-    accept: '*/*; q=0.5, application/xml',
-    'cache-control': 'no-cache',
-    'content-type': 'application/json; charset=utf-8',
-    'stripe-signature': 't=1763027073,v1=7bd9b606d7e2658b62c0474c149ff7ceed9de02848eaa886986b5b3d04743977,v0=a517582ce393db4436c0d6633d6fe24cbc689c27b66b4283a6c965949accc949',
-    'accept-encoding': 'gzip'
-  },
-  ip: '::1'
-}
-[PaymentController:Webhook] RAW REQUEST RECEIVED Top of webhookHandler. Headers: {
-  "host": "localhost:5000",
-  "user-agent": "Stripe/1.0 (+https://stripe.com/docs/webhooks)",
-  "content-length": "8646",
-  "accept": "*/*; q=0.5, application/xml",
-  "cache-control": "no-cache",
-  "content-type": "application/json; charset=utf-8",
-  "stripe-signature": "t=1763027073,v1=7bd9b606d7e2658b62c0474c149ff7ceed9de02848eaa886986b5b3d04743977,v0=a517582ce393db4436c0d6633d6fe24cbc689c27b66b4283a6c965949accc949",
-  "accept-encoding": "gzip"
-}
-[Webhook] Received a request from Stripe.
-[PaymentController:Webhook] Stripe signature from header: t=1763027073,v1=7bd9b606d7e2658b62c0474c149ff7ceed9de02848eaa886986b5b3d04743977,v0=a517582ce393db4436c0d6633d6fe24cbc689c27b66b4283a6c965949accc949
-[PaymentController:Webhook] STRIPE_WEBHOOK_SECRET used: SET
-[PaymentController:Webhook] Stripe event constructed successfully. Event Type: invoice.updated Event ID: evt_1SSx4vHKNqVBSHKUd9g6izwJ
-[PaymentController:Webhook] Processing event: {
-  type: 'invoice.updated',
-  id: 'evt_1SSx4vHKNqVBSHKUd9g6izwJ',
-  apiVersion: '2024-11-20.acacia',
-  timestamp: '2025-11-13T09:44:35.896Z'
-}
-[PaymentController:Webhook] Unhandled event type: invoice.updated
-[Webhook Logging] Successfully processed and logged event: invoice.updated (evt_1SSx4vHKNqVBSHKUd9g6izwJ)
-[[[SERVER-ENTRY-POINT]]] Webhook request received at server entry. {
-  method: 'POST',
-  url: '/api/payments/webhook',
-  headers: {
-    host: 'localhost:5000',
-    'user-agent': 'Stripe/1.0 (+https://stripe.com/docs/webhooks)',
-    'content-length': '8412',
-    accept: '*/*; q=0.5, application/xml',
-    'cache-control': 'no-cache',
-    'content-type': 'application/json; charset=utf-8',
-    'stripe-signature': 't=1763027074,v1=75c1f1df66f635b1e1fcaae6c6012581befe56d7d90a25674762cdeca484d424,v0=7704c2c66fcc08ff65000a9c6edce8a0a119f626e8a120817e17002ab06abf53',
-    'accept-encoding': 'gzip'
-  },
-  ip: '::1'
-}
-[PaymentController:Webhook] RAW REQUEST RECEIVED Top of webhookHandler. Headers: {
-  "host": "localhost:5000",
-  "user-agent": "Stripe/1.0 (+https://stripe.com/docs/webhooks)",
-  "content-length": "8412",
-  "accept": "*/*; q=0.5, application/xml",
-  "cache-control": "no-cache",
-  "content-type": "application/json; charset=utf-8",
-  "stripe-signature": "t=1763027074,v1=75c1f1df66f635b1e1fcaae6c6012581befe56d7d90a25674762cdeca484d424,v0=7704c2c66fcc08ff65000a9c6edce8a0a119f626e8a120817e17002ab06abf53",
-  "accept-encoding": "gzip"
-}
-[Webhook] Received a request from Stripe.
-[PaymentController:Webhook] Stripe signature from header: t=1763027074,v1=75c1f1df66f635b1e1fcaae6c6012581befe56d7d90a25674762cdeca484d424,v0=7704c2c66fcc08ff65000a9c6edce8a0a119f626e8a120817e17002ab06abf53
-[PaymentController:Webhook] STRIPE_WEBHOOK_SECRET used: SET
-[PaymentController:Webhook] Stripe event constructed successfully. Event Type: invoice.paid Event ID: evt_1SSx4wHKNqVBSHKUvdvOjXGA
-[PaymentController:Webhook] Processing event: {
-  type: 'invoice.paid',
-  id: 'evt_1SSx4wHKNqVBSHKUvdvOjXGA',
-  apiVersion: '2024-11-20.acacia',
-  timestamp: '2025-11-13T09:44:36.140Z'
-}
-[PaymentController:Webhook] Unhandled event type: invoice.paid
-[Webhook Logging] Successfully processed and logged event: invoice.paid (evt_1SSx4wHKNqVBSHKUvdvOjXGA)
-info: [VideoSocket] Socket still connected {"rooms":["hoELNu9xFKG_ZSm7AABd","session:e807a9bfaa031120b48384f08da90aa2665d284dea0126c190e1069c6561f1ad"],"socketId":"hoELNu9xFKG_ZSm7AABd","timestamp":"2025-11-13T09:44:52.563Z","transport":"websocket"}
-info: [VideoSocket] Socket still connected {"rooms":["hoELNu9xFKG_ZSm7AABd","session:e807a9bfaa031120b48384f08da90aa2665d284dea0126c190e1069c6561f1ad"],"socketId":"hoELNu9xFKG_ZSm7AABd","timestamp":"2025-11-13T09:45:22.601Z","transport":"websocket"}
+bundle.js:172371 [useNotifications] Fetching with params: {"excludeTrash":true,"status":"all"}
+bundle.js:172371 [FRONTEND-API] Making fetch request to URL: "/api/notifications?excludeTrash=true&status=all&category=&limit=50&offset=0"
+bundle.js:172371 [SocketIO] <<< INCOMING EVENT: "ping" {"payload":[],"userId":"66f418d10a19ec0e4bbd377e","socketId":"SUGl_ApF_5bRUWS1AABz","timestamp":"2025-11-13T10:16:31.534Z"}

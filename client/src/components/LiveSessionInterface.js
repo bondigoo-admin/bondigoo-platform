@@ -174,7 +174,6 @@ const LiveSessionInterface = () => {
     const [mediaConfig, setMediaConfig] = useState(null);
     const [activeStream, setActiveStream] = useState(null);
     const [videoSocket, setVideoSocket] = useState(null);
-    const [connectionAttempt, setConnectionAttempt] = useState(0);
 
     const handleEndSession = useCallback(async () => {
         if (activeStream) {
@@ -262,92 +261,98 @@ const LiveSessionInterface = () => {
         };
     }, [notificationSocket, isNotificationSocketConnected, sessionData, user, handleEndSession, t]);
 
-    useEffect(() => {
-        if (connectionAttempt === 0 || !mediaConfig || (videoSocket && videoSocket.connected)) {
+useEffect(() => {
+        if (!mediaConfig || !user || (videoSocket && videoSocket.connected)) {
             return;
         }
 
         let isMounted = true;
         setFlowStatus('connecting');
-        logger.info(`[LSI-EFFECT-SOCKET] Attempt #${connectionAttempt}: CREATING new socket instance.`);
+        logger.info('[LSI-SOCKET-EFFECT] Effect triggered. Starting connection process.', { hasMediaConfig: !!mediaConfig, hasUser: !!user });
 
         const CONNECT_TIMEOUT = 15000;
-        let timeoutId = null;
-
+        const MAX_ATTEMPTS = 3;
         const authToken = localStorage.getItem('token');
+
         if (!authToken || !user?._id) {
             setErrorMessage('Authentication error. Please log in again.');
             setFlowStatus('error');
             return;
         }
-        
-        const newSocket = io(`${process.env.REACT_APP_API_URL || 'http://localhost:5000'}/video`, {
-            query: { sessionId: linkId, token },
-            auth: { token: authToken, userId: user._id },
-            transports: ['websocket'],
-            reconnection: false,
-        });
 
-        const handleFailure = (reason) => {
-            if (connectionAttempt < 3) {
-                logger.warn(`[LSI-EFFECT-SOCKET] Attempt #${connectionAttempt} failed: ${reason}. Retrying...`);
-                setConnectionAttempt(prev => prev + 1);
-            } else {
-                logger.error(`[LSI-EFFECT-SOCKET] All connection attempts failed. Last reason: ${reason}.`);
-                setErrorMessage('Failed to connect to the video service after multiple attempts. Please check your network.');
-                setFlowStatus('error');
+        let currentSocket;
+
+        const connectSocket = (attempt) => {
+            if (!isMounted || attempt > MAX_ATTEMPTS) {
+                if (isMounted) {
+                    logger.error(`[LSI-SOCKET-EFFECT] All ${MAX_ATTEMPTS} connection attempts failed.`);
+                    setErrorMessage('Failed to connect to the video service. Please check your network.');
+                    setFlowStatus('error');
+                }
+                return;
             }
+
+            logger.info(`[LSI-SOCKET-EFFECT] Attempting to connect (Attempt ${attempt}/${MAX_ATTEMPTS}).`);
+            
+            currentSocket = io(`${process.env.REACT_APP_API_URL || 'http://localhost:5000'}/video`, {
+                query: { sessionId: linkId, token },
+                auth: { token: authToken, userId: user._id },
+                transports: ['websocket'],
+                reconnection: false,
+            });
+
+            const watchdog = setTimeout(() => {
+                logger.warn(`[LSI-SOCKET-EFFECT] Watchdog: Connection attempt ${attempt} timed out after ${CONNECT_TIMEOUT}ms.`);
+                currentSocket.disconnect();
+                if (isMounted) {
+                    connectSocket(attempt + 1);
+                }
+            }, CONNECT_TIMEOUT);
+
+            const cleanupListeners = () => {
+                clearTimeout(watchdog);
+                currentSocket.off('connect');
+                currentSocket.off('connect_error');
+            };
+
+            currentSocket.on('connect', () => {
+                cleanupListeners();
+                if (isMounted) {
+                    logger.info(`[LSI-SOCKET-EFFECT] Connection successful on attempt ${attempt}.`, { socketId: currentSocket.id });
+                    setVideoSocket(currentSocket);
+                    setFlowStatus('in_call');
+                } else {
+                    logger.warn('[LSI-SOCKET-EFFECT] Socket connected but component unmounted. Disconnecting.', { socketId: currentSocket.id });
+                    currentSocket.disconnect();
+                }
+            });
+
+            currentSocket.on('connect_error', (error) => {
+                cleanupListeners();
+                logger.warn(`[LSI-SOCKET-EFFECT] Connection attempt ${attempt} failed with error: ${error.message}.`);
+                if (isMounted) {
+                    setTimeout(() => connectSocket(attempt + 1), 2000);
+                }
+            });
         };
         
-        timeoutId = setTimeout(() => {
-            if (isMounted) {
-                newSocket.disconnect();
-                handleFailure('Connection timed out');
-            }
-        }, CONNECT_TIMEOUT);
-
-        const cleanupListeners = () => {
-            clearTimeout(timeoutId);
-            newSocket.off('connect');
-            newSocket.off('connect_error');
-        };
-
-        newSocket.on('connect', () => {
-            if (isMounted) {
-                logger.info(`[LSI-EFFECT-SOCKET] Attempt #${connectionAttempt} connected successfully.`, { socketId: newSocket.id });
-                cleanupListeners();
-                setVideoSocket(newSocket);
-                setFlowStatus('in_call');
-            } else {
-                logger.warn('[LSI-EFFECT-SOCKET] Socket connected, but component unmounted. Disconnecting.', { socketId: newSocket.id });
-                newSocket.disconnect();
-            }
-        });
-
-        newSocket.on('connect_error', (error) => {
-            if (isMounted) {
-                cleanupListeners();
-                handleFailure(error.message);
-            }
-        });
+        connectSocket(1);
 
         return () => {
             isMounted = false;
-            cleanupListeners();
-            if (newSocket) {
-                logger.warn(`[LSI-EFFECT-SOCKET] CLEANUP for attempt #${connectionAttempt}: Disconnecting socket.`, { socketId: newSocket.id });
-                newSocket.disconnect();
+            if (currentSocket) {
+                logger.info(`[LSI-SOCKET-EFFECT] Cleanup: Disconnecting socket.`, { socketId: currentSocket.id });
+                currentSocket.disconnect();
             }
         };
-    }, [connectionAttempt, mediaConfig, user, linkId, token]);
+    }, [mediaConfig, user, linkId, token]);
 
-    const handleDeviceCheckReady = useCallback((config) => {
+     const handleDeviceCheckReady = useCallback((config) => {
         logger.info(`[LSI-HANDLER] Device check ready. Receiving stream and config.`);
-        if (config.stream) {
+        setTimeout(() => {
             setActiveStream(config.stream);
-        }
-        setMediaConfig(config);
-        setConnectionAttempt(1);
+            setMediaConfig(config);
+        }, 0);
     }, []);
 
     
@@ -392,11 +397,7 @@ const LiveSessionInterface = () => {
                 );
 
             case 'connecting':
-                const connectingMessage = t('common:connecting', 'Connecting to video service...');
-                const attemptMessage = connectionAttempt > 1 
-                    ? ` (${t('attempt', 'Attempt')} ${connectionAttempt} of 3)` 
-                    : '';
-                return <StagingUI message={`${connectingMessage}${attemptMessage}`} />;
+                return <StagingUI message={t('common:connecting', 'Connecting to video service...')} />;
 
             case 'in_call':
                 if (!videoSocket || !videoSocket.connected || !mediaConfig || !activeStream) {
