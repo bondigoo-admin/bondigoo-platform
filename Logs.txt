@@ -1,23 +1,182 @@
-[PaymentController] Payment methods retrieved: { count: 2, userId: '66f418d10a19ec0e4bbd377e' }
-GET /api/payments/methods/66f418d10a19ec0e4bbd377e 304 277.580 ms - -
+[PROGRAM_ROUTER] Received request: POST /api/programs/68fb2dd6cfd489abf47268b0/enroll
+info: [Socket] Authentication successful {"socketId":"qxA7QLK52MhZK2EQAAAV","timestamp":"2025-11-13T12:07:35.892Z","userId":"66f418d10a19ec0e4bbd377e"}
+info: [Socket Connected] New client authenticated. Socket ID: qxA7QLK52MhZK2EQAAAV, User ID: 66f418d10a19ec0e4bbd377e {"timestamp":"2025-11-13T12:07:35.892Z"}
+[programController.enrollInProgram] 1. START: Received enrollment request. {
+  programId: '68fb2dd6cfd489abf47268b0',
+  userId: '66f418d10a19ec0e4bbd377e',
+  body: { discountCode: 'TEST' }
+}
+[programController.enrollInProgram] 2. Checks passed. Calculating price...
+[programController.enrollInProgram] 3. Price calculation complete. { finalAmount: 7.2 }
+[programController.enrollInProgram] 4. Processing as PAID enrollment. Creating Payment record...
+[programController.enrollInProgram] 5. Payment record created in draft state. { paymentId: new ObjectId('6915ca08e240d8f6c758bb56') }
+[programController.enrollInProgram] 6. Calling paymentService.createPaymentIntent...
+[PaymentService.createPaymentIntent] 1. Received parameters for PI creation {
+  bookingId: '6915ca08e240d8f6c758bb56',
+  priceDetails: {
+    base: { amount: [Object], currency: 'CHF' },
+    final: { amount: [Object], currency: 'CHF' },
+    netAfterDiscount: 6.66,
+    currency: 'CHF',
+    discounts: [ [Object] ],
+    platformFee: { amount: 0, originalPercentage: 9.9, appliedPercentage: 0 },
+    vat: { amount: 0.54, rate: 8.1, included: true },
+    _calculationDetails: { appliedDiscount: [Object] }
+  },
+  currencyArgument: 'CHF',
+  stripeCustomerIdArgument: undefined,
+  userIdArgument: '66f418d10a19ec0e4bbd377e',
+  coachStripeAccountIdArgument: 'acct_1QdFtkQjpPpOYbVB',
+  metadataArgumentKeys: [ 'type', 'programId', 'userId', 'coachId', 'paymentId' ],
+  timestamp: '2025-11-13T12:07:36.433Z'
+}
+[PaymentService:createPaymentIntent] Calculated amountInCents for Stripe API {
+  bookingId: '6915ca08e240d8f6c758bb56',
+  finalAmountFromPriceDetails: 7.2,
+  calculatedAmountInCents: 720,
+  timestamp: '2025-11-13T12:07:36.435Z'
+}
+[PaymentService:createPaymentIntent] PRE-STRIPE-API-CALL: Preparing to call stripe.paymentIntents.create {
+  bookingId: '6915ca08e240d8f6c758bb56',
+  amountForStripe: 720,
+  currencyForStripe: 'chf',
+  customerForStripe: undefined,
+  applicationFeeForStripe: 54,
+  destinationForStripe: 'acct_1QdFtkQjpPpOYbVB',
+  metadataForStripe: {
+    bookingId: '6915ca08e240d8f6c758bb56',
+    platformFeeInCents: 0,
+    vatAmountInCents: 54,
+    type: 'program_purchase',
+    programId: '68fb2dd6cfd489abf47268b0',
+    userId: '66f418d10a19ec0e4bbd377e',
+    coachId: '66d9cdcb0a7492a86482bd68',
+    paymentId: '6915ca08e240d8f6c758bb56'
+  },
+  idempotencyKey: '6915ca08e240d8f6c758bb56-1763035656435',
+  timestamp: '2025-11-13T12:07:36.435Z'
+}
+[PaymentService.createPaymentIntent] 2. FINAL PARAMS for stripe.paymentIntents.create: {
+  intentParameters: {
+    amount: 720,
+    currency: 'chf',
+    customer: 'cus_RUlp0o3z2WooA6',
+    metadata: {
+      bookingId: '6915ca08e240d8f6c758bb56',
+      platformFeeInCents: 0,
+      vatAmountInCents: 54,
+      type: 'program_purchase',
+      programId: '68fb2dd6cfd489abf47268b0',
+      userId: '66f418d10a19ec0e4bbd377e',
+      coachId: '66d9cdcb0a7492a86482bd68',
+      paymentId: '6915ca08e240d8f6c758bb56'
+    },
+    automatic_payment_methods: { enabled: true, allow_redirects: 'never' }
+  }
+}
+[PaymentService] Payment intent created successfully {
+  paymentIntentId: 'pi_3SSzJKHKNqVBSHKU0paIWFnQ',
+  bookingId: '6915ca08e240d8f6c758bb56',
+  status: 'requires_payment_method',
+  amount: 7.2,
+  platformFeeInCents: 0,
+  vatAmountInCents: 54,
+  totalApplicationFeeInCents: 54,
+  stripeCustomerId: 'cus_RUlp0o3z2WooA6',
+  coachStripeAccountId: 'acct_1QdFtkQjpPpOYbVB',
+  idempotencyKey: '6915ca08e240d8f6c758bb56-1763035656435',
+  timestamp: '2025-11-13T12:07:36.946Z'
+}
+[programController.enrollInProgram] 7. Payment Intent created successfully by service. { paymentIntentId: 'pi_3SSzJKHKNqVBSHKU0paIWFnQ' }
+[programController.enrollInProgram] 8. Creating/updating Enrollment record...
+[programController.enrollInProgram] 9. Committing transaction...
+[programController.enrollInProgram] 10. SUCCESS: Transaction committed. Sending response to client.
+POST /api/programs/68fb2dd6cfd489abf47268b0/enroll 200 1163.269 ms - 255
+[[[SERVER-ENTRY-POINT]]] Webhook request received at server entry. {
+  method: 'POST',
+  url: '/api/payments/webhook',
+  headers: {
+    host: 'localhost:5000',
+    'user-agent': 'Stripe/1.0 (+https://stripe.com/docs/webhooks)',
+    'content-length': '2524',
+    accept: '*/*; q=0.5, application/xml',
+    'cache-control': 'no-cache',
+    'content-type': 'application/json; charset=utf-8',
+    'stripe-signature': 't=1763035654,v1=1e52e394b3e1ac98cdc060cf8a643b1728efd2fa9b1ff74e21f4385803ee5703,v0=b9367527e5e68d6d373e24af68c8ab09f84122bbe18256d893af24e6c6d58f63',
+    'accept-encoding': 'gzip'
+  },
+  ip: '::1'
+}
+[PaymentController:Webhook] RAW REQUEST RECEIVED Top of webhookHandler. Headers: {
+  "host": "localhost:5000",
+  "user-agent": "Stripe/1.0 (+https://stripe.com/docs/webhooks)",
+  "content-length": "2524",
+  "accept": "*/*; q=0.5, application/xml",
+  "cache-control": "no-cache",
+  "content-type": "application/json; charset=utf-8",
+  "stripe-signature": "t=1763035654,v1=1e52e394b3e1ac98cdc060cf8a643b1728efd2fa9b1ff74e21f4385803ee5703,v0=b9367527e5e68d6d373e24af68c8ab09f84122bbe18256d893af24e6c6d58f63",
+  "accept-encoding": "gzip"
+}
+[Webhook] Received a request from Stripe.
+[PaymentController:Webhook] Stripe signature from header: t=1763035654,v1=1e52e394b3e1ac98cdc060cf8a643b1728efd2fa9b1ff74e21f4385803ee5703,v0=b9367527e5e68d6d373e24af68c8ab09f84122bbe18256d893af24e6c6d58f63
+[PaymentController:Webhook] STRIPE_WEBHOOK_SECRET used: SET
+[PaymentController:Webhook] Stripe event constructed successfully. Event Type: payment_intent.created Event ID: evt_3SSzJKHKNqVBSHKU0AYjbIkQ
+[PaymentController:Webhook] Processing event: {
+  type: 'payment_intent.created',
+  id: 'evt_3SSzJKHKNqVBSHKU0AYjbIkQ',
+  apiVersion: '2024-11-20.acacia',
+  timestamp: '2025-11-13T12:07:37.154Z'
+}
+[PaymentController:Webhook] Unhandled event type: payment_intent.created
 [PaymentController] Fetching payment methods: {
   userId: '66f418d10a19ec0e4bbd377e',
   authenticatedUserId: '66f418d10a19ec0e4bbd377e',
-  timestamp: '2025-11-13T10:15:37.060Z'
+  timestamp: '2025-11-13T12:07:37.160Z'
+}
+[Webhook Logging] Successfully processed and logged event: payment_intent.created (evt_3SSzJKHKNqVBSHKU0AYjbIkQ)
+info: POST /api/payments/webhook {"duration":"34ms","status":200,"timestamp":"2025-11-13T12:07:37.185Z"}
+[PaymentController] Payment methods retrieved: { count: 2, userId: '66f418d10a19ec0e4bbd377e' }
+GET /api/payments/methods/66f418d10a19ec0e4bbd377e 304 283.482 ms - -
+[PaymentController] Fetching payment methods: {
+  userId: '66f418d10a19ec0e4bbd377e',
+  authenticatedUserId: '66f418d10a19ec0e4bbd377e',
+  timestamp: '2025-11-13T12:07:37.445Z'
 }
 [PaymentController] Payment methods retrieved: { count: 2, userId: '66f418d10a19ec0e4bbd377e' }
-GET /api/payments/methods/66f418d10a19ec0e4bbd377e 304 282.763 ms - -
+GET /api/payments/methods/66f418d10a19ec0e4bbd377e 304 278.815 ms - -
+[PaymentController] Fetching payment status: {
+  paymentIntentId: '6915ca08e240d8f6c758bb56',
+  userId: '66f418d10a19ec0e4bbd377e',
+  timestamp: '2025-11-13T12:07:50.627Z'
+}
+[PaymentController] Payment status fetched: {
+  paymentIntentId: '6915ca08e240d8f6c758bb56',
+  status: 'requires_payment_method',
+  bookingId: undefined
+}
+[PaymentController:confirmPayment] Request received. {
+  paymentIntentId: 'pi_3SSzJKHKNqVBSHKU0paIWFnQ',
+  hasPaymentMethodId: true,
+  userId: '66f418d10a19ec0e4bbd377e',
+  timestamp: '2025-11-13T12:07:50.918Z'
+}
+[PaymentService] Confirming payment intent: {
+  paymentIntentId: 'pi_3SSzJKHKNqVBSHKU0paIWFnQ',
+  paymentMethodId: 'pm_1SBIwWHKNqVBSHKU8InvHDXZ'
+}
+[PaymentService] Payment intent confirmed: { paymentIntentId: 'pi_3SSzJKHKNqVBSHKU0paIWFnQ', status: 'succeeded' }
+POST /api/payments/confirm 200 933.939 ms - 67
 [[[SERVER-ENTRY-POINT]]] Webhook request received at server entry. {
   method: 'POST',
   url: '/api/payments/webhook',
   headers: {
     host: 'localhost:5000',
     'user-agent': 'Stripe/1.0 (+https://stripe.com/docs/webhooks)',
-    'content-length': '1614',
+    'content-length': '2580',
     accept: '*/*; q=0.5, application/xml',
     'cache-control': 'no-cache',
     'content-type': 'application/json; charset=utf-8',
-    'stripe-signature': 't=1763028942,v1=d9f2fb71e70da4e67478ee4fae5e7cfa6534e67a2d8f83bbfcf531dd136a0768,v0=fdf0bf00f62c47fd07920baace4d2145d6e09dffb4e32ed80168ee8f38896405',
+    'stripe-signature': 't=1763035669,v1=9f95f13634daf95dd3bce5be6692e3375cb4ae54b63cad420e2fa9f0178d157a,v0=10099437d33183a09fb9b2d6e6b81b28f818d32a20ddc4359a039a3953b6a9c4',
     'accept-encoding': 'gzip'
   },
   ip: '::1'
@@ -25,146 +184,63 @@ GET /api/payments/methods/66f418d10a19ec0e4bbd377e 304 282.763 ms - -
 [PaymentController:Webhook] RAW REQUEST RECEIVED Top of webhookHandler. Headers: {
   "host": "localhost:5000",
   "user-agent": "Stripe/1.0 (+https://stripe.com/docs/webhooks)",
-  "content-length": "1614",
+  "content-length": "2580",
   "accept": "*/*; q=0.5, application/xml",
   "cache-control": "no-cache",
   "content-type": "application/json; charset=utf-8",
-  "stripe-signature": "t=1763028942,v1=d9f2fb71e70da4e67478ee4fae5e7cfa6534e67a2d8f83bbfcf531dd136a0768,v0=fdf0bf00f62c47fd07920baace4d2145d6e09dffb4e32ed80168ee8f38896405",
+  "stripe-signature": "t=1763035669,v1=9f95f13634daf95dd3bce5be6692e3375cb4ae54b63cad420e2fa9f0178d157a,v0=10099437d33183a09fb9b2d6e6b81b28f818d32a20ddc4359a039a3953b6a9c4",
   "accept-encoding": "gzip"
 }
 [Webhook] Received a request from Stripe.
-[PaymentController:Webhook] Stripe signature from header: t=1763028942,v1=d9f2fb71e70da4e67478ee4fae5e7cfa6534e67a2d8f83bbfcf531dd136a0768,v0=fdf0bf00f62c47fd07920baace4d2145d6e09dffb4e32ed80168ee8f38896405
+[PaymentController:Webhook] Stripe signature from header: t=1763035669,v1=9f95f13634daf95dd3bce5be6692e3375cb4ae54b63cad420e2fa9f0178d157a,v0=10099437d33183a09fb9b2d6e6b81b28f818d32a20ddc4359a039a3953b6a9c4
 [PaymentController:Webhook] STRIPE_WEBHOOK_SECRET used: SET
-[PaymentController:Webhook] Stripe event constructed successfully. Event Type: setup_intent.succeeded Event ID: evt_1SSxZ4HKNqVBSHKUjVUA4vdp
-[PaymentController:Webhook] Processing event: {
-  type: 'setup_intent.succeeded',
-  id: 'evt_1SSxZ4HKNqVBSHKUjVUA4vdp',
-  apiVersion: '2024-11-20.acacia',
-  timestamp: '2025-11-13T10:15:44.717Z'
-}
-[PaymentController:Webhook] Unhandled event type: setup_intent.succeeded
-[Webhook Logging] Successfully processed and logged event: setup_intent.succeeded (evt_1SSxZ4HKNqVBSHKUjVUA4vdp)
-POST /api/livesessions/6915afc3ee3ebd991d726344/start 200 418.921 ms - 932
-GET /api/livesessions/validate/78edb6ee527fcd9c792c4234f0ed94950d66d7c4a7766cfcfba63cb1b56d8f95/f2c47e6dbece02d76978ce5cc80fe49583a77e6295fe84b996a1becadc4cf899 200 67.635 ms - 386
-GET /api/livesessions/validate/78edb6ee527fcd9c792c4234f0ed94950d66d7c4a7766cfcfba63cb1b56d8f95/f2c47e6dbece02d76978ce5cc80fe49583a77e6295fe84b996a1becadc4cf899 200 61.580 ms - 386
-GET /api/users/backgrounds 304 42.576 ms - -
-GET /api/livesessions/validate/78edb6ee527fcd9c792c4234f0ed94950d66d7c4a7766cfcfba63cb1b56d8f95/f2c47e6dbece02d76978ce5cc80fe49583a77e6295fe84b996a1becadc4cf899 304 72.487 ms - -
-GET /api/livesessions/validate/78edb6ee527fcd9c792c4234f0ed94950d66d7c4a7766cfcfba63cb1b56d8f95/f2c47e6dbece02d76978ce5cc80fe49583a77e6295fe84b996a1becadc4cf899 304 77.513 ms - -
-GET /api/users/backgrounds 304 39.079 ms - -
-GET /api/users/backgrounds 304 52.676 ms - -
-GET /api/users/backgrounds 304 50.420 ms - -
-GET /api/users/backgrounds 304 45.693 ms - -
-GET /api/users/backgrounds 304 41.117 ms - -
-GET /api/users/backgrounds 304 41.576 ms - -
-GET /api/users/backgrounds 304 46.792 ms - -
-info: [VideoSocket] Socket still connected {"rooms":["AsMvX6SUG6m1xTooAAB7","session:78edb6ee527fcd9c792c4234f0ed94950d66d7c4a7766cfcfba63cb1b56d8f95"],"socketId":"AsMvX6SUG6m1xTooAAB7","timestamp":"2025-11-13T10:15:58.022Z","transport":"websocket"}
-debug: [auth] Decoded token: {"user":{"id":"66f418d10a19ec0e4bbd377e","role":"client","version":4},"iat":1763028540,"exp":1763114940} {"timestamp":"2025-11-13T10:16:07.817Z"}
-info: [auth] User authenticated: 66f418d10a19ec0e4bbd377e {"timestamp":"2025-11-13T10:16:07.841Z"}
-debug: [TaxService] Received deconstruction request {"currency":"CHF","customerLocation":{},"timestamp":"2025-11-13T10:16:07.880Z","totalAmount":3.1666666666666665,"vatNumber":null}
-warn: [TaxService] Customer country not provided. Falling back to default Swiss VAT deconstruction. {"timestamp":"2025-11-13T10:16:07.881Z"}
-[PaymentService] Creating FINAL STANDARD charge for completed session. {
-  liveSessionId: new ObjectId('6915afc3ee3ebd991d726344'),
-  finalGrossAmount: 3.17
-}
-[PaymentService] Created pending payment record for live session charge. { paymentId: new ObjectId('6915afe8ee3ebd991d726443') }
-POST /api/livesessions/6915afc3ee3ebd991d726344/end 200 1291.616 ms - 1509
-warn: [SocketConfig] << RCVD peer-disconnected from user 66d9cdcb0a7492a86482bd68 regarding peer AsMvX6SUG6m1xTooAAB7 in session 78edb6ee527fcd9c792c4234f0ed94950d66d7c4a7766cfcfba63cb1b56d8f95 {"timestamp":"2025-11-13T10:16:09.115Z"}
-warn: [SocketConfig] << RCVD peer-disconnected from user 66f418d10a19ec0e4bbd377e regarding peer pURWuTUaADSG36U_AAB5 in session 78edb6ee527fcd9c792c4234f0ed94950d66d7c4a7766cfcfba63cb1b56d8f95 {"timestamp":"2025-11-13T10:16:09.121Z"}
-warn: [SocketConfig] Peer-disconnected event for an invalid or non-active session ignored. {"sessionId":"78edb6ee527fcd9c792c4234f0ed94950d66d7c4a7766cfcfba63cb1b56d8f95","timestamp":"2025-11-13T10:16:09.135Z"}
-warn: [SocketConfig] Peer-disconnected event for an invalid or non-active session ignored. {"sessionId":"78edb6ee527fcd9c792c4234f0ed94950d66d7c4a7766cfcfba63cb1b56d8f95","timestamp":"2025-11-13T10:16:09.143Z"}
-[[[SERVER-ENTRY-POINT]]] Webhook request received at server entry. {
-  method: 'POST',
-  url: '/api/payments/webhook',
-  headers: {
-    host: 'localhost:5000',
-    'user-agent': 'Stripe/1.0 (+https://stripe.com/docs/webhooks)',
-    'content-length': '3940',
-    accept: '*/*; q=0.5, application/xml',
-    'cache-control': 'no-cache',
-    'content-type': 'application/json; charset=utf-8',
-    'stripe-signature': 't=1763028967,v1=a968bfced52bd5a3b0339f37bf0c16b2362b1974aa611aaaa3849a71cb0f8c9a,v0=fa929496d1ef2d238d175398c02494aabffc62d94a1b73590afe30fbfa5a4867',
-    'accept-encoding': 'gzip'
-  },
-  ip: '::1'
-}
-[PaymentController:Webhook] RAW REQUEST RECEIVED Top of webhookHandler. Headers: {
-  "host": "localhost:5000",
-  "user-agent": "Stripe/1.0 (+https://stripe.com/docs/webhooks)",
-  "content-length": "3940",
-  "accept": "*/*; q=0.5, application/xml",
-  "cache-control": "no-cache",
-  "content-type": "application/json; charset=utf-8",
-  "stripe-signature": "t=1763028967,v1=a968bfced52bd5a3b0339f37bf0c16b2362b1974aa611aaaa3849a71cb0f8c9a,v0=fa929496d1ef2d238d175398c02494aabffc62d94a1b73590afe30fbfa5a4867",
-  "accept-encoding": "gzip"
-}
-[Webhook] Received a request from Stripe.
-[PaymentController:Webhook] Stripe signature from header: t=1763028967,v1=a968bfced52bd5a3b0339f37bf0c16b2362b1974aa611aaaa3849a71cb0f8c9a,v0=fa929496d1ef2d238d175398c02494aabffc62d94a1b73590afe30fbfa5a4867
-[PaymentController:Webhook] STRIPE_WEBHOOK_SECRET used: SET
-[PaymentController:Webhook] Stripe event constructed successfully. Event Type: charge.succeeded Event ID: evt_3SSxZSHKNqVBSHKU1kUv1PUJ
-[PaymentController:Webhook] Processing event: {
-  type: 'charge.succeeded',
-  id: 'evt_3SSxZSHKNqVBSHKU1kUv1PUJ',
-  apiVersion: '2024-11-20.acacia',
-  timestamp: '2025-11-13T10:16:09.310Z'
-}
-[PaymentController:Webhook] Unhandled event type: charge.succeeded
-[Webhook Logging] Successfully processed and logged event: charge.succeeded (evt_3SSxZSHKNqVBSHKU1kUv1PUJ)
-[[[SERVER-ENTRY-POINT]]] Webhook request received at server entry. {
-  method: 'POST',
-  url: '/api/payments/webhook',
-  headers: {
-    host: 'localhost:5000',
-    'user-agent': 'Stripe/1.0 (+https://stripe.com/docs/webhooks)',
-    'content-length': '2548',
-    accept: '*/*; q=0.5, application/xml',
-    'cache-control': 'no-cache',
-    'content-type': 'application/json; charset=utf-8',
-    'stripe-signature': 't=1763028967,v1=cb39feb8f3bbd27da35647cd33fe319ac42cca3b3de57b9dd6350026641df1b9,v0=38600af690187e6a4c9724aa9e807f11239ceedbaf33acf1ff059ba327f58071',
-    'accept-encoding': 'gzip'
-  },
-  ip: '::1'
-}
-[PaymentController:Webhook] RAW REQUEST RECEIVED Top of webhookHandler. Headers: {
-  "host": "localhost:5000",
-  "user-agent": "Stripe/1.0 (+https://stripe.com/docs/webhooks)",
-  "content-length": "2548",
-  "accept": "*/*; q=0.5, application/xml",
-  "cache-control": "no-cache",
-  "content-type": "application/json; charset=utf-8",
-  "stripe-signature": "t=1763028967,v1=cb39feb8f3bbd27da35647cd33fe319ac42cca3b3de57b9dd6350026641df1b9,v0=38600af690187e6a4c9724aa9e807f11239ceedbaf33acf1ff059ba327f58071",
-  "accept-encoding": "gzip"
-}
-[Webhook] Received a request from Stripe.
-[PaymentController:Webhook] Stripe signature from header: t=1763028967,v1=cb39feb8f3bbd27da35647cd33fe319ac42cca3b3de57b9dd6350026641df1b9,v0=38600af690187e6a4c9724aa9e807f11239ceedbaf33acf1ff059ba327f58071
-[PaymentController:Webhook] STRIPE_WEBHOOK_SECRET used: SET
-[PaymentController:Webhook] Stripe event constructed successfully. Event Type: payment_intent.succeeded Event ID: evt_3SSxZSHKNqVBSHKU1hfFeAzE
+[PaymentController:Webhook] Stripe event constructed successfully. Event Type: payment_intent.succeeded Event ID: evt_3SSzJKHKNqVBSHKU0PpbrXZb
 [PaymentController:Webhook] Processing event: {
   type: 'payment_intent.succeeded',
-  id: 'evt_3SSxZSHKNqVBSHKU1hfFeAzE',
+  id: 'evt_3SSzJKHKNqVBSHKU0PpbrXZb',
   apiVersion: '2024-11-20.acacia',
-  timestamp: '2025-11-13T10:16:09.397Z'
+  timestamp: '2025-11-13T12:07:52.009Z'
 }
-[Webhook] Processing 'payment_intent.succeeded' event. { paymentIntentId: 'pi_3SSxZSHKNqVBSHKU1Yb0VNzv' }
-[PaymentController:Webhook] Entered payment_intent.succeeded case. Event ID: evt_3SSxZSHKNqVBSHKU1hfFeAzE PaymentIntent ID: pi_3SSxZSHKNqVBSHKU1Yb0VNzv
-[[[WEBHOOK-CASE-MATCH]]] Entered switch case: payment_intent.succeeded. { paymentIntentId: 'pi_3SSxZSHKNqVBSHKU1Yb0VNzv' }
-[Webhook] Processing standard/live_session PI.succeeded {
-  paymentIntentId: 'pi_3SSxZSHKNqVBSHKU1Yb0VNzv',
-  metadata: {
-    type: 'live_session_charge',
-    liveSessionId: '6915afc3ee3ebd991d726344',
-    bookingId: '6915afc8ee3ebd991d726381',
-    paymentId: '6915afe8ee3ebd991d726443'
-  },
-  timestamp: '2025-11-13T10:16:09.398Z'
+[Webhook] Processing 'payment_intent.succeeded' event. { paymentIntentId: 'pi_3SSzJKHKNqVBSHKU0paIWFnQ' }
+[PaymentController:Webhook] Entered payment_intent.succeeded case. Event ID: evt_3SSzJKHKNqVBSHKU0PpbrXZb PaymentIntent ID: pi_3SSzJKHKNqVBSHKU0paIWFnQ
+[[[WEBHOOK-CASE-MATCH]]] Entered switch case: payment_intent.succeeded. { paymentIntentId: 'pi_3SSzJKHKNqVBSHKU0paIWFnQ' }
+[Webhook:ProgramPurchase] Start processing event. {
+  entryPoint: '[Webhook:ProgramPurchase]',
+  paymentIntentId: 'pi_3SSzJKHKNqVBSHKU0paIWFnQ',
+  programId: '68fb2dd6cfd489abf47268b0',
+  userId: '66f418d10a19ec0e4bbd377e',
+  timestamp: '2025-11-13T12:07:52.010Z'
 }
-[Webhook] Payment record 6915afe8ee3ebd991d726443 updated. Status: completed, Type: live_session_charge. { paymentIntentId: 'pi_3SSxZSHKNqVBSHKU1Yb0VNzv' }
-[handlePaymentSuccess] V-FINAL - Received successful payment event. {
-  paymentId: '6915afe8ee3ebd991d726443',
-  bookingId: '6915afc8ee3ebd991d726381',
-  liveSessionId: '6915afc3ee3ebd991d726344',
-  programId: undefined,
-  paymentIntentId: 'pi_3SSxZSHKNqVBSHKU1Yb0VNzv',
-  chargeId: 'ch_3SSxZSHKNqVBSHKU1KHpaSys'
+[Webhook:ProgramPurchase] [DB Transaction] Start. {
+  entryPoint: '[Webhook:ProgramPurchase]',
+  paymentIntentId: 'pi_3SSzJKHKNqVBSHKU0paIWFnQ',
+  programId: '68fb2dd6cfd489abf47268b0',
+  userId: '66f418d10a19ec0e4bbd377e',
+  timestamp: '2025-11-13T12:07:52.010Z'
+}
+[Webhook:ProgramPurchase] [DB Transaction] Payment record updated to 'completed'. {
+  entryPoint: '[Webhook:ProgramPurchase]',
+  paymentIntentId: 'pi_3SSzJKHKNqVBSHKU0paIWFnQ',
+  programId: '68fb2dd6cfd489abf47268b0',
+  userId: '66f418d10a19ec0e4bbd377e',
+  timestamp: '2025-11-13T12:07:52.010Z',
+  paymentId: '6915ca08e240d8f6c758bb56'
+}
+[Webhook:ProgramPurchase] [DB Transaction] Enrollment activated and program count incremented. {
+  entryPoint: '[Webhook:ProgramPurchase]',
+  paymentIntentId: 'pi_3SSzJKHKNqVBSHKU0paIWFnQ',
+  programId: '68fb2dd6cfd489abf47268b0',
+  userId: '66f418d10a19ec0e4bbd377e',
+  timestamp: '2025-11-13T12:07:52.010Z',
+  paymentId: '6915ca08e240d8f6c758bb56'
+}
+[Webhook:ProgramPurchase] [DB Transaction] 'charge' transaction ensured. {
+  entryPoint: '[Webhook:ProgramPurchase]',
+  paymentIntentId: 'pi_3SSzJKHKNqVBSHKU0paIWFnQ',
+  programId: '68fb2dd6cfd489abf47268b0',
+  userId: '66f418d10a19ec0e4bbd377e',
+  timestamp: '2025-11-13T12:07:52.010Z',
+  paymentId: '6915ca08e240d8f6c758bb56'
 }
 [[[SERVER-ENTRY-POINT]]] Webhook request received at server entry. {
   method: 'POST',
@@ -172,11 +248,11 @@ warn: [SocketConfig] Peer-disconnected event for an invalid or non-active sessio
   headers: {
     host: 'localhost:5000',
     'user-agent': 'Stripe/1.0 (+https://stripe.com/docs/webhooks)',
-    'content-length': '2508',
+    'content-length': '4094',
     accept: '*/*; q=0.5, application/xml',
     'cache-control': 'no-cache',
     'content-type': 'application/json; charset=utf-8',
-    'stripe-signature': 't=1763028967,v1=369afcfbcba563e6fa4fda1d5e202e5c794c9b14d138f68a775689dd59f8b303,v0=fd1f26719e744e4f2009a99f9a2e56fd97dc620cbfd5fbd2c943e525d2cc6f02',
+    'stripe-signature': 't=1763035669,v1=274fe188b64b00bba65b4d72146c3cf9228e81840e022cc4821154fecb9656c8,v0=6cde984051e43566523b9f5988476a83a91d7c23df860391f920af834da5f79f',
     'accept-encoding': 'gzip'
   },
   ip: '::1'
@@ -184,70 +260,58 @@ warn: [SocketConfig] Peer-disconnected event for an invalid or non-active sessio
 [PaymentController:Webhook] RAW REQUEST RECEIVED Top of webhookHandler. Headers: {
   "host": "localhost:5000",
   "user-agent": "Stripe/1.0 (+https://stripe.com/docs/webhooks)",
-  "content-length": "2508",
+  "content-length": "4094",
   "accept": "*/*; q=0.5, application/xml",
   "cache-control": "no-cache",
   "content-type": "application/json; charset=utf-8",
-  "stripe-signature": "t=1763028967,v1=369afcfbcba563e6fa4fda1d5e202e5c794c9b14d138f68a775689dd59f8b303,v0=fd1f26719e744e4f2009a99f9a2e56fd97dc620cbfd5fbd2c943e525d2cc6f02",
+  "stripe-signature": "t=1763035669,v1=274fe188b64b00bba65b4d72146c3cf9228e81840e022cc4821154fecb9656c8,v0=6cde984051e43566523b9f5988476a83a91d7c23df860391f920af834da5f79f",
   "accept-encoding": "gzip"
 }
 [Webhook] Received a request from Stripe.
-[PaymentController:Webhook] Stripe signature from header: t=1763028967,v1=369afcfbcba563e6fa4fda1d5e202e5c794c9b14d138f68a775689dd59f8b303,v0=fd1f26719e744e4f2009a99f9a2e56fd97dc620cbfd5fbd2c943e525d2cc6f02
+[PaymentController:Webhook] Stripe signature from header: t=1763035669,v1=274fe188b64b00bba65b4d72146c3cf9228e81840e022cc4821154fecb9656c8,v0=6cde984051e43566523b9f5988476a83a91d7c23df860391f920af834da5f79f
 [PaymentController:Webhook] STRIPE_WEBHOOK_SECRET used: SET
-[PaymentController:Webhook] Stripe event constructed successfully. Event Type: payment_intent.created Event ID: evt_3SSxZSHKNqVBSHKU1AWWpKpL
+[PaymentController:Webhook] Stripe event constructed successfully. Event Type: charge.succeeded Event ID: evt_3SSzJKHKNqVBSHKU09bUiZhu
 [PaymentController:Webhook] Processing event: {
-  type: 'payment_intent.created',
-  id: 'evt_3SSxZSHKNqVBSHKU1AWWpKpL',
+  type: 'charge.succeeded',
+  id: 'evt_3SSzJKHKNqVBSHKU09bUiZhu',
   apiVersion: '2024-11-20.acacia',
-  timestamp: '2025-11-13T10:16:09.522Z'
+  timestamp: '2025-11-13T12:07:52.130Z'
 }
-[PaymentController:Webhook] Unhandled event type: payment_intent.created
-[Webhook Logging] Successfully processed and logged event: payment_intent.created (evt_3SSxZSHKNqVBSHKU1AWWpKpL)
-[handlePaymentSuccess] V-FINAL - LiveSession state updated to completed. {
-  liveSessionId: {
-    basePerMinuteRate: { amount: 10, currency: 'CHF' },
-    effectivePerMinuteRate: { amount: 10, currency: 'CHF' },
-    discountApplied: null,
-    finalCost: { grossAmount: 3.17, currency: 'CHF' },
-    sessionLink: {
-      sessionId: '78edb6ee527fcd9c792c4234f0ed94950d66d7c4a7766cfcfba63cb1b56d8f95',
-      token: 'f2c47e6dbece02d76978ce5cc80fe49583a77e6295fe84b996a1becadc4cf899',
-      generatedAt: 2025-11-13T10:15:45.363Z,
-      expired: false
-    },
-    _id: new ObjectId('6915afc3ee3ebd991d726344'),
-    client: new ObjectId('66f418d10a19ec0e4bbd377e'),
-    coach: new ObjectId('66d9cdcb0a7492a86482bd68'),
-    status: 'pending_settlement',
-    durationInSeconds: 19,
-    paymentRecords: [],
-    participants: [ [Object], [Object] ],
-    presentParticipants: [ [Object], [Object], [Object], [Object] ],
-    createdAt: 2025-11-13T10:15:31.289Z,
-    updatedAt: 2025-11-13T10:16:09.082Z,
-    __v: 0,
-    booking: new ObjectId('6915afc8ee3ebd991d726381'),
-    startTime: 2025-11-13T10:15:48.148Z,
-    endTime: 2025-11-13T10:16:07.862Z
-  }
+[PaymentController:Webhook] Unhandled event type: charge.succeeded
+[Webhook:ProgramPurchase] Database transaction committed. Starting post-transaction services. {
+  entryPoint: '[Webhook:ProgramPurchase]',
+  paymentIntentId: 'pi_3SSzJKHKNqVBSHKU0paIWFnQ',
+  programId: '68fb2dd6cfd489abf47268b0',
+  userId: '66f418d10a19ec0e4bbd377e',
+  timestamp: '2025-11-13T12:07:52.010Z',
+  paymentId: '6915ca08e240d8f6c758bb56'
 }
-[Booking Model] Booking saved successfully: 6915afc8ee3ebd991d726381
-[handlePaymentSuccess] V-FINAL - Booking status updated. {
-  bookingId: new ObjectId('6915afc8ee3ebd991d726381'),
-  newStatus: 'completed'
+[Webhook Logging] Successfully processed and logged event: charge.succeeded (evt_3SSzJKHKNqVBSHKU09bUiZhu)
+[Webhook:ProgramPurchase] [Post-Transaction] Fetched final payment record. Validating populated fields. {
+  entryPoint: '[Webhook:ProgramPurchase]',
+  paymentIntentId: 'pi_3SSzJKHKNqVBSHKU0paIWFnQ',
+  programId: '68fb2dd6cfd489abf47268b0',
+  userId: '66f418d10a19ec0e4bbd377e',
+  timestamp: '2025-11-13T12:07:52.010Z',
+  paymentId: '6915ca08e240d8f6c758bb56',
+  hasProgram: true,
+  hasPayer: true,
+  hasRecipient: true,
+  payerEmail: 'test.user2@example.com',
+  recipientEmail: 'test.coach2@example.com'
 }
-[handlePaymentSuccess] V-FINAL - 'charge' transaction ensured. {
-  paymentId: '6915afe8ee3ebd991d726443',
-  bookingId: '6915afc8ee3ebd991d726381',
-  liveSessionId: '6915afc3ee3ebd991d726344',
-  programId: undefined,
-  paymentIntentId: 'pi_3SSxZSHKNqVBSHKU1Yb0VNzv',
-  chargeId: 'ch_3SSxZSHKNqVBSHKU1KHpaSys'
+[Webhook:ProgramPurchase] [Post-Transaction] Calling InvoiceService. {
+  entryPoint: '[Webhook:ProgramPurchase]',
+  paymentIntentId: 'pi_3SSzJKHKNqVBSHKU0paIWFnQ',
+  programId: '68fb2dd6cfd489abf47268b0',
+  userId: '66f418d10a19ec0e4bbd377e',
+  timestamp: '2025-11-13T12:07:52.010Z',
+  paymentId: '6915ca08e240d8f6c758bb56'
 }
 [InvoiceService] Starting detailed invoice creation. {
-  paymentId: new ObjectId('6915afe8ee3ebd991d726443'),
-  bookingId: new ObjectId('6915afc8ee3ebd991d726381'),
-  programId: undefined
+  paymentId: new ObjectId('6915ca08e240d8f6c758bb56'),
+  bookingId: undefined,
+  programId: new ObjectId('68fb2dd6cfd489abf47268b0')
 }
 [[[SERVER-ENTRY-POINT]]] Webhook request received at server entry. {
   method: 'POST',
@@ -255,11 +319,11 @@ warn: [SocketConfig] Peer-disconnected event for an invalid or non-active sessio
   headers: {
     host: 'localhost:5000',
     'user-agent': 'Stripe/1.0 (+https://stripe.com/docs/webhooks)',
-    'content-length': '4386',
+    'content-length': '4385',
     accept: '*/*; q=0.5, application/xml',
     'cache-control': 'no-cache',
     'content-type': 'application/json; charset=utf-8',
-    'stripe-signature': 't=1763028968,v1=34d3a11ba8a436b4f11433a37458153efbf09aec93df5ed67020247764b8d2ed,v0=bc47bd39d039acb875e8eb4feec3008e266032265b3ba7575ff455389b79f1b1',
+    'stripe-signature': 't=1763035671,v1=1c92fa029c9da012bc9b1b3f3a6dc075c0033af55d477790b6cd922ba2b77b32,v0=07595fd6d1e34cac30ffd5b3588055465e074c89455fa17606f445e4a2609c6b',
     'accept-encoding': 'gzip'
   },
   ip: '::1'
@@ -267,40 +331,36 @@ warn: [SocketConfig] Peer-disconnected event for an invalid or non-active sessio
 [PaymentController:Webhook] RAW REQUEST RECEIVED Top of webhookHandler. Headers: {
   "host": "localhost:5000",
   "user-agent": "Stripe/1.0 (+https://stripe.com/docs/webhooks)",
-  "content-length": "4386",
+  "content-length": "4385",
   "accept": "*/*; q=0.5, application/xml",
   "cache-control": "no-cache",
   "content-type": "application/json; charset=utf-8",
-  "stripe-signature": "t=1763028968,v1=34d3a11ba8a436b4f11433a37458153efbf09aec93df5ed67020247764b8d2ed,v0=bc47bd39d039acb875e8eb4feec3008e266032265b3ba7575ff455389b79f1b1",
+  "stripe-signature": "t=1763035671,v1=1c92fa029c9da012bc9b1b3f3a6dc075c0033af55d477790b6cd922ba2b77b32,v0=07595fd6d1e34cac30ffd5b3588055465e074c89455fa17606f445e4a2609c6b",
   "accept-encoding": "gzip"
 }
 [Webhook] Received a request from Stripe.
-[PaymentController:Webhook] Stripe signature from header: t=1763028968,v1=34d3a11ba8a436b4f11433a37458153efbf09aec93df5ed67020247764b8d2ed,v0=bc47bd39d039acb875e8eb4feec3008e266032265b3ba7575ff455389b79f1b1
+[PaymentController:Webhook] Stripe signature from header: t=1763035671,v1=1c92fa029c9da012bc9b1b3f3a6dc075c0033af55d477790b6cd922ba2b77b32,v0=07595fd6d1e34cac30ffd5b3588055465e074c89455fa17606f445e4a2609c6b
 [PaymentController:Webhook] STRIPE_WEBHOOK_SECRET used: SET
-[PaymentController:Webhook] Stripe event constructed successfully. Event Type: invoice.created Event ID: evt_1SSxZUHKNqVBSHKUajfKo13V
+[PaymentController:Webhook] Stripe event constructed successfully. Event Type: invoice.created Event ID: evt_1SSzJbHKNqVBSHKU0OX1REmb
 [PaymentController:Webhook] Processing event: {
   type: 'invoice.created',
-  id: 'evt_1SSxZUHKNqVBSHKUajfKo13V',
+  id: 'evt_1SSzJbHKNqVBSHKU0OX1REmb',
   apiVersion: '2024-11-20.acacia',
-  timestamp: '2025-11-13T10:16:10.979Z'
+  timestamp: '2025-11-13T12:07:53.375Z'
 }
 [PaymentController:Webhook] Unhandled event type: invoice.created
-[Webhook Logging] Successfully processed and logged event: invoice.created (evt_1SSxZUHKNqVBSHKUajfKo13V)
-[ReviewController.getCoachReviews] UNIVERSAL QUERY for coachId: 66d9cdcb0a7492a86482bd68
-[ReviewController.getCoachReviews] Executing DB Query: Review.find({"isPrivate":false,"isVisible":true,"$or":[{"rateeId":"66d9cdcb0a7492a86482bd68"},{"ratee":"66d9cdcb0a7492a86482bd68","rateeModel":"User"}]})
-[ReviewController.getCoachReviews] DB Query Result: Found 9 review(s).
-GET /api/reviews/coach/66d9cdcb0a7492a86482bd68 304 44.935 ms - -
+[Webhook Logging] Successfully processed and logged event: invoice.created (evt_1SSzJbHKNqVBSHKU0OX1REmb)
 [[[SERVER-ENTRY-POINT]]] Webhook request received at server entry. {
   method: 'POST',
   url: '/api/payments/webhook',
   headers: {
     host: 'localhost:5000',
     'user-agent': 'Stripe/1.0 (+https://stripe.com/docs/webhooks)',
-    'content-length': '8403',
+    'content-length': '8422',
     accept: '*/*; q=0.5, application/xml',
     'cache-control': 'no-cache',
     'content-type': 'application/json; charset=utf-8',
-    'stripe-signature': 't=1763028969,v1=a49d0199a9e3ec4a40d45cf17fa327884a7021a035f7a5d5eb2bf7597985213d,v0=e7565e14779e092394810d72630b72bca394fa248cd15fbc6155c09e22b84293',
+    'stripe-signature': 't=1763035671,v1=1ea76eab564997f533caeb3a00450cab68bc9d0068f2bf0204e58b03009c2d5a,v0=70484014c6a491642af8fd4bcdcf868953cc4420b6284d7c879eaf9c4e926c0c',
     'accept-encoding': 'gzip'
   },
   ip: '::1'
@@ -308,38 +368,35 @@ GET /api/reviews/coach/66d9cdcb0a7492a86482bd68 304 44.935 ms - -
 [PaymentController:Webhook] RAW REQUEST RECEIVED Top of webhookHandler. Headers: {
   "host": "localhost:5000",
   "user-agent": "Stripe/1.0 (+https://stripe.com/docs/webhooks)",
-  "content-length": "8403",
+  "content-length": "8422",
   "accept": "*/*; q=0.5, application/xml",
   "cache-control": "no-cache",
   "content-type": "application/json; charset=utf-8",
-  "stripe-signature": "t=1763028969,v1=a49d0199a9e3ec4a40d45cf17fa327884a7021a035f7a5d5eb2bf7597985213d,v0=e7565e14779e092394810d72630b72bca394fa248cd15fbc6155c09e22b84293",
+  "stripe-signature": "t=1763035671,v1=1ea76eab564997f533caeb3a00450cab68bc9d0068f2bf0204e58b03009c2d5a,v0=70484014c6a491642af8fd4bcdcf868953cc4420b6284d7c879eaf9c4e926c0c",
   "accept-encoding": "gzip"
 }
 [Webhook] Received a request from Stripe.
-[PaymentController:Webhook] Stripe signature from header: t=1763028969,v1=a49d0199a9e3ec4a40d45cf17fa327884a7021a035f7a5d5eb2bf7597985213d,v0=e7565e14779e092394810d72630b72bca394fa248cd15fbc6155c09e22b84293
+[PaymentController:Webhook] Stripe signature from header: t=1763035671,v1=1ea76eab564997f533caeb3a00450cab68bc9d0068f2bf0204e58b03009c2d5a,v0=70484014c6a491642af8fd4bcdcf868953cc4420b6284d7c879eaf9c4e926c0c
 [PaymentController:Webhook] STRIPE_WEBHOOK_SECRET used: SET
-[PaymentController:Webhook] Stripe event constructed successfully. Event Type: invoice.updated Event ID: evt_1SSxZVHKNqVBSHKUs8q9IhqX
+[PaymentController:Webhook] Stripe event constructed successfully. Event Type: invoice.updated Event ID: evt_1SSzJbHKNqVBSHKUFUEqow3r
 [PaymentController:Webhook] Processing event: {
   type: 'invoice.updated',
-  id: 'evt_1SSxZVHKNqVBSHKUs8q9IhqX',
+  id: 'evt_1SSzJbHKNqVBSHKUFUEqow3r',
   apiVersion: '2024-11-20.acacia',
-  timestamp: '2025-11-13T10:16:11.404Z'
+  timestamp: '2025-11-13T12:07:53.812Z'
 }
 [PaymentController:Webhook] Unhandled event type: invoice.updated
-[ReviewController.getCoachReviews] UNIVERSAL QUERY for coachId: 66d9cdcb0a7492a86482bd68
-[ReviewController.getCoachReviews] Executing DB Query: Review.find({"isPrivate":false,"isVisible":true,"$or":[{"rateeId":"66d9cdcb0a7492a86482bd68"},{"ratee":"66d9cdcb0a7492a86482bd68","rateeModel":"User"}]})
-[Webhook Logging] Successfully processed and logged event: invoice.updated (evt_1SSxZVHKNqVBSHKUs8q9IhqX)
 [[[SERVER-ENTRY-POINT]]] Webhook request received at server entry. {
   method: 'POST',
   url: '/api/payments/webhook',
   headers: {
     host: 'localhost:5000',
     'user-agent': 'Stripe/1.0 (+https://stripe.com/docs/webhooks)',
-    'content-length': '1937',
+    'content-length': '1942',
     accept: '*/*; q=0.5, application/xml',
     'cache-control': 'no-cache',
     'content-type': 'application/json; charset=utf-8',
-    'stripe-signature': 't=1763028969,v1=b61e8782889de34bf91c909c2597b2111756a83698e51c4c1db3f5f0519d7b3d,v0=89b67039dfd96d46370f183106cdc019cc906e6d7d7c50aba83d7f891150c310',
+    'stripe-signature': 't=1763035671,v1=883af4ffedb3db1f13d4b485080ccd38b034eda4e731e43c0f3c26da64a14251,v0=5c3462ae8cc256dbedaff66881f442369474c927a65ced7431dafc4e61978bcd',
     'accept-encoding': 'gzip'
   },
   ip: '::1'
@@ -347,38 +404,37 @@ GET /api/reviews/coach/66d9cdcb0a7492a86482bd68 304 44.935 ms - -
 [PaymentController:Webhook] RAW REQUEST RECEIVED Top of webhookHandler. Headers: {
   "host": "localhost:5000",
   "user-agent": "Stripe/1.0 (+https://stripe.com/docs/webhooks)",
-  "content-length": "1937",
+  "content-length": "1942",
   "accept": "*/*; q=0.5, application/xml",
   "cache-control": "no-cache",
   "content-type": "application/json; charset=utf-8",
-  "stripe-signature": "t=1763028969,v1=b61e8782889de34bf91c909c2597b2111756a83698e51c4c1db3f5f0519d7b3d,v0=89b67039dfd96d46370f183106cdc019cc906e6d7d7c50aba83d7f891150c310",
+  "stripe-signature": "t=1763035671,v1=883af4ffedb3db1f13d4b485080ccd38b034eda4e731e43c0f3c26da64a14251,v0=5c3462ae8cc256dbedaff66881f442369474c927a65ced7431dafc4e61978bcd",
   "accept-encoding": "gzip"
 }
 [Webhook] Received a request from Stripe.
-[PaymentController:Webhook] Stripe signature from header: t=1763028969,v1=b61e8782889de34bf91c909c2597b2111756a83698e51c4c1db3f5f0519d7b3d,v0=89b67039dfd96d46370f183106cdc019cc906e6d7d7c50aba83d7f891150c310
+[PaymentController:Webhook] Stripe signature from header: t=1763035671,v1=883af4ffedb3db1f13d4b485080ccd38b034eda4e731e43c0f3c26da64a14251,v0=5c3462ae8cc256dbedaff66881f442369474c927a65ced7431dafc4e61978bcd
 [PaymentController:Webhook] STRIPE_WEBHOOK_SECRET used: SET
-[PaymentController:Webhook] Stripe event constructed successfully. Event Type: invoiceitem.created Event ID: evt_1SSxZVHKNqVBSHKUJgU7P6K3
+[PaymentController:Webhook] Stripe event constructed successfully. Event Type: invoiceitem.created Event ID: evt_1SSzJbHKNqVBSHKUA2GufWdK
 [PaymentController:Webhook] Processing event: {
   type: 'invoiceitem.created',
-  id: 'evt_1SSxZVHKNqVBSHKUJgU7P6K3',
+  id: 'evt_1SSzJbHKNqVBSHKUA2GufWdK',
   apiVersion: '2024-11-20.acacia',
-  timestamp: '2025-11-13T10:16:11.433Z'
+  timestamp: '2025-11-13T12:07:53.823Z'
 }
 [PaymentController:Webhook] Unhandled event type: invoiceitem.created
-[ReviewController.getCoachReviews] DB Query Result: Found 9 review(s).
-GET /api/reviews/coach/66d9cdcb0a7492a86482bd68 304 40.558 ms - -
-[Webhook Logging] Successfully processed and logged event: invoiceitem.created (evt_1SSxZVHKNqVBSHKUJgU7P6K3)
+[Webhook Logging] Successfully processed and logged event: invoice.updated (evt_1SSzJbHKNqVBSHKUFUEqow3r)
+[Webhook Logging] Successfully processed and logged event: invoiceitem.created (evt_1SSzJbHKNqVBSHKUA2GufWdK)
 [[[SERVER-ENTRY-POINT]]] Webhook request received at server entry. {
   method: 'POST',
   url: '/api/payments/webhook',
   headers: {
     host: 'localhost:5000',
     'user-agent': 'Stripe/1.0 (+https://stripe.com/docs/webhooks)',
-    'content-length': '4147',
+    'content-length': '4301',
     accept: '*/*; q=0.5, application/xml',
     'cache-control': 'no-cache',
     'content-type': 'application/json; charset=utf-8',
-    'stripe-signature': 't=1763028969,v1=e82b1dd2f8fe1b0c1c0868932dc05410b87bc97d528cdab4066286345c7c13eb,v0=9828d1ce3ea7a21f55abcff28dc075d3d4253e34f37099387663e03bd28e7c2e',
+    'stripe-signature': 't=1763035672,v1=2ac991466418d689490e4ced53e3fcb95200ce8cae2958c83b66b0c7b2f83bec,v0=ee738a5a62a90784108485fb326f610a8e478b4e843c776a094d02b05192e9e5',
     'accept-encoding': 'gzip'
   },
   ip: '::1'
@@ -386,25 +442,99 @@ GET /api/reviews/coach/66d9cdcb0a7492a86482bd68 304 40.558 ms - -
 [PaymentController:Webhook] RAW REQUEST RECEIVED Top of webhookHandler. Headers: {
   "host": "localhost:5000",
   "user-agent": "Stripe/1.0 (+https://stripe.com/docs/webhooks)",
-  "content-length": "4147",
+  "content-length": "4301",
   "accept": "*/*; q=0.5, application/xml",
   "cache-control": "no-cache",
   "content-type": "application/json; charset=utf-8",
-  "stripe-signature": "t=1763028969,v1=e82b1dd2f8fe1b0c1c0868932dc05410b87bc97d528cdab4066286345c7c13eb,v0=9828d1ce3ea7a21f55abcff28dc075d3d4253e34f37099387663e03bd28e7c2e",
+  "stripe-signature": "t=1763035672,v1=2ac991466418d689490e4ced53e3fcb95200ce8cae2958c83b66b0c7b2f83bec,v0=ee738a5a62a90784108485fb326f610a8e478b4e843c776a094d02b05192e9e5",
   "accept-encoding": "gzip"
 }
 [Webhook] Received a request from Stripe.
-[PaymentController:Webhook] Stripe signature from header: t=1763028969,v1=e82b1dd2f8fe1b0c1c0868932dc05410b87bc97d528cdab4066286345c7c13eb,v0=9828d1ce3ea7a21f55abcff28dc075d3d4253e34f37099387663e03bd28e7c2e
+[PaymentController:Webhook] Stripe signature from header: t=1763035672,v1=2ac991466418d689490e4ced53e3fcb95200ce8cae2958c83b66b0c7b2f83bec,v0=ee738a5a62a90784108485fb326f610a8e478b4e843c776a094d02b05192e9e5
 [PaymentController:Webhook] STRIPE_WEBHOOK_SECRET used: SET
-[PaymentController:Webhook] Stripe event constructed successfully. Event Type: charge.updated Event ID: evt_3SSxZSHKNqVBSHKU1jDINQ2e
+[PaymentController:Webhook] Stripe event constructed successfully. Event Type: charge.updated Event ID: evt_3SSzJKHKNqVBSHKU0cazMfjP
 [PaymentController:Webhook] Processing event: {
   type: 'charge.updated',
-  id: 'evt_3SSxZSHKNqVBSHKU1jDINQ2e',
+  id: 'evt_3SSzJKHKNqVBSHKU0cazMfjP',
   apiVersion: '2024-11-20.acacia',
-  timestamp: '2025-11-13T10:16:11.728Z'
+  timestamp: '2025-11-13T12:07:54.492Z'
 }
 [PaymentController:Webhook] Unhandled event type: charge.updated
-[Webhook Logging] Successfully processed and logged event: charge.updated (evt_3SSxZSHKNqVBSHKU1jDINQ2e)
+[Webhook Logging] Successfully processed and logged event: charge.updated (evt_3SSzJKHKNqVBSHKU0cazMfjP)
+[[[SERVER-ENTRY-POINT]]] Webhook request received at server entry. {
+  method: 'POST',
+  url: '/api/payments/webhook',
+  headers: {
+    host: 'localhost:5000',
+    'user-agent': 'Stripe/1.0 (+https://stripe.com/docs/webhooks)',
+    'content-length': '15259',
+    accept: '*/*; q=0.5, application/xml',
+    'cache-control': 'no-cache',
+    'content-type': 'application/json; charset=utf-8',
+    'stripe-signature': 't=1763035672,v1=0b5f0f3608e4e9ac9167dcc50c63089bbf0ea12aea5073f1d252c74fea29f547,v0=fa19da53538d085d4ca33ced885b227e64218cb647696b1e8c08042139201956',
+    'accept-encoding': 'gzip'
+  },
+  ip: '::1'
+}
+[PaymentController:Webhook] RAW REQUEST RECEIVED Top of webhookHandler. Headers: {
+  "host": "localhost:5000",
+  "user-agent": "Stripe/1.0 (+https://stripe.com/docs/webhooks)",
+  "content-length": "15259",
+  "accept": "*/*; q=0.5, application/xml",
+  "cache-control": "no-cache",
+  "content-type": "application/json; charset=utf-8",
+  "stripe-signature": "t=1763035672,v1=0b5f0f3608e4e9ac9167dcc50c63089bbf0ea12aea5073f1d252c74fea29f547,v0=fa19da53538d085d4ca33ced885b227e64218cb647696b1e8c08042139201956",
+  "accept-encoding": "gzip"
+}
+[Webhook] Received a request from Stripe.
+[PaymentController:Webhook] Stripe signature from header: t=1763035672,v1=0b5f0f3608e4e9ac9167dcc50c63089bbf0ea12aea5073f1d252c74fea29f547,v0=fa19da53538d085d4ca33ced885b227e64218cb647696b1e8c08042139201956
+[PaymentController:Webhook] STRIPE_WEBHOOK_SECRET used: SET
+[PaymentController:Webhook] Stripe event constructed successfully. Event Type: invoice.updated Event ID: evt_1SSzJcHKNqVBSHKUct0vBEqT
+[PaymentController:Webhook] Processing event: {
+  type: 'invoice.updated',
+  id: 'evt_1SSzJcHKNqVBSHKUct0vBEqT',
+  apiVersion: '2024-11-20.acacia',
+  timestamp: '2025-11-13T12:07:54.739Z'
+}
+[PaymentController:Webhook] Unhandled event type: invoice.updated
+[[[SERVER-ENTRY-POINT]]] Webhook request received at server entry. {
+  method: 'POST',
+  url: '/api/payments/webhook',
+  headers: {
+    host: 'localhost:5000',
+    'user-agent': 'Stripe/1.0 (+https://stripe.com/docs/webhooks)',
+    'content-length': '1957',
+    accept: '*/*; q=0.5, application/xml',
+    'cache-control': 'no-cache',
+    'content-type': 'application/json; charset=utf-8',
+    'stripe-signature': 't=1763035672,v1=aef0f47d2eeb843c53248e54584f3e16d67e5a97f2da36f7d3b2cb0ce87bf000,v0=777f1324a4d2db82e82d716e6cf2e56b52fe2c1c607ba8241a291d79f8f66469',
+    'accept-encoding': 'gzip'
+  },
+  ip: '::1'
+}
+[PaymentController:Webhook] RAW REQUEST RECEIVED Top of webhookHandler. Headers: {
+  "host": "localhost:5000",
+  "user-agent": "Stripe/1.0 (+https://stripe.com/docs/webhooks)",
+  "content-length": "1957",
+  "accept": "*/*; q=0.5, application/xml",
+  "cache-control": "no-cache",
+  "content-type": "application/json; charset=utf-8",
+  "stripe-signature": "t=1763035672,v1=aef0f47d2eeb843c53248e54584f3e16d67e5a97f2da36f7d3b2cb0ce87bf000,v0=777f1324a4d2db82e82d716e6cf2e56b52fe2c1c607ba8241a291d79f8f66469",
+  "accept-encoding": "gzip"
+}
+[Webhook] Received a request from Stripe.
+[PaymentController:Webhook] Stripe signature from header: t=1763035672,v1=aef0f47d2eeb843c53248e54584f3e16d67e5a97f2da36f7d3b2cb0ce87bf000,v0=777f1324a4d2db82e82d716e6cf2e56b52fe2c1c607ba8241a291d79f8f66469
+[PaymentController:Webhook] STRIPE_WEBHOOK_SECRET used: SET
+[PaymentController:Webhook] Stripe event constructed successfully. Event Type: invoiceitem.created Event ID: evt_1SSzJcHKNqVBSHKUaaksJdMC
+[PaymentController:Webhook] Processing event: {
+  type: 'invoiceitem.created',
+  id: 'evt_1SSzJcHKNqVBSHKUaaksJdMC',
+  apiVersion: '2024-11-20.acacia',
+  timestamp: '2025-11-13T12:07:54.756Z'
+}
+[PaymentController:Webhook] Unhandled event type: invoiceitem.created
+[Webhook Logging] Successfully processed and logged event: invoice.updated (evt_1SSzJcHKNqVBSHKUct0vBEqT)
+[Webhook Logging] Successfully processed and logged event: invoiceitem.created (evt_1SSzJcHKNqVBSHKUaaksJdMC)
 [[[SERVER-ENTRY-POINT]]] Webhook request received at server entry. {
   method: 'POST',
   url: '/api/payments/webhook',
@@ -415,7 +545,7 @@ GET /api/reviews/coach/66d9cdcb0a7492a86482bd68 304 40.558 ms - -
     accept: '*/*; q=0.5, application/xml',
     'cache-control': 'no-cache',
     'content-type': 'application/json; charset=utf-8',
-    'stripe-signature': 't=1763028970,v1=9db241d3f22f0e707210cc0ea098385c66187b7ccd62b7e9933cb6146b917f15,v0=cf486b4231dffbac7a0eda9b4fb9929e4d9fd7f739e20ba169681de46d57642d',
+    'stripe-signature': 't=1763035673,v1=610c54cdc087fd378b333238d1626c933c386e7a6bbf114321d5b86ade0aa82a,v0=dc3eb59018e7e06989a9e4bb5fb0c0f8a6ff0d3525b5b4b98ff31c4c3990d178',
     'accept-encoding': 'gzip'
   },
   ip: '::1'
@@ -427,32 +557,32 @@ GET /api/reviews/coach/66d9cdcb0a7492a86482bd68 304 40.558 ms - -
   "accept": "*/*; q=0.5, application/xml",
   "cache-control": "no-cache",
   "content-type": "application/json; charset=utf-8",
-  "stripe-signature": "t=1763028970,v1=9db241d3f22f0e707210cc0ea098385c66187b7ccd62b7e9933cb6146b917f15,v0=cf486b4231dffbac7a0eda9b4fb9929e4d9fd7f739e20ba169681de46d57642d",
+  "stripe-signature": "t=1763035673,v1=610c54cdc087fd378b333238d1626c933c386e7a6bbf114321d5b86ade0aa82a,v0=dc3eb59018e7e06989a9e4bb5fb0c0f8a6ff0d3525b5b4b98ff31c4c3990d178",
   "accept-encoding": "gzip"
 }
 [Webhook] Received a request from Stripe.
-[PaymentController:Webhook] Stripe signature from header: t=1763028970,v1=9db241d3f22f0e707210cc0ea098385c66187b7ccd62b7e9933cb6146b917f15,v0=cf486b4231dffbac7a0eda9b4fb9929e4d9fd7f739e20ba169681de46d57642d
+[PaymentController:Webhook] Stripe signature from header: t=1763035673,v1=610c54cdc087fd378b333238d1626c933c386e7a6bbf114321d5b86ade0aa82a,v0=dc3eb59018e7e06989a9e4bb5fb0c0f8a6ff0d3525b5b4b98ff31c4c3990d178
 [PaymentController:Webhook] STRIPE_WEBHOOK_SECRET used: SET
-[PaymentController:Webhook] Stripe event constructed successfully. Event Type: payment_intent.created Event ID: evt_3SSxZVHKNqVBSHKU1defkFVS
+[PaymentController:Webhook] Stripe event constructed successfully. Event Type: payment_intent.created Event ID: evt_3SSzJcHKNqVBSHKU1ha6yQGv
 [PaymentController:Webhook] Processing event: {
   type: 'payment_intent.created',
-  id: 'evt_3SSxZVHKNqVBSHKU1defkFVS',
+  id: 'evt_3SSzJcHKNqVBSHKU1ha6yQGv',
   apiVersion: '2024-11-20.acacia',
-  timestamp: '2025-11-13T10:16:12.619Z'
+  timestamp: '2025-11-13T12:07:55.965Z'
 }
 [PaymentController:Webhook] Unhandled event type: payment_intent.created
-[Webhook Logging] Successfully processed and logged event: payment_intent.created (evt_3SSxZVHKNqVBSHKU1defkFVS)
+[Webhook Logging] Successfully processed and logged event: payment_intent.created (evt_3SSzJcHKNqVBSHKU1ha6yQGv)
 [[[SERVER-ENTRY-POINT]]] Webhook request received at server entry. {
   method: 'POST',
   url: '/api/payments/webhook',
   headers: {
     host: 'localhost:5000',
     'user-agent': 'Stripe/1.0 (+https://stripe.com/docs/webhooks)',
-    'content-length': '8816',
+    'content-length': '11974',
     accept: '*/*; q=0.5, application/xml',
     'cache-control': 'no-cache',
     'content-type': 'application/json; charset=utf-8',
-    'stripe-signature': 't=1763028970,v1=c2e0c182dea81c5bdcedd028c29240c7ebf5c735a6de6aa80cb3e4b482105f9d,v0=b22e68a59f6dfe4ee19851add72166666f6c3d5e6a4bf6f5613d5873ae82833f',
+    'stripe-signature': 't=1763035673,v1=b57abe1654169ba053496b873c5ae32fcdae40fdf600d77784dab374c30d7ee7,v0=77b5f5b78fe95c2b5bd38ac8a4dc29640217276c88b723b2a6f0b502b2d3cd90',
     'accept-encoding': 'gzip'
   },
   ip: '::1'
@@ -460,36 +590,36 @@ GET /api/reviews/coach/66d9cdcb0a7492a86482bd68 304 40.558 ms - -
 [PaymentController:Webhook] RAW REQUEST RECEIVED Top of webhookHandler. Headers: {
   "host": "localhost:5000",
   "user-agent": "Stripe/1.0 (+https://stripe.com/docs/webhooks)",
-  "content-length": "8816",
+  "content-length": "11974",
   "accept": "*/*; q=0.5, application/xml",
   "cache-control": "no-cache",
   "content-type": "application/json; charset=utf-8",
-  "stripe-signature": "t=1763028970,v1=c2e0c182dea81c5bdcedd028c29240c7ebf5c735a6de6aa80cb3e4b482105f9d,v0=b22e68a59f6dfe4ee19851add72166666f6c3d5e6a4bf6f5613d5873ae82833f",
+  "stripe-signature": "t=1763035673,v1=b57abe1654169ba053496b873c5ae32fcdae40fdf600d77784dab374c30d7ee7,v0=77b5f5b78fe95c2b5bd38ac8a4dc29640217276c88b723b2a6f0b502b2d3cd90",
   "accept-encoding": "gzip"
 }
 [Webhook] Received a request from Stripe.
-[PaymentController:Webhook] Stripe signature from header: t=1763028970,v1=c2e0c182dea81c5bdcedd028c29240c7ebf5c735a6de6aa80cb3e4b482105f9d,v0=b22e68a59f6dfe4ee19851add72166666f6c3d5e6a4bf6f5613d5873ae82833f
+[PaymentController:Webhook] Stripe signature from header: t=1763035673,v1=b57abe1654169ba053496b873c5ae32fcdae40fdf600d77784dab374c30d7ee7,v0=77b5f5b78fe95c2b5bd38ac8a4dc29640217276c88b723b2a6f0b502b2d3cd90
 [PaymentController:Webhook] STRIPE_WEBHOOK_SECRET used: SET
-[PaymentController:Webhook] Stripe event constructed successfully. Event Type: invoice.updated Event ID: evt_1SSxZWHKNqVBSHKU7ECu0RAZ
+[PaymentController:Webhook] Stripe event constructed successfully. Event Type: invoice.updated Event ID: evt_1SSzJdHKNqVBSHKUtWlnIL0a
 [PaymentController:Webhook] Processing event: {
   type: 'invoice.updated',
-  id: 'evt_1SSxZWHKNqVBSHKU7ECu0RAZ',
+  id: 'evt_1SSzJdHKNqVBSHKUtWlnIL0a',
   apiVersion: '2024-11-20.acacia',
-  timestamp: '2025-11-13T10:16:12.871Z'
+  timestamp: '2025-11-13T12:07:56.209Z'
 }
 [PaymentController:Webhook] Unhandled event type: invoice.updated
-[Webhook Logging] Successfully processed and logged event: invoice.updated (evt_1SSxZWHKNqVBSHKU7ECu0RAZ)
+[Webhook Logging] Successfully processed and logged event: invoice.updated (evt_1SSzJdHKNqVBSHKUtWlnIL0a)
 [[[SERVER-ENTRY-POINT]]] Webhook request received at server entry. {
   method: 'POST',
   url: '/api/payments/webhook',
   headers: {
     host: 'localhost:5000',
     'user-agent': 'Stripe/1.0 (+https://stripe.com/docs/webhooks)',
-    'content-length': '8432',
+    'content-length': '11590',
     accept: '*/*; q=0.5, application/xml',
     'cache-control': 'no-cache',
     'content-type': 'application/json; charset=utf-8',
-    'stripe-signature': 't=1763028970,v1=60ba898da07f7060a9ec41648907455882be0ae83c2fe6ea811e99990681cfac,v0=535b87f7eda58df76b8e2a8e84e99e21e170ba9394a4f7717ace9f2d4678657c',
+    'stripe-signature': 't=1763035674,v1=b2303575885e1bb64459f5d9b927ed7ba826f9c7b0468294aff5431e07d43981,v0=ccd034a2ffbf41d2a9e88378aa70469a9081049cbc94c43ec587c101e3785885',
     'accept-encoding': 'gzip'
   },
   ip: '::1'
@@ -497,171 +627,144 @@ GET /api/reviews/coach/66d9cdcb0a7492a86482bd68 304 40.558 ms - -
 [PaymentController:Webhook] RAW REQUEST RECEIVED Top of webhookHandler. Headers: {
   "host": "localhost:5000",
   "user-agent": "Stripe/1.0 (+https://stripe.com/docs/webhooks)",
-  "content-length": "8432",
+  "content-length": "11590",
   "accept": "*/*; q=0.5, application/xml",
   "cache-control": "no-cache",
   "content-type": "application/json; charset=utf-8",
-  "stripe-signature": "t=1763028970,v1=60ba898da07f7060a9ec41648907455882be0ae83c2fe6ea811e99990681cfac,v0=535b87f7eda58df76b8e2a8e84e99e21e170ba9394a4f7717ace9f2d4678657c",
+  "stripe-signature": "t=1763035674,v1=b2303575885e1bb64459f5d9b927ed7ba826f9c7b0468294aff5431e07d43981,v0=ccd034a2ffbf41d2a9e88378aa70469a9081049cbc94c43ec587c101e3785885",
   "accept-encoding": "gzip"
 }
 [Webhook] Received a request from Stripe.
-[PaymentController:Webhook] Stripe signature from header: t=1763028970,v1=60ba898da07f7060a9ec41648907455882be0ae83c2fe6ea811e99990681cfac,v0=535b87f7eda58df76b8e2a8e84e99e21e170ba9394a4f7717ace9f2d4678657c
+[PaymentController:Webhook] Stripe signature from header: t=1763035674,v1=b2303575885e1bb64459f5d9b927ed7ba826f9c7b0468294aff5431e07d43981,v0=ccd034a2ffbf41d2a9e88378aa70469a9081049cbc94c43ec587c101e3785885
 [PaymentController:Webhook] STRIPE_WEBHOOK_SECRET used: SET
-[PaymentController:Webhook] Stripe event constructed successfully. Event Type: invoice.finalized Event ID: evt_1SSxZWHKNqVBSHKURrkWmIqt
+[PaymentController:Webhook] Stripe event constructed successfully. Event Type: invoice.finalized Event ID: evt_1SSzJdHKNqVBSHKUXntHMgNS
 [PaymentController:Webhook] Processing event: {
   type: 'invoice.finalized',
-  id: 'evt_1SSxZWHKNqVBSHKURrkWmIqt',
+  id: 'evt_1SSzJdHKNqVBSHKUXntHMgNS',
   apiVersion: '2024-11-20.acacia',
-  timestamp: '2025-11-13T10:16:12.934Z'
+  timestamp: '2025-11-13T12:07:56.300Z'
 }
 [PaymentController:Webhook] Unhandled event type: invoice.finalized
-[Webhook Logging] Successfully processed and logged event: invoice.finalized (evt_1SSxZWHKNqVBSHKURrkWmIqt)
-[InvoiceService] Successfully created and stored detailed invoice reference for payment 6915afe8ee3ebd991d726443. {
-  invoiceId: new ObjectId('6915afeeee3ebd991d7264af'),
-  stripeInvoiceId: 'in_1SSxZUHKNqVBSHKU4II74NvO',
-  amount: 3.17
+[Webhook Logging] Successfully processed and logged event: invoice.finalized (evt_1SSzJdHKNqVBSHKUXntHMgNS)
+[InvoiceService] Successfully created and stored detailed invoice reference for payment 6915ca08e240d8f6c758bb56. {
+  invoiceId: new ObjectId('6915ca1de240d8f6c758bbc8'),
+  stripeInvoiceId: 'in_1SSzJaHKNqVBSHKU5iHwDjMD',
+  amount: 7.2
 }
-[handlePaymentSuccess] V-FINAL - Client invoice generation initiated. {
-  paymentId: '6915afe8ee3ebd991d726443',
-  bookingId: '6915afc8ee3ebd991d726381',
-  liveSessionId: '6915afc3ee3ebd991d726344',
-  programId: undefined,
-  paymentIntentId: 'pi_3SSxZSHKNqVBSHKU1Yb0VNzv',
-  chargeId: 'ch_3SSxZSHKNqVBSHKU1KHpaSys'
+[Webhook:ProgramPurchase] [Post-Transaction] InvoiceService executed successfully. {
+  entryPoint: '[Webhook:ProgramPurchase]',
+  paymentIntentId: 'pi_3SSzJKHKNqVBSHKU0paIWFnQ',
+  programId: '68fb2dd6cfd489abf47268b0',
+  userId: '66f418d10a19ec0e4bbd377e',
+  timestamp: '2025-11-13T12:07:52.010Z',
+  paymentId: '6915ca08e240d8f6c758bb56'
+}
+[Webhook:ProgramPurchase] [Post-Transaction] Calling UnifiedNotificationService. {
+  entryPoint: '[Webhook:ProgramPurchase]',
+  paymentIntentId: 'pi_3SSzJKHKNqVBSHKU0paIWFnQ',
+  programId: '68fb2dd6cfd489abf47268b0',
+  userId: '66f418d10a19ec0e4bbd377e',
+  timestamp: '2025-11-13T12:07:52.010Z',
+  paymentId: '6915ca08e240d8f6c758bb56'
 }
 [DATA TRACE | Notif Service] generateNotificationContent received config: {
-  "type": "live_session_receipt_client",
+  "type": "program_purchase_confirmed",
   "recipient": "66f418d10a19ec0e4bbd377e",
+  "recipientType": "client",
   "metadata": {
-    "bookingId": "6915afc8ee3ebd991d726381",
+    "programId": "68fb2dd6cfd489abf47268b0",
+    "programTitle": "Test Program 2",
     "coachName": "Dominic Frei",
-    "webinarTitle": "Live Session with Dominic",
-    "amount": 3.17,
-    "currency": "CHF",
-    "otherPartyName": "Dominic Frei"
+    "amount": 7.2,
+    "currency": "CHF"
   },
   "channels": [
     "in_app",
     "email"
   ]
 }
+[UnifiedNotificationService] Generating PROGRAM_PURCHASE_CONFIRMED content from Payment context.
 [NotificationModel] Pre-validate hook: {
-  type: 'live_session_receipt_client',
+  type: 'program_purchase_confirmed',
   category: 'payment',
   metadata: {
-    bookingId: new ObjectId('6915afc8ee3ebd991d726381'),
+    bookingId: undefined,
     liveSessionId: null,
     sessionId: undefined,
     reviewId: undefined,
-    programId: undefined,
+    programId: new ObjectId('68fb2dd6cfd489abf47268b0'),
     lessonId: undefined,
     additionalData: {
       auditId: undefined,
-      bookingId: new ObjectId('6915afc8ee3ebd991d726381'),
+      programId: new ObjectId('68fb2dd6cfd489abf47268b0'),
+      programTitle: 'Test Program 2',
       coachName: 'Dominic Frei',
-      webinarTitle: 'Live Session with Dominic',
-      amount: 3.17,
+      amount: 7.2,
       currency: 'CHF',
-      otherPartyName: 'Dominic Frei',
-      startTime: 2025-11-13T10:15:36.156Z,
-      endTime: 2025-11-13T11:15:36.156Z,
-      bookingType: 'request',
-      status: 'completed',
       requiresAction: undefined,
       validActions: undefined
     }
   }
 }
-[NotificationModel] Processing new notification: new ObjectId('6915afeeee3ebd991d7264bb')
+[NotificationModel] Processing new notification: new ObjectId('6915ca1de240d8f6c758bbcf')
 [SocketNotificationService] Emitting booking notification: {
-  notificationId: new ObjectId('6915afeeee3ebd991d7264bb'),
-  type: 'live_session_receipt_client',
+  notificationId: new ObjectId('6915ca1de240d8f6c758bbcf'),
+  type: 'program_purchase_confirmed',
   recipients: 1,
-  bookingId: new ObjectId('6915afc8ee3ebd991d726381')
+  bookingId: new ObjectId('6915ca08e240d8f6c758bb56')
 }
 [UnifiedNotificationService] Sending email notification: {
-  type: 'live_session_receipt_client',
-  recipientType: undefined,
+  type: 'program_purchase_confirmed',
+  recipientType: 'client',
   hasRecipient: false
 }
 [UnifiedNotificationService] Email notification details: {
   recipientEmail: 'test.user2@example.com',
   senderName: 'Dominic Frei',
-  type: 'live_session_receipt_client',
-  start: 2025-11-13T10:15:36.156Z,
-  end: 2025-11-13T11:15:36.156Z
+  type: 'program_purchase_confirmed',
+  start: undefined,
+  end: undefined
 }
 [DATA TRACE | Notif Service] generateNotificationContent received config: {
-  "type": "live_session_earnings_coach",
+  "type": "program_sale_coach",
   "recipient": "66d9cdcb0a7492a86482bd68",
+  "recipientType": "coach",
   "metadata": {
-    "bookingId": "6915afc8ee3ebd991d726381",
-    "attendeeName": "Test User 2",
-    "webinarTitle": "Live Session with Dominic",
-    "otherPartyName": "Test User 2"
+    "programId": "68fb2dd6cfd489abf47268b0",
+    "programTitle": "Test Program 2",
+    "clientName": "Test User 2",
+    "amount": 7.2,
+    "currency": "CHF"
   },
   "channels": [
     "in_app",
     "email"
   ]
 }
+[UnifiedNotificationService] Generating PROGRAM_SALE_COACH content from Payment context.
 [NotificationModel] Pre-validate hook: {
-  type: 'live_session_earnings_coach',
+  type: 'program_sale_coach',
   category: 'payment',
   metadata: {
-    bookingId: new ObjectId('6915afc8ee3ebd991d726381'),
+    bookingId: undefined,
     liveSessionId: null,
     sessionId: undefined,
     reviewId: undefined,
-    programId: undefined,
+    programId: new ObjectId('68fb2dd6cfd489abf47268b0'),
     lessonId: undefined,
     additionalData: {
       auditId: undefined,
-      bookingId: new ObjectId('6915afc8ee3ebd991d726381'),
-      attendeeName: 'Test User 2',
-      webinarTitle: 'Live Session with Dominic',
-      otherPartyName: 'Test User 2',
-      startTime: 2025-11-13T10:15:36.156Z,
-      endTime: 2025-11-13T11:15:36.156Z,
-      bookingType: 'request',
-      status: 'completed',
+      programId: new ObjectId('68fb2dd6cfd489abf47268b0'),
+      programTitle: 'Test Program 2',
+      clientName: 'Test User 2',
+      amount: 7.2,
+      currency: 'CHF',
       requiresAction: undefined,
       validActions: undefined
     }
   }
 }
-[NotificationModel] Processing new notification: new ObjectId('6915afeeee3ebd991d7264be')
-[SocketNotificationService] Emitting booking notification: {
-  notificationId: new ObjectId('6915afeeee3ebd991d7264be'),
-  type: 'live_session_earnings_coach',
-  recipients: 1,
-  bookingId: new ObjectId('6915afc8ee3ebd991d726381')
-}
-[UnifiedNotificationService] Sending email notification: {
-  type: 'live_session_earnings_coach',
-  recipientType: undefined,
-  hasRecipient: false
-}
-[UnifiedNotificationService] Email notification details: {
-  recipientEmail: 'test.coach2@example.com',
-  senderName: 'Test User 2',
-  type: 'live_session_earnings_coach',
-  start: 2025-11-13T10:15:36.156Z,
-  end: 2025-11-13T11:15:36.156Z
-}
-[handlePaymentSuccess] V-FINAL - Notifications sent. Processing complete. {
-  paymentId: '6915afe8ee3ebd991d726443',
-  bookingId: '6915afc8ee3ebd991d726381',
-  liveSessionId: '6915afc3ee3ebd991d726344',
-  programId: undefined,
-  paymentIntentId: 'pi_3SSxZSHKNqVBSHKU1Yb0VNzv',
-  chargeId: 'ch_3SSxZSHKNqVBSHKU1KHpaSys'
-}
-[SocketService] Full booking update emitted: {
-  event: 'booking_update',
-  bookingId: new ObjectId('6915afc8ee3ebd991d726381'),
-  recipients: 2
-}
+[NotificationModel] Processing new notification: new ObjectId('6915ca1de240d8f6c758bbd5')
 [[[SERVER-ENTRY-POINT]]] Webhook request received at server entry. {
   method: 'POST',
   url: '/api/payments/webhook',
@@ -672,7 +775,7 @@ GET /api/reviews/coach/66d9cdcb0a7492a86482bd68 304 40.558 ms - -
     accept: '*/*; q=0.5, application/xml',
     'cache-control': 'no-cache',
     'content-type': 'application/json; charset=utf-8',
-    'stripe-signature': 't=1763028972,v1=7c6c9d79372c84cc5853d3293fd6e62c92997c5d9136f10f6032b7eeb6dff565,v0=b334ebaab401e4fce271893a4e97009e5367067a4736a2f50ed3d1cca9142f5e',
+    'stripe-signature': 't=1763035675,v1=0d78a7aa86bd26cfb92cc513fe9761266142c7e47ef9d48470ce02e13daa8b5e,v0=7652cc6701c60fd18f92682aad8fa93f72f56caad40df7a2f89eef1a07f99898',
     'accept-encoding': 'gzip'
   },
   ip: '::1'
@@ -684,32 +787,92 @@ GET /api/reviews/coach/66d9cdcb0a7492a86482bd68 304 40.558 ms - -
   "accept": "*/*; q=0.5, application/xml",
   "cache-control": "no-cache",
   "content-type": "application/json; charset=utf-8",
-  "stripe-signature": "t=1763028972,v1=7c6c9d79372c84cc5853d3293fd6e62c92997c5d9136f10f6032b7eeb6dff565,v0=b334ebaab401e4fce271893a4e97009e5367067a4736a2f50ed3d1cca9142f5e",
+  "stripe-signature": "t=1763035675,v1=0d78a7aa86bd26cfb92cc513fe9761266142c7e47ef9d48470ce02e13daa8b5e,v0=7652cc6701c60fd18f92682aad8fa93f72f56caad40df7a2f89eef1a07f99898",
   "accept-encoding": "gzip"
 }
 [Webhook] Received a request from Stripe.
-[PaymentController:Webhook] Stripe signature from header: t=1763028972,v1=7c6c9d79372c84cc5853d3293fd6e62c92997c5d9136f10f6032b7eeb6dff565,v0=b334ebaab401e4fce271893a4e97009e5367067a4736a2f50ed3d1cca9142f5e
+[PaymentController:Webhook] Stripe signature from header: t=1763035675,v1=0d78a7aa86bd26cfb92cc513fe9761266142c7e47ef9d48470ce02e13daa8b5e,v0=7652cc6701c60fd18f92682aad8fa93f72f56caad40df7a2f89eef1a07f99898
 [PaymentController:Webhook] STRIPE_WEBHOOK_SECRET used: SET
-[PaymentController:Webhook] Stripe event constructed successfully. Event Type: payment_intent.canceled Event ID: evt_3SSxZVHKNqVBSHKU1toAiwEL
+[PaymentController:Webhook] Stripe event constructed successfully. Event Type: payment_intent.canceled Event ID: evt_3SSzJcHKNqVBSHKU1e40b1rA
 [PaymentController:Webhook] Processing event: {
   type: 'payment_intent.canceled',
-  id: 'evt_3SSxZVHKNqVBSHKU1toAiwEL',
+  id: 'evt_3SSzJcHKNqVBSHKU1e40b1rA',
   apiVersion: '2024-11-20.acacia',
-  timestamp: '2025-11-13T10:16:14.611Z'
+  timestamp: '2025-11-13T12:07:57.979Z'
 }
 [PaymentController:Webhook] Unhandled event type: payment_intent.canceled
-[Webhook Logging] Successfully processed and logged event: payment_intent.canceled (evt_3SSxZVHKNqVBSHKU1toAiwEL)
+[SocketNotificationService] Emitting booking notification: {
+  notificationId: new ObjectId('6915ca1de240d8f6c758bbd5'),
+  type: 'program_sale_coach',
+  recipients: 1,
+  bookingId: new ObjectId('6915ca08e240d8f6c758bb56')
+}
+[UnifiedNotificationService] Sending email notification: {
+  type: 'program_sale_coach',
+  recipientType: 'coach',
+  hasRecipient: false
+}
+[UnifiedNotificationService] Email notification details: {
+  recipientEmail: 'test.coach2@example.com',
+  senderName: 'Test User 2',
+  type: 'program_sale_coach',
+  start: undefined,
+  end: undefined
+}
+[Webhook:ProgramPurchase] [Post-Transaction] UnifiedNotificationService executed successfully. {
+  entryPoint: '[Webhook:ProgramPurchase]',
+  paymentIntentId: 'pi_3SSzJKHKNqVBSHKU0paIWFnQ',
+  programId: '68fb2dd6cfd489abf47268b0',
+  userId: '66f418d10a19ec0e4bbd377e',
+  timestamp: '2025-11-13T12:07:52.010Z',
+  paymentId: '6915ca08e240d8f6c758bb56'
+}
+[Webhook:ProgramPurchase] [Post-Transaction] Emitting socket events. {
+  entryPoint: '[Webhook:ProgramPurchase]',
+  paymentIntentId: 'pi_3SSzJKHKNqVBSHKU0paIWFnQ',
+  programId: '68fb2dd6cfd489abf47268b0',
+  userId: '66f418d10a19ec0e4bbd377e',
+  timestamp: '2025-11-13T12:07:52.010Z',
+  paymentId: '6915ca08e240d8f6c758bb56'
+}
+[Webhook:ProgramPurchase] [Post-Transaction] Socket events emitted successfully. {
+  entryPoint: '[Webhook:ProgramPurchase]',
+  paymentIntentId: 'pi_3SSzJKHKNqVBSHKU0paIWFnQ',
+  programId: '68fb2dd6cfd489abf47268b0',
+  userId: '66f418d10a19ec0e4bbd377e',
+  timestamp: '2025-11-13T12:07:52.010Z',
+  paymentId: '6915ca08e240d8f6c758bb56'
+}
+[Webhook:ProgramPurchase] MongoDB session ended. {
+  entryPoint: '[Webhook:ProgramPurchase]',
+  paymentIntentId: 'pi_3SSzJKHKNqVBSHKU0paIWFnQ',
+  programId: '68fb2dd6cfd489abf47268b0',
+  userId: '66f418d10a19ec0e4bbd377e',
+  timestamp: '2025-11-13T12:07:52.010Z',
+  paymentId: '6915ca08e240d8f6c758bb56'
+}
+[Webhook:ProgramPurchase] End of processing. Sending final response. {
+  entryPoint: '[Webhook:ProgramPurchase]',
+  paymentIntentId: 'pi_3SSzJKHKNqVBSHKU0paIWFnQ',
+  programId: '68fb2dd6cfd489abf47268b0',
+  userId: '66f418d10a19ec0e4bbd377e',
+  timestamp: '2025-11-13T12:07:52.010Z',
+  paymentId: '6915ca08e240d8f6c758bb56'
+}
+[PROGRAM_ROUTER] Received request: GET /api/programs/enrollments/my-programs
+[Webhook Logging] Successfully processed and logged event: payment_intent.canceled (evt_3SSzJcHKNqVBSHKU1e40b1rA)
+GET /api/programs/enrollments/my-programs 200 81.761 ms - 4052
 [[[SERVER-ENTRY-POINT]]] Webhook request received at server entry. {
   method: 'POST',
   url: '/api/payments/webhook',
   headers: {
     host: 'localhost:5000',
     'user-agent': 'Stripe/1.0 (+https://stripe.com/docs/webhooks)',
-    'content-length': '8640',
+    'content-length': '11798',
     accept: '*/*; q=0.5, application/xml',
     'cache-control': 'no-cache',
     'content-type': 'application/json; charset=utf-8',
-    'stripe-signature': 't=1763028972,v1=2d00e177944459bfd0bd81a9d8899b7555886ab8ac76e189eb8aeed46070e204,v0=06919ba026467a49126ccb8144e2e0e81c5434e78d018e0ff7fd1dd16c1460e4',
+    'stripe-signature': 't=1763035675,v1=4c0fd271f717dd36aea4790e85404a893bfd236e063ac5cf3e532f4d3af74f94,v0=d4e672085dcf28a76c0096a014e035fd02fb17c81a269507a0e20be648017a47',
     'accept-encoding': 'gzip'
   },
   ip: '::1'
@@ -717,36 +880,36 @@ GET /api/reviews/coach/66d9cdcb0a7492a86482bd68 304 40.558 ms - -
 [PaymentController:Webhook] RAW REQUEST RECEIVED Top of webhookHandler. Headers: {
   "host": "localhost:5000",
   "user-agent": "Stripe/1.0 (+https://stripe.com/docs/webhooks)",
-  "content-length": "8640",
+  "content-length": "11798",
   "accept": "*/*; q=0.5, application/xml",
   "cache-control": "no-cache",
   "content-type": "application/json; charset=utf-8",
-  "stripe-signature": "t=1763028972,v1=2d00e177944459bfd0bd81a9d8899b7555886ab8ac76e189eb8aeed46070e204,v0=06919ba026467a49126ccb8144e2e0e81c5434e78d018e0ff7fd1dd16c1460e4",
+  "stripe-signature": "t=1763035675,v1=4c0fd271f717dd36aea4790e85404a893bfd236e063ac5cf3e532f4d3af74f94,v0=d4e672085dcf28a76c0096a014e035fd02fb17c81a269507a0e20be648017a47",
   "accept-encoding": "gzip"
 }
 [Webhook] Received a request from Stripe.
-[PaymentController:Webhook] Stripe signature from header: t=1763028972,v1=2d00e177944459bfd0bd81a9d8899b7555886ab8ac76e189eb8aeed46070e204,v0=06919ba026467a49126ccb8144e2e0e81c5434e78d018e0ff7fd1dd16c1460e4
+[PaymentController:Webhook] Stripe signature from header: t=1763035675,v1=4c0fd271f717dd36aea4790e85404a893bfd236e063ac5cf3e532f4d3af74f94,v0=d4e672085dcf28a76c0096a014e035fd02fb17c81a269507a0e20be648017a47
 [PaymentController:Webhook] STRIPE_WEBHOOK_SECRET used: SET
-[PaymentController:Webhook] Stripe event constructed successfully. Event Type: invoice.updated Event ID: evt_1SSxZYHKNqVBSHKU89jfILnG
+[PaymentController:Webhook] Stripe event constructed successfully. Event Type: invoice.updated Event ID: evt_1SSzJfHKNqVBSHKUv7Um0chR
 [PaymentController:Webhook] Processing event: {
   type: 'invoice.updated',
-  id: 'evt_1SSxZYHKNqVBSHKU89jfILnG',
+  id: 'evt_1SSzJfHKNqVBSHKUv7Um0chR',
   apiVersion: '2024-11-20.acacia',
-  timestamp: '2025-11-13T10:16:14.772Z'
+  timestamp: '2025-11-13T12:07:58.171Z'
 }
 [PaymentController:Webhook] Unhandled event type: invoice.updated
-[Webhook Logging] Successfully processed and logged event: invoice.updated (evt_1SSxZYHKNqVBSHKU89jfILnG)
+[Webhook Logging] Successfully processed and logged event: invoice.updated (evt_1SSzJfHKNqVBSHKUv7Um0chR)
 [[[SERVER-ENTRY-POINT]]] Webhook request received at server entry. {
   method: 'POST',
   url: '/api/payments/webhook',
   headers: {
     host: 'localhost:5000',
     'user-agent': 'Stripe/1.0 (+https://stripe.com/docs/webhooks)',
-    'content-length': '8406',
+    'content-length': '11564',
     accept: '*/*; q=0.5, application/xml',
     'cache-control': 'no-cache',
     'content-type': 'application/json; charset=utf-8',
-    'stripe-signature': 't=1763028972,v1=812c6fd46b7137926af6f438f7db837a54872dc8bb4cecb6c98ae5ce3d54041c,v0=94a6dc16e60c45b3079b0275367572e3fb7ae40ad9bb2a022a9da23b05ee7b9d',
+    'stripe-signature': 't=1763035676,v1=221bef73544746c4d3ee25c1a48763f89a0f8fafb9cc77ad18284ab73d2bdb68,v0=e005137db1f3789f45450881da27908b8cbc45ba880d1c3bc205254b78ca4a5a',
     'accept-encoding': 'gzip'
   },
   ip: '::1'
@@ -754,64 +917,143 @@ GET /api/reviews/coach/66d9cdcb0a7492a86482bd68 304 40.558 ms - -
 [PaymentController:Webhook] RAW REQUEST RECEIVED Top of webhookHandler. Headers: {
   "host": "localhost:5000",
   "user-agent": "Stripe/1.0 (+https://stripe.com/docs/webhooks)",
-  "content-length": "8406",
+  "content-length": "11564",
   "accept": "*/*; q=0.5, application/xml",
   "cache-control": "no-cache",
   "content-type": "application/json; charset=utf-8",
-  "stripe-signature": "t=1763028972,v1=812c6fd46b7137926af6f438f7db837a54872dc8bb4cecb6c98ae5ce3d54041c,v0=94a6dc16e60c45b3079b0275367572e3fb7ae40ad9bb2a022a9da23b05ee7b9d",
+  "stripe-signature": "t=1763035676,v1=221bef73544746c4d3ee25c1a48763f89a0f8fafb9cc77ad18284ab73d2bdb68,v0=e005137db1f3789f45450881da27908b8cbc45ba880d1c3bc205254b78ca4a5a",
   "accept-encoding": "gzip"
 }
 [Webhook] Received a request from Stripe.
-[PaymentController:Webhook] Stripe signature from header: t=1763028972,v1=812c6fd46b7137926af6f438f7db837a54872dc8bb4cecb6c98ae5ce3d54041c,v0=94a6dc16e60c45b3079b0275367572e3fb7ae40ad9bb2a022a9da23b05ee7b9d
+[PaymentController:Webhook] Stripe signature from header: t=1763035676,v1=221bef73544746c4d3ee25c1a48763f89a0f8fafb9cc77ad18284ab73d2bdb68,v0=e005137db1f3789f45450881da27908b8cbc45ba880d1c3bc205254b78ca4a5a
 [PaymentController:Webhook] STRIPE_WEBHOOK_SECRET used: SET
-[PaymentController:Webhook] Stripe event constructed successfully. Event Type: invoice.paid Event ID: evt_1SSxZYHKNqVBSHKUmcNv5MgZ
+[PaymentController:Webhook] Stripe event constructed successfully. Event Type: invoice.paid Event ID: evt_1SSzJfHKNqVBSHKUQQzuKRb5
 [PaymentController:Webhook] Processing event: {
   type: 'invoice.paid',
-  id: 'evt_1SSxZYHKNqVBSHKUmcNv5MgZ',
+  id: 'evt_1SSzJfHKNqVBSHKUQQzuKRb5',
   apiVersion: '2024-11-20.acacia',
-  timestamp: '2025-11-13T10:16:14.855Z'
+  timestamp: '2025-11-13T12:07:58.293Z'
 }
 [PaymentController:Webhook] Unhandled event type: invoice.paid
-[Webhook Logging] Successfully processed and logged event: invoice.paid (evt_1SSxZYHKNqVBSHKUmcNv5MgZ)
+[Webhook Logging] Successfully processed and logged event: invoice.paid (evt_1SSzJfHKNqVBSHKUQQzuKRb5)
+debug: Payment operation: POST /api/payments/webhook {"duration":"31ms","status":200,"timestamp":"2025-11-13T12:07:58.322Z"}
 
-
-[DEBUG] [ScaConfirmationModal] Saved method selected {"methodId":"pm_1Qh8fuHKNqVBSHKUFONghKOx"}
-bundle.js:172371 [ScaConfirmationModal] CORRECT PATH: Attempting stripe.confirmCardSetup (Saved Method) {"clientSecret":"seti_1SSxYwHKNqVBSHKURNiAinIJ_secret_TPn9DXzByMTV59wCbH0GFjvnADBln2q","paymentMethodId":"pm_1Qh8fuHKNqVBSHKUFONghKOx"}
-bundle.js:172371 [ScaConfirmationModal] Stripe confirmation successful (status: succeeded). Notifying parent component.
-bundle.js:172371 [LiveSessionWaitingRoom] Auth successful via ScaConfirmationModal. Starting session: 6915afc3ee3ebd991d726344 {"paymentIntentId":"seti_1SSxYwHKNqVBSHKURNiAinIJ"}
-bundle.js:172371 [SocketIO] <<< INCOMING EVENT: "session_authorized_and_ready" {"payload":[{"session":{"basePerMinuteRate":{"amount":10,"currency":"CHF"},"effectivePerMinuteRate":{"amount":10,"currency":"CHF"},"discountApplied":null,"sessionLink":{"sessionId":"78edb6ee527fcd9c792c4234f0ed94950d66d7c4a7766cfcfba63cb1b56d8f95","token":"f2c47e6dbece02d76978ce5cc80fe49583a77e6295fe84b996a1becadc4cf899","generatedAt":"2025-11-13T10:15:45.363Z","expired":false},"_id":"6915afc3ee3ebd991d726344","client":"66f418d10a19ec0e4bbd377e","coach":"66d9cdcb0a7492a86482bd68","status":"handshake_pending","durationInSeconds":0,"paymentRecords":[],"participants":[],"presentParticipants":[],"createdAt":"2025-11-13T10:15:31.289Z","updatedAt":"2025-11-13T10:15:45.382Z","__v":0,"booking":"6915afc8ee3ebd991d726381"},"sessionUrl":"/live-session/78edb6ee527fcd9c792c4234f0ed94950d66d7c4a7766cfcfba63cb1b56d8f95/f2c47e6dbece02d76978ce5cc80fe49583a77e6295fe84b996a1becadc4cf899"}],"userId":"66f418d10a19ec0e4bbd377e","socketId":"SUGl_ApF_5bRUWS1AABz","timestamp":"2025-11-13T10:15:45.443Z"}
-bundle.js:172371 [useLiveSessionManager] << INCOMING 'session_authorized_and_ready'. {"currentUser":{"id":"66f418d10a19ec0e4bbd377e","role":"client"},"hookState":{"trackedSessionId":"6915afc3ee3ebd991d726344"},"eventPayload":{"sessionUrl":"/live-session/78edb6ee527fcd9c792c4234f0ed94950d66d7c4a7766cfcfba63cb1b56d8f95/f2c47e6dbece02d76978ce5cc80fe49583a77e6295fe84b996a1becadc4cf899","sessionId":"6915afc3ee3ebd991d726344","clientId":"66f418d10a19ec0e4bbd377e","coachId":"66d9cdcb0a7492a86482bd68"}}
-bundle.js:172371 [useLiveSessionManager] CLIENT: Session ID match successful. Navigating to: /live-session/78edb6ee527fcd9c792c4234f0ed94950d66d7c4a7766cfcfba63cb1b56d8f95/f2c47e6dbece02d76978ce5cc80fe49583a77e6295fe84b996a1becadc4cf899
-bundle.js:172371 [LiveSessionWaitingRoom] Received sessionUrl from backend: "/live-session/78edb6ee527fcd9c792c4234f0ed94950d66d7c4a7766cfcfba63cb1b56d8f95/f2c47e6dbece02d76978ce5cc80fe49583a77e6295fe84b996a1becadc4cf899". Navigating now.
-bundle.js:172371 [LSI-RENDER-CONTENT] Evaluating render for flowStatus: 'validating'
-bundle.js:172376 [DEBUG] [LSRoom-EFFECT] Cleanup: isMounted set to false.
-bundle.js:172371 [LSI-EFFECT-VALIDATE] Component mounted. Validating link. {"linkId":"78edb6ee527fcd9c792c4234f0ed94950d66d7c4a7766cfcfba63cb1b56d8f95","hasToken":true}
-bundle.js:172371 [LiveSessionInterface] Unmounting. Resetting outgoing live session request state.
-bundle.js:172371 [useLiveSessionManager] Resetting outgoing live session request state.
-bundle.js:172371 [LSI-EFFECT-VALIDATE] < RCVD successful validation. {"session":{"_id":"6915afc3ee3ebd991d726344","booking":{"_id":"6915afc8ee3ebd991d726381","recordings":{},"duration":0,"spotsRemaining":null},"client":{"_id":"66f418d10a19ec0e4bbd377e","firstName":"Test","lastName":"User 2","role":"client"},"coach":{"_id":"66d9cdcb0a7492a86482bd68","firstName":"Dominic","lastName":"Frei","role":"coach"}}}
-bundle.js:172371 [LSI-RENDER-CONTENT] Evaluating render for flowStatus: 'device_check'
-bundle.js:172371 [LSDC-goq8d] Component mounted. Initializing devices.
-bundle.js:172371 [LSDC-goq8d] Canvases initialized.
-bundle.js:172371 [LSDC-goq8d] Updating stream for devices {"videoDeviceId":"0937c4138be4092c0f0422769187a9adf0941cea90d25e454ef74114937f6fa8","audioDeviceId":"default"}
-bundle.js:172371 [LSDC-goq8d] Successfully acquired new media stream {"streamId":"6850ee89-620f-4ff4-851d-16187ba480c8"}
-bundle.js:172371 [LSI-HANDLER] Device check ready. Receiving stream and config.
-bundle.js:172371 [LSI-SOCKET-EFFECT] Effect triggered. Starting connection process. {"hasMediaConfig":true,"hasUser":true}
-bundle.js:172371 [LSI-SOCKET-EFFECT] Attempting to connect (Attempt 1/3).
-bundle.js:172371 [LSI-RENDER-CONTENT] Evaluating render for flowStatus: 'connecting'
-bundle.js:172371 [LSI-SOCKET-EFFECT] Connection successful on attempt 1. {"socketId":"AsMvX6SUG6m1xTooAAB7"}
-bundle.js:172371 [LSI-RENDER-CONTENT] Evaluating render for flowStatus: 'in_call'
-bundle.js:172371 [useLiveSessionCall] Hook initialized {"sessionId":"78edb6ee527fcd9c792c4234f0ed94950d66d7c4a7766cfcfba63cb1b56d8f95","hasToken":true,"socketPassedIn":{"id":"AsMvX6SUG6m1xTooAAB7","connected":true}}
-bundle.js:172371 [VideoSettings] Using provided localStream {"streamId":"42c63f56-f3ad-4828-81d6-b3490d80aab4"}
-bundle.js:172371 [VideoSettings] Synced pending states with current settings {"videoDeviceId":"c5ecd5f89f97f7fcf6d995a2b66d51be257db2cacb3612abe6296195233f1b82","audioDeviceId":"communications","backgroundSettings":{"mode":"none","customBackground":null,"blurLevel":10}}
-bundle.js:172366  [VideoSettings] Skipping processor init - resources not ready {"isVideoReady":false,"hasStream":true,"hasVideo":true,"hasCanvas":true,"hasOutputCanvas":true} Error Component Stack
-    at VideoSettings (src_components_VideoSettings_js-src_components_ui_alert_tsx-src_utils_mediaUtils_js.chunk.js:58:3)
+[SocketIO] <<< INCOMING EVENT: "ping" {"payload":[],"userId":"66f418d10a19ec0e4bbd377e","socketId":"cTXO08jAtCmIdzWKAAAT","timestamp":"2025-11-13T12:07:33.849Z"}
+bundle.js:172432 [ProgramLandingPage.handleEnroll] 1. Enrollment process started.
+bundle.js:172432 [ProgramLandingPage.handleEnroll] 2. Price details are available. {"priceDetails":{"base":{"amount":{"amount":18,"currency":"CHF"},"currency":"CHF"},"final":{"amount":{"amount":7.2,"currency":"CHF"},"currency":"CHF"},"netAfterDiscount":6.66,"currency":"CHF","discounts":[{"_id":"689446e18bf7b5dac25822ae","code":"TEST","type":"percent","value":60,"amountDeducted":10.8}],"platformFee":{"amount":0,"originalPercentage":9.9,"appliedPercentage":0},"vat":{"amount":0.54,"rate":8.1,"included":true},"_calculationDetails":{"appliedDiscount":{"_id":"689446e18bf7b5dac25822ae","code":"TEST","type":"percent","value":60,"amountDeducted":10.8}}}}
+bundle.js:172432 [ProgramLandingPage.handleEnroll] Converting amount for payment flow. Decimal: 7.2, Cents: 720
+bundle.js:172432 [PaymentOrchestrator] Starting initialization sequence: {"config":{"flowId":"908fec6b-14b1-4c39-bd6f-cdc9927f4246","amount":720,"currency":"CHF","metadata":{"programId":"68fb2dd6cfd489abf47268b0","isPopup":true,"flowState":"pre_enrollment"}},"existingFlows":[],"timestamp":"2025-11-13T12:07:35.869Z"}
+bundle.js:172432 [Orchestrator - LOG A] ==> Initializing flow. Received bookingId (stable ID): undefined, flowId (transient ID): 908fec6b-14b1-4c39-bd6f-cdc9927f4246
+bundle.js:172432 [PaymentStatusService] Flow initialization entry: {"bookingId":"908fec6b-14b1-4c39-bd6f-cdc9927f4246","mapsState":{"hasPaymentStates":true,"paymentStatesSize":0,"existingKeys":[]},"priceDetails":{"amount":720,"currency":"CHF","timing":{"id":"immediate","label":"Pay Now"}},"options":{"programId":"68fb2dd6cfd489abf47268b0","isPopup":true,"flowState":"pre_enrollment","flowId":"908fec6b-14b1-4c39-bd6f-cdc9927f4246","modalState":"booking","paymentStep":"session"},"stack":"Error\n    at http://localhost:3000/static/js/bundle.js:162847:16\n    at PaymentStatusService.initializePaymentFlow (http://localhost:3000/static/js/bundle.js:162926:7)\n    at PaymentOrchestratorService.initializePayment (http://localhost:3000/static/js/bundle.js:159486:54)\n    at handleEnroll (http://localhost:3000/static/js/src_components_programs_ProgramLandingPage_js.chunk.js:598:97)\n    at HTMLUnknownElement.callCallback (http://localhost:3000/static/js/bundle.js:86855:18)\n    at Object.invokeGuardedCallbackDev (http://localhost:3000/static/js/bundle.js:86899:20)\n    at invokeGuardedCallback (http://localhost:3000/static/js/bundle.js:86956:35)\n    at invokeGuardedCallbackAndCatchFirstError (http://localhost:3000/static/js/bundle.js:86970:29)\n    at executeDispatch (http://localhost:3000/static/js/bundle.js:91113:7)\n    at processDispatchQueueItemsInOrder (http://localhost:3000/static/js/bundle.js:91139:11)","timestamp":"2025-11-13T12:07:35.870Z"}
+bundle.js:172432 [PaymentStatusService] Initialized paymentStates for flow {"flowId":"908fec6b-14b1-4c39-bd6f-cdc9927f4246","state":{"status":"initializing","version":1,"createdAt":"2025-11-13T12:07:35.870Z","lastUpdated":"2025-11-13T12:07:35.870Z","updates":[],"metadata":{}},"timestamp":"2025-11-13T12:07:35.870Z"}
+bundle.js:172432 [PaymentStatusService] Initialized flowStates for flow {"flowId":"908fec6b-14b1-4c39-bd6f-cdc9927f4246","state":{"status":"initializing","version":1,"createdAt":"2025-11-13T12:07:35.870Z","lastUpdated":"2025-11-13T12:07:35.870Z","transitions":[]},"timestamp":"2025-11-13T12:07:35.870Z"}
+bundle.js:172432 [PaymentStatusService] Initialized stateVersions for flow {"flowId":"908fec6b-14b1-4c39-bd6f-cdc9927f4246","version":1,"timestamp":"2025-11-13T12:07:35.870Z"}
+bundle.js:172432 [PaymentStatusService] State maps ensured {"flowId":"908fec6b-14b1-4c39-bd6f-cdc9927f4246","mapSizes":{"paymentStates":1,"flowStates":1,"stateVersions":1},"paymentState":{"status":"initializing","version":1,"createdAt":"2025-11-13T12:07:35.870Z","lastUpdated":"2025-11-13T12:07:35.870Z","updates":[],"metadata":{}},"flowState":{"status":"initializing","version":1,"createdAt":"2025-11-13T12:07:35.870Z","lastUpdated":"2025-11-13T12:07:35.870Z","transitions":[]},"timestamp":"2025-11-13T12:07:35.870Z"}
+bundle.js:172432 [PaymentStatusService] Initial state creation: {"bookingId":"908fec6b-14b1-4c39-bd6f-cdc9927f4246","flowId":"908fec6b-14b1-4c39-bd6f-cdc9927f4246","stateDetails":{"hasPaymentStates":true,"hasFlowStates":true,"initialState":{"id":"908fec6b-14b1-4c39-bd6f-cdc9927f4246","bookingId":"908fec6b-14b1-4c39-bd6f-cdc9927f4246","status":"initializing","amount":720,"currency":"CHF","metadata":{"programId":"68fb2dd6cfd489abf47268b0","isPopup":true,"flowState":"pre_enrollment","flowId":"908fec6b-14b1-4c39-bd6f-cdc9927f4246","modalState":"booking","paymentStep":"session","flowType":"post_booking"},"version":1,"createdAt":"2025-11-13T12:07:35.870Z","lastUpdated":"2025-11-13T12:07:35.870Z","transitions":[]},"mapsStatus":{"paymentStates":["908fec6b-14b1-4c39-bd6f-cdc9927f4246"],"flowStates":["908fec6b-14b1-4c39-bd6f-cdc9927f4246"]}},"timestamp":"2025-11-13T12:07:35.870Z"}
+bundle.js:172432 [PaymentStatusService] State maps synchronized: {"bookingId":"908fec6b-14b1-4c39-bd6f-cdc9927f4246","verification":{"paymentStates":true,"flowStates":true,"stateVersions":true},"timestamp":"2025-11-13T12:07:35.870Z"}
+bundle.js:54808 i18next::translator: missingKey de common module module
+bundle.js:54808 i18next::translator: missingKey de programs report_program_button Report this program
+bundle.js:172437 [DEBUG] [PaymentStatusService] No pending initialization: {"bookingId":"908fec6b-14b1-4c39-bd6f-cdc9927f4246","timestamp":"2025-11-13T12:07:35.878Z"}
+bundle.js:172432 [Orchestrator - LOG B] ==> Created mapping. Stable ID 'undefined' maps to Flow ID '908fec6b-14b1-4c39-bd6f-cdc9927f4246'.
+bundle.js:172432 [PaymentOrchestrator] Payment flow initialized: {"flowId":"908fec6b-14b1-4c39-bd6f-cdc9927f4246","attempt":1,"timestamp":"2025-11-13T12:07:35.879Z"}
+bundle.js:172432 [ProgramLandingPage.handleEnroll] 3. Calling the enroll mutation (API call to backend)... {"programId":"68fb2dd6cfd489abf47268b0","payload":{"discountCode":"TEST"}}
+bundle.js:54808 i18next::translator: missingKey de common module module
+bundle.js:54808 i18next::translator: missingKey de programs report_program_button Report this program
+bundle.js:172432 [ProgramLandingPage.handleEnroll] 4a. (SUCCESS) enroll mutation returned: {"data":{"success":true,"clientSecret":"pi_3SSzJKHKNqVBSHKU0paIWFnQ_secret_WeXxzBrk4mKBRQemNML8vNW5o","paymentId":"6915ca08e240d8f6c758bb56","programId":"68fb2dd6cfd489abf47268b0","paymentIntent":{"_id":"pi_3SSzJKHKNqVBSHKU0paIWFnQ","amount":720,"currency":"chf"}}}
+bundle.js:172432 [ProgramLandingPage.handleEnroll] 4a. (SUCCESS and VALID) Data is well-formed. Updating Payment Orchestrator. {"paymentIntentId":"pi_3SSzJKHKNqVBSHKU0paIWFnQ"}
+bundle.js:172432 [PaymentOrchestrator] Starting flow update {"flowId":"908fec6b-14b1-4c39-bd6f-cdc9927f4246","updateType":"booking_created","updateKeys":["bookingId","clientSecret","paymentIntentId","status","metadata"],"inputFlowId":"908fec6b-14b1-4c39-bd6f-cdc9927f4246","inputUpdates":{"bookingId":"6915ca08e240d8f6c758bb56","clientSecret":"pi_3SSzJKHKNqVBSHKU0paIWFnQ_secret_WeXxzBrk4mKBRQemNML8vNW5o","paymentIntentId":"pi_3SSzJKHKNqVBSHKU0paIWFnQ","status":"payment_pending","metadata":{"updateType":"booking_created","confirmationId":"908fec6b-14b1-4c39-bd6f-cdc9927f4246","modalState":"payment_active","paymentStep":"method","actualBookingId":"pi_3SSzJKHKNqVBSHKU0paIWFnQ"}},"flowsState":{"totalFlows":1,"hasFlowId":true,"flowKeys":["908fec6b-14b1-4c39-bd6f-cdc9927f4246"]},"timestamp":"2025-11-13T12:07:37.054Z"}
+bundle.js:172432 [PaymentStatusService] Preserve state entry: {"flowId":"908fec6b-14b1-4c39-bd6f-cdc9927f4246","allMapSizes":{"paymentStates":1,"flowStates":1,"stateVersions":1},"hasTargetState":true,"currentKeys":["908fec6b-14b1-4c39-bd6f-cdc9927f4246"],"timestamp":"2025-11-13T12:07:37.055Z"}
+bundle.js:172432 [PaymentStatusService] Preserving state: {"flowId":"908fec6b-14b1-4c39-bd6f-cdc9927f4246","currentStatus":"initializing","preservationReason":"pre_transition","timestamp":"2025-11-13T12:07:37.055Z"}
+bundle.js:172432 [PaymentStatusService] Pre-transition state check: {"ids":{"providedOldId":"908fec6b-14b1-4c39-bd6f-cdc9927f4246","actualOldId":"908fec6b-14b1-4c39-bd6f-cdc9927f4246","newId":"6915ca08e240d8f6c758bb56"},"stateCheck":{"hasOldState":true,"hasNewState":false,"oldStateKeys":["908fec6b-14b1-4c39-bd6f-cdc9927f4246"],"flowStateKeys":["908fec6b-14b1-4c39-bd6f-cdc9927f4246"]},"timestamp":"2025-11-13T12:07:37.055Z"}
+bundle.js:172432 [PaymentStatusService] Preserving state metadata: {"oldId":"908fec6b-14b1-4c39-bd6f-cdc9927f4246","newId":"6915ca08e240d8f6c758bb56","timestamp":"2025-11-13T12:07:37.055Z"}
+bundle.js:172432 [PaymentStatusService] State transition completed: {"oldId":"908fec6b-14b1-4c39-bd6f-cdc9927f4246","newId":"6915ca08e240d8f6c758bb56","success":true,"verification":{"hasNewState":true,"newStateId":"6915ca08e240d8f6c758bb56","stateKeys":["6915ca08e240d8f6c758bb56"]},"timestamp":"2025-11-13T12:07:37.056Z"}
+bundle.js:172432 [PaymentStatusService] Publishing state update: {"flowId":"6915ca08e240d8f6c758bb56","status":"initializing","hasSubscribers":false,"subscriberCount":0,"timestamp":"2025-11-13T12:07:37.056Z"}
+bundle.js:172432 [StateSubscriptionManager] Publishing state: {"flowId":"6915ca08e240d8f6c758bb56","status":"initializing","subscriberCount":0,"source":"transition","timestamp":"2025-11-13T12:07:37.056Z"}
+bundle.js:172432 [PaymentStatusService] State publish completed: {"flowId":"6915ca08e240d8f6c758bb56","status":"initializing","modalState":"booking","paymentStep":"method","published":false,"timestamp":"2025-11-13T12:07:37.056Z"}
+bundle.js:172432 [PaymentOrchestrator] Flow transition completed {"flowId":"908fec6b-14b1-4c39-bd6f-cdc9927f4246","preBookingFlowId":"908fec6b-14b1-4c39-bd6f-cdc9927f4246","newFlowId":"6915ca08e240d8f6c758bb56","result":{"id":"6915ca08e240d8f6c758bb56","status":"active","bookingId":"6915ca08e240d8f6c758bb56"},"timestamp":"2025-11-13T12:07:37.056Z"}
+bundle.js:172432 [PaymentOrchestrator] Publishing state manually: {"flowId":"6915ca08e240d8f6c758bb56","state":{"status":"active","metadata":{"modalState":"payment_active","paymentStep":"method"}}}
+bundle.js:54808 i18next::translator: missingKey de common module module
+bundle.js:54808 i18next::translator: missingKey de programs report_program_button Report this program
+bundle.js:119374  Warning: Failed prop type: The prop `onCancel` is marked as required in `PaymentPopup`, but its value is `undefined`.
+    at PaymentPopup (http://localhost:3000/static/js/src_components_payment_PaymentPopup_js.chunk.js:42:3)
+    at ProgramLandingPage (http://localhost:3000/static/js/src_components_programs_ProgramLandingPage_js.chunk.js:315:66)
+    at RenderedRoute (http://localhost:3000/static/js/bundle.js:118151:5)
+    at Routes (http://localhost:3000/static/js/bundle.js:118885:5)
+    at Suspense
+    at main
+    at div
+    at AppContent (http://localhost:3000/static/js/bundle.js:137914:69)
+    at LiveSessionProvider (http://localhost:3000/static/js/bundle.js:148961:3)
+    at NotificationSocketProvider (http://localhost:3000/static/js/bundle.js:149788:3)
+    at AppWithSocketProvider (http://localhost:3000/static/js/bundle.js:138850:69)
+    at AppWithSocketProviderWrapper (http://localhost:3000/static/js/bundle.js:138933:69)
+    at AuthProvider (http://localhost:3000/static/js/bundle.js:148591:3)
+    at PaymentProvider (http://localhost:3000/static/js/bundle.js:149576:3)
+    at Elements (http://localhost:3000/static/js/bundle.js:15340:30)
+    at Suspense
+    at App (http://localhost:3000/static/js/bundle.js:138885:51)
+    at AuthProvider (http://localhost:3000/static/js/bundle.js:148591:3)
+    at QueryClientProvider (http://localhost:3000/static/js/bundle.js:114054:21)
+    at Router (http://localhost:3000/static/js/bundle.js:118819:15)
+    at BrowserRouter (http://localhost:3000/static/js/bundle.js:116719:5)
+overrideMethod @ hook.js:608
+printWarning @ bundle.js:119374
+error @ bundle.js:119351
+checkPropTypes @ bundle.js:119836
+validatePropTypes @ bundle.js:120300
+jsxWithValidation @ bundle.js:120413
+ProgramLandingPage @ src_components_programs_ProgramLandingPage_js.chunk.js:2147
+renderWithHooks @ bundle.js:96599
+updateFunctionComponent @ bundle.js:100167
+beginWork @ bundle.js:101886
+beginWork$1 @ bundle.js:106833
+performUnitOfWork @ bundle.js:106103
+workLoopSync @ bundle.js:106026
+renderRootSync @ bundle.js:105999
+performConcurrentWorkOnRoot @ bundle.js:105394
+workLoop @ bundle.js:124311
+flushWork @ bundle.js:124289
+performWorkUntilDeadline @ bundle.js:124526
+bundle.js:172432 [PaymentPopup] Component rendered {"bookingId":"6915ca08e240d8f6c758bb56","isOpen":true,"timestamp":"2025-11-13T12:07:37.067Z"}
+bundle.js:172432 [PaymentPopup] Rendering with portal {"bookingId":"6915ca08e240d8f6c758bb56","isOpen":true,"portalContainerExists":true,"timestamp":"2025-11-13T12:07:37.067Z"}
+bundle.js:172432 [PaymentPopup] Mounting with isOpen {"bookingId":"6915ca08e240d8f6c758bb56","isOpen":true,"timestamp":"2025-11-13T12:07:37.071Z"}
+bundle.js:172432 [PaymentPopup] Attempting to subscribe to state. {"bookingId":"6915ca08e240d8f6c758bb56","timestamp":"2025-11-13T12:07:37.071Z"}
+bundle.js:172432 [PaymentOrchestrator] Setting up state subscription: {"requestedId":"6915ca08e240d8f6c758bb56","resolvedId":"6915ca08e240d8f6c758bb56","hasCallback":true,"timestamp":"2025-11-13T12:07:37.071Z"}
+bundle.js:172432 [PaymentStatusService] Setting up state subscription: {"flowId":"6915ca08e240d8f6c758bb56","hasExistingState":true,"hasStateManager":true,"timestamp":"2025-11-13T12:07:37.071Z"}
+bundle.js:172432 [PaymentStatusService] Subscription request: {"flowId":"6915ca08e240d8f6c758bb56","stateExists":true,"stateDetails":{"id":"6915ca08e240d8f6c758bb56","status":"initializing","amount":720,"currency":"CHF","metadata":{"programId":"68fb2dd6cfd489abf47268b0","isPopup":true,"flowState":"pre_enrollment","flowId":"908fec6b-14b1-4c39-bd6f-cdc9927f4246","confirmationId":"908fec6b-14b1-4c39-bd6f-cdc9927f4246","modalState":"booking","paymentStep":"method","flowType":"post_booking","transitionType":"booking_created","originalFlowId":"908fec6b-14b1-4c39-bd6f-cdc9927f4246","preserveHistory":true,"transitionTimestamp":"2025-11-13T12:07:37.056Z","transitionedFrom":"908fec6b-14b1-4c39-bd6f-cdc9927f4246"},"version":2,"createdAt":"2025-11-13T12:07:35.869Z","lastUpdated":"2025-11-13T12:07:37.056Z","transitions":[]},"timestamp":"2025-11-13T12:07:37.072Z"}
+bundle.js:172437 [DEBUG] [PaymentPopup] State updated {"bookingId":"6915ca08e240d8f6c758bb56","paymentStep":"method","modalState":"payment_active","isLoading":true,"orchestratorStateKeys":[],"timestamp":"2025-11-13T12:07:37.072Z"}
+bundle.js:172432 [PaymentPopup] Unmounting with isOpen {"bookingId":"6915ca08e240d8f6c758bb56","isOpen":true,"timestamp":"2025-11-13T12:07:37.072Z"}
+bundle.js:172432 [PaymentStatusService] Preparing subscription: {"flowId":"6915ca08e240d8f6c758bb56","currentState":{"status":"initializing","modalState":"booking","paymentStep":"method"},"timestamp":"2025-11-13T12:07:37.072Z"}
+bundle.js:172432 [StateSubscriptionManager] New subscription request: {"flowId":"6915ca08e240d8f6c758bb56","hasCallback":true,"options":{"emitCurrent":true,"initialState":{"id":"6915ca08e240d8f6c758bb56","status":"initializing","amount":720,"currency":"CHF","metadata":{"programId":"68fb2dd6cfd489abf47268b0","isPopup":true,"flowState":"pre_enrollment","flowId":"908fec6b-14b1-4c39-bd6f-cdc9927f4246","confirmationId":"908fec6b-14b1-4c39-bd6f-cdc9927f4246","modalState":"booking","paymentStep":"method","flowType":"post_booking","transitionType":"booking_created","originalFlowId":"908fec6b-14b1-4c39-bd6f-cdc9927f4246","preserveHistory":true,"transitionTimestamp":"2025-11-13T12:07:37.056Z","transitionedFrom":"908fec6b-14b1-4c39-bd6f-cdc9927f4246"},"version":2,"createdAt":"2025-11-13T12:07:35.869Z","lastUpdated":"2025-11-13T12:07:37.056Z","transitions":[]}},"existingSubscribers":0,"timestamp":"2025-11-13T12:07:37.072Z"}
+bundle.js:172432 [PaymentPopup] SUCCESS: State update received from Orchestrator. {"bookingId":"6915ca08e240d8f6c758bb56","receivedStateId":"6915ca08e240d8f6c758bb56","status":"initializing","timestamp":"2025-11-13T12:07:37.073Z"}
+bundle.js:172432 [PaymentPopup] Rendering PaymentFlow with props: {"bookingId":"6915ca08e240d8f6c758bb56","amount":720,"currency":"CHF","hasClientSecret":true,"timestamp":"2025-11-13T12:07:37.073Z"}
+bundle.js:172432 [PaymentFlow] Rendering with state and props: {"bookingId":"6915ca08e240d8f6c758bb56","amount":720,"currency":"CHF","orchestratorState":{"status":"initializing","amount":720,"currency":"CHF","keys":["id","bookingId","status","amount","currency","metadata","version","createdAt","lastUpdated","transitions","clientSecret","flowId","lastUpdate"]},"paymentState":{"flowState":"initial"},"timestamp":"2025-11-13T12:07:37.075Z"}
+bundle.js:172437 [DEBUG] [PaymentStatusIndicator] Rendering status: {"status":"initial","showLabel":true,"showDescription":false,"size":"default","timestamp":"2025-11-13T12:07:37.076Z"}
+bundle.js:172432 [PaymentFlow MOUNT] Component has mounted. Checking for Stripe/Elements.
+bundle.js:172432 [PaymentFlow MOUNT] SUCCESS: `stripe` and `elements` instances are available immediately.
+bundle.js:172432 [PaymentFlow UPDATE] clientSecret is available. Calling elements.update() to link it to the payment form. {"bookingId":"6915ca08e240d8f6c758bb56"}
+bundle.js:172432 [PaymentFlow] Stripe and Elements are ready {"hasStripe":true,"hasElements":true,"timestamp":"2025-11-13T12:07:37.084Z"}
+bundle.js:172432 [PaymentFlow] Subscribing to PaymentOrchestrator state {"bookingId":"6915ca08e240d8f6c758bb56","timestamp":"2025-11-13T12:07:37.084Z"}
+bundle.js:172432 [PaymentFlow] Received state update from Orchestrator {"bookingId":"6915ca08e240d8f6c758bb56","state":{"status":"initializing"},"timestamp":"2025-11-13T12:07:37.085Z"}
+bundle.js:172432 [PaymentFlow.OrchestratorSubscription] Received state update. {"paymentFlowBookingId":"6915ca08e240d8f6c758bb56","newStateFromOrchestrator":{"flowStatus":"initializing","hasClientSecret":false,"clientSecretProvided":"NOT_PROVIDED_IN_THIS_UPDATE"},"timestamp":"2025-11-13T12:07:37.085Z"}
+bundle.js:172432 [PaymentFlow] Setting up socket subscription {"bookingId":"6915ca08e240d8f6c758bb56","timestamp":"2025-11-13T12:07:37.085Z"}
+bundle.js:172437 [DEBUG] [PaymentDataService] Normalizing price data: {"input":{"amount":720,"currency":"CHF"},"inputType":"object","hasNestedStructure":false,"timestamp":"2025-11-13T12:07:37.085Z"}
+bundle.js:172432 [PaymentDataService] Formatting price for payment: {"normalizedAmount":720,"currency":"CHF","hasVat":false,"hasPlatformFee":false,"timestamp":"2025-11-13T12:07:37.086Z"}
+bundle.js:172432 [PaymentFlow] Unsubscribing from PaymentOrchestrator state {"bookingId":"6915ca08e240d8f6c758bb56","timestamp":"2025-11-13T12:07:37.086Z"}
+bundle.js:172432 [PaymentFlow] Cleaning up socket subscription in PaymentFlow {"bookingId":"6915ca08e240d8f6c758bb56","timestamp":"2025-11-13T12:07:37.086Z"}
+bundle.js:172437 [DEBUG] [PaymentFlow] No-op unsubscribe called for socket {"bookingId":"6915ca08e240d8f6c758bb56","timestamp":"2025-11-13T12:07:37.086Z"}
+bundle.js:172432 [PaymentFlow] renderPaymentStep called {"bookingId":"6915ca08e240d8f6c758bb56","paymentStep":"method","isInitializing":true,"isStripeReady":true,"hasClientSecret":true,"timestamp":"2025-11-13T12:07:37.087Z"}
+bundle.js:172437 [DEBUG] [PaymentFlow] Waiting for dependencies to initialize {"bookingId":"6915ca08e240d8f6c758bb56","isStripeReady":true,"hasClientSecret":true,"timestamp":"2025-11-13T12:07:37.087Z"}
+bundle.js:54808  i18next::translator: accessing an object - but returnObjects options is not enabled! Error Component Stack
+    at PaymentFlow (src_components_payment_PaymentPopup_js.chunk.js:1103:3)
+    at PaymentErrorBoundary (src_components_payment_SavedPaymentMethodsManager_js.chunk.js:35:5)
     at div (<anonymous>)
+    at MotionComponent (bundle.js:44503:59)
     at div (<anonymous>)
-    at LiveSessionCallUI (src_components_LiveSessionInterface_js-src_services_ReviewAPI_js.chunk.js:1140:3)
-    at LiveSessionInterface (src_components_LiveSessionInterface_js-src_services_ReviewAPI_js.c00beb16b23cf1208b9c.hot-update.js:407:66)
-    at RenderedRoute (bundle.js:118151:5)
-    at Outlet (bundle.js:118798:26)
-    at ProtectedRoute (src_components_ProtectedRoute_js.chunk.js:119:69)
+    at MotionComponent (bundle.js:44503:59)
+    at PaymentPopup (src_components_payment_PaymentPopup_js.chunk.js:42:3)
+    at div (<anonymous>)
+    at ProgramLandingPage (src_components_programs_ProgramLandingPage_js.chunk.js:315:66)
     at RenderedRoute (bundle.js:118151:5)
     at Routes (bundle.js:118885:5)
     at Suspense (<anonymous>)
@@ -832,8 +1074,62 @@ bundle.js:172366  [VideoSettings] Skipping processor init - resources not ready 
     at Router (bundle.js:118819:15)
     at BrowserRouter (bundle.js:116719:5)
 overrideMethod @ hook.js:608
-warn @ bundle.js:172366
-(anonymous) @ src_components_VideoSettings_js-src_components_ui_alert_tsx-src_utils_mediaUtils_js.chunk.js:231
+output @ bundle.js:54808
+warn @ bundle.js:54802
+forward @ bundle.js:54850
+warn @ bundle.js:54833
+translate @ bundle.js:55168
+t @ bundle.js:56826
+fixedT @ bundle.js:56814
+renderPaymentStep @ src_components_payment_PaymentPopup_js.chunk.js:1819
+PaymentFlow @ src_components_payment_PaymentPopup_js.chunk.js:2218
+renderWithHooks @ bundle.js:96599
+updateFunctionComponent @ bundle.js:100167
+beginWork @ bundle.js:101886
+beginWork$1 @ bundle.js:106833
+performUnitOfWork @ bundle.js:106103
+workLoopSync @ bundle.js:106026
+renderRootSync @ bundle.js:105999
+performConcurrentWorkOnRoot @ bundle.js:105394
+workLoop @ bundle.js:124311
+flushWork @ bundle.js:124289
+performWorkUntilDeadline @ bundle.js:124526
+bundle.js:172432 [PaymentFlow] Rendering METHOD step {"bookingId":"6915ca08e240d8f6c758bb56","hasClientSecret":true,"hasSelectedMethod":false,"timestamp":"2025-11-13T12:07:37.102Z"}
+bundle.js:172432 [PaymentAPI] Fetching payment methods: {"userId":"66f418d10a19ec0e4bbd377e","timestamp":"2025-11-13T12:07:37.119Z"}
+bundle.js:172432 [PaymentMethodForm] Component mounted with Stripe fully ready {"hasStripe":true,"hasElements":true,"showSaveOption":true,"defaultSave":true,"bookingId":"6915ca08e240d8f6c758bb56","timestamp":"2025-11-13T12:07:37.120Z"}
+bundle.js:172437 [DEBUG] [PaymentMethodForm] Stripe context update: {"hasStripe":true,"hasElements":true,"isStripeReady":true,"bookingId":"6915ca08e240d8f6c758bb56","timestamp":"2025-11-13T12:07:37.120Z"}
+bundle.js:172437 [DEBUG] [PaymentMethodForm] Component cleanup
+bundle.js:172427  [PaymentSocket] Connection health check failed: {"error":"Ping timeout","socketId":"qxA7QLK52MhZK2EQAAAV","timeoutMs":2000,"timestamp":"2025-11-13T12:07:37.895Z"}
+overrideMethod @ hook.js:608
+warn @ bundle.js:172427
+_checkConnectionHealth @ bundle.js:161349
+await in _checkConnectionHealth
+(anonymous) @ bundle.js:160537
+__webpack_modules__../node_modules/@socket.io/component-emitter/lib/esm/index.js.Emitter.emit @ bundle.js:14906
+onconnect @ bundle.js:125776
+onpacket @ bundle.js:125673
+__webpack_modules__../node_modules/@socket.io/component-emitter/lib/esm/index.js.Emitter.emit @ bundle.js:14906
+(anonymous) @ bundle.js:125010
+Promise.then
+(anonymous) @ bundle.js:36326
+ondecoded @ bundle.js:125009
+__webpack_modules__../node_modules/@socket.io/component-emitter/lib/esm/index.js.Emitter.emit @ bundle.js:14906
+add @ bundle.js:126383
+ondata @ bundle.js:124997
+__webpack_modules__../node_modules/@socket.io/component-emitter/lib/esm/index.js.Emitter.emit @ bundle.js:14906
+_onPacket @ bundle.js:36648
+__webpack_modules__../node_modules/@socket.io/component-emitter/lib/esm/index.js.Emitter.emit @ bundle.js:14906
+onPacket @ bundle.js:37207
+onData @ bundle.js:37199
+ws.onmessage @ bundle.js:37839
+bundle.js:172432 [PaymentSocket] Connected successfully: {"socketId":"qxA7QLK52MhZK2EQAAAV","connectionId":"conn-1763035655878","attempt":1,"timestamp":"2025-11-13T12:07:37.895Z"}
+bundle.js:172427  [PaymentSocket] Existing connection invalid, forcing reconnect: {"socketId":"qxA7QLK52MhZK2EQAAAV","timestamp":"2025-11-13T12:07:39.093Z"}
+overrideMethod @ hook.js:608
+warn @ bundle.js:172427
+ensureConnection @ bundle.js:160474
+await in ensureConnection
+setupAsyncOperations @ src_components_payment_PaymentPopup_js.chunk.js:1272
+(anonymous) @ src_components_payment_PaymentPopup_js.chunk.js:1327
 commitHookEffectListMount @ bundle.js:103186
 commitPassiveMountOnFiber @ bundle.js:104679
 commitPassiveMountEffects_complete @ bundle.js:104651
@@ -841,24 +1137,30 @@ commitPassiveMountEffects_begin @ bundle.js:104641
 commitPassiveMountEffects @ bundle.js:104631
 flushPassiveEffectsImpl @ bundle.js:106514
 flushPassiveEffects @ bundle.js:106467
-performSyncWorkOnRoot @ bundle.js:105684
-flushSyncCallbacks @ bundle.js:93692
-commitRootImpl @ bundle.js:106446
-commitRoot @ bundle.js:106209
-finishConcurrentRender @ bundle.js:105606
-performConcurrentWorkOnRoot @ bundle.js:105457
+(anonymous) @ bundle.js:106282
 workLoop @ bundle.js:124311
 flushWork @ bundle.js:124289
 performWorkUntilDeadline @ bundle.js:124526
-bundle.js:172366  [VideoSettings] No processor available to update settings Error Component Stack
-    at VideoSettings (src_components_VideoSettings_js-src_components_ui_alert_tsx-src_utils_mediaUtils_js.chunk.js:58:3)
+bundle.js:172432 [PaymentSocket] Connection in progress: {"connectionId":"conn-1763035657087","attempts":0,"promise":true,"timestamp":"2025-11-13T12:07:39.095Z"}
+bundle.js:172432 [PaymentFlow.handlePaymentMethodSelection] Received method selection. {"selectedMethodObject":{"id":"pm_1SBIwWHKNqVBSHKU8InvHDXZ","brand":"visa","last4":"4242"},"currentPaymentFlowBookingId":"6915ca08e240d8f6c758bb56","currentVisibilityState":"visible","timestamp":"2025-11-13T12:07:40.573Z"}
+bundle.js:172432 [PaymentOrchestrator] Resolved flowId for non-transition update {"requestedFlowId":"6915ca08e240d8f6c758bb56","resolvedFlowId":"6915ca08e240d8f6c758bb56","foundFlow":true,"updates":{"metadata":{"selectedPaymentMethod":{"id":"pm_1SBIwWHKNqVBSHKU8InvHDXZ","brand":"visa","last4":"4242","expMonth":4,"expYear":2028,"isDefault":false}}},"timestamp":"2025-11-13T12:07:40.573Z"}
+bundle.js:172432 [PaymentStatusService] Starting flow state update {"flowId":"6915ca08e240d8f6c758bb56","newState":{"status":{"metadata":{"selectedPaymentMethod":{"id":"pm_1SBIwWHKNqVBSHKU8InvHDXZ","brand":"visa","last4":"4242","expMonth":4,"expYear":2028,"isDefault":false}}},"metadata":{"selectedPaymentMethod":{"id":"pm_1SBIwWHKNqVBSHKU8InvHDXZ","brand":"visa","last4":"4242","expMonth":4,"expYear":2028,"isDefault":false}}},"currentState":{"paymentStates":{"status":"initializing","version":2},"flowStates":{"status":"initializing"},"version":2,"paymentKeys":["6915ca08e240d8f6c758bb56"],"flowKeys":["6915ca08e240d8f6c758bb56"]},"timestamp":"2025-11-13T12:07:40.573Z"}
+bundle.js:172432 [PaymentStatusService] Flow state updated successfully {"flowId":"6915ca08e240d8f6c758bb56","resolvedId":"6915ca08e240d8f6c758bb56","state":{"status":"initializing","version":3,"metadataKeys":["programId","isPopup","flowState","flowId","confirmationId","modalState","paymentStep","flowType","transitionType","originalFlowId","preserveHistory","transitionTimestamp","transitionedFrom","selectedPaymentMethod"]}}
+bundle.js:172432 [PaymentFlow.useEffect[paymentState.selectedMethod]] Hook triggered. {"paymentFlowId_PROP":"6915ca08e240d8f6c758bb56","newSelectedMethodId":"pm_1SBIwWHKNqVBSHKU8InvHDXZ","timestamp":"2025-11-13T12:07:40.580Z"}
+bundle.js:172432 [PaymentFlow.useEffect[paymentState.selectedMethod]] PRE-getFlowData: Attempting to retrieve flow data from orchestrator. {"paymentFlowId_PROP":"6915ca08e240d8f6c758bb56"}
+bundle.js:172432 [PaymentOrchestrator] getFlowData called {"flowId":"6915ca08e240d8f6c758bb56","isValid":true,"reason":"valid","availableFlows":["908fec6b-14b1-4c39-bd6f-cdc9927f4246","6915ca08e240d8f6c758bb56"],"timestamp":"2025-11-13T12:07:40.580Z"}
+bundle.js:172432 [PaymentOrchestrator] Returning flow data {"flowId":"6915ca08e240d8f6c758bb56","flowData":{"status":"initializing","metadata":{"programId":"68fb2dd6cfd489abf47268b0","isPopup":true,"flowState":"pre_enrollment","flowId":"908fec6b-14b1-4c39-bd6f-cdc9927f4246","confirmationId":"908fec6b-14b1-4c39-bd6f-cdc9927f4246","modalState":"booking","paymentStep":"method","flowType":"post_booking","transitionType":"booking_created","originalFlowId":"908fec6b-14b1-4c39-bd6f-cdc9927f4246","preserveHistory":true,"transitionTimestamp":"2025-11-13T12:07:37.056Z","transitionedFrom":"908fec6b-14b1-4c39-bd6f-cdc9927f4246","selectedPaymentMethod":{"id":"pm_1SBIwWHKNqVBSHKU8InvHDXZ","brand":"visa","last4":"4242","expMonth":4,"expYear":2028,"isDefault":false}},"hasClientSecret":false},"timestamp":"2025-11-13T12:07:40.580Z"}
+bundle.js:172432 [PaymentFlow.useEffect[paymentState.selectedMethod]] POST-getFlowData: Data for THIS FLOW from Orchestrator: {"paymentFlowId_PROP":"6915ca08e240d8f6c758bb56","retrievedData":{"flowId":"6915ca08e240d8f6c758bb56","status":"initializing","metadataClientSecretExists":false},"timestamp":"2025-11-13T12:07:40.580Z"}
+bundle.js:172422  [PaymentFlow.useEffect[paymentState.selectedMethod]] Orchestrator data for flow ID is NULL, ERRORED, or MISSING ClientSecret. This may lead to closure. {"paymentFlowId_PROP":"6915ca08e240d8f6c758bb56","retrievedDataForProblemCheck":{"flowId":"6915ca08e240d8f6c758bb56","status":"initializing","amount":720,"currency":"CHF","metadata":{"programId":"68fb2dd6cfd489abf47268b0","isPopup":true,"flowState":"pre_enrollment","flowId":"908fec6b-14b1-4c39-bd6f-cdc9927f4246","confirmationId":"908fec6b-14b1-4c39-bd6f-cdc9927f4246","modalState":"booking","paymentStep":"method","flowType":"post_booking","transitionType":"booking_created","originalFlowId":"908fec6b-14b1-4c39-bd6f-cdc9927f4246","preserveHistory":true,"transitionTimestamp":"2025-11-13T12:07:37.056Z","transitionedFrom":"908fec6b-14b1-4c39-bd6f-cdc9927f4246","selectedPaymentMethod":{"id":"pm_1SBIwWHKNqVBSHKU8InvHDXZ","brand":"visa","last4":"4242","expMonth":4,"expYear":2028,"isDefault":false}}}} Error Component Stack
+    at PaymentFlow (src_components_payment_PaymentPopup_js.chunk.js:1103:3)
+    at PaymentErrorBoundary (src_components_payment_SavedPaymentMethodsManager_js.chunk.js:35:5)
     at div (<anonymous>)
+    at MotionComponent (bundle.js:44503:59)
     at div (<anonymous>)
-    at LiveSessionCallUI (src_components_LiveSessionInterface_js-src_services_ReviewAPI_js.chunk.js:1140:3)
-    at LiveSessionInterface (src_components_LiveSessionInterface_js-src_services_ReviewAPI_js.c00beb16b23cf1208b9c.hot-update.js:407:66)
-    at RenderedRoute (bundle.js:118151:5)
-    at Outlet (bundle.js:118798:26)
-    at ProtectedRoute (src_components_ProtectedRoute_js.chunk.js:119:69)
+    at MotionComponent (bundle.js:44503:59)
+    at PaymentPopup (src_components_payment_PaymentPopup_js.chunk.js:42:3)
+    at div (<anonymous>)
+    at ProgramLandingPage (src_components_programs_ProgramLandingPage_js.chunk.js:315:66)
     at RenderedRoute (bundle.js:118151:5)
     at Routes (bundle.js:118885:5)
     at Suspense (<anonymous>)
@@ -879,8 +1181,8 @@ bundle.js:172366  [VideoSettings] No processor available to update settings Erro
     at Router (bundle.js:118819:15)
     at BrowserRouter (bundle.js:116719:5)
 overrideMethod @ hook.js:608
-warn @ bundle.js:172366
-(anonymous) @ src_components_VideoSettings_js-src_components_ui_alert_tsx-src_utils_mediaUtils_js.chunk.js:281
+error @ bundle.js:172422
+(anonymous) @ src_components_payment_PaymentPopup_js.chunk.js:1403
 commitHookEffectListMount @ bundle.js:103186
 commitPassiveMountOnFiber @ bundle.js:104679
 commitPassiveMountEffects_complete @ bundle.js:104651
@@ -888,57 +1190,101 @@ commitPassiveMountEffects_begin @ bundle.js:104641
 commitPassiveMountEffects @ bundle.js:104631
 flushPassiveEffectsImpl @ bundle.js:106514
 flushPassiveEffects @ bundle.js:106467
-performSyncWorkOnRoot @ bundle.js:105684
-flushSyncCallbacks @ bundle.js:93692
-commitRootImpl @ bundle.js:106446
+commitRootImpl @ bundle.js:106426
 commitRoot @ bundle.js:106209
-finishConcurrentRender @ bundle.js:105606
-performConcurrentWorkOnRoot @ bundle.js:105457
-workLoop @ bundle.js:124311
-flushWork @ bundle.js:124289
-performWorkUntilDeadline @ bundle.js:124526
-bundle.js:172371 [useLSC-EFFECT] Conditions met. Emitting 'join-live-session-handshake' for session 78edb6ee527fcd9c792c4234f0ed94950d66d7c4a7766cfcfba63cb1b56d8f95
-bundle.js:172371 [useLiveSessionCall] Cleaning up hook. {"sessionId":"78edb6ee527fcd9c792c4234f0ed94950d66d7c4a7766cfcfba63cb1b56d8f95"}
-bundle.js:172371 [useLiveSessionCall] Cleaning up all peer connections. {"sessionId":"78edb6ee527fcd9c792c4234f0ed94950d66d7c4a7766cfcfba63cb1b56d8f95"}
-bundle.js:172371 [useLiveSessionCall] << RCVD session-participants list. Creating initiator peers. {"count":1}
-bundle.js:172371 [useLiveSessionCall] Creating peer connection for pURWuTUaADSG36U_AAB5 {"initiator":true}
-bundle.js:172371 [useLiveSessionCall] << RCVD 'session-ready'. The call can now begin. {"data":{"linkId":"78edb6ee527fcd9c792c4234f0ed94950d66d7c4a7766cfcfba63cb1b56d8f95","startTime":"2025-11-13T10:15:48.148Z"}}
-bundle.js:172371 [VideoSettings] Video is ready {"videoWidth":1280,"videoHeight":720}
-bundle.js:172371 [BackgroundProcessor] Creating new worker {"timestamp":1763028953155}
-bundle.js:172371 [VideoSettings] Canvas dimensions dynamically set {"width":1280,"height":720}
-bundle.js:172371 [BackgroundEffectUtility] Canvas contexts successfully initialized {"hiddenCanvasReady":true,"outputCanvasReady":true}
-bundle.js:172376 [DEBUG] [BackgroundEffect] Stream changed {"hasStream":true}
-bundle.js:172371 [BackgroundProcessor] Initialized with original stream {"streamId":"42c63f56-f3ad-4828-81d6-b3490d80aab4","videoTracks":[{"enabled":true,"readyState":"live"}],"audioTracks":[{"enabled":true,"readyState":"live"}]}
-bundle.js:172371 [BackgroundProcessor] Worker ready
-bundle.js:172371 [BackgroundEffectUtility] Canvas dimensions updated {"width":1280,"height":720,"mode":"none"}
-bundle.js:172371 [BackgroundEffectUtility] setupBackgroundEffect completed {"streamId":"42c63f56-f3ad-4828-81d6-b3490d80aab4","backgroundSettings":{"mode":"none","customBackground":null,"blurLevel":10},"processedStreamId":"42c63f56-f3ad-4828-81d6-b3490d80aab4","videoReady":true}
-bundle.js:172371 [VideoSettings] Background processor initialized {"streamId":"42c63f56-f3ad-4828-81d6-b3490d80aab4","mode":"none"}
-bundle.js:172371 [useLiveSessionCall] > PEER SIGNAL GENERATED. Emitting 'signal' to server for peer pURWuTUaADSG36U_AAB5. {"type":"offer"}
-bundle.js:172371 [useLiveSessionCall] << RCVD signal from peer pURWuTUaADSG36U_AAB5 {"type":"answer"}
-bundle.js:172371 [useLiveSessionCall] << RCVD stream from peer pURWuTUaADSG36U_AAB5 {"streamId":"32cd805a-7ea8-4ee3-aeff-cd537904816c"}
-bundle.js:172371 [SocketIO] <<< INCOMING EVENT: "job_queue_update" {"payload":[],"userId":"66f418d10a19ec0e4bbd377e","socketId":"SUGl_ApF_5bRUWS1AABz","timestamp":"2025-11-13T10:16:00.068Z"}
-bundle.js:172371 [useLiveSessionCall] Audio toggled {"enabled":false}
-bundle.js:172371 [useLiveSessionCall] Video toggled {"enabled":false}
-bundle.js:172371 [SocketIO] <<< INCOMING EVENT: "live_session_ended" {"payload":[{"sessionId":"6915afc3ee3ebd991d726344","status":"pending_settlement","finalCost":{"grossAmount":3.17,"currency":"CHF"},"durationInSeconds":19}],"userId":"66f418d10a19ec0e4bbd377e","socketId":"SUGl_ApF_5bRUWS1AABz","timestamp":"2025-11-13T10:16:09.107Z"}
-bundle.js:172371 [LSI-RENDER-CONTENT] Evaluating render for flowStatus: 'completed'
-bundle.js:172371 [BackgroundProcessor] Web Worker terminated
-bundle.js:172371 [VideoSettings] Processor cleaned up on unmount or dependency change
-bundle.js:172366  [useLiveSessionCall] Peer connection closed for pURWuTUaADSG36U_AAB5. Notifying server.
+performSyncWorkOnRoot @ bundle.js:105718
+flushSyncCallbacks @ bundle.js:93692
+(anonymous) @ bundle.js:105323
+bundle.js:172432 [PaymentOrchestrator] Non-transition flow update completed {"requestedFlowId":"6915ca08e240d8f6c758bb56","resolvedFlowId":"6915ca08e240d8f6c758bb56","foundFlow":true,"updatedStatus":"initializing","timestamp":"2025-11-13T12:07:40.584Z"}
+bundle.js:172432 [PaymentFlow] Socket connection ensured for PaymentFlow {"bookingId":"6915ca08e240d8f6c758bb56","connected":true,"timestamp":"2025-11-13T12:07:41.099Z"}
+bundle.js:172432 [PaymentSocket] Ensuring reliable connection: {"maxAttempts":3,"timeout":5000,"context":{"operation":"flow_subscription","flowId":"6915ca08e240d8f6c758bb56"},"currentState":{"state":"connected","attempts":0,"isConnecting":false,"hasSocket":true,"isSocketConnected":true,"timestamp":"2025-11-13T12:07:41.100Z"},"timestamp":"2025-11-13T12:07:41.100Z"}
+bundle.js:172432 [PaymentSocket] Operation already in progress: {"operationKey":"subscribe:flow:6915ca08e240d8f6c758bb56","timestamp":"2025-11-13T12:07:41.100Z"}
+bundle.js:172432 [PaymentFlow.CardFooterButton] "Pay Now" button clicked. {"paymentFlowBookingId":"6915ca08e240d8f6c758bb56","selectedMethod":{"id":"pm_1SBIwWHKNqVBSHKU8InvHDXZ"},"cardComplete":false,"canTriggerSubmitRef":true,"timestamp":"2025-11-13T12:07:44.575Z"}
+bundle.js:172432 [PaymentFlow] Payment submission start {"flowIdForOrchestrator":"6915ca08e240d8f6c758bb56","hasPaymentMethod":true,"methodId":"pm_1SBIwWHKNqVBSHKU8InvHDXZ","timestamp":"2025-11-13T12:07:44.576Z"}
+bundle.js:172432 [PaymentFlow] Determined PaymentIntent ID for submission: {"paymentIntentIdToUse":"pi_3SSzJKHKNqVBSHKU0paIWFnQ","flowIdForOrchestrator":"6915ca08e240d8f6c758bb56","timestamp":"2025-11-13T12:07:44.576Z"}
+bundle.js:172432 [PaymentFlow] Preparing to process payment with Orchestrator {"flowIdForOrchestrator":"6915ca08e240d8f6c758bb56","paymentMethodId":"pm_1SBIwWHKNqVBSHKU8InvHDXZ","paymentIntentIdToUse":"pi_3SSzJKHKNqVBSHKU0paIWFnQ","timestamp":"2025-11-13T12:07:44.576Z"}
+bundle.js:172432 [PaymentFlow] MongoDB Booking ID for API context determined: {"mongoDBBookingIdForApiContext":"6915ca08e240d8f6c758bb56","flowIdForOrchestrator":"6915ca08e240d8f6c758bb56","sourceFields":{},"timestamp":"2025-11-13T12:07:44.576Z"}
+bundle.js:172437 [DEBUG] [PaymentLogger] Flow ID validated: {"flowId":"6915ca08e240d8f6c758bb56","attempt":0,"timestamp":"2025-11-13T12:07:44.581Z"}
+bundle.js:172432 [PaymentLogger][payment_submission_start] {"flowId":"6915ca08e240d8f6c758bb56","hasPaymentMethod":true,"timestamp":"2025-11-13T12:07:44.582Z"}
+bundle.js:172432 [PaymentSocket] Connection established successfully: {"attempt":1,"context":{"operation":"flow_subscription","flowId":"6915ca08e240d8f6c758bb56"},"socketId":"PSMdMu-2rqv52Z5uAAAZ","timestamp":"2025-11-13T12:07:47.123Z"}
+bundle.js:172432 [PaymentSocket] Restoring persistent callbacks: {"flowId":"6915ca08e240d8f6c758bb56","persistentCount":0,"timestamp":"2025-11-13T12:07:47.124Z"}
+bundle.js:172437 [DEBUG] [PaymentSocket] Event name normalized: {"original":"payment_status_update","normalized":"payment_status_update","isKnownEvent":true,"timestamp":"2025-11-13T12:07:47.124Z"}
+bundle.js:172437 [DEBUG] [PaymentSocket] Setting subscription state: {"flowId":"6915ca08e240d8f6c758bb56-1763035667125","state":{"flowId":"6915ca08e240d8f6c758bb56","eventName":"flow:6915ca08e240d8f6c758bb56","callbacks":{},"active":true,"startedAt":"2025-11-13T12:07:47.125Z"},"timestamp":"2025-11-13T12:07:47.125Z"}
+bundle.js:172432 [PaymentSocket] Attempting room join: {"roomId":"6915ca08e240d8f6c758bb56","attempt":1,"wasConnected":true,"socketId":"PSMdMu-2rqv52Z5uAAAZ","timestamp":"2025-11-13T12:07:47.125Z"}
+bundle.js:172432 [PaymentSocket] Room joined successfully: {"roomId":"6915ca08e240d8f6c758bb56","attempt":1,"socketId":"PSMdMu-2rqv52Z5uAAAZ","timestamp":"2025-11-13T12:07:47.126Z"}
+bundle.js:172437 [DEBUG] [PaymentSocket] Registering flow event callback: {"flowId":"6915ca08e240d8f6c758bb56","event":"payment_status_update","timestamp":"2025-11-13T12:07:47.126Z"}
+bundle.js:172432 [PaymentSocket] Re-subscribing to flow after reconnect: {"flowId":"6915ca08e240d8f6c758bb56","eventName":"flow:6915ca08e240d8f6c758bb56","subscriptionId":"6915ca08e240d8f6c758bb56-1763035667125","callbackCount":1,"timestamp":"2025-11-13T12:07:50.596Z"}
+bundle.js:172432 [PaymentFlow] Calling PaymentOrchestrator.processPayment with: {"flowIdArg":"6915ca08e240d8f6c758bb56","paymentMethodIdArg":"pm_1SBIwWHKNqVBSHKU8InvHDXZ","paymentIntentIdArg":"pi_3SSzJKHKNqVBSHKU0paIWFnQ","contextArg":{"bookingId":"6915ca08e240d8f6c758bb56","retryOnNetworkError":true,"maxRetries":2},"timestamp":"2025-11-13T12:07:50.597Z"}
+bundle.js:172432 [PaymentOrchestrator] Flow state before processing: {"orchestratorFlowId":"6915ca08e240d8f6c758bb56","mongoDBBookingIdForApi":"6915ca08e240d8f6c758bb56","contextProvidedBookingId":"6915ca08e240d8f6c758bb56","timestamp":"2025-11-13T12:07:50.597Z"}
+bundle.js:172432 [PaymentStatusService] Tracking state transition: {"flowId":"6915ca08e240d8f6c758bb56","from":"initializing","to":"processing","version":4,"metadata":{"paymentMethodId":"pm_1SBIwWHKNqVBSHKU8InvHDXZ","paymentIntentId":"pi_3SSzJKHKNqVBSHKU0paIWFnQ","submissionStarted":"2025-11-13T12:07:50.598Z"},"timestamp":"2025-11-13T12:07:50.598Z"}
+bundle.js:172432 [PaymentStatusService] Notifying subscribers: {"flowId":"6915ca08e240d8f6c758bb56","status":"processing","hasStateSubscriptions":true,"timestamp":"2025-11-13T12:07:50.598Z"}
+bundle.js:172432 [PaymentStatusService] Handling payment status change: {"bookingId":"6915ca08e240d8f6c758bb56","status":"processing","hasMetadata":true,"timestamp":"2025-11-13T12:07:50.598Z"}
+bundle.js:172432 [PaymentStatusService] Attempting atomic state update: {"bookingId":"6915ca08e240d8f6c758bb56","status":"processing","version":4,"timestamp":"2025-11-13T12:07:50.598Z"}
+bundle.js:172432 [PaymentStatusService] State updated successfully: {"bookingId":"6915ca08e240d8f6c758bb56","flowId":"6915ca08e240d8f6c758bb56","newStatus":"processing","version":4,"timestamp":"2025-11-13T12:07:50.599Z"}
+bundle.js:172432 [PaymentAPI] Confirming payment: {"paymentIntentId":"pi_3SSzJKHKNqVBSHKU0paIWFnQ","paymentMethodId":"pm_1SBIwWHKNqVBSHKU8InvHDXZ","hasContext":true,"bookingId":"6915ca08e240d8f6c758bb56","timestamp":"2025-11-13T12:07:50.599Z"}
+bundle.js:172432 [PaymentAPI] Checking payment status before confirmation: {"bookingId":"6915ca08e240d8f6c758bb56","paymentIntentId":"pi_3SSzJKHKNqVBSHKU0paIWFnQ","timestamp":"2025-11-13T12:07:50.599Z"}
+bundle.js:172432 [PaymentAPI] Getting payment status - START: {"bookingId":"6915ca08e240d8f6c758bb56","hasBookingId":true,"type":"string","timestamp":"2025-11-13T12:07:50.599Z"}
+bundle.js:172432 [PaymentLogger][payment_submission_started] {"flowId":"6915ca08e240d8f6c758bb56","bookingId":"6915ca08e240d8f6c758bb56","paymentMethodId":"pm_1SBIwWHKNqVBSHKU8InvHDXZ","paymentIntentId":"pi_3SSzJKHKNqVBSHKU0paIWFnQ","timestamp":"2025-11-13T12:07:50.600Z"}
+bundle.js:172432 [PaymentAPI] Payment status response received: {"bookingId":"6915ca08e240d8f6c758bb56","responseKeys":["success","status","amount","currency","paymentMethod","created"],"hasStatus":true,"hasPaymentIntentId":false,"timestamp":"2025-11-13T12:07:50.893Z"}
+bundle.js:172432 [PaymentAPI] Payment confirmation request details: {"url":"/api/payments/confirm","method":"POST","data":{"paymentIntentId":"pi_3SSzJKHKNqVBSHKU0paIWFnQ","paymentMethodId":"pm_1SBIwWHKNqVBSHKU8InvHDXZ","context":{"bookingId":"6915ca08e240d8f6c758bb56","flowId":"6915ca08e240d8f6c758bb56","amount":720,"currency":"CHF","metadata":{"programId":"68fb2dd6cfd489abf47268b0","isPopup":true,"flowState":"pre_enrollment","flowId":"908fec6b-14b1-4c39-bd6f-cdc9927f4246","confirmationId":"908fec6b-14b1-4c39-bd6f-cdc9927f4246","modalState":"booking","paymentStep":"method","flowType":"post_booking","transitionType":"booking_created","originalFlowId":"908fec6b-14b1-4c39-bd6f-cdc9927f4246","preserveHistory":true,"transitionTimestamp":"2025-11-13T12:07:37.056Z","transitionedFrom":"908fec6b-14b1-4c39-bd6f-cdc9927f4246","selectedPaymentMethod":{"id":"pm_1SBIwWHKNqVBSHKU8InvHDXZ","brand":"visa","last4":"4242","expMonth":4,"expYear":2028,"isDefault":false},"bookingId":"6915ca08e240d8f6c758bb56","retryOnNetworkError":true,"maxRetries":2,"timestamp":"2025-11-13T12:07:50.599Z"}}},"timestamp":"2025-11-13T12:07:50.893Z"}
+bundle.js:172437 [DEBUG] [PaymentAPI] Attempting operation: {"attempt":1,"maxAttempts":2,"context":"payment_confirmation","timestamp":"2025-11-13T12:07:50.894Z"}
+bundle.js:172432 [PaymentAPI.confirmPayment] Successful response from /api/payments/confirm: {"paymentIntentId":"pi_3SSzJKHKNqVBSHKU0paIWFnQ","bookingIdFromContext":"6915ca08e240d8f6c758bb56","responseStatus":200,"responseData":{"success":true,"status":"succeeded","amount":7.2,"currency":"chf"},"timestamp":"2025-11-13T12:07:51.833Z"}
+bundle.js:172432 [PaymentAPI] Payment confirmed successfully: {"paymentIntentId":"pi_3SSzJKHKNqVBSHKU0paIWFnQ","bookingId":"6915ca08e240d8f6c758bb56","status":"succeeded","timestamp":"2025-11-13T12:07:51.833Z"}
+bundle.js:172432 [PaymentOrchestrator] Payment confirmed via API (post-potential-normalization): {"orchestratorFlowId":"6915ca08e240d8f6c758bb56","mongoDBBookingId":"6915ca08e240d8f6c758bb56","apiResultStatus":"succeeded","isResultSuccess":true,"finalResultForUpstream":{"success":true,"status":"succeeded","amount":7.2,"currency":"CHF"}}
+bundle.js:172432 [PaymentLogger][payment_succeeded] {"flowId":"6915ca08e240d8f6c758bb56","bookingId":"6915ca08e240d8f6c758bb56","paymentIntentId":"pi_3SSzJKHKNqVBSHKU0paIWFnQ","timestamp":"2025-11-13T12:07:51.834Z"}
+bundle.js:172432 [PaymentFlow] processPayment result received: {"flowIdForOrchestrator":"6915ca08e240d8f6c758bb56","resultStatus":"succeeded","resultBookingId":"6915ca08e240d8f6c758bb56","hasResult":true,"timestamp":"2025-11-13T12:07:51.834Z"}
+bundle.js:172432 [PaymentPopup.handlePaymentSuccess] Function CALLED. {"popupBookingId":"6915ca08e240d8f6c758bb56","paymentDetails":{"success":true,"status":"succeeded","amount":7.2,"currency":"CHF","bookingId":"6915ca08e240d8f6c758bb56","flowId":"6915ca08e240d8f6c758bb56","paymentIntentId":"pi_3SSzJKHKNqVBSHKU0paIWFnQ"},"timestamp":"2025-11-13T12:07:51.834Z"}
+bundle.js:172432 [PaymentPopup] Payment succeeded {"bookingId":"6915ca08e240d8f6c758bb56","timestamp":"2025-11-13T12:07:51.834Z"}
+bundle.js:172432 [PaymentPopup.handleClose_PROP_CALLER] Function CALLED, about to call main onClose prop. {"popupBookingId":"6915ca08e240d8f6c758bb56","sourceOfCloseCall":"unknown","currentPaymentStep":"method","currentModalState":"payment_active","timestamp":"2025-11-13T12:07:51.835Z"}
+bundle.js:172432 [PaymentOrchestrator] Registering cleanup: {"flowId":"6915ca08e240d8f6c758bb56","cleanupId":"cleanup-6915ca08e240d8f6c758bb56-1763035671835","existingCleanups":[],"metadata":{"source":"user_close","preserveState":false,"force":false,"metadata":{}},"timestamp":"2025-11-13T12:07:51.835Z"}
+bundle.js:172432 [PaymentOrchestrator] Handling cleanup request: {"flowId":"6915ca08e240d8f6c758bb56","cleanupId":"cleanup-6915ca08e240d8f6c758bb56-1763035671835","source":"user_close","preserveState":false,"force":false,"timestamp":"2025-11-13T12:07:51.835Z"}
+bundle.js:172432 [PaymentOrchestrator] Checking cleanup permission: {"flowId":"6915ca08e240d8f6c758bb56","source":"user_close","currentState":"succeeded","timestamp":"2025-11-13T12:07:51.835Z"}
+bundle.js:172432 [PaymentOrchestrator] Checking flow protection: {"flowId":"6915ca08e240d8f6c758bb56","status":"succeeded","isProtected":false,"timestamp":"2025-11-13T12:07:51.835Z"}
+bundle.js:172432 [PaymentOrchestrator] Publishing cleanup state update: {"flowId":"6915ca08e240d8f6c758bb56","cleanupId":"cleanup-6915ca08e240d8f6c758bb56-1763035671835","currentState":"succeeded","timestamp":"2025-11-13T12:07:51.835Z"}
+bundle.js:54808 i18next::translator: missingKey de common module module
+bundle.js:54808 i18next::translator: missingKey de programs report_program_button Report this program
+bundle.js:172432 [PaymentSocket] Executing flow unsubscribe: {"flowId":"6915ca08e240d8f6c758bb56","subscriptionId":"6915ca08e240d8f6c758bb56-1763035667125","remainingCallbacks":0,"timestamp":"2025-11-13T12:07:51.844Z"}
+bundle.js:172437 [DEBUG] [PaymentSocket] All callbacks removed for event: {"eventName":"flow:6915ca08e240d8f6c758bb56","flowId":"6915ca08e240d8f6c758bb56","timestamp":"2025-11-13T12:07:51.844Z"}
+bundle.js:172432 [PaymentSocket] Cleaning up subscriptions: {"flowId":"6915ca08e240d8f6c758bb56","activeSubscriptions":["payment_status_update"],"timestamp":"2025-11-13T12:07:51.845Z"}
+bundle.js:172437 [DEBUG] [PaymentSocket] Removed subscriptions: {"flowId":"6915ca08e240d8f6c758bb56","eventName":"payment_status_update","callbackCount":4,"timestamp":"2025-11-13T12:07:51.845Z"}
+bundle.js:54808 i18next::translator: missingKey de common module module
+bundle.js:54808 i18next::translator: missingKey de programs report_program_button Report this program
+bundle.js:172432 [PaymentOrchestrator] Executing cleanup: {"flowId":"6915ca08e240d8f6c758bb56","cleanupId":"cleanup-6915ca08e240d8f6c758bb56-1763035671835","flowStatus":"succeeded","timestamp":"2025-11-13T12:07:51.936Z"}
+bundle.js:172432 [PaymentOrchestrator] Cleanup completed: {"flowId":"6915ca08e240d8f6c758bb56","cleanupId":"cleanup-6915ca08e240d8f6c758bb56-1763035671835","timestamp":"2025-11-13T12:07:51.937Z"}
+bundle.js:172427  [PaymentOrchestrator] Flow ID mapping without flow: {"bookingId":"6915ca08e240d8f6c758bb56","flowId":"6915ca08e240d8f6c758bb56","timestamp":"2025-11-13T12:07:55.482Z"}
 overrideMethod @ hook.js:608
-warn @ bundle.js:172366
-(anonymous) @ src_components_LiveSessionInterface_js-src_services_ReviewAPI_js.chunk.js:3341
-emit @ bundle.js:38638
-(anonymous) @ vendors-node_modules_tensorflow-models_body-pix_dist_body-pix_esm_js-node_modules_tensorflow_-6a5c28.chunk.js:95869
-bundle.js:54808 i18next::translator: missingKey de userdashboard widgets.announcements Announcements
-bundle.js:172371 [LiveSessionInterface] Stopping active stream on unmount.
-bundle.js:172371 [LSI-SOCKET-EFFECT] Cleanup: Disconnecting socket. {"socketId":"AsMvX6SUG6m1xTooAAB7"}
-bundle.js:172371 [NotificationItemContent] Notification details: {"notificationId":"6914c04f17e67843463521ad","type":"booking_confirmed","userRole":"client","bookingId":"6914bfe417e678434635142b","timestamp":"2025-11-13T10:16:13.752Z"}
-bundle.js:172371 [NotificationItemContent] showBookingModal changed {"notificationId":"6914c04f17e67843463521ad","bookingId":"6914bfe417e678434635142b","showBookingModal":false,"timestamp":"2025-11-13T10:16:13.752Z"}
-bundle.js:172371 [SocketIO] <<< INCOMING EVENT: "notification" {"payload":[{"recipient":"66f418d10a19ec0e4bbd377e","type":"live_session_receipt_client","priority":"medium","content":{"title":"notifications:live_session_receipt_client_title","message":"notifications:live_session_receipt_client_message","data":{"liveSessionId":"6915afc8ee3ebd991d726381","coachName":"Dominic Frei","finalCost":"N/A","currency":"CHF","status":"completed","validActions":["view_receipt","book_again"]}},"status":"active","category":"payment","channels":["in_app","email"],"metadata":{"bookingId":"6915afc8ee3ebd991d726381","liveSessionId":null,"additionalData":{"bookingId":"6915afc8ee3ebd991d726381","coachName":"Dominic Frei","webinarTitle":"Live Session with Dominic","amount":3.17,"currency":"CHF","otherPartyName":"Dominic Frei","startTime":"2025-11-13T10:15:36.156Z","endTime":"2025-11-13T11:15:36.156Z","bookingType":"request","status":"completed"}},"delivery":{"attempts":0,"maxAttempts":3,"statuses":[]},"isRead":false,"deliveryAttempts":0,"_id":"6915afeeee3ebd991d7264bb","actions":[],"createdAt":"2025-11-13T10:16:14.495Z","updatedAt":"2025-11-13T10:16:14.495Z","__v":0,"booking":{"payment":{"status":"completed","reminderSent":[],"refunds":[]},"sessionLink":{"expired":false,"generatedAt":"2025-11-13T10:15:45.363Z","sessionId":"78edb6ee527fcd9c792c4234f0ed94950d66d7c4a7766cfcfba63cb1b56d8f95","token":"f2c47e6dbece02d76978ce5cc80fe49583a77e6295fe84b996a1becadc4cf899"},"_id":"6915afc8ee3ebd991d726381","coach":"{\n  settings: {\n    notificationPreferences: { email: true, inApp: true, pushNotifications: false, sms: false },\n    privacySettings: {\n      showEmail: false,\n      showLocation: true,\n      showOccupation: true,\n      showPhone: false\n    },\n    currency: 'CHF',\n    dateFormat: '',\n    language: 'de',\n    timeFormat: '24h',\n    timeZone: ''\n  },\n  stripe: { customerId: 'cus_Swt04zF5JadPD8' },\n  billingDetails: {\n    address: {\n      street: 'Bergstrasse 10',\n      city: 'Stäfa',\n      postalCode: '8712',\n      country: 'CH',\n      state: 'Zürich'\n    },\n    name: 'Dominic Frei',\n    accountType: 'business'\n  },\n  paymentPreferences: {\n    autoPayEnabled: false,\n    defaultCurrency: 'CHF',\n    invoiceDelivery: 'both',\n    savePaymentMethods: true\n  },\n  moderation: { warningsCount: 0 },\n  suspension: { isSuspended: false },\n  ltv: { amount: 0, currency: 'CHF' },\n  onboardingStatus: { completed: true, lastStep: 'completed' },\n  termsAcceptance: {\n    version: '1.0.0-migration',\n    acceptedAt: 2025-10-21T10:42:44.416Z,\n    ipAddress: 'system_migration'\n  },\n  _id: new ObjectId('66d9cdcb0a7492a86482bd68'),\n  firstName: 'Dominic',\n  lastName: 'Frei',\n  email: 'test.coach2@example.com',\n  password: '$2a$10$jqGOzWaK7I7lrX4YK2Mu9.XV2eRnTqELRaQnPqjf99Hydnw6oe.LO',\n  role: 'coach',\n  preferredLanguage: 'de',\n  availabilityStatus: 'offline',\n  createdAt: 2024-09-05T15:27:07.420Z,\n  __v: 20,\n  status: 'online',\n  achievements: [],\n  backgrounds: [\n    {\n      url: 'https://res.cloudinary.com/dzpjkn8eo/image/upload/v1742981722/users/66d9cdcb0a7492a86482bd68/backgrounds/lutims4p5dgm8m8fp3lw.jpg',\n      publicId: 'users/66d9cdcb0a7492a86482bd68/backgrounds/lutims4p5dgm8m8fp3lw',\n      uploadedAt: 2025-03-26T09:35:25.389Z,\n      _id: new ObjectId('67e3ca5dc8bd52e0d2a0f01d')\n    }\n  ],\n  bio: '',\n  interests: [],\n  isActive: true,\n  paymentMethods: [],\n  profileVisibility: 'public',\n  sessionHistory: [],\n  lastStatusUpdate: 2025-11-13T10:06:31.887Z,\n  coachingNeeds: [],\n  customGoals: [],\n  tokenVersion: 0,\n  blockedByCount: 0,\n  blockedUsers: [],\n  isEmailVerified: false,\n  trustScore: 100,\n  hasActiveDispute: false,\n  lastLogin: 2025-11-13T06:40:53.904Z,\n  totalEnrollments: 0,\n  totalSessions: 0,\n  location: 'Zürich',\n  occupation: 'Kaufmann',\n  phone: '+41786119931',\n  flags: [\n    {\n      flaggedBy: new ObjectId('68875188ba0945e66fc74310'),\n      reason: 'inappropriate_profile',\n      details: 'tests asdfadsfdfdsafds',\n      status: 'resolved_warning',\n      _id: new ObjectId('68ef688b09be352f14aaa3be'),\n      createdAt: 2025-10-15T09:25:31.201Z,\n      resolvedAt: 2025-10-16T05:50:40.299Z,\n      resolvedBy: new ObjectId('66e14ffc23926b28138a89f8')\n    },\n    {\n      flaggedBy: new ObjectId('66f418d10a19ec0e4bbd377e'),\n      reason: 'violence',\n      details: 'Der Coach hat mich geschlagen.',\n      status: 'resolved_dismissed',\n      _id: new ObjectId('68f0aab9ee20d58baf7e79f6'),\n      createdAt: 2025-10-16T08:20:09.182Z,\n      resolvedAt: 2025-10-16T08:38:57.250Z,\n      resolvedBy: new ObjectId('66e14ffc23926b28138a89f8')\n    }\n  ],\n  preferredLearningStyle: 'live',\n  primaryGoal: [ 'one_on_one' ],\n  salutation: 'mr'\n}","user":"{\n  profilePicture: {\n    publicId: 'profile_picture_jgl5ga',\n    url: 'https://res.cloudinary.com/dzpjkn8eo/image/upload/v1753703993/profile_picture_jgl5ga.jpg'\n  },\n  settings: {\n    notificationPreferences: { pushNotifications: false, email: true, sms: false, inApp: true },\n    privacySettings: {\n      showLocation: true,\n      showOccupation: true,\n      showEmail: false,\n      showPhone: false\n    },\n    dateFormat: '',\n    timeFormat: '24h',\n    currency: 'CHF',\n    language: 'de',\n    timeZone: ''\n  },\n  taxInfo: { billingAddress: { country: 'CH', postalCode: '8001' } },\n  stripe: { customerId: 'cus_RUlp0o3z2WooA6' },\n  billingDetails: {\n    address: {\n      street: '1 Bahnhofplatz',\n      city: 'Zürich',\n      postalCode: '8001',\n      country: 'CH',\n      state: 'ZH'\n    },\n    name: 'test user 2',\n    accountType: 'personal',\n    companyName: ''\n  },\n  paymentPreferences: {\n    autoPayEnabled: false,\n    defaultCurrency: 'CHF',\n    invoiceDelivery: 'both',\n    savePaymentMethods: true\n  },\n  moderation: { warningsCount: 0 },\n  suspension: { isSuspended: false },\n  ltv: { amount: 0, currency: 'CHF' },\n  onboardingStatus: { completed: false, lastStep: 'welcome' },\n  termsAcceptance: {\n    version: '1.0.0-migration',\n    acceptedAt: 2025-10-21T10:42:44.416Z,\n    ipAddress: 'system_migration'\n  },\n  _id: new ObjectId('66f418d10a19ec0e4bbd377e'),\n  firstName: 'Test',\n  lastName: 'User 2',\n  email: 'test.user2@example.com',\n  password: '$2a$10$BqYD2TyOvUF7GXQ3ePcixO3HnzsZCJRtrub0U29AcOaZkZzTvnQui',\n  role: 'client',\n  preferredLanguage: 'de',\n  isActive: true,\n  profileVisibility: 'public',\n  createdAt: 2024-09-25T14:06:09.833Z,\n  __v: 15,\n  status: 'online',\n  achievements: [],\n  bio: '',\n  interests: [ 'Leben', 'Quality', 'Test' ],\n  paymentMethods: [],\n  backgrounds: [\n    {\n      url: 'https://res.cloudinary.com/dzpjkn8eo/image/upload/v1755019734/users/66f418d10a19ec0e4bbd377e/backgrounds/ukpqdjvencvhdjoo1udv.jpg',\n      publicId: 'users/66f418d10a19ec0e4bbd377e/backgrounds/ukpqdjvencvhdjoo1udv',\n      uploadedAt: 2025-08-12T17:28:55.596Z,\n      _id: new ObjectId('689b79d71c80d972ec33d6be')\n    }\n  ],\n  sessionHistory: [],\n  tokenVersion: 4,\n  phone: '+41786116666',\n  coachingNeeds: [],\n  customGoals: [],\n  lastStatusUpdate: 2025-11-13T10:09:00.922Z,\n  location: 'Zürich',\n  occupation: 'Kaufmann',\n  blockedUsers: [\n    {\n      user: new ObjectId('66fbea16bb1aa6e7e257e726'),\n      _id: new ObjectId('68c403891a3e5066a36741f3'),\n      createdAt: 2025-09-12T11:27:05.561Z\n    }\n  ],\n  blockedByCount: 0,\n  isEmailVerified: false,\n  lastLogin: 2025-11-13T10:09:00.726Z,\n  trustScore: 100,\n  hasActiveDispute: false,\n  totalEnrollments: 0,\n  totalSessions: 0,\n  flags: [],\n  primaryGoal: [],\n  salutation: 'mr',\n  dashboardPreferences: [\n    {\n      key: 'dashboardAnnouncements',\n      enabled: true,\n      _id: new ObjectId('69157e5fee3ebd991d708f77')\n    },\n    {\n      key: 'upcomingSchedule',\n      enabled: true,\n      _id: new ObjectId('69157e5fee3ebd991d708f78')\n    },\n    {\n      key: 'actionCenter',\n      enabled: true,\n      _id: new ObjectId('69157e5fee3ebd991d708f79')\n    },\n    {\n      key: 'myCoach',\n      enabled: true,\n      _id: new ObjectId('69157e5fee3ebd991d708f7a')\n    },\n    {\n      key: 'continueLearning',\n      enabled: true,\n      _id: new ObjectId('69157e5fee3ebd991d708f7b')\n    }\n  ]\n}","userIds":[],"isLiveSession":true,"sessionType":"66ec54ee4a8965b22af33fd1","start":"2025-11-13T10:15:36.156Z","end":"2025-11-13T11:15:36.156Z","timezone":"UTC","status":"completed","price":{"base":{"amount":{"amount":10,"currency":"CHF"},"currency":"CHF"},"final":{"amount":{"amount":10,"currency":"CHF"},"currency":"CHF"},"vat":{"rate":8.1,"included":true},"platformFee":{"percentage":15},"currency":"CHF","discounts":[]},"disputeTicket":null,"overtime":{"allowOvertime":false,"freeOvertimeDuration":0,"paidOvertimeDuration":0,"overtimeRate":0,"_id":"6915afc8ee3ebd991d726380","id":"6915afc8ee3ebd991d726380"},"isAvailability":false,"availableForInstantBooking":false,"firmBookingThreshold":24,"title":"Live Session with Dominic","isOnline":false,"tags":[],"isPublic":true,"showInWebinarBrowser":true,"recurringPattern":"none","earlyBirdDeadline":null,"earlyBirdPrice":null,"bookingType":"request","reminderSent":[],"webinarSlots":[],"attendees":[],"suggestedTimes":[],"waitlist":[],"reminders":[],"sessionImages":[],"courseMaterials":[],"rescheduleHistory":[],"rescheduleRequests":[],"createdAt":"2025-11-13T10:15:36.163Z","updatedAt":"2025-11-13T10:16:09.582Z","__v":0,"recordings":{},"duration":60,"spotsRemaining":null,"id":"6915afc8ee3ebd991d726381"},"timestamp":"2025-11-13T10:16:14.519Z"}],"userId":"66f418d10a19ec0e4bbd377e","socketId":"SUGl_ApF_5bRUWS1AABz","timestamp":"2025-11-13T10:16:14.520Z"}
-bundle.js:172371 [SocketIO] <<< INCOMING EVENT: "invalidate_notifications" {"payload":[null],"userId":"66f418d10a19ec0e4bbd377e","socketId":"SUGl_ApF_5bRUWS1AABz","timestamp":"2025-11-13T10:16:14.533Z"}
-bundle.js:172371 [SocketIO] <<< INCOMING EVENT: "booking_update" {"payload":[{"bookingId":"6915afc8ee3ebd991d726381","bookingData":{"payment":{"status":"completed","reminderSent":[],"refunds":[]},"sessionLink":{"expired":false,"generatedAt":"2025-11-13T10:15:45.363Z","sessionId":"78edb6ee527fcd9c792c4234f0ed94950d66d7c4a7766cfcfba63cb1b56d8f95","token":"f2c47e6dbece02d76978ce5cc80fe49583a77e6295fe84b996a1becadc4cf899"},"_id":"6915afc8ee3ebd991d726381","coach":{"settings":{"notificationPreferences":{"email":true,"inApp":true,"pushNotifications":false,"sms":false},"privacySettings":{"showEmail":false,"showLocation":true,"showOccupation":true,"showPhone":false},"currency":"CHF","dateFormat":"","language":"de","timeFormat":"24h","timeZone":""},"stripe":{"customerId":"cus_Swt04zF5JadPD8"},"billingDetails":{"address":{"street":"Bergstrasse 10","city":"Stäfa","postalCode":"8712","country":"CH","state":"Zürich"},"name":"Dominic Frei","accountType":"business"},"paymentPreferences":{"autoPayEnabled":false,"defaultCurrency":"CHF","invoiceDelivery":"both","savePaymentMethods":true},"moderation":{"warningsCount":0},"suspension":{"isSuspended":false},"ltv":{"amount":0,"currency":"CHF"},"onboardingStatus":{"completed":true,"lastStep":"completed"},"termsAcceptance":{"version":"1.0.0-migration","acceptedAt":"2025-10-21T10:42:44.416Z","ipAddress":"system_migration"},"_id":"66d9cdcb0a7492a86482bd68","firstName":"Dominic","lastName":"Frei","email":"test.coach2@example.com","password":"$2a$10$jqGOzWaK7I7lrX4YK2Mu9.XV2eRnTqELRaQnPqjf99Hydnw6oe.LO","role":"coach","preferredLanguage":"de","availabilityStatus":"offline","createdAt":"2024-09-05T15:27:07.420Z","__v":20,"status":"online","achievements":[],"backgrounds":[{"url":"https://res.cloudinary.com/dzpjkn8eo/image/upload/v1742981722/users/66d9cdcb0a7492a86482bd68/backgrounds/lutims4p5dgm8m8fp3lw.jpg","publicId":"users/66d9cdcb0a7492a86482bd68/backgrounds/lutims4p5dgm8m8fp3lw","uploadedAt":"2025-03-26T09:35:25.389Z","_id":"67e3ca5dc8bd52e0d2a0f01d"}],"bio":"","interests":[],"isActive":true,"paymentMethods":[],"profileVisibility":"public","sessionHistory":[],"lastStatusUpdate":"2025-11-13T10:06:31.887Z","coachingNeeds":[],"customGoals":[],"tokenVersion":0,"blockedByCount":0,"blockedUsers":[],"isEmailVerified":false,"trustScore":100,"hasActiveDispute":false,"lastLogin":"2025-11-13T06:40:53.904Z","totalEnrollments":0,"totalSessions":0,"location":"Zürich","occupation":"Kaufmann","phone":"+41786119931","flags":[{"flaggedBy":"68875188ba0945e66fc74310","reason":"inappropriate_profile","details":"tests asdfadsfdfdsafds","status":"resolved_warning","_id":"68ef688b09be352f14aaa3be","createdAt":"2025-10-15T09:25:31.201Z","resolvedAt":"2025-10-16T05:50:40.299Z","resolvedBy":"66e14ffc23926b28138a89f8"},{"flaggedBy":"66f418d10a19ec0e4bbd377e","reason":"violence","details":"Der Coach hat mich geschlagen.","status":"resolved_dismissed","_id":"68f0aab9ee20d58baf7e79f6","createdAt":"2025-10-16T08:20:09.182Z","resolvedAt":"2025-10-16T08:38:57.250Z","resolvedBy":"66e14ffc23926b28138a89f8"}],"preferredLearningStyle":"live","primaryGoal":["one_on_one"],"salutation":"mr"},"user":{"profilePicture":{"publicId":"profile_picture_jgl5ga","url":"https://res.cloudinary.com/dzpjkn8eo/image/upload/v1753703993/profile_picture_jgl5ga.jpg"},"settings":{"notificationPreferences":{"pushNotifications":false,"email":true,"sms":false,"inApp":true},"privacySettings":{"showLocation":true,"showOccupation":true,"showEmail":false,"showPhone":false},"dateFormat":"","timeFormat":"24h","currency":"CHF","language":"de","timeZone":""},"taxInfo":{"billingAddress":{"country":"CH","postalCode":"8001"}},"stripe":{"customerId":"cus_RUlp0o3z2WooA6"},"billingDetails":{"address":{"street":"1 Bahnhofplatz","city":"Zürich","postalCode":"8001","country":"CH","state":"ZH"},"name":"test user 2","accountType":"personal","companyName":""},"paymentPreferences":{"autoPayEnabled":false,"defaultCurrency":"CHF","invoiceDelivery":"both","savePaymentMethods":true},"moderation":{"warningsCount":0},"suspension":{"isSuspended":false},"ltv":{"amount":0,"currency":"CHF"},"onboardingStatus":{"completed":false,"lastStep":"welcome"},"termsAcceptance":{"version":"1.0.0-migration","acceptedAt":"2025-10-21T10:42:44.416Z","ipAddress":"system_migration"},"_id":"66f418d10a19ec0e4bbd377e","firstName":"Test","lastName":"User 2","email":"test.user2@example.com","password":"$2a$10$BqYD2TyOvUF7GXQ3ePcixO3HnzsZCJRtrub0U29AcOaZkZzTvnQui","role":"client","preferredLanguage":"de","isActive":true,"profileVisibility":"public","createdAt":"2024-09-25T14:06:09.833Z","__v":15,"status":"online","achievements":[],"bio":"","interests":["Leben","Quality","Test"],"paymentMethods":[],"backgrounds":[{"url":"https://res.cloudinary.com/dzpjkn8eo/image/upload/v1755019734/users/66f418d10a19ec0e4bbd377e/backgrounds/ukpqdjvencvhdjoo1udv.jpg","publicId":"users/66f418d10a19ec0e4bbd377e/backgrounds/ukpqdjvencvhdjoo1udv","uploadedAt":"2025-08-12T17:28:55.596Z","_id":"689b79d71c80d972ec33d6be"}],"sessionHistory":[],"tokenVersion":4,"phone":"+41786116666","coachingNeeds":[],"customGoals":[],"lastStatusUpdate":"2025-11-13T10:09:00.922Z","location":"Zürich","occupation":"Kaufmann","blockedUsers":[{"user":"66fbea16bb1aa6e7e257e726","_id":"68c403891a3e5066a36741f3","createdAt":"2025-09-12T11:27:05.561Z"}],"blockedByCount":0,"isEmailVerified":false,"lastLogin":"2025-11-13T10:09:00.726Z","trustScore":100,"hasActiveDispute":false,"totalEnrollments":0,"totalSessions":0,"flags":[],"primaryGoal":[],"salutation":"mr","dashboardPreferences":[{"key":"dashboardAnnouncements","enabled":true,"_id":"69157e5fee3ebd991d708f77"},{"key":"upcomingSchedule","enabled":true,"_id":"69157e5fee3ebd991d708f78"},{"key":"actionCenter","enabled":true,"_id":"69157e5fee3ebd991d708f79"},{"key":"myCoach","enabled":true,"_id":"69157e5fee3ebd991d708f7a"},{"key":"continueLearning","enabled":true,"_id":"69157e5fee3ebd991d708f7b"}]},"userIds":[],"isLiveSession":true,"sessionType":"66ec54ee4a8965b22af33fd1","start":"2025-11-13T10:15:36.156Z","end":"2025-11-13T11:15:36.156Z","timezone":"UTC","status":"completed","price":{"base":{"amount":{"amount":10,"currency":"CHF"},"currency":"CHF"},"final":{"amount":{"amount":10,"currency":"CHF"},"currency":"CHF"},"vat":{"rate":8.1,"included":true},"platformFee":{"percentage":15},"currency":"CHF","discounts":[]},"disputeTicket":null,"overtime":{"allowOvertime":false,"freeOvertimeDuration":0,"paidOvertimeDuration":0,"overtimeRate":0,"_id":"6915afc8ee3ebd991d726380","id":"6915afc8ee3ebd991d726380"},"isAvailability":false,"availableForInstantBooking":false,"firmBookingThreshold":24,"title":"Live Session with Dominic","isOnline":false,"tags":[],"isPublic":true,"showInWebinarBrowser":true,"recurringPattern":"none","earlyBirdDeadline":null,"earlyBirdPrice":null,"bookingType":"request","reminderSent":[],"webinarSlots":[],"attendees":[],"suggestedTimes":[],"waitlist":[],"reminders":[],"sessionImages":[],"courseMaterials":[],"rescheduleHistory":[],"rescheduleRequests":[],"createdAt":"2025-11-13T10:15:36.163Z","updatedAt":"2025-11-13T10:16:09.582Z","__v":0,"recordings":{},"duration":60,"spotsRemaining":null,"id":"6915afc8ee3ebd991d726381"},"timestamp":"2025-11-13T10:16:14.577Z"}],"userId":"66f418d10a19ec0e4bbd377e","socketId":"SUGl_ApF_5bRUWS1AABz","timestamp":"2025-11-13T10:16:14.578Z"}
-bundle.js:172371 [useGlobalSocketListener] Received BOOKING_UPDATE, updating cache. {"bookingId":"6915afc8ee3ebd991d726381","newStatus":"completed"}
-bundle.js:172376 [DEBUG] [MenuAnnouncementBadge] Render cancelled: No unseen announcements. {"totalFetched":0,"seenInSession":0}
-bundle.js:172371 [useNotifications] Fetching with params: {"excludeTrash":true,"status":"all"}
-bundle.js:172371 [FRONTEND-API] Making fetch request to URL: "/api/notifications?excludeTrash=true&status=all&category=&limit=50&offset=0"
-bundle.js:172371 [SocketIO] <<< INCOMING EVENT: "ping" {"payload":[],"userId":"66f418d10a19ec0e4bbd377e","socketId":"SUGl_ApF_5bRUWS1AABz","timestamp":"2025-11-13T10:16:31.534Z"}
+warn @ bundle.js:172427
+(anonymous) @ bundle.js:158783
+_checkFlowSync @ bundle.js:158780
+(anonymous) @ bundle.js:157468
+setInterval
+PaymentOrchestratorService @ bundle.js:157468
+createOrGetInstance @ bundle.js:160274
+./src/services/PaymentOrchestratorService.js @ bundle.js:160280
+options.factory @ bundle.js:174405
+__webpack_require__ @ bundle.js:173748
+fn @ bundle.js:174021
+hotRequire @ bundle.js:174388
+./src/contexts/PaymentContext.js @ bundle.js:149042
+options.factory @ bundle.js:174405
+__webpack_require__ @ bundle.js:173748
+fn @ bundle.js:174021
+hotRequire @ bundle.js:174388
+./src/App.js @ bundle.js:137532
+options.factory @ bundle.js:174405
+__webpack_require__ @ bundle.js:173748
+fn @ bundle.js:174021
+hotRequire @ bundle.js:174388
+./src/index.js @ bundle.js:153231
+options.factory @ bundle.js:174405
+__webpack_require__ @ bundle.js:173748
+(anonymous) @ bundle.js:175009
+(anonymous) @ bundle.js:175011
+bundle.js:172432 [SocketIO] <<< INCOMING EVENT: "notification" {"payload":[{"recipient":"66f418d10a19ec0e4bbd377e","type":"program_purchase_confirmed","priority":"high","content":{"title":"program_purchase_confirmed","message":"program_purchase_confirmed","data":{"bookingId":"68fb2dd6cfd489abf47268b0","coachName":"Dominic Frei","amount":"7.20","currency":"CHF","paymentStatus":"completed","validActions":["view_program"],"status":"completed"}},"status":"active","category":"payment","channels":["in_app","email"],"metadata":{"liveSessionId":null,"programId":"68fb2dd6cfd489abf47268b0","additionalData":{"programId":"68fb2dd6cfd489abf47268b0","programTitle":"Test Program 2","coachName":"Dominic Frei","amount":7.2,"currency":"CHF"}},"delivery":{"attempts":0,"maxAttempts":3,"statuses":[]},"isRead":false,"deliveryAttempts":0,"_id":"6915ca1de240d8f6c758bbcf","actions":[],"createdAt":"2025-11-13T12:07:57.872Z","updatedAt":"2025-11-13T12:07:57.872Z","__v":0,"booking":{"amount":{"vat":{"rate":8.1,"amount":0.54,"included":true},"base":18,"platformFee":0,"total":7.2,"currency":"CHF","refunded":0},"discountApplied":{"_id":"689446e18bf7b5dac25822ae","code":"TEST","type":"percent","value":60,"amountDeducted":10.8},"stripe":{"paymentIntentId":"pi_3SSzJKHKNqVBSHKU0paIWFnQ","clientSecret":"pi_3SSzJKHKNqVBSHKU0paIWFnQ_secret_WeXxzBrk4mKBRQemNML8vNW5o","customerId":"cus_RUlp0o3z2WooA6","chargeId":"ch_3SSzJKHKNqVBSHKU0EGcvPya"},"_id":"6915ca08e240d8f6c758bb56","program":"68fb2dd6cfd489abf47268b0","payoutStatus":"pending","payoutAttempts":0,"payer":{"_id":"66f418d10a19ec0e4bbd377e","firstName":"Test","lastName":"User 2","email":"test.user2@example.com"},"recipient":{"_id":"66d9cdcb0a7492a86482bd68","firstName":"Dominic","lastName":"Frei","email":"test.coach2@example.com"},"coachStripeAccountId":"acct_1QdFtkQjpPpOYbVB","type":"program_purchase","status":"completed","priceSnapshot":{"base":{"amount":{"amount":18,"currency":"CHF"},"currency":"CHF"},"final":{"amount":{"amount":7.2,"currency":"CHF"},"currency":"CHF"},"netAfterDiscount":6.66,"currency":"CHF","discounts":[{"_id":"689446e18bf7b5dac25822ae","code":"TEST","type":"percent","value":60,"amountDeducted":10.8}],"platformFee":{"amount":0,"originalPercentage":9.9,"appliedPercentage":0},"vat":{"amount":0.54,"rate":8.1,"included":true},"_calculationDetails":{"appliedDiscount":{"_id":"689446e18bf7b5dac25822ae","code":"TEST","type":"percent","value":60,"amountDeducted":10.8}}},"refunds":[],"createdAt":"2025-11-13T12:07:36.413Z","updatedAt":"2025-11-13T12:07:57.778Z","__v":0,"nextPayoutAttemptAt":"2025-11-14T12:07:52.032Z","invoice":"6915ca1de240d8f6c758bbc8","formattedAmount":"7.20 CHF","isRefundable":true,"id":"6915ca08e240d8f6c758bb56","coach":null,"user":null},"timestamp":"2025-11-13T12:07:57.899Z"}],"userId":"66f418d10a19ec0e4bbd377e","socketId":"cTXO08jAtCmIdzWKAAAT","timestamp":"2025-11-13T12:07:57.901Z"}
+bundle.js:172432 [SocketIO] <<< INCOMING EVENT: "invalidate_notifications" {"payload":[null],"userId":"66f418d10a19ec0e4bbd377e","socketId":"cTXO08jAtCmIdzWKAAAT","timestamp":"2025-11-13T12:07:57.914Z"}
+bundle.js:172432 [SocketIO] <<< INCOMING EVENT: "enrollment_activated" {"payload":[{"programId":"68fb2dd6cfd489abf47268b0"}],"userId":"66f418d10a19ec0e4bbd377e","socketId":"cTXO08jAtCmIdzWKAAAT","timestamp":"2025-11-13T12:07:57.995Z"}
+bundle.js:54808 i18next::translator: missingKey de common module module
+bundle.js:54808 i18next::translator: missingKey de programs report_program_button Report this program
+bundle.js:172432 [SocketIO] <<< INCOMING EVENT: "program_purchase_confirmed" {"payload":[{"programId":"68fb2dd6cfd489abf47268b0","programTitle":"Test Program 2"}],"userId":"66f418d10a19ec0e4bbd377e","socketId":"cTXO08jAtCmIdzWKAAAT","timestamp":"2025-11-13T12:07:58.003Z"}
+bundle.js:54808 i18next::translator: missingKey de common module module
+bundle.js:54808 i18next::translator: missingKey de programs report_program_button Report this program

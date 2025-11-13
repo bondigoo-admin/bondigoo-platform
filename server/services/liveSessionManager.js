@@ -14,6 +14,7 @@ const { NotificationTypes } = require('../utils/notificationHelpers');
 const analyticsService = require('./analyticsService');
 const TaxService = require('./taxService');
 const taxService = new TaxService();
+const PricingService = require('./PricingService');
 
 const REAUTHORIZATION_MINUTES = 15;
 const REAUTH_WARNING_THRESHOLD_MINUTES = 5;
@@ -70,53 +71,13 @@ const endSessionLogic = async (sessionId, enderUserId, options = {}) => {
           finalCostBreakdownForResponse = { grossAmount: 0, currency: liveSession.effectivePerMinuteRate.currency.toUpperCase() };
           liveSession.finalCost = finalCostBreakdownForResponse;
       } else {
-          const finalDurationMinutes = finalDurationInSeconds / 60;
-          const currency = liveSession.basePerMinuteRate.currency;
-          const grossAmount = finalDurationMinutes * liveSession.basePerMinuteRate.amount;
-          const finalAmount = finalDurationMinutes * liveSession.effectivePerMinuteRate.amount;
-          const totalDiscountDeducted = grossAmount - finalAmount;
-
-          const client = await User.findById(liveSession.client).select('billingDetails taxInfo');
-          const clientTaxInfo = {
-              country: client?.taxInfo?.billingAddress?.country,
-              postalCode: client?.taxInfo?.billingAddress?.postalCode
-          };
-
-          const taxDeconstruction = await taxService.calculateTaxForTransaction({
-              totalAmount: finalAmount,
-              currency,
-              customerLocation: clientTaxInfo
-          });
-          
-          const PLATFORM_FEE_PERCENTAGE = 0.15;
-          const platformFeeAmount = taxDeconstruction.netAmount * PLATFORM_FEE_PERCENTAGE;
-
-          const priceDetailsForPayment = {
-            base: { amount: { amount: parseFloat(grossAmount.toFixed(2)), currency }, currency },
-            final: { amount: { amount: parseFloat(finalAmount.toFixed(2)), currency }, currency },
-            netAfterDiscount: parseFloat(taxDeconstruction.netAmount.toFixed(2)),
-            currency,
-            vat: { 
-                rate: taxDeconstruction.taxRate || 0, 
-                amount: parseFloat(taxDeconstruction.taxAmount.toFixed(2)), 
-                included: true 
-            },
-            platformFee: { 
-                percentage: PLATFORM_FEE_PERCENTAGE * 100, 
-                amount: parseFloat(platformFeeAmount.toFixed(2)) 
-            },
-            discounts: liveSession.discountApplied && totalDiscountDeducted > 0 ? [{
-                _id: liveSession.discountApplied._id,
-                code: liveSession.discountApplied.code,
-                type: liveSession.discountApplied.type,
-                value: liveSession.discountApplied.value,
-                amountDeducted: parseFloat(totalDiscountDeducted.toFixed(2))
-            }] : [],
-          };
+            const priceDetailsForPayment = await PricingService.calculateLiveSessionFinalPrice({
+                        liveSessionDoc: liveSession
+                    });
           
           finalCostBreakdownForResponse = {
               grossAmount: priceDetailsForPayment.final.amount.amount,
-              currency: currency.toUpperCase(),
+              currency: priceDetailsForPayment.currency.toUpperCase(),
           };
           liveSession.finalCost = { ...finalCostBreakdownForResponse, durationInSeconds: finalDurationInSeconds };
           
