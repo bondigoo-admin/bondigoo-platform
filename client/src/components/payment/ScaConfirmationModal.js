@@ -13,7 +13,7 @@ import { AuthContext } from '../../contexts/AuthContext';
 import { PaymentContext } from '../../contexts/PaymentContext';
 import Draggable from 'react-draggable';
 
-const ScaConfirmationModalInternal = ({ clientSecret, onSuccess, onFailure, onClose }) => {
+const ScaConfirmationModalInternal = ({ clientSecret, onSuccess, onFailure, onClose, userId }) => {
   const stripe = useStripe();
   const elements = useElements();
   const { t } = useTranslation(['payments', 'common']);
@@ -23,8 +23,10 @@ const ScaConfirmationModalInternal = ({ clientSecret, onSuccess, onFailure, onCl
   const [useNewCard, setUseNewCard] = useState(false);
   const { user } = useContext(AuthContext);
   const nodeRef = useRef(null);
-  const [confirmationStatus, setConfirmationStatus] = useState('idle'); // 'idle', 'confirmingBackend', 'success', 'error'
+  const [confirmationStatus, setConfirmationStatus] = useState('idle');
   const [paymentIntentId, setPaymentIntentId] = useState(null);
+
+  const effectiveUserId = userId || user?._id || user?.id;
 
   useEffect(() => {
     if (stripe && elements) {
@@ -178,7 +180,7 @@ const renderContent = () => {
                      {t('payments:sca.liveSessionMessage', 'To begin your session, please confirm authorization for an initial time block.')}
                   </p>
                   <SavedPaymentMethodsManager
-                     userId={user?.id}
+                     userId={effectiveUserId}
                      onSelect={handleSavedMethodSelect}
                      selectedMethodId={selectedMethodId}
                      disabled={confirmationStatus !== 'idle' || useNewCard}

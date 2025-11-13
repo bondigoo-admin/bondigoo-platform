@@ -144,20 +144,42 @@ const LiveSessionDeviceCheck = ({ onReady }) => {
 
   const isLoading = mediaState.status === 'initializing';
 
-   const cleanupResources = useCallback(() => {
-    logger.info(`[${componentId}] Cleaning up all media resources.`);
-    if (backgroundProcessorRef.current) {
-      backgroundProcessorRef.current.cleanup();
-      backgroundProcessorRef.current = null;
+   const initializeBackgroundProcessor = useCallback(async () => {
+    if (!areCanvasesReady || !isVideoReady || !originalStream || backgroundProcessorRef.current) {
+      logger.warn(`[${componentId}] Skipping background processor initialization.`, { areCanvasesReady, isVideoReady, hasStream: !!originalStream, hasProcessor: !!backgroundProcessorRef.current });
+      return;
     }
-    // REMOVE THE audioContextRef CLEANUP BLOCK
-    if (speakerAudioRef.current) {
-      speakerAudioRef.current.pause();
-      speakerAudioRef.current = null;
+
+    logger.info(`[${componentId}] LAZY-LOADING: Initializing background effect processor.`);
+    try {
+      const effect = await setupBackgroundEffect({
+        videoElement: videoRef.current,
+        hiddenCanvas: hiddenCanvasRef.current,
+        outputCanvas: outputCanvasRef.current,
+        stream: originalStream,
+        backgroundSettings,
+        onStatusChange: setBackgroundState,
+        onStreamChange: setProcessedStream,
+      });
+      backgroundProcessorRef.current = effect.processor;
+    } catch (error) {
+      logger.error(`[${componentId}] Failed to initialize background processor`, { error: error.message });
+      setBackgroundState({ status: BACKGROUND_STATUS.ERROR, error: t('deviceCheck.errorInitializing') });
     }
-    // Stop all tracks on the streams
-    originalStream?.getTracks().forEach(track => track.stop());
-    processedStream?.getTracks().forEach(track => track.stop());
+  }, [areCanvasesReady, isVideoReady, originalStream, backgroundSettings, t, componentId]);
+
+const cleanupResources = useCallback(() => {
+      logger.info(`[${componentId}] Cleaning up all media resources.`);
+      if (backgroundProcessorRef.current) {
+        backgroundProcessorRef.current.cleanup();
+        backgroundProcessorRef.current = null;
+      }
+      if (speakerAudioRef.current) {
+        speakerAudioRef.current.pause();
+        speakerAudioRef.current = null;
+      }
+      originalStream?.getTracks().forEach(track => track.stop());
+      processedStream?.getTracks().forEach(track => track.stop());
   }, [componentId, originalStream, processedStream]);
 
   const updateStream = useCallback(async (videoDeviceId, audioDeviceId) => {
@@ -226,7 +248,6 @@ const LiveSessionDeviceCheck = ({ onReady }) => {
     };
 
     initializeDevices();
-    return () => cleanupResources();
   }, []);
 
   // Effect to update stream when user changes device selection.
@@ -266,38 +287,12 @@ useEffect(() => {
       });
   }, [t, componentId]);
 
-  // Init background processor
   useEffect(() => {
-    if (!areCanvasesReady || !isVideoReady || !originalStream) {
-      return;
+    if (backgroundProcessorRef.current) {
+      logger.info(`[${componentId}] Background settings changed. Updating existing processor.`);
+      backgroundProcessorRef.current.updateSettings(backgroundSettings);
     }
-    
-    let effect;
-    const initialize = async () => {
-      logger.info(`[${componentId}] Initializing background effect processor.`);
-      try {
-        effect = await setupBackgroundEffect({
-          videoElement: videoRef.current,
-          hiddenCanvas: hiddenCanvasRef.current,
-          outputCanvas: outputCanvasRef.current,
-          stream: originalStream,
-          backgroundSettings,
-          onStatusChange: setBackgroundState,
-          onStreamChange: setProcessedStream,
-        });
-        backgroundProcessorRef.current = effect.processor;
-      } catch (error) {
-        logger.error(`[${componentId}] Failed to initialize background processor`, { error: error.message });
-        setBackgroundState({ status: BACKGROUND_STATUS.ERROR, error: t('deviceCheck.errorInitializing') });
-      }
-    };
-    initialize();
-    
-    return () => {
-        logger.info(`[${componentId}] Cleaning up background effect in useEffect.`);
-        effect?.cleanup();
-    };
-  }, [areCanvasesReady, isVideoReady, originalStream, backgroundSettings, t, componentId]);
+  }, [backgroundSettings]);
 
   // Toggle video/audio tracks
   useEffect(() => {
@@ -317,14 +312,30 @@ useEffect(() => {
   const handleDeviceChange = (type, deviceId) => dispatch({ type: 'SELECT_DEVICE', payload: { type, deviceId } });
   const toggleVideo = () => dispatch({ type: 'TOGGLE_VIDEO' });
   const toggleAudio = () => dispatch({ type: 'TOGGLE_AUDIO' });
-    const handleBackgroundChange = (mode) => {
+  
+  const handleBackgroundChange = (mode) => {
     if (mode === backgroundSettings.mode) return;
-    if (mode === BACKGROUND_MODES.CUSTOM) setIsBackgroundModalOpen(true);
-    else {
-      setBackgroundSettings({ mode, customBackground: null, blurLevel: mode === BACKGROUND_MODES.BLUR ? backgroundSettings.blurLevel : DEFAULT_BLUR_LEVEL });
+    
+    const newSettings = { ...backgroundSettings, mode };
+
+    if (mode === BACKGROUND_MODES.CUSTOM) {
+      setIsBackgroundModalOpen(true);
+    } else {
+      newSettings.customBackground = null;
+      if (mode === BACKGROUND_MODES.NONE) {
+        newSettings.blurLevel = DEFAULT_BLUR_LEVEL;
+      }
       setIsBackgroundModalOpen(false);
     }
+
+    setBackgroundSettings(newSettings);
+
+    if ((mode === BACKGROUND_MODES.BLUR || mode === BACKGROUND_MODES.CUSTOM) && !backgroundProcessorRef.current) {
+        logger.info(`[${componentId}] Background effect selected. Initializing processor on-demand.`);
+        initializeBackgroundProcessor();
+    }
   };
+
   const handleSelectCustomBackground = (backgroundUrl) => {
     setBackgroundSettings({ mode: BACKGROUND_MODES.CUSTOM, customBackground: backgroundUrl, blurLevel: DEFAULT_BLUR_LEVEL });
     setBackgroundState({ status: BACKGROUND_STATUS.LOADING, error: null });
@@ -385,26 +396,23 @@ useEffect(() => {
   };
   
 const handleJoin = () => {
-    let streamToUse = (backgroundSettings.mode !== BACKGROUND_MODES.NONE && processedStream) ? processedStream : originalStream;
-    if (!streamToUse || !streamToUse.active || !streamToUse.getTracks().some(t => t.readyState === 'live')) {
-        logger.warn(`[${componentId}] Primary stream invalid, falling back to original stream.`);
-        streamToUse = originalStream;
-    }
-    if (!streamToUse || !streamToUse.active || !streamToUse.getTracks().some(t => t.readyState === 'live')) {
-      toast.error(t('deviceCheck.noValidStream'));
-      logger.error(`[${componentId}] Join attempt failed: No valid stream available.`);
-      return;
-    }
-    const config = { 
-      stream: streamToUse, 
-      videoDeviceId: mediaState.selectedVideoDevice, 
-      audioDeviceId: mediaState.selectedAudioDevice, 
-      backgroundSettings,
-      videoDevices: mediaState.videoDevices,
-      audioDevices: mediaState.audioDevices,
-    };
-    logger.info(`[${componentId}] User is ready. Passing config to orchestrator.`, { config: { videoDeviceId: config.videoDeviceId, audioDeviceId: config.audioDeviceId, streamId: config.stream.id, backgroundMode: config.backgroundSettings.mode } });
-    onReady(config);
+      const streamToUse = (backgroundSettings.mode !== BACKGROUND_MODES.NONE && processedStream) ? processedStream : originalStream;
+      
+      if (!streamToUse && !originalStream) {
+        toast.error(t('deviceCheck.noValidStream'));
+        return;
+      }
+
+      const config = { 
+        stream: streamToUse || originalStream,
+        videoDeviceId: mediaState.selectedVideoDevice, 
+        audioDeviceId: mediaState.selectedAudioDevice, 
+        backgroundSettings,
+        videoDevices: mediaState.videoDevices,
+        audioDevices: mediaState.audioDevices,
+      };
+      
+      onReady(config);
   };
   
   const getBackgroundStatusText = () => {
