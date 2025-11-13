@@ -210,8 +210,8 @@ export const checkVideoReady = (videoElement) => {
   if (!videoElement) return false;
   
   return videoElement.readyState >= 2 && 
-         videoElement.videoWidth > 0 && 
-         videoElement.videoHeight > 0 &&
+         videoElement.videoWidth > 10 && 
+         videoElement.videoHeight > 10 &&
          !videoElement.paused;
 };
 
@@ -234,7 +234,8 @@ export const ensureVideoReady = (videoEl, stream) => {
       videoEl.srcObject = stream;
     }
 
-    if (videoEl.readyState >= 2 && videoEl.videoWidth > 0 && videoEl.videoHeight > 0) {
+    // [UPDATED] Enforce > 10 dimensions
+    if (videoEl.readyState >= 2 && videoEl.videoWidth > 10 && videoEl.videoHeight > 10) {
       logger.info('[BackgroundEffectUtility] Video already ready', { readyState: videoEl.readyState, width: videoEl.videoWidth, height: videoEl.videoHeight });
       resolve(true);
       return;
@@ -245,7 +246,7 @@ export const ensureVideoReady = (videoEl, stream) => {
 
     const handleReady = () => {
       if (isResolved) return;
-      if (videoEl.readyState >= 2 && videoEl.videoWidth > 0 && videoEl.videoHeight > 0) {
+      if (videoEl.readyState >= 2 && videoEl.videoWidth > 10 && videoEl.videoHeight > 10) {
         isResolved = true;
         clearTimeout(videoReadyTimeout);
         videoEl.removeEventListener('loadeddata', handleReady);

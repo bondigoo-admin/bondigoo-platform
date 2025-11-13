@@ -1436,10 +1436,7 @@ exports.enrollInProgram = async (req, res) => {
             priceDetails: priceDetails,
             currency: currency,
             userId: userId,
-            // --- START FIX ---
-            // 3. Pass the correct Stripe Account ID to enable Separate Charges and Transfers.
             coachStripeAccountId: coachStripeAccountId,
-            // --- END FIX ---
             metadata: {
                 type: 'program_purchase',
                 programId: programId.toString(),

@@ -764,6 +764,72 @@ async _applyDiscountCode({ currentPrice, entityType, entityId, coachId, code, us
     return basePrice * 0.10;
   }
 
+  async calculateLiveSessionFinalPrice({ liveSessionDoc }) {
+    const finalDurationMinutes = liveSessionDoc.durationInSeconds / 60;
+    const currency = liveSessionDoc.basePerMinuteRate.currency;
+    const grossAmount = finalDurationMinutes * liveSessionDoc.basePerMinuteRate.amount;
+    const finalAmount = finalDurationMinutes * liveSessionDoc.effectivePerMinuteRate.amount;
+    const totalDiscountDeducted = grossAmount - finalAmount;
+
+    const client = await User.findById(liveSessionDoc.client).select('billingDetails taxInfo').lean();
+    const clientTaxInfo = {
+        country: client?.taxInfo?.billingAddress?.country || client?.billingDetails?.address?.country,
+        postalCode: client?.taxInfo?.billingAddress?.postalCode || client?.billingDetails?.address?.postalCode,
+    };
+
+    const taxDeconstruction = await this.taxService.calculateTaxForTransaction({
+        totalAmount: finalAmount,
+        currency,
+        customerLocation: clientTaxInfo
+    });
+    const netAmountForFeeCalculation = taxDeconstruction.netAmount;
+
+    let finalPlatformFeePercentage = this.platformFeePercentage;
+    const coach = await Coach.findOne({ user: liveSessionDoc.coach }).select('settings.platformFeeOverride').lean();
+
+    if (coach?.settings?.platformFeeOverride) {
+        const override = coach.settings.platformFeeOverride;
+        const isExpired = override.effectiveUntil && new Date() > new Date(override.effectiveUntil);
+        if (!isExpired) {
+            const transactionType = 'LIVE_SESSIONS';
+            const applies = override.appliesTo.includes('ALL') || override.appliesTo.includes(transactionType);
+            if (applies) {
+                if (override.type === 'ZERO_FEE') {
+                    finalPlatformFeePercentage = 0;
+                } else if (override.type === 'PERCENTAGE_DISCOUNT') {
+                    finalPlatformFeePercentage = this.platformFeePercentage * (1 - (override.discountPercentage / 100));
+                }
+            }
+        }
+    }
+
+    const platformFeeAmount = netAmountForFeeCalculation * (finalPlatformFeePercentage / 100);
+
+    return {
+      base: { amount: { amount: parseFloat(grossAmount.toFixed(2)), currency }, currency },
+      final: { amount: { amount: parseFloat(finalAmount.toFixed(2)), currency }, currency },
+      netAfterDiscount: parseFloat(netAmountForFeeCalculation.toFixed(2)),
+      currency,
+      vat: {
+          rate: taxDeconstruction.taxRate || 0,
+          amount: parseFloat(taxDeconstruction.taxAmount.toFixed(2)),
+          included: true
+      },
+      platformFee: {
+          amount: parseFloat(platformFeeAmount.toFixed(2)),
+          originalPercentage: this.platformFeePercentage,
+          appliedPercentage: parseFloat(finalPlatformFeePercentage.toFixed(2))
+      },
+      discounts: liveSessionDoc.discountApplied && totalDiscountDeducted > 0 ? [{
+          _id: liveSessionDoc.discountApplied._id,
+          code: liveSessionDoc.discountApplied.code,
+          type: liveSessionDoc.discountApplied.type,
+          value: liveSessionDoc.discountApplied.value,
+          amountDeducted: parseFloat(totalDiscountDeducted.toFixed(2))
+      }] : [],
+    };
+  }
+
   async calculateWebinarRegistrationPrice({ webinarBookingId, userId, discountCode, customerLocation }) {
     const calculationLog = { context: { webinarBookingId, userId, discountCode }, steps: [], result: null };
     try {

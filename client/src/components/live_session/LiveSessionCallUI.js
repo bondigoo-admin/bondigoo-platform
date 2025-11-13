@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
-import { Mic, MicOff, Video, VideoOff, Phone, PhoneOff, Settings, ScreenShareIcon } from 'lucide-react';
+import { Mic, MicOff, Video, VideoOff, PhoneOff, Settings, ScreenShare as ScreenShareIcon } from 'lucide-react';
 import useLiveSessionCall from '../../hooks/useLiveSessionCall';
 import { logger } from '../../utils/logger';
 import { Button } from '../ui/button.tsx';
@@ -11,7 +11,7 @@ import VideoSettings from '../VideoSettings';
 const VideoTile = ({ stream, isLocal, displayName }) => {
   const ref = useRef();
   useEffect(() => {
-    if (stream) {
+    if (stream && ref.current) {
       ref.current.srcObject = stream;
     }
   }, [stream]);
@@ -26,7 +26,7 @@ const VideoTile = ({ stream, isLocal, displayName }) => {
   );
 };
 
-const LiveSessionCallUI = ({ socket, sessionId, token, initialConfig, sessionData, onEndSession }) => {
+const LiveSessionCallUI = ({ socket, sessionId, token, initialConfig, stream, sessionData, onEndSession, onStreamUpdate }) => {
   const { t } = useTranslation(['liveSession', 'common']);
   const { user, isCoach } = sessionData;
   
@@ -47,11 +47,19 @@ const LiveSessionCallUI = ({ socket, sessionId, token, initialConfig, sessionDat
     toggleScreenShare,
     updateLocalStream,
   } = useLiveSessionCall(socket, sessionId, token, {
-    stream: initialConfig.stream,
+    stream: stream, 
     userId: user._id,
     displayName: `${user.firstName} ${user.lastName}`,
     isCoach,
   });
+
+  const localStreamRef = useRef(localStream);
+
+  useEffect(() => {
+      if (stream && stream.id !== localStream?.id) {
+          updateLocalStream(stream);
+      }
+  }, [stream, localStream, updateLocalStream]);
 
   useEffect(() => {
     if (error) {
@@ -61,18 +69,25 @@ const LiveSessionCallUI = ({ socket, sessionId, token, initialConfig, sessionDat
 
   const handleSettingsChange = (newSettings) => {
     logger.info('[LiveSessionCallUI] Applying new settings from modal.', { newSettings });
+    
     if (newSettings.stream) {
-      updateLocalStream(newSettings.stream);
+      onStreamUpdate(newSettings.stream);
     }
+    
     setCurrentBackgroundSettings(newSettings.backgroundSettings);
     setSelectedVideoDevice(newSettings.videoDeviceId);
     setSelectedAudioDevice(newSettings.audioDeviceId);
   };
 
-const remoteParticipant = participants.length > 0 ? participants[0] : null;
+  useEffect(() => {
+    localStreamRef.current = localStream;
+  }, [localStream]);
 
-return (
+  const remoteParticipant = participants.length > 0 ? participants[0] : null;
+
+  return (
     <div className="absolute inset-0 bg-slate-900 text-white">
+
       <div className="relative w-full h-full max-w-7xl mx-auto">
         <div className="grid grid-cols-1 grid-rows-1 gap-4 w-full h-full p-2 md:p-4">
           {remoteParticipant ? (
@@ -89,8 +104,7 @@ return (
         </div>
       </div>
 
-      {/* Positioning Wrapper */}
-      <div className="fixed bottom-4 md:bottom-6 left-0 right-0 flex justify-center z-20 pointer-events-none">
+       <div className="fixed bottom-4 md:bottom-6 left-0 right-0 flex justify-center z-20 pointer-events-none">
         <motion.div
           initial={{ y: 100, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
@@ -128,9 +142,9 @@ return (
           </AlertDialog>
         </motion.div>
       </div>
-      
-      {isSettingsOpen && (
-        <div className="absolute inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-sm">
+
+
+      <div className={`absolute inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-sm ${isSettingsOpen ? '' : 'invisible opacity-0 pointer-events-none'}`}>
           <VideoSettings
             localStream={localStream}
             onClose={() => setIsSettingsOpen(false)}
@@ -142,10 +156,8 @@ return (
             selectedAudioDevice={selectedAudioDevice}
             setSelectedAudioDevice={setSelectedAudioDevice}
             currentBackgroundSettings={currentBackgroundSettings}
-            setLocalStream={updateLocalStream}
           />
-        </div>
-      )}
+      </div>
     </div>
   );
 };

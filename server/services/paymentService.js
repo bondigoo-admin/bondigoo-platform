@@ -269,7 +269,9 @@ async createPaymentIntent({
 
     console.log('[PaymentService.createPaymentIntent] 2. FINAL PARAMS for stripe.paymentIntents.create:', { intentParameters });
 
-    if (coachStripeAccountId) {
+    // --- REMOVED: This is the core of the change. We are no longer creating an instant transfer. ---
+
+    /*if (coachStripeAccountId) {
       intentParameters.transfer_data = {
         destination: coachStripeAccountId,
       };
@@ -279,7 +281,7 @@ async createPaymentIntent({
     } else {
       logger.error('[PaymentService] CRITICAL: Attempting to create a charge for a coach without a Stripe Account ID.', { bookingId });
       throw new Error('Coach Stripe Account ID is missing for a Connect transaction.');
-    }
+    }*/
     
     const paymentIntent = await this.stripe.paymentIntents.create(
       intentParameters, 
@@ -1172,16 +1174,16 @@ async cancelAuthorizedPayment(paymentIntentId, reason = 'abandoned') {
  * Creates and confirms a PaymentIntent for a completed Live Session using a saved payment method.
  * This is an "off-session" charge.
  * @param {object} liveSession - The Mongoose LiveSession document.
- * @param {object} finalCostBreakdown - The final calculated cost object.
+ * @param {object} priceDetails - The final, authoritative price breakdown from PricingService.
  * @param {object} dbSession - The active Mongoose transaction session.
  * @returns {Promise<object>} An object containing the success status and the created Payment document.
  */
-async createChargeForCompletedSession(liveSession, finalCostBreakdown, dbSession) {
-  const logContext = { liveSessionId: liveSession._id, finalGrossAmount: finalCostBreakdown.final.amount.amount };
+async createChargeForCompletedSession(liveSession, priceDetails, dbSession) {
+  const logContext = { liveSessionId: liveSession._id, finalGrossAmount: priceDetails.final.amount.amount };
   console.log('[PaymentService] Creating FINAL STANDARD charge for completed session.', logContext);
 
-  const finalAmount = finalCostBreakdown.final.amount.amount;
-  const currency = finalCostBreakdown.currency.toLowerCase();
+  const finalAmount = priceDetails.final.amount.amount;
+  const currency = priceDetails.currency.toLowerCase();
   const amountInCents = Math.round(finalAmount * 100);
   const minChargeCents = this.getMinimumChargeAmount(currency);
 
@@ -1195,8 +1197,8 @@ async createChargeForCompletedSession(liveSession, finalCostBreakdown, dbSession
         type: 'live_session_charge',
         status: 'completed',
         payoutStatus: 'not_applicable',
-        priceSnapshot: finalCostBreakdown,
-        amount: { total: 0, currency: finalCostBreakdown.currency.toUpperCase() },
+        priceSnapshot: priceDetails,
+        amount: { total: 0, currency: priceDetails.currency.toUpperCase() },
     });
     await zeroPayment.save({ session: dbSession });
     return { success: true, paymentRecord: zeroPayment, message: "Zero charge, skipped." };
@@ -1227,24 +1229,24 @@ async createChargeForCompletedSession(liveSession, finalCostBreakdown, dbSession
     coachStripeAccountId: coachProfile.settings.paymentAndBilling.stripe.accountId,
     type: 'live_session_charge',
     status: 'pending',
-    priceSnapshot: finalCostBreakdown,
+    priceSnapshot: priceDetails,
     amount: {
-      total: finalCostBreakdown.final.amount.amount,
-      base: finalCostBreakdown.base.amount.amount,
-      platformFee: finalCostBreakdown.platformFee.amount,
+      total: priceDetails.final.amount.amount,
+      base: priceDetails.base.amount.amount,
+      platformFee: priceDetails.platformFee.amount,
       vat: { 
-          rate: finalCostBreakdown.vat.rate, 
-          amount: finalCostBreakdown.vat.amount, 
+          rate: priceDetails.vat.rate, 
+          amount: priceDetails.vat.amount, 
           included: true 
       },
-      currency: finalCostBreakdown.currency.toUpperCase(),
+      currency: priceDetails.currency.toUpperCase(),
     },
-    discountApplied: finalCostBreakdown.discounts && finalCostBreakdown.discounts.length > 0 ? {
-        _id: finalCostBreakdown.discounts[0]._id,
-        code: finalCostBreakdown.discounts[0].code,
-        type: finalCostBreakdown.discounts[0].type,
-        value: finalCostBreakdown.discounts[0].value,
-        amountDeducted: finalCostBreakdown.discounts[0].amountDeducted
+    discountApplied: priceDetails.discounts && priceDetails.discounts.length > 0 ? {
+        _id: priceDetails.discounts[0]._id,
+        code: priceDetails.discounts[0].code,
+        type: priceDetails.discounts[0].type,
+        value: priceDetails.discounts[0].value,
+        amountDeducted: priceDetails.discounts[0].amountDeducted
     } : undefined,
     stripe: {
       customerId: client.stripe.customerId,

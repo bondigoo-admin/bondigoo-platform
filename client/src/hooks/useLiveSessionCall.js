@@ -22,8 +22,22 @@ const useLiveSessionCall = (socket, sessionId, token, config = {}) => {
   const [participants, setParticipants] = useState([]);
   const [error, setError] = useState(null);
   const peersRef = useRef({});
-  const [audioEnabled, setAudioEnabled] = useState(true);
-  const [videoEnabled, setVideoEnabled] = useState(true);
+  
+  const [audioEnabled, setAudioEnabled] = useState(() => {
+    if (config.stream) {
+       const track = config.stream.getAudioTracks()[0];
+       return track ? track.enabled : true;
+    }
+    return true;
+  });
+  const [videoEnabled, setVideoEnabled] = useState(() => {
+    if (config.stream) {
+       const track = config.stream.getVideoTracks()[0];
+       return track ? track.enabled : true;
+    }
+    return true;
+  });
+
   const [isScreenSharing, setIsScreenSharing] = useState(false);
   const cameraStreamRef = useRef(null);
 
@@ -214,7 +228,7 @@ const useLiveSessionCall = (socket, sessionId, token, config = {}) => {
     socket.on('participant-left', handleParticipantLeft);
     socket.on('session-ready', handleSessionReady);
 
-    return () => {
+return () => {
       logger.info('[useLiveSessionCall] Cleaning up hook.', { sessionId });
       socket.off('session-participants', handleSessionParticipants);
       socket.off('participant-joined', handleParticipantJoined);

@@ -51,6 +51,7 @@
   "sendRequest": "Anfrage senden",
   "sendingRequest": "Wird gesendet...",
   "baseRate": "Grundpreis",
+  "attempt": "Versuch",
   "effectiveRate": "Effektiver Preis",
   "rateNotSet": "Nicht verfügbar",
   "quickRepliesMessages": [
@@ -90,6 +91,7 @@
     "testSpeaker": "Lautsprecher testen",
     "test": "Testen",
     "stopTest": "Stopp",
+    "selectDevice": "Gerät auswählen",
     "joinDisabled": "Der Beitritt ist derzeit nicht möglich.",
     "videoError": "Videogerät nicht verfügbar.",
     "audioError": "Audiogerät nicht verfügbar.",
@@ -132,5 +134,9 @@
   "review": {
     "reviewSubmittedSuccess": "Vielen Dank für dein Feedback!"
   },
-  "leaveAReview": "Eine Bewertung hinterlassen"
+  "leaveAReview": "Eine Bewertung hinterlassen",
+  "session": {
+    "selectBackground": "Hintergrund auswählen"
+  },
+  "participantDisconnected": "Der andere Teilnehmer hat die Verbindung getrennt. Die Sitzung wird beendet."
 }

@@ -21,6 +21,8 @@
   "addMethodTitle": "Neue Zahlungsmethode hinzufügen",
   "addMethodDesc": "Deine neue Zahlungsmethode wird sicher gespeichert.",
   "confirmPayment": "Zahlung bestätigen",
+  "userIdentificationError": "Benutzer konnte nicht identifiziert werden.",
+  "unableToLoadPaymentMethods": "Zahlungsmethoden konnten nicht geladen werden.",
   "status": {
     "processing": "Wird verarbeitet",
     "completed": "Abgeschlossen",
