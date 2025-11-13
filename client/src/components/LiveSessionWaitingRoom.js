@@ -289,6 +289,7 @@ const handleAuthSuccess = async (paymentIntentId) => {
         onSuccess={handleAuthSuccess}
         onFailure={handleAuthFailure}
         stripePromise={stripePromise}
+        userId={user._id}
       />
     </>
   );

@@ -48,8 +48,8 @@ const endSessionLogic = async (sessionId, enderUserId, options = {}) => {
         throw { statusCode: 400, message: `Session cannot be ended. Current status: ${liveSession.status}` };
       }
   
-      const repeatableJobKey = `monitor:${sessionId}`;
-      await liveSessionQueue.removeRepeatableByKey(repeatableJobKey);
+      // [UPDATED] Invoke getter and use removeRepeatable with correct config
+      await liveSessionQueue().removeRepeatable('monitor-session', { every: 60000 }, `monitor-${sessionId}`);
       logger.info(`[LiveSessionManager] Removed monitor job for session ${sessionId}.`);
   
       const endTime = new Date();
@@ -142,14 +142,13 @@ const endSessionLogic = async (sessionId, enderUserId, options = {}) => {
 
 exports.monitorSession = async (sessionId) => {
   const { liveSessionQueue } = require('./jobQueueService');
-  const repeatableJobKey = `monitor:${sessionId}`;
 
   try {
     const liveSession = await LiveSession.findById(sessionId).populate('paymentRecords');
 
     if (!liveSession || liveSession.status !== 'in_progress') {
       logger.info(`[LiveSessionManager] Monitor check: Session ${sessionId} no longer active or found. Removing job.`);
-      await liveSessionQueue.removeRepeatableByKey(repeatableJobKey);
+      await liveSessionQueue().removeRepeatable('monitor-session', { every: 60000 }, `monitor-${sessionId}`);
       return;
     }
 

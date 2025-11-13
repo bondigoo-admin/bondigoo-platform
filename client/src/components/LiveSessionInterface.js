@@ -19,39 +19,6 @@ import ScaConfirmationModal from './payment/ScaConfirmationModal';
 import LiveSessionDeviceCheck from './live_session/LiveSessionDeviceCheck';
 import LiveSessionCallUI from './live_session/LiveSessionCallUI';
 
-// ====================================================================================
-// ============================= START: DEBUGGING HOOK ================================
-// ====================================================================================
-// This hook will log the props/values that have changed, causing a re-render
-function useWhyDidYouUpdate(name, props) {
-  const previousProps = useRef();
-
-  useEffect(() => {
-    if (previousProps.current) {
-      const allKeys = Object.keys({ ...previousProps.current, ...props });
-      const changesObj = {};
-      allKeys.forEach(key => {
-        // Use Object.is for more accurate comparison
-        if (!Object.is(previousProps.current[key], props[key])) {
-          changesObj[key] = {
-            from: previousProps.current[key],
-            to: props[key],
-          };
-        }
-      });
-
-      if (Object.keys(changesObj).length) {
-        logger.warn(`[WHY-DID-YOU-UPDATE: ${name}]`, changesObj);
-      }
-    }
-    previousProps.current = props;
-  });
-}
-// ====================================================================================
-// ============================== END: DEBUGGING HOOK =================================
-// ====================================================================================
-
-// --- EXISTING SUB-COMPONENTS (UNCHANGED) ---
 const PaymentFailureWarning = ({ wrapUpTime }) => {
   const { t } = useTranslation('liveSession');
   const [timeLeft, setTimeLeft] = useState(wrapUpTime);
@@ -188,7 +155,6 @@ const ErrorUI = ({ message, onReturn }) => {
     );
 };
 
-
 const LiveSessionInterface = () => {
     const { linkId, token } = useParams();
     const navigate = useNavigate();
@@ -196,10 +162,8 @@ const LiveSessionInterface = () => {
     const { socket: notificationSocket, isConnected: isNotificationSocketConnected } = useNotificationSocket();
     const { user, loading: authLoading } = useAuth();
     
-    const { reauthRequired, sessionWarning, submitReauthorizationResult, clearReauthRequired,  resetOutgoingRequest } = useLiveSessionManager();
+     const { reauthRequired, sessionWarning, submitReauthorizationResult, clearReauthRequired, resetOutgoingRequest } = useLiveSessionManager();
     const { stripePromise } = usePayment();
-
-    const renderCount = useRef(0);
 
     const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
     const [reviewSubmitted, setReviewSubmitted] = useState(false);
@@ -208,41 +172,15 @@ const LiveSessionInterface = () => {
     const [errorMessage, setErrorMessage] = useState('');
     const [sessionData, setSessionData] = useState(null);
     const [mediaConfig, setMediaConfig] = useState(null);
-    const [initialConfig, setInitialConfig] = useState(null);
+    const [activeStream, setActiveStream] = useState(null);
     const [videoSocket, setVideoSocket] = useState(null);
-
     const [connectionAttempt, setConnectionAttempt] = useState(0);
 
-     useEffect(() => {
-        // This function will be called when the component is unmounted.
-        return () => {
-            logger.info('[LiveSessionInterface] Unmounting. Resetting outgoing live session request state.');
-            resetOutgoingRequest();
-        };
-    }, [resetOutgoingRequest]);
-
-    // ====================================================================================
-    // ============================= START: DEBUGGING CALL ================================
-    // ====================================================================================
-    useWhyDidYouUpdate('LiveSessionInterface', {
-        linkId, token, navigate, t, notificationSocket, isNotificationSocketConnected, user, authLoading, reauthRequired, sessionWarning, submitReauthorizationResult, clearReauthRequired, stripePromise, isReviewModalOpen, flowStatus, errorMessage, sessionData, mediaConfig, videoSocket
-    });
-    // ====================================================================================
-    // ============================== END: DEBUGGING CALL =================================
-    // ====================================================================================
-
-    /*useEffect(() => {
-        renderCount.current += 1;
-        logger.debug(`[LSI-RENDER] RENDER #${renderCount.current}`, {
-            flowStatus,
-            hasSessionData: !!sessionData,
-            hasInitialConfig: !!initialConfig,
-            hasVideoSocket: !!videoSocket,
-            isSocketConnected: videoSocket?.connected,
-        });
-    });*/
-
     const handleEndSession = useCallback(async () => {
+        if (activeStream) {
+            activeStream.getTracks().forEach(track => track.stop());
+        }
+        
         if (sessionData?._id) {
             try {
                 await liveSessionAPI.end(sessionData._id);
@@ -251,14 +189,20 @@ const LiveSessionInterface = () => {
                 toast.error(errorMsg);
             }
         }
-    }, [sessionData]);
+    }, [sessionData, activeStream]);
 
-    const handleEndSessionRef = useRef(handleEndSession);
     useEffect(() => {
-        handleEndSessionRef.current = handleEndSession;
-    }, [handleEndSession]);
-    
-useEffect(() => {
+        return () => {
+            logger.info('[LiveSessionInterface] Unmounting. Resetting outgoing live session request state.');
+            resetOutgoingRequest();
+            if (activeStream) {
+                logger.info(`[LiveSessionInterface] Stopping active stream on unmount.`);
+                activeStream.getTracks().forEach(t => t.stop());
+            }
+        };
+    }, [resetOutgoingRequest, activeStream]);
+
+    useEffect(() => {
         logger.info('[LSI-EFFECT-VALIDATE] Component mounted. Validating link.', { linkId, hasToken: !!token });
         if (!linkId || !token) {
             setErrorMessage('Session link is missing required parameters.');
@@ -282,24 +226,16 @@ useEffect(() => {
     }, [linkId, token]);
 
     useEffect(() => {
-        if (!notificationSocket || !isNotificationSocketConnected || !sessionData) return;
+        if (!notificationSocket || !isNotificationSocketConnected || !sessionData || !user) return;
+
         const handleSessionEnded = (data) => {
             if (data.sessionId === sessionData._id) {
                 setSessionData(prev => ({ ...prev, status: data.status, finalCost: data.finalCost, durationInSeconds: data.durationInSeconds }));
                 setFlowStatus('completed');
             }
         };
-        notificationSocket.on('live_session_ended', handleSessionEnded);
-        return () => notificationSocket.off('live_session_ended', handleSessionEnded);
-    }, [notificationSocket, isNotificationSocketConnected, sessionData]);
 
-    
-    useEffect(() => {
-        if (flowStatus !== 'in_call' || !notificationSocket || !isNotificationSocketConnected || !sessionData || !user) {
-            return;
-        }
-
-       const handleStatusUpdate = (data) => {
+        const handleStatusUpdate = (data) => {
             const update = data?.payload?.[0];
             if (!update || update.status !== 'offline') return;
 
@@ -313,19 +249,20 @@ useEffect(() => {
             if (isParticipant && !isCurrentUser) {
                 logger.warn(`[LSI] The other session participant (ID: ${offlineUserId}) went offline. Ending the session automatically.`);
                 toast.info(t('participantDisconnected', 'The other participant has disconnected. Ending session.'));
-                handleEndSessionRef.current();
+                handleEndSession();
             }
         };
 
+        notificationSocket.on('live_session_ended', handleSessionEnded);
         notificationSocket.on('user_status_update', handleStatusUpdate);
 
         return () => {
+            notificationSocket.off('live_session_ended', handleSessionEnded);
             notificationSocket.off('user_status_update', handleStatusUpdate);
         };
+    }, [notificationSocket, isNotificationSocketConnected, sessionData, user, handleEndSession, t]);
 
-    }, [flowStatus, notificationSocket, isNotificationSocketConnected, sessionData, user, t]);
-
-useEffect(() => {
+    useEffect(() => {
         if (connectionAttempt === 0 || !mediaConfig || (videoSocket && videoSocket.connected)) {
             return;
         }
@@ -404,11 +341,15 @@ useEffect(() => {
         };
     }, [connectionAttempt, mediaConfig, user, linkId, token]);
 
-const handleDeviceCheckReady = useCallback((config) => {
-        logger.info(`[LSI-HANDLER] Device check ready. Setting media config and initiating connection process.`);
+    const handleDeviceCheckReady = useCallback((config) => {
+        logger.info(`[LSI-HANDLER] Device check ready. Receiving stream and config.`);
+        if (config.stream) {
+            setActiveStream(config.stream);
+        }
         setMediaConfig(config);
         setConnectionAttempt(1);
     }, []);
+
     
     const handleReauthSuccess = useCallback(async (paymentIntentId) => {
         try {
@@ -430,8 +371,6 @@ const handleDeviceCheckReady = useCallback((config) => {
             clearReauthRequired();
         }
     }, [submitReauthorizationResult, clearReauthRequired]);
-
-     
 
     const handleReturnToDashboard = () => navigate('/dashboard');
     const handleBookFullSession = () => navigate(`/coach/${sessionData?.coach?._id || ''}`);
@@ -460,11 +399,12 @@ const handleDeviceCheckReady = useCallback((config) => {
                 return <StagingUI message={`${connectingMessage}${attemptMessage}`} />;
 
             case 'in_call':
-                if (!videoSocket || !videoSocket.connected || !mediaConfig) {
-                    logger.warn('[LSI-RENDER-CONTENT] BLOCKING RENDER for in_call: Socket/config not ready.', {
+                if (!videoSocket || !videoSocket.connected || !mediaConfig || !activeStream) {
+                    logger.warn('[LSI-RENDER-CONTENT] BLOCKING RENDER for in_call: Socket/config/stream not ready.', {
                         hasVideoSocket: !!videoSocket,
                         isSocketConnected: videoSocket?.connected,
                         hasMediaConfig: !!mediaConfig,
+                        hasActiveStream: !!activeStream,
                     });
                     return <StagingUI message={t('common:connecting', 'Finalizing connection...')} />;
                 }
@@ -474,8 +414,10 @@ const handleDeviceCheckReady = useCallback((config) => {
                         sessionId={linkId}
                         token={token}
                         initialConfig={mediaConfig}
+                        stream={activeStream}
                         sessionData={{...sessionData, user, isCoach: user._id === sessionData.coach._id}}
                         onEndSession={handleEndSession}
+                        onStreamUpdate={setActiveStream}
                     />
                 );
 

@@ -144,20 +144,18 @@ const LiveSessionDeviceCheck = ({ onReady }) => {
 
   const isLoading = mediaState.status === 'initializing';
 
-   const cleanupResources = useCallback(() => {
-    logger.info(`[${componentId}] Cleaning up all media resources.`);
-    if (backgroundProcessorRef.current) {
-      backgroundProcessorRef.current.cleanup();
-      backgroundProcessorRef.current = null;
-    }
-    // REMOVE THE audioContextRef CLEANUP BLOCK
-    if (speakerAudioRef.current) {
-      speakerAudioRef.current.pause();
-      speakerAudioRef.current = null;
-    }
-    // Stop all tracks on the streams
-    originalStream?.getTracks().forEach(track => track.stop());
-    processedStream?.getTracks().forEach(track => track.stop());
+const cleanupResources = useCallback(() => {
+      logger.info(`[${componentId}] Cleaning up all media resources.`);
+      if (backgroundProcessorRef.current) {
+        backgroundProcessorRef.current.cleanup();
+        backgroundProcessorRef.current = null;
+      }
+      if (speakerAudioRef.current) {
+        speakerAudioRef.current.pause();
+        speakerAudioRef.current = null;
+      }
+      originalStream?.getTracks().forEach(track => track.stop());
+      processedStream?.getTracks().forEach(track => track.stop());
   }, [componentId, originalStream, processedStream]);
 
   const updateStream = useCallback(async (videoDeviceId, audioDeviceId) => {
@@ -226,7 +224,6 @@ const LiveSessionDeviceCheck = ({ onReady }) => {
     };
 
     initializeDevices();
-    return () => cleanupResources();
   }, []);
 
   // Effect to update stream when user changes device selection.
@@ -266,8 +263,7 @@ useEffect(() => {
       });
   }, [t, componentId]);
 
-  // Init background processor
-  useEffect(() => {
+useEffect(() => {
     if (!areCanvasesReady || !isVideoReady || !originalStream) {
       return;
     }
@@ -385,26 +381,23 @@ useEffect(() => {
   };
   
 const handleJoin = () => {
-    let streamToUse = (backgroundSettings.mode !== BACKGROUND_MODES.NONE && processedStream) ? processedStream : originalStream;
-    if (!streamToUse || !streamToUse.active || !streamToUse.getTracks().some(t => t.readyState === 'live')) {
-        logger.warn(`[${componentId}] Primary stream invalid, falling back to original stream.`);
-        streamToUse = originalStream;
-    }
-    if (!streamToUse || !streamToUse.active || !streamToUse.getTracks().some(t => t.readyState === 'live')) {
-      toast.error(t('deviceCheck.noValidStream'));
-      logger.error(`[${componentId}] Join attempt failed: No valid stream available.`);
-      return;
-    }
-    const config = { 
-      stream: streamToUse, 
-      videoDeviceId: mediaState.selectedVideoDevice, 
-      audioDeviceId: mediaState.selectedAudioDevice, 
-      backgroundSettings,
-      videoDevices: mediaState.videoDevices,
-      audioDevices: mediaState.audioDevices,
-    };
-    logger.info(`[${componentId}] User is ready. Passing config to orchestrator.`, { config: { videoDeviceId: config.videoDeviceId, audioDeviceId: config.audioDeviceId, streamId: config.stream.id, backgroundMode: config.backgroundSettings.mode } });
-    onReady(config);
+      const streamToUse = (backgroundSettings.mode !== BACKGROUND_MODES.NONE && processedStream) ? processedStream : originalStream;
+      
+      if (!streamToUse && !originalStream) {
+        toast.error(t('deviceCheck.noValidStream'));
+        return;
+      }
+
+      const config = { 
+        stream: streamToUse || originalStream,
+        videoDeviceId: mediaState.selectedVideoDevice, 
+        audioDeviceId: mediaState.selectedAudioDevice, 
+        backgroundSettings,
+        videoDevices: mediaState.videoDevices,
+        audioDevices: mediaState.audioDevices,
+      };
+      
+      onReady(config);
   };
   
   const getBackgroundStatusText = () => {

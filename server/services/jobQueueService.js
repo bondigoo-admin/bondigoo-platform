@@ -33,11 +33,11 @@ const initialize = (socketIoInstance) => {
     };
 
     const queueDefinitions = [
-        { name: 'live-session-jobs', processor: require.resolve('./processors/liveSessionProcessor') },
-        { name: 'status-reset-jobs', processor: require.resolve('./processors/statusResetProcessor') },
-        { name: 'account-cleanup-queue', processor: require.resolve('./processors/accountCleanupProcessor') },
-        { name: 'user-data-deletion-queue', processor: require.resolve('./processors/userDataDeletionProcessor') },
-        { name: 'moderation-actions-queue', processor: require.resolve('./processors/moderationActionsProcessor') },
+        { name: 'live-session-jobs', processor: require('./processors/liveSessionProcessor') },
+        { name: 'status-reset-jobs', processor: require('./processors/statusResetProcessor') },
+        { name: 'account-cleanup-queue', processor: require('./processors/accountCleanupProcessor') },
+        { name: 'user-data-deletion-queue', processor: require('./processors/userDataDeletionProcessor') },
+        { name: 'moderation-actions-queue', processor: require('./processors/moderationActionsProcessor') },
         { name: 'asset-cleanup', processor: assetCleanupWorkerProcessor }
     ];
 

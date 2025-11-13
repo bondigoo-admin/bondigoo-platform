@@ -46,5 +46,6 @@
   "customization.saveError": "Fehler beim Speichern der Anpassung.",
   "customization.resetSuccess": "Dashboard erfolgreich zurückgesetzt.",
   "customization.saveSuccess": "Anpassung gespeichert.",
-  "actions.noPendingActions": "Keine Aktionen"
+  "actions.noPendingActions": "Keine Aktionen",
+  "announcements": "Ankündigungen"
 }

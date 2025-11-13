@@ -54,6 +54,7 @@ const VideoSettings = ({
   const outputCanvasRef = useRef(null);
   const backgroundProcessorRef = useRef(null);
   const nodeRef = useRef(null);
+  const isConfirmedRef = useRef(false);
 
   const [backgroundSettings, setBackgroundSettings] = useState(currentBackgroundSettings);
   const [savedBackgrounds, setSavedBackgrounds] = useState([]);
@@ -90,19 +91,13 @@ const VideoSettings = ({
     }
   }, [t]);
 
-  useEffect(() => {
+ useEffect(() => {
     const setupInitialStream = async () => {
       if (localStream) {
         setPreviewStream(localStream);
         logger.info('[VideoSettings] Using provided localStream', { streamId: localStream.id });
-      } else if (videoDevices.length > 0 || audioDevices.length > 0) {
-        const newStream = await initializeStream(
-          selectedVideoDevice || videoDevices[0]?.deviceId,
-          selectedAudioDevice || audioDevices[0]?.deviceId
-        );
-        setPreviewStream(newStream);
-        if (setLocalStream) setLocalStream(newStream); // Set initial stream for parent
-        logger.info('[VideoSettings] Initialized new preview stream', { streamId: newStream.id });
+      } else {
+        logger.warn('[VideoSettings] Initialized without a localStream. Preview will be disabled until a device is selected.');
       }
     };
   
@@ -290,10 +285,14 @@ const VideoSettings = ({
     logger.info('[VideoSettings] Canvas dimensions dynamically set', { width, height });
   }, [isVideoReady]);
 
-  const handleVideoDeviceChange = async (newDeviceId) => {
+const handleVideoDeviceChange = async (newDeviceId) => {
     setPendingVideoDevice(newDeviceId);
     try {
       const newStream = await initializeStream(newDeviceId, pendingAudioDevice);
+      
+      newStream.getVideoTracks().forEach(track => track.enabled = isVideoEnabled);
+      newStream.getAudioTracks().forEach(track => track.enabled = isAudioEnabled);
+      
       setPreviewStream(newStream);
     } catch (error) {
       toast.error(t('deviceCheck.videoError'));
@@ -301,7 +300,77 @@ const VideoSettings = ({
     }
   };
 
+const handleAudioDeviceChange = async (newDeviceId) => {
+    setPendingAudioDevice(newDeviceId);
+    try {
+      const newStream = await initializeStream(pendingVideoDevice, newDeviceId);
+      
+      // [IMPROVEMENT] Apply current UI mute state to the new stream immediately
+      newStream.getVideoTracks().forEach(track => track.enabled = isVideoEnabled);
+      newStream.getAudioTracks().forEach(track => track.enabled = isAudioEnabled);
+
+      setPreviewStream(newStream);
+    } catch (error) {
+      toast.error(t('deviceCheck.audioError'));
+      logger.error('[VideoSettings] Failed to update preview stream for audio device', { error: error.message });
+    }
+  };
+
   useEffect(() => {
+    return () => {
+        if (previewStream && previewStream !== localStream && !isConfirmedRef.current) {
+            logger.info('[VideoSettings] Stopping unconfirmed preview stream on cleanup', { id: previewStream.id });
+            previewStream.getTracks().forEach(t => t.stop());
+        }
+    };
+  }, [previewStream, localStream]);
+
+const handleConfirmSettings = useCallback(() => {
+    logger.info('[VideoSettings] Confirming settings', {
+      videoDevice: pendingVideoDevice,
+      audioDevice: pendingAudioDevice,
+      backgroundMode: backgroundSettings.mode,
+    });
+
+    if (previewStream) {
+        isConfirmedRef.current = true;
+
+        previewStream.getVideoTracks().forEach(track => track.enabled = isVideoEnabled);
+        previewStream.getAudioTracks().forEach(track => track.enabled = isAudioEnabled);
+
+        if (localStream && localStream.id !== previewStream.id) {
+          localStream.getTracks().forEach((track) => track.stop());
+        }
+  
+        setLocalStream(previewStream);
+        setSelectedVideoDevice(pendingVideoDevice);
+        setSelectedAudioDevice(pendingAudioDevice);
+  
+        onSettingsChange({
+          videoDeviceId: pendingVideoDevice,
+          audioDeviceId: pendingAudioDevice,
+          backgroundSettings,
+          stream: previewStream,
+        });
+  
+        window.dispatchEvent(new CustomEvent('stream-changed', { 
+          detail: { 
+            stream: previewStream, 
+            backgroundSettings: { ...backgroundSettings }
+          } 
+        }));
+  
+        logger.info('[VideoSettings] Settings confirmed successfully', {
+          newStreamId: previewStream.id,
+          backgroundSettings,
+        });
+  
+        onClose();
+    }
+  }, [pendingVideoDevice, pendingAudioDevice, backgroundSettings, localStream, setLocalStream, 
+    setSelectedVideoDevice, setSelectedAudioDevice, onSettingsChange, onClose, isVideoEnabled, isAudioEnabled, previewStream]);
+
+useEffect(() => {
     const handleMediaStateChange = (event) => {
       if (previewStream) {
         const { isAudioEnabled: newAudio, isVideoEnabled: newVideo } = event.detail;
@@ -319,17 +388,6 @@ const VideoSettings = ({
     window.addEventListener('media-state-changed', handleMediaStateChange);
     return () => window.removeEventListener('media-state-changed', handleMediaStateChange);
   }, [previewStream]);
-
-  const handleAudioDeviceChange = async (newDeviceId) => {
-    setPendingAudioDevice(newDeviceId);
-    try {
-      const newStream = await initializeStream(pendingVideoDevice, newDeviceId);
-      setPreviewStream(newStream);
-    } catch (error) {
-      toast.error(t('deviceCheck.audioError'));
-      logger.error('[VideoSettings] Failed to update preview stream for audio device', { error: error.message });
-    }
-  };
 
   const handleBackgroundChange = (mode, customBackground = null) => {
     const newSettings = {
@@ -432,56 +490,6 @@ const VideoSettings = ({
       }));
     }
   };
-
-  const handleConfirmSettings = useCallback(() => {
-    logger.info('[VideoSettings] Confirming settings', {
-      videoDevice: pendingVideoDevice,
-      audioDevice: pendingAudioDevice,
-      backgroundMode: backgroundSettings.mode,
-    });
-  
-    initializeStream(pendingVideoDevice, pendingAudioDevice)
-      .then((newStream) => {
-        if (localStream) {
-          localStream.getTracks().forEach((track) => track.stop());
-        }
-  
-        setLocalStream(newStream);
-        setPreviewStream(newStream);
-        setSelectedVideoDevice(pendingVideoDevice);
-        setSelectedAudioDevice(pendingAudioDevice);
-  
-        onSettingsChange({
-          videoDeviceId: pendingVideoDevice,
-          audioDeviceId: pendingAudioDevice,
-          backgroundSettings,
-          stream: newStream,
-        });
-  
-        window.dispatchEvent(new CustomEvent('stream-changed', { 
-          detail: { 
-            stream: newStream, 
-            backgroundSettings: { ...backgroundSettings }
-          } 
-        }));
-  
-        logger.info('[VideoSettings] Settings confirmed successfully', {
-          newStreamId: newStream.id,
-          backgroundSettings,
-        });
-  
-        onClose();
-      })
-      .catch((err) => {
-        logger.error('[VideoSettings] Failed to confirm settings', {
-          error: err.message,
-          stack: err.stack,
-        });
-        setBackgroundState({ status: BACKGROUND_STATUS.ERROR, error: err.message });
-        toast.error('Failed to apply settings');
-      });
-  }, [pendingVideoDevice, pendingAudioDevice, backgroundSettings, localStream, setLocalStream, 
-    setSelectedVideoDevice, setSelectedAudioDevice, onSettingsChange, onClose, initializeStream]);
 
   return (
     <Draggable handle=".drag-handle" bounds="parent" nodeRef={nodeRef}>

@@ -436,6 +436,17 @@ exports.startLiveSession = async (req, res) => {
     
     await dbSession.commitTransaction();
 
+    await liveSessionQueue().add('monitor-session', { sessionId }, {
+        jobId: `monitor-${sessionId}`,
+        repeat: {
+            every: 60000, 
+        },
+    });
+    logger.info(`[LiveSessionController] Started persistent monitor job for session: ${sessionId}`);
+
+    // [UPDATED] Commit transaction AFTER queue operation succeeds
+    await dbSession.commitTransaction();
+
     const socketService = getSocketService();
     if(socketService) {
       socketService.io = io;
@@ -445,15 +456,6 @@ exports.startLiveSession = async (req, res) => {
       socketService.emitToUser(liveSession.coach.toString(), 'session_authorized_and_ready', payload);
     }
     
-    const repeatableJobKey = `monitor:${sessionId}`;
-    await liveSessionQueue.add('monitor-session', { sessionId }, {
-        jobId: `monitor-${sessionId}`,
-        repeat: {
-            every: 60000, 
-        },
-    });
-    logger.info(`[LiveSessionController] Started persistent monitor job for session: ${sessionId}`);
-
     res.json({ success: true, message: 'Live session authorized and ready.', sessionUrl, session: liveSession });
 
   } catch (error) {
