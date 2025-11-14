@@ -1,4 +1,3 @@
-
 import React, { useRef, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { Loader2 } from 'lucide-react';
@@ -122,7 +121,7 @@ const MessageList = ({ messages, isLoading, fetchNextPage, hasNextPage, isFetchi
   }, [observeCallback]);
 
    return (
-    <div ref={listRef} className="relative flex-1 overflow-y-auto p-4">
+     <div className="absolute inset-0 flex flex-col">
       {isLoading && messages.length === 0 && (
         <div className="absolute inset-0 z-10 flex items-center justify-center bg-background/70">
           <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
@@ -133,43 +132,45 @@ const MessageList = ({ messages, isLoading, fetchNextPage, hasNextPage, isFetchi
           <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
         </div>
       )}
-      <div className="flex flex-col gap-3 pb-2">
-        <div ref={topSentinelRef} style={{ height: '1px' }} aria-hidden="true"></div>
-        {Object.keys(groupedMessages)
-          .sort((a, b) => new Date(a) - new Date(b))
-          .map((date) => (
-            <React.Fragment key={date}>
-              <div className="mx-auto my-2 w-fit rounded-md bg-muted px-3 py-1 text-center text-xs leading-normal text-muted-foreground">
-                {formatDateHeader(date)}
-              </div>
-              {groupedMessages[date].map(({ msg, index }) => {
-                const prevMsg = messages[index - 1];
-                const isSent = msg.senderId?._id?.toString() === user?._id || msg.senderId === user?._id;
-                const showAvatar =
-                  index === 0 ||
-                  msg.senderId?._id?.toString() !== prevMsg?.senderId?._id?.toString() ||
-                  msg.senderId !== prevMsg?.senderId ||
-                  (prevMsg && new Date(msg.createdAt).getTime() - new Date(prevMsg.createdAt).getTime() > 5 * 60 * 1000);
-                
-                  const conversationType = activeConversation?.type || (activeConversation?.participants?.length > 2 ? 'group' : 'one-on-one');
-                  const participantCount = activeConversation?.participants?.length || 2;
+      <div ref={listRef} className="flex-1 overflow-y-auto p-4">
+        <div className="flex flex-col gap-3 pb-2">
+          <div ref={topSentinelRef} style={{ height: '1px' }} aria-hidden="true"></div>
+          {Object.keys(groupedMessages)
+            .sort((a, b) => new Date(a) - new Date(b))
+            .map((date) => (
+              <React.Fragment key={date}>
+                <div className="mx-auto my-2 w-fit rounded-md bg-muted px-3 py-1 text-center text-xs leading-normal text-muted-foreground">
+                  {formatDateHeader(date)}
+                </div>
+                {groupedMessages[date].map(({ msg, index }) => {
+                  const prevMsg = messages[index - 1];
+                  const isSent = msg.senderId?._id?.toString() === user?._id || msg.senderId === user?._id;
+                  const showAvatar =
+                    index === 0 ||
+                    msg.senderId?._id?.toString() !== prevMsg?.senderId?._id?.toString() ||
+                    msg.senderId !== prevMsg?.senderId ||
+                    (prevMsg && new Date(msg.createdAt).getTime() - new Date(prevMsg.createdAt).getTime() > 5 * 60 * 1000);
+                  
+                    const conversationType = activeConversation?.type || (activeConversation?.participants?.length > 2 ? 'group' : 'one-on-one');
+                    const participantCount = activeConversation?.participants?.length || 2;
 
-                return (
-                 <MessageItem
-                  key={msg._id}
-                  message={msg}
-                  isSent={isSent}
-                  showAvatar={showAvatar}
-                  conversationParticipantCount={participantCount}
-                  conversationType={conversationType}
-                  currentUserId={currentUserId}
-                  onDeleteMessage={onDeleteMessage}
-                  onOpenMediaViewer={onOpenMediaViewer}
-              />
-                );
-              })}
-            </React.Fragment>
-          ))}
+                  return (
+                   <MessageItem
+                    key={msg._id}
+                    message={msg}
+                    isSent={isSent}
+                    showAvatar={showAvatar}
+                    conversationParticipantCount={participantCount}
+                    conversationType={conversationType}
+                    currentUserId={currentUserId}
+                    onDeleteMessage={onDeleteMessage}
+                    onOpenMediaViewer={onOpenMediaViewer}
+                />
+                  );
+                })}
+              </React.Fragment>
+            ))}
+        </div>
       </div>
     </div>
   );

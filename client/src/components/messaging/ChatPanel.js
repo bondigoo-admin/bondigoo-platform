@@ -41,7 +41,7 @@ const messageKeys = {
   infiniteList: (conversationId) => [...messageKeys.all, 'infiniteList', conversationId],
 };
 
-const ChatPanel = ({ activeConversationId, onConversationDeleted }) => {
+const ChatPanel = ({ activeConversationId, onConversationDeleted, onBack }) => {
   const { t } = useTranslation(['messaging', 'common']);
   const { user } = useAuth();
   const userId = user?._id;
@@ -742,34 +742,43 @@ if (fetchError && messages.length === 0) {
   });
 
 return (
-    <div className="flex h-full flex-col bg-background">
+    <>
+      <div className="flex h-full flex-col bg-background">
         <ChatHeader
             activeConversation={activeConversation}
             onDeleteConversation={handleDeleteConversation}
             isDeleting={deleteConversationMutation.isLoading}
             onOpenGroupInfo={() => handleModalOpen('info')}
+            onBack={onBack}
         />
-        <MessageList
-          messages={messages}
-          isLoading={isFetchLoading && messages.length === 0}
-          fetchNextPage={fetchNextPage}
-          hasNextPage={hasMoreMessages}
-          isFetchingMore={isFetchingOlderMessages}
-          activeConversation={activeConversation}
-          currentUserId={userId}
-          onDeleteMessage={handleDeleteMessage}
-          onOpenMediaViewer={handleOpenMediaViewer}
-        />
-       <div className="flex h-6 items-center px-4">
-       {typingIndicatorText && <span className="text-sm italic text-muted-foreground">{typingIndicatorText}</span>}
-       </div>
-        <MessageInput
-          onSendMessage={handleSendMessage}
-          conversationId={activeConversationId}
-          isSending={sendMessageMutation.isLoading || deleteConversationMutation.isLoading}
-          recipientUserId={recipientUserId}
-          activeConversation={activeConversation}
-        />
+        
+        <div className="relative flex-1 min-h-0">
+            <MessageList
+              messages={messages}
+              isLoading={isFetchLoading && messages.length === 0}
+              fetchNextPage={fetchNextPage}
+              hasNextPage={hasMoreMessages}
+              isFetchingMore={isFetchingOlderMessages}
+              activeConversation={activeConversation}
+              currentUserId={userId}
+              onDeleteMessage={handleDeleteMessage}
+              onOpenMediaViewer={handleOpenMediaViewer}
+            />
+        </div>
+
+        <div>
+           <div className="flex h-6 items-center px-4">
+             {typingIndicatorText && <span className="text-sm italic text-muted-foreground">{typingIndicatorText}</span>}
+           </div>
+           <MessageInput
+              onSendMessage={handleSendMessage}
+              conversationId={activeConversationId}
+              isSending={sendMessageMutation.isLoading || deleteConversationMutation.isLoading}
+              recipientUserId={recipientUserId}
+              activeConversation={activeConversation}
+            />
+        </div>
+      </div>
 
       {activeConversation?.type === 'group' && (
         <>
@@ -891,13 +900,14 @@ return (
           </div>
         </div>
       )}
-    </div>
+    </>
   );
 };
 
 ChatPanel.propTypes = {
   activeConversationId: PropTypes.string,
   onConversationDeleted: PropTypes.func,
+  onBack: PropTypes.func,
 };
 
 export default ChatPanel;

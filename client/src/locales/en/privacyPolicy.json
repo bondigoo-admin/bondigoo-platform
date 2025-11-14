@@ -3,206 +3,206 @@
   "title": "Privacy Policy",
   "preamble": {
     "title": "Our Commitment to Your Privacy",
-    "p1": "This Privacy Policy describes how Nomadik GmbH, Bergstrasse 10, 8712 Stäfa, Switzerland ('Nomadik', 'Platform', 'we', 'us'), as the 'Data Controller', collects, uses, shares, and protects your personal data when you use our Platform.",
-    "p2": "This policy is an integral part of our <1>Terms of Service (TOS)</1>. By using our Services, you agree to the data processing practices described in this policy."
+    "p1": "This Privacy Policy explains how Nomadik GmbH, located at Bergstrasse 10, 8712 Stäfa, Switzerland ('Nomadik', 'Platform', 'we', 'us'), as the 'Data Controller', collects, uses, shares, and protects your personal data when you use our platform.",
+    "p2": "This policy is an integral part of our <1>Terms of Service (TOS)</1>. By using our services, you agree to the data practices described in this policy."
   },
   "chapter1": {
     "title": "1. What Information We Collect",
-    "intro": "To provide and improve our services, we collect various types of information. We strive to collect only the data that is strictly necessary for the respective purpose.",
+    "intro": "To provide and improve our services, we collect various types of information. We're committed to collecting only the data that's absolutely necessary for each specific purpose.",
     "direct": {
-      "title": "1.1. Information You Provide to Us Directly",
-      "p1": "This is data that you actively enter when you interact with our platform.",
+      "title": "1.1. Information You Give Us Directly",
+      "p1": "This is the data you actively provide when you interact with our platform.",
       "list": {
-        "account": "<0>Account Registration:</0> Name, email address, password (securely hashed), role (Client/Coach), and preferred language.",
-        "profile": "<0>Profile Information:</0> Any data you voluntarily add, such as bio, job title, location, interests, profile picture, introduction video, as well as (for Coaches) areas of expertise, qualifications, education, and professional experience.",
-        "financial": "<0>Financial & Billing Information:</0> Billing address, company name, Value Added Tax (VAT) identification number, and other tax-relevant information. We <1>never</1> store your full credit card details. These are securely processed by our payment processor, Stripe, from whom we receive a reference (token).",
-        "communications": "<0>Communications:</0> Content of messages you send via our messaging system, support tickets you create, and reviews you write, including private feedback.",
-        "verification": "<0>Verification Data (for Coaches):</0> Information and documents you submit to verify qualifications or for insurance recognition."
+        "account": "<0>Account Registration:</0> Your name, email address, password (securely hashed), role (Client/Coach), and preferred language.",
+        "profile": "<0>Profile Information:</0> Any details you choose to add, like your bio, job title, location, interests, profile picture, intro video, and for coaches, your specialties, qualifications, education, and professional experience.",
+        "financial": "<0>Financial & Billing Info:</0> Your billing address, company name, VAT ID number, and other tax-related information. We <1>never</1> store your full credit card details. That's all handled securely by our payment processor, Stripe, which just gives us a secure token to reference your payment method.",
+        "communications": "<0>Communications:</0> The content of messages you send through our system, support tickets you create, and reviews you write, including any private feedback.",
+        "verification": "<0>Verification Data (for Coaches):</0> Information and documents you submit to verify your qualifications or insurance recognition."
       }
     },
     "automatic": {
       "title": "1.2. Information We Collect Automatically",
-      "p1": "When you use our Platform, our servers automatically collect certain technical information.",
+      "p1": "When you use our platform, our servers automatically log certain technical information.",
       "list": {
-        "usage": "<0>Usage Data:</0> Information about how you interact with the Platform, e.g., pages visited, features used, search queries, clicks, and time spent on pages.",
-        "log": "<0>Log & Device Data:</0> IP address, browser type, operating system, device IDs, access times, and crash data. We collect your IP address at the time of agreement to our TOS as legal proof.",
-        "cookies": "<0>Cookies & Similar Technologies:</0> We use cookies to ensure the functionality of the Platform, save settings, and analyze usage. Details can be found in our (future) Cookie Policy.",
-        "transaction": "<0>Transaction Metadata:</0> For financial transactions, we collect metadata such as IP address and user-agent for fraud prevention and regulatory compliance."
+        "usage": "<0>Usage Data:</0> Info on how you interact with the platform, like pages you visit, features you use, searches you make, things you click, and how long you spend on pages.",
+        "log": "<0>Log & Device Data:</0> Your IP address, browser type, operating system, device IDs, access times, and crash data. We log your IP address when you agree to our TOS as legal proof of your consent.",
+        "cookies": "<0>Cookies & Similar Tech:</0> We use cookies to make the platform work, remember your settings, and analyze usage. You can find more details in our (future) Cookie Policy.",
+        "transaction": "<0>Transaction Metadata:</0> For financial transactions, we collect metadata like your IP address and user-agent to prevent fraud and comply with regulations."
       }
     },
     "activity": {
-      "title": "1.3. Information Arising from Your Activities on the Platform",
-      "p1": "This is data generated by your specific use of our coaching services.",
+      "title": "1.3. Information Created from Your Activities on the Platform",
+      "p1": "This is data generated from your specific use of our coaching services.",
       "list": {
-        "booking": "<0>Booking & Appointment Data:</0> Start and end times, time zone, status, booked session type, duration, and participating users of a session.",
-        "session": "<0>Interaction Metadata:</0> We collect metadata about interactions within a session, such as the use of the 'raise hand' feature or sending feedback, but not the content of your conversations.",
-        "live": "<0>Live Session Data:</0> For live sessions billed by the minute, we collect the exact start and end time, the billed duration, and technical 'heartbeats' to monitor the connection and ensure correct billing.",
-        "progress": "<0>Learning Progress Data:</0> When you participate in programs, we store your progress, including completed lessons, quiz results, and submitted assignments (texts and files).",
-        "recordings": "<0>Session Recordings:</0> We <1>never</1> store the content (audio/video) of your sessions unless a participant <2>actively</2> initiates a recording and <3>all</3> participants give their <4>explicit consent</4>. In this case, we store the video file, its metadata (duration, size), and proof of the consent given."
+        "booking": "<0>Booking & Session Data:</0> Start and end times, time zone, status, booked session type, duration, and the users involved in a session.",
+        "session": "<0>Interaction Metadata:</0> We collect metadata about what happens in a session, like using the 'raise hand' feature or sending feedback, but not the actual content of your conversations.",
+        "live": "<0>Live Session Data:</0> For live, per-minute sessions, we record the exact start and end times, the billed duration, and technical 'heartbeats' to monitor the connection and ensure accurate billing.",
+        "progress": "<0>Learning Progress Data:</0> When you take part in programs, we save your progress, including completed lessons, quiz scores, and any submitted assignments (text and files).",
+        "recordings": "<0>Session Recordings:</0> We <1>never</1> store the content (audio/video) of your sessions unless a participant <2>actively</2> starts a recording and <3>all</3> participants give their <4>explicit consent</4>. If that happens, we store the video file, its metadata (like duration and size), and a record of the consent given."
       }
     }
   },
   "chapter2": {
     "title": "2. How We Use Your Information",
-    "intro": "Your data is processed exclusively on the basis of legal provisions and for the legitimate purposes set out below.",
+    "intro": "We only process your data based on legal grounds and for the legitimate purposes explained below.",
     "provide": {
       "title": "2.1. To Provide and Operate the Platform",
-      "p1": "The majority of our data processing serves to fulfill our contract with you, namely to provide our coaching platform.",
+      "p1": "Most of our data processing is to fulfill our contract with you—providing our coaching platform.",
       "list": {
-        "accounts": "<0>Account Management:</0> We use your registration and profile data to create, secure, and manage your account.",
-        "facilitate": "<0>Facilitating & Conducting Coaching:</0> We use your profile, booking, and availability data to enable connections between clients and coaches, and to schedule and conduct sessions.",
-        "payments": "<0>Payment Processing:</0> Your financial and booking data is used to process payments to coaches and to invoice clients. This includes calculating prices, discounts, and creating statements.",
-        "access": "<0>Access to Purchased Content:</0> We use your login and learning progress data to ensure you have permanent access to programs you have purchased.",
-        "support": "<0>Customer Support:</0> When you contact us, we use your account information and communication history to process your request and resolve technical issues. This may require administrative access to your account as part of support, as defined in the TOS."
+        "accounts": "<0>Account Management:</0> We use your registration and profile info to create, secure, and manage your account.",
+        "facilitate": "<0>Facilitating & Conducting Coaching:</0> We use your profile, booking, and availability data to connect clients and coaches and to schedule and hold sessions.",
+        "payments": "<0>Payment Processing:</0> Your financial and booking data is used to handle payments to coaches and invoice clients. This includes calculating prices, applying discounts, and creating statements.",
+        "access": "<0>Access to Purchased Content:</0> We use your login and progress data to give you ongoing access to programs you've bought.",
+        "support": "<0>Customer Support:</0> When you contact us, we use your account info and communication history to handle your request and fix technical problems. As part of this, we might need administrative access to your account, as stated in the TOS."
       }
     },
     "improve": {
       "title": "2.2. To Improve and Secure Our Services",
-      "p1": "We have a legitimate interest in continuously improving our platform and protecting it from misuse.",
+      "p1": "We have a legitimate interest in making our platform better and protecting it from misuse.",
       "list": {
-        "analytics": "<0>Analysis & Product Development:</0> We analyze aggregated and anonymized usage data to identify trends, improve user experience, and develop new features.",
-        "security": "<0>Security & Fraud Prevention:</0> We use log and device data, as well as transaction metadata, to detect suspicious activities, review our security measures, and prevent fraud.",
-        "integrity": "<0>Community Integrity:</0> We may review reviews, reports, and communication content to investigate violations of our Community Guidelines and maintain safety and professionalism on the platform."
+        "analytics": "<0>Analysis & Product Development:</0> We analyze aggregated and anonymized usage data to spot trends, improve user experience, and develop new features.",
+        "security": "<0>Security & Fraud Prevention:</0> We use log, device, and transaction metadata to detect suspicious activity, check our security measures, and prevent fraud.",
+        "integrity": "<0>Community Integrity:</0> We may review reviews, reports, and communications to investigate violations of our Community Guidelines and maintain a safe and professional environment on the platform."
       }
     },
     "communicate": {
       "title": "2.3. To Communicate With You",
-      "p1": "We use your contact details to get in touch with you.",
+      "p1": "We use your contact details to stay in touch.",
       "list": {
-        "transactional": "<0>Transactional Notifications:</0> We send you necessary emails and in-app notifications regarding your activities, such as booking confirmations, appointment reminders, or payment receipts.",
-        "administrative": "<0>Administrative Communications:</0> We inform you about important changes to our services, our TOS, or this Privacy Policy.",
-        "marketing": "<0>Marketing & Newsletters:</0> We will only send you marketing emails if you have explicitly consented. You can withdraw your consent at any time via the unsubscribe link in every email or in your account settings."
+        "transactional": "<0>Transactional Notifications:</0> We send you necessary emails and in-app notifications about your activities, like booking confirmations, session reminders, or payment receipts.",
+        "administrative": "<0>Administrative Communications:</0> We'll let you know about important changes to our services, our TOS, or this Privacy Policy.",
+        "marketing": "<0>Marketing & Newsletters:</0> We only send you marketing emails if you've explicitly opted in. You can opt out anytime using the unsubscribe link in every email or in your account settings."
       }
     },
     "legal": {
-      "title": "2.4. To Fulfill Legal and Regulatory Obligations",
-      "p1": "In certain cases, we are legally required to process your data.",
+      "title": "2.4. To Meet Legal and Regulatory Obligations",
+      "p1": "In some cases, we're legally required to process your data.",
       "list": {
-        "invoicing": "<0>Invoicing & Tax Law:</0> We use your billing and transaction data to create legally compliant invoices and tax documents and to fulfill our accounting obligations.",
-        "enforce": "<0>Enforcement of Our Agreements:</0> We may use your data to enforce our TOS and Community Guidelines, including investigating and resolving disputes between users.",
-        "requests": "<0>Governmental Requests:</0> We may disclose data to law enforcement agencies or courts if we are legally required to do so, or to protect the rights and safety of the Platform or third parties."
+        "invoicing": "<0>Invoicing & Tax Law:</0> We use your billing and transaction data to create legally compliant invoices and tax documents and to meet our accounting obligations.",
+        "enforce": "<0>Enforcing Our Agreements:</0> We may use your data to enforce our TOS and Community Guidelines, including investigating and resolving disputes between users.",
+        "requests": "<0>Governmental Requests:</0> We may disclose data to law enforcement or courts if we're legally required to, or to protect the rights and safety of the Platform or third parties."
       }
     }
   },
   "chapter3": {
     "title": "3. How We Share Your Information",
-    "intro": "We do not sell your personal data under any circumstances. Your data is only shared with third parties for the purposes described in this policy and on a valid legal basis.",
+    "intro": "We will never sell your personal data. We only share your data with third parties for the purposes described in this policy and on a valid legal basis.",
     "users": {
       "title": "3.1. Between Users on the Platform",
-      "p1": "The core function of our platform is to connect people. Therefore, certain information is necessarily shared with other users:",
+      "p1": "Our platform's core function is to connect people, so certain information is necessarily shared with other users:",
       "list": {
-        "profile": "<0>Public Profiles:</0> Information you provide in your public profile (e.g., name, profile picture, bio, areas of expertise) is visible to other users to enable an informed choice.",
-        "booking": "<0>During the Booking Process:</0> When a client requests or books a session with a coach, we share the necessary information to conduct the session (e.g., names of participants) between the involved parties.",
-        "communication": "<0>In Communication:</0> When you send messages via the platform, they are visible to the recipient."
+        "profile": "<0>Public Profiles:</0> Information you put on your public profile (like your name, picture, bio, and specialties) is visible to other users to help them make informed choices.",
+        "booking": "<0>During the Booking Process:</0> When a client requests or books a session, we share necessary details (like participant names) between the parties involved.",
+        "communication": "<0>In Communications:</0> When you send messages through the platform, they are visible to the recipient."
       }
     },
     "providers": {
       "title": "3.2. With Our Service Providers (Data Processors)",
-      "p1": "We work with carefully selected third-party providers who process data on our behalf to enable our services. We have Data Processing Agreements (DPAs) with these providers, ensuring they process your data only according to our instructions and in compliance with strict security standards.",
+      "p1": "We work with carefully chosen third-party providers who process data on our behalf to make our services possible. We have Data Processing Agreements (DPAs) with them to ensure they handle your data only as we instruct and with strict security standards.",
       "list": {
         "payments": "<0>Payment Processing:</0> We share your billing and transaction data with <1>Stripe, Inc.</1> to securely process payments, manage payouts, prevent fraud, and create invoices.",
-        "hosting": "<0>Cloud Hosting & Storage:</0> Our platform and your data, including uploaded files and optional session recordings, are hosted on the infrastructure of leading cloud providers like <1>Amazon Web Services (AWS)</1> or <3>Google Cloud Platform (GCP)</3>.",
-        "files": "<0>File & Media Storage:</0> For storing, processing, and delivering profile pictures, videos, and program materials, we use the services of <1>Cloudinary, Ltd</1>.",
+        "hosting": "<0>Cloud Hosting & Storage:</0> Our platform and your data, including uploaded files and optional recordings, are hosted on the infrastructure of top cloud providers like <1>Amazon Web Services (AWS)</1> or <3>Google Cloud Platform (GCP)</3>.",
+        "files": "<0>File & Media Storage:</0> We use services like <1>Cloudinary, Ltd</1> for storing, processing, and delivering profile pictures, videos, and program materials.",
         "communication": "<0>Communication Services:</0> We use specialized providers like <1>Postmark</1> (for transactional emails) or <3>Twilio</3> (for SMS notifications) to communicate with you.",
-        "analytics": "<0>Analytics Tools:</0> We may share aggregated and anonymized usage data with analytics services like <1>Google Analytics</1> or <3>Plausible Analytics</3> to understand the usage of our platform.",
-        "queues": "<0>Background Processing:</0> We use services like <1>Redis</1> to manage background tasks (e.g., notifications, billing cycles) that require processing of task-related data."
+        "analytics": "<0>Analytics Tools:</0> We may share aggregated and anonymized usage data with analytics services like <1>Google Analytics</1> or <3>Plausible Analytics</3> to understand how our platform is used.",
+        "queues": "<0>Background Processing:</0> We use services like <1>Redis</1> to manage background tasks (like sending notifications or running billing cycles) that require processing task-related data."
       }
     },
     "legal": {
       "title": "3.3. For Legal Reasons and Protection",
-      "p1": "We may share information about you if we believe in good faith that it is reasonably necessary to:",
+      "p1": "We may share your information if we have a good-faith belief that it's reasonably necessary to:",
       "list": {
-        "compliance": "comply with a legal obligation, a court order, or an enforceable governmental request.",
-        "enforce": "enforce our Terms of Service and other agreements, including the investigation of potential violations.",
+        "compliance": "comply with a legal obligation, court order, or enforceable government request.",
+        "enforce": "enforce our Terms of Service and other agreements, including investigating potential violations.",
         "security": "detect, prevent, or otherwise address security threats, fraud, or technical issues.",
-        "protect": "protect the rights, property, or safety of Nomadik GmbH, our users, or the public from imminent harm."
+        "protect": "protect the rights, property, or safety of Nomadik GmbH, our users, or the public from harm."
       }
     },
     "transfer": {
       "title": "3.4. In Case of a Business Transfer",
-      "p1": "In the event of a merger, acquisition, reorganization, bankruptcy, or sale of all or a portion of our assets, your data may be transferred to a successor entity as part of that transaction. We will notify you of such an event and give you the opportunity to object to the transfer of your data."
+      "p1": "If we're involved in a merger, acquisition, reorganization, bankruptcy, or sale of all or some of our assets, your data may be transferred to a successor entity. We will notify you of such an event and give you a chance to object to the transfer of your data."
     }
   },
   "chapter4": {
     "title": "4. Your Data Protection Rights & Choices",
-    "intro": "We recognize and respect your rights regarding your personal data. Depending on the applicable laws, you have the following rights:",
+    "intro": "We recognize and respect your rights regarding your personal data. Depending on applicable laws, you have the following rights:",
     "access": {
       "title": "4.1. Right to Access",
-      "p1": "You have the right to request confirmation as to whether we process personal data about you and to receive a copy of that data."
+      "p1": "You have the right to ask for confirmation if we are processing your personal data and to get a copy of that data."
     },
     "rectification": {
       "title": "4.2. Right to Rectification",
-      "p1": "If the data stored about you is inaccurate or incomplete, you have the right to request its correction. You can edit most of your profile data directly in your account settings."
+      "p1": "If your data is inaccurate or incomplete, you have the right to have it corrected. You can edit most of your profile data directly in your account settings."
     },
     "erasure": {
       "title": "4.3. Right to Erasure ('Right to be Forgotten')",
-      "p1": "You have the right to request the deletion of your personal data. You can initiate this process through your account settings. Please note that we cannot comply with this request in all cases.",
-      "p2": "<0>Important Limitation:</0> We are legally obligated to retain certain data for a prescribed period even after your account is deleted. This particularly applies to transaction data, invoices, and tax-relevant documents (usually for 10 years according to the Swiss Code of Obligations). After account deletion, this data will be blocked and used only to fulfill these legal obligations."
+      "p1": "You have the right to request the deletion of your personal data. You can start this process from your account settings. Please note that we can't always fulfill this request completely.",
+      "p2": "<0>Important Limitation:</0> We are legally required to keep certain data for a specific period even after you delete your account. This mainly applies to transaction data, invoices, and tax-related documents (usually for 10 years under Swiss law). After your account is deleted, this data is locked down and only used to meet these legal duties."
     },
     "portability": {
       "title": "4.4. Right to Data Portability",
-      "p1": "You have the right to receive the personal data you have provided to us in a structured, commonly used, and machine-readable format and to transmit this data to another controller."
+      "p1": "You have the right to receive the personal data you've provided to us in a structured, commonly used, and machine-readable format and to have it transferred to another controller."
     },
     "objection": {
       "title": "4.5. Right to Object",
-      "p1": "You have the right to object to the processing of your personal data based on our legitimate interests. In particular, you can object to the use of your data for marketing purposes at any time by using the unsubscribe link in our emails or adjusting your notification settings."
+      "p1": "You have the right to object to us processing your personal data based on our legitimate interests. In particular, you can object to the use of your data for marketing at any time by using the unsubscribe link in our emails or by changing your notification settings."
     },
     "restriction": {
       "title": "4.6. Right to Restriction of Processing",
-      "p1": "Under certain conditions, you can request the restriction of the processing of your data, for example, while we are verifying the accuracy of your data."
+      "p1": "Under certain conditions, you can request that we restrict the processing of your data, for instance, while we're verifying its accuracy."
     },
     "exercise": {
       "title": "4.7. Exercising Your Rights",
-      "p1": "To exercise any of your rights, please contact us at the email address provided in Chapter 7. To prevent misuse, we may require proof of identity before processing your request."
+      "p1": "To exercise any of your rights, please contact us at the email address provided in Chapter 7. To prevent misuse, we might ask for proof of identity before we process your request."
     },
     "complaint": {
       "title": "4.8. Right to Lodge a Complaint",
-      "p1": "If you believe that the processing of your personal data violates data protection law, you have the right to lodge a complaint with the competent supervisory authority. In Switzerland, this is the Federal Data Protection and Information Commissioner (FDPIC)."
+      "p1": "If you believe that our processing of your personal data violates data protection law, you have the right to file a complaint with the relevant supervisory authority. In Switzerland, this is the Federal Data Protection and Information Commissioner (FDPIC)."
     }
   },
   "chapter5": {
     "title": "5. Data Security & International Transfers",
-    "intro": "The protection of your data is our highest priority. We take comprehensive technical and organizational measures to protect your data from unauthorized access, loss, destruction, or alteration.",
+    "intro": "Protecting your data is our top priority. We take comprehensive technical and organizational measures to safeguard your data against unauthorized access, loss, destruction, or alteration.",
     "security": {
       "title": "5.1. Our Security Measures",
-      "p1": "Although no online transmission or electronic storage is 100% secure, we use industry-standard practices to ensure the security of your data. Our measures include, but are not limited to:",
+      "p1": "While no online transmission or electronic storage is 100% secure, we use industry-standard practices to keep your data safe. Our measures include:",
       "list": {
-        "encryption": "<0>Encryption:</0> We encrypt sensitive data both in transit (using TLS/SSL) and at rest. Particularly sensitive communication content is additionally encrypted at the application level.",
-        "access": "<0>Access Controls:</0> Access to personal data is restricted to employees and contractors who absolutely need this information to perform their duties and are subject to strict confidentiality obligations.",
-        "audits": "<0>Regular Reviews:</0> We regularly review our data collection, storage, and processing practices, as well as our physical security measures, to protect against unauthorized access to our systems.",
-        "payments": "<0>Secure Payment Processing:</0> All payment processing is handled by our PCI-DSS certified partner, Stripe. We do not store full credit card numbers on our servers."
+        "encryption": "<0>Encryption:</0> We encrypt sensitive data both in transit (using TLS/SSL) and at rest. Especially sensitive communications are also encrypted at the application level.",
+        "access": "<0>Access Controls:</0> Access to personal data is limited to employees and contractors who absolutely need it for their jobs and are bound by strict confidentiality obligations.",
+        "audits": "<0>Regular Reviews:</0> We regularly review our data collection, storage, and processing practices, as well as our physical security measures, to guard against unauthorized access to our systems.",
+        "payments": "<0>Secure Payment Processing:</0> All payments are handled through our PCI-DSS certified partner, Stripe. We don't store full credit card numbers on our servers."
       }
     },
     "transfers": {
       "title": "5.2. International Data Transfers",
-      "p1": "Our platform operates on a global infrastructure. This means that your personal data may be transferred to and processed in countries outside of Switzerland and the European Union (EU) / European Economic Area (EEA), where our service providers (see Chapter 3.2) are located.",
-      "p2": "Such transfers only occur if an adequate level of data protection is guaranteed. We rely on:",
+      "p1": "Our platform operates on a global infrastructure. This means your personal data may be transferred to and processed in countries outside of Switzerland and the European Union (EU) / European Economic Area (EEA), where our service providers (see Chapter 3.2) are located.",
+      "p2": "These transfers only happen when an adequate level of data protection is ensured. We rely on:",
       "list": {
-        "adequacy": "<0>Adequacy Decisions:</0> Transfers to countries for which the European Commission or the Swiss Federal Council has recognized an adequate level of data protection.",
-        "scc": "<0>Standard Contractual Clauses (SCCs):</0> For transfers to other countries (such as the USA), we conclude the Standard Contractual Clauses approved by the European Commission and adapted for Switzerland with our service providers. These clauses contractually oblige the data recipient to comply with European and Swiss data protection standards."
+        "adequacy": "<0>Adequacy Decisions:</0> Transfers to countries that the European Commission or the Swiss Federal Council has recognized as having an adequate level of data protection.",
+        "scc": "<0>Standard Contractual Clauses (SCCs):</0> For transfers to other countries (like the USA), we use the Standard Contractual Clauses approved by the European Commission and adapted for Switzerland with our service providers. These clauses contractually bind the data recipient to comply with European and Swiss data protection standards."
       },
       "p3": "By using our services, you consent to these necessary international data transfers."
     }
   },
   "chapter6": {
     "title": "6. Data Storage and Retention Periods",
-    "intro": "We store your personal data only as long as necessary to fulfill the purposes for which it was collected, to meet our contractual and legal obligations, or as long as we have a legitimate interest in storing it.",
+    "intro": "We only store your personal data for as long as it's needed to fulfill the purposes for which it was collected, to meet our contractual and legal obligations, or as long as we have a legitimate interest in storing it.",
     "account": {
-      "title": "6.1. Data During Account Lifetime",
-      "p1": "As long as you maintain an active account with us, we retain the data necessary for providing the services and managing your account (e.g., your profile information, booking history, learning progress)."
+      "title": "6.1. Data During Your Account's Lifetime",
+      "p1": "As long as you have an active account with us, we keep the data needed to provide the services and manage your account (e.g., your profile info, booking history, learning progress)."
     },
     "retention": {
       "title": "6.2. Data After Account Deletion",
-      "p1": "After you request the deletion of your account, we will handle your data as follows:",
+      "p1": "After you request to delete your account, we will handle your data as follows:",
       "list": {
-        "immediate": "<0>Immediate Anonymization/Deletion:</0> Data that is not subject to retention requirements, such as your profile picture, bio, IP logs, and most usage data, will be promptly deleted or irreversibly anonymized.",
-        "legal": "<0>Legal Retention Periods:</0> Data relevant to our business and tax records (especially invoices, transaction receipts, and related communication logs) must be retained for a period of <1>ten (10) years</1> according to the Swiss Code of Obligations. After account deletion, this data is blocked for normal operation and is only accessible for audit and compliance purposes.",
-        "content": "<0>Purchased Content:</0> According to our TOS, clients who have purchased your programs retain access to this content even after your coach account is deleted. The content itself will therefore remain stored on the platform."
+        "immediate": "<0>Immediate Anonymization/Deletion:</0> Data that we're not required to keep, like your profile picture, bio, IP logs, and most usage data, will be promptly deleted or irreversibly anonymized.",
+        "legal": "<0>Legal Retention Periods:</0> Data relevant to our business and tax records (especially invoices, transaction receipts, and related communication logs) must be kept for <1>ten (10) years</1> according to the Swiss Code of Obligations. After account deletion, this data is locked for normal operations and is only accessible for audit and compliance purposes.",
+        "content": "<0>Purchased Content:</0> As per our TOS, clients who bought your programs will keep access to them even after your coach account is deleted. Therefore, the content itself remains stored on the platform."
       }
     },
     "backups": {
       "title": "6.3. Data in Backups",
-      "p1": "Deleted data may remain in our backup archives for a limited period until they are overwritten. These backups are locked for operational use and are not used to restore individual data."
+      "p1": "Deleted data may remain in our backup archives for a limited time until they are overwritten. These backups are locked for operational use and aren't used for restoring individual data."
     }
   },
   "chapter7": {
@@ -210,11 +210,11 @@
     "intro": "",
     "updates": {
       "title": "7.1. Changes to This Privacy Policy",
-      "p1": "We reserve the right to change this Privacy Policy at any time to adapt it to new legal requirements or changes in our services. The most current version will be published on our platform. In case of material changes, we will inform you in a timely manner via the email address you have provided or through a prominent notice on the platform."
+      "p1": "We reserve the right to change this Privacy Policy at any time to adapt to new legal requirements or changes in our services. The current version will always be available on our platform. For significant changes, we will notify you in advance via your registered email address or through a prominent notice on the platform."
     },
     "contact": {
       "title": "7.2. Contact Information",
-      "p1": "If you have questions about data protection, wish to exercise your rights, or have concerns about your data, please contact our Data Protection Officer:",
+      "p1": "If you have questions about data protection, want to exercise your rights, or have concerns about your data, please contact our Data Protection Officer:",
       "list": {
         "company": "Nomadik GmbH",
         "department": "Attn: Data Protection Officer",

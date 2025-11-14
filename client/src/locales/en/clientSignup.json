@@ -59,5 +59,10 @@
   "toasts.error.api": "API Error: {{message}}",
   "step2.terms.label": "I have read, understood, and agree to the <tos>Terms of Service</tos>, the <privacy>Privacy Policy</privacy>, and the <community>Community Guidelines</community>.",
   "loginPrompt.text": "Already have an account?",
-  "loginPrompt.link": "Log in"
+  "loginPrompt.link": "Log in",
+  "signupPrompt.subtitle": "Get started in less than 30 seconds.",
+  "dateOfBirth.label": "Date of Birth",
+  "errors.dateOfBirth.required": "Date of birth is required.",
+  "errors.dateOfBirth.underage": "You must be at least 18 years old.",
+  "marketing.label": "I want to receive promotional emails and newsletters."
 }

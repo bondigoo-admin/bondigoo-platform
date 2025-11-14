@@ -276,17 +276,18 @@ const handleClose = () => {
     </div>
 </div>
 
-
-       <DialogFooter>
-    <Button variant="outline" onClick={handleClose}>{t('common:cancel')}</Button>
+<DialogFooter className="mt-4">
+    <Button variant="outline" onClick={handleClose} className="w-full sm:w-auto">{t('common:cancel')}</Button>
     <Button
         onClick={handleCreate}
         disabled={createGroupMutation.isLoading || selectedRecipients.length === 0 || (selectedRecipients.length > 1 && !groupName.trim())}
+        className="w-full sm:w-auto"
     >
         {createGroupMutation.isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
         {selectedRecipients.length > 1 ? t('messaging:createGroupButton', 'Create Group') : t('messaging:startChatButton', 'Start Chat')}
     </Button>
 </DialogFooter>
+
       </DialogContent>
     </Dialog>
   );
