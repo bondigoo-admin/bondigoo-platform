@@ -141,39 +141,41 @@ const PreLaunchHome = () => {
         setIsCoachModalOpen(true);
     };
 
-    return (
-        <div className="flex flex-col min-w-0 bg-transparent overflow-hidden overflow-x-hidden">
+ return (
+        <>
             <LaunchSignupModal isOpen={isSignupModalOpen} onOpenChange={setIsSignupModalOpen} onApplyCoachClick={handleApplyCoachClick} />
             <CoachApplicationModal isOpen={isCoachModalOpen} onOpenChange={setIsCoachModalOpen} onSuccess={() => setIsCoachModalOpen(false)} />
+            
             <motion.section 
-                id="prelaunch-hero" 
-                className="relative text-center text-primary-foreground dark:text-foreground overflow-hidden bg-gradient-animated bg-size-400"
+                id="prelaunch-hero"
+                className="relative overflow-hidden text-center text-primary-foreground dark:text-foreground bg-gradient-animated bg-size-400"
                 variants={gradientAnimation}
                 initial="initial"
                 whileInView="animate"
                 viewport={{ once: true }}
               >
                 <div className="relative isolate container mx-auto px-4 py-32 sm:py-40 lg:py-72">
-                    <motion.div className="mx-auto max-w-4xl" initial="hidden" animate={mounted ? "visible" : "hidden"} variants={staggerChildren}>
-                        <motion.div className="mb-8 flex flex-col gap-1" variants={fadeInUp}>
-                            <h1 className="text-4xl font-bold leading-tight tracking-tight sm:text-5xl lg:text-6xl">{t('hero.mainTitle.line1')}</h1>
-                            <h1 className="text-4xl font-bold leading-tight tracking-tight sm:text-5xl lg:text-6xl">{t('hero.mainTitle.line2')}</h1>
-                            <h1 className="text-4xl font-bold leading-tight tracking-tight sm:text-5xl lg:text-6xl">{t('hero.mainTitle.line3')}</h1>
+                        <motion.div className="mx-auto max-w-4xl" initial="hidden" animate={mounted ? "visible" : "hidden"} variants={staggerChildren}>
+                            <motion.div className="mb-8 flex flex-col gap-1" variants={fadeInUp}>
+                                <h1 className="text-4xl font-bold leading-tight tracking-tight sm:text-5xl lg:text-6xl">{t('hero.mainTitle.line1')}</h1>
+                                <h1 className="text-4xl font-bold leading-tight tracking-tight sm:text-5xl lg:text-6xl">{t('hero.mainTitle.line2')}</h1>
+                                <h1 className="text-4xl font-bold leading-tight tracking-tight sm:text-5xl lg:text-6xl">{t('hero.mainTitle.line3')}</h1>
+                            </motion.div>
+                            <motion.div variants={fadeInUp} className="mx-auto mt-6 max-w-3xl">
+                                <p className="text-xl leading-8 sm:text-2xl">{t('hero.subheading.main')}</p>
+                                <p className="text-xl leading-8 sm:text-2xl">{t('hero.subheading.support')}</p>
+                            </motion.div>
+                            <motion.div className="mt-10 flex items-center justify-center" variants={fadeInUp}>
+                                <Button size="lg" variant="hero" onClick={() => setIsSignupModalOpen(true)}>
+                                    {t('prelaunch.hero.mainCta', 'Join Our Launch')}
+                                </Button>
+                            </motion.div>
                         </motion.div>
-                        <motion.div variants={fadeInUp} className="mx-auto mt-6 max-w-3xl">
-                            <p className="text-xl leading-8 sm:text-2xl">{t('hero.subheading.main')}</p>
-                            <p className="text-xl leading-8 sm:text-2xl">{t('hero.subheading.support')}</p>
-                        </motion.div>
-                        <motion.div className="mt-10 flex items-center justify-center" variants={fadeInUp}>
-                            <Button size="lg" variant="hero" onClick={() => setIsSignupModalOpen(true)}>
-                                {t('prelaunch.hero.mainCta', 'Join Our Launch')}
-                            </Button>
-                        </motion.div>
-                    </motion.div>
-                </div>
-            </motion.section>
+                    </div>
+                </motion.section>
             
-            <div className="-mt-[100px] sm:-mt-[150px] lg:-mt-[200px] relative z-10">
+            
+             <div className="-mt-[100px] sm:-mt-[150px] lg:-mt-[200px] relative z-10">
                 <ShapeDivider variants={fadeInUp} />
             </div>
 
@@ -192,11 +194,9 @@ const PreLaunchHome = () => {
                             <PreLaunchFeatureCard icon={<Users />} title={t('features.cards.clientManagement.title')} description={t('features.cards.clientManagement.description')} />
                         </motion.div>
                     </div>
-                </motion.section>
-
-                
+              </motion.section>
             </div>
-        </div>
+        </>
     );
 };
 

@@ -245,6 +245,50 @@ const AppContent = () => {
 
   const isLaunched = process.env.REACT_APP_LAUNCHED === 'true';
 
+  if (!isLaunched) {
+    return (
+      <div className="bg-background overflow-x-hidden min-h-dvh flex flex-col">
+        <Header />
+        <main className="flex-1">
+          <Suspense fallback={<div className="flex h-screen w-full items-center justify-center"><Loader2 className="w-8 h-8 animate-spin" /></div>}>
+            <Routes>
+              <Route element={<PublicLayout />}>
+                <Route path="/" element={<Home />} />
+                <Route path="/how-it-works" element={<HowItWorks />} /> 
+                <Route path="/community-guidelines" element={<CommunityGuidelinesPage />} />
+                <Route path="/terms-of-service" element={<TermsOfServicePage />} />
+                <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+                <Route path="/apply-coach" element={<CoachApplicationPage />} />
+                <Route path="*" element={<Navigate to="/" replace />} />
+              </Route>
+            </Routes>
+          </Suspense>
+        </main>
+        <footer>
+          <SubFooter />
+        </footer>
+        <Toaster
+          position="top-center"
+          containerStyle={{
+            top: '80px',
+          }}
+          toastOptions={{
+            duration: 5000,
+            style: {
+              background: '#ffffff',
+              color: '#333333',
+              padding: '16px',
+              borderRadius: '8px',
+              boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+              minWidth: '300px',
+              maxWidth: '500px',
+            },
+          }}
+        />
+      </div>
+    );
+  }
+
 const excludedFooterPrefixes = [
     '/admin',
     '/video-conference',
@@ -258,7 +302,6 @@ const excludedFooterPrefixes = [
   const canShowFooter = !excludedFooterPrefixes.some(prefix => location.pathname.startsWith(prefix)) && !location.pathname.includes('/setup');
   const isFooterExcluded = !canShowFooter;
 
-
 return (
       <div className="grid grid-rows-[auto_1fr_auto] min-h-dvh bg-gradient-subtle overflow-x-hidden">
         <header className="sticky top-0 z-50">
@@ -267,7 +310,7 @@ return (
           <Header />
         </header>
 
-       <main className="flex-1 min-w-0 flex flex-col relative pb-20 lg:pb-0">
+       <main className="flex-1 overflow-y-auto relative">
           <LiveSessionRequestModal
             isOpen={incomingRequests.length > 0}
             requests={incomingRequests}

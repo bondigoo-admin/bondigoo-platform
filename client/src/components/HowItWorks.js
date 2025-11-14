@@ -104,7 +104,7 @@ const HowItWorks = () => {
   logger.info('[HowItWorks] Rendering page with active userType:', userType);
 
 return (
-    <div className="bg-gradient-subtle text-foreground overflow-x-hidden">
+    <div className="bg-gradient-subtle text-foreground">
      {!isLaunched && (
           <Link to="/" className="absolute top-3 left-4 md:left-6 z-50">
             <img src={logoWhite} alt="Bondigoo Logo" className="h-10 w-auto" />
