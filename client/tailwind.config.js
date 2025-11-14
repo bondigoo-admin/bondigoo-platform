@@ -94,6 +94,17 @@ module.exports = {
       },
       spacing: {
         'header-height': 'var(--header-height, 65px)',
+        'safe-bottom': 'var(--safe-area-inset-bottom)',
+      },
+        minHeight: {
+        'dvh': '100dvh',
+        'dvh-plus': 'calc(100dvh + 1px)',
+      },
+      height: {
+        'dvh': '100dvh',
+      },
+      maxHeight: {
+        'dvh': '100dvh',
       },
       backgroundImage: {
         'gradient-primary': 'linear-gradient(135deg, hsl(var(--gradient-primary-from)), hsl(var(--gradient-primary-to)))',

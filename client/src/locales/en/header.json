@@ -1,5 +1,5 @@
 {
-  "logo": "CoachConnect",
+  "logo": "bondigoo",
   "dashboard": "Dashboard",
   "search": "Search",
   "upcomingSessions": "Upcoming Sessions",
@@ -14,12 +14,49 @@
   "adminDashboard": "Admin Dashboard",
   "logout": "Logout",
   "manageSessions": "Manage Sessions",
-  "findCoaches": "Find Coaches",
-  "login": "Login",
+  "findCoaches": "Find a Coach",
+  "login": "Log In",
   "toggleMenu": "Toggle menu",
   "help": "Help",
   "more": "More",
-   "calendar": "Calendar",
   "referralSystem": "Referral System",
-    "connections": "Connections"
+  "connections": "Connections",
+  "calendar": "Calendar",
+  "light": "Light",
+  "dark": "Dark",
+  "system": "System",
+  "user": "User",
+  "theme": "Theme",
+  "billing": "Billing & Payments",
+  "earnings": "Earnings",
+  "menu": {
+    "title": "Menu",
+    "description": "A list of links to navigate the site."
+  },
+  "typeLabels": {
+    "navigation": "Navigation"
+  },
+  "placeholder": "Search...",
+  "loading": "Loading...",
+  "noResults": "No results found for '{{query}}'.",
+  "prompt": "Start typing to search.",
+  "groupHeadings": {
+    "recent": "Recent Searches",
+    "connections": "Your Connections",
+    "bookings": "Your Bookings",
+    "coaches": "Coaches",
+    "users": "Users",
+    "programs": "Programs",
+    "navigation": "Navigation"
+  },
+  "details": {
+    "yourConnection": "Your Connection",
+    "bookingOnDate": "Booking on {{date}}",
+    "byCoach": "By {{name}}",
+    "userRoleLabel": "User"
+  },
+  "toggleTheme": "Toggle theme",
+  "register": "Register",
+  "howItWorks": "How it works",
+  "language": "Language"
 }

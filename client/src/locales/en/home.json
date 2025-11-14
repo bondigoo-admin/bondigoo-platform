@@ -5,11 +5,16 @@
       "line2": "Our Coaches.",
       "line3": "Limitless Possibilities."
     },
-    "subheading": "Unlock Your Hidden Potential with Expert Guidance",
+    "subheading": {
+      "main": "Live Sessions, Scheduled Appointments, On-Demand Programs",
+      "support": "- and much more, coming January 2026!"
+    },
     "buttons": {
       "beginJourney": "Begin Your Journey",
       "becomeCoach": "Become a Coach",
-      "exploreCoaches": "Explore Our Coaches"
+      "exploreCoaches": "Explore Our Coaches",
+      "goToDashboard": "Go to Dashboard",
+      "myProfile": "My Profile"
     }
   },
   "journey": {
@@ -17,7 +22,7 @@
     "client": {
       "title": "For Clients",
       "items": {
-        "connect": "Connect with expert coaches",
+        "connect": "Find your guide",
         "goals": "Set and achieve your goals",
         "sessions": "Attend personalized sessions",
         "progress": "Track your progress"
@@ -35,9 +40,69 @@
       "cta": "Apply as a Coach"
     }
   },
+  "coachFinder": {
+    "title": "Find the right coach for you.",
+    "placeholder": "Search by name, specialty, or keyword...",
+    "button": "Search Coaches"
+  },
+  "featured_programs_title": "Featured Programs",
+  "featured_programs_subtitle": "Discover our most popular programs and start your learning journey.",
+  "view_all_programs": "View All Programs",
+  "programs": {
+    "title": "A new way to grow: Coaching Programs",
+    "subtitle": "Go beyond live sessions with structured, on-demand programs created by our community. Learn at your own pace, anytime, anywhere.",
+    "cta": "All Programs",
+    "byCoach": "by {{coach}}",
+    "preview": {
+      "card1": {
+        "title": "Mindful Leadership in the Hybrid Workplace",
+        "coach": "Jane Smith"
+      },
+      "card2": {
+        "title": "Unleash Your Productivity Potential",
+        "coach": "John Doe"
+      },
+      "card3": {
+        "title": "Confident Communication for Creatives",
+        "coach": "Alice Brown"
+      }
+    }
+  },
   "features": {
-    "title": "Empowering Your Success",
+    "title": "A Platform for Every Step of Your Journey",
     "cards": {
+      "liveSessions": {
+        "title": "On-Demand Live Sessions",
+        "description": "Instantly connect with available coaches for real-time video coaching, billed by the minute."
+      },
+      "coachingPrograms": {
+        "title": "Scalable Coaching Programs",
+        "description": "Create or take digital courses at your own pace, with videos, text, and interactive presentations."
+      },
+      "scheduling": {
+        "title": "Modern Scheduling",
+        "description": "Manage your availability and book sessions through a powerful and intuitive calendar interface."
+      },
+      "payments": {
+        "title": "Secure Global Payments",
+        "description": "Experience seamless, secure transactions and compliant invoicing for all services, powered by Stripe."
+      },
+      "messaging": {
+        "title": "Integrated Messaging",
+        "description": "Stay in touch with your connected coaches and clients through direct real-time chat."
+      },
+      "coachDashboard": {
+        "title": "Coach Mission Control",
+        "description": "Get a complete overview of your business with a powerful dashboard, analytics, and client management tools."
+      },
+      "interactiveLearning": {
+        "title": "Interactive Learning Tools",
+        "description": "Use unique lesson formats, including narrated presentations where you can take notes per slide."
+      },
+      "clientManagement": {
+        "title": "Client Relationship Hub",
+        "description": "Coaches manage their client connections, view session history, and keep private notes in a lightweight CRM."
+      },
       "videoSessions": {
         "title": "Video Sessions",
         "description": "High-quality, secure video calls for seamless coaching"
@@ -54,17 +119,9 @@
         "title": "Progress Tracking",
         "description": "Visualize your growth with intuitive analytics"
       },
-      "scheduling": {
-        "title": "Smart Scheduling",
-        "description": "Effortlessly manage your appointments"
-      },
       "security": {
         "title": "Secure Platform",
         "description": "Your data and sessions are protected with top-notch security"
-      },
-      "payments": {
-        "title": "Secure Payments",
-        "description": "Hassle-free, protected transactions for peace of mind"
       },
       "community": {
         "title": "Community Forums",
@@ -72,8 +129,190 @@
       }
     }
   },
+  "testimonials": {
+    "title": "Success Stories That Inspire",
+    "cards": {
+      "card1": {
+        "quote": "CoachConnect completely transformed my career. My coach guided me exactly where I wanted to go!",
+        "author": "Sarah L., Marketing Leader",
+        "role": "Client"
+      },
+      "card2": {
+        "quote": "As a coach, CoachConnect has expanded my reach. I now work with clients globally, making a bigger impact.",
+        "author": "James R., Business Coach",
+        "role": "Coach"
+      },
+      "card3": {
+        "quote": "The progress tracking tools kept me motivated. I achieved my fitness goals faster than I ever thought possible.",
+        "author": "Emily T., Fitness Enthusiast",
+        "role": "Client"
+      }
+    }
+  },
+  "featuredCoaches": {
+    "title": "Discover Inspiring Coaches",
+    "subtitle": "People sharing their experiences to guide you on your journey.",
+    "exploreAll": "All Coaches"
+  },
+  "finalCta": {
+    "title": "Ready to Write Your Success Story?",
+    "subtitle": "Join thousands who have already taken the first step towards their goals.",
+    "buttons": {
+      "client": "Get Started as a Client",
+      "coach": "Apply as a Coach"
+    },
+    "form": {
+      "success": "Thank you! We'll be in touch.",
+      "error": "An error occurred. Please try again.",
+      "emailPlaceholder": "Enter your email address",
+      "privacyIntro": "I agree to the ",
+      "privacyLink": "Privacy Policy",
+      "submitting": "Submitting...",
+      "ctaCoach": "Apply for Early Access",
+      "ctaClient": "Get Notified at Launch"
+    }
+  },
+  "howItWorksSummary": {
+    "title": "Your Success Has a Partner",
+    "subtitle": "We've simplified the path to personal and professional growth. Follow these clear steps to begin your transformative journey with the right partner by your side.",
+    "cta": "How It Works in Detail",
+    "steps": {
+      "step1": {
+        "title": "Sign Up",
+        "description": "Create your secure account in just a few clicks."
+      },
+      "step2": {
+        "title": "Find a Coach",
+        "description": "Browse profiles or use our matching tool to find the perfect fit."
+      },
+      "step3": {
+        "title": "Grow and Learn",
+        "description": "Start your journey with on-demand programs, scheduled appointments, or live sessions."
+      }
+    }
+  },
+  "prelaunch": {
+    "hero": {
+      "mainCta": "Be there for the launch"
+    },
+    "problem": {
+      "title": "End the tool chaos.",
+      "subtitle": "You're a coach, not an admin. Yet you juggle tools for calls, scheduling, messaging, and payments. It's time for a professional, all-in-one solution."
+    },
+    "solution": {
+      "col1": {
+        "title": "Live, Scheduled & On-Demand",
+        "desc": "Connect instantly with live per-minute sessions, schedule 1-on-1 appointments, or sell scalable digital programs."
+      },
+      "col2": {
+        "title": "Automated Finances",
+        "desc": "We handle invoicing, tax compliance, and automated payouts. You focus on coaching."
+      },
+      "col3": {
+        "title": "Your Command Center",
+        "desc": "Manage clients, analyze your earnings, and control your schedule from a single, powerful dashboard."
+      }
+    },
+    "cta": {
+      "coach": {
+        "title": "Want to be a founding coach?",
+        "desc": "Become part of our founding community and actively shape the future of the platform."
+      },
+      "client": {
+        "title": "Looking for coaches?",
+        "desc": "Be the first to know when our platform goes live."
+      }
+    }
+  },
   "howItWorks": {
     "title": "Your Success Has a Partner",
+    "hero": {
+      "title": "Your Path to Transformation, Simplified.",
+      "subtitle": "Whether you're seeking support or sharing your expertise—here's your clear path to success. Choose your role to begin."
+    },
+    "toggle": {
+      "client": "I'm looking for a coach",
+      "coach": "I am a coach"
+    },
+    "client": {
+      "step1": {
+        "title": "Find the right person for your path.",
+        "description": "Don't just find any coach—find your coach. Use our filtered directories to search by specialty, language, learning goals, and more. View detailed profiles, watch video intros, and read verified reviews to find the perfect match for you."
+      },
+      "step2": {
+        "title": "Connect how you want. Instantly or on schedule.",
+        "card1": {
+          "title": "Instant Support",
+          "description": "Feeling stuck? Instantly connect with an available coach for a live, per-minute session. Get the help you need, right when you need it."
+        },
+        "card2": {
+          "title": "Schedule Your Growth",
+          "description": "Book one-on-one sessions or webinars with ease. See your coach's real-time availability and find a time that fits perfectly into your life."
+        },
+        "card3": {
+          "title": "Learn at Your Pace",
+          "description": "Enroll in structured programs created by your favorite coaches. Access videos, documents, and tasks anytime, anywhere."
+        }
+      },
+      "step3": {
+        "title": "Your Personal Progress Dashboard.",
+        "description": "Your journey is centralized on your personal dashboard. Easily manage upcoming sessions, track your program progress, securely message your coaches, and access shared resources—all in one place."
+      }
+    },
+    "coach": {
+      "step1": {
+        "title": "Get started in minutes.",
+        "description": "Our intuitive setup guides you through creating a compelling profile, setting your schedule with our drag-and-drop calendar, and establishing your pricing for sessions and programs."
+      },
+      "step2": {
+        "title": "Share your expertise, your way.",
+        "card1": {
+          "title": "Charge live by the minute",
+          "description": "Switch your status to 'Online' and start earning instantly with live, per-minute sessions. Monetize your free time and offer clients immediate support."
+        },
+        "card2": {
+          "title": "Scale your impact",
+          "description": "Share your knowledge even when you're not online. Create and sell scalable digital programs with our powerful creator studio."
+        },
+        "card3": {
+          "title": "Offer scheduled appointments",
+          "description": "Plan your time by offering pre-bookable 1-on-1 sessions and group webinars. Our platform handles the scheduling, reminders, and payments."
+        }
+      },
+      "step3": {
+        "title": "We handle the admin, you handle the coaching.",
+        "description": "This is your command center. Track your earnings with detailed analytics, manage your client relationships, and never worry about invoicing again. We manage secure payments, global tax compliance, and provide you with all B2B documents for seamless bookkeeping."
+      }
+    },
+    "faq": {
+      "title": "Your questions, answered",
+      "client": {
+        "q1": "How does pricing work?",
+        "a1": "Simple and transparent. You only pay the price set by the coach, plus any applicable VAT. There are no hidden platform fees or subscriptions for clients. The price you see is the price you pay.",
+        "q2": "How do I ensure a coach is a good fit?",
+        "a2": "We give you the tools to find the perfect connection! We recommend watching a coach's intro video, reading their profile and user reviews, and messaging them before booking. This ensures your goals and their approach are perfectly aligned for a successful journey.",
+        "q3": "Is my data private and secure?",
+        "a3": "Absolutely. Our database uses secure encryption for all data. Even in the event of a breach, all data is encrypted and cannot be read or used. Your personal information is stored securely and never shared with third parties without your explicit consent. For more details, see our full privacy policy."
+      },
+      "coach": {
+        "q1": "What are the platform fees?",
+        "a1": "Our standard platform fee is 9.9%. This fee covers platform maintenance, refunds, and marketing, allowing us to continuously improve the platform for you and connect you with more clients. From your gross earnings, the platform fee, VAT, and payment provider transaction fees are deducted. You'll see detailed cost breakdowns on all receipts.",
+        "q2": "How and when do I get paid?",
+        "a2": "Our system uses an automated, delayed payout schedule to ensure financial accuracy. After a client's payment is completed, the funds are held for a 24-hour security period. Afterward, the funds become part of your next scheduled payout, which is automatically transferred to your connected Stripe account. This eliminates manual requests and ensures a reliable and predictable payment cycle.",
+        "q3": "What skills do I need to support others?",
+        "a3": "We believe everyone has something valuable to share—whether it's learned skills, personal life experience, or simply the willingness to listen. While formal certifications can be a great advantage in certain fields, they are not a prerequisite. What truly matters here is the human connection: your empathy and your readiness to guide and support others on their journey. Our platform brings people together who are looking for exactly that: mutual learning and support."
+      }
+    },
+    "cta": {
+      "client": {
+        "title": "Ready to find your coach?",
+        "button": "Discover Coaches"
+      },
+      "coach": {
+        "title": "Ready to share your knowledge?",
+        "button": "Get started as a coach"
+      }
+    },
     "steps": {
       "step1": {
         "title": "Sign Up",
@@ -91,34 +330,6 @@
         "title": "Start Sessions",
         "description": "Begin your transformative coaching journey"
       }
-    }
-  },
-  "testimonials": {
-    "title": "Success Stories That Inspire",
-    "cards": {
-      "card1": {
-        "quote": "CoachConnect transformed my career. I found an amazing mentor who guided me to my dream job!",
-        "author": "Sarah L., Marketing Executive",
-        "role": "Client"
-      },
-      "card2": {
-        "quote": "As a coach, CoachConnect has expanded my reach. I now work with clients globally, making a bigger impact.",
-        "author": "James R., Business Coach",
-        "role": "Coach"
-      },
-      "card3": {
-        "quote": "The progress tracking tools kept me motivated. I achieved my fitness goals faster than I ever thought possible.",
-        "author": "Emily T., Fitness Enthusiast",
-        "role": "Client"
-      }
-    }
-  },
-  "finalCta": {
-    "title": "Ready to Write Your Success Story?",
-    "subtitle": "Join thousands who have already taken the first step towards their goals.",
-    "buttons": {
-      "client": "Get Started as a Client",
-      "coach": "Apply as a Coach"
     }
   }
 }

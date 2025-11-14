@@ -2,7 +2,7 @@ import React, { useEffect, useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useAuth } from '../../contexts/AuthContext';
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar.tsx";
-import { MoreVertical, Trash2, BookOpen, Users, Settings, UserPlus, Edit3, LogOut, Info  } from 'lucide-react';
+import { MoreVertical, Trash2, BookOpen, Users, Settings, UserPlus, Edit3, LogOut, Info, ChevronLeft  } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Button } from "../ui/button.tsx";
 import { useTranslation } from 'react-i18next';
@@ -31,7 +31,7 @@ import AddMembersModal from './AddMembersModal';
 import ManageMembersModal from './ManageMembersModal';
 import GroupSettingsModal from './GroupSettingsModal';
 
-const ChatHeader = ({ activeConversation, onDeleteConversation, isDeleting, onOpenGroupInfo }) => {
+const ChatHeader = ({ activeConversation, onDeleteConversation, isDeleting, onOpenGroupInfo, onBack }) => {
   logger.info('[DIAGNOSTIC LOG] ChatHeader received activeConversation prop:', activeConversation);
   const { user } = useAuth();
   const { t } = useTranslation(['messaging', 'common']);
@@ -159,10 +159,13 @@ const ChatHeader = ({ activeConversation, onDeleteConversation, isDeleting, onOp
   }
 
 
-  return (
+ return (
     <>
       <div className="flex items-center justify-between p-3 border-b border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900">
       <div className="flex items-center gap-3">
+        <Button variant="ghost" size="icon" className="md:hidden" onClick={onBack} aria-label={t('common:back')}>
+          <ChevronLeft size={20} />
+        </Button>
         <div 
           className={`relative ${isGroup ? 'cursor-pointer' : ''}`}
           onClick={isGroup ? () => handleOpenModal('edit') : undefined}
@@ -385,10 +388,11 @@ ChatHeader.propTypes = {
     settings: PropTypes.shape({
       allowMemberInvites: PropTypes.bool,
       allowMemberInfoEdit: PropTypes.bool,
-    }),
+     }),
   }),
   onDeleteConversation: PropTypes.func,
   isDeleting: PropTypes.bool,
+  onBack: PropTypes.func,
 };
 
 export default ChatHeader;
