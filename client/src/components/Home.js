@@ -72,7 +72,7 @@ const CoachApplicationModal = ({ isOpen, onOpenChange, onSuccess }) => {
                         {t('coach.application.pageSubtitle')}
                     </DialogDescription>
                 </DialogHeader>
-                <div className="pt-4 max-h-[70vh] overflow-y-auto pr-2">
+                <div className="pt-4">
                     <LeadCaptureForm userType="coach" onSuccess={onSuccess} />
                 </div>
             </DialogContent>
@@ -142,7 +142,7 @@ const PreLaunchHome = () => {
     };
 
     return (
-        <div className="flex flex-col bg-transparent">
+        <div className="flex flex-col min-w-0 bg-transparent overflow-hidden overflow-x-hidden">
             <LaunchSignupModal isOpen={isSignupModalOpen} onOpenChange={setIsSignupModalOpen} onApplyCoachClick={handleApplyCoachClick} />
             <CoachApplicationModal isOpen={isCoachModalOpen} onOpenChange={setIsCoachModalOpen} onSuccess={() => setIsCoachModalOpen(false)} />
             <motion.section 

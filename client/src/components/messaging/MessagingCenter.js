@@ -222,7 +222,7 @@ const handleRecipientSelect = useCallback(
 
   return (
     <ErrorBoundary>
-      <div className="flex h-full w-full overflow-hidden rounded-lg border bg-card text-card-foreground">
+       <div className="flex h-full w-full">
         <div
           className={`${
             activeConversationId ? 'hidden' : 'flex'
@@ -244,10 +244,11 @@ const handleRecipientSelect = useCallback(
             activeConversationId={activeConversationId}
           />
         </div>
-        <div className={`${activeConversationId ? 'flex' : 'hidden'} flex-1 flex-col md:flex`}>
+       <div className={`${activeConversationId ? 'flex' : 'hidden'} flex flex-1 flex-col`}>
           <ChatPanel 
             activeConversationId={activeConversationId} 
             onConversationDeleted={() => setActiveConversationId(null)} 
+            onBack={() => setActiveConversationId(null)} 
           />
         </div>
       </div>

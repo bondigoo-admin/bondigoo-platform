@@ -104,12 +104,12 @@ const HowItWorks = () => {
   logger.info('[HowItWorks] Rendering page with active userType:', userType);
 
 return (
-    <div className="bg-gradient-subtle text-foreground">
-      {!isLaunched && (
-        <Link to="/" className="absolute top-8 left-8 z-20">
-            <img src={logoWhite} alt="Bondigoo Logo" className="h-7 w-7" />
-        </Link>
-      )}
+    <div className="bg-gradient-subtle text-foreground overflow-x-hidden">
+     {!isLaunched && (
+          <Link to="/" className="absolute top-3 left-4 md:left-6 z-50">
+            <img src={logoWhite} alt="Bondigoo Logo" className="h-10 w-auto" />
+          </Link>
+        )}
       <motion.section 
         className="relative text-center text-primary-foreground dark:text-foreground overflow-hidden bg-gradient-animated bg-size-400"
         variants={gradientAnimation}
@@ -117,6 +117,7 @@ return (
         whileInView="animate" // Animate only when in view
         viewport={{ once: true }}
       >
+       
         <div className="relative isolate container mx-auto px-4 py-24 sm:py-32 lg:py-40">
             <motion.div 
                 initial="hidden"
@@ -131,11 +132,12 @@ return (
                     {t('howItWorks.hero.subtitle', 'Whether you\'re seeking guidance or sharing your expertise, here\'s your clear path to success. Select your role to begin.')}
                 </motion.p>
                 <motion.div variants={fadeInUp} className="mt-10">
+                    <motion.div variants={fadeInUp} className="mt-10 w-full max-w-md mx-auto">
                     <ToggleGroup
                         type="single"
                         value={userType}
                         onValueChange={(value) => { if (value) setUserType(value); }}
-                        className="inline-flex bg-background/20 backdrop-blur-sm p-1.5 rounded-xl border border-primary-foreground/20 dark:border-foreground/20"
+                        className="hidden lg:inline-flex bg-background/20 backdrop-blur-sm p-1.5 rounded-xl border border-primary-foreground/20 dark:border-foreground/20"
                     >
                         <ToggleGroupItem value="client" aria-label="For Clients" className="px-6 py-2 text-base transition-colors text-primary-foreground/80 data-[state=on]:text-primary-foreground data-[state=on]:bg-white/20 data-[state=on]:shadow-md dark:text-foreground/70 dark:data-[state=on]:text-foreground hover:bg-white/45">
                             <Users className="mr-2 h-5 w-5" /> {t('howItWorks.toggle.client', 'I\'m Looking for a Coach')}
@@ -144,6 +146,36 @@ return (
                             <Briefcase className="mr-2 h-5 w-5" /> {t('howItWorks.toggle.coach', 'I Am a Coach')}
                         </ToggleGroupItem>
                     </ToggleGroup>
+                    
+                    <div className="flex flex-col gap-3 lg:hidden">
+                        <button
+                            onClick={() => setUserType('client')}
+                            aria-label="For Clients"
+                            className={cn(
+                                'flex w-full items-center justify-center gap-3 rounded-xl p-4 text-left text-base font-semibold transition-all duration-300 backdrop-blur-sm',
+                                userType === 'client'
+                                    ? 'bg-white/20 text-primary-foreground shadow-lg ring-1 ring-white/30 dark:text-foreground'
+                                    : 'border border-white/20 text-primary-foreground/80 hover:bg-white/10 dark:text-foreground/70 dark:border-white/10'
+                            )}
+                        >
+                            <Users className="h-5 w-5 flex-shrink-0" />
+                            <span className="flex-grow text-center">{t('howItWorks.toggle.client', 'I\'m Looking for a Coach')}</span>
+                        </button>
+                         <button
+                            onClick={() => setUserType('coach')}
+                            aria-label="For Coaches"
+                            className={cn(
+                                'flex w-full items-center justify-center gap-3 rounded-xl p-4 text-left text-base font-semibold transition-all duration-300 backdrop-blur-sm',
+                                userType === 'coach'
+                                     ? 'bg-white/20 text-primary-foreground shadow-lg ring-1 ring-white/30 dark:text-foreground'
+                                     : 'border border-white/20 text-primary-foreground/80 hover:bg-white/10 dark:text-foreground/70 dark:border-white/10'
+                            )}
+                        >
+                            <Briefcase className="h-5 w-5 flex-shrink-0" />
+                            <span className="flex-grow text-center">{t('howItWorks.toggle.coach', 'I Am a Coach')}</span>
+                        </button>
+                    </div>
+                </motion.div>
                 </motion.div>
             </motion.div>
         </div>

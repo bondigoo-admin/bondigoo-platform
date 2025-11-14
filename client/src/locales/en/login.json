@@ -11,6 +11,12 @@
   "noAccount": "Don't have an account?",
   "signUp": "Sign up",
   "loginSuccessful": "Login successful! Redirecting...",
-  "loginError": "An error occurred during login",
-  "invalidResponse": "Invalid response from server"
+  "loginError": "An error occurred during login. Please try again later.",
+  "invalidResponse": "Invalid response from server",
+  "error_userNotFound": "User not found. Please check your email.",
+  "error_invalidPassword": "The password is incorrect. Please try again.",
+  "error_invalidCredentials": "Email or password is incorrect. Please check your credentials.",
+  "rememberMe": "Remember me",
+  "welcomeTitle": "Welcome back to your journey.",
+  "welcomeSubtitle": "Log in to take advantage of all the benefits."
 }

@@ -5,7 +5,7 @@ import { AuthContext, useAuth, AuthProvider } from './contexts/AuthContext';
 import { NotificationSocketProvider } from './contexts/SocketContext';
 import { useNotifications } from './hooks/useNotifications';
 import { Button } from './components/ui/button.tsx';
-import { Loader2, X } from 'lucide-react';
+import { Loader2, X, ChevronUp } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import io from 'socket.io-client'; 
 import axios from 'axios'; 
@@ -27,6 +27,8 @@ import AppealModal from './components/shared/AppealModal';
 import SubFooter from './components/layouts/SubFooter'; 
 import PublicLayout from './components/layouts/PublicLayout';
 import FeedbackWidget from './components/shared/FeedbackWidget';
+import BottomTabBar from './components/layouts/BottomTabBar';
+import MainFooter from './components/MainFooter'; // Added MainFooter
 
 const Home = React.lazy(() => import('./components/Home'));
 const HowItWorks = React.lazy(() => import('./components/HowItWorks'));
@@ -178,13 +180,20 @@ const ImpersonationBanner = () => {
 };
 
 const AppContent = () => {
-  const { user, isLoading } = useAuth();
+  const { user, isAuthenticated, isLoading } = useAuth();
+  const location = useLocation();
   const { t } = useTranslation('common');
   const { incomingRequests, acceptLiveSession, declineLiveSession, clearIncomingRequests } = useLiveSession();
   const queryClient = useQueryClient();
   const { toggle: toggleSearch } = useSearchStore(); 
   const [searchParams, setSearchParams] = useSearchParams();
+  const [isMobileMenuForcedOpen, setIsMobileMenuForcedOpen] = useState(false);
 
+   useEffect(() => {
+    setIsMobileMenuForcedOpen(false);
+  }, [location.pathname]);
+
+  const isMessagingPage = location.pathname.startsWith('/messages');
   const isAppealModalOpen = searchParams.get('modal') === 'appeal' && searchParams.get('auditId');
   const appealAuditId = searchParams.get('auditId');
 
@@ -195,7 +204,7 @@ const AppContent = () => {
     setSearchParams(newSearchParams, { replace: true });
   };
 
-  useGlobalSocketListener();
+ useGlobalSocketListener();
 
     useEffect(() => {
     const isGlobalSearchEnabled = process.env.REACT_APP_FEATURE_GLOBAL_SEARCH === 'true';
@@ -236,147 +245,195 @@ const AppContent = () => {
 
   const isLaunched = process.env.REACT_APP_LAUNCHED === 'true';
 
-  return (
-    <div className="flex flex-col h-screen bg-gradient-subtle">
-      <GlobalAnnouncementBanner />
-       <ImpersonationBanner />
-      <Header />
-      <main className="flex-1 overflow-y-auto relative">
-        <LiveSessionRequestModal
-          isOpen={incomingRequests.length > 0}
-          requests={incomingRequests}
-          onAccept={(sessionId) => acceptLiveSession(sessionId)}
-          onDecline={(sessionId, message) => declineLiveSession(sessionId, message)}
-          onClose={clearIncomingRequests}
-        />
-        <Suspense fallback={<div className="flex h-full w-full items-center justify-center"><Loader2 className="w-8 h-8 animate-spin" /></div>}>
-          <Routes>
-            {isLaunched ? (
-              <>
-                <Route element={<PublicLayout />}>
-                  <Route path="/" element={<Home />} />
-                   <Route path="/apply-coach" element={<CoachApplicationPage />} />
-                  <Route path="/how-it-works" element={<HowItWorks />} /> 
-                  <Route path="/community-guidelines" element={<CommunityGuidelinesPage />} />
-                  <Route path="/terms-of-service" element={<TermsOfServicePage />} />
-                  <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
-                  <Route path="/coaches" element={<CoachList />} />
-                  <Route path="/programs" element={<ProgramsPage />} />
-                </Route>
-                <Route path="/signup" element={<SignupSelection />} />
-                <Route path="/coach/:id" element={<CoachProfile />} />
-                <Route path="/programs/:programId" element={<ProgramLandingPage />} />
-                <Route path="/client-signup" element={<ClientSignup />} />
-                <Route path="/coach-signup" element={<CoachSignup />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-                <Route path="/reset-password/:token" element={<ResetPasswordPage />} />
-                <Route path="/verify-email-change/:token" element={<EmailVerificationPage />} />
-                <Route element={<ProtectedRoute />}>
-                  <Route path="/onboarding/client" element={<ClientOnboardingPage />} />
-                  <Route path="/admin/*" element={<AdminDashboard />} />
-                  <Route path="/admin/financials/disputes/:ticketId" element={<DisputeDetailView />} />
-                  <Route path="/dashboard" element={<DashboardRouter />} />
-                  <Route path="/profile" element={<OwnProfileRouter />} />
-                  <Route path="/profile/:id" element={<UserProfile />} />
-                  <Route path="/notifications" element={<NotificationCenter />} />
-                  <Route path="/settings/notification-preferences" element={<NotificationPreferences />} />
-                  <Route path="/settings" element={<SettingsPage />} />
-                  <Route path="/billing" element={<BillingPage />} />
-                  <Route path="/resources" element={<ResourceCenter />} />
-                  <Route path="/add-resource" element={<AddResource />} />
-                  <Route path="/video-test" element={<VideoConference isTestMode={true} />} />
-                  <Route
-                    path="/video-conference/:roomId"
-                    element={<VideoConferenceWrapper />}
-                  />
-                  <Route
-                    path="/session/:roomId/:token"
-                    element={<VideoConferenceWrapper />}
-                  />
-                  <Route path="/live-session/:linkId/:token" element={<LiveSessionInterface />} />
-                  <Route path="/messages" element={<MessagingCenter />} />
-                  <Route path="/messages/:conversationId" element={<MessagingCenter />} /> 
-                  <Route path="/analytics" element={<AnalyticsDashboard />} />
-                  <Route path="/progress/:userId" element={<ProgressTracker />} />
-                  <Route path="/referral" element={<ReferralSystem />} />
-                  <Route path="/manage-sessions/:userId" element={<ManageSessions />} />
-                  <Route path="/upcoming-sessions" element={<UpcomingSessions />} />
-                  <Route path="/connections" element={<ConnectionsPage />} />
-                  <Route path="/my-calendar" element={<CalendarView />} />
-                  <Route 
-                    path="/settings/connect/complete" 
-                    element={<Navigate to="/settings" replace state={{ connectSuccess: true }} />} 
-                  />
-                  <Route 
-                    path="/settings/connect/refresh" 
-                    element={<Navigate to="/settings" replace state={{ connectRefresh: true }} />} 
-                  />
-                  <Route path="/coach-dashboard" element={<CoachDashboard />} />
-                  <Route path="/coach/programs" element={<CoachProgramsPage />} />
-                  <Route 
-                    path="/coach-profile/:id" 
-                    element={
-                      <CoachProfile 
-                        onRender={(props) => console.log('[App] Rendering CoachProfile with props:', props)}
-                      />
-                    } 
-                  />
-                  <Route path="/coach-profile/:id/setup" element={<CoachOnboardingStudio />} />
-                  <Route path="/coach-availability/:userId" element={<ManageSessions />} />
-                  <Route path="/playback/:bookingId/:recordingId" element={<PlaybackViewer />} />
-                  <Route path="/programs/:programId/submissions" element={<ProgramSubmissionsPage />} />
-                  <Route path="/learn/program/:programId" element={<ProgramPlayer />} />
-                  <Route path="/programs/:programId/students" element={<ProgramStudentsPage />} />
-                  <Route path="/programs/:programId/qa" element={<ProgramQAPage />} />
-                </Route>
-                <Route path="/forum" element={<Forum />} />
-                <Route path="/forum/topic/:topicId" element={<TopicDetail />} />
-                <Route path="*" element={<Navigate to="/" replace />} />
-              </>
-            ) : (
-              <>
-                <Route element={<PublicLayout />}>
-                  <Route path="/" element={<Home />} />
-                  <Route path="/how-it-works" element={<HowItWorks />} /> 
-                  <Route path="/community-guidelines" element={<CommunityGuidelinesPage />} />
-                  <Route path="/terms-of-service" element={<TermsOfServicePage />} />
-                  <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
-                   <Route path="/apply-coach" element={<CoachApplicationPage />} />
+const excludedFooterPrefixes = [
+    '/admin',
+    '/video-conference',
+    '/session',
+    '/live-session',
+    '/playback',
+    '/learn/program',
+    '/onboarding',
+    '/messages',
+];
+  const canShowFooter = !excludedFooterPrefixes.some(prefix => location.pathname.startsWith(prefix)) && !location.pathname.includes('/setup');
+  const isFooterExcluded = !canShowFooter;
+
+
+return (
+      <div className="grid grid-rows-[auto_1fr_auto] min-h-dvh bg-gradient-subtle overflow-x-hidden">
+        <header className="sticky top-0 z-50">
+          <GlobalAnnouncementBanner />
+          <ImpersonationBanner />
+          <Header />
+        </header>
+
+       <main className="flex-1 min-w-0 flex flex-col relative pb-20 lg:pb-0">
+          <LiveSessionRequestModal
+            isOpen={incomingRequests.length > 0}
+            requests={incomingRequests}
+            onAccept={(sessionId) => acceptLiveSession(sessionId)}
+            onDecline={(sessionId, message) => declineLiveSession(sessionId, message)}
+            onClose={clearIncomingRequests}
+          />
+          <Suspense fallback={<div className="flex h-full w-full items-center justify-center"><Loader2 className="w-8 h-8 animate-spin" /></div>}>
+            <Routes>
+              {isLaunched ? (
+                <>
+                  <Route element={<PublicLayout />}>
+                    <Route path="/" element={<Home />} />
+                    <Route path="/apply-coach" element={<CoachApplicationPage />} />
+                    <Route path="/how-it-works" element={<HowItWorks />} /> 
+                    <Route path="/community-guidelines" element={<CommunityGuidelinesPage />} />
+                    <Route path="/terms-of-service" element={<TermsOfServicePage />} />
+                    <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+                    <Route path="/coaches" element={<CoachList />} />
+                    <Route path="/programs" element={<ProgramsPage />} />
+                  </Route>
+                  <Route path="/signup" element={<SignupSelection />} />
+                  <Route path="/coach/:id" element={<CoachProfile />} />
+                  <Route path="/programs/:programId" element={<ProgramLandingPage />} />
+                  <Route path="/client-signup" element={<ClientSignup />} />
+                  <Route path="/coach-signup" element={<CoachSignup />} />
+                  <Route path="/login" element={<Login />} />
+                  <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+                  <Route path="/reset-password/:token" element={<ResetPasswordPage />} />
+                  <Route path="/verify-email-change/:token" element={<EmailVerificationPage />} />
+                  <Route element={<ProtectedRoute />}>
+                    <Route path="/onboarding/client" element={<ClientOnboardingPage />} />
+                    <Route path="/admin/*" element={<AdminDashboard />} />
+                    <Route path="/admin/financials/disputes/:ticketId" element={<DisputeDetailView />} />
+                    <Route path="/dashboard" element={<DashboardRouter />} />
+                    <Route path="/profile" element={<OwnProfileRouter />} />
+                    <Route path="/profile/:id" element={<UserProfile />} />
+                    <Route path="/notifications" element={<NotificationCenter />} />
+                    <Route path="/settings/notification-preferences" element={<NotificationPreferences />} />
+                    <Route path="/settings" element={<SettingsPage />} />
+                    <Route path="/billing" element={<BillingPage />} />
+                    <Route path="/resources" element={<ResourceCenter />} />
+                    <Route path="/add-resource" element={<AddResource />} />
+                    <Route path="/video-test" element={<VideoConference isTestMode={true} />} />
+                    <Route
+                      path="/video-conference/:roomId"
+                      element={<VideoConferenceWrapper />}
+                    />
+                    <Route
+                      path="/session/:roomId/:token"
+                      element={<VideoConferenceWrapper />}
+                    />
+                    <Route path="/live-session/:linkId/:token" element={<LiveSessionInterface />} />
+                    <Route path="/messages" element={<MessagingCenter />} />
+                    <Route path="/messages/:conversationId" element={<MessagingCenter />} /> 
+                    <Route path="/analytics" element={<AnalyticsDashboard />} />
+                    <Route path="/progress/:userId" element={<ProgressTracker />} />
+                    <Route path="/referral" element={<ReferralSystem />} />
+                    <Route path="/manage-sessions/:userId" element={<ManageSessions />} />
+                    <Route path="/upcoming-sessions" element={<UpcomingSessions />} />
+                    <Route path="/connections" element={<ConnectionsPage />} />
+                    <Route path="/my-calendar" element={<CalendarView />} />
+                    <Route 
+                      path="/settings/connect/complete" 
+                      element={<Navigate to="/settings" replace state={{ connectSuccess: true }} />} 
+                    />
+                    <Route 
+                      path="/settings/connect/refresh" 
+                      element={<Navigate to="/settings" replace state={{ connectRefresh: true }} />} 
+                    />
+                    <Route path="/coach-dashboard" element={<CoachDashboard />} />
+                    <Route path="/coach/programs" element={<CoachProgramsPage />} />
+                    <Route 
+                      path="/coach-profile/:id" 
+                      element={
+                        <CoachProfile 
+                          onRender={(props) => console.log('[App] Rendering CoachProfile with props:', props)}
+                        />
+                      } 
+                    />
+                    <Route path="/coach-profile/:id/setup" element={<CoachOnboardingStudio />} />
+                    <Route path="/coach-availability/:userId" element={<ManageSessions />} />
+                    <Route path="/playback/:bookingId/:recordingId" element={<PlaybackViewer />} />
+                    <Route path="/programs/:programId/submissions" element={<ProgramSubmissionsPage />} />
+                    <Route path="/learn/program/:programId" element={<ProgramPlayer />} />
+                    <Route path="/programs/:programId/students" element={<ProgramStudentsPage />} />
+                    <Route path="/programs/:programId/qa" element={<ProgramQAPage />} />
+                  </Route>
+                  <Route path="/forum" element={<Forum />} />
+                  <Route path="/forum/topic/:topicId" element={<TopicDetail />} />
                   <Route path="*" element={<Navigate to="/" replace />} />
-                </Route>
-              </>
-            )}
-          </Routes>
-        </Suspense>
-     {isAppealModalOpen && (
-            <AppealModal
-            isOpen={searchParams.get('modal') === 'appeal' && !!searchParams.get('auditId')}
-            onClose={handleCloseAppealModal}
-            auditId={searchParams.get('auditId')}
+                </>
+              ) : (
+                <>
+                  <Route element={<PublicLayout />}>
+                    <Route path="/" element={<Home />} />
+                    <Route path="/how-it-works" element={<HowItWorks />} /> 
+                    <Route path="/community-guidelines" element={<CommunityGuidelinesPage />} />
+                    <Route path="/terms-of-service" element={<TermsOfServicePage />} />
+                    <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+                    <Route path="/apply-coach" element={<CoachApplicationPage />} />
+                    <Route path="*" element={<Navigate to="/" replace />} />
+                  </Route>
+                </>
+              )}
+            </Routes>
+          </Suspense>
+          {isAppealModalOpen && (
+                  <AppealModal
+                  isOpen={searchParams.get('modal') === 'appeal' && !!searchParams.get('auditId')}
+                  onClose={handleCloseAppealModal}
+                  auditId={searchParams.get('auditId')}
+              />
+          )}
+        </main>
+
+        <footer>
+          {canShowFooter && !isAuthenticated && (
+            isLaunched ? <MainFooter /> : <SubFooter />
+          )}
+          {canShowFooter && isAuthenticated && (
+            <div className="hidden lg:block">
+              <MainFooter />
+            </div>
+          )}
+        </footer>
+        
+         {/* These elements are positioned fixed or absolutely and should not be part of the grid flow */}
+        <div className="lg:hidden">
+          {isAuthenticated && (
+            <>
+              {isFooterExcluded && !isMobileMenuForcedOpen && (
+                <button
+                  onClick={() => setIsMobileMenuForcedOpen(true)}
+                  aria-label={t('common:showMenu', 'Show Menu')}
+                  className="fixed bottom-2 left-1/2 -translate-x-1/2 z-40 animate-bounce text-muted-foreground opacity-30 transition-opacity hover:animate-none hover:opacity-80"
+                >
+                  <ChevronUp className="h-8 w-8" />
+                </button>
+              )}
+              {(canShowFooter || isMobileMenuForcedOpen) && <BottomTabBar />}
+            </>
+          )}
+        </div>
+        <div className="hidden md:block">
+          <FeedbackWidget />
+        </div>
+        <Toaster
+          position="top-center"
+          containerStyle={{
+            top: '80px',
+          }}
+          toastOptions={{
+            duration: 5000,
+            style: {
+              background: '#ffffff',
+              color: '#333333',
+              padding: '16px',
+              borderRadius: '8px',
+              boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+              minWidth: '300px',
+              maxWidth: '500px',
+            },
+          }}
         />
-        )}
-      </main>
-       <FeedbackWidget />
-      <Toaster
-        position="top-center"
-        containerStyle={{
-          top: '80px',
-        }}
-        toastOptions={{
-          duration: 5000,
-          style: {
-            background: '#ffffff',
-            color: '#333333',
-            padding: '16px',
-            borderRadius: '8px',
-            boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
-            minWidth: '300px',
-            maxWidth: '500px',
-          },
-        }}
-      />
-    </div>
+      </div>
   );
 };
 

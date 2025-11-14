@@ -166,15 +166,17 @@ const LeadCaptureForm = ({ userType, onSuccess }) => {
                 <Label htmlFor="documents">{t('signup:coach.application.documents')}</Label>
                 <div onDragEnter={handleDrag} onDragLeave={handleDrag} onDragOver={handleDrag} onDrop={handleDrop} className={cn("relative mt-2 flex justify-center rounded-lg border border-dashed border-border px-6 py-10 transition-colors", isDragActive && "border-primary bg-primary/10")}>
                     <div className="text-center">
-                        <Paperclip className="mx-auto h-12 w-12 text-muted-foreground" />
-                        <div className="mt-4 flex text-sm leading-6 text-muted-foreground">
-                            <Label htmlFor="file-upload" className="relative cursor-pointer rounded-md bg-background font-semibold text-primary focus-within:outline-none focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2 hover:text-primary/80">
-                                <span>{isDragActive ? t('signup:coach.application.dragActive') : t('signup:coach.application.uploadFile')}</span>
-                                <input id="file-upload" name="documents" type="file" className="sr-only" multiple onChange={handleFileChange} />
-                            </Label>
-                            {!isDragActive && <p className="pl-1">{t('signup:coach.application.dragAndDrop')}</p>}
-                        </div>
-                        <p className="text-xs leading-5 text-muted-foreground">{t('signup:coach.application.fileTypes')}</p>
+                        <Label htmlFor="file-upload" className="cursor-pointer">
+                            <Paperclip className="mx-auto h-12 w-12 text-muted-foreground" />
+                            <div className="mt-4 flex justify-center text-sm leading-6 text-muted-foreground">
+                                <span className="relative rounded-md bg-background font-semibold text-primary focus-within:outline-none focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2 hover:text-primary/80">
+                                    <span>{isDragActive ? t('signup:coach.application.dragActive') : t('signup:coach.application.uploadFile')}</span>
+                                    <input id="file-upload" name="documents" type="file" className="sr-only" multiple onChange={handleFileChange} />
+                                </span>
+                                {!isDragActive && <p className="pl-1">{t('signup:coach.application.dragAndDrop')}</p>}
+                            </div>
+                            <p className="text-xs leading-5 text-muted-foreground">{t('signup:coach.application.fileTypes')}</p>
+                        </Label>
                     </div>
                 </div>
                 {documents.length > 0 && (
@@ -182,7 +184,7 @@ const LeadCaptureForm = ({ userType, onSuccess }) => {
                         {documents.map((file, index) => (
                             <div key={index} className="flex items-center justify-between rounded-md border p-2">
                                 <span className="text-sm truncate">{file.name}</span>
-                                <Button variant="ghost" size="icon" onClick={() => removeFile(file)}><X className="h-4 w-4" /></Button>
+                                <Button variant="ghost" size="icon" onClick={() => removeFile(file)} aria-label={`Remove file ${file.name}`}><X className="h-4 w-4" /></Button>
                             </div>
                         ))}
                     </div>

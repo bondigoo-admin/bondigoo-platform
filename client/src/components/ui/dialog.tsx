@@ -14,7 +14,7 @@ const DialogPortal = ({
   ...props
 }: DialogPrimitive.DialogPortalProps) => (
   <DialogPrimitive.Portal className={cn(className)} {...props}>
-    <div className="fixed inset-0 z-50 flex items-start justify-center sm:items-center">
+    <div className="fixed inset-0 z-50 flex items-end justify-center sm:items-center">
       {children}
     </div>
   </DialogPrimitive.Portal>
@@ -217,21 +217,26 @@ const DialogContent = React.forwardRef<
     { name: 'right', cursor: 'cursor-ew-resize', position: 'right-0 top-4 bottom-4 w-2' },
   ];
 
-  return (
+ return (
     <DialogPortal>
       <DialogOverlay />
       <DialogPrimitive.Content
         ref={combinedRef}
         data-fullscreen={isFullscreen}
         className={cn(
-          "group/dialog fixed z-50 grid w-full h-full gap-4 rounded-none border bg-background p-6 shadow-lg animate-in data-[state=open]:fade-in-90 data-[state=open]:slide-in-from-bottom-10 sm:h-auto sm:max-w-lg sm:rounded-lg sm:zoom-in-90 data-[state=open]:sm:slide-in-from-bottom-0",
+          "group/dialog fixed z-50 flex w-full flex-col border bg-background shadow-lg",
+          "max-h-[90dvh] rounded-b-none rounded-t-lg", // Mobile: bottom sheet styles
+          "sm:h-auto sm:max-w-lg sm:rounded-lg", // Desktop: reset to centered modal styles
+          "animate-in data-[state=open]:fade-in-90 data-[state=open]:slide-in-from-bottom-10 sm:zoom-in-90 data-[state=open]:sm:slide-in-from-bottom-0",
           (isPositionManagedByJS || isSizeManagedByJS) && "animate-none",
           "data-[fullscreen=true]:sm:fixed data-[fullscreen=true]:sm:!top-[var(--app-header-height,72px)] data-[fullscreen=true]:sm:!left-0 data-[fullscreen=true]:sm:!w-screen data-[fullscreen=true]:sm:!h-[calc(100vh_-_var(--app-header-height,72px))] data-[fullscreen=true]:sm:!max-w-full data-[fullscreen=true]:sm:!rounded-none data-[fullscreen=true]:sm:!border-none data-[fullscreen=true]:sm:!translate-x-0 data-[fullscreen=true]:sm:!translate-y-0",
           className
         )}
         {...props}
       >
-        {children}
+        <div className="flex-1 overflow-y-auto p-6 pb-[calc(1.5rem+var(--safe-area-inset-bottom))]">
+          {children}
+        </div>
         {resizable && !isFullscreen && resizeHandles.map(handle => (
           <div
             key={handle.name}
@@ -278,7 +283,7 @@ const DialogFooter = ({
 }: React.HTMLAttributes<HTMLDivElement>) => (
   <div
     className={cn(
-      "flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2",
+      "flex flex-col space-y-2 sm:flex-row sm:justify-end sm:space-x-2",
       className
     )}
     {...props}

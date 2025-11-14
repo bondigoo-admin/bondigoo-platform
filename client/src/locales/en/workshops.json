@@ -33,5 +33,10 @@
   "feedbackSubmitted": "Feedback successfully submitted",
   "back": "Back",
   "minimize": "Minimize",
-  "close": "Close"
+  "close": "Close",
+  "socketError": "Socket Error",
+  "unmuteAll": "Unmute all",
+  "noAgendaItems": "No agenda items",
+  "noFeedbackYet": "No feedback yet",
+  "resume": "resume"
 }

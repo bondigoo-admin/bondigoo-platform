@@ -3,5 +3,20 @@
   "leaveReviewForClient": "Review your client",
   "comment": "Comment",
   "coachComment": "Coach's Comment",
-  "submit": "Submit Review"
+  "submit": "Submit Review",
+  "review.rating": "TRANSLATE ME",
+  "ratingRequired": "TRANSLATE ME",
+  "commentPlaceholder": "TRANSLATE ME",
+  "privateFeedback": "TRANSLATE ME",
+  "privateFeedbackPlaceholder": "TRANSLATE ME",
+  "writeResponse": "TRANSLATE ME",
+  "notifications.reviewPrompt.coach.title": "TRANSLATE ME",
+  "notifications.reviewPrompt.client.title": "TRANSLATE ME",
+  "rating": "TRANSLATE ME",
+  "reviewProgramTitle": "TRANSLATE ME",
+  "editReviewProgramTitle": "TRANSLATE ME",
+  "reviewSubmittedSuccess": "TRANSLATE ME",
+  "reviewSessionTitle": "TRANSLATE ME",
+  "editReviewSessionTitle": "TRANSLATE ME",
+  "reviewSubmitted": "TRANSLATE ME"
 }

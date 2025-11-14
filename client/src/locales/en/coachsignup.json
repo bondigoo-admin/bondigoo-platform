@@ -1,8 +1,11 @@
 {
   "title": "Become a Coach",
+  "signupPrompt": {
+    "subtitle": "Start your journey with us today."
+  },
   "submitting": {
-    "title": "Processing your registration...",
-    "message": "Just a moment, we're setting up your account."
+    "title": "Processing registration...",
+    "message": "One moment, we're setting up your account."
   },
   "firstName": {
     "label": "First Name"
@@ -13,6 +16,9 @@
   "email": {
     "label": "Email Address"
   },
+  "dateOfBirth": {
+    "label": "Date of Birth"
+  },
   "password": {
     "label": "Password"
   },
@@ -21,7 +27,7 @@
   },
   "language": {
     "label": "Preferred Language",
-    "placeholder": "Select a language"
+    "placeholder": "Select language"
   },
   "languages": {
     "english": "English",
@@ -48,14 +54,20 @@
       "length": "Password must be at least 8 characters long."
     },
     "confirmPassword": "The passwords do not match.",
-    "terms": "You must agree to the terms and policies to continue."
+    "terms": "You must agree to the terms and policies to continue.",
+    "dateOfBirth": {
+      "required": "Date of birth is required.",
+      "format": "Please use the format MM/DD/YYYY.",
+      "invalid": "Please enter a valid date.",
+      "underage": "You must be at least 18 years old."
+    }
   },
   "buttons": {
     "register": "Create Account",
     "submitting": "Creating..."
   },
   "toasts": {
-    "success": "Registration successful! You'll be redirected shortly.",
+    "success": "Registration successful! You will be redirected shortly.",
     "error": {
       "generic": "Registration failed. Please try again."
     }
@@ -64,5 +76,8 @@
     "text": "Already have an account?",
     "link": "Log in"
   },
-  "terms.label": "I have read, understood, and agree to the <tos>Terms of Service</tos>, <privacy>Privacy Policy</privacy>, and <community>Community Guidelines</community>."
+  "terms.label": "I have read, understood, and agree to the <tos>Terms of Service</tos>, the <privacy>Privacy Policy</privacy>, and the <community>Community Guidelines</community>.",
+  "marketing": {
+    "label": "I want to receive promotional emails and newsletters."
+  }
 }
