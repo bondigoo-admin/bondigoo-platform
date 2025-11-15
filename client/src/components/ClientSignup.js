@@ -166,7 +166,7 @@ const ClientSignup = () => {
       logger.info('[ClientSignup] Registration successful', response);
       
       login(response);
-      toast.success(t('toasts.success', 'Account created successfully!'), { duration: 2000 });
+      //toast.success(t('toasts.success', 'Account created successfully!'), { duration: 2000 });
       
       setTimeout(() => navigate('/onboarding/client'), 1000);
 

@@ -235,14 +235,22 @@ exports.searchListItems = async (req, res) => {
       [`translations.${language}`]: { $exists: true, $ne: null }
     }).lean();
 
+
     const translationMap = new Map();
     translations.forEach(t => {
       const itemId = t.key.split('_').pop();
       if (itemIdsSet.has(itemId) && t.translations) {
-        
-        const translatedName = isProgramCategory
-          ? t.translations.name?.[language]
-          : t.translations[language]?.name; 
+        let translatedName;
+        if (isProgramCategory) {
+          translatedName = t.translations.name?.[language];
+        } else {
+          const translationData = t.translations[language];
+          if (typeof translationData === 'string') {
+            translatedName = translationData;
+          } else if (typeof translationData === 'object' && translationData !== null) {
+            translatedName = translationData.name;
+          }
+        }
         
         if (translatedName) {
             translationMap.set(itemId, translatedName);

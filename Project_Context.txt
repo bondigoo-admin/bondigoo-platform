@@ -74,7 +74,11 @@ Coach Dashboard: A comprehensive, tabbed interface ("Mission Control") for the c
 User (Client) Dashboard: The client's "Personal Coaching Launchpad" providing a clear summary of upcoming sessions, active programs, and quick access to connected coaches.
 Admin Dashboard ("Command Center"): A powerful, role-oriented interface for platform management, including a job queue UI, webhook monitor, and moderation tools.
 4.7. Platform-Wide Features
-Notification System: A robust system managed by UnifiedNotificationService and BookingNotificationMapper. It handles multi-channel delivery (in-app, email), user preferences, and real-time updates via Socket.IO.
+Notification System: A robust system managed by UnifiedNotificationService and BookingNotificationMapper that provides users with granular control over their communications. It handles multi-channel delivery (in-app, email), real-time updates via Socket.IO, and is built on a layered user preference model:
+Layer 1 (Master Switch): A global toggle (settings.notificationPreferences.email on the User model) allows users to enable or disable all non-essential emails with a single click.
+Layer 2 (Categorical Control): When the master switch is enabled, users can selectively toggle email notifications for specific categories (e.g., Bookings & Sessions, Payments & Earnings, Platform & Community) via the emailPreferencesByCategory object.
+Layer 0 (Mandatory Emails): A hardcoded set of critical, non-disableable notifications (e.g., password resets, security warnings, terms of service updates) bypasses all user preferences to ensure account security and legal compliance.
+All preference checks are enforced authoritatively by the unifiedNotificationService before an email job is queued, aligning with the 'Backend is the Source of Truth' principle. Notification settings are centralized on the User model for all roles (client, coach, admin) to ensure a single source of truth.
 Global Search: A unified search experience inspired by VS Code. A HeaderSearch.js component triggers a contextual popover for quick results and provides an entry point to a full SearchView.js page for advanced, filterable searching.
 User Safety & Moderation: A complete system for user safety:
 User Blocking: A full block/unblock feature is implemented and enforced on the backend, preventing all interactions (messaging, booking, search visibility).

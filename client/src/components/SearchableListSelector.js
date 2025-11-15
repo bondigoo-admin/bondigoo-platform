@@ -31,8 +31,21 @@ const SearchableListSelector = ({
   
   const hasFacets = availableItems !== undefined;
 
+  logger.info(`[SLS Render] lang: ${i18n.language}, initialized: ${i18n.isInitialized}`);
+
+  useEffect(() => {
+    const onLanguageChanged = (lng) => {
+      logger.info(`[SLS i18n Event] languageChanged to: ${lng}`);
+    };
+    i18n.on('languageChanged', onLanguageChanged);
+    return () => {
+      i18n.off('languageChanged', onLanguageChanged);
+    };
+  }, [i18n]);
+
   const fetchAllItems = useCallback(async () => {
     if (!isEditable || hasFacets) return;
+    logger.info(`[SLS fetchAllItems] Fetching list "${listType}" with language: ${i18n.language}`);
     setInternalLoading(true);
     setError(null);
     try {
@@ -47,13 +60,14 @@ const SearchableListSelector = ({
     }
   }, [listType, i18n.language, t, isEditable, hasFacets]);
 
-  useEffect(() => {
+useEffect(() => {
+    logger.info(`[SLS useEffect] Fetch trigger check. isInitialized: ${i18n.isInitialized}, isEditable: ${isEditable}, hasFacets: ${hasFacets}`);
     if (hasFacets) {
       setAllItems(availableItems);
-    } else {
+    } else if (isEditable && i18n.isInitialized) {
       fetchAllItems();
     }
-  }, [availableItems, hasFacets, fetchAllItems]);
+  }, [availableItems, hasFacets, fetchAllItems, isEditable, i18n.isInitialized]);
 
   useEffect(() => {
     if (!isEditable || allItems.length === 0 || !selectedItems) {
@@ -89,9 +103,9 @@ const SearchableListSelector = ({
     }
   }, [allItems, selectedItems, onUpdate, listType, isEditable]);
   
-  const toggleDropdown = () => {
+const toggleDropdown = () => {
     setIsDropdownOpen(prev => {
-        if (!prev && allItems.length === 0 && !searchTerm && !hasFacets) {
+        if (!prev && allItems.length === 0 && !searchTerm && !hasFacets && i18n.isInitialized) {
             fetchAllItems();
         }
         return !prev;

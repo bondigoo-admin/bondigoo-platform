@@ -385,7 +385,7 @@ export const flagEntity = async ({ entityId, entityType, reason, details }) => {
 };
 
 export const saveOnboardingData = async (onboardingData) => {
-  const { data } = await axios.patch('/api/users/me/onboarding', onboardingData);
+  const { data } = await api.patch('/api/users/me/onboarding', onboardingData);
   return data;
 };
 
@@ -397,4 +397,9 @@ export const updateOnboardingStep = async (stepData) => {
     console.error('Error updating onboarding step:', error.response?.data || error.message);
     throw error;
   }
+};
+
+export const verifyInitialEmail = async (token) => {
+    const response = await api.post('/api/users/verify-email', { token });
+    return response.data;
 };
