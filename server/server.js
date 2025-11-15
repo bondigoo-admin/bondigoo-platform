@@ -74,8 +74,13 @@ if (process.env.NODE_ENV === 'development' && allowedOrigins.length === 0) {
 }
 
 const corsOptions = {
-  origin: function (origin, callback) {
-    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+  origin: (origin, callback) => {
+    logger.debug('[CORS] Checking origin', { 
+      origin: origin, 
+      isAllowed: !origin || allowedOrigins.includes(origin) 
+    });
+    
+    if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
       callback(new Error('Not allowed by CORS'));
@@ -430,9 +435,9 @@ const startServer = async () => {
     }, 60000); // Broadcast every 60 seconds. TO BE DECREASED IN LIVE
 
    console.log('[Server] ReminderService initialized and running');
-     const jobQueueService = require('./services/jobQueueService');
-jobQueueService.initialize(io);
-   console.log('[Server] BullMQ Workers have been initialized.');
+   const jobQueueService = require('./services/jobQueueService');
+   jobQueueService.initializeQueues();
+   console.log('[Server] BullMQ Queues have been initialized for the API.');
 
     server.on('error', (e) => {
       if (e.code === 'EADDRINUSE') {

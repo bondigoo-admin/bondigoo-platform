@@ -28,7 +28,7 @@ import SubFooter from './components/layouts/SubFooter';
 import PublicLayout from './components/layouts/PublicLayout';
 import FeedbackWidget from './components/shared/FeedbackWidget';
 import BottomTabBar from './components/layouts/BottomTabBar';
-import MainFooter from './components/MainFooter'; // Added MainFooter
+import MainFooter from './components/MainFooter'; 
 
 const Home = React.lazy(() => import('./components/Home'));
 const HowItWorks = React.lazy(() => import('./components/HowItWorks'));
@@ -80,6 +80,7 @@ const TermsOfServicePage = React.lazy(() => import('./components/TermsOfServiceP
 const PrivacyPolicyPage = React.lazy(() => import('./components/PrivacyPolicyPage'));
 const CoachApplicationPage = React.lazy(() => import('./components/CoachApplicationPage'));
 const ProtectedRoute = React.lazy(() => import('./components/ProtectedRoute'));
+const InitialEmailVerificationPage = React.lazy(() => import('./components/InitialEmailVerificationPage'));
 
 const DashboardRouter = () => {
   const { userRole } = useContext(AuthContext);
@@ -301,6 +302,7 @@ const excludedFooterPrefixes = [
 ];
   const canShowFooter = !excludedFooterPrefixes.some(prefix => location.pathname.startsWith(prefix)) && !location.pathname.includes('/setup');
   const isFooterExcluded = !canShowFooter;
+  const showTabBar = canShowFooter || isMobileMenuForcedOpen;
 
 return (
       <div className="grid grid-rows-[auto_1fr_auto] min-h-dvh bg-gradient-subtle overflow-x-hidden">
@@ -310,7 +312,7 @@ return (
           <Header />
         </header>
 
-       <main className="flex-1 overflow-y-auto relative">
+       <main className={`flex-1 overflow-y-auto relative ${isAuthenticated && showTabBar ? 'pb-16 lg:pb-0' : ''}`}>
           <LiveSessionRequestModal
             isOpen={incomingRequests.length > 0}
             requests={incomingRequests}
@@ -341,6 +343,7 @@ return (
                   <Route path="/forgot-password" element={<ForgotPasswordPage />} />
                   <Route path="/reset-password/:token" element={<ResetPasswordPage />} />
                   <Route path="/verify-email-change/:token" element={<EmailVerificationPage />} />
+                  <Route path="/verify-email/:token" element={<InitialEmailVerificationPage />} />
                   <Route element={<ProtectedRoute />}>
                     <Route path="/onboarding/client" element={<ClientOnboardingPage />} />
                     <Route path="/admin/*" element={<AdminDashboard />} />
@@ -451,7 +454,7 @@ return (
                   <ChevronUp className="h-8 w-8" />
                 </button>
               )}
-              {(canShowFooter || isMobileMenuForcedOpen) && <BottomTabBar />}
+              {showTabBar && <BottomTabBar />}
             </>
           )}
         </div>

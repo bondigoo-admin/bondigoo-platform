@@ -1,1006 +1,435 @@
-fredo@NB188:~$ sudo service redis-server start
-[sudo] password for fredo: 
-Job for redis-server.service failed because the control process exited with error code.
-See "systemctl status redis-server.service" and "journalctl -xeu redis-server.service" for details.
-fredo@NB188:~$ journalctl -xeu redis-server.service --no-pager
-Nov 14 17:18:03 NB188 systemd[1]: Starting redis-server.service - Advanced key-value store...
-░░ Subject: A start job for unit redis-server.service has begun execution
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ A start job for unit redis-server.service has begun execution.
-░░ 
-░░ The job identifier is 119.
-Nov 14 17:18:03 NB188 systemd[1]: redis-server.service: Main process exited, code=exited, status=1/FAILURE
-░░ Subject: Unit process exited
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ An ExecStart= process belonging to unit redis-server.service has exited.
-░░ 
-░░ The process' exit code is 'exited' and its exit status is 1.
-Nov 14 17:18:03 NB188 systemd[1]: redis-server.service: Failed with result 'exit-code'.
-░░ Subject: Unit failed
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ The unit redis-server.service has entered the 'failed' state with result 'exit-code'.
-Nov 14 17:18:03 NB188 systemd[1]: Failed to start redis-server.service - Advanced key-value store.
-░░ Subject: A start job for unit redis-server.service has failed
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ A start job for unit redis-server.service has finished with a failure.
-░░ 
-░░ The job identifier is 119 and the job result is failed.
-Nov 14 17:18:03 NB188 systemd[1]: redis-server.service: Scheduled restart job, restart counter is at 1.
-░░ Subject: Automatic restarting of a unit has been scheduled
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ Automatic restarting of the unit redis-server.service has been scheduled, as the result for
-░░ the configured Restart= setting for the unit.
-Nov 14 17:18:03 NB188 systemd[1]: Starting redis-server.service - Advanced key-value store...
-░░ Subject: A start job for unit redis-server.service has begun execution
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ A start job for unit redis-server.service has begun execution.
-░░ 
-░░ The job identifier is 210.
-Nov 14 17:18:03 NB188 systemd[1]: redis-server.service: Main process exited, code=exited, status=1/FAILURE
-░░ Subject: Unit process exited
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ An ExecStart= process belonging to unit redis-server.service has exited.
-░░ 
-░░ The process' exit code is 'exited' and its exit status is 1.
-Nov 14 17:18:03 NB188 systemd[1]: redis-server.service: Failed with result 'exit-code'.
-░░ Subject: Unit failed
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ The unit redis-server.service has entered the 'failed' state with result 'exit-code'.
-Nov 14 17:18:03 NB188 systemd[1]: Failed to start redis-server.service - Advanced key-value store.
-░░ Subject: A start job for unit redis-server.service has failed
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ A start job for unit redis-server.service has finished with a failure.
-░░ 
-░░ The job identifier is 210 and the job result is failed.
-Nov 14 17:18:03 NB188 systemd[1]: redis-server.service: Scheduled restart job, restart counter is at 2.
-░░ Subject: Automatic restarting of a unit has been scheduled
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ Automatic restarting of the unit redis-server.service has been scheduled, as the result for
-░░ the configured Restart= setting for the unit.
-Nov 14 17:18:03 NB188 systemd[1]: Starting redis-server.service - Advanced key-value store...
-░░ Subject: A start job for unit redis-server.service has begun execution
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ A start job for unit redis-server.service has begun execution.
-░░ 
-░░ The job identifier is 281.
-Nov 14 17:18:03 NB188 systemd[1]: redis-server.service: Main process exited, code=exited, status=1/FAILURE
-░░ Subject: Unit process exited
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ An ExecStart= process belonging to unit redis-server.service has exited.
-░░ 
-░░ The process' exit code is 'exited' and its exit status is 1.
-Nov 14 17:18:03 NB188 systemd[1]: redis-server.service: Failed with result 'exit-code'.
-░░ Subject: Unit failed
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ The unit redis-server.service has entered the 'failed' state with result 'exit-code'.
-Nov 14 17:18:03 NB188 systemd[1]: Failed to start redis-server.service - Advanced key-value store.
-░░ Subject: A start job for unit redis-server.service has failed
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ A start job for unit redis-server.service has finished with a failure.
-░░ 
-░░ The job identifier is 281 and the job result is failed.
-Nov 14 17:18:04 NB188 systemd[1]: redis-server.service: Scheduled restart job, restart counter is at 3.
-░░ Subject: Automatic restarting of a unit has been scheduled
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ Automatic restarting of the unit redis-server.service has been scheduled, as the result for
-░░ the configured Restart= setting for the unit.
-Nov 14 17:18:04 NB188 systemd[1]: Starting redis-server.service - Advanced key-value store...
-░░ Subject: A start job for unit redis-server.service has begun execution
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ A start job for unit redis-server.service has begun execution.
-░░ 
-░░ The job identifier is 352.
-Nov 14 17:18:04 NB188 systemd[1]: redis-server.service: Main process exited, code=exited, status=1/FAILURE
-░░ Subject: Unit process exited
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ An ExecStart= process belonging to unit redis-server.service has exited.
-░░ 
-░░ The process' exit code is 'exited' and its exit status is 1.
-Nov 14 17:18:04 NB188 systemd[1]: redis-server.service: Failed with result 'exit-code'.
-░░ Subject: Unit failed
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ The unit redis-server.service has entered the 'failed' state with result 'exit-code'.
-Nov 14 17:18:04 NB188 systemd[1]: Failed to start redis-server.service - Advanced key-value store.
-░░ Subject: A start job for unit redis-server.service has failed
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ A start job for unit redis-server.service has finished with a failure.
-░░ 
-░░ The job identifier is 352 and the job result is failed.
-Nov 14 17:18:04 NB188 systemd[1]: redis-server.service: Scheduled restart job, restart counter is at 4.
-░░ Subject: Automatic restarting of a unit has been scheduled
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ Automatic restarting of the unit redis-server.service has been scheduled, as the result for
-░░ the configured Restart= setting for the unit.
-Nov 14 17:18:04 NB188 systemd[1]: Starting redis-server.service - Advanced key-value store...
-░░ Subject: A start job for unit redis-server.service has begun execution
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ A start job for unit redis-server.service has begun execution.
-░░ 
-░░ The job identifier is 423.
-Nov 14 17:18:04 NB188 systemd[1]: redis-server.service: Main process exited, code=exited, status=1/FAILURE
-░░ Subject: Unit process exited
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ An ExecStart= process belonging to unit redis-server.service has exited.
-░░ 
-░░ The process' exit code is 'exited' and its exit status is 1.
-Nov 14 17:18:04 NB188 systemd[1]: redis-server.service: Failed with result 'exit-code'.
-░░ Subject: Unit failed
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ The unit redis-server.service has entered the 'failed' state with result 'exit-code'.
-Nov 14 17:18:04 NB188 systemd[1]: Failed to start redis-server.service - Advanced key-value store.
-░░ Subject: A start job for unit redis-server.service has failed
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ A start job for unit redis-server.service has finished with a failure.
-░░ 
-░░ The job identifier is 423 and the job result is failed.
-Nov 14 17:18:04 NB188 systemd[1]: redis-server.service: Scheduled restart job, restart counter is at 5.
-░░ Subject: Automatic restarting of a unit has been scheduled
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ Automatic restarting of the unit redis-server.service has been scheduled, as the result for
-░░ the configured Restart= setting for the unit.
-Nov 14 17:18:04 NB188 systemd[1]: redis-server.service: Start request repeated too quickly.
-Nov 14 17:18:04 NB188 systemd[1]: redis-server.service: Failed with result 'exit-code'.
-░░ Subject: Unit failed
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ The unit redis-server.service has entered the 'failed' state with result 'exit-code'.
-Nov 14 17:18:04 NB188 systemd[1]: Failed to start redis-server.service - Advanced key-value store.
-░░ Subject: A start job for unit redis-server.service has failed
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ A start job for unit redis-server.service has finished with a failure.
-░░ 
-░░ The job identifier is 642 and the job result is failed.
-Nov 14 17:18:20 NB188 systemd[1]: Starting redis-server.service - Advanced key-value store...
-░░ Subject: A start job for unit redis-server.service has begun execution
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ A start job for unit redis-server.service has begun execution.
-░░ 
-░░ The job identifier is 1084.
-Nov 14 17:18:20 NB188 systemd[1]: redis-server.service: Main process exited, code=exited, status=1/FAILURE
-░░ Subject: Unit process exited
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ An ExecStart= process belonging to unit redis-server.service has exited.
-░░ 
-░░ The process' exit code is 'exited' and its exit status is 1.
-Nov 14 17:18:20 NB188 systemd[1]: redis-server.service: Failed with result 'exit-code'.
-░░ Subject: Unit failed
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ The unit redis-server.service has entered the 'failed' state with result 'exit-code'.
-Nov 14 17:18:20 NB188 systemd[1]: Failed to start redis-server.service - Advanced key-value store.
-░░ Subject: A start job for unit redis-server.service has failed
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ A start job for unit redis-server.service has finished with a failure.
-░░ 
-░░ The job identifier is 1084 and the job result is failed.
-Nov 14 17:18:20 NB188 systemd[1]: redis-server.service: Scheduled restart job, restart counter is at 1.
-░░ Subject: Automatic restarting of a unit has been scheduled
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ Automatic restarting of the unit redis-server.service has been scheduled, as the result for
-░░ the configured Restart= setting for the unit.
-Nov 14 17:18:20 NB188 systemd[1]: Starting redis-server.service - Advanced key-value store...
-░░ Subject: A start job for unit redis-server.service has begun execution
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ A start job for unit redis-server.service has begun execution.
-░░ 
-░░ The job identifier is 1155.
-Nov 14 17:18:20 NB188 systemd[1]: redis-server.service: Main process exited, code=exited, status=1/FAILURE
-░░ Subject: Unit process exited
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ An ExecStart= process belonging to unit redis-server.service has exited.
-░░ 
-░░ The process' exit code is 'exited' and its exit status is 1.
-Nov 14 17:18:20 NB188 systemd[1]: redis-server.service: Failed with result 'exit-code'.
-░░ Subject: Unit failed
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ The unit redis-server.service has entered the 'failed' state with result 'exit-code'.
-Nov 14 17:18:20 NB188 systemd[1]: Failed to start redis-server.service - Advanced key-value store.
-░░ Subject: A start job for unit redis-server.service has failed
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ A start job for unit redis-server.service has finished with a failure.
-░░ 
-░░ The job identifier is 1155 and the job result is failed.
-Nov 14 17:18:20 NB188 systemd[1]: redis-server.service: Scheduled restart job, restart counter is at 2.
-░░ Subject: Automatic restarting of a unit has been scheduled
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ Automatic restarting of the unit redis-server.service has been scheduled, as the result for
-░░ the configured Restart= setting for the unit.
-Nov 14 17:18:20 NB188 systemd[1]: Starting redis-server.service - Advanced key-value store...
-░░ Subject: A start job for unit redis-server.service has begun execution
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ A start job for unit redis-server.service has begun execution.
-░░ 
-░░ The job identifier is 1226.
-Nov 14 17:18:20 NB188 systemd[1]: redis-server.service: Main process exited, code=exited, status=1/FAILURE
-░░ Subject: Unit process exited
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ An ExecStart= process belonging to unit redis-server.service has exited.
-░░ 
-░░ The process' exit code is 'exited' and its exit status is 1.
-Nov 14 17:18:20 NB188 systemd[1]: redis-server.service: Failed with result 'exit-code'.
-░░ Subject: Unit failed
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ The unit redis-server.service has entered the 'failed' state with result 'exit-code'.
-Nov 14 17:18:20 NB188 systemd[1]: Failed to start redis-server.service - Advanced key-value store.
-░░ Subject: A start job for unit redis-server.service has failed
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ A start job for unit redis-server.service has finished with a failure.
-░░ 
-░░ The job identifier is 1226 and the job result is failed.
-Nov 14 17:18:20 NB188 systemd[1]: redis-server.service: Scheduled restart job, restart counter is at 3.
-░░ Subject: Automatic restarting of a unit has been scheduled
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ Automatic restarting of the unit redis-server.service has been scheduled, as the result for
-░░ the configured Restart= setting for the unit.
-Nov 14 17:18:20 NB188 systemd[1]: Starting redis-server.service - Advanced key-value store...
-░░ Subject: A start job for unit redis-server.service has begun execution
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ A start job for unit redis-server.service has begun execution.
-░░ 
-░░ The job identifier is 1297.
-Nov 14 17:18:21 NB188 systemd[1]: redis-server.service: Main process exited, code=exited, status=1/FAILURE
-░░ Subject: Unit process exited
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ An ExecStart= process belonging to unit redis-server.service has exited.
-░░ 
-░░ The process' exit code is 'exited' and its exit status is 1.
-Nov 14 17:18:21 NB188 systemd[1]: redis-server.service: Failed with result 'exit-code'.
-░░ Subject: Unit failed
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ The unit redis-server.service has entered the 'failed' state with result 'exit-code'.
-Nov 14 17:18:21 NB188 systemd[1]: Failed to start redis-server.service - Advanced key-value store.
-░░ Subject: A start job for unit redis-server.service has failed
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ A start job for unit redis-server.service has finished with a failure.
-░░ 
-░░ The job identifier is 1297 and the job result is failed.
-Nov 14 17:18:21 NB188 systemd[1]: redis-server.service: Scheduled restart job, restart counter is at 4.
-░░ Subject: Automatic restarting of a unit has been scheduled
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ Automatic restarting of the unit redis-server.service has been scheduled, as the result for
-░░ the configured Restart= setting for the unit.
-Nov 14 17:18:21 NB188 systemd[1]: Starting redis-server.service - Advanced key-value store...
-░░ Subject: A start job for unit redis-server.service has begun execution
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ A start job for unit redis-server.service has begun execution.
-░░ 
-░░ The job identifier is 1368.
-Nov 14 17:18:21 NB188 systemd[1]: redis-server.service: Main process exited, code=exited, status=1/FAILURE
-░░ Subject: Unit process exited
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ An ExecStart= process belonging to unit redis-server.service has exited.
-░░ 
-░░ The process' exit code is 'exited' and its exit status is 1.
-Nov 14 17:18:21 NB188 systemd[1]: redis-server.service: Failed with result 'exit-code'.
-░░ Subject: Unit failed
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ The unit redis-server.service has entered the 'failed' state with result 'exit-code'.
-Nov 14 17:18:21 NB188 systemd[1]: Failed to start redis-server.service - Advanced key-value store.
-░░ Subject: A start job for unit redis-server.service has failed
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ A start job for unit redis-server.service has finished with a failure.
-░░ 
-░░ The job identifier is 1368 and the job result is failed.
-Nov 14 17:18:21 NB188 systemd[1]: redis-server.service: Scheduled restart job, restart counter is at 5.
-░░ Subject: Automatic restarting of a unit has been scheduled
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ Automatic restarting of the unit redis-server.service has been scheduled, as the result for
-░░ the configured Restart= setting for the unit.
-Nov 14 17:18:21 NB188 systemd[1]: redis-server.service: Start request repeated too quickly.
-Nov 14 17:18:21 NB188 systemd[1]: redis-server.service: Failed with result 'exit-code'.
-░░ Subject: Unit failed
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ The unit redis-server.service has entered the 'failed' state with result 'exit-code'.
-Nov 14 17:18:21 NB188 systemd[1]: Failed to start redis-server.service - Advanced key-value store.
-░░ Subject: A start job for unit redis-server.service has failed
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ A start job for unit redis-server.service has finished with a failure.
-░░ 
-░░ The job identifier is 1439 and the job result is failed.
-Nov 14 17:18:51 NB188 systemd[1]: Starting redis-server.service - Advanced key-value store...
-░░ Subject: A start job for unit redis-server.service has begun execution
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ A start job for unit redis-server.service has begun execution.
-░░ 
-░░ The job identifier is 1510.
-Nov 14 17:18:51 NB188 systemd[1]: redis-server.service: Main process exited, code=exited, status=1/FAILURE
-░░ Subject: Unit process exited
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ An ExecStart= process belonging to unit redis-server.service has exited.
-░░ 
-░░ The process' exit code is 'exited' and its exit status is 1.
-Nov 14 17:18:51 NB188 systemd[1]: redis-server.service: Failed with result 'exit-code'.
-░░ Subject: Unit failed
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ The unit redis-server.service has entered the 'failed' state with result 'exit-code'.
-Nov 14 17:18:51 NB188 systemd[1]: Failed to start redis-server.service - Advanced key-value store.
-░░ Subject: A start job for unit redis-server.service has failed
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ A start job for unit redis-server.service has finished with a failure.
-░░ 
-░░ The job identifier is 1510 and the job result is failed.
-Nov 14 17:18:51 NB188 systemd[1]: redis-server.service: Scheduled restart job, restart counter is at 1.
-░░ Subject: Automatic restarting of a unit has been scheduled
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ Automatic restarting of the unit redis-server.service has been scheduled, as the result for
-░░ the configured Restart= setting for the unit.
-Nov 14 17:18:51 NB188 systemd[1]: Starting redis-server.service - Advanced key-value store...
-░░ Subject: A start job for unit redis-server.service has begun execution
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ A start job for unit redis-server.service has begun execution.
-░░ 
-░░ The job identifier is 1581.
-Nov 14 17:18:52 NB188 systemd[1]: redis-server.service: Main process exited, code=exited, status=1/FAILURE
-░░ Subject: Unit process exited
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ An ExecStart= process belonging to unit redis-server.service has exited.
-░░ 
-░░ The process' exit code is 'exited' and its exit status is 1.
-Nov 14 17:18:52 NB188 systemd[1]: redis-server.service: Failed with result 'exit-code'.
-░░ Subject: Unit failed
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ The unit redis-server.service has entered the 'failed' state with result 'exit-code'.
-Nov 14 17:18:52 NB188 systemd[1]: Failed to start redis-server.service - Advanced key-value store.
-░░ Subject: A start job for unit redis-server.service has failed
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ A start job for unit redis-server.service has finished with a failure.
-░░ 
-░░ The job identifier is 1581 and the job result is failed.
-Nov 14 17:18:52 NB188 systemd[1]: redis-server.service: Scheduled restart job, restart counter is at 2.
-░░ Subject: Automatic restarting of a unit has been scheduled
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ Automatic restarting of the unit redis-server.service has been scheduled, as the result for
-░░ the configured Restart= setting for the unit.
-Nov 14 17:18:52 NB188 systemd[1]: Starting redis-server.service - Advanced key-value store...
-░░ Subject: A start job for unit redis-server.service has begun execution
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ A start job for unit redis-server.service has begun execution.
-░░ 
-░░ The job identifier is 1652.
-Nov 14 17:18:52 NB188 systemd[1]: redis-server.service: Main process exited, code=exited, status=1/FAILURE
-░░ Subject: Unit process exited
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ An ExecStart= process belonging to unit redis-server.service has exited.
-░░ 
-░░ The process' exit code is 'exited' and its exit status is 1.
-Nov 14 17:18:52 NB188 systemd[1]: redis-server.service: Failed with result 'exit-code'.
-░░ Subject: Unit failed
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ The unit redis-server.service has entered the 'failed' state with result 'exit-code'.
-Nov 14 17:18:52 NB188 systemd[1]: Failed to start redis-server.service - Advanced key-value store.
-░░ Subject: A start job for unit redis-server.service has failed
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ A start job for unit redis-server.service has finished with a failure.
-░░ 
-░░ The job identifier is 1652 and the job result is failed.
-Nov 14 17:18:52 NB188 systemd[1]: redis-server.service: Scheduled restart job, restart counter is at 3.
-░░ Subject: Automatic restarting of a unit has been scheduled
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ Automatic restarting of the unit redis-server.service has been scheduled, as the result for
-░░ the configured Restart= setting for the unit.
-Nov 14 17:18:52 NB188 systemd[1]: Starting redis-server.service - Advanced key-value store...
-░░ Subject: A start job for unit redis-server.service has begun execution
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ A start job for unit redis-server.service has begun execution.
-░░ 
-░░ The job identifier is 1723.
-Nov 14 17:18:52 NB188 systemd[1]: redis-server.service: Main process exited, code=exited, status=1/FAILURE
-░░ Subject: Unit process exited
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ An ExecStart= process belonging to unit redis-server.service has exited.
-░░ 
-░░ The process' exit code is 'exited' and its exit status is 1.
-Nov 14 17:18:52 NB188 systemd[1]: redis-server.service: Failed with result 'exit-code'.
-░░ Subject: Unit failed
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ The unit redis-server.service has entered the 'failed' state with result 'exit-code'.
-Nov 14 17:18:52 NB188 systemd[1]: Failed to start redis-server.service - Advanced key-value store.
-░░ Subject: A start job for unit redis-server.service has failed
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ A start job for unit redis-server.service has finished with a failure.
-░░ 
-░░ The job identifier is 1723 and the job result is failed.
-Nov 14 17:18:52 NB188 systemd[1]: redis-server.service: Scheduled restart job, restart counter is at 4.
-░░ Subject: Automatic restarting of a unit has been scheduled
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ Automatic restarting of the unit redis-server.service has been scheduled, as the result for
-░░ the configured Restart= setting for the unit.
-Nov 14 17:18:52 NB188 systemd[1]: Starting redis-server.service - Advanced key-value store...
-░░ Subject: A start job for unit redis-server.service has begun execution
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ A start job for unit redis-server.service has begun execution.
-░░ 
-░░ The job identifier is 1794.
-Nov 14 17:18:52 NB188 systemd[1]: redis-server.service: Main process exited, code=exited, status=1/FAILURE
-░░ Subject: Unit process exited
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ An ExecStart= process belonging to unit redis-server.service has exited.
-░░ 
-░░ The process' exit code is 'exited' and its exit status is 1.
-Nov 14 17:18:52 NB188 systemd[1]: redis-server.service: Failed with result 'exit-code'.
-░░ Subject: Unit failed
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ The unit redis-server.service has entered the 'failed' state with result 'exit-code'.
-Nov 14 17:18:52 NB188 systemd[1]: Failed to start redis-server.service - Advanced key-value store.
-░░ Subject: A start job for unit redis-server.service has failed
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ A start job for unit redis-server.service has finished with a failure.
-░░ 
-░░ The job identifier is 1794 and the job result is failed.
-Nov 14 17:18:52 NB188 systemd[1]: redis-server.service: Scheduled restart job, restart counter is at 5.
-░░ Subject: Automatic restarting of a unit has been scheduled
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ Automatic restarting of the unit redis-server.service has been scheduled, as the result for
-░░ the configured Restart= setting for the unit.
-Nov 14 17:18:52 NB188 systemd[1]: redis-server.service: Start request repeated too quickly.
-Nov 14 17:18:52 NB188 systemd[1]: redis-server.service: Failed with result 'exit-code'.
-░░ Subject: Unit failed
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ The unit redis-server.service has entered the 'failed' state with result 'exit-code'.
-Nov 14 17:18:52 NB188 systemd[1]: Failed to start redis-server.service - Advanced key-value store.
-░░ Subject: A start job for unit redis-server.service has failed
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ A start job for unit redis-server.service has finished with a failure.
-░░ 
-░░ The job identifier is 1865 and the job result is failed.
-Nov 14 17:20:02 NB188 systemd[1]: Starting redis-server.service - Advanced key-value store...
-░░ Subject: A start job for unit redis-server.service has begun execution
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ A start job for unit redis-server.service has begun execution.
-░░ 
-░░ The job identifier is 1936.
-Nov 14 17:20:02 NB188 systemd[1]: redis-server.service: Main process exited, code=exited, status=1/FAILURE
-░░ Subject: Unit process exited
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ An ExecStart= process belonging to unit redis-server.service has exited.
-░░ 
-░░ The process' exit code is 'exited' and its exit status is 1.
-Nov 14 17:20:02 NB188 systemd[1]: redis-server.service: Failed with result 'exit-code'.
-░░ Subject: Unit failed
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ The unit redis-server.service has entered the 'failed' state with result 'exit-code'.
-Nov 14 17:20:02 NB188 systemd[1]: Failed to start redis-server.service - Advanced key-value store.
-░░ Subject: A start job for unit redis-server.service has failed
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ A start job for unit redis-server.service has finished with a failure.
-░░ 
-░░ The job identifier is 1936 and the job result is failed.
-Nov 14 17:20:02 NB188 systemd[1]: redis-server.service: Scheduled restart job, restart counter is at 1.
-░░ Subject: Automatic restarting of a unit has been scheduled
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ Automatic restarting of the unit redis-server.service has been scheduled, as the result for
-░░ the configured Restart= setting for the unit.
-Nov 14 17:20:02 NB188 systemd[1]: Starting redis-server.service - Advanced key-value store...
-░░ Subject: A start job for unit redis-server.service has begun execution
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ A start job for unit redis-server.service has begun execution.
-░░ 
-░░ The job identifier is 2007.
-Nov 14 17:20:02 NB188 systemd[1]: redis-server.service: Main process exited, code=exited, status=1/FAILURE
-░░ Subject: Unit process exited
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ An ExecStart= process belonging to unit redis-server.service has exited.
-░░ 
-░░ The process' exit code is 'exited' and its exit status is 1.
-Nov 14 17:20:02 NB188 systemd[1]: redis-server.service: Failed with result 'exit-code'.
-░░ Subject: Unit failed
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ The unit redis-server.service has entered the 'failed' state with result 'exit-code'.
-Nov 14 17:20:02 NB188 systemd[1]: Failed to start redis-server.service - Advanced key-value store.
-░░ Subject: A start job for unit redis-server.service has failed
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ A start job for unit redis-server.service has finished with a failure.
-░░ 
-░░ The job identifier is 2007 and the job result is failed.
-Nov 14 17:20:02 NB188 systemd[1]: redis-server.service: Scheduled restart job, restart counter is at 2.
-░░ Subject: Automatic restarting of a unit has been scheduled
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ Automatic restarting of the unit redis-server.service has been scheduled, as the result for
-░░ the configured Restart= setting for the unit.
-Nov 14 17:20:02 NB188 systemd[1]: Starting redis-server.service - Advanced key-value store...
-░░ Subject: A start job for unit redis-server.service has begun execution
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ A start job for unit redis-server.service has begun execution.
-░░ 
-░░ The job identifier is 2078.
-Nov 14 17:20:03 NB188 systemd[1]: redis-server.service: Main process exited, code=exited, status=1/FAILURE
-░░ Subject: Unit process exited
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ An ExecStart= process belonging to unit redis-server.service has exited.
-░░ 
-░░ The process' exit code is 'exited' and its exit status is 1.
-Nov 14 17:20:03 NB188 systemd[1]: redis-server.service: Failed with result 'exit-code'.
-░░ Subject: Unit failed
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ The unit redis-server.service has entered the 'failed' state with result 'exit-code'.
-Nov 14 17:20:03 NB188 systemd[1]: Failed to start redis-server.service - Advanced key-value store.
-░░ Subject: A start job for unit redis-server.service has failed
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ A start job for unit redis-server.service has finished with a failure.
-░░ 
-░░ The job identifier is 2078 and the job result is failed.
-Nov 14 17:20:03 NB188 systemd[1]: redis-server.service: Scheduled restart job, restart counter is at 3.
-░░ Subject: Automatic restarting of a unit has been scheduled
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ Automatic restarting of the unit redis-server.service has been scheduled, as the result for
-░░ the configured Restart= setting for the unit.
-Nov 14 17:20:03 NB188 systemd[1]: Starting redis-server.service - Advanced key-value store...
-░░ Subject: A start job for unit redis-server.service has begun execution
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ A start job for unit redis-server.service has begun execution.
-░░ 
-░░ The job identifier is 2149.
-Nov 14 17:20:03 NB188 systemd[1]: redis-server.service: Main process exited, code=exited, status=1/FAILURE
-░░ Subject: Unit process exited
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ An ExecStart= process belonging to unit redis-server.service has exited.
-░░ 
-░░ The process' exit code is 'exited' and its exit status is 1.
-Nov 14 17:20:03 NB188 systemd[1]: redis-server.service: Failed with result 'exit-code'.
-░░ Subject: Unit failed
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ The unit redis-server.service has entered the 'failed' state with result 'exit-code'.
-Nov 14 17:20:03 NB188 systemd[1]: Failed to start redis-server.service - Advanced key-value store.
-░░ Subject: A start job for unit redis-server.service has failed
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ A start job for unit redis-server.service has finished with a failure.
-░░ 
-░░ The job identifier is 2149 and the job result is failed.
-Nov 14 17:20:03 NB188 systemd[1]: redis-server.service: Scheduled restart job, restart counter is at 4.
-░░ Subject: Automatic restarting of a unit has been scheduled
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ Automatic restarting of the unit redis-server.service has been scheduled, as the result for
-░░ the configured Restart= setting for the unit.
-Nov 14 17:20:03 NB188 systemd[1]: Starting redis-server.service - Advanced key-value store...
-░░ Subject: A start job for unit redis-server.service has begun execution
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ A start job for unit redis-server.service has begun execution.
-░░ 
-░░ The job identifier is 2220.
-Nov 14 17:20:03 NB188 systemd[1]: redis-server.service: Main process exited, code=exited, status=1/FAILURE
-░░ Subject: Unit process exited
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ An ExecStart= process belonging to unit redis-server.service has exited.
-░░ 
-░░ The process' exit code is 'exited' and its exit status is 1.
-Nov 14 17:20:03 NB188 systemd[1]: redis-server.service: Failed with result 'exit-code'.
-░░ Subject: Unit failed
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ The unit redis-server.service has entered the 'failed' state with result 'exit-code'.
-Nov 14 17:20:03 NB188 systemd[1]: Failed to start redis-server.service - Advanced key-value store.
-░░ Subject: A start job for unit redis-server.service has failed
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ A start job for unit redis-server.service has finished with a failure.
-░░ 
-░░ The job identifier is 2220 and the job result is failed.
-Nov 14 17:20:03 NB188 systemd[1]: redis-server.service: Scheduled restart job, restart counter is at 5.
-░░ Subject: Automatic restarting of a unit has been scheduled
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ Automatic restarting of the unit redis-server.service has been scheduled, as the result for
-░░ the configured Restart= setting for the unit.
-Nov 14 17:20:03 NB188 systemd[1]: redis-server.service: Start request repeated too quickly.
-Nov 14 17:20:03 NB188 systemd[1]: redis-server.service: Failed with result 'exit-code'.
-░░ Subject: Unit failed
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ The unit redis-server.service has entered the 'failed' state with result 'exit-code'.
-Nov 14 17:20:03 NB188 systemd[1]: Failed to start redis-server.service - Advanced key-value store.
-░░ Subject: A start job for unit redis-server.service has failed
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ A start job for unit redis-server.service has finished with a failure.
-░░ 
-░░ The job identifier is 2291 and the job result is failed.
-Nov 14 17:22:05 NB188 systemd[1]: Starting redis-server.service - Advanced key-value store...
-░░ Subject: A start job for unit redis-server.service has begun execution
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ A start job for unit redis-server.service has begun execution.
-░░ 
-░░ The job identifier is 2362.
-Nov 14 17:22:06 NB188 systemd[1]: redis-server.service: Main process exited, code=exited, status=1/FAILURE
-░░ Subject: Unit process exited
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ An ExecStart= process belonging to unit redis-server.service has exited.
-░░ 
-░░ The process' exit code is 'exited' and its exit status is 1.
-Nov 14 17:22:06 NB188 systemd[1]: redis-server.service: Failed with result 'exit-code'.
-░░ Subject: Unit failed
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ The unit redis-server.service has entered the 'failed' state with result 'exit-code'.
-Nov 14 17:22:06 NB188 systemd[1]: Failed to start redis-server.service - Advanced key-value store.
-░░ Subject: A start job for unit redis-server.service has failed
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ A start job for unit redis-server.service has finished with a failure.
-░░ 
-░░ The job identifier is 2362 and the job result is failed.
-Nov 14 17:22:06 NB188 systemd[1]: redis-server.service: Scheduled restart job, restart counter is at 1.
-░░ Subject: Automatic restarting of a unit has been scheduled
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ Automatic restarting of the unit redis-server.service has been scheduled, as the result for
-░░ the configured Restart= setting for the unit.
-Nov 14 17:22:06 NB188 systemd[1]: Starting redis-server.service - Advanced key-value store...
-░░ Subject: A start job for unit redis-server.service has begun execution
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ A start job for unit redis-server.service has begun execution.
-░░ 
-░░ The job identifier is 2433.
-Nov 14 17:22:06 NB188 systemd[1]: redis-server.service: Main process exited, code=exited, status=1/FAILURE
-░░ Subject: Unit process exited
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ An ExecStart= process belonging to unit redis-server.service has exited.
-░░ 
-░░ The process' exit code is 'exited' and its exit status is 1.
-Nov 14 17:22:06 NB188 systemd[1]: redis-server.service: Failed with result 'exit-code'.
-░░ Subject: Unit failed
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ The unit redis-server.service has entered the 'failed' state with result 'exit-code'.
-Nov 14 17:22:06 NB188 systemd[1]: Failed to start redis-server.service - Advanced key-value store.
-░░ Subject: A start job for unit redis-server.service has failed
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ A start job for unit redis-server.service has finished with a failure.
-░░ 
-░░ The job identifier is 2433 and the job result is failed.
-Nov 14 17:22:06 NB188 systemd[1]: redis-server.service: Scheduled restart job, restart counter is at 2.
-░░ Subject: Automatic restarting of a unit has been scheduled
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ Automatic restarting of the unit redis-server.service has been scheduled, as the result for
-░░ the configured Restart= setting for the unit.
-Nov 14 17:22:06 NB188 systemd[1]: Starting redis-server.service - Advanced key-value store...
-░░ Subject: A start job for unit redis-server.service has begun execution
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ A start job for unit redis-server.service has begun execution.
-░░ 
-░░ The job identifier is 2504.
-Nov 14 17:22:06 NB188 systemd[1]: redis-server.service: Main process exited, code=exited, status=1/FAILURE
-░░ Subject: Unit process exited
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ An ExecStart= process belonging to unit redis-server.service has exited.
-░░ 
-░░ The process' exit code is 'exited' and its exit status is 1.
-Nov 14 17:22:06 NB188 systemd[1]: redis-server.service: Failed with result 'exit-code'.
-░░ Subject: Unit failed
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ The unit redis-server.service has entered the 'failed' state with result 'exit-code'.
-Nov 14 17:22:06 NB188 systemd[1]: Failed to start redis-server.service - Advanced key-value store.
-░░ Subject: A start job for unit redis-server.service has failed
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ A start job for unit redis-server.service has finished with a failure.
-░░ 
-░░ The job identifier is 2504 and the job result is failed.
-Nov 14 17:22:06 NB188 systemd[1]: redis-server.service: Scheduled restart job, restart counter is at 3.
-░░ Subject: Automatic restarting of a unit has been scheduled
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ Automatic restarting of the unit redis-server.service has been scheduled, as the result for
-░░ the configured Restart= setting for the unit.
-Nov 14 17:22:06 NB188 systemd[1]: Starting redis-server.service - Advanced key-value store...
-░░ Subject: A start job for unit redis-server.service has begun execution
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ A start job for unit redis-server.service has begun execution.
-░░ 
-░░ The job identifier is 2575.
-Nov 14 17:22:06 NB188 systemd[1]: redis-server.service: Main process exited, code=exited, status=1/FAILURE
-░░ Subject: Unit process exited
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ An ExecStart= process belonging to unit redis-server.service has exited.
-░░ 
-░░ The process' exit code is 'exited' and its exit status is 1.
-Nov 14 17:22:06 NB188 systemd[1]: redis-server.service: Failed with result 'exit-code'.
-░░ Subject: Unit failed
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ The unit redis-server.service has entered the 'failed' state with result 'exit-code'.
-Nov 14 17:22:06 NB188 systemd[1]: Failed to start redis-server.service - Advanced key-value store.
-░░ Subject: A start job for unit redis-server.service has failed
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ A start job for unit redis-server.service has finished with a failure.
-░░ 
-░░ The job identifier is 2575 and the job result is failed.
-Nov 14 17:22:06 NB188 systemd[1]: redis-server.service: Scheduled restart job, restart counter is at 4.
-░░ Subject: Automatic restarting of a unit has been scheduled
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ Automatic restarting of the unit redis-server.service has been scheduled, as the result for
-░░ the configured Restart= setting for the unit.
-Nov 14 17:22:06 NB188 systemd[1]: Starting redis-server.service - Advanced key-value store...
-░░ Subject: A start job for unit redis-server.service has begun execution
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ A start job for unit redis-server.service has begun execution.
-░░ 
-░░ The job identifier is 2646.
-Nov 14 17:22:06 NB188 systemd[1]: redis-server.service: Main process exited, code=exited, status=1/FAILURE
-░░ Subject: Unit process exited
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ An ExecStart= process belonging to unit redis-server.service has exited.
-░░ 
-░░ The process' exit code is 'exited' and its exit status is 1.
-Nov 14 17:22:06 NB188 systemd[1]: redis-server.service: Failed with result 'exit-code'.
-░░ Subject: Unit failed
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ The unit redis-server.service has entered the 'failed' state with result 'exit-code'.
-Nov 14 17:22:06 NB188 systemd[1]: Failed to start redis-server.service - Advanced key-value store.
-░░ Subject: A start job for unit redis-server.service has failed
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ A start job for unit redis-server.service has finished with a failure.
-░░ 
-░░ The job identifier is 2646 and the job result is failed.
-Nov 14 17:22:07 NB188 systemd[1]: redis-server.service: Scheduled restart job, restart counter is at 5.
-░░ Subject: Automatic restarting of a unit has been scheduled
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ Automatic restarting of the unit redis-server.service has been scheduled, as the result for
-░░ the configured Restart= setting for the unit.
-Nov 14 17:22:07 NB188 systemd[1]: redis-server.service: Start request repeated too quickly.
-Nov 14 17:22:07 NB188 systemd[1]: redis-server.service: Failed with result 'exit-code'.
-░░ Subject: Unit failed
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ The unit redis-server.service has entered the 'failed' state with result 'exit-code'.
-Nov 14 17:22:07 NB188 systemd[1]: Failed to start redis-server.service - Advanced key-value store.
-░░ Subject: A start job for unit redis-server.service has failed
-░░ Defined-By: systemd
-░░ Support: http://www.ubuntu.com/support
-░░ 
-░░ A start job for unit redis-server.service has finished with a failure.
-░░ 
-░░ The job identifier is 2717 and the job result is failed.
-fredo@NB188:~$ 
+[SocketService] Broadcasting status update for user 6918a8cb83944c5693a00d9b { status: 'offline' }
+debug: [CORS] Checking origin {"isAllowed":true,"origin":"http://localhost:3000","timestamp":"2025-11-15T16:38:13.961Z"}
+[userRoutes.js] >>>>> HIT: POST /register route handler at 2025-11-15T16:38:13.983Z
+[userController.js] >>>>> ENTERED: registerUser function at 2025-11-15T16:38:13.984Z
+[userController.js] Registration request body: {
+  firstName: 'Kurt',
+  lastName: 'Müller',
+  email: 'kurt.mueller3@example.com',
+  password: 'kurt.mueller3@example.com',
+  dateOfBirth: '1933-12-26T23:00:00.000Z',
+  termsAccepted: true,
+  marketingOptIn: true
+}
+[UserModel] Saving user: 6918ac7617ab37ba8ffd046b, Email: kurt.mueller3@example.com
+[userController.js] User 6918ac7617ab37ba8ffd046b saved successfully.
+[userController.js] Starting background notification task for user 6918ac7617ab37ba8ffd046b
+[userController.js] Triggering EMAIL_VERIFICATION for user 6918ac7617ab37ba8ffd046b
+info: [UnifiedNotificationService] sendNotification called with config: {"recipient":"6918ac7617ab37ba8ffd046b","timestamp":"2025-11-15T16:38:14.133Z","type":"email_verification"}
+[userController.js] Notifications dispatched. Proceeding to generate JWT for user 6918ac7617ab37ba8ffd046b.
+[userController.js] JWT signed successfully. Sending final response for user 6918ac7617ab37ba8ffd046b.
+POST /api/users/register 201 159.749 ms - 365
+debug: [auth] Decoded token: {"user":{"id":"6918ac7617ab37ba8ffd046b","role":"client","version":0},"iat":1763224694,"exp":1763311094} {"timestamp":"2025-11-15T16:38:14.143Z"}
+[UnifiedNotificationService] Preparing to send email notification: {
+  type: 'email_verification',
+  recipientId: new ObjectId('6918ac7617ab37ba8ffd046b')
+}
+info: [auth] User authenticated: 6918ac7617ab37ba8ffd046b {"timestamp":"2025-11-15T16:38:14.164Z"}
+GET /api/users/me 200 43.111 ms - 1690
+[UnifiedNotificationService] Email job queued successfully. {
+  type: 'email_verification',
+  recipient: new ObjectId('6918ac7617ab37ba8ffd046b'),
+  mailjetTemplateId: 7493681
+}
+[userController.js] EMAIL_VERIFICATION task sent for user 6918ac7617ab37ba8ffd046b
+[userController.js] Triggering WELCOME notification for user 6918ac7617ab37ba8ffd046b
+[UnifiedNotificationService] Preparing to send email notification: {
+  type: 'welcome',
+  recipientId: new ObjectId('6918ac7617ab37ba8ffd046b')
+}
+[ANNOUNCEMENT_CTRL] --- START: getActiveAnnouncements ---
+[ANNOUNCEMENT_CTRL] Request Details: userRole='client', userId='6918ac7617ab37ba8ffd046b', location='global_banner'
+[ANNOUNCEMENT_CTRL] User is logged in. Adding role 'client' to query.
+[ANNOUNCEMENT_CTRL] Executing MongoDB Query: {
+  "isActive": true,
+  "displayLocation": "global_banner",
+  "$or": [
+    {
+      "startDate": {
+        "$lte": "2025-11-15T16:38:14.211Z"
+      }
+    },
+    {
+      "startDate": null
+    },
+    {
+      "startDate": {
+        "$exists": false
+      }
+    }
+  ],
+  "$and": [
+    {
+      "$or": [
+        {
+          "endDate": {
+            "$gte": "2025-11-15T16:38:14.211Z"
+          }
+        },
+        {
+          "endDate": null
+        },
+        {
+          "endDate": {
+            "$exists": false
+          }
+        }
+      ]
+    },
+    {
+      "$or": [
+        {
+          "targetedRoles": {
+            "$exists": true,
+            "$size": 0
+          }
+        },
+        {
+          "targetedRoles": "client"
+        }
+      ]
+    }
+  ]
+}
+[ANNOUNCEMENT_CTRL] Found 0 active announcements for role 'client'
+[ANNOUNCEMENT_CTRL] --- END: getActiveAnnouncements ---
+GET /api/announcements/active?location=global_banner 304 53.424 ms - -
+[NotificationRoutes] CORRECT GET / HANDLER | Forwarding to notificationController.getNotifications. Query: {
+  excludeTrash: 'true',
+  status: 'all',
+  category: '',
+  limit: '50',
+  offset: '0'
+}
+--- [BACKEND-CONTROLLER] GET NOTIFICATIONS (Efficient Version) ---
+[Efficient] Fetching notifications for user: 6918ac7617ab37ba8ffd046b with params: {
+  excludeTrash: 'true',
+  status: 'all',
+  category: '',
+  limit: '50',
+  offset: '0'
+}
+[Efficient] Final Mongoose Query: {"recipient":"6918ac7617ab37ba8ffd046b","status":{"$ne":"trash"}}
+[UnifiedNotificationService] Email job queued successfully. {
+  type: 'welcome',
+  recipient: new ObjectId('6918ac7617ab37ba8ffd046b'),
+  mailjetTemplateId: 7493670
+}
+[userController.js] WELCOME notification task sent for user 6918ac7617ab37ba8ffd046b
+[userController.js] Background notification task finished successfully for user 6918ac7617ab37ba8ffd046b
+[ANNOUNCEMENT_CTRL] --- START: getActiveAnnouncements ---
+[ANNOUNCEMENT_CTRL] Request Details: userRole='client', userId='6918ac7617ab37ba8ffd046b', location='menu_badge'
+[ANNOUNCEMENT_CTRL] User is logged in. Adding role 'client' to query.
+[ANNOUNCEMENT_CTRL] Executing MongoDB Query: {
+  "isActive": true,
+  "displayLocation": "menu_badge",
+  "$or": [
+    {
+      "startDate": {
+        "$lte": "2025-11-15T16:38:14.257Z"
+      }
+    },
+    {
+      "startDate": null
+    },
+    {
+      "startDate": {
+        "$exists": false
+      }
+    }
+  ],
+  "$and": [
+    {
+      "$or": [
+        {
+          "endDate": {
+            "$gte": "2025-11-15T16:38:14.257Z"
+          }
+        },
+        {
+          "endDate": null
+        },
+        {
+          "endDate": {
+            "$exists": false
+          }
+        }
+      ]
+    },
+    {
+      "$or": [
+        {
+          "targetedRoles": {
+            "$exists": true,
+            "$size": 0
+          }
+        },
+        {
+          "targetedRoles": "client"
+        }
+      ]
+    }
+  ]
+}
+[MessageController] Fetching conversations {
+  userId: '6918ac7617ab37ba8ffd046b',
+  page: '1',
+  limit: '20',
+  timestamp: '2025-11-15T16:38:14.265Z'
+}
+[MessageService] Getting group-aware conversations for user 6918ac7617ab37ba8ffd046b, page 1, limit 20
+info: [Socket] Authentication successful {"socketId":"Qwt_QbW0_RK4jyK_AAAD","timestamp":"2025-11-15T16:38:14.269Z","userId":"6918ac7617ab37ba8ffd046b"}
+[Efficient] Query complete. Found 0 notifications.
+GET /api/notifications?excludeTrash=true&status=all&category=&limit=50&offset=0 200 52.672 ms - 98
+[ANNOUNCEMENT_CTRL] Found 0 active announcements for role 'client'
+[ANNOUNCEMENT_CTRL] --- END: getActiveAnnouncements ---
+GET /api/announcements/active?location=menu_badge 304 53.735 ms - -
+[UserModel] Updating user: 6918ac7617ab37ba8ffd046b
+[MessageService] User 6918ac7617ab37ba8ffd046b is not a member of any conversations.
+[SocketService] Broadcasting status update for user 6918ac7617ab37ba8ffd046b { status: 'online' }
+[UserModel] Updating user: 6918ac7617ab37ba8ffd046b
+[SocketService] Broadcasting status update for user 6918ac7617ab37ba8ffd046b { status: 'online' }
+PUT /api/status/me 200 47.475 ms - 98
+[MessageController] Conversations fetched {
+  userId: '6918ac7617ab37ba8ffd046b',
+  conversationCount: 0,
+  timestamp: '2025-11-15T16:38:14.324Z'
+}
+GET /api/messages/conversations?page=1&limit=20 304 96.993 ms - -
+[updateOnboardingStep] Received request for User: 6918ac7617ab37ba8ffd046b, Role: client, Last Step Completed: step-1
+[UserModel] Updating user: 6918ac7617ab37ba8ffd046b
+[updateOnboardingStep] Successfully updated step progress for User: 6918ac7617ab37ba8ffd046b
+PATCH /api/users/me/onboarding-step 200 42.882 ms - 49
+GET /api/coaches/search-list-items?type=specialties&query=&language=de&_=1763224698295 200 76.233 ms - 6460
+GET /api/coaches/search-list-items?type=specialties&query=&language=de&_=1763224698295 304 69.220 ms - -
+[updateOnboardingStep] Received request for User: 6918ac7617ab37ba8ffd046b, Role: client, Last Step Completed: step-2
+[UserModel] Updating user: 6918ac7617ab37ba8ffd046b
+[updateOnboardingStep] Successfully updated step progress for User: 6918ac7617ab37ba8ffd046b
+PATCH /api/users/me/onboarding-step 200 48.988 ms - 49
+[UserModel] Updating user: 6918ac7617ab37ba8ffd046b
+PATCH /api/users/me/onboarding 200 44.864 ms - 1837
+GET /api/connections/user 304 59.647 ms - -
+
+[DEBUG] [AppContent] Rendering with live session state. {"incomingRequestCount":0,"incomingRequestsData":[]}
+bundle.js:173141 [DEBUG] [GlobalAnnouncementBanner] Pre-render check. {"initialAnnouncements":0,"dismissedCount":0,"visibleCount":0}
+bundle.js:173136 [ClientSignup] Registration successful {"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjkxOGFjNzYxN2FiMzdiYThmZmQwNDZiIiwicm9sZSI6ImNsaWVudCIsInZlcnNpb24iOjB9LCJpYXQiOjE3NjMyMjQ2OTQsImV4cCI6MTc2MzMxMTA5NH0.oK6KNwexNgfhurhczsrrCzyAVv5Ajew1Rw7skdEUfVY","user":{"_id":"6918ac7617ab37ba8ffd046b","firstName":"Kurt","lastName":"Müller","email":"kurt.mueller3@example.com","role":"client"}}
+bundle.js:173136 [AuthContext] Storing session in localStorage for cross-tab compatibility.
+bundle.js:173136 [AuthContext] User authenticated. Final User ID: "6918ac7617ab37ba8ffd046b"
+bundle.js:173136 [AuthContext] Invalidating activeAnnouncements query on login.
+bundle.js:173141 [DEBUG] [MenuAnnouncementBadge] Render cancelled: No unseen announcements. {"totalFetched":0,"seenInSession":0}
+bundle.js:173136 [HeaderSearch] isSearchOpen state changed to: false
+bundle.js:173141 [DEBUG] [HeaderSearch] Search closed, resetting search value.
+bundle.js:173141 [DEBUG] [MenuAnnouncementBadge] Hook check. {"isLoading":false,"announcements":[]}
+bundle.js:173136 [useGlobalSocketListener] Hook effect executed. {"userId":"6918ac7617ab37ba8ffd046b","hasSocket":false,"isConnected":false}
+bundle.js:173136 [NotificationSocketProvider] Creating new socket instance. {"userId":"6918ac7617ab37ba8ffd046b"}
+bundle.js:173136 [NotificationSocketProvider] Attaching connect/disconnect listeners and initiating connection.
+bundle.js:173136 [NotificationSocketProvider] Socket connected successfully. ID: Qwt_QbW0_RK4jyK_AAAD
+bundle.js:173141 [DEBUG] [useLiveSessionManager | useEffect] Setting up STABLE socket listeners. This should only run once per connection.
+bundle.js:173136 [SocketIO] <<< INCOMING EVENT: "user_status_update" {"payload":[{"userId":"6918ac7617ab37ba8ffd046b","status":"online"}],"userId":"6918ac7617ab37ba8ffd046b","socketId":"Qwt_QbW0_RK4jyK_AAAD","timestamp":"2025-11-15T16:38:14.294Z"}
+bundle.js:173136 [useGlobalSocketListener] Received USER_STATUS_UPDATE, updating cache. {"updatedUserId":"6918ac7617ab37ba8ffd046b","newStatus":"online"}
+bundle.js:173136 [AuthContext] User status set to online after login.
+bundle.js:54871 i18next::translator: missingKey de common showMenu Show Menu
+bundle.js:54871 i18next::translator: missingKey de common showMenu Show Menu
+bundle.js:173136 [ClientOnboarding] Saving progress. Completed step: 1
+bundle.js:173136 [SLS Render] lang: de, initialized: true
+bundle.js:173136 [SLS useEffect] Fetch trigger check. isInitialized: true, isEditable: true, hasFacets: false
+bundle.js:173136 [SLS fetchAllItems] Fetching list "specialties" with language: de
+bundle.js:173136 [ClientOnboarding] Saving progress. Completed step: 2
+bundle.js:173136 [ClientOnboarding] Finishing onboarding with data: {"primaryGoal":["one_on_one"],"coachingNeeds":[{"_id":"66e2bff9616218a1d7678f96","name":"Communication Skills","order":0,"__v":0,"translation":"Kommunikationsfähigkeiten"}],"preferredLearningStyle":"live"}
+bundle.js:173136 [ClientOnboarding] Onboarding data saved successfully.
+bundle.js:173136 [CoachList] Checking user's country for Insurance Filter. Found country: 'undefined'
+bundle.js:173141 [DEBUG] [CoachList useMemo] Recalculating apiFilters. Current filters state: {"specialties":[],"languages":[],"priceRange":[null,null],"minRating":0,"educationLevels":[],"coachingStyles":[],"skills":[],"liveSessionAvailable":false,"isInsuranceRecognized":false,"liveSessionPriceRange":[null,null],"searchTerm":"","sortBy":"popularity_desc"}
+bundle.js:173141 [DEBUG] [CoachList] Final API filter parameters being generated: {"sortBy":"popularity_desc","lang":"de"}
+bundle.js:173136 [FilterSidebar] Rendering with isSwissUser=false.
+bundle.js:173141 [DEBUG] [CoachCard] Coach ID: 66d9cdcb0a7492a86482bd68, isInsuranceRecognized: true
+bundle.js:173141 [DEBUG] [CoachCard] Coach ID: 66fbe443af6e5fe3198d22eb, isInsuranceRecognized: undefined
+bundle.js:173141 [DEBUG] [CoachCard] Coach ID: 66fbea16bb1aa6e7e257e726, isInsuranceRecognized: undefined
+bundle.js:173141 [DEBUG] [CoachCard] Coach ID: 66fceae8aa08bb09188eeb7d, isInsuranceRecognized: undefined
+bundle.js:173141 [DEBUG] [CoachCard] Coach ID: 66fcec87aa08bb09188eebf3, isInsuranceRecognized: undefined
+bundle.js:173141 [DEBUG] [CoachCard] Coach ID: 66fced13aa08bb09188eec6a, isInsuranceRecognized: undefined
+bundle.js:173141 [DEBUG] [CoachCard] Coach ID: 6704338e1edbda2b46c20d45, isInsuranceRecognized: undefined
+bundle.js:173141 [DEBUG] [CoachCard] Coach ID: 68f882b4881a2188cc1a4fd2, isInsuranceRecognized: false
+bundle.js:173141 [DEBUG] [CoachCard] Coach ID: 68f9c1f39f92f1d33a64878f, isInsuranceRecognized: false
+bundle.js:173141 [DEBUG] [CoachCard] Coach ID: 68f9e2b36b9a3d6feb992ffa, isInsuranceRecognized: false
+bundle.js:173136 [SLS useEffect] Fetch trigger check. isInitialized: true, isEditable: true, hasFacets: true
+bundle.js:173136 [CoachList Mount] Syncing initial state from URL params.
+bundle.js:173136 [SocketIO] <<< INCOMING EVENT: "ping" {"payload":[],"userId":"6918ac7617ab37ba8ffd046b","socketId":"Qwt_QbW0_RK4jyK_AAAD","timestamp":"2025-11-15T16:38:27.503Z"}
+
+[nodemon] starting `node worker.js`
+[RedisClient] Initializing central Redis connection...
+[RedisClient] REDIS_URL not found. Falling back to local development settings.
+[UserModel] User schema updated with additional settings fields
+info: [StripeService] Initialized with Stripe API version: {"0":"2","1":"0","10":".","11":"a","12":"c","13":"a","14":"c","15":"i","16":"a","2":"2","3":"4","4":"-","5":"1","6":"1","7":"-","8":"2","9":"0","timestamp":"2025-11-15T16:36:55.571Z"}
+[PaymentService] Initializing payment service
+[PriceConfiguration] Model updated with discount schema and findApplicableDiscounts method
+[EmailService] Mailjet client initialized successfully.
+--- [WORKER_PROCESS] SANITY CHECK ---
+NODE_ENV: development
+ENVIRONMENT_NAME: undefined
+REDIS_URL provided: false
+MAILJET_API_KEY provided: true
+------------------------------------
+[WORKER_PROCESS] Starting background worker process...
+(node:19524) [MONGOOSE] Warning: mongoose: the method name "validate" is used by mongoose internally, overwriting it may cause bugs. If you're sure you know what you're doing, you can suppress this error by using `schema.method('validate', fn, { suppressWarning: true })`.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:19524) Warning: Accessing non-existent property 'assetCleanupQueue' of module exports inside circular dependency
+[WORKER_PROCESS] i18next initialized.
+Attempting to connect to MongoDB...
+Environment: development
+(node:19524) [MONGODB DRIVER] Warning: useNewUrlParser is a deprecated option: useNewUrlParser has no effect since Node.js Driver version 4.0.0 and will be removed in the next major version
+(node:19524) [MONGODB DRIVER] Warning: useUnifiedTopology is a deprecated option: useUnifiedTopology has no effect since Node.js Driver version 4.0.0 and will be removed in the next major version
+MongoDB Connected: coaching-platform-dev-shard-00-00.nnaff.mongodb.net
+Database Name: coaching-platform-dev
+Available collections: [
+  'notifications',        'connections',          'clients',
+  'leads',                'programs',             'groups',
+  'announcements',        'supportmessages',      'modules',
+  'orphanedassets',       'sessiontypes',         'webhooklogs',
+  'featureflags',         'languages',            'auditlogs',
+  'resources',            'programcategories',    'users',
+  'discounts',            'coaches',              'search_collection',
+  'transactions',         'packages',             'lessons',
+  'coachingstyles',       'refreshtokens',        'achievements',
+  'messages',             'qas',                  'translations',
+  'polls',                'conversations',        'enrollments',
+  'educationlevels',      'comments',             'reviews',
+  'price_configurations', 'invoices',             'CoachingPlatform',
+  'emailchangerequests',  'notificationsettings', 'payments',
+  'livesessions',         'bookings',             'specialties',
+  'sessions',             'supporttickets',       'passwordresetrequests',
+  'conversationmembers',  'discountusages',       'skilllevels',
+  'skills'
+]
+Mongoose connection state: 1
+[WORKER_PROCESS] MongoDB connection established.
+[BullMQ] Starting all Job Queue Workers... { prefix: 'development' }
+[BullMQ] Initializing Job Queues for API Server... { prefix: 'development' }
+[BullMQ] Registering queue: development-live-session-jobs
+[BullMQ] Registering queue: development-status-reset-jobs
+[BullMQ] Registering queue: development-account-cleanup-queue
+[BullMQ] Registering queue: development-user-data-deletion-queue
+[BullMQ] Registering queue: development-moderation-actions-queue
+[BullMQ] Registering queue: development-asset-cleanup
+[BullMQ] Registering queue: development-email-queue
+[BullMQ] All Queues have been initialized.
+----------------------------------------------------
+✅ All background workers are running and waiting for jobs.
+----------------------------------------------------
+[BullMQ-WORKER] Job send-email_verification:17 ACTIVE in queue development-email-queue.
+[EmailProcessor] START: Processing job. {
+  jobId: '17',
+  jobName: 'send-email_verification',
+  notificationType: 'email_verification',
+  recipientEmail: 'kurt.mueller3@example.com',
+  language: 'de'
+}
+[EmailProcessor] Translating content with prefix: notifications:email_verification.email {
+  jobId: '17',
+  jobName: 'send-email_verification',
+  notificationType: 'email_verification',
+  recipientEmail: 'kurt.mueller3@example.com',
+  language: 'de'
+}
+[EmailProcessor] Content translated. Preparing to call email service. {
+  jobId: '17',
+  jobName: 'send-email_verification',
+  notificationType: 'email_verification',
+  recipientEmail: 'kurt.mueller3@example.com',
+  language: 'de',
+  subject: 'email_verification.email.subject'
+}
+warn: [EmailService] DEV_MODE: Rerouting email to dominicfrei90@gmail.com. {"mailjetTemplateId":7493681,"originalRecipient":"kurt.mueller3@example.com","subject":"email_verification.email.subject","timestamp":"2025-11-15T16:38:14.194Z"}
+[EmailService] Sending final payload to Mailjet API... {
+  mailjetTemplateId: 7493681,
+  originalRecipient: 'kurt.mueller3@example.com',
+  subject: 'email_verification.email.subject',
+  finalRecipient: 'dominicfrei90@gmail.com',
+  templateVariables: [
+    'lang',
+    'firstName',
+    'button_url',
+    'verification_link',
+    'settings_url',
+    'help_url',
+    'footer_link_settings',
+    'footer_link_help',
+    'footer_text_1',
+    'subject',
+    'headline',
+    'main_body_text',
+    'button_text'
+  ]
+}
+[BullMQ-WORKER] Job send-welcome:18 ACTIVE in queue development-email-queue.
+[EmailProcessor] START: Processing job. {
+  jobId: '18',
+  jobName: 'send-welcome',
+  notificationType: 'welcome',
+  recipientEmail: 'kurt.mueller3@example.com',
+  language: 'de'
+}
+[EmailProcessor] Translating content with prefix: notifications:welcome.email {
+  jobId: '18',
+  jobName: 'send-welcome',
+  notificationType: 'welcome',
+  recipientEmail: 'kurt.mueller3@example.com',
+  language: 'de'
+}
+[EmailProcessor] Content translated. Preparing to call email service. {
+  jobId: '18',
+  jobName: 'send-welcome',
+  notificationType: 'welcome',
+  recipientEmail: 'kurt.mueller3@example.com',
+  language: 'de',
+  subject: 'welcome.email.subject'
+}
+warn: [EmailService] DEV_MODE: Rerouting email to dominicfrei90@gmail.com. {"mailjetTemplateId":7493670,"originalRecipient":"kurt.mueller3@example.com","subject":"welcome.email.subject","timestamp":"2025-11-15T16:38:14.250Z"}
+[EmailService] Sending final payload to Mailjet API... {
+  mailjetTemplateId: 7493670,
+  originalRecipient: 'kurt.mueller3@example.com',
+  subject: 'welcome.email.subject',
+  finalRecipient: 'dominicfrei90@gmail.com',
+  templateVariables: [
+    'lang',                 'firstName',
+    'button_url',           'settings_url',
+    'help_url',             'footer_link_settings',
+    'footer_link_help',     'footer_text_1',
+    'subject',              'headline',
+    'main_body_text',       'button_text',
+    'getting_started_text', 'usp_title',
+    'usp_1_title',          'usp_1_text',
+    'usp_2_title',          'usp_2_text',
+    'usp_3_title',          'usp_3_text',
+    'testimonial_quote',    'testimonial_author'
+  ]
+}
+[EmailService] SUCCESS: Mailjet API call successful. {
+  mailjetTemplateId: 7493681,
+  originalRecipient: 'kurt.mueller3@example.com',
+  subject: 'email_verification.email.subject',
+  finalRecipient: 'dominicfrei90@gmail.com',
+  mailjetStatus: 'success'
+}
+[EmailProcessor] SUCCESS: Job completed. {
+  jobId: '17',
+  jobName: 'send-email_verification',
+  notificationType: 'email_verification',
+  recipientEmail: 'kurt.mueller3@example.com',
+  language: 'de'
+}
+[EmailService] SUCCESS: Mailjet API call successful. {
+  mailjetTemplateId: 7493670,
+  originalRecipient: 'kurt.mueller3@example.com',
+  subject: 'welcome.email.subject',
+  finalRecipient: 'dominicfrei90@gmail.com',
+  mailjetStatus: 'success'
+}
+[EmailProcessor] SUCCESS: Job completed. {
+  jobId: '18',
+  jobName: 'send-welcome',
+  notificationType: 'welcome',
+  recipientEmail: 'kurt.mueller3@example.com',
+  language: 'de'
+}
+[BullMQ-WORKER] Job send-email_verification:17 in queue development-email-queue completed.
+[BullMQ-WORKER] Job send-welcome:18 in queue development-email-queue completed.

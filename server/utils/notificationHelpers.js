@@ -1,14 +1,9 @@
 const NotificationCategories = {
-  BOOKING: 'booking',
-  SESSION: 'session',
-  PAYMENT: 'payment',
-  CONNECTION: 'connection',
-  ACHIEVEMENT: 'achievement',
-  RESOURCE: 'resource',
-  MESSAGE: 'message',
-  SYSTEM: 'system',
-  PROFILE: 'profile',
-  REVIEW: 'review'
+  ACCOUNT_AND_SECURITY: 'account_and_security',
+  BOOKINGS_AND_SESSIONS: 'bookings_and_sessions',
+  PAYMENTS_AND_EARNINGS: 'payments_and_earnings',
+  PLATFORM_AND_COMMUNITY: 'platform_and_community',
+  SYSTEM: 'system'
 };
 
 const NotificationChannels = {
@@ -18,6 +13,14 @@ const NotificationChannels = {
 };
 
 const NotificationTypes = {
+
+  WELCOME: 'welcome',
+  EMAIL_VERIFICATION: 'email_verification',
+  PASSWORD_RESET: 'password_reset',
+  UPCOMING_SESSION_REMINDER: 'upcoming_session_reminder',
+  COACH_CANCELLED_SESSION: 'coach_cancelled_session',
+  NEW_EARNING: 'new_earning',
+  PAYOUT_INITIATED: 'payout_initiated',
   // Booking related
   BOOKING_REQUEST: 'booking_request',
   BOOKING_CONFIRMED: 'booking_confirmed',
@@ -145,7 +148,7 @@ const NotificationStatus = {
 
 const NotificationMetadata = {
   [NotificationTypes.BOOKING_REQUEST]: {
-    category: NotificationCategories.BOOKING,
+    category: NotificationCategories.BOOKINGS_AND_SESSIONS,
     priority: NotificationPriorities.HIGH,
     defaultChannels: [NotificationChannels.IN_APP, NotificationChannels.EMAIL],
     requiresAction: true,
@@ -153,7 +156,7 @@ const NotificationMetadata = {
     validActions: ['accept', 'decline', 'suggest']
   },
   [NotificationTypes.BOOKING_CONFIRMED]: {
-    category: NotificationCategories.BOOKING,
+    category: NotificationCategories.BOOKINGS_AND_SESSIONS,
     priority: NotificationPriorities.MEDIUM,
     defaultChannels: [NotificationChannels.IN_APP, NotificationChannels.EMAIL],
     requiresAction: true,
@@ -161,7 +164,7 @@ const NotificationMetadata = {
     validActions: ['view', 'reschedule', 'cancel']
   },
   [NotificationTypes.BOOKING_CONFIRMED_WITH_PAYMENT]: {
-    category: NotificationCategories.BOOKING,
+    category: NotificationCategories.BOOKINGS_AND_SESSIONS,
     priority: NotificationPriorities.MEDIUM,
     defaultChannels: [NotificationChannels.IN_APP, NotificationChannels.EMAIL],
     requiresAction: false,
@@ -169,7 +172,7 @@ const NotificationMetadata = {
     validActions: ['view', 'reschedule', 'cancel']
   },
     [NotificationTypes.COACH_BOOKING_REQUEST]: {
-    category: NotificationCategories.BOOKING,
+    category: NotificationCategories.BOOKINGS_AND_SESSIONS,
     priority: NotificationPriorities.HIGH,
     defaultChannels: [NotificationChannels.IN_APP, NotificationChannels.EMAIL],
     requiresAction: true,
@@ -177,7 +180,7 @@ const NotificationMetadata = {
     validActions: ['accept_by_client', 'decline_by_client']
   },
   [NotificationTypes.BOOKING_CONFIRMED_BY_CLIENT]: {
-    category: NotificationCategories.BOOKING,
+    category: NotificationCategories.BOOKINGS_AND_SESSIONS,
     priority: NotificationPriorities.MEDIUM,
     defaultChannels: [NotificationChannels.IN_APP, NotificationChannels.EMAIL],
     requiresAction: false,
@@ -185,7 +188,7 @@ const NotificationMetadata = {
     validActions: ['view']
   },
   [NotificationTypes.BOOKING_DECLINED_BY_CLIENT]: {
-    category: NotificationCategories.BOOKING,
+    category: NotificationCategories.BOOKINGS_AND_SESSIONS,
     priority: NotificationPriorities.MEDIUM,
     defaultChannels: [NotificationChannels.IN_APP, NotificationChannels.EMAIL],
     requiresAction: false,
@@ -193,7 +196,7 @@ const NotificationMetadata = {
     validActions: ['view']
   },
   [NotificationTypes.NEW_WEBINAR_ATTENDEE]: { 
-    category: NotificationCategories.BOOKING,
+    category: NotificationCategories.BOOKINGS_AND_SESSIONS,
     priority: NotificationPriorities.MEDIUM,
     defaultChannels: [NotificationChannels.IN_APP, NotificationChannels.EMAIL],
     requiresAction: false,
@@ -201,7 +204,7 @@ const NotificationMetadata = {
     validActions: ['view_webinar_details']
   },
    [NotificationTypes.WEBINAR_REGISTRATION_CONFIRMED_CLIENT]: {
-    category: NotificationCategories.BOOKING,
+    category: NotificationCategories.BOOKINGS_AND_SESSIONS,
     priority: NotificationPriorities.MEDIUM,
     defaultChannels: [NotificationChannels.IN_APP, NotificationChannels.EMAIL],
     requiresAction: false,
@@ -209,7 +212,7 @@ const NotificationMetadata = {
     validActions: ['view_webinar_details', 'add_to_calendar']
   },
   [NotificationTypes.WEBINAR_NEW_ATTENDEE_COACH]: {
-    category: NotificationCategories.BOOKING,
+    category: NotificationCategories.BOOKINGS_AND_SESSIONS,
     priority: NotificationPriorities.MEDIUM,
     defaultChannels: [NotificationChannels.IN_APP, NotificationChannels.EMAIL],
     requiresAction: false,
@@ -217,7 +220,7 @@ const NotificationMetadata = {
     validActions: ['view_webinar_details', 'view_attendee_list']
   },
   [NotificationTypes.WEBINAR_BOOKING_FAILED_FULL]: { 
-    category: NotificationCategories.BOOKING,
+    category: NotificationCategories.BOOKINGS_AND_SESSIONS,
     priority: NotificationPriorities.HIGH,
     defaultChannels: [NotificationChannels.IN_APP, NotificationChannels.EMAIL],
     requiresAction: false, // User doesn't need to act, it's informational
@@ -225,7 +228,7 @@ const NotificationMetadata = {
     validActions: ['view_available_webinars']
   },
   [NotificationTypes.PAYMENT_RECEIVED]: {
-    category: NotificationCategories.PAYMENT,
+    category: NotificationCategories.PAYMENTS_AND_EARNINGS,
     priority: NotificationPriorities.MEDIUM,
     defaultChannels: [NotificationChannels.IN_APP, NotificationChannels.EMAIL],
     requiresAction: false,
@@ -233,7 +236,7 @@ const NotificationMetadata = {
     validActions: ['view']
   },
   [NotificationTypes.PAYMENT_FAILED]: {
-    category: NotificationCategories.PAYMENT,
+    category: NotificationCategories.PAYMENTS_AND_EARNINGS,
     priority: NotificationPriorities.HIGH,
     defaultChannels: [NotificationChannels.IN_APP, NotificationChannels.EMAIL],
     requiresAction: true,
@@ -241,7 +244,7 @@ const NotificationMetadata = {
     validActions: ['retry', 'view']
   },
   [NotificationTypes.PAYMENT_REMINDER]: {
-    category: NotificationCategories.PAYMENT,
+    category: NotificationCategories.PAYMENTS_AND_EARNINGS,
     priority: NotificationPriorities.MEDIUM,
     defaultChannels: [NotificationChannels.IN_APP, NotificationChannels.EMAIL],
     requiresAction: true,
@@ -249,7 +252,7 @@ const NotificationMetadata = {
     validActions: ['pay_now']
   },
   [NotificationTypes.REVIEW_PROMPT_COACH]: {
-    category: NotificationCategories.REVIEW,
+    category: NotificationCategories.PLATFORM_AND_COMMUNITY,
     priority: NotificationPriorities.HIGH,
     defaultChannels: [NotificationChannels.IN_APP, NotificationChannels.EMAIL],
     requiresAction: true,
@@ -257,7 +260,7 @@ const NotificationMetadata = {
     validActions: ['review'],
   },
   [NotificationTypes.REVIEW_PROMPT_CLIENT]: {
-    category: NotificationCategories.REVIEW,
+    category: NotificationCategories.PLATFORM_AND_COMMUNITY,
     priority: NotificationPriorities.HIGH,
     defaultChannels: [NotificationChannels.IN_APP, NotificationChannels.EMAIL],
     requiresAction: true,
@@ -265,7 +268,7 @@ const NotificationMetadata = {
     validActions: ['review'],
   },
   [NotificationTypes.OVERTIME_PROMPT]: {
-    category: NotificationCategories.SESSION,
+    category: NotificationCategories.BOOKINGS_AND_SESSIONS,
     priority: NotificationPriorities.HIGH,
     defaultChannels: [NotificationChannels.IN_APP, NotificationChannels.EMAIL],
     requiresAction: false,
@@ -273,7 +276,7 @@ const NotificationMetadata = {
     validActions: ['end_session', 'free_overtime', 'paid_overtime', 'confirm_payment', 'decline_overtime']
   },
   [NotificationTypes.IN_SESSION_PAYMENT_FAILED]: {
-    category: NotificationCategories.PAYMENT,
+    category: NotificationCategories.PAYMENTS_AND_EARNINGS,
     priority: NotificationPriorities.HIGH,
     defaultChannels: [NotificationChannels.IN_APP, NotificationChannels.EMAIL],
     requiresAction: false,
@@ -281,7 +284,7 @@ const NotificationMetadata = {
     validActions: ['continue_session', 'terminate_session']
   },
   [NotificationTypes.PAYOUT_ON_HOLD]: {
-    category: NotificationCategories.PAYMENT,
+    category: NotificationCategories.PAYMENTS_AND_EARNINGS,
     priority: NotificationPriorities.MEDIUM,
     defaultChannels: [NotificationChannels.IN_APP, NotificationChannels.EMAIL],
     requiresAction: false,
@@ -289,7 +292,7 @@ const NotificationMetadata = {
     validActions: ['view_earnings_summary']
   },
   [NotificationTypes.PAYOUT_RELEASED]: {
-    category: NotificationCategories.PAYMENT,
+    category: NotificationCategories.PAYMENTS_AND_EARNINGS,
     priority: NotificationPriorities.MEDIUM,
     defaultChannels: [NotificationChannels.IN_APP, NotificationChannels.EMAIL],
     requiresAction: false,
@@ -297,7 +300,7 @@ const NotificationMetadata = {
     validActions: ['view_earnings_summary']
   },
   [NotificationTypes.OVERTIME_DECLINED]: {
-    category: NotificationCategories.SESSION,
+    category: NotificationCategories.BOOKINGS_AND_SESSIONS,
     priority: NotificationPriorities.HIGH,
     defaultChannels: [NotificationChannels.IN_APP],
     requiresAction: false,
@@ -305,7 +308,7 @@ const NotificationMetadata = {
     validActions: ['view']
   },
   [NotificationTypes.SESSION_TERMINATED]: {
-    category: NotificationCategories.SESSION,
+    category: NotificationCategories.BOOKINGS_AND_SESSIONS,
     priority: NotificationPriorities.HIGH,
     defaultChannels: [NotificationChannels.IN_APP, NotificationChannels.EMAIL],
     requiresAction: false,
@@ -313,7 +316,7 @@ const NotificationMetadata = {
     validActions: ['view']
   },
   [NotificationTypes.SESSION_CONTINUED]: {
-    category: NotificationCategories.SESSION,
+    category: NotificationCategories.BOOKINGS_AND_SESSIONS,
     priority: NotificationPriorities.HIGH,
     defaultChannels: [NotificationChannels.IN_APP],
     requiresAction: false,
@@ -321,7 +324,7 @@ const NotificationMetadata = {
     validActions: ['view']
   },
   [NotificationTypes.SESSION_ENDED]: { 
-    category: NotificationCategories.SESSION,
+    category: NotificationCategories.BOOKINGS_AND_SESSIONS,
     priority: NotificationPriorities.MEDIUM,
     defaultChannels: [NotificationChannels.IN_APP, NotificationChannels.EMAIL],
     requiresAction: false,
@@ -330,7 +333,7 @@ const NotificationMetadata = {
   },
 
    [NotificationTypes.RESCHEDULE_CONFIRMED_AUTO_CLIENT]: {
-    category: NotificationCategories.BOOKING,
+    category: NotificationCategories.BOOKINGS_AND_SESSIONS,
     priority: NotificationPriorities.MEDIUM,
     defaultChannels: [NotificationChannels.IN_APP, NotificationChannels.EMAIL],
     requiresAction: false,
@@ -338,7 +341,7 @@ const NotificationMetadata = {
     validActions: ['view', 'cancel']
   },
   [NotificationTypes.RESCHEDULE_CONFIRMED_AUTO_COACH]: {
-    category: NotificationCategories.BOOKING,
+    category: NotificationCategories.BOOKINGS_AND_SESSIONS,
     priority: NotificationPriorities.MEDIUM,
     defaultChannels: [NotificationChannels.IN_APP, NotificationChannels.EMAIL],
     requiresAction: false,
@@ -346,7 +349,7 @@ const NotificationMetadata = {
     validActions: ['view']
   },
 [NotificationTypes.RESCHEDULE_REQUEST_SENT_TO_COACH]: {
-    category: NotificationCategories.BOOKING,
+    category: NotificationCategories.BOOKINGS_AND_SESSIONS,
     priority: NotificationPriorities.MEDIUM,
     defaultChannels: [NotificationChannels.IN_APP, NotificationChannels.EMAIL],
     requiresAction: false,
@@ -355,7 +358,7 @@ const NotificationMetadata = {
   },
 
   [NotificationTypes.REFUND_REQUESTED_FOR_COACH]: {
-    category: NotificationCategories.BOOKING,
+    category: NotificationCategories.BOOKINGS_AND_SESSIONS,
     priority: NotificationPriorities.HIGH,
     defaultChannels: [NotificationChannels.IN_APP, NotificationChannels.EMAIL],
     requiresAction: true,
@@ -363,7 +366,7 @@ const NotificationMetadata = {
     validActions: ['review_refund_request']
   },
   [NotificationTypes.REFUND_REQUEST_ESCALATED]: {
-    category: NotificationCategories.BOOKING,
+    category: NotificationCategories.BOOKINGS_AND_SESSIONS,
     priority: NotificationPriorities.MEDIUM,
     defaultChannels: [NotificationChannels.IN_APP, NotificationChannels.EMAIL],
     requiresAction: false,
@@ -371,7 +374,7 @@ const NotificationMetadata = {
     validActions: ['view_dispute_details']
   },
   [NotificationTypes.REFUND_PROCESSED_COACH]: {
-    category: NotificationCategories.PAYMENT,
+    category: NotificationCategories.PAYMENTS_AND_EARNINGS,
     priority: NotificationPriorities.MEDIUM,
     defaultChannels: [NotificationChannels.IN_APP, NotificationChannels.EMAIL],
     requiresAction: false,
@@ -379,7 +382,7 @@ const NotificationMetadata = {
     validActions: ['view_transaction_history']
   },
    [NotificationTypes.REFUND_PROCESSED_CLIENT]: {
-    category: NotificationCategories.PAYMENT,
+    category: NotificationCategories.PAYMENTS_AND_EARNINGS,
     priority: NotificationPriorities.MEDIUM,
     defaultChannels: [NotificationChannels.IN_APP, NotificationChannels.EMAIL],
     requiresAction: false,
@@ -388,7 +391,7 @@ const NotificationMetadata = {
   },
 
   [NotificationTypes.REFUND_REQUEST_ESCALATED_ADMIN]: {
-    category: NotificationCategories.BOOKING,
+    category: NotificationCategories.BOOKINGS_AND_SESSIONS,
     priority: NotificationPriorities.HIGH,
     defaultChannels: [NotificationChannels.IN_APP, NotificationChannels.EMAIL],
     requiresAction: true,
@@ -397,7 +400,7 @@ const NotificationMetadata = {
   },
 
   [NotificationTypes.OVERTIME_PAYMENT_CAPTURED]: {
-    category: NotificationCategories.PAYMENT,
+    category: NotificationCategories.PAYMENTS_AND_EARNINGS,
     priority: NotificationPriorities.MEDIUM,
     defaultChannels: [NotificationChannels.IN_APP, NotificationChannels.EMAIL],
     requiresAction: false,
@@ -405,7 +408,7 @@ const NotificationMetadata = {
     validActions: ['view_receipt', 'view_booking'] 
   },
   [NotificationTypes.OVERTIME_PAYMENT_RELEASED]: {
-    category: NotificationCategories.PAYMENT,
+    category: NotificationCategories.PAYMENTS_AND_EARNINGS,
     priority: NotificationPriorities.LOW, 
     defaultChannels: [NotificationChannels.IN_APP],
     requiresAction: false,
@@ -413,7 +416,7 @@ const NotificationMetadata = {
     validActions: ['view_booking']
   },
   [NotificationTypes.OVERTIME_PAYMENT_COLLECTED]: {
-    category: NotificationCategories.PAYMENT,
+    category: NotificationCategories.PAYMENTS_AND_EARNINGS,
     priority: NotificationPriorities.MEDIUM,
     defaultChannels: [NotificationChannels.IN_APP, NotificationChannels.EMAIL],
     requiresAction: false,
@@ -421,7 +424,7 @@ const NotificationMetadata = {
     validActions: ['view_payout', 'view_booking'] 
   },
   [NotificationTypes.OVERTIME_PAYMENT_CAPTURE_FAILED]: {
-    category: NotificationCategories.PAYMENT,
+    category: NotificationCategories.PAYMENTS_AND_EARNINGS,
     priority: NotificationPriorities.HIGH, 
     defaultChannels: [NotificationChannels.IN_APP, NotificationChannels.EMAIL], 
     requiresAction: true, 
@@ -429,7 +432,7 @@ const NotificationMetadata = {
     validActions: ['retry_capture', 'contact_support', 'view_booking'] 
   },
     [NotificationTypes.BOOKING_CANCELLED_BY_YOU]: {
-    category: NotificationCategories.BOOKING,
+    category: NotificationCategories.BOOKINGS_AND_SESSIONS,
     priority: NotificationPriorities.HIGH,
     defaultChannels: [NotificationChannels.IN_APP, NotificationChannels.EMAIL],
     requiresAction: false,
@@ -437,7 +440,7 @@ const NotificationMetadata = {
     validActions: ['view_receipt']
   },
   [NotificationTypes.CLIENT_CANCELLED_BOOKING]: { 
-    category: NotificationCategories.BOOKING,
+    category: NotificationCategories.BOOKINGS_AND_SESSIONS,
     priority: NotificationPriorities.MEDIUM,
     defaultChannels: [NotificationChannels.IN_APP, NotificationChannels.EMAIL],
     requiresAction: false,
@@ -445,7 +448,7 @@ const NotificationMetadata = {
     validActions: ['view_booking_details']
   },
   [NotificationTypes.BOOKING_CANCELLED_BY_COACH]: { 
-    category: NotificationCategories.BOOKING,
+    category: NotificationCategories.BOOKINGS_AND_SESSIONS,
     priority: NotificationPriorities.HIGH,
     defaultChannels: [NotificationChannels.IN_APP, NotificationChannels.EMAIL],
     requiresAction: false,
@@ -453,7 +456,7 @@ const NotificationMetadata = {
     validActions: ['view_booking_details']
   },
   [NotificationTypes.YOUR_BOOKING_CANCELLATION_CONFIRMED]: { 
-    category: NotificationCategories.BOOKING,
+    category: NotificationCategories.BOOKINGS_AND_SESSIONS,
     priority: NotificationPriorities.LOW,
     defaultChannels: [NotificationChannels.IN_APP, NotificationChannels.EMAIL],
     requiresAction: false,
@@ -461,7 +464,7 @@ const NotificationMetadata = {
     validActions: []
   },
   [NotificationTypes.REFUND_PROCESSED]: { 
-    category: NotificationCategories.PAYMENT,
+    category: NotificationCategories.PAYMENTS_AND_EARNINGS,
     priority: NotificationPriorities.MEDIUM,
     defaultChannels: [NotificationChannels.EMAIL], 
     requiresAction: false,
@@ -469,7 +472,7 @@ const NotificationMetadata = {
     validActions: ['view_transaction_history']
   },
   [NotificationTypes.REFUND_FAILED_NOTIFICATION]: { 
-    category: NotificationCategories.PAYMENT,
+    category: NotificationCategories.PAYMENTS_AND_EARNINGS,
     priority: NotificationPriorities.HIGH,
     defaultChannels: [NotificationChannels.EMAIL],
     requiresAction: true, 
@@ -485,7 +488,7 @@ const NotificationMetadata = {
     validActions: ['investigate_refund']
   },
   [NotificationTypes.WEBINAR_RESCHEDULED_ACTION_REQUIRED]: { 
-    category: NotificationCategories.BOOKING,
+    category: NotificationCategories.BOOKINGS_AND_SESSIONS,
     priority: NotificationPriorities.HIGH,
     defaultChannels: [NotificationChannels.IN_APP, NotificationChannels.EMAIL],
     requiresAction: true,
@@ -493,7 +496,7 @@ const NotificationMetadata = {
     validActions: ['confirm_rescheduled_webinar', 'decline_rescheduled_webinar']
   },  
   [NotificationTypes.CLIENT_REQUESTED_RESCHEDULE]: { 
-    category: NotificationCategories.BOOKING,
+    category: NotificationCategories.BOOKINGS_AND_SESSIONS,
     priority: NotificationPriorities.HIGH,
     defaultChannels: [NotificationChannels.IN_APP, NotificationChannels.EMAIL],
     requiresAction: true,
@@ -502,7 +505,7 @@ const NotificationMetadata = {
   },
 
   [NotificationTypes.RESCHEDULE_APPROVED_BY_COACH]: { 
-    category: NotificationCategories.BOOKING,
+    category: NotificationCategories.BOOKINGS_AND_SESSIONS,
     priority: NotificationPriorities.MEDIUM,
     defaultChannels: [NotificationChannels.IN_APP, NotificationChannels.EMAIL],
     requiresAction: false,
@@ -510,7 +513,7 @@ const NotificationMetadata = {
     validActions: ['view_booking_details']
   },
   [NotificationTypes.RESCHEDULE_CONFIRMED_NOTIFICATION]: { 
-    category: NotificationCategories.BOOKING,
+    category: NotificationCategories.BOOKINGS_AND_SESSIONS,
     priority: NotificationPriorities.LOW,
     defaultChannels: [NotificationChannels.IN_APP, NotificationChannels.EMAIL],
     requiresAction: false,
@@ -518,7 +521,7 @@ const NotificationMetadata = {
     validActions: ['view_booking_details']
   },
   [NotificationTypes.RESCHEDULE_DECLINED_BY_COACH]: { 
-    category: NotificationCategories.BOOKING,
+    category: NotificationCategories.BOOKINGS_AND_SESSIONS,
     priority: NotificationPriorities.MEDIUM,
     defaultChannels: [NotificationChannels.IN_APP, NotificationChannels.EMAIL],
     requiresAction: false,
@@ -526,7 +529,7 @@ const NotificationMetadata = {
     validActions: ['view_booking_details', 'contact_coach']
   },
   [NotificationTypes.RESCHEDULE_REQUEST_DECLINED_CONFIRMATION]: {
-    category: NotificationCategories.BOOKING,
+    category: NotificationCategories.BOOKINGS_AND_SESSIONS,
     priority: NotificationPriorities.LOW,
     defaultChannels: [NotificationChannels.IN_APP], 
     requiresAction: false,
@@ -534,7 +537,7 @@ const NotificationMetadata = {
     validActions: []
   },
   [NotificationTypes.COACH_PROPOSED_NEW_RESCHEDULE_TIME]: { 
-    category: NotificationCategories.BOOKING,
+    category: NotificationCategories.BOOKINGS_AND_SESSIONS,
     priority: NotificationPriorities.HIGH,
     defaultChannels: [NotificationChannels.IN_APP, NotificationChannels.EMAIL],
     requiresAction: true,
@@ -542,7 +545,7 @@ const NotificationMetadata = {
     validActions: ['client_accept_coach_proposal', 'client_decline_coach_proposal', 'client_propose_new_time_to_coach', 'view_booking_details']
   },
   [NotificationTypes.COACH_COUNTER_PROPOSAL_SENT_TO_CLIENT]: {
-    category: NotificationCategories.BOOKING,
+    category: NotificationCategories.BOOKINGS_AND_SESSIONS,
     priority: NotificationPriorities.HIGH,
     defaultChannels: [NotificationChannels.IN_APP, NotificationChannels.EMAIL],
     requiresAction: true, // Client needs to act
@@ -550,7 +553,7 @@ const NotificationMetadata = {
     validActions: ['client_accept_coach_proposal', 'client_decline_coach_proposal', 'client_propose_new_time_to_coach', 'view_booking_details']
   },
   [NotificationTypes.RESCHEDULE_APPROVED_BY_CLIENT_CLIENT_CONFIRM]: {
-    category: NotificationCategories.BOOKING,
+    category: NotificationCategories.BOOKINGS_AND_SESSIONS,
     priority: NotificationPriorities.MEDIUM,
     defaultChannels: [NotificationChannels.IN_APP, NotificationChannels.EMAIL],
     requiresAction: false,
@@ -558,7 +561,7 @@ const NotificationMetadata = {
     validActions: ['view_booking_details']
   },
   [NotificationTypes.RESCHEDULE_APPROVED_BY_CLIENT_COACH_NOTIF]: {
-    category: NotificationCategories.BOOKING,
+    category: NotificationCategories.BOOKINGS_AND_SESSIONS,
     priority: NotificationPriorities.MEDIUM,
     defaultChannels: [NotificationChannels.IN_APP, NotificationChannels.EMAIL],
     requiresAction: false,
@@ -566,7 +569,7 @@ const NotificationMetadata = {
     validActions: ['view_booking_details']
   },
   [NotificationTypes.RESCHEDULE_DECLINED_BY_CLIENT_CLIENT_CONFIRM]: {
-    category: NotificationCategories.BOOKING,
+    category: NotificationCategories.BOOKINGS_AND_SESSIONS,
     priority: NotificationPriorities.MEDIUM,
     defaultChannels: [NotificationChannels.IN_APP, NotificationChannels.EMAIL],
     requiresAction: false,
@@ -574,7 +577,7 @@ const NotificationMetadata = {
     validActions: ['view_booking_details', 'contact_coach']
   },
   [NotificationTypes.RESCHEDULE_DECLINED_BY_CLIENT_COACH_NOTIF]: {
-    category: NotificationCategories.BOOKING,
+    category: NotificationCategories.BOOKINGS_AND_SESSIONS,
     priority: NotificationPriorities.MEDIUM,
     defaultChannels: [NotificationChannels.IN_APP, NotificationChannels.EMAIL],
     requiresAction: false,
@@ -582,7 +585,7 @@ const NotificationMetadata = {
     validActions: ['view_booking_details']
   },
    [NotificationTypes.CLIENT_ACCEPTED_COACH_COUNTER_PROPOSAL]: {
-    category: NotificationCategories.BOOKING,
+    category: NotificationCategories.BOOKINGS_AND_SESSIONS,
     priority: NotificationPriorities.MEDIUM,
     defaultChannels: [NotificationChannels.IN_APP, NotificationChannels.EMAIL],
     requiresAction: false,
@@ -590,7 +593,7 @@ const NotificationMetadata = {
     validActions: ['view_booking_details']
   },
   [NotificationTypes.CLIENT_DECLINED_COACH_COUNTER_PROPOSAL]: {
-    category: NotificationCategories.BOOKING,
+    category: NotificationCategories.BOOKINGS_AND_SESSIONS,
     priority: NotificationPriorities.MEDIUM,
     defaultChannels: [NotificationChannels.IN_APP, NotificationChannels.EMAIL],
     requiresAction: false,
@@ -598,7 +601,7 @@ const NotificationMetadata = {
     validActions: ['view_booking_details', 'contact_coach']
   },
   [NotificationTypes.COACH_COUNTER_PROPOSED_RESCHEDULE_REQUEST]: {
-    category: NotificationCategories.BOOKING,
+    category: NotificationCategories.BOOKINGS_AND_SESSIONS,
     priority: NotificationPriorities.HIGH,
     defaultChannels: [NotificationChannels.IN_APP, NotificationChannels.EMAIL],
     requiresAction: true, 
@@ -607,7 +610,7 @@ const NotificationMetadata = {
   },
 
   [NotificationTypes.WEBINAR_ATTENDANCE_RECONFIRMED]: {
-    category: NotificationCategories.BOOKING,
+    category: NotificationCategories.BOOKINGS_AND_SESSIONS,
     priority: NotificationPriorities.MEDIUM,
     defaultChannels: [NotificationChannels.IN_APP, NotificationChannels.EMAIL],
     requiresAction: false,
@@ -615,7 +618,7 @@ const NotificationMetadata = {
     validActions: ['view_webinar_details']
   },
   [NotificationTypes.WEBINAR_CANCELLATION_DUE_TO_RESCHEDULE_CONFIRMED]: {
-    category: NotificationCategories.BOOKING,
+    category: NotificationCategories.BOOKINGS_AND_SESSIONS,
     priority: NotificationPriorities.MEDIUM,
     defaultChannels: [NotificationChannels.IN_APP, NotificationChannels.EMAIL],
     requiresAction: false,
@@ -623,7 +626,7 @@ const NotificationMetadata = {
     validActions: ['view_transaction_history']
   },
   [NotificationTypes.YOUR_WEBINAR_RESCHEDULE_CONFIRMED]: { 
-    category: NotificationCategories.BOOKING,
+    category: NotificationCategories.BOOKINGS_AND_SESSIONS,
     priority: NotificationPriorities.LOW,
     defaultChannels: [NotificationChannels.IN_APP, NotificationChannels.EMAIL],
     requiresAction: false,
@@ -640,7 +643,7 @@ const NotificationMetadata = {
     validActions: ['view_booking_details']
   },
   [NotificationTypes.USER_ACCOUNT_WARNING]: {
-    category: NotificationCategories.SYSTEM,
+    category: NotificationCategories.ACCOUNT_AND_SECURITY,
     priority: NotificationPriorities.HIGH,
     defaultChannels: [NotificationChannels.IN_APP, NotificationChannels.EMAIL],
     requiresAction: false,
@@ -648,7 +651,7 @@ const NotificationMetadata = {
     validActions: ['contact_support']
   },
   [NotificationTypes.REPORT_ACTIONED]: {
-    category: NotificationCategories.SYSTEM,
+    category: NotificationCategories.PLATFORM_AND_COMMUNITY,
     priority: NotificationPriorities.LOW,
     defaultChannels: [NotificationChannels.IN_APP],
     requiresAction: false,
@@ -656,7 +659,7 @@ const NotificationMetadata = {
     validActions: []
   },
    [NotificationTypes.LIVE_SESSION_RECEIPT_CLIENT]: {
-    category: NotificationCategories.PAYMENT,
+    category: NotificationCategories.PAYMENTS_AND_EARNINGS,
     priority: NotificationPriorities.MEDIUM,
     defaultChannels: [NotificationChannels.IN_APP, NotificationChannels.EMAIL],
     requiresAction: false,
@@ -664,7 +667,7 @@ const NotificationMetadata = {
     validActions: ['view_receipt', 'book_again']
   },
   [NotificationTypes.LIVE_SESSION_EARNINGS_COACH]: {
-    category: NotificationCategories.PAYMENT,
+    category: NotificationCategories.PAYMENTS_AND_EARNINGS,
     priority: NotificationPriorities.MEDIUM,
     defaultChannels: [NotificationChannels.IN_APP, NotificationChannels.EMAIL],
     requiresAction: false,
@@ -672,7 +675,7 @@ const NotificationMetadata = {
     validActions: ['view_earnings_summary']
   },
   [NotificationTypes.YOUR_BOOKING_CANCELLATION_CONFIRMED]: { 
-    category: NotificationCategories.BOOKING,
+    category: NotificationCategories.BOOKINGS_AND_SESSIONS,
     priority: NotificationPriorities.LOW, // Or MEDIUM, depending on desired visibility
     defaultChannels: [NotificationChannels.IN_APP, NotificationChannels.EMAIL],
     requiresAction: false,
@@ -680,7 +683,7 @@ const NotificationMetadata = {
     validActions: ['view_booking_details'] // Action to view the now-cancelled booking
   },  
    [NotificationTypes.WEBINAR_REGISTRATION_CANCELLED_BY_YOU]: {
-    category: NotificationCategories.BOOKING,
+    category: NotificationCategories.BOOKINGS_AND_SESSIONS,
     priority: NotificationPriorities.HIGH,
     defaultChannels: [NotificationChannels.IN_APP, NotificationChannels.EMAIL],
     requiresAction: false,
@@ -688,7 +691,7 @@ const NotificationMetadata = {
     validActions: ['view_receipt'] // Or other relevant actions
   },
   [NotificationTypes.WEBINAR_ATTENDEE_CANCELLED]: {
-    category: NotificationCategories.BOOKING,
+    category: NotificationCategories.BOOKINGS_AND_SESSIONS,
     priority: NotificationPriorities.MEDIUM,
     defaultChannels: [NotificationChannels.IN_APP, NotificationChannels.EMAIL],
     requiresAction: false,
@@ -696,7 +699,7 @@ const NotificationMetadata = {
     validActions: ['view_webinar_details'] // Or 'view_attendee_list'
   },
     [NotificationTypes.PROGRAM_COMMENT_POSTED]: {
-    category: NotificationCategories.RESOURCE,
+    category: NotificationCategories.PLATFORM_AND_COMMUNITY,
     priority: NotificationPriorities.LOW,
     defaultChannels: [NotificationChannels.IN_APP],
     requiresAction: false,
@@ -704,7 +707,7 @@ const NotificationMetadata = {
     validActions: ['view_lesson']
   },
  [NotificationTypes.PROGRAM_COMMENT_REPLY]: {
-    category: NotificationCategories.MESSAGE,
+    category: NotificationCategories.PLATFORM_AND_COMMUNITY,
     priority: NotificationPriorities.MEDIUM,
     defaultChannels: [NotificationChannels.IN_APP, NotificationChannels.EMAIL],
     requiresAction: true,
@@ -712,7 +715,7 @@ const NotificationMetadata = {
     validActions: ['view_comment', 'reply']
   },
   [NotificationTypes.PROGRAM_PURCHASE_CONFIRMED]: {
-    category: NotificationCategories.PAYMENT,
+    category: NotificationCategories.PAYMENTS_AND_EARNINGS,
     priority: NotificationPriorities.HIGH,
     defaultChannels: [NotificationChannels.IN_APP, NotificationChannels.EMAIL],
     requiresAction: false,
@@ -720,7 +723,7 @@ const NotificationMetadata = {
     validActions: ['view_program']
   },
   [NotificationTypes.PROGRAM_SALE_COACH]: {
-    category: NotificationCategories.PAYMENT,
+    category: NotificationCategories.PAYMENTS_AND_EARNINGS,
     priority: NotificationPriorities.MEDIUM,
     defaultChannels: [NotificationChannels.IN_APP, NotificationChannels.EMAIL],
     requiresAction: false,
@@ -728,7 +731,7 @@ const NotificationMetadata = {
     validActions: ['view_program_details']
   },
     [NotificationTypes.NEW_PROGRAM_REVIEW]: {
-    category: NotificationCategories.REVIEW,
+    category: NotificationCategories.PLATFORM_AND_COMMUNITY,
     priority: NotificationPriorities.MEDIUM,
     defaultChannels: [NotificationChannels.IN_APP, NotificationChannels.EMAIL],
     requiresAction: false,
@@ -736,7 +739,7 @@ const NotificationMetadata = {
     validActions: ['view_review', 'view_program']
   },
   [NotificationTypes.PROGRAM_ASSIGNMENT_SUBMITTED]: {
-    category: NotificationCategories.SESSION,
+    category: NotificationCategories.PLATFORM_AND_COMMUNITY,
     priority: NotificationPriorities.MEDIUM,
     defaultChannels: [NotificationChannels.IN_APP],
     requiresAction: true,
@@ -744,7 +747,7 @@ const NotificationMetadata = {
     validActions: ['review_assignment']
   },
   [NotificationTypes.PROGRAM_COMPLETED]: {
-    category: NotificationCategories.ACHIEVEMENT,
+    category: NotificationCategories.PLATFORM_AND_COMMUNITY,
     priority: NotificationPriorities.MEDIUM,
     defaultChannels: [NotificationChannels.IN_APP],
     requiresAction: false,
@@ -752,7 +755,7 @@ const NotificationMetadata = {
     validActions: ['view_program', 'leave_review']
   },
    [NotificationTypes.NEW_EARNING_COACH]: {
-    category: NotificationCategories.PAYMENT,
+    category: NotificationCategories.PAYMENTS_AND_EARNINGS,
     priority: NotificationPriorities.MEDIUM,
     defaultChannels: [NotificationChannels.IN_APP, NotificationChannels.EMAIL],
     requiresAction: false,
@@ -760,7 +763,7 @@ const NotificationMetadata = {
     validActions: ['view_earnings_summary']
   },
   [NotificationTypes.USER_CONTENT_HIDDEN]: {
-    category: NotificationCategories.SYSTEM,
+    category: NotificationCategories.PLATFORM_AND_COMMUNITY,
     priority: NotificationPriorities.HIGH,
     defaultChannels: [NotificationChannels.IN_APP, NotificationChannels.EMAIL],
     requiresAction: false,
@@ -768,7 +771,7 @@ const NotificationMetadata = {
     validActions: ['contact_support']
   },
   [NotificationTypes.ACCOUNT_SUSPENDED]: {
-    category: NotificationCategories.SYSTEM,
+    category: NotificationCategories.ACCOUNT_AND_SECURITY,
     priority: NotificationPriorities.HIGH,
     defaultChannels: [NotificationChannels.IN_APP, NotificationChannels.EMAIL],
     requiresAction: false,
@@ -776,7 +779,7 @@ const NotificationMetadata = {
     validActions: ['contact_support']
   },
    [NotificationTypes.REPORT_DISMISSED]: {
-    category: NotificationCategories.SYSTEM,
+    category: NotificationCategories.PLATFORM_AND_COMMUNITY,
     priority: NotificationPriorities.LOW,
     defaultChannels: [NotificationChannels.IN_APP],
     requiresAction: false,
@@ -784,7 +787,7 @@ const NotificationMetadata = {
     validActions: []
   },
   [NotificationTypes.COACH_VERIFICATION_APPROVED]: {
-    category: NotificationCategories.PROFILE,
+    category: NotificationCategories.ACCOUNT_AND_SECURITY,
     priority: NotificationPriorities.MEDIUM,
     defaultChannels: [NotificationChannels.IN_APP, NotificationChannels.EMAIL],
     requiresAction: false,
@@ -792,7 +795,7 @@ const NotificationMetadata = {
     validActions: ['view_profile', 'update_availability']
   },
   [NotificationTypes.COACH_VERIFICATION_REJECTED]: {
-    category: NotificationCategories.PROFILE,
+    category: NotificationCategories.ACCOUNT_AND_SECURITY,
     priority: NotificationPriorities.HIGH,
     defaultChannels: [NotificationChannels.IN_APP, NotificationChannels.EMAIL],
     requiresAction: true,
@@ -800,13 +803,68 @@ const NotificationMetadata = {
     validActions: ['resubmit_verification', 'contact_support']
   },
   [NotificationTypes.VERIFICATION_EXPIRING_SOON]: {
-    category: NotificationCategories.PROFILE,
+    category: NotificationCategories.ACCOUNT_AND_SECURITY,
     priority: NotificationPriorities.MEDIUM,
     defaultChannels: [NotificationChannels.IN_APP, NotificationChannels.EMAIL],
     requiresAction: true,
     validStatuses: ['active', 'archived'],
     validActions: ['renew_verification']
-  }
+  },[NotificationTypes.WELCOME]: {
+    category: NotificationCategories.ACCOUNT_AND_SECURITY,
+    priority: NotificationPriorities.LOW,
+    defaultChannels: [NotificationChannels.EMAIL],
+    requiresAction: false,
+    validStatuses: ['active'],
+    validActions: []
+  },
+  [NotificationTypes.EMAIL_VERIFICATION]: {
+    category: NotificationCategories.ACCOUNT_AND_SECURITY,
+    priority: NotificationPriorities.HIGH,
+    defaultChannels: [NotificationChannels.EMAIL],
+    requiresAction: true,
+    validStatuses: ['active'],
+    validActions: ['verify_email']
+  },
+  [NotificationTypes.PASSWORD_RESET]: {
+    category: NotificationCategories.ACCOUNT_AND_SECURITY,
+    priority: NotificationPriorities.HIGH,
+    defaultChannels: [NotificationChannels.EMAIL],
+    requiresAction: true,
+    validStatuses: ['active'],
+    validActions: ['reset_password']
+  },
+  [NotificationTypes.UPCOMING_SESSION_REMINDER]: {
+    category: NotificationCategories.BOOKINGS_AND_SESSIONS,
+    priority: NotificationPriorities.MEDIUM,
+    defaultChannels: [NotificationChannels.IN_APP, NotificationChannels.EMAIL],
+    requiresAction: false,
+    validStatuses: ['active', 'archived'],
+    validActions: ['view']
+  },
+  [NotificationTypes.COACH_CANCELLED_SESSION]: {
+    category: NotificationCategories.BOOKINGS_AND_SESSIONS,
+    priority: NotificationPriorities.HIGH,
+    defaultChannels: [NotificationChannels.IN_APP, NotificationChannels.EMAIL],
+    requiresAction: false,
+    validStatuses: ['active', 'archived'],
+    validActions: ['view_booking_details']
+  },
+  [NotificationTypes.NEW_EARNING]: {
+    category: NotificationCategories.PAYMENTS_AND_EARNINGS,
+    priority: NotificationPriorities.MEDIUM,
+    defaultChannels: [NotificationChannels.IN_APP, NotificationChannels.EMAIL],
+    requiresAction: false,
+    validStatuses: ['active', 'archived'],
+    validActions: ['view_earnings_summary']
+  },
+  [NotificationTypes.PAYOUT_INITIATED]: {
+    category: NotificationCategories.PAYMENTS_AND_EARNINGS,
+    priority: NotificationPriorities.MEDIUM,
+    defaultChannels: [NotificationChannels.EMAIL],
+    requiresAction: false,
+    validStatuses: ['active', 'archived'],
+    validActions: ['view_earnings_summary']
+  },
 };
 
 const validateNotificationData = (data) => {

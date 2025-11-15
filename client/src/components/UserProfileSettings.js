@@ -678,22 +678,68 @@ return (
 
             <Card>
                 <CardHeader><CardTitle className="flex items-center gap-2"><Bell />{t('userprofile:notifications')}</CardTitle></CardHeader>
-                <CardContent className="space-y-4">
-                    <div className="flex items-center justify-between">
-                        <label htmlFor="email-notifications" className="font-medium text-sm flex items-center gap-2">
-                            {t('userprofile:emailNotifications')}
-                            <TooltipProvider><Tooltip><TooltipTrigger asChild><button type="button"><Info className="h-4 w-4 text-muted-foreground"/></button></TooltipTrigger><TooltipContent><p>{t('userprofile:emailNotificationsDescription')}</p></TooltipContent></Tooltip></TooltipProvider>
-                        </label>
-                        <Switch id="email-notifications" checked={formData.settings?.notificationPreferences?.email || false} onCheckedChange={(checked) => handleNestedValueChange('settings.notificationPreferences.email', checked)} />
-                    </div>
-                    <div className="flex items-center justify-between">
-                        <label htmlFor="in-app-notifications" className="font-medium text-sm flex items-center gap-2">
-                           {t('userprofile:inAppNotifications')}
-                            <TooltipProvider><Tooltip><TooltipTrigger asChild><button type="button"><Info className="h-4 w-4 text-muted-foreground"/></button></TooltipTrigger><TooltipContent><p>{t('userprofile:inAppNotificationsDescription')}</p></TooltipContent></Tooltip></TooltipProvider>
-                        </label>
-                         <Switch id="in-app-notifications" checked={formData.settings?.notificationPreferences?.inApp || false} onCheckedChange={(checked) => handleSwitchChange('settings.notificationPreferences.inApp', checked)} />
-                    </div>
-                </CardContent>
+                        <CardContent className="space-y-4">
+                            <div className="flex items-center justify-between">
+                                <label htmlFor="email-notifications" className="font-medium text-sm flex items-center gap-2">
+                                    {t('userprofile:emailNotifications')}
+                                    <TooltipProvider><Tooltip><TooltipTrigger asChild><button type="button"><Info className="h-4 w-4 text-muted-foreground"/></button></TooltipTrigger><TooltipContent><p>{t('userprofile:emailNotificationsDescription')}</p></TooltipContent></Tooltip></TooltipProvider>
+                                </label>
+                                <Switch id="email-notifications" checked={formData.settings?.notificationPreferences?.email || false} onCheckedChange={(checked) => handleNestedValueChange('settings.notificationPreferences.email', checked)} />
+                            </div>
+
+                            {formData.settings?.notificationPreferences?.email && (
+                                <div className="pl-6 mt-4 pt-4 border-l-2 border-slate-200 dark:border-slate-700 space-y-4">
+                                    <h4 className="font-semibold text-sm text-foreground">{t('userprofile:emailCategories')}</h4>
+                                    
+                                    <div className="flex items-center justify-between">
+                                        <label htmlFor="email-cat-bookings" className="text-sm">{t('userprofile:category.bookings_and_sessions')}</label>
+                                        <Switch 
+                                            id="email-cat-bookings"
+                                            checked={formData.settings?.notificationPreferences?.emailPreferencesByCategory?.bookings_and_sessions ?? true}
+                                            onCheckedChange={(checked) => handleNestedValueChange('settings.notificationPreferences.emailPreferencesByCategory.bookings_and_sessions', checked)}
+                                        />
+                                    </div>
+                                    
+                                    <div className="flex items-center justify-between">
+                                        <label htmlFor="email-cat-payments" className="text-sm">{t('userprofile:category.payments_and_earnings')}</label>
+                                        <Switch 
+                                            id="email-cat-payments"
+                                            checked={formData.settings?.notificationPreferences?.emailPreferencesByCategory?.payments_and_earnings ?? true}
+                                            onCheckedChange={(checked) => handleNestedValueChange('settings.notificationPreferences.emailPreferencesByCategory.payments_and_earnings', checked)}
+                                        />
+                                    </div>
+                                    
+                                    <div className="flex items-center justify-between">
+                                        <label htmlFor="email-cat-community" className="text-sm">{t('userprofile:category.platform_and_community')}</label>
+                                        <Switch 
+                                            id="email-cat-community"
+                                            checked={formData.settings?.notificationPreferences?.emailPreferencesByCategory?.platform_and_community ?? false}
+                                            onCheckedChange={(checked) => handleNestedValueChange('settings.notificationPreferences.emailPreferencesByCategory.platform_and_community', checked)}
+                                        />
+                                    </div>
+                                    
+                                    <div className="flex items-center justify-between">
+                                        <label htmlFor="email-cat-security" className="text-sm flex items-center gap-2 text-muted-foreground">
+                                            {t('userprofile:category.account_and_security')}
+                                            <TooltipProvider><Tooltip><TooltipTrigger asChild><button type="button" className="cursor-default"><Info className="h-4 w-4"/></button></TooltipTrigger><TooltipContent><p>{t('userprofile:securityEmailsCannotBeDisabled')}</p></TooltipContent></Tooltip></TooltipProvider>
+                                        </label>
+                                        <Switch 
+                                            id="email-cat-security"
+                                            checked={true}
+                                            disabled={true}
+                                        />
+                                    </div>
+                                </div>
+                            )}
+
+                            <div className="flex items-center justify-between pt-4 border-t border-slate-200 dark:border-slate-800">
+                                <label htmlFor="in-app-notifications" className="font-medium text-sm flex items-center gap-2">
+                                {t('userprofile:inAppNotifications')}
+                                    <TooltipProvider><Tooltip><TooltipTrigger asChild><button type="button"><Info className="h-4 w-4 text-muted-foreground"/></button></TooltipTrigger><TooltipContent><p>{t('userprofile:inAppNotificationsDescription')}</p></TooltipContent></Tooltip></TooltipProvider>
+                                </label>
+                                <Switch id="in-app-notifications" checked={formData.settings?.notificationPreferences?.inApp ?? true} onCheckedChange={(checked) => handleSwitchChange('settings.notificationPreferences.inApp', checked)} />
+                            </div>
+                        </CardContent>
             </Card>
             
             <Card>

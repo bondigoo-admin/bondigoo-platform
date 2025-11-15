@@ -17,6 +17,8 @@ const UserSchema = new mongoose.Schema({
   createdAt: { type: Date, default: Date.now },
   isActive: { type: Boolean, default: true },
   isEmailVerified: { type: Boolean, default: false },
+  emailVerificationToken: { type: String },
+  emailVerificationExpires: { type: Date },
   profileVisibility: { 
     type: String, 
     enum: ['public', 'connections_only', 'private'],
@@ -40,10 +42,14 @@ const UserSchema = new mongoose.Schema({
   },
   settings: {
     notificationPreferences: {
-      email: { type: Boolean, default: true },
-      sms: { type: Boolean, default: false },
+      email: { type: Boolean, default: true }, 
       inApp: { type: Boolean, default: true },
-      pushNotifications: { type: Boolean, default: false } 
+      emailPreferencesByCategory: {
+        account_and_security: { type: Boolean, default: true },
+        bookings_and_sessions: { type: Boolean, default: true },
+        payments_and_earnings: { type: Boolean, default: true },
+        platform_and_community: { type: Boolean, default: false }
+      }
     },
     privacySettings: {
       showEmail: { type: Boolean, default: false },
