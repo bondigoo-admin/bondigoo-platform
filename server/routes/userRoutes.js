@@ -85,6 +85,11 @@ router.post('/request-email-change', auth, userController.requestEmailChange);
 // @access  Public
 router.post('/verify-email-change', userController.verifyEmailChange);
 
+// @route   POST api/users/verify-email
+// @desc    Verify initial user email
+// @access  Public
+router.post('/verify-email', userController.verifyInitialEmail);
+
 // @route   GET api/users/payment-methods
 // @desc    Get user's saved payment methods
 // @access  Private

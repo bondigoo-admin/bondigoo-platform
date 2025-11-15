@@ -149,7 +149,7 @@ const handleFinish = async () => {
   };
 
   return (
-    <div className="flex min-h-screen w-full items-center justify-center bg-background p-4 sm:p-6 lg:p-8">
+   <div className="flex h-full w-full items-center justify-center bg-background p-4 sm:p-6 lg:p-8">
       <Card className="w-full max-w-2xl">
         <CardHeader>
           <div className="mb-4 flex items-center justify-between">

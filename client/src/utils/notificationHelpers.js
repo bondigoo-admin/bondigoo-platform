@@ -2,16 +2,11 @@ import moment from 'moment';
 import { logger } from './logger';
 
 export const NotificationCategories = {
-  BOOKING: 'booking',
-  SESSION: 'session',
-  PAYMENT: 'payment',
-  CONNECTION: 'connection',
-  ACHIEVEMENT: 'achievement',
-  RESOURCE: 'resource',
-  MESSAGE: 'message',
-  SYSTEM: 'system',
-  PROFILE: 'profile',
-  REVIEW: 'review'
+  ACCOUNT_AND_SECURITY: 'account_and_security',
+  BOOKINGS_AND_SESSIONS: 'bookings_and_sessions',
+  PAYMENTS_AND_EARNINGS: 'payments_and_earnings',
+  PLATFORM_AND_COMMUNITY: 'platform_and_community',
+  SYSTEM: 'system'
 };
 
 export const NotificationTypes = {
@@ -102,7 +97,7 @@ export const NotificationActions = {
 export const NotificationMetadata = {
   // Booking notifications
   [NotificationTypes.BOOKING_REQUEST]: {
-    category: NotificationCategories.BOOKING,
+    category: NotificationCategories.BOOKINGS_AND_SESSIONS,
     priority: NotificationPriorities.HIGH,
     defaultChannels: ['in_app'],
     requiresAction: true,
@@ -114,7 +109,7 @@ export const NotificationMetadata = {
     retentionPeriod: 30 * 24 * 60 * 60 * 1000 // 30 days
   },
   [NotificationTypes.BOOKING_CONFIRMED]: {
-    category: NotificationCategories.BOOKING,
+    category: NotificationCategories.BOOKINGS_AND_SESSIONS,
     priority: NotificationPriorities.MEDIUM,
     defaultChannels: ['in_app', 'email'],
     requiresAction: false,
@@ -126,7 +121,7 @@ export const NotificationMetadata = {
     retentionPeriod: 30 * 24 * 60 * 60 * 1000 // 30 days
   },
   [NotificationTypes.BOOKING_DECLINED]: {
-    category: NotificationCategories.BOOKING,
+    category: NotificationCategories.BOOKINGS_AND_SESSIONS,
     priority: NotificationPriorities.MEDIUM,
     defaultChannels: ['in_app', 'email'],
     requiresAction: false,
@@ -138,7 +133,7 @@ export const NotificationMetadata = {
     retentionPeriod: 30 * 24 * 60 * 60 * 1000 // 30 days
   },
   [NotificationTypes.BOOKING_CANCELLED]: {
-    category: NotificationCategories.BOOKING,
+    category: NotificationCategories.BOOKINGS_AND_SESSIONS,
     priority: NotificationPriorities.MEDIUM,
     defaultChannels: ['in_app', 'email'],
     requiresAction: false,
@@ -150,7 +145,7 @@ export const NotificationMetadata = {
     retentionPeriod: 30 * 24 * 60 * 60 * 1000 // 30 days
   },
   [NotificationTypes.BOOKING_RESCHEDULED]: {
-    category: NotificationCategories.BOOKING,
+    category: NotificationCategories.BOOKINGS_AND_SESSIONS,
     priority: NotificationPriorities.MEDIUM,
     defaultChannels: ['in_app', 'email'],
     requiresAction: false,
@@ -162,7 +157,7 @@ export const NotificationMetadata = {
     retentionPeriod: 30 * 24 * 60 * 60 * 1000 // 30 days
   },
   [NotificationTypes.BOOKING_REMINDER]: {
-    category: NotificationCategories.BOOKING,
+    category: NotificationCategories.BOOKINGS_AND_SESSIONS,
     priority: NotificationPriorities.MEDIUM,
     defaultChannels: ['in_app', 'email', 'push'],
     requiresAction: false,
@@ -176,7 +171,7 @@ export const NotificationMetadata = {
   
   // Session notifications
   [NotificationTypes.SESSION_STARTING]: {
-    category: NotificationCategories.SESSION,
+    category: NotificationCategories.BOOKINGS_AND_SESSIONS,
     priority: NotificationPriorities.HIGH,
     defaultChannels: ['in_app', 'push'],
     requiresAction: true,
@@ -188,7 +183,7 @@ export const NotificationMetadata = {
     retentionPeriod: 24 * 60 * 60 * 1000 // 24 hours
   },
   [NotificationTypes.SESSION_STARTING_SOON]: {
-    category: NotificationCategories.SESSION,
+    category: NotificationCategories.BOOKINGS_AND_SESSIONS,
     priority: NotificationPriorities.HIGH,
     defaultChannels: ['in_app', 'push', 'email'],
     requiresAction: false,
@@ -200,7 +195,7 @@ export const NotificationMetadata = {
     retentionPeriod: 24 * 60 * 60 * 1000 // 24 hours
   },
   [NotificationTypes.SESSION_COMPLETED]: {
-    category: NotificationCategories.SESSION,
+    category: NotificationCategories.BOOKINGS_AND_SESSIONS,
     priority: NotificationPriorities.MEDIUM,
     defaultChannels: ['in_app', 'email'],
     requiresAction: false,
@@ -212,7 +207,7 @@ export const NotificationMetadata = {
     retentionPeriod: 30 * 24 * 60 * 60 * 1000 // 30 days
   },
   [NotificationTypes.SESSION_FEEDBACK_REQUIRED]: {
-    category: NotificationCategories.SESSION,
+    category: NotificationCategories.BOOKINGS_AND_SESSIONS,
     priority: NotificationPriorities.MEDIUM,
     defaultChannels: ['in_app', 'email'],
     requiresAction: true,
@@ -226,7 +221,7 @@ export const NotificationMetadata = {
   
   // Payment notifications
   [NotificationTypes.PAYMENT_RECEIVED]: {
-    category: NotificationCategories.PAYMENT,
+    category: NotificationCategories.PAYMENTS_AND_EARNINGS,
     priority: NotificationPriorities.MEDIUM,
     defaultChannels: ['in_app', 'email'],
     requiresAction: false,
@@ -238,7 +233,7 @@ export const NotificationMetadata = {
     retentionPeriod: 365 * 24 * 60 * 60 * 1000 // 1 year
   },
   [NotificationTypes.PAYMENT_FAILED]: {
-    category: NotificationCategories.PAYMENT,
+    category: NotificationCategories.PAYMENTS_AND_EARNINGS,
     priority: NotificationPriorities.HIGH,
     defaultChannels: ['in_app', 'email'],
     requiresAction: true,
@@ -250,7 +245,7 @@ export const NotificationMetadata = {
     retentionPeriod: 90 * 24 * 60 * 60 * 1000 // 90 days
   },
   [NotificationTypes.PAYMENT_REFUNDED]: {
-    category: NotificationCategories.PAYMENT,
+    category: NotificationCategories.PAYMENTS_AND_EARNINGS,
     priority: NotificationPriorities.MEDIUM,
     defaultChannels: ['in_app', 'email'],
     requiresAction: false,
@@ -262,7 +257,7 @@ export const NotificationMetadata = {
     retentionPeriod: 365 * 24 * 60 * 60 * 1000 // 1 year
   },
   [NotificationTypes.PAYMENT_PENDING]: {
-    category: NotificationCategories.PAYMENT,
+    category: NotificationCategories.PAYMENTS_AND_EARNINGS,
     priority: NotificationPriorities.MEDIUM,
     defaultChannels: ['in_app', 'email'],
     requiresAction: false,
@@ -276,7 +271,7 @@ export const NotificationMetadata = {
   
   // Connection notifications
   [NotificationTypes.CONNECTION_REQUEST]: {
-    category: NotificationCategories.CONNECTION,
+    category: NotificationCategories.PLATFORM_AND_COMMUNITY,
     priority: NotificationPriorities.MEDIUM,
     defaultChannels: ['in_app', 'email'],
     requiresAction: true,
@@ -288,7 +283,7 @@ export const NotificationMetadata = {
     retentionPeriod: 90 * 24 * 60 * 60 * 1000 // 90 days
   },
   [NotificationTypes.CONNECTION_ACCEPTED]: {
-    category: NotificationCategories.CONNECTION,
+    category: NotificationCategories.PLATFORM_AND_COMMUNITY,
     priority: NotificationPriorities.MEDIUM,
     defaultChannels: ['in_app', 'email'],
     requiresAction: false,
@@ -300,7 +295,7 @@ export const NotificationMetadata = {
     retentionPeriod: 30 * 24 * 60 * 60 * 1000 // 30 days
   },
   [NotificationTypes.CONNECTION_DECLINED]: {
-    category: NotificationCategories.CONNECTION,
+    category: NotificationCategories.PLATFORM_AND_COMMUNITY,
     priority: NotificationPriorities.LOW,
     defaultChannels: ['in_app'],
     requiresAction: false,
@@ -314,7 +309,7 @@ export const NotificationMetadata = {
   
   // Achievement notifications
   [NotificationTypes.ACHIEVEMENT_UNLOCKED]: {
-    category: NotificationCategories.ACHIEVEMENT,
+    category: NotificationCategories.PLATFORM_AND_COMMUNITY,
     priority: NotificationPriorities.MEDIUM,
     defaultChannels: ['in_app', 'push'],
     requiresAction: false,
@@ -326,7 +321,7 @@ export const NotificationMetadata = {
     retentionPeriod: 365 * 24 * 60 * 60 * 1000 // 1 year
   },
   [NotificationTypes.MILESTONE_REACHED]: {
-    category: NotificationCategories.ACHIEVEMENT,
+    category: NotificationCategories.PLATFORM_AND_COMMUNITY,
     priority: NotificationPriorities.MEDIUM,
     defaultChannels: ['in_app', 'push', 'email'],
     requiresAction: false,
@@ -338,7 +333,7 @@ export const NotificationMetadata = {
     retentionPeriod: 365 * 24 * 60 * 60 * 1000 // 1 year
   },
   [NotificationTypes.CERTIFICATE_EARNED]: {
-    category: NotificationCategories.ACHIEVEMENT,
+    category: NotificationCategories.PLATFORM_AND_COMMUNITY,
     priority: NotificationPriorities.MEDIUM,
     defaultChannels: ['in_app', 'email'],
     requiresAction: false,
@@ -352,7 +347,7 @@ export const NotificationMetadata = {
   
   // Resource notifications
   [NotificationTypes.RESOURCE_SHARED]: {
-    category: NotificationCategories.RESOURCE,
+    category: NotificationCategories.PLATFORM_AND_COMMUNITY,
     priority: NotificationPriorities.MEDIUM,
     defaultChannels: ['in_app', 'email'],
     requiresAction: false,
@@ -364,7 +359,7 @@ export const NotificationMetadata = {
     retentionPeriod: 90 * 24 * 60 * 60 * 1000 // 90 days
   },
   [NotificationTypes.RESOURCE_UPDATED]: {
-    category: NotificationCategories.RESOURCE,
+    category: NotificationCategories.PLATFORM_AND_COMMUNITY,
     priority: NotificationPriorities.LOW,
     defaultChannels: ['in_app'],
     requiresAction: false,
@@ -376,7 +371,7 @@ export const NotificationMetadata = {
     retentionPeriod: 30 * 24 * 60 * 60 * 1000 // 30 days
   },
   [NotificationTypes.RESOURCE_COMMENTED]: {
-    category: NotificationCategories.RESOURCE,
+    category: NotificationCategories.PLATFORM_AND_COMMUNITY,
     priority: NotificationPriorities.MEDIUM,
     defaultChannels: ['in_app', 'email'],
     requiresAction: false,
@@ -390,7 +385,7 @@ export const NotificationMetadata = {
   
   // Message notifications
   [NotificationTypes.MESSAGE_RECEIVED]: {
-    category: NotificationCategories.MESSAGE,
+    category: NotificationCategories.PLATFORM_AND_COMMUNITY,
     priority: NotificationPriorities.MEDIUM,
     defaultChannels: ['in_app', 'push'],
     requiresAction: false,
@@ -403,7 +398,7 @@ export const NotificationMetadata = {
     retentionPeriod: 90 * 24 * 60 * 60 * 1000 // 90 days
   },
   [NotificationTypes.MESSAGE_REPLIED]: {
-    category: NotificationCategories.MESSAGE,
+    category: NotificationCategories.PLATFORM_AND_COMMUNITY,
     priority: NotificationPriorities.MEDIUM,
     defaultChannels: ['in_app', 'push'],
     requiresAction: false,
@@ -455,7 +450,7 @@ export const NotificationMetadata = {
   
   // Profile notifications
   [NotificationTypes.PROFILE_VIEWED]: {
-    category: NotificationCategories.PROFILE,
+    category: NotificationCategories.ACCOUNT_AND_SECURITY,
     priority: NotificationPriorities.LOW,
     defaultChannels: ['in_app'],
     requiresAction: false,
@@ -467,7 +462,7 @@ export const NotificationMetadata = {
     retentionPeriod: 30 * 24 * 60 * 60 * 1000 // 30 days
   },
   [NotificationTypes.PROFILE_UPDATED]: {
-    category: NotificationCategories.PROFILE,
+    category: NotificationCategories.ACCOUNT_AND_SECURITY,
     priority: NotificationPriorities.LOW,
     defaultChannels: ['in_app', 'email'],
     requiresAction: false,
@@ -479,7 +474,7 @@ export const NotificationMetadata = {
     retentionPeriod: 30 * 24 * 60 * 60 * 1000 // 30 days
   },
   [NotificationTypes.DOCUMENT_VERIFIED]: {
-    category: NotificationCategories.PROFILE,
+    category: NotificationCategories.ACCOUNT_AND_SECURITY,
     priority: NotificationPriorities.MEDIUM,
     defaultChannels: ['in_app', 'email'],
     requiresAction: false,
@@ -493,7 +488,7 @@ export const NotificationMetadata = {
   
   // Review notifications
   [NotificationTypes.REVIEW_RECEIVED]: {
-    category: NotificationCategories.REVIEW,
+    category: NotificationCategories.PLATFORM_AND_COMMUNITY,
     priority: NotificationPriorities.MEDIUM,
     defaultChannels: ['in_app', 'email'],
     requiresAction: false,
@@ -505,7 +500,7 @@ export const NotificationMetadata = {
     retentionPeriod: 365 * 24 * 60 * 60 * 1000 // 1 year
   },
   [NotificationTypes.REVIEW_REPLY]: {
-    category: NotificationCategories.REVIEW,
+    category: NotificationCategories.PLATFORM_AND_COMMUNITY,
     priority: NotificationPriorities.MEDIUM,
     defaultChannels: ['in_app', 'email'],
     requiresAction: false,

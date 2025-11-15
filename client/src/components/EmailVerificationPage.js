@@ -12,7 +12,7 @@ const EmailVerificationPage = () => {
     const { logout } = useContext(AuthContext);
     const { t } = useTranslation(['userprofile', 'common']);
 
-    const [status, setStatus] = useState('verifying'); // verifying, success, error
+    const [status, setStatus] = useState('verifying'); 
     const [message, setMessage] = useState('');
 
     useEffect(() => {

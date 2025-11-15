@@ -359,7 +359,7 @@ const LaunchedHome = () => {
     <div className="flex flex-col bg-transparent">
       {selectedCoach && ( <LiveSessionClientRequestModal isOpen={isRequestModalOpen} onClose={() => setIsRequestModalOpen(false)} coach={selectedCoach} onConfirmRequest={handleConfirmRequest} /> )}
       {selectedCoach && user && ( <LiveSessionWaitingRoom isOpen={isWaitingRoomOpen} onClose={handleCloseWaitingRoom} coach={selectedCoach} user={user} sessionId={sessionId} onCancelRequest={handleCancelLiveRequest} status={outgoingRequestStatus} declineMessage={sessionInfo?.declineMessage} skipDeviceCheck={true} /> )}
-      <motion.section 
+     <motion.section 
           className="relative text-center text-primary-foreground dark:text-foreground overflow-hidden bg-gradient-animated bg-size-400"
           variants={gradientAnimation}
           initial="initial"
@@ -386,7 +386,15 @@ const LaunchedHome = () => {
               ) : (
                 <>
                   {!isAuthenticated && (<Button asChild size="lg" variant="hero" className="w-full sm:w-auto"><Link to="/signup"><UserPlus className="mr-2 h-5 w-5" /> {t('hero.buttons.beginJourney')}</Link></Button>)}
-                  <Button asChild size="lg" variant="hero" className="w-full sm:w-auto"><Link to="/coach-signup"><PlayCircle className="mr-2 h-5 w-5" /> {t('hero.buttons.becomeCoach')}</Link></Button>
+                  {isAuthenticated ? (
+                     <Button asChild size="lg" variant="hero" className="w-full sm:w-auto">
+                       <Link to="/coaches">
+                         <Users className="mr-2 h-5 w-5" /> {t('hero.buttons.exploreCoaches')}
+                       </Link>
+                     </Button>
+                  ) : (
+                    <Button asChild size="lg" variant="hero" className="w-full sm:w-auto"><Link to="/coach-signup"><PlayCircle className="mr-2 h-5 w-5" /> {t('hero.buttons.becomeCoach')}</Link></Button>
+                  )}
                 </>
               )}
             </motion.div>

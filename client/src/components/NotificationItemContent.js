@@ -282,6 +282,14 @@ const handleItemClick = () => {
          case 'live_session_earnings_coach':
             window.location.href = `/coach-dashboard?tab=earnings`;
             return;
+          case 'upcoming_session_reminder':
+          case 'coach_cancelled_session':
+              setShowBookingModal(true);
+              return;
+          case 'new_earning':
+          case 'payout_initiated':
+              window.location.href = `/coach-dashboard?tab=earnings`;
+              return;
           case 'payout_on_hold':
           case 'payout_released':
             window.location.href = `/coach-dashboard?tab=earnings`;
@@ -992,6 +1000,13 @@ const getStatusVariant = (status) => {
           case 'webinar_attendance_reconfirmed':
           case 'webinar_cancellation_due_to_reschedule_confirmed':
             return <Calendar className="h-5 w-5 text-blue-600 dark:text-blue-400" />; 
+          case 'upcoming_session_reminder':
+            return <Clock className="h-5 w-5 text-yellow-600 dark:text-yellow-400" />;
+          case 'coach_cancelled_session':
+            return <AlertTriangle className="h-5 w-5 text-red-600 dark:text-red-500" />;
+          case 'new_earning':
+          case 'payout_initiated':
+            return <TrendingUp className="h-5 w-5 text-green-600 dark:text-green-400" />;
             
           default:
             logger.warn(`[NotificationItemContent] No icon defined for type: ${type}`);
@@ -1187,6 +1202,14 @@ const renderTitle = () => {
         return t('notifications:coach_verification_rejected.title');
       case 'verification_expiring_soon':
         return t('notifications:verification_expiring_soon.title');
+      case 'upcoming_session_reminder':
+        return t('notifications:upcoming_session_reminder.title', { name });
+      case 'coach_cancelled_session':
+        return t('notifications:coach_cancelled_session.title');
+      case 'new_earning':
+        return t('notifications:new_earning.title');
+      case 'payout_initiated':
+        return t('notifications:payout_initiated.title');
     default:
       const defaultTitleKey = `notifications:${notification.type}.title`;
       const specificTitle = t(defaultTitleKey, '');
@@ -1675,6 +1698,14 @@ const formatProposedSlots = (slots) => {
         return <MarkdownRenderer text={t(`notifications:${notification.type}.message`, tOptions)} notification={notification} setActiveAuditId={setActiveAuditId} setShowAppealModal={setShowAppealModal} />;
       case 'verification_expiring_soon':
         return t('notifications:verification_expiring_soon.message', tOptions);
+      case 'upcoming_session_reminder':
+        return t('notifications:upcoming_session_reminder.message', tOptions);
+      case 'coach_cancelled_session':
+        return t('notifications:coach_cancelled_session.message', tOptions);
+      case 'new_earning':
+        return t('notifications:new_earning.message', tOptions);
+      case 'payout_initiated':
+        return t('notifications:payout_initiated.message', tOptions);
       default:
         const defaultMessageText = t('notifications:defaultMessage', { name });
         return <>{defaultMessageText}{generalReasonElement}</>;

@@ -15,6 +15,10 @@ const { logger } = require('../utils/logger');
 const { getSocketService } = require('./socketService');
 const { BookingStatusToNotification } = require('../utils/bookingNotificationMapper');
 const mongoose = require('mongoose');
+const { NotificationTemplateMap } = require('../utils/notificationTemplates');
+const path = require('path');
+const { i18next } = require('../config/i18n');
+const FsBackend = require('i18next-fs-backend');
 
 const CONTEXT_FREE_NOTIFICATION_TYPES = new Set([
   NotificationTypes.USER_ACCOUNT_WARNING,
@@ -24,12 +28,16 @@ const CONTEXT_FREE_NOTIFICATION_TYPES = new Set([
   NotificationTypes.REPORT_DISMISSED,
   NotificationTypes.COACH_VERIFICATION_APPROVED,
   NotificationTypes.COACH_VERIFICATION_REJECTED,
-  NotificationTypes.VERIFICATION_EXPIRING_SOON
+  NotificationTypes.VERIFICATION_EXPIRING_SOON,
+  NotificationTypes.WELCOME,
+  NotificationTypes.EMAIL_VERIFICATION,
+  NotificationTypes.PASSWORD_RESET,
+  NotificationTypes.PAYOUT_INITIATED
 ]);
 
 class UnifiedNotificationService {
   async sendNotification(notificationConfig, bookingData, socketService = getSocketService()) {
-    const initialLog = typeof logger !== 'undefined' && typeof logger.info === 'function' ? logger : {
+    const initialLog = typeof logger !== 'undefined' && typeof console.log === 'function' ? logger : {
       info: console.log.bind(console),
       error: console.error.bind(console),
       warn: console.warn.bind(console)
@@ -50,7 +58,7 @@ class UnifiedNotificationService {
       });
     
       if (recentPaymentNotification) {
-        logger.info('[UnifiedNotificationService] Suppressing duplicate PAYMENT_RECEIVED notification:', {
+        console.log('[UnifiedNotificationService] Suppressing duplicate PAYMENT_RECEIVED notification:', {
           bookingId: notificationConfig.metadata.bookingId,
           existingNotificationId: recentPaymentNotification._id,
           timestamp: new Date().toISOString()
@@ -59,7 +67,7 @@ class UnifiedNotificationService {
       }
     }
 
-    const log = typeof logger !== 'undefined' && typeof logger.info === 'function' ? logger : {
+    const log = typeof logger !== 'undefined' && typeof console.log === 'function' ? logger : {
       info: console.log.bind(console),
       error: console.error.bind(console),
       warn: console.warn.bind(console)
@@ -172,7 +180,7 @@ class UnifiedNotificationService {
     }
 
     if (populatedBooking?.constructor?.modelName === 'Payment' && (!populatedBooking.recipientDoc || !populatedBooking.payerDoc)) {
-        logger.info('[UnifiedNotificationService] Populating Payment context object.', { paymentId: populatedBooking._id });
+        console.log('[UnifiedNotificationService] Populating Payment context object.', { paymentId: populatedBooking._id });
         populatedBooking = await Payment.findById(populatedBooking._id)
             .populate('recipient', 'firstName lastName email') // For coach
             .populate('payer', 'firstName lastName email');   // For client
@@ -220,7 +228,7 @@ class UnifiedNotificationService {
   }
 
 async createInAppNotification(config, bookingData, settings, socketService) {
-    logger.info('[UnifiedNotificationService] Creating in-app notification:', {
+    console.log('[UnifiedNotificationService] Creating in-app notification:', {
       type: config.type,
       recipient: config.recipient,
       recipientType: config.recipientType,
@@ -293,7 +301,7 @@ async createInAppNotification(config, bookingData, settings, socketService) {
   
       await notification.save();
   
-      logger.info('[UnifiedNotificationService] Created notification:', {
+      console.log('[UnifiedNotificationService] Created notification:', {
         id: notification._id,
         type: notification.type,
         recipient: notification.recipient,
@@ -308,7 +316,7 @@ async createInAppNotification(config, bookingData, settings, socketService) {
       if (socketService) {
         await socketService.emitBookingNotification(notification, [notification.recipient], populatedBooking);
         socketService.emitToUser(notification.recipient.toString(), 'invalidate_notifications');
-        logger.info('[UnifiedNotificationService] Emitted in-app notification and invalidation trigger via socket:', {
+        console.log('[UnifiedNotificationService] Emitted in-app notification and invalidation trigger via socket:', {
           notificationId: notification._id,
           recipient: notification.recipient,
           timestamp: new Date().toISOString()
@@ -333,230 +341,120 @@ async createInAppNotification(config, bookingData, settings, socketService) {
     }
   }
 
-  async sendEmailNotification(config, populatedBooking) {
-    console.log('[UnifiedNotificationService] Sending email notification:', {
+async sendEmailNotification(config, populatedBooking) {
+  const jobQueueService = require('../services/jobQueueService');
+    console.log('[UnifiedNotificationService] Preparing to send email notification:', {
       type: config.type,
-      recipientType: config.recipientType,
-      hasRecipient: !!populatedBooking[config.recipientType],
+      recipientId: config.recipient,
     });
   
     try {
-            let recipientEmail;
       const User = mongoose.model('User');
+      const notificationMeta = NotificationMetadata[config.type];
+      const templateInfo = NotificationTemplateMap[config.type];
 
-      const isContextFree = CONTEXT_FREE_NOTIFICATION_TYPES.has(config.type);
-
-      if (isContextFree) {
-        const recipientUser = await User.findById(config.recipient).select('email').lean();
-        if (recipientUser && recipientUser.email) {
-          recipientEmail = recipientUser.email;
-          console.log('[UnifiedNotificationService] Email notification details for context-free:', {
-            recipientEmail,
-            type: config.type,
-          });
-          switch (config.type) {
-            default:
-              logger.warn('[UnifiedNotificationService] No email template defined for context-free notification type:', {
-                type: config.type,
-                recipientEmail,
-              });
-              break;
-          }
-        } else {
-          logger.error('[UnifiedNotificationService] Email sending failed for context-free notification: Recipient email not found.', {
-            type: config.type,
-            recipientId: config.recipient,
-          });
-        }
+      if (!templateInfo) {
+        logger.warn(`[UnifiedNotificationService] No email template mapping found for notification type: "${config.type}". Skipping email.`);
         return;
       }
 
-      const isPaymentContext = populatedBooking.constructor.modelName === 'Payment';
-      const coachForNotif = isPaymentContext ? populatedBooking.recipient : populatedBooking.coach;
-      const clientForNotif = isPaymentContext ? populatedBooking.payer : populatedBooking.user;
-
-      let recipientType = config.recipientType;
-      if (!recipientType) {
-        if (coachForNotif && coachForNotif._id.toString() === config.recipient) {
-          recipientType = 'coach';
-        } else {
-          recipientType = 'client';
-        }
-        logger.info('[UnifiedNotificationService] Inferred recipientType for email:', { inferredType: recipientType, recipientId: config.recipient });
-        config.recipientType = recipientType; // Update config for the rest of the function
+      const recipientUser = await User.findById(config.recipient).select('email firstName lastName preferredLanguage settings.notificationPreferences').lean();
+      if (!recipientUser || !recipientUser.email) {
+          logger.error('[UnifiedNotificationService] Recipient user not found or has no email.', { recipientId: config.recipient });
+          return;
       }
+      
+      const isMandatory = new Set([
+          NotificationTypes.EMAIL_VERIFICATION,
+          NotificationTypes.PASSWORD_RESET,
+          NotificationTypes.ACCOUNT_SUSPENDED,
+      ]).has(config.type);
 
-
-      if (config.recipientType === 'client') {
-        if (clientForNotif && clientForNotif.email) {
-          recipientEmail = clientForNotif.email;
-        } else if (config.recipient) {
-          // This case is for webinars where bookingData.user is null,
-          // config.recipient is the actual attendee's User ID.
-          const attendee = await User.findById(config.recipient).select('email').lean();
-          if (attendee && attendee.email) {
-            recipientEmail = attendee.email;
-          } else {
-            logger.error('[UnifiedNotificationService] Email sending failed: Attendee email not found for client type.', {
-              type: config.type,
-              recipientType: config.recipientType,
-              recipientId: config.recipient,
-              contextId: populatedBooking._id
-            });
-            return; // Cannot send email without an address
+      if (!isMandatory) {
+          const prefs = recipientUser.settings?.notificationPreferences;
+          if (prefs?.email === false) {
+              console.log(`[UnifiedNotificationService] Email suppressed by master toggle for user ${config.recipient}.`, { type: config.type });
+              return;
           }
-        } else {
-           logger.error('[UnifiedNotificationService] Email sending failed: No user email and no recipient ID for client type.', {
-              type: config.type,
-              recipientType: config.recipientType,
-              contextId: populatedBooking._id
-            });
-           return;
-        }
-      } else if (config.recipientType === 'coach') {
-        if (coachForNotif && coachForNotif.email) {
-          recipientEmail = coachForNotif.email;
-        } else {
-           logger.error('[UnifiedNotificationService] Email sending failed: Coach email not found.', {
-              type: config.type,
-              recipientType: config.recipientType,
-              contextId: populatedBooking._id
-            });
-           return;
-        }
+          if (notificationMeta?.category && prefs?.emailPreferencesByCategory?.[notificationMeta.category] === false) {
+              console.log(`[UnifiedNotificationService] Email suppressed by category toggle "${notificationMeta.category}" for user ${config.recipient}.`, { type: config.type });
+              return;
+          }
+      }
+      
+      const lang = recipientUser.preferredLanguage || 'de';
+      await i18next.loadLanguages(lang);
+      const t = i18next.getFixedT(lang, 'notifications');
+
+      const isWelcomeEmail = config.type === NotificationTypes.WELCOME;
+      const isVerificationEmail = config.type === NotificationTypes.EMAIL_VERIFICATION;
+      
+      let templateData = {
+        lang,
+        firstName: recipientUser.firstName,
+        button_url: config.metadata?.button_url || `${process.env.FRONTEND_URL}/dashboard`,
+        ...config.metadata,
+        settings_url: `${process.env.FRONTEND_URL}/settings`,
+        help_url: `${process.env.FRONTEND_URL}/help`,
+        footer_link_settings: t('welcome.email.footer_link_settings'),
+        footer_link_help: t('welcome.email.footer_link_help'),
+        footer_text_1: t('welcome.email.footer_text_1'),
+      };
+      
+      if (isWelcomeEmail) {
+         Object.assign(templateData, {
+          subject: t('welcome.email.subject'),
+          headline: t('welcome.email.headline'),
+          main_body_text: t('welcome.email.main_body_text', { firstName: recipientUser.firstName }),
+          button_text: t('welcome.email.button_text'),
+          getting_started_text: t('welcome.email.getting_started_text'),
+          usp_title: t('welcome.email.usp_title'),
+          usp_1_title: t('welcome.email.usp_1_title'),
+          usp_1_text: t('welcome.email.usp_1_text'),
+          usp_2_title: t('welcome.email.usp_2_title'),
+          usp_2_text: t('welcome.email.usp_2_text'),
+          usp_3_title: t('welcome.email.usp_3_title'),
+          usp_3_text: t('welcome.email.usp_3_text'),
+          testimonial_quote: t('welcome.email.testimonial_quote'),
+          testimonial_author: t('welcome.email.testimonial_author'),
+        });
       } else {
-        logger.error('[UnifiedNotificationService] Email sending failed: Unknown recipientType.', { recipientType: config.recipientType });
-        return;
-      }
-        
-      const sender = config.recipientType === 'coach' ? 
-        (clientForNotif || { firstName: 'A', lastName: 'Participant' }) // Provide a fallback if user is null (webinar)
-        : coachForNotif;
-
-
-      if (config.recipientType === 'client') {
-        if (clientForNotif && clientForNotif.email) {
-          recipientEmail = clientForNotif.email;
-        } else if (config.recipient) {
-          // This case is for webinars where bookingData.user is null,
-          // config.recipient is the actual attendee's User ID.
-          const attendee = await User.findById(config.recipient).select('email').lean();
-          if (attendee && attendee.email) {
-            recipientEmail = attendee.email;
-          } else {
-            logger.error('[UnifiedNotificationService] Email sending failed: Attendee email not found for client type.', {
-              type: config.type,
-              recipientType: config.recipientType,
-              recipientId: config.recipient,
-              contextId: populatedBooking._id
-            });
-            return; // Cannot send email without an address
-          }
-        } else {
-           logger.error('[UnifiedNotificationService] Email sending failed: No user email and no recipient ID for client type.', {
-              type: config.type,
-              recipientType: config.recipientType,
-              contextId: populatedBooking._id
-            });
-           return;
+        const i18nKeyPrefix = `${config.type.toLowerCase()}.email`;
+        Object.assign(templateData, {
+          subject: t(`${i18nKeyPrefix}.subject`, config.metadata),
+          headline: t(`${i18nKeyPrefix}.headline`, config.metadata),
+          main_body_text: t(`${i18nKeyPrefix}.main_body_text`, config.metadata),
+          button_text: t(`${i18nKeyPrefix}.button_text`, config.metadata),
+        });
+        if(isVerificationEmail) {
+            templateData.button_url = config.metadata.verification_link;
         }
-      } else if (config.recipientType === 'coach') {
-        if (coachForNotif && coachForNotif.email) {
-          recipientEmail = coachForNotif.email;
-        } else {
-           logger.error('[UnifiedNotificationService] Email sending failed: Coach email not found.', {
-              type: config.type,
-              recipientType: config.recipientType,
-              contextId: populatedBooking._id
-            });
-           return;
-        }
-      } else {
-        logger.error('[UnifiedNotificationService] Email sending failed: Unknown recipientType.', { recipientType: config.recipientType });
-        return;
       }
-  
-      const senderName = sender ? `${sender.firstName || ''} ${sender.lastName || ''}`.trim() : 'The Platform';
-      if (config.recipientType === 'coach' && !clientForNotif) {
-          logger.info('[UnifiedNotificationService] Email to coach for webinar registration, sender is generic "A Participant".', { contextId: populatedBooking._id });
-      } else if (!sender || !sender.firstName) {
-          logger.warn('[UnifiedNotificationService] Sender details for email might be incomplete.', { sender });
-      }
-  
-      console.log('[UnifiedNotificationService] Email notification details:', {
-        recipientEmail,
-        senderName,
+
+      const jobPayload = {
+        notificationType: config.type,
+        recipientEmail: recipientUser.email,
+        language: lang,
+        templateData,
+        mailjetTemplateId: templateInfo.id
+      };
+
+      await jobQueueService.emailQueue().add(`send-${config.type}`, jobPayload);
+
+      console.log('[UnifiedNotificationService] Email job queued successfully.', {
         type: config.type,
-        start: populatedBooking.start,
-        end: populatedBooking.end
+        recipient: config.recipient,
+        mailjetTemplateId: templateInfo.id
       });
-  
-      switch (config.type) {
-        case NotificationTypes.BOOKING_REQUEST:
-          await emailService.sendBookingRequestEmail(
-            recipientEmail,
-            senderName,
-            populatedBooking.start,
-            populatedBooking.end,
-            populatedBooking.sessionType.name
-          );
-          break;
-  
-        case NotificationTypes.BOOKING_CONFIRMED:
-          await emailService.sendBookingConfirmationEmail(
-            recipientEmail,
-            senderName,
-            populatedBooking.start,
-            populatedBooking.end,
-            populatedBooking.sessionType.name
-          );
-          break;
 
-          case NotificationTypes.PAYMENT_REMINDER:
-  logger.info('[UnifiedNotificationService] Sending PAYMENT_REMINDER email', {
-    recipientEmail,
-    bookingId: populatedBooking._id
-  });
-  await emailService.sendPaymentReminderEmail(
-    recipientEmail,
-    senderName,
-    populatedBooking.start,
-    populatedBooking.sessionType.name
-  );
-  logger.info('[UnifiedNotificationService] PAYMENT_REMINDER email sent successfully', {
-    recipientEmail,
-    bookingId: populatedBooking._id
-  });
-  break;
-
-          case NotificationTypes.REVIEW_PROMPT_COACH:
-        await emailService.sendReviewPromptEmail(
-          recipientEmail,
-          'coach',
-          senderName,
-          populatedBooking
-        );
-        break;
-
-      case NotificationTypes.REVIEW_PROMPT_CLIENT:
-        await emailService.sendReviewPromptEmail(
-          recipientEmail,
-          'client',
-          senderName,
-          populatedBooking
-        );
-        break;
-  
-        // Add other cases as needed
-      }
     } catch (error) {
-      console.error('[UnifiedNotificationService] Email sending failed:', {
+      logger.error('[UnifiedNotificationService] Failed to queue email notification:', {
         error: error.message,
+        stack: error.stack,
         type: config.type,
-        recipientType: config.recipientType
       });
     }
-  }
+}
 
   async getNotificationsForStatusChange(booking, oldStatus, newStatus) {
     logger.debug('[UnifiedNotificationService] Getting notifications for status change:', {
@@ -581,7 +479,7 @@ async createInAppNotification(config, bookingData, settings, socketService) {
   }
 
   async handleBookingStatusChange(booking, oldStatus, newStatus) {
-    logger.info('[UnifiedNotificationService] Processing booking status change:', {
+    console.log('[UnifiedNotificationService] Processing booking status change:', {
       bookingId: booking._id,
       oldStatus,
       newStatus,
@@ -622,7 +520,7 @@ async createInAppNotification(config, bookingData, settings, socketService) {
         const notificationInstance = new Notification(notificationData);
         await notificationInstance.save();
         
-        logger.info('[UnifiedNotificationService] Notification created:', {
+        console.log('[UnifiedNotificationService] Notification created:', {
           id: notificationInstance._id,
           type: notificationData.type,
           recipient: notificationInstance.recipient
@@ -640,7 +538,7 @@ async createInAppNotification(config, bookingData, settings, socketService) {
   }
 
   async sendNotifications(notification, booking) {
-    logger.info('[UnifiedNotificationService] Starting sendNotifications:', {
+    console.log('[UnifiedNotificationService] Starting sendNotifications:', {
       notificationId: notification._id,
       recipient: notification.recipient,
       channels: ['in_app', 'email'],
@@ -652,7 +550,7 @@ async createInAppNotification(config, bookingData, settings, socketService) {
     if (notificationSettings?.inAppNotificationsEnabled) {
       try {
         await socketService.emitBookingNotification(notification, [notification.recipient], booking);
-        logger.info('[UnifiedNotificationService] In-app notification sent:', notification._id);
+        console.log('[UnifiedNotificationService] In-app notification sent:', notification._id);
       } catch (error) {
         logger.error('[UnifiedNotificationService] Error sending in-app notification:', {
           error: error.message,
@@ -664,7 +562,7 @@ async createInAppNotification(config, bookingData, settings, socketService) {
     if (notificationSettings?.emailNotificationsEnabled) {
       try {
         await this.sendEmailNotification(notification, booking);
-        logger.info('[UnifiedNotificationService] Email notification sent:', notification._id);
+        console.log('[UnifiedNotificationService] Email notification sent:', notification._id);
       } catch (error) {
         logger.error('[UnifiedNotificationService] Error sending email notification:', {
           error: error.message,
@@ -675,7 +573,7 @@ async createInAppNotification(config, bookingData, settings, socketService) {
   }
 
   async processSocketNotification(data, socket) {
-    logger.info('[UnifiedNotificationService] Processing socket notification:', {
+    console.log('[UnifiedNotificationService] Processing socket notification:', {
       type: data.type,
       recipientId: data.recipientId
     });
@@ -684,7 +582,7 @@ async createInAppNotification(config, bookingData, settings, socketService) {
     
     await this.emitSocketNotification(notification, socket.server);
 
-    logger.info('[UnifiedNotificationService] Socket notification processed successfully:', {
+    console.log('[UnifiedNotificationService] Socket notification processed successfully:', {
       notificationId: notification._id,
       recipientId: data.recipientId
     });
@@ -753,7 +651,7 @@ async createInAppNotification(config, bookingData, settings, socketService) {
   }
 
   async processBookingNotification(config, booking) {
-    logger.info('[UnifiedNotificationService] Processing booking notification:', {
+    console.log('[UnifiedNotificationService] Processing booking notification:', {
       recipientType: config.recipientType,
       bookingId: booking._id,
       type: config.type
@@ -877,7 +775,7 @@ async createInAppNotification(config, bookingData, settings, socketService) {
         metadata: { sessionId: session._id },
       }, booking);
   
-      logger.info('[UnifiedNotificationService] Review prompts triggered successfully', {
+      console.log('[UnifiedNotificationService] Review prompts triggered successfully', {
         sessionId: session._id,
         coachId: booking.coach._id,
         clientId: booking.user._id,
@@ -906,6 +804,10 @@ generateNotificationContent(config, bookingData) {
                 validActions: ['contact_support']
             }
         };
+        case NotificationTypes.WELCOME:
+        case NotificationTypes.EMAIL_VERIFICATION:
+        case NotificationTypes.PASSWORD_RESET:
+          return { title: config.type, message: 'This notification is email-only.', data: {} };
         case NotificationTypes.REPORT_ACTIONED:
             return {
                 title: 'notifications:report_actioned.title',
@@ -972,7 +874,7 @@ generateNotificationContent(config, bookingData) {
     const logger = require('../utils/logger').logger;
     const User = mongoose.model('User');
 
-    logger.info('[UnifiedNotificationService] Generating notification content:', {
+    console.log('[UnifiedNotificationService] Generating notification content:', {
       type: config.type,
       recipientType: config.recipientType,
       bookingId: bookingData._id,
@@ -1315,7 +1217,7 @@ case NotificationTypes.WEBINAR_REGISTRATION_CANCELLED_BY_YOU:
 
          case NotificationTypes.PAYMENT_RECEIVED:
           const isProgramPurchase = !!bookingData.program;
-          logger.info('[UnifiedNotificationService] Generating PAYMENT_RECEIVED content', {
+          console.log('[UnifiedNotificationService] Generating PAYMENT_RECEIVED content', {
             context: isProgramPurchase ? 'Program' : 'Booking',
             paymentId: bookingData._id,
             amountForDisplay,
@@ -1353,7 +1255,7 @@ case NotificationTypes.WEBINAR_REGISTRATION_CANCELLED_BY_YOU:
           break;
 
         case NotificationTypes.PAYMENT_REMINDER:
-          logger.info('[UnifiedNotificationService] Generating PAYMENT_REMINDER content', {
+          console.log('[UnifiedNotificationService] Generating PAYMENT_REMINDER content', {
             bookingId: bookingData._id,
             recipientType: config.recipientType
           });
@@ -1547,7 +1449,7 @@ case NotificationTypes.WEBINAR_REGISTRATION_CANCELLED_BY_YOU:
                   sessionType: bookingData.sessionType?.name || 'Session',
                 }
               };
-              logger.info(`[UnifiedNotificationService] Generated SESSION_ENDED content`, { type: config.type, recipient: config.recipient, contentData: content.data });
+              console.log(`[UnifiedNotificationService] Generated SESSION_ENDED content`, { type: config.type, recipient: config.recipient, contentData: content.data });
               break;
 
         case NotificationTypes.REVIEW_PROMPT_COACH:
@@ -1953,6 +1855,61 @@ case NotificationTypes.WEBINAR_REGISTRATION_CANCELLED_BY_YOU:
         };
         break;
 
+        case NotificationTypes.UPCOMING_SESSION_REMINDER:
+          content = {
+            title: 'notifications:upcoming_session_reminder.title',
+            message: 'notifications:upcoming_session_reminder.message',
+            data: {
+              bookingId: bookingData._id,
+              name: otherPartyName,
+              sessionType: bookingData.sessionType?.name || 'Session',
+              date: new Date(bookingData.start).toLocaleDateString(),
+              time: new Date(bookingData.start).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}),
+              status: bookingData.status,
+              validActions: ['view']
+            }
+          };
+          break;
+        case NotificationTypes.COACH_CANCELLED_SESSION:
+          content = {
+            title: 'notifications:coach_cancelled_session.title',
+            message: 'notifications:coach_cancelled_session.message',
+            data: {
+              bookingId: bookingData._id,
+              coachName: `${coachForNotif.firstName} ${coachForNotif.lastName}`,
+              sessionTitle: bookingData.title || bookingData.sessionType?.name,
+              sessionDate: new Date(bookingData.start).toLocaleDateString(),
+              status: 'cancelled_by_coach',
+              validActions: ['view_booking_details']
+            }
+          };
+          break;
+        case NotificationTypes.NEW_EARNING:
+          content = {
+            title: 'notifications:new_earning.title',
+            message: 'notifications:new_earning.message',
+            data: {
+              amount: amountForDisplay,
+              currency: currency,
+              clientName: config.metadata?.clientName || 'a client',
+              status: 'completed',
+              validActions: ['view_earnings_summary']
+            }
+          };
+          break;
+        case NotificationTypes.PAYOUT_INITIATED:
+          content = {
+            title: 'notifications:payout_initiated.title',
+            message: 'notifications:payout_initiated.message',
+            data: {
+              payoutAmount: amountForDisplay,
+              currency: currency,
+              status: 'processed',
+              validActions: ['view_earnings_summary']
+            }
+          };
+          break;
+
         default:
           content = {
             title: config.type,
@@ -1974,7 +1931,7 @@ case NotificationTypes.WEBINAR_REGISTRATION_CANCELLED_BY_YOU:
           };
       }
 
-      logger.info('[UnifiedNotificationService] Generated notification content:', {
+      console.log('[UnifiedNotificationService] Generated notification content:', {
         type: config.type,
         title: content.title,
         message: content.message,

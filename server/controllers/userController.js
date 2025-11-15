@@ -22,22 +22,13 @@ const Connection = require('../models/Connection');
 const crypto = require('crypto');
 const { logger } = require('../utils/logger');
 const path = require('path');
-const i18next = require('i18next');
 const FsBackend = require('i18next-fs-backend');
 const { validationResult } = require('express-validator');
 const { accountCleanupQueue, userDataDeletionQueue } = require('../services/jobQueueService');
 const assetCleanupService = require('../services/assetCleanupService');
-
-i18next
-  .use(FsBackend)
-  .init({
-    backend: {
-      loadPath: path.resolve(__dirname, '../../src/locales/{{lng}}/{{ns}}.json'),
-    },
-    fallbackLng: 'en',
-    ns: ['termsOfService'],
-    defaultNS: 'termsOfService'
-  });
+const unifiedNotificationService = require('../services/unifiedNotificationService');
+const { NotificationTypes } = require('../utils/notificationHelpers');
+const { i18next } = require('../config/i18n');
 
 exports.login = async (req, res) => {
   const errors = validationResult(req);
@@ -180,7 +171,7 @@ exports.registerUser = async (req, res) => {
   console.log(`[userController.js] >>>>> ENTERED: registerUser function at ${new Date().toISOString()}`);
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    console.log('[userController.js] Validation errors found:', errors.array());
+    logger.error('[userController.js] Validation errors found:', errors.array());
     return res.status(400).json({ errors: errors.array() });
   }
 
@@ -192,7 +183,7 @@ exports.registerUser = async (req, res) => {
         return res.status(400).json({ msg: 'Date of birth is required.' });
     }
     const birthDate = new Date(dateOfBirth);
-    const age = new Date().getFullYear() - birthDate.getFullYear();
+    let age = new Date().getFullYear() - birthDate.getFullYear();
     const monthDiff = new Date().getMonth() - birthDate.getMonth();
     if (monthDiff < 0 || (monthDiff === 0 && new Date().getDate() < birthDate.getDate())) {
         age--;
@@ -232,10 +223,47 @@ exports.registerUser = async (req, res) => {
         version: privacyVersion,
         acceptedAt: new Date(),
         ipAddress: req.ip
-      }
+      },
+      emailVerificationToken: crypto.createHash('sha256').update(crypto.randomBytes(32).toString('hex')).digest('hex'),
+      emailVerificationExpires: Date.now() + 24 * 60 * 60 * 1000,
     });
-
+    
+    const rawToken = user.emailVerificationToken; // Temporarily hold for email link
+    user.emailVerificationToken = crypto.createHash('sha256').update(rawToken).digest('hex');
     await user.save();
+    console.log(`[userController.js] User ${user._id} saved successfully.`);
+
+    // --- FIRE AND FORGET NOTIFICATIONS (NON-BLOCKING) ---
+    (async () => {
+      try {
+        console.log(`[userController.js] Starting background notification task for user ${user._id}`);
+        const verificationLink = `${process.env.FRONTEND_URL}/verify-email/${rawToken}`;
+        
+        console.log(`[userController.js] Triggering EMAIL_VERIFICATION for user ${user._id}`);
+        await unifiedNotificationService.sendNotification({
+          type: NotificationTypes.EMAIL_VERIFICATION,
+          recipient: user._id,
+          channels: ['email'],
+          metadata: { firstName: user.firstName, verification_link: verificationLink }
+        });
+        console.log(`[userController.js] EMAIL_VERIFICATION task sent for user ${user._id}`);
+
+        console.log(`[userController.js] Triggering WELCOME notification for user ${user._id}`);
+        await unifiedNotificationService.sendNotification({
+          type: NotificationTypes.WELCOME,
+          recipient: user._id,
+          channels: ['email'],
+          metadata: { firstName: user.firstName, button_url: `${process.env.FRONTEND_URL}/dashboard` }
+        });
+        console.log(`[userController.js] WELCOME notification task sent for user ${user._id}`);
+        console.log(`[userController.js] Background notification task finished successfully for user ${user._id}`);
+      } catch (notificationError) {
+        logger.error(`[userController.js] CRITICAL: Background notification task failed for user ${user._id}`, { error: notificationError.message, stack: notificationError.stack });
+      }
+    })();
+    // --- END OF NOTIFICATIONS ---
+
+    console.log(`[userController.js] Notifications dispatched. Proceeding to generate JWT for user ${user._id}.`);
 
     const payload = {
       user: {
@@ -250,7 +278,12 @@ exports.registerUser = async (req, res) => {
       config.jwt.secret,
       { expiresIn: config.jwt.expire },
       (err, token) => {
-        if (err) throw err;
+        if (err) {
+            logger.error(`[userController.js] JWT signing error for user ${user._id}`, { error: err.message });
+            // Even if JWT fails, we must not let the request hang.
+            return res.status(500).send('Server error during authentication.');
+        }
+        console.log(`[userController.js] JWT signed successfully. Sending final response for user ${user._id}.`);
         res.status(201).json({ 
           token,
           user: {
@@ -264,7 +297,7 @@ exports.registerUser = async (req, res) => {
       }
     );
   } catch (err) {
-    console.error(err.message);
+    logger.error(`[userController.js] CRITICAL ERROR in registerUser: ${err.message}`, { stack: err.stack });
     res.status(500).send('Server error');
   }
 };
@@ -1788,6 +1821,36 @@ exports.updateOnboardingStep = async (req, res) => {
     console.error(`[updateOnboardingStep] ERROR for User ${userId}:`, error);
     res.status(500).json({ message: 'Error saving step progress.' });
   }
+};
+
+exports.verifyInitialEmail = async (req, res) => {
+    const { token } = req.body;
+    try {
+        if (!token) {
+            return res.status(400).json({ message: 'Verification token is required.' });
+        }
+        const hashedToken = crypto.createHash('sha256').update(token).digest('hex');
+
+        const user = await User.findOne({
+            emailVerificationToken: hashedToken,
+            emailVerificationExpires: { $gt: Date.now() }
+        });
+
+        if (!user) {
+            return res.status(400).json({ message: 'Invalid or expired verification token.' });
+        }
+
+        user.isEmailVerified = true;
+        user.emailVerificationToken = undefined;
+        user.emailVerificationExpires = undefined;
+        await user.save();
+
+        res.json({ message: 'Email successfully verified. You can now log in.' });
+
+    } catch (error) {
+        logger.error('[userController] Error verifying initial email:', { error: error.message });
+        res.status(500).json({ message: 'Server error while verifying email.' });
+    }
 };
 
 
